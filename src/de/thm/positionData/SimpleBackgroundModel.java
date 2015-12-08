@@ -9,7 +9,6 @@ import java.util.Random;
  * Created by Michael Menzel on 8/12/15.
  */
 public class SimpleBackgroundModel extends BackgroundModel{
-    private final int chr1Max = 4985014;
 
     public SimpleBackgroundModel(int sites) {
 
