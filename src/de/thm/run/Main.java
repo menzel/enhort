@@ -1,4 +1,4 @@
-package de.thm.calc.run;
+package de.thm.run;
 
 public class Main {
 
