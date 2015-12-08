@@ -3,6 +3,7 @@ package de.thm.positionData;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
@@ -37,6 +38,15 @@ public class UserData extends Sites{
         } catch (IOException e ){
             System.out.println(e);
 
+        }
+
+        sort();
+    }
+
+    private void sort() {
+
+        for(String chr: positions.keySet()){
+            Collections.sort(positions.get(chr));
         }
     }
 
