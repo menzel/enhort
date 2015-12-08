@@ -10,8 +10,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        UserData userDat = new UserData();
-        userDat.loadPositionsFromFile(new File("/home/menzel/Desktop/THM/lfba/projekphase/genomic_sites.sleeping_beauty.hg19.txt"));
+        Sites userDat = new UserData();
+        ((UserData) userDat).loadPositionsFromFile(new File("/home/menzel/Desktop/THM/lfba/projekphase/genomic_sites.sleeping_beauty.hg19.txt"));
 
         Sites bg = new SimpleBackgroundModel(userDat.getPositionCount());
 

@@ -41,9 +41,9 @@ public class UserData extends Sites{
     }
 
 
-    private Integer getPosition(String line) {
+    private Long getPosition(String line) {
 
-        return Integer.parseInt(line.split("\t")[1]);
+        return Long.parseLong(line.split("\t")[1]);
     }
 
     private String getChr(String line) {

@@ -21,7 +21,7 @@ public class SimpleBackgroundModel extends BackgroundModel{
 
         int perChr = sites/24;
 
-        for (Map.Entry<String, ArrayList<Integer>> entry: positions.entrySet()) {
+        for (Map.Entry<String, ArrayList<Long>> entry: positions.entrySet()) {
 
             for(int i = 0 ; i < perChr; i++) {
                 entry.getValue().add(randomPosition(entry.getKey()));
@@ -30,13 +30,13 @@ public class SimpleBackgroundModel extends BackgroundModel{
         }
     }
 
-    private Integer randomPosition(String chr) {
+    private Long randomPosition(String chr) {
         Random rand =  new Random();
 
-        return rand.nextInt(getChrSize(chr)+1);
+        return rand.nextLong()*getChrSize(chr);
     }
 
-    private int getChrSize(String chr) {
+    private Long getChrSize(String chr) {
         Map<String, Integer> sizes = new HashMap<>();
 
         if(!sizes.containsKey(chr)) {
@@ -66,7 +66,7 @@ public class SimpleBackgroundModel extends BackgroundModel{
             sizes.put("chr21", 48129895);
         }
 
-        return sizes.get(chr);
+        return new Long(sizes.get(chr));
 
     }
 

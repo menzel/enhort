@@ -11,7 +11,7 @@ public abstract class Sites {
     /**
      *
      */
-    protected  Map<String, ArrayList<Integer>> positions = new HashMap<>();
+    protected  Map<String, ArrayList<Long>> positions = new HashMap<>();
     private int positionCount;
 
 
@@ -35,7 +35,7 @@ public abstract class Sites {
     Getter and Setter
      */
 
-    public Map<String, ArrayList<Integer>> getPositions() {
+    public Map<String, ArrayList<Long>> getPositions() {
         return positions;
     }
 
