@@ -2,6 +2,7 @@ package de.thm.positionData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -29,7 +30,10 @@ public abstract class Sites {
 
     }
 
+    public Iterator<Map.Entry<String, ArrayList<Long>>> getIterator(){
 
+        return positions.entrySet().iterator();
+    }
 
     /*
     Getter and Setter
