@@ -12,6 +12,7 @@ public abstract class Sites {
      *
      */
     protected  Map<String, ArrayList<Integer>> positions = new HashMap<>();
+    private int positionCount;
 
 
     /**
@@ -36,5 +37,13 @@ public abstract class Sites {
 
     public Map<String, ArrayList<Integer>> getPositions() {
         return positions;
+    }
+
+    public int getPositionCount() {
+        return positionCount;
+    }
+
+    public void setPositionCount(int positionCount) {
+        this.positionCount = positionCount;
     }
 }
