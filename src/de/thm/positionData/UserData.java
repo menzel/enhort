@@ -17,6 +17,7 @@ public class UserData extends Sites{
     public void loadPositionsFromFile(File file){
 
         initMap();
+        int posCount = 0;
 
         try(Stream<String> lines = Files.lines(file.toPath())){
 
@@ -26,9 +27,11 @@ public class UserData extends Sites{
                 String line = (String) it.next();
 
                 positions.get(getChr(line)).add(getPosition(line));
+                posCount++;
 
             }
 
+            setPositionCount(posCount);
             lines.close();
 
         } catch (IOException e ){
@@ -40,10 +43,10 @@ public class UserData extends Sites{
 
     private Integer getPosition(String line) {
 
-        return Integer.parseInt(line.split(" ")[1]);
+        return Integer.parseInt(line.split("\t")[1]);
     }
 
     private String getChr(String line) {
-        return line.split(" ")[0];
+        return line.split("\t")[0];
     }
 }
