@@ -3,6 +3,8 @@ package de.thm.calc;
 import de.thm.genomeData.Interval;
 import de.thm.positionData.Sites;
 
+import java.util.ArrayList;
+
 /**
  * Created by Michael Menzel on 8/12/15.
  */
@@ -15,12 +17,16 @@ public class IntersectSimple implements Intersect{
 
         for(String chromosom: pos.getPositions().keySet()){
             long c = 0;
+            int i = 0;
 
             for(Long p: pos.getPositions().get(chromosom)){
 
-               for(int i = 0; i < intv.getIntervals().get(chromosom).size(); i++){
+               ArrayList<Long> intervals = intv.getIntervals().get(chromosom);
+               int intervallCount = intervals.size();
 
-                   c = intv.getIntervals().get(chromosom).get(i);
+               for(; i < intervallCount; i++){
+
+                   c = intervals.get(i);
 
                    if(p < c){
                        //get one back to get interval start/stop
