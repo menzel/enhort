@@ -13,7 +13,7 @@ public abstract class Sites {
      *
      */
     protected  Map<String, ArrayList<Long>> positions = new HashMap<>();
-    private int positionCount;
+    protected int positionCount;
 
 
     /**
