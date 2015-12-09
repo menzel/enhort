@@ -18,19 +18,19 @@ public class IntersectSimple implements Intersect{
             long c;
             int i = 0;
 
+            ArrayList<Long> intervals = intv.getIntervals().get(chromosom);
+            int intervallCount = intervals.size();
+
             for(Long p: pos.getPositions().get(chromosom)){
 
-               ArrayList<Long> intervals = intv.getIntervals().get(chromosom);
-               int intervallCount = intervals.size();
 
                for(; i < intervallCount; i++){
 
                    c = intervals.get(i);
 
                    if(p < c){
-                       //get one back to get interval start/stop
 
-                       if((i-1)%2 == 0){ //last position was start
+                       if((i)%2 == 1){ //last position was start
                            in++;
                        }else{
                            out++;
