@@ -41,24 +41,25 @@ public class IntervalDual extends Interval{
 
             if(currentStart.isEmpty()) continue;
 
-
             start = currentStart.get(0);
             end = currentEnd.get(0);
 
-            for (int i = 0; i < intervalsStart.size()-1; i++) {
+            for (int i = 0; i < currentStart.size(); i++) {
 
+                if(i < currentStart.size()-1 && end > currentStart.get(i+1)) { // overlap
 
-                if(end > currentStart.get(i+1)) { // overlap
-                    if(end < currentStart.get(i+1)){
-                        end = currentStart.get(i+1);
+                    if(end < currentEnd.get(i+1)){
+                        end = currentEnd.get(i+1);
                     }
 
                 }else{  //do not overlap
                     newStart.add(start);
                     newEnd.add(end);
 
-                    start = currentStart.get(i);
-                    end = currentEnd.get(i);
+                    if(i >= currentStart.size()-1) break; // do not get next points if this was the last
+
+                    start = currentStart.get(i+1);
+                    end = currentEnd.get(i+1);
 
                 }
             }
@@ -69,11 +70,6 @@ public class IntervalDual extends Interval{
             currentEnd.clear();
             currentEnd.addAll(newEnd);
 
-
-            for(int i = 0; i < currentStart.size(); i++){
-                System.out.println(currentStart.get(i) + " " + currentEnd.get(i));
-
-            }
         }
     }
 

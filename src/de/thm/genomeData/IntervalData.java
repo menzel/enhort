@@ -13,9 +13,9 @@ public class IntervalData extends Interval{
      * @param file
      */
     public IntervalData(File file) {
-        super();
 
         initMap();
+        loadIntervalData(file);
     }
 
 
