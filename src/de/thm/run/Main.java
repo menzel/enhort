@@ -1,8 +1,6 @@
 package de.thm.run;
 
-import de.thm.calc.Intersect;
 import de.thm.calc.IntersectDual;
-import de.thm.calc.IntersectSimple;
 import de.thm.genomeData.IntervalDual;
 import de.thm.positionData.SimpleBackgroundModel;
 import de.thm.positionData.Sites;
@@ -31,7 +29,6 @@ public class Main {
 
         writeExons(invExons, new File("/home/menzel/Desktop/THM/lfba/projekphase/exonsPre.txt"));
 
-        Intersect sec = new IntersectSimple();
         //Intersect sec = new IntersectBinarySearch();
         IntersectDual secDual = new IntersectDual();
 
