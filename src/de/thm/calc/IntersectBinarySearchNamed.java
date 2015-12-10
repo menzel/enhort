@@ -1,20 +1,20 @@
 package de.thm.calc;
 
-import de.thm.genomeData.Interval;
+import de.thm.genomeData.IntervalNamed;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Michael Menzel on 9/12/15.
  */
-public class IntersectBinarySearch implements Intersect {
+public class IntersectBinarySearchNamed {
 
-    @Override
-    public Result searchSingleIntervall(Interval intv, Sites pos) {
-        int in = 0;
-        int out = 0;
+    public Map<String, Integer> searchSingleIntervall(IntervalNamed intv, Sites pos) {
+        Map<String, Integer> result = new HashMap<>();
 
 
         for(String chromosom: pos.getPositions().keySet()){
@@ -41,32 +41,29 @@ public class IntersectBinarySearch implements Intersect {
                     else if(p > midElement && mid < iSize-1 && p > next) start = mid + 1;
                     else{
 
-                        if(p < midElement){
+                         if(p < midElement){
                             if(mid != 0 && intervalEnd.get(mid-1) > p) { //in previous interval
-                                in++;
-                            }else{
-                                out++;
-                            }
-                        }else{
-                            if(intervalEnd.get(mid) > p){
-                                in++;
-                            }else{
-                               out++;
+                                mid = mid-1;
                             }
                         }
+
+                        String hmmName = intv.getIntervalName().get(chromosom).get(mid);
+
+                        //TODO
+                        if(result.containsKey(hmmName)){
+                            result.put(hmmName,result.get(hmmName)+1);
+                        }else{
+                            result.put(hmmName,1);
+                        }
+
                         break;
                     }
 
                     mid = start + (end - start) / 2;
                 }
-
-
-                if(start > end) out++;
-
             }
-
         }
 
-        return new Result(in, out);
+        return result;
     }
 }
