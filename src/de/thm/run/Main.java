@@ -2,7 +2,6 @@ package de.thm.run;
 
 import de.thm.calc.Intersect;
 import de.thm.calc.IntersectBinarySearch;
-import de.thm.calc.IntersectDual;
 import de.thm.genomeData.IntervalDual;
 import de.thm.positionData.SimpleBackgroundModel;
 import de.thm.positionData.Sites;
@@ -22,37 +21,20 @@ public class Main {
         IntervalDual invGenes = new IntervalDual(new File("/home/menzel/Desktop/THM/lfba/projekphase/knownGene.txt"));
         IntervalDual invExons = new IntervalDual(new File("/home/menzel/Desktop/THM/lfba/projekphase/exons.txt"));
 
+        Sites bg = new SimpleBackgroundModel(userDat.getPositionCount());
 
         Intersect sec = new IntersectBinarySearch();
-        IntersectDual secDual = new IntersectDual();
+        //IntersectDual secDual = new IntersectDual();
 
-        //Sites bg = new SimpleBackgroundModel(2000);
 
         //System.out.println("binary: " + sec.searchSingleIntervall(invGenes, userDat));
         //System.out.println("dual: " + secDual.searchSingleIntervall(invGenes, userDat));
 
-        for(int i = 0; i < 10000; i++){
-            int j = i*10;
+        System.out.print(sec.searchSingleIntervall(invExons, userDat));
+        System.out.println(sec.searchSingleIntervall(invExons, bg));
 
-            Sites bg = new SimpleBackgroundModel(j);
+        System.out.print(sec.searchSingleIntervall(invGenes, userDat));
+        System.out.println(sec.searchSingleIntervall(invGenes, bg));
 
-            long startTime = System.currentTimeMillis();
-
-            System.out.print(secDual.searchSingleIntervall(invExons, bg));
-
-            long endTime   = System.currentTimeMillis();
-            long totalTime = endTime - startTime;
-
-            System.out.print(totalTime + "\t");
-
-            startTime = System.currentTimeMillis();
-
-            sec.searchSingleIntervall(invExons, bg);
-
-            endTime   = System.currentTimeMillis();
-            totalTime = endTime - startTime;
-
-            System.out.println(totalTime);
-        }
     }
 }
