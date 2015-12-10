@@ -2,10 +2,12 @@ package de.thm.run;
 
 import de.thm.calc.Intersect;
 import de.thm.calc.IntersectBinarySearch;
+import de.thm.genomeData.Interval;
 import de.thm.genomeData.IntervalDual;
 import de.thm.positionData.SimpleBackgroundModel;
 import de.thm.positionData.Sites;
 import de.thm.positionData.UserData;
+import de.thm.stat.QuiSquareTest;
 
 import java.io.File;
 
@@ -13,28 +15,36 @@ public class Main {
 
     public static void main(String[] args) {
 
+        //load data
 
         Sites userDat = new UserData();
         ((UserData) userDat).loadPositionsFromFile(new File("/home/menzel/Desktop/THM/lfba/projekphase/genomic_sites.sleeping_beauty.hg19.txt"));
 
-        //Interval inv = new IntervalData(new File("/home/menzel/Desktop/THM/lfba/projekphase/knownGene.txt"));
-        IntervalDual invGenes = new IntervalDual(new File("/home/menzel/Desktop/THM/lfba/projekphase/knownGene.txt"));
-        IntervalDual invExons = new IntervalDual(new File("/home/menzel/Desktop/THM/lfba/projekphase/exons.txt"));
+        Interval invGenes = new IntervalDual(new File("/home/menzel/Desktop/THM/lfba/projekphase/knownGene.txt"));
+        Interval invExons = new IntervalDual(new File("/home/menzel/Desktop/THM/lfba/projekphase/exons.txt"));
+
+        // get calculators
 
         Sites bg = new SimpleBackgroundModel(userDat.getPositionCount());
-
         Intersect sec = new IntersectBinarySearch();
-        //IntersectDual secDual = new IntersectDual();
 
+        // calculate
 
-        //System.out.println("binary: " + sec.searchSingleIntervall(invGenes, userDat));
-        //System.out.println("dual: " + secDual.searchSingleIntervall(invGenes, userDat));
+        // Genes:
+
+        System.out.print(sec.searchSingleIntervall(invGenes, userDat));
+        System.out.println(sec.searchSingleIntervall(invGenes, bg));
+
+        System.out.println("P-value: " + QuiSquareTest.chiSquareTest(sec.searchSingleIntervall(invGenes, userDat), sec.searchSingleIntervall(invGenes, bg)));
+
+        // Exons:
 
         System.out.print(sec.searchSingleIntervall(invExons, userDat));
         System.out.println(sec.searchSingleIntervall(invExons, bg));
 
-        System.out.print(sec.searchSingleIntervall(invGenes, userDat));
-        System.out.println(sec.searchSingleIntervall(invGenes, bg));
+        System.out.println("P-value: " +  QuiSquareTest.chiSquareTest(sec.searchSingleIntervall(invGenes, userDat), sec.searchSingleIntervall(invGenes, bg)));
+
+
 
     }
 }
