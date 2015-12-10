@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Created by Michael Menzel on 9/12/15.
  */
-public class IntersectAnotherBinarySearch implements Intersect {
+public class IntersectBinarySearch implements Intersect {
 
     @Override
     public Result searchSingleIntervall(Interval intv, Sites pos) {
