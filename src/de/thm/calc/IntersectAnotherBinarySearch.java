@@ -20,20 +20,16 @@ public class IntersectAnotherBinarySearch implements Intersect {
         for(String chromosom: pos.getPositions().keySet()){
             int last_start = 0;
 
+            ArrayList<Long> intervalStart = intv.getIntervalStarts().get(chromosom);
+            ArrayList<Long> intervalEnd = intv.getIntervalsEnd().get(chromosom);
+            int iSize = intervalStart.size();
+
             for(Long p: pos.getPositions().get(chromosom)){
 
-                ArrayList<Long> intervalStart = intv.getIntervalStarts().get(chromosom); //TODO use both lists
-                ArrayList<Long> intervalEnd = intv.getIntervalsEnd().get(chromosom); //TODO use both lists
-
                 int mid = (int) ((intervalStart.size() * ((double)p / (double) ChromosomSizes.getChrSize(chromosom))));
-                /*
-                mid = (mid >= intervalStart.size()) ? intervalStart.size()-1: mid;
-                mid = (mid >= 0)? mid: 0;
-                */
 
                 int end = intervalStart.size()-1;
                 int start = last_start;
-                int iSize = intervalStart.size();
 
                 while(start <= end) {
 

@@ -1,8 +1,9 @@
 package de.thm.run;
 
+import de.thm.calc.Intersect;
+import de.thm.calc.IntersectAnotherBinarySearch;
 import de.thm.calc.IntersectDual;
 import de.thm.genomeData.IntervalDual;
-import de.thm.positionData.SimpleBackgroundModel;
 import de.thm.positionData.Sites;
 import de.thm.positionData.UserData;
 
@@ -16,32 +17,40 @@ public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println("Reading:");
 
         Sites userDat = new UserData();
         ((UserData) userDat).loadPositionsFromFile(new File("/home/menzel/Desktop/THM/lfba/projekphase/genomic_sites.sleeping_beauty.hg19.txt"));
 
-        Sites bg = new SimpleBackgroundModel(userDat.getPositionCount());
-
         //Interval inv = new IntervalData(new File("/home/menzel/Desktop/THM/lfba/projekphase/knownGene.txt"));
         IntervalDual invGenes = new IntervalDual(new File("/home/menzel/Desktop/THM/lfba/projekphase/knownGene.txt"));
-        IntervalDual invExons = new IntervalDual(new File("/home/menzel/Desktop/THM/lfba/projekphase/exons.txt"));
+        //IntervalDual invExons = new IntervalDual(new File("/home/menzel/Desktop/THM/lfba/projekphase/exons.txt"));
 
-        writeExons(invExons, new File("/home/menzel/Desktop/THM/lfba/projekphase/exonsPre.txt"));
 
-        //Intersect sec = new IntersectBinarySearch();
+        Intersect sec = new IntersectAnotherBinarySearch();
         IntersectDual secDual = new IntersectDual();
 
-        System.out.println("Running:");
-        long startTime = System.currentTimeMillis();
+        //Sites bg = new SimpleBackgroundModel(2000);
 
-        System.out.println(secDual.searchSingleIntervall(invExons, userDat));
-        System.out.println(secDual.searchSingleIntervall(invExons, bg));
+        System.out.println("binary: " + sec.searchSingleIntervall(invGenes, userDat));
+        System.out.println("dual: " + secDual.searchSingleIntervall(invGenes, userDat));
+
+        /*
+        for(int i = 0; i < 100; i++){
+            int j = i*5000;
+
+            Sites bg = new SimpleBackgroundModel(j);
+
+            long startTime = System.currentTimeMillis();
+
+            System.out.print(secDual.searchSingleIntervall(invExons, bg));
+
+            long endTime   = System.currentTimeMillis();
+            long totalTime = endTime - startTime;
+            System.out.println(totalTime + "\t");
+        }
+        */
 
 
-        long endTime   = System.currentTimeMillis();
-        long totalTime = endTime - startTime;
-        System.out.println(totalTime + "\t");
 
 
         //System.out.println(sec.searchSingleIntervall(inv, userDat));

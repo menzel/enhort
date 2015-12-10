@@ -1,6 +1,7 @@
 package de.thm.calc;
 
 import de.thm.genomeData.IntervalDual;
+import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
 
 import java.util.ArrayList;
@@ -26,16 +27,15 @@ public class IntersectDual {
 
                 int intervallCount = intervalStart.size();
 
-                for (; i < intervallCount; i++) {
+                for (; i <= intervallCount; i++) {
 
+                    long nextStart = (i == intervallCount) ? ChromosomSizes.getChrSize(chromosom) :intervalStart.get(i);
 
-                    long f = intervalStart.get(i);
-
-                    if(p < intervalStart.get(i)){
+                    if(p < nextStart){
 
                         long endBefore = (i == 0)? 0 :intervalEnd.get(i-1);
 
-                        if(p < endBefore){
+                        if(p <= endBefore){
                             in++;
                         }else{
                             out++;
