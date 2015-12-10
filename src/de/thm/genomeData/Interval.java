@@ -14,23 +14,25 @@ import java.util.stream.Stream;
  */
 public abstract class Interval {
 
-    protected Map<String, ArrayList<Long>> intervals = new HashMap<>();
+    protected Map<String, ArrayList<Long>> intervalsStart = new HashMap<>();
+    protected Map<String, ArrayList<Long>> intervalsEnd = new HashMap<>();
     private int positionCount;
 
 
     /**
      *
      */
-    protected void initMap(){
+    protected void initMap(Map<String, ArrayList<Long>> map){
 
         for(int i = 1; i <= 22; i++){
-            intervals.put("chr"+i, new ArrayList<>());
+            map.put("chr"+i, new ArrayList<>());
         }
 
-        intervals.put("chrX", new ArrayList<>());
-        intervals.put("chrY", new ArrayList<>());
+        map.put("chrX", new ArrayList<>());
+        map.put("chrY", new ArrayList<>());
 
     }
+
     /**
      *
      * @param file
@@ -44,11 +46,7 @@ public abstract class Interval {
                 String line = it.next();
                 String[] parts = line.split("\t");
 
-
-                if(parts[1].matches("chr(\\d{1,2}|X|Y)")){ //TODO get other chromosoms
-
-                    handleParts(parts);
-                }
+                handleParts(parts);
             }
 
         } catch (IOException e) {
@@ -57,10 +55,16 @@ public abstract class Interval {
 
     }
 
+    public Map<String, ArrayList<Long>> getIntervalStarts() {
+        return intervalsStart;
+    }
+
+    public Map<String, ArrayList<Long>> getIntervalsEnd() {
+        return intervalsEnd;
+    }
+
+
     protected abstract void handleParts(String[] parts);
 
 
-    public Map<String, ArrayList<Long>> getIntervals() {
-        return intervals;
-    }
 }

@@ -5,6 +5,7 @@ import java.io.File;
 /**
  * Created by Michael Menzel on 8/12/15.
  */
+@Deprecated
 public class IntervalData extends Interval{
 
 
@@ -22,8 +23,11 @@ public class IntervalData extends Interval{
     @Override
     protected void handleParts(String[] parts) {
 
-        intervals.get(parts[1]).add(Long.parseLong(parts[3]));
-        intervals.get(parts[1]).add(Long.parseLong(parts[4]));
+
+        if(parts[1].matches("chr(\\d{1,2}|X|Y)")) { //TODO get other chromosoms
+            intervals.get(parts[1]).add(Long.parseLong(parts[3]));
+            intervals.get(parts[1]).add(Long.parseLong(parts[4]));
+        }
 
     }
 }
