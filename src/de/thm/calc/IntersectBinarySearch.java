@@ -22,7 +22,7 @@ public class IntersectBinarySearch implements Intersect {
 
             for(Long p: pos.getPositions().get(chromosom)){
 
-                ArrayList<Long> intervals = intv.getIntervals().get(chromosom);
+                ArrayList<Long> intervals = intv.getIntervalsEnd().get(chromosom); //TODO use both lists
 
                 int mid = (int) ((intervals.size() * ((double)p / (double) ChromosomSizes.getChrSize(chromosom))));
                 mid = (mid >= intervals.size()) ? intervals.size()-1: mid;
