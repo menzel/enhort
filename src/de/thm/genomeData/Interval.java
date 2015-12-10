@@ -16,6 +16,10 @@ public abstract class Interval {
 
     protected Map<String, ArrayList<Long>> intervalsStart = new HashMap<>();
     protected Map<String, ArrayList<Long>> intervalsEnd = new HashMap<>();
+
+    protected Map<String, ArrayList<String>> intervalName = new HashMap<>();
+    protected Map<String, ArrayList<Long>> intervalScore = new HashMap<>();
+
     private int positionCount;
 
 
@@ -23,6 +27,20 @@ public abstract class Interval {
      *
      */
     protected void initMap(Map<String, ArrayList<Long>> map){
+
+        for(int i = 1; i <= 22; i++){
+            map.put("chr"+i, new ArrayList<>());
+        }
+
+        map.put("chrX", new ArrayList<>());
+        map.put("chrY", new ArrayList<>());
+
+    }
+
+    /**
+     *
+     */
+    protected void initNameMap(Map<String, ArrayList<String>> map){
 
         for(int i = 1; i <= 22; i++){
             map.put("chr"+i, new ArrayList<>());

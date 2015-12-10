@@ -19,18 +19,22 @@ public class Main {
         Sites userDat = new UserData();
         ((UserData) userDat).loadPositionsFromFile(new File("/home/menzel/Desktop/THM/lfba/projekphase/genomic_sites.sleeping_beauty.hg19.txt"));
 
+        IntervalNamed invGenes = new IntervalNamed(new File("/home/menzel/Desktop/THM/lfba/projekphase/knownGenes.bed"));
+
         /*
-        Interval invGenes = new IntervalDual(new File("/home/menzel/Desktop/THM/lfba/projekphase/knownGene.txt"));
         Interval invExons = new IntervalDual(new File("/home/menzel/Desktop/THM/lfba/projekphase/exons.txt"));
         */
 
-        IntervalNamed invHmm = new IntervalNamed(new File("/home/menzel/Desktop/THM/lfba/projekphase/hmm.txt"));
+        //IntervalNamed invHmm = new IntervalNamed(new File("/home/menzel/Desktop/THM/lfba/projekphase/hmm.txt"));
 
         // get calculators
 
         Sites bg = new SimpleBackgroundModel(userDat.getPositionCount());
         Intersect sec = new IntersectBinarySearch();
         IntersectBinarySearchNamed secNamed = new IntersectBinarySearchNamed();
+
+        System.out.println(sec.searchSingleIntervall(invGenes,userDat));
+        System.out.println(sec.searchSingleIntervall(invGenes,bg));
 
         /*
         // calculate
@@ -48,9 +52,9 @@ public class Main {
         System.out.println(sec.searchSingleIntervall(invExons, bg));
 
         System.out.println("P-value: " +  QuiSquareTest.chiSquareTest(sec.searchSingleIntervall(invGenes, userDat), sec.searchSingleIntervall(invGenes, bg)));
-        */
 
         System.out.println(secNamed.searchSingleIntervall(invHmm,userDat));
         System.out.println(secNamed.searchSingleIntervall(invHmm,bg));
+        */
     }
 }
