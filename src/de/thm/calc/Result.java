@@ -1,7 +1,6 @@
 package de.thm.calc;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Michael Menzel on 8/12/15.
@@ -9,50 +8,72 @@ import java.util.Map;
 public class Result {
 
 
-    private final Map<String, Integer> result;
+    private final Map<String, Integer> resultNames;
+    private final Map<Long, Integer> resultScores;
 
     public Result() {
-        this.result = new HashMap<>();
+        this.resultNames = new HashMap<>();
+        this.resultScores= new HashMap<>();
     }
 
+    public void add(long score){
+        score = (int) Math.round(score / 10.0);
+
+        if(resultScores.containsKey(score)){
+            resultScores.put(score, resultScores.get(score)+1);
+        }else{
+            resultScores.put(score, 1);
+        }
+    }
 
     public void add(String name, int count){
 
-        if(result.containsKey(name)){
-            result.put(name,result.get(name)+count);
+        if(resultNames.containsKey(name)){
+            resultNames.put(name, resultNames.get(name)+count);
         }else{
-            result.put(name,count);
+            resultNames.put(name,count);
         }
 
     }
 
     public void add(String name){
 
-        if(result.containsKey(name)){
-            result.put(name,result.get(name)+1);
+        if(resultNames.containsKey(name)){
+            resultNames.put(name, resultNames.get(name)+1);
         }else{
-            result.put(name,1);
+            resultNames.put(name,1);
         }
 
+    }
+
+    public String getResultScores() {
+        String val = "";
+        List<Long> keys = new ArrayList<>(resultScores.keySet());
+        Collections.sort(keys);
+
+        for(Long key: keys){
+            //System.out.println(key + "\t" + resultScores.get(key));
+
+            val = val + key + "\t" + resultScores.get(key) + "\n";
+        }
+
+        return val;
     }
 
     @Override
     public String toString() {
-        return result.toString();
+        return resultNames.toString();
     }
 
     public int getA(){
-        int r = 0;
 
-        for(Integer i: result.values()){
-            r += i;
-        }
+        return resultNames.get("in");
 
-        return r - result.get("out");
     }
 
     public int getB(){
-        return result.get("out");
+
+        return resultNames.get("out");
     }
 }
 
