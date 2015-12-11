@@ -1,5 +1,7 @@
 package de.thm.genomeData;
 
+import de.thm.calc.PositionPreprocessor;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
@@ -23,6 +25,8 @@ public class IntervalNamed extends Interval {
         initMap(intervalScore);
 
         loadIntervalData(file);
+
+        PositionPreprocessor.preprocessData(intervalsStart,intervalsEnd);
     }
 
 
