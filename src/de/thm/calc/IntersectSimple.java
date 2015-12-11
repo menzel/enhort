@@ -22,6 +22,8 @@ public class IntersectSimple implements Intersect{
             ArrayList<Long> intervalStart = intv.getIntervalStarts().get(chromosom);
             ArrayList<Long> intervalEnd = intv.getIntervalsEnd().get(chromosom);
             ArrayList<String> intervalName = intv.getIntervalName().get(chromosom);
+            ArrayList<Long> intervalScore = intv.getIntervalScore().get(chromosom);
+
             int intervalCount = intervalStart.size();
 
             for(Long p: pos.getPositions().get(chromosom)){
@@ -36,6 +38,7 @@ public class IntersectSimple implements Intersect{
                             in++;
 
                             result.add(intervalName.get(i-1));
+                            result.add(intervalScore.get(i-1));
 
                         }else{
                             out++;
