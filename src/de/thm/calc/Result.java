@@ -10,6 +10,7 @@ public class Result {
 
     private final Map<String, Integer> resultNames;
     private final Map<Long, Integer> resultScores;
+    private final int classes = 0;
 
     public Result() {
         this.resultNames = new HashMap<>();
@@ -17,7 +18,7 @@ public class Result {
     }
 
     public void add(long score){
-        score = (int) Math.round(score / 10.0);
+        score = (int) Math.round(score / classes);
 
         if(resultScores.containsKey(score)){
             resultScores.put(score, resultScores.get(score)+1);
