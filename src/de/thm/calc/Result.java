@@ -15,6 +15,17 @@ public class Result {
         this.result = new HashMap<>();
     }
 
+
+    public void add(String name, int count){
+
+        if(result.containsKey(name)){
+            result.put(name,result.get(name)+count);
+        }else{
+            result.put(name,count);
+        }
+
+    }
+
     public void add(String name){
 
         if(result.containsKey(name)){
