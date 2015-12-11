@@ -26,7 +26,7 @@ public class IntervalNamed extends Interval {
 
         loadIntervalData(file);
 
-        PositionPreprocessor.preprocessData(intervalsStart,intervalsEnd);
+        PositionPreprocessor.preprocessData(intervalsStart,intervalsEnd,intervalName, intervalScore);
     }
 
 

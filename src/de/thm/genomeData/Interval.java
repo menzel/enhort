@@ -82,6 +82,14 @@ public abstract class Interval {
     }
 
 
+    public Map<String, ArrayList<String>> getIntervalName() {
+        return intervalName;
+    }
+
+    public Map<String, ArrayList<Long>> getIntervalScore() {
+        return intervalScore;
+    }
+
     protected abstract void handleParts(String[] parts);
 
 
