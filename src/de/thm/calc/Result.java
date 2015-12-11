@@ -10,7 +10,7 @@ public class Result {
 
     private final Map<String, Integer> resultNames;
     private final Map<Long, Integer> resultScores;
-    private final int classes = 0;
+    private final int classes = 1;
 
     public Result() {
         this.resultNames = new HashMap<>();
@@ -52,8 +52,9 @@ public class Result {
         List<Long> keys = new ArrayList<>(resultScores.keySet());
         Collections.sort(keys);
 
+        val = "200\t" + resultNames.get("out") + "\n";
         for(Long key: keys){
-            //System.out.println(key + "\t" + resultScores.get(key));
+            System.out.println(key + "\t" + resultScores.get(key));
 
             val = val + key + "\t" + resultScores.get(key) + "\n";
         }
