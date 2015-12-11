@@ -5,18 +5,16 @@ import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Michael Menzel on 9/12/15.
  */
 public class IntersectBinarySearchNamed {
 
-    public Map<String, Integer> searchSingleIntervall(IntervalNamed intv, Sites pos) {
-        Map<String, Integer> result = new HashMap<>();
+    public Result searchSingleIntervall(IntervalNamed intv, Sites pos) {
 
 
+        Result result = new Result();
         for(String chromosom: pos.getPositions().keySet()){
             int last_start = 0;
 
@@ -41,20 +39,18 @@ public class IntersectBinarySearchNamed {
                     else if(p > midElement && mid < iSize-1 && p > next) start = mid + 1;
                     else{
 
-                         if(p < midElement){
-                            if(mid != 0 && intervalEnd.get(mid-1) > p) { //in previous interval
-                                mid = mid-1;
+                        String name = "out";
+                        if(p < midElement){
+                            if(mid != 0 && intervalEnd.get(mid-1) > p) { //in previous interval but inside
+                                name = intv.getIntervalName().get(chromosom).get(mid);
+                            }
+                        }else{
+                            if(intervalEnd.get(mid) > p){ //current interval
+                                name = intv.getIntervalName().get(chromosom).get(mid);
                             }
                         }
 
-                        String hmmName = intv.getIntervalName().get(chromosom).get(mid);
-
-                        //TODO
-                        if(result.containsKey(hmmName)){
-                            result.put(hmmName,result.get(hmmName)+1);
-                        }else{
-                            result.put(hmmName,1);
-                        }
+                        result.add(name);
 
                         break;
                     }
