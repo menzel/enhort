@@ -13,6 +13,7 @@ public class IntersectSimple implements Intersect{
     public Result searchSingleIntervall(Interval intv, Sites pos){
         int in = 0;
         int out = 0;
+        Result result = new Result();
 
         for(String chromosom: pos.getPositions().keySet()){
             long c;
@@ -20,6 +21,7 @@ public class IntersectSimple implements Intersect{
 
             ArrayList<Long> intervalStart = intv.getIntervalStarts().get(chromosom);
             ArrayList<Long> intervalEnd = intv.getIntervalsEnd().get(chromosom);
+            ArrayList<String> intervalName = intv.getIntervalName().get(chromosom);
             int intervalCount = intervalStart.size();
 
             for(Long p: pos.getPositions().get(chromosom)){
@@ -32,6 +34,9 @@ public class IntersectSimple implements Intersect{
                     if(p < c || i == intervalCount-1){
                         if(i != 0 && p <= intervalEnd.get(i-1)){
                             in++;
+
+                            result.add(intervalName.get(i-1));
+
                         }else{
                             out++;
                         }
@@ -42,7 +47,6 @@ public class IntersectSimple implements Intersect{
             }
         }
 
-        Result result = new Result();
         result.add("in", in);
         result.add("out", out);
 
