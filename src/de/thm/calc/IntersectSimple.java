@@ -30,7 +30,6 @@ public class IntersectSimple implements Intersect{
                     c = intervalStart.get(i);
 
                     if(p < c || i == intervalCount-1){
-                        long f = intervalEnd.get(i);
                         if(i != 0 && p <= intervalEnd.get(i-1)){
                             in++;
                         }else{
