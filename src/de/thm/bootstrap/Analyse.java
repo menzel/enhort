@@ -7,9 +7,11 @@ import de.thm.genomeData.Interval;
 import de.thm.genomeData.IntervalNamed;
 import de.thm.positionData.SimpleBackgroundModel;
 import de.thm.positionData.Sites;
-import de.thm.stat.ChiSquare;
+import de.thm.stat.IndependenceTest;
 
-import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,32 +26,33 @@ public class Analyse {
     public Analyse() {
         intervals = new HashMap<>();
 
-        Interval invGenes = new IntervalNamed(new File("/home/menzel/Desktop/THM/lfba/projekphase/knownGenes.bed"));
-        Interval invHmm = new IntervalNamed(new File("/home/menzel/Desktop/THM/lfba/projekphase/hmm.bed"));
-        Interval invConservation = new IntervalNamed(new File("/home/menzel/Desktop/THM/lfba/projekphase/conservation.bed"));
+        try {
+            Files.walk(Paths.get("/home/menzel/Desktop/THM/lfba/projekphase/dat/")).filter(Files::isRegularFile).forEach(filePath -> {
+                intervals.put(filePath.getFileName().toString(), new IntervalNamed(filePath.toFile()));
+            });
 
-        intervals.put("In Genes", invGenes);
-        intervals.put("ChromeHMM", invHmm);
-        intervals.put("Conservation Rate", invConservation);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         simple = new IntersectSimple();
-
-
     }
 
-    public void anaylse(Sites userSites){
+    public void analyse(Sites userSites){
 
         Sites bg = new SimpleBackgroundModel(userSites.getPositionCount());
 
         Result resultUserSites;
         Result resultBg;
 
+        // H_0: bg and user sites are independent. Large pValue: bg and user are independent. Small pValue: bg and user are dependent.
+
         for(String intervalName: intervals.keySet()){
             resultUserSites = simple.searchSingleIntervall(intervals.get(intervalName), userSites);
             resultBg = simple.searchSingleIntervall(intervals.get(intervalName), bg);
 
-            double pValue = ChiSquare.chiSquareTest(resultUserSites, resultBg);
-
+            IndependenceTest tester = new IndependenceTest();
+            double pValue = tester.test(resultUserSites, resultBg);
             System.out.println(intervalName + " p-value: " + pValue);
         }
 
