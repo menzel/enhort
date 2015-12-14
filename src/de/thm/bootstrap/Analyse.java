@@ -3,37 +3,62 @@ package de.thm.bootstrap;
 import de.thm.calc.Intersect;
 import de.thm.calc.IntersectSimple;
 import de.thm.calc.Result;
+import de.thm.genomeData.Interval;
 import de.thm.genomeData.IntervalNamed;
 import de.thm.positionData.SimpleBackgroundModel;
 import de.thm.positionData.Sites;
-import de.thm.stat.QuiSquareTest;
+import de.thm.stat.ChiSquare;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Michael Menzel on 11/12/15.
  */
 public class Analyse {
 
-    private IntervalNamed invGenes;
-    private IntervalNamed invHmm;
-    private IntervalNamed invConservation;
     private Intersect simple;
+    private Map<String, Interval> intervals;
 
     public Analyse() {
+        intervals = new HashMap<>();
 
-        invGenes = new IntervalNamed(new File("/home/menzel/Desktop/THM/lfba/projekphase/knownGenes.bed"));
-        //invHmm = new IntervalNamed(new File("/home/menzel/Desktop/THM/lfba/projekphase/hmm.bed"));
-        invConservation = new IntervalNamed(new File("/home/menzel/Desktop/THM/lfba/projekphase/conservation.bed"));
+        Interval invGenes = new IntervalNamed(new File("/home/menzel/Desktop/THM/lfba/projekphase/knownGenes.bed"));
+        Interval invHmm = new IntervalNamed(new File("/home/menzel/Desktop/THM/lfba/projekphase/hmm.bed"));
+        Interval invConservation = new IntervalNamed(new File("/home/menzel/Desktop/THM/lfba/projekphase/conservation.bed"));
+
+        intervals.put("In Genes", invGenes);
+        intervals.put("ChromeHMM", invHmm);
+        intervals.put("Conservation Rate", invConservation);
 
         simple = new IntersectSimple();
 
+
     }
 
-    public void analyseAll(Sites userSites){
+    public void anaylse(Sites userSites){
+
+        Sites bg = new SimpleBackgroundModel(userSites.getPositionCount());
+
+        Result resultUserSites;
+        Result resultBg;
+
+        for(String intervalName: intervals.keySet()){
+            resultUserSites = simple.searchSingleIntervall(intervals.get(intervalName), userSites);
+            resultBg = simple.searchSingleIntervall(intervals.get(intervalName), bg);
+
+            double pValue = ChiSquare.chiSquareTest(resultUserSites, resultBg);
+
+            System.out.println(intervalName + " p-value: " + pValue);
+        }
+
+    }
+
+
+
+    /*
+    public void foo(Sites userSites){
 
         Sites bg = new SimpleBackgroundModel(userSites.getPositionCount());
 
@@ -51,7 +76,6 @@ public class Analyse {
 
         userResult = simple.searchSingleIntervall(invConservation,userSites);
         bgResult = simple.searchSingleIntervall(invConservation,bg);
-
 
         try(BufferedWriter writer = Files.newBufferedWriter(new File("/home/menzel/Desktop/THM/lfba/projekphase/R-eval/user").toPath())){
             writer.write(userResult.getResultScores());
@@ -79,7 +103,7 @@ public class Analyse {
             long startTime = System.nanoTime();
 
             //simple.searchSingleIntervall(invHmm,bg);
-            simple.searchSingleIntervall(invHmm, bg);
+            //simple.searchSingleIntervall(invHmm, bg);
 
             long duration = System.nanoTime() - startTime;
             System.out.print(duration/1000000 + "\t");
@@ -95,5 +119,6 @@ public class Analyse {
         }
 
     }
+    */
 
 }
