@@ -11,7 +11,6 @@ import java.util.ArrayList;
 public class IntersectSimple implements Intersect{
 
     public Result searchSingleIntervall(Interval intv, Sites pos){
-        int in = 0;
         int out = 0;
         Result result = new Result();
 
@@ -35,7 +34,6 @@ public class IntersectSimple implements Intersect{
 
                     if(p < c || i == intervalCount-1){
                         if(i != 0 && p <= intervalEnd.get(i-1)){
-                            in++;
 
                             result.add(intervalName.get(i-1));
                             result.add(intervalScore.get(i-1));
@@ -50,7 +48,6 @@ public class IntersectSimple implements Intersect{
             }
         }
 
-        result.add("in", in);
         result.add("out", out);
 
         return result;
