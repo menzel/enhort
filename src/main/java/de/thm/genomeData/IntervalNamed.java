@@ -11,6 +11,10 @@ import java.util.Map;
  */
 public class IntervalNamed extends Interval {
 
+    public IntervalNamed(){
+        super();
+    }
+
     /**
      *
      * @param file
