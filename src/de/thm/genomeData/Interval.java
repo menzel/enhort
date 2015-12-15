@@ -15,6 +15,9 @@ import java.util.stream.Stream;
  */
 public abstract class Interval implements Serializable{
 
+
+    private static final long serialVersionUID = 1690225L;
+
     protected Map<String, ArrayList<Long>> intervalsStart = new HashMap<>();
     protected Map<String, ArrayList<Long>> intervalsEnd = new HashMap<>();
 

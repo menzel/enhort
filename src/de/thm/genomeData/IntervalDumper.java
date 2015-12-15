@@ -1,17 +1,23 @@
 package de.thm.genomeData;
 
 import java.io.*;
+import java.nio.file.Path;
 
 /**
  * Created by Michael Menzel on 15/12/15.
  */
 public class IntervalDumper {
+    private Path baseDir;
 
-    public void dumpInterval(Interval interval){
-        String name = "foo";
+    public IntervalDumper(Path baseDir) {
+        this.baseDir = baseDir;
+    }
+
+    public void dumpInterval(Interval interval, String name){
 
         try {
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(name));
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(baseDir.resolve(name).toString()));
+
             objectOutputStream.writeObject(interval);
 
         } catch (IOException e) {
@@ -33,4 +39,5 @@ public class IntervalDumper {
             return null;
         }
     }
+
 }
