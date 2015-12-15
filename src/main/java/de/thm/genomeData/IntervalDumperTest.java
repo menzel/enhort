@@ -12,7 +12,7 @@ import static junit.framework.TestCase.assertEquals;
  */
 public class IntervalDumperTest {
     String basePath;
-    Interval interval;
+    IntervalNamed interval;
     IntervalDumper dumper;
 
     @Before

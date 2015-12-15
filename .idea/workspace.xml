@@ -6,7 +6,10 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ac5bf7f-aa21-443c-9819-d391adab5fa9" name="Default" comment="using new names after preprocessing" />
+    <list default="true" id="9ac5bf7f-aa21-443c-9819-d391adab5fa9" name="Default" comment="using new names after preprocessing">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/thm/genomeData/IntervalDumper.java" afterPath="$PROJECT_DIR$/src/de/thm/genomeData/IntervalDumper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/de/thm/genomeData/IntervalDumperTest.java" afterPath="$PROJECT_DIR$/src/de/thm/genomeData/IntervalDumperTest.java" />
+    </list>
     <ignored path="MultiGenBrowser.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -90,18 +93,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PositionPreprocessor.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/de/thm/calc/PositionPreprocessor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="IntersectSimple.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/de/thm/calc/IntersectSimple.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -126,25 +117,33 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="IntervalDumper.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="IntervalDumper.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/de/thm/genomeData/IntervalDumper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.2013986">
+              <caret line="28" column="26" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#221#222#0" expanded="true" />
-                <element signature="e#259#260#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="IntervalDumperTest.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="IntervalDumperTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/de/thm/genomeData/IntervalDumperTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8901099">
-              <caret line="43" column="43" selection-start-line="43" selection-start-column="43" selection-end-line="43" selection-end-column="43" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="31" column="4" selection-start-line="31" selection-start-column="4" selection-end-line="31" selection-end-column="4" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MultiGenBrowser.iml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MultiGenBrowser.iml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -220,8 +219,8 @@
         <option value="$PROJECT_DIR$/src/de/thm/calc/IntersectSimple.java" />
         <option value="$PROJECT_DIR$/src/de/thm/calc/Result.java" />
         <option value="$PROJECT_DIR$/src/de/thm/stat/IndependenceTest.java" />
-        <option value="$PROJECT_DIR$/src/de/thm/genomeData/IntervalDumperTest.java" />
         <option value="$PROJECT_DIR$/src/de/thm/genomeData/Interval.java" />
+        <option value="$PROJECT_DIR$/src/de/thm/genomeData/IntervalDumperTest.java" />
         <option value="$PROJECT_DIR$/src/de/thm/genomeData/IntervalDumper.java" />
       </list>
     </option>
@@ -1003,7 +1002,7 @@
       <updated>1449568621990</updated>
       <workItem from="1449568625936" duration="12354000" />
       <workItem from="1449830954997" duration="14750000" />
-      <workItem from="1450079293765" duration="22664000" />
+      <workItem from="1450079293765" duration="25860000" />
     </task>
     <task id="LOCAL-00001" summary="Moved load from file method to userdata class">
       <created>1449571530482</created>
@@ -1291,27 +1290,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="IntervalDumperTest - 2015.12.15 at 11h 59m 29s.xml">
-      <configuration name="IntervalDumperTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="IntervalDumperTest - 2015.12.15 at 12h 00m 48s.xml">
-      <configuration name="IntervalDumperTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="IntervalDumperTest - 2015.12.15 at 12h 02m 09s.xml">
-      <configuration name="IntervalDumperTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="IntervalDumperTest - 2015.12.15 at 12h 03m 13s.xml">
-      <configuration name="IntervalDumperTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="IntervalDumperTest - 2015.12.15 at 12h 03m 29s.xml">
-      <configuration name="IntervalDumperTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="IntervalDumperTest - 2015.12.15 at 12h 03m 52s.xml">
-      <configuration name="IntervalDumperTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="IntervalDumperTest - 2015.12.15 at 12h 06m 53s.xml">
-      <configuration name="IntervalDumperTest" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="IntervalDumperTest - 2015.12.15 at 12h 11m 47s.xml">
       <configuration name="IntervalDumperTest" configurationId="JUnit" />
     </history-entry>
@@ -1321,13 +1299,34 @@
     <history-entry file="IntervalDumperTest - 2015.12.15 at 13h 05m 40s.xml">
       <configuration name="IntervalDumperTest" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="IntervalDumperTest - 2015.12.15 at 13h 16m 13s.xml">
+      <configuration name="IntervalDumperTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="IntervalDumperTest - 2015.12.15 at 13h 21m 13s.xml">
+      <configuration name="IntervalDumperTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="IntervalDumperTest - 2015.12.15 at 13h 29m 16s.xml">
+      <configuration name="IntervalDumperTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="IntervalDumperTest - 2015.12.15 at 13h 34m 21s.xml">
+      <configuration name="IntervalDumperTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="IntervalDumperTest - 2015.12.15 at 13h 37m 57s.xml">
+      <configuration name="IntervalDumperTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="IntervalDumperTest - 2015.12.15 at 13h 41m 59s.xml">
+      <configuration name="IntervalDumperTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="IntervalDumperTest - 2015.12.15 at 13h 43m 58s.xml">
+      <configuration name="IntervalDumperTest" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="92251000" />
+    <option name="totallyTimeSpent" value="95447000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1920" height="1181" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1336,16 +1335,16 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.55368817" sideWeight="0.6547492" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18767507" sideWeight="0.5779082" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20168068" sideWeight="0.5683031" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29505137" sideWeight="0.46584845" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30718955" sideWeight="0.5661686" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6022409" sideWeight="0.46584845" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19103523" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19103523" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29505137" sideWeight="0.53415155" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30718955" sideWeight="0.43383136" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1535,6 +1534,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1620,13 +1620,6 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiGenBrowser.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1740,18 +1733,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/de/thm/genomeData/IntervalDumper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#221#222#0" expanded="true" />
-            <element signature="e#259#260#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/de/thm/genomeData/Interval.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1764,11 +1745,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/MultiGenBrowser.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/de/thm/genomeData/IntervalDumperTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8901099">
-          <caret line="43" column="43" selection-start-line="43" selection-start-column="43" selection-end-line="43" selection-end-column="43" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="31" column="4" selection-start-line="31" selection-start-column="4" selection-end-line="31" selection-end-column="4" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/de/thm/genomeData/IntervalDumper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2013986">
+          <caret line="28" column="26" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
