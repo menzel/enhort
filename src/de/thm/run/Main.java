@@ -19,8 +19,6 @@ public class Main {
 
         Analyse analyse = new Analyse();
 
-        analyse.anaylse(userDat);
-
-
+        analyse.analyse(userDat);
     }
 }

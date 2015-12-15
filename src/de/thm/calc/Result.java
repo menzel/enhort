@@ -1,7 +1,8 @@
 package de.thm.calc;
 
+import de.thm.genomeData.Interval;
+
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by Michael Menzel on 8/12/15.
@@ -11,71 +12,17 @@ public class Result {
 
     private final Map<String, Integer> resultNames;
     private final Map<Long, Integer> resultScores;
-    public enum Type {inout, score, named}
-    private Type type;
+    private int in;
+    private Interval usedInterval;
 
-    /**
-     *
-     * @return
-     */
-    public double[] getInOut() {
-        if(type == Type.inout)
-            return new double[] {getInCount(),resultNames.get("out")};
 
-        if(type == Type.named){
-
-            return getValues();
-        }
-
-        else //can only be Type.score, then getInOut should not be called.
-            return null;
+    public Interval.Type getType() {
+        return usedInterval.getType();
     }
 
-    /**
-     *
-     * @return
-     */
-    private double[] getValues() {
-
-        List<String> names = resultNames.entrySet().stream().sorted().map(Map.Entry::getKey).collect(Collectors.toList());
-        double[] returnValues = new double[names.size()];
-
-        int i = 0;
-        for(String name: names){
-            returnValues[i++] = resultNames.get(name);
-        }
-
-        return returnValues;
+    public Map<String, Integer> getResultNames() {
+        return resultNames;
     }
-
-    /**
-     *
-     * @return
-     */
-    private double getInCount() {
-        double count = 0;
-
-        for(String name: resultNames.keySet()){
-            if(!name.matches("out"))
-                count += resultNames.get(name);
-        }
-
-        return count;
-    }
-
-
-    /**
-     *
-     * @return
-     */
-    public Type getType() {
-        if(type == Type.named && resultNames.keySet().size() == 2){
-            type = Type.inout;
-        }
-
-        return type;
-    }
-
 
     /**
      *
@@ -90,7 +37,6 @@ public class Result {
      * @param score
      */
     public void add(long score){
-        if(type == null) type = Type.score;
 
         if(resultScores.containsKey(score)){
             resultScores.put(score, resultScores.get(score)+1);
@@ -106,8 +52,6 @@ public class Result {
      */
     public void add(String name, int count){
 
-        if(type == null) type = Type.named;
-
         if(resultNames.containsKey(name)){
             resultNames.put(name, resultNames.get(name)+count);
         }else{
@@ -121,8 +65,6 @@ public class Result {
      * @param name
      */
     public void add(String name){
-
-        if(type == null) type = Type.named;
 
         if(resultNames.containsKey(name)){
             resultNames.put(name, resultNames.get(name)+1);
@@ -154,6 +96,19 @@ public class Result {
     @Override
     public String toString() {
         return resultNames.toString();
+    }
+
+
+    public void setIn(int in) {
+        this.in = in;
+    }
+
+    public int getIn() {
+        return in;
+    }
+
+    public Integer getOut() {
+        return resultNames.get("out");
     }
 }
 
