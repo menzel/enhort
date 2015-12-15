@@ -31,6 +31,7 @@ public class IndependenceTest {
                 Map<String, Integer> measured = resultA.getResultNames();
                 Map<String, Integer> expected = resultB.getResultNames();
 
+                System.out.println("======");
                 System.out.println("measured " + resultA.toString());
                 System.out.println("expected " + resultB.toString());
 
