@@ -25,20 +25,29 @@ public class IndependenceTest {
 
 
         switch (resultA.getType()){
-            case inout:
-                double[] m = {resultA.getIn(), resultB.getOut()};
-                long[] e ={resultA.getIn(), resultB.getOut()};
-
-                return tester.chiSquareTest(m, e);
 
             case named:
 
                 Map<String, Integer> measured = resultA.getResultNames();
-                Map<String, Integer> exspected = resultB.getResultNames();
+                Map<String, Integer> expected = resultB.getResultNames();
 
-                assimilateLists(measured,exspected);
+                System.out.println("measured " + resultA.toString());
+                System.out.println("expected " + resultB.toString());
 
-                return tester.chiSquareTest(sortAndFlatDouble(measured),sortAndFlatLong(exspected));
+                assimilateLists(measured,expected);
+
+                return tester.chiSquareTest(sortAndFlatDouble(measured),sortAndFlatLong(expected));
+
+            case inout:
+                double[] m = {resultA.getIn(), resultB.getOut()};
+                long[] e ={resultA.getIn(), resultB.getOut()};
+
+                System.out.println("======");
+                System.out.print("measured " + resultA.toString());
+                System.out.print("expected " + resultB.toString());
+
+                return tester.chiSquareTest(m, e);
+
 
             case score:
                 return 0;

@@ -95,7 +95,19 @@ public class Result {
 
     @Override
     public String toString() {
-        return resultNames.toString();
+
+        switch (getType()){
+            case inout:
+                return "in: " + in + "\n" +
+                        "out: " + resultNames.get("out") + "\n";
+            case named:
+                return resultNames.toString();
+
+            case score:
+                return resultScores.toString();
+            default:
+                return "";
+        }
     }
 
 
