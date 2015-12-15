@@ -25,17 +25,26 @@ public class Analyse {
 
     public Analyse() {
         intervals = new HashMap<>();
+        String basePath = "/home/menzel/Desktop/THM/lfba/projekphase/dat/";
 
         try {
-            Files.walk(Paths.get("/home/menzel/Desktop/THM/lfba/projekphase/dat/")).filter(Files::isRegularFile).forEach(filePath -> {
-                intervals.put(filePath.getFileName().toString(), new IntervalNamed(filePath.toFile()));
-            });
+
+            getIntervals(basePath + "inout", Interval.Type.inout);
+            getIntervals(basePath + "named", Interval.Type.named);
+            getIntervals(basePath + "score", Interval.Type.score);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         simple = new IntersectSimple();
+    }
+
+    private void getIntervals(String path, Interval.Type type) throws IOException {
+
+        Files.walk(Paths.get(path)).filter(Files::isRegularFile).forEach(filePath -> {
+            intervals.put(filePath.getFileName().toString(), new IntervalNamed(filePath.toFile(), type));
+        });
     }
 
     public void analyse(Sites userSites){

@@ -11,13 +11,13 @@ import java.util.Map;
  */
 public class IntervalNamed extends Interval {
 
-
-
     /**
      *
      * @param file
      */
-    public IntervalNamed(File file) {
+    public IntervalNamed(File file, Type type) {
+
+        this.type = type;
 
         initMap(intervalsStart);
         initMap(intervalsEnd);

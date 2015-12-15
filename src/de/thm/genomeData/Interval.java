@@ -2,6 +2,7 @@ package de.thm.genomeData;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +13,7 @@ import java.util.stream.Stream;
 /**
  * Created by Michael Menzel on 8/12/15.
  */
-public abstract class Interval {
+public abstract class Interval implements Serializable{
 
     protected Map<String, ArrayList<Long>> intervalsStart = new HashMap<>();
     protected Map<String, ArrayList<Long>> intervalsEnd = new HashMap<>();
@@ -20,7 +21,13 @@ public abstract class Interval {
     protected Map<String, ArrayList<String>> intervalName = new HashMap<>();
     protected Map<String, ArrayList<Long>> intervalScore = new HashMap<>();
 
-    private int positionCount;
+    protected Type type;
+
+    public Type getType() {
+        return type;
+    }
+
+    public enum Type {inout, score, named}
 
 
     /**
