@@ -77,6 +77,8 @@ public abstract class Interval implements Serializable{
                 handleParts(parts);
             }
 
+            lines.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
