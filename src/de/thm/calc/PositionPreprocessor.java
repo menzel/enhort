@@ -17,13 +17,10 @@ public class PositionPreprocessor {
             ArrayList<Long> currentStart = intervalsStart.get(chromosom);
             ArrayList<Long> currentEnd = intervalsEnd.get(chromosom);
             ArrayList<String> currentName = intervalName.get(chromosom);
-            ArrayList<Long> currentScore = intervalScore.get(chromosom);
 
             ArrayList<Long> newStart = new ArrayList<>();
             ArrayList<Long> newEnd = new ArrayList<>();
-
             ArrayList<String> newName = new ArrayList<>();
-            ArrayList<Long> newScore = new ArrayList<>();
 
             if(currentStart.isEmpty()) continue;
 
@@ -31,7 +28,6 @@ public class PositionPreprocessor {
             long end = currentEnd.get(0);
 
             String name = currentName.get(0);
-            long score = currentScore.get(0);
 
 
             for (int i = 0; i < currentStart.size(); i++) {
@@ -46,14 +42,12 @@ public class PositionPreprocessor {
                     newStart.add(start);
                     newEnd.add(end);
                     newName.add(name);
-                    newScore.add(score);
 
                     if(i >= currentStart.size()-1) break; // do not get next points if this was the last
 
                     start = currentStart.get(i+1);
                     end = currentEnd.get(i+1);
                     name = currentName.get(i+1);
-                    score = currentScore.get(i + 1);
 
                 }
             }
@@ -64,6 +58,8 @@ public class PositionPreprocessor {
             currentEnd.clear();
             currentEnd.addAll(newEnd);
 
+            currentName.clear();
+            currentName.addAll(newName);
         }
     }
 
