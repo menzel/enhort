@@ -42,7 +42,11 @@ public class IntervalNamed extends Interval {
            intervalsEnd.get(parts[0]).add(Long.parseLong(parts[2]));
 
            intervalName.get(parts[0]).add(parts[3]);
-           intervalScore.get(parts[0]).add(Long.parseLong(parts[4]));
+
+           if(parts.length > 4)
+                intervalScore.get(parts[0]).add(Long.parseLong(parts[4]));
+           else
+                intervalScore.get(parts[0]).add(0L);
        }
     }
 
