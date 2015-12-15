@@ -110,5 +110,9 @@ public class Result {
     public Integer getOut() {
         return resultNames.get("out");
     }
+
+    public void setUsedInterval(Interval usedInterval) {
+        this.usedInterval = usedInterval;
+    }
 }
 

@@ -14,6 +14,7 @@ public class IntersectSimple implements Intersect{
         int out = 0;
         int in = 0;
         Result result = new Result();
+        result.setUsedInterval(intv);
 
         for(String chromosom: pos.getPositions().keySet()){
             long c;
