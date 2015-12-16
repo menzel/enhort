@@ -102,6 +102,26 @@ public abstract class Interval implements Serializable{
         return intervalScore;
     }
 
+    public void setIntervalScore(Map<String, ArrayList<Long>> intervalScore) {
+        this.intervalScore = intervalScore;
+    }
+
+    public void setIntervalName(Map<String, ArrayList<String>> intervalName) {
+        this.intervalName = intervalName;
+    }
+
+    public void setIntervalsStart(Map<String, ArrayList<Long>> intervalsStart) {
+        this.intervalsStart = intervalsStart;
+    }
+
+    public void setIntervalsEnd(Map<String, ArrayList<Long>> intervalsEnd) {
+        this.intervalsEnd = intervalsEnd;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
     protected abstract void handleParts(String[] parts);
 
 
