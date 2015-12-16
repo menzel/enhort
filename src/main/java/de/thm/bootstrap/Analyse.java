@@ -9,6 +9,7 @@ import de.thm.positionData.SimpleBackgroundModel;
 import de.thm.positionData.Sites;
 import de.thm.stat.IndependenceTest;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -22,10 +23,10 @@ public class Analyse {
 
     private Intersect simple;
     private Map<String, Interval> intervals;
+    private String basePath = "/home/menzel/Desktop/THM/lfba/projekphase/dat/";
 
     public Analyse() {
         intervals = new HashMap<>();
-        String basePath = "/home/menzel/Desktop/THM/lfba/projekphase/dat/";
 
         try {
 
@@ -104,33 +105,25 @@ public class Analyse {
 
     }
 
+*/
+
     public void benchmark(){
 
-        Intersect simple = new IntersectSimple();
+        Interval invExons = new IntervalNamed(new File(basePath + "inout/exons.bed"), Interval.Type.inout);
 
-        for(int i = 0 ; i < 20 ; i++){
-            int j = i * 5000;
+        //for(int i = 0 ; i < 20 ; i++){
+            int j = 100 * 5000;
 
             Sites bg = new SimpleBackgroundModel(j);
             long startTime = System.nanoTime();
 
-            //simple.searchSingleIntervall(invHmm,bg);
-            //simple.searchSingleIntervall(invHmm, bg);
+            simple.searchSingleIntervall(invExons,bg);
 
             long duration = System.nanoTime() - startTime;
             System.out.print(duration/1000000 + "\t");
 
-
-            startTime = System.nanoTime();
-            //secBinaryNamed.searchSingleIntervall(invHmm,bg);
-            //secBinaryNamed.searchSingleIntervall(invHmm, bg);
-
-
-            duration = System.nanoTime() - startTime;
-            System.out.println(duration/1000000);
-        }
+        //}
 
     }
-    */
 
 }
