@@ -17,7 +17,6 @@ public class IntersectSimple implements Intersect{
         result.setUsedInterval(intv);
 
         for(String chromosom: pos.getPositions().keySet()){
-            long c;
             int i = 0;
 
             ArrayList<Long> intervalStart = intv.getIntervalStarts().get(chromosom);
@@ -25,30 +24,43 @@ public class IntersectSimple implements Intersect{
             ArrayList<String> intervalName = intv.getIntervalName().get(chromosom);
             ArrayList<Long> intervalScore = intv.getIntervalScore().get(chromosom);
 
-            int intervalCount = intervalStart.size();
+            int intervalCount = intervalStart.size()-1;
 
-            for(Long p: pos.getPositions().get(chromosom)){
+            for(Long p: pos.getPositions().get(chromosom)) {
 
+                while(i < intervalCount && intervalStart.get(i) <= p){
+                    i++;
+                }
 
-                for(; i < intervalCount; i++){
+                if(i == 0){
+                    out++;
 
-                    c = intervalStart.get(i);
+                } else if(i == intervalCount){ //last Interval
+                    if(p <= intervalEnd.get(i)){
 
-                    if(p < c || i == intervalCount-1){
-                        if(i != 0 && p <= intervalEnd.get(i-1)){
+                        in++;
+                        result.add(intervalName.get(i));
+                        if(intv.getType() == Interval.Type.score)
+                                result.add(intervalScore.get(i-1));
 
-                            in++;
+                    } else{
+                        out++; //TODO add up all other points, they cannot be in an interval
 
-                            result.add(intervalName.get(i-1));
-                            result.add(intervalScore.get(i-1));
+                    }
+                }else{
+                    if(p > intervalEnd.get(i-1)){
+                        out++;
 
-                        }else{
-                            out++;
-                        }
+                    }else{
 
-                        break;
+                        in++;
+                        result.add(intervalName.get(i));
+                        if(intv.getType() == Interval.Type.score)
+                                result.add(intervalScore.get(i-1));
+
                     }
                 }
+
             }
         }
 
