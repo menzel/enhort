@@ -4,16 +4,13 @@ import de.thm.calc.Intersect;
 import de.thm.calc.IntersectSimple;
 import de.thm.calc.Result;
 import de.thm.genomeData.Interval;
+import de.thm.genomeData.IntervalLoader;
 import de.thm.genomeData.IntervalNamed;
 import de.thm.positionData.SimpleBackgroundModel;
 import de.thm.positionData.Sites;
 import de.thm.stat.IndependenceTest;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -23,29 +20,13 @@ public class Analyse {
 
     private Intersect simple;
     private Map<String, Interval> intervals;
-    private String basePath = "/home/menzel/Desktop/THM/lfba/projekphase/dat/";
 
     public Analyse() {
-        intervals = new HashMap<>();
+        IntervalLoader loader = new IntervalLoader();
+        intervals =  loader.getAllIntervals();
 
-        try {
-
-            getIntervals(basePath + "inout", Interval.Type.inout);
-            getIntervals(basePath + "named", Interval.Type.named);
-            getIntervals(basePath + "score", Interval.Type.score);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         simple = new IntersectSimple();
-    }
-
-    private void getIntervals(String path, Interval.Type type) throws IOException {
-
-        Files.walk(Paths.get(path)).filter(Files::isRegularFile).forEach(filePath -> {
-            intervals.put(filePath.getFileName().toString(), new IntervalNamed(filePath.toFile(), type));
-        });
     }
 
     public void analyse(Sites userSites){
@@ -108,6 +89,7 @@ public class Analyse {
 */
 
     public void benchmark(){
+        String basePath = "/home/menzel/Desktop/THM/lfba/projekphase/dat/";
 
         Interval invExons = new IntervalNamed(new File(basePath + "inout/exons.bed"), Interval.Type.inout);
 

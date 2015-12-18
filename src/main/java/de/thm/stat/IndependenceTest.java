@@ -33,6 +33,7 @@ public class IndependenceTest {
 
         switch (resultA.getType()){
 
+            case score:
             case named:
 
                 Map<String, Integer> measured = resultA.getResultNames();
@@ -57,8 +58,7 @@ public class IndependenceTest {
 
                 return tester.chiSquareTest(counts);
 
-            case score:
-                return -1;
+
 
             default:
                 return -1;

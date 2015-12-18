@@ -11,7 +11,7 @@ public class Result {
 
 
     private final Map<String, Integer> resultNames;
-    private final Map<Long, Integer> resultScores;
+    //private final Map<Long, Integer> resultScores;
     private int in;
     private Interval usedInterval;
 
@@ -29,7 +29,7 @@ public class Result {
      */
     public Result() {
         this.resultNames = new HashMap<>();
-        this.resultScores= new HashMap<>();
+        //this.resultScores= new HashMap<>();
     }
 
     /**
@@ -38,11 +38,13 @@ public class Result {
      */
     public void add(long score){
 
-        if(resultScores.containsKey(score)){
+        add(Long.toString(score));
+
+        /*if(resultScores.containsKey(score)){
             resultScores.put(score, resultScores.get(score)+1);
         }else{
             resultScores.put(score, 1);
-        }
+        }*/
     }
 
     /**
@@ -76,8 +78,10 @@ public class Result {
 
     /**
      *
+     *
      * @return
      */
+    /*
     public String getResultScores() {
         String val = "";
         List<Long> keys = new ArrayList<>(resultScores.keySet());
@@ -92,6 +96,7 @@ public class Result {
 
         return val;
     }
+    */
 
     @Override
     public String toString() {
@@ -104,7 +109,7 @@ public class Result {
                 return resultNames.toString();
 
             case score:
-                return resultScores.toString();
+                return resultNames.toString();
             default:
                 return "";
         }
