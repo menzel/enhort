@@ -16,8 +16,10 @@ public class IntersectSimple implements Intersect{
         Result result = new Result();
         result.setUsedInterval(intv);
 
+
         for(String chromosom: pos.getPositions().keySet()){
             int i = 0;
+            int pCount = 0;
 
             ArrayList<Long> intervalStart = intv.getIntervalStarts().get(chromosom);
             ArrayList<Long> intervalEnd = intv.getIntervalsEnd().get(chromosom);
@@ -27,6 +29,7 @@ public class IntersectSimple implements Intersect{
             int intervalCount = intervalStart.size()-1;
 
             for(Long p: pos.getPositions().get(chromosom)) {
+                pCount++;
 
                 while(i < intervalCount && intervalStart.get(i) <= p){
                     i++;
@@ -44,7 +47,10 @@ public class IntersectSimple implements Intersect{
                                 result.add(intervalScore.get(i-1));
 
                     } else{
-                        out++; //TODO add up all other points, they cannot be in an interval
+                        // the remaining positions cannot be in an interval.
+                        int size =  pos.getPositions().get(chromosom).size();
+                        out += 1 + size - pCount;  // adding count of positions left to out
+                        break;
 
                     }
                 }else{
