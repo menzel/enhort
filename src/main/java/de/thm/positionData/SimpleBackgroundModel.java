@@ -24,11 +24,14 @@ public class SimpleBackgroundModel extends BackgroundModel{
 
     private void createSites(int sites) {
 
-        int perChr = sites/positions.keySet().size();
+        long genomeSize = ChromosomSizes.getInstance().getGenomeSize();
 
         for (Map.Entry<String, ArrayList<Long>> entry: positions.entrySet()) {
 
-            for(int i = 0 ; i < perChr; i++) {
+            double c = ChromosomSizes.getInstance().getChrSize(entry.getKey());
+            double perChr = sites * (c/genomeSize);
+
+            for(long i = 0 ; i < perChr; i++) {
                 long rand = randomPosition(entry.getKey());
 
                 entry.getValue().add(rand);
@@ -42,7 +45,7 @@ public class SimpleBackgroundModel extends BackgroundModel{
 
     private Long randomPosition(String chr) {
 
-        return (long)(rand.nextDouble() * ChromosomSizes.getChrSize(chr));
+        return (long)(rand.nextDouble() * ChromosomSizes.getInstance().getChrSize(chr));
     }
 
 }
