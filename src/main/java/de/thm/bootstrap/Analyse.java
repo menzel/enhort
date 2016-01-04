@@ -93,8 +93,8 @@ public class Analyse {
 
         Interval invExons = new IntervalNamed(new File(basePath + "inout/exons.bed"), Interval.Type.inout);
 
-        //for(int i = 0 ; i < 20 ; i++){
-            int j = 100 * 5000;
+        for(int i = 0 ; i < 20 ; i++){
+            int j = i * 5000;
 
             Sites bg = new SimpleBackgroundModel(j);
             long startTime = System.nanoTime();
@@ -102,9 +102,9 @@ public class Analyse {
             simple.searchSingleIntervall(invExons,bg);
 
             long duration = System.nanoTime() - startTime;
-            System.out.print(duration/1000000 + "\t");
+            System.out.print(j + "\t"  + duration/1000000 + "\n");
 
-        //}
+        }
 
     }
 

@@ -74,7 +74,13 @@ public class IntersectSimpleTest {
                 sites.get("chr1").add(22L);
                 sites.get("chr1").add(22L);
                 sites.get("chr1").add(23L);
+
                 sites.get("chr1").add(24L);
+                sites.get("chr1").add(24L);
+                sites.get("chr1").add(26L);
+                sites.get("chr1").add(128L);
+
+
 
                 return sites;
 
@@ -84,6 +90,6 @@ public class IntersectSimpleTest {
         Result result = intersect.searchSingleIntervall(intv,sites);
         assertEquals(5, result.getIn());
 
-        assertEquals(5, result.getOut().intValue());
+        assertEquals(7, result.getOut().intValue());
     }
 }

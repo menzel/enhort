@@ -11,14 +11,15 @@ public class Main {
     public static void main(String[] args) {
 
 
+        File f;
         Sites userDat = new UserData();
         //((UserData) userDat).loadPositionsFromFile(new File("/home/menzel/Desktop/THM/lfba/projekphase/genomic_sites.sleeping_beauty.hg19.txt"));
-        //((UserData) userDat).loadPositionsFromFile(new File("/home/menzel/Desktop/THM/lfba/projekphase/MLV.txt"));
+        //((UserData) userDat).loadPositionsFromFile(new File("/home/menzel/Desktop/THM/lfba/projekphase/MLV.bed"));
 
         ((UserData) userDat).loadPositionsFromFile(new File("/home/menzel/Desktop/THM/lfba/projekphase/HIV.bed"));
 
         Analyse analyse = new Analyse();
-
         analyse.analyse(userDat);
+
     }
 }
