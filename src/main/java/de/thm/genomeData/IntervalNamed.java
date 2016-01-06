@@ -1,10 +1,9 @@
 package de.thm.genomeData;
 
 import de.thm.calc.PositionPreprocessor;
+import de.thm.misc.ChromosomSizes;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * Created by Michael Menzel on 10/12/15.
@@ -23,35 +22,31 @@ public class IntervalNamed extends Interval {
 
         this.type = type;
 
-        initMap(intervalsStart);
-        initMap(intervalsEnd);
-        initNameMap(intervalName);
-        initMap(intervalScore);
-
         loadIntervalData(file);
 
         if(type == Type.inout)
             PositionPreprocessor.preprocessData(intervalsStart,intervalsEnd,intervalName, intervalScore);
+
     }
 
 
     @Override
     protected void handleParts(String[] parts) {
-       if(parts[0].matches("chr(\\d{1,2}|X|Y)")) { //TODO get other chromosoms
-           intervalsStart.get(parts[0]).add(Long.parseLong(parts[1]));
-           intervalsEnd.get(parts[0]).add(Long.parseLong(parts[2]));
 
-           intervalName.get(parts[0]).add(parts[3]);
+       ChromosomSizes chrSizes = ChromosomSizes.getInstance();
+
+       if(parts[0].matches("chr(\\d{1,2}|X|Y)")) { //TODO get other chromosoms
+           long offset = chrSizes.offset(parts[0]); //handle null pointer exc if chromosome name is not in list
+
+           intervalsStart.add(Long.parseLong(parts[1]) + offset);
+           intervalsEnd.add(Long.parseLong(parts[2])+ offset);
+
+           intervalName.add(parts[3]);
 
            if(parts.length > 4)
-                intervalScore.get(parts[0]).add(Long.parseLong(parts[4]));
+                intervalScore.add(Long.parseLong(parts[4]));
            else
-                intervalScore.get(parts[0]).add(0L);
+                intervalScore.add(0L);
        }
-    }
-
-
-    public Map<String, ArrayList<String>> getIntervalName() {
-        return intervalName;
     }
 }

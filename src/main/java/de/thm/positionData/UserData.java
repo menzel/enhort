@@ -1,5 +1,7 @@
 package de.thm.positionData;
 
+import de.thm.misc.ChromosomSizes;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,8 +19,8 @@ public class UserData extends Sites{
      */
     public void loadPositionsFromFile(File file){
 
-        initMap();
         int posCount = 0;
+        ChromosomSizes chrSizes = ChromosomSizes.getInstance();
 
         try(Stream<String> lines = Files.lines(file.toPath())){
 
@@ -27,7 +29,7 @@ public class UserData extends Sites{
             while(it.hasNext()){
                 String line = (String) it.next();
 
-                positions.get(getChr(line)).add(getPosition(line));
+                positions.add(getPosition(line) + chrSizes.offset(getChr(line)));
                 posCount++;
 
             }
@@ -40,16 +42,8 @@ public class UserData extends Sites{
 
         }
 
-        sort();
+        Collections.sort(positions);
     }
-
-    private void sort() {
-
-        for(String chr: positions.keySet()){
-            Collections.sort(positions.get(chr));
-        }
-    }
-
 
     private Long getPosition(String line) {
 

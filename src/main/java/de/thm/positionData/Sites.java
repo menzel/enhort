@@ -1,9 +1,8 @@
 package de.thm.positionData;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.List;
 
 /**
  * Created by Michael Menzel on 8/12/15.
@@ -12,34 +11,20 @@ public abstract class Sites {
     /**
      *
      */
-    protected  Map<String, ArrayList<Long>> positions = new HashMap<>();
+    protected List<Long> positions = new ArrayList<>();
     protected int positionCount;
 
 
-    /**
-     *
-     */
-    protected void initMap(){
+    public Iterator<Long> getIterator(){
 
-        for(int i = 1; i <= 22; i++){
-            positions.put("chr"+i, new ArrayList<>());
-        }
-
-        positions.put("chrX", new ArrayList<>());
-        positions.put("chrY", new ArrayList<>());
-
-    }
-
-    public Iterator<Map.Entry<String, ArrayList<Long>>> getIterator(){
-
-        return positions.entrySet().iterator();
+        return positions.iterator();
     }
 
     /*
     Getter and Setter
      */
 
-    public Map<String, ArrayList<Long>> getPositions() {
+    public List<Long> getPositions() {
         return positions;
     }
 

@@ -1,7 +1,6 @@
 package de.thm.misc;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Michael Menzel on 8/12/15.
@@ -11,6 +10,7 @@ public class ChromosomSizes {
     private long genomeSize = 0;
     private Map<String, Integer> sizes;
     private static ChromosomSizes instance;
+    private Collection<String> names;
 
     public static ChromosomSizes getInstance(){
         if (instance == null){
@@ -50,6 +50,8 @@ public class ChromosomSizes {
         sizes.put("chr22", 51304566);
         sizes.put("chr21", 48129895);
 
+        names = sizes.keySet();
+
 
        for(String key: sizes.keySet()){
             genomeSize += sizes.get(key);
@@ -64,5 +66,37 @@ public class ChromosomSizes {
     public long getGenomeSize(){
 
         return genomeSize;
+    }
+
+    /**
+     * Returns the offset for a specific chromosome by name.
+     *
+     * @param chromosomeName - name of the chromosome to get offset for
+     * @return offset for new map
+     */
+    public Long offset(String chromosomeName) {
+
+        Map<String, Long> offsets = new HashMap<>();
+
+        if(!offsets.containsKey(chromosomeName)){
+            offsets.put(chromosomeName, calcOffset(chromosomeName));
+        }
+
+        return offsets.get(chromosomeName);
+
+    }
+
+    private Long calcOffset(String chromosomeName) {
+
+        long offset = 0;
+
+        for(String name: names){
+            if(name.equals(chromosomeName))
+                return offset;
+            else
+                offset += sizes.get(name);
+        }
+
+        return null;
     }
 }

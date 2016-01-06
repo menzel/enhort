@@ -43,6 +43,6 @@ public class IntervalDumperTest {
         long duration = (endTime - startTime);
         System.out.println("duration object " + duration/1000000);
 
-        assertEquals(interval.getIntervalStarts(), newInterval.getIntervalStarts());
+        assertEquals(interval.getIntervalsStart(), newInterval.getIntervalsStart());
     }
 }

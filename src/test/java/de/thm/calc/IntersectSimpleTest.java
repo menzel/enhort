@@ -7,8 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -23,9 +22,6 @@ public class IntersectSimpleTest {
     @Before
     public void setupIntv() throws Exception {
         intv = new IntervalNamed();
-        Map<String, ArrayList<Long>> starts = new HashMap<>();
-        Map<String, ArrayList<Long>> ends = new HashMap<>();
-        Map<String, ArrayList<String>> names = new HashMap<>();
 
         ArrayList<Long> startList = new ArrayList<>();
         ArrayList<Long> endList = new ArrayList<>();
@@ -43,13 +39,9 @@ public class IntersectSimpleTest {
         namesList.add("second");
         namesList.add("third");
 
-        starts.put("chr1", startList);
-        ends.put("chr1", endList );
-        names.put("chr1", namesList);
-
-        intv.setIntervalsStart(starts);
-        intv.setIntervalsEnd(ends);
-        intv.setIntervalName(names);
+        intv.setIntervalsStart(startList);
+        intv.setIntervalsEnd(endList);
+        intv.setIntervalName(namesList);
     }
 
 
@@ -58,29 +50,26 @@ public class IntersectSimpleTest {
 
         Sites sites =  new Sites() {
             @Override
-            public Map<String, ArrayList<Long>> getPositions() {
+            public List<Long> getPositions() {
 
-                Map<String, ArrayList<Long>> sites = new HashMap<>();
-                sites.put("chr1", new ArrayList<>());
+                List<Long> sites = new ArrayList<>();
 
-                sites.get("chr1").add(1L);
-                sites.get("chr1").add(4L);
-                sites.get("chr1").add(5L);
-                sites.get("chr1").add(6L);
+                sites.add(1L);
+                sites.add(4L);
+                sites.add(5L);
+                sites.add(6L);
 
-                sites.get("chr1").add(8L);
+                sites.add(8L);
 
-                sites.get("chr1").add(21L);
-                sites.get("chr1").add(22L);
-                sites.get("chr1").add(22L);
-                sites.get("chr1").add(23L);
+                sites.add(21L);
+                sites.add(22L);
+                sites.add(22L);
+                sites.add(23L);
 
-                sites.get("chr1").add(24L);
-                sites.get("chr1").add(24L);
-                sites.get("chr1").add(26L);
-                sites.get("chr1").add(128L);
-
-
+                sites.add(24L);
+                sites.add(24L);
+                sites.add(26L);
+                sites.add(128L);
 
                 return sites;
 
@@ -90,6 +79,6 @@ public class IntersectSimpleTest {
         Result result = intersect.searchSingleIntervall(intv,sites);
         assertEquals(5, result.getIn());
 
-        assertEquals(7, result.getOut().intValue());
+        assertEquals(8, result.getOut().intValue());
     }
 }

@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.stream.Stream;
 
 /**
@@ -18,11 +16,12 @@ public abstract class Interval implements Serializable{
 
     private static final long serialVersionUID = 1690225L;
 
-    protected Map<String, ArrayList<Long>> intervalsStart = new HashMap<>();
-    protected Map<String, ArrayList<Long>> intervalsEnd = new HashMap<>();
+    protected ArrayList<Long> intervalsStart = new ArrayList<>();
+    protected ArrayList<Long> intervalsEnd = new ArrayList<>();
 
-    protected Map<String, ArrayList<String>> intervalName = new HashMap<>();
-    protected Map<String, ArrayList<Long>> intervalScore = new HashMap<>();
+    protected ArrayList<String> intervalName = new ArrayList<>();
+    protected ArrayList<Long> intervalScore = new ArrayList<>();
+
 
     protected Type type;
 
@@ -32,34 +31,6 @@ public abstract class Interval implements Serializable{
 
     public enum Type {inout, score, named}
 
-
-    /**
-     *
-     */
-    protected void initMap(Map<String, ArrayList<Long>> map){
-
-        for(int i = 1; i <= 22; i++){
-            map.put("chr"+i, new ArrayList<>());
-        }
-
-        map.put("chrX", new ArrayList<>());
-        map.put("chrY", new ArrayList<>());
-
-    }
-
-    /**
-     *
-     */
-    protected void initNameMap(Map<String, ArrayList<String>> map){
-
-        for(int i = 1; i <= 22; i++){
-            map.put("chr"+i, new ArrayList<>());
-        }
-
-        map.put("chrX", new ArrayList<>());
-        map.put("chrY", new ArrayList<>());
-
-    }
 
     /**
      *
@@ -83,39 +54,39 @@ public abstract class Interval implements Serializable{
             e.printStackTrace();
         }
 
+
     }
 
-    public Map<String, ArrayList<Long>> getIntervalStarts() {
-        return intervalsStart;
-    }
-
-    public Map<String, ArrayList<Long>> getIntervalsEnd() {
-        return intervalsEnd;
-    }
-
-
-    public Map<String, ArrayList<String>> getIntervalName() {
+    public ArrayList<String> getIntervalName() {
         return intervalName;
     }
 
-    public Map<String, ArrayList<Long>> getIntervalScore() {
-        return intervalScore;
-    }
-
-    public void setIntervalScore(Map<String, ArrayList<Long>> intervalScore) {
-        this.intervalScore = intervalScore;
-    }
-
-    public void setIntervalName(Map<String, ArrayList<String>> intervalName) {
+    public void setIntervalName(ArrayList<String> intervalName) {
         this.intervalName = intervalName;
     }
 
-    public void setIntervalsStart(Map<String, ArrayList<Long>> intervalsStart) {
+    public ArrayList<Long> getIntervalsStart() {
+        return intervalsStart;
+    }
+
+    public void setIntervalsStart(ArrayList<Long> intervalsStart) {
         this.intervalsStart = intervalsStart;
     }
 
-    public void setIntervalsEnd(Map<String, ArrayList<Long>> intervalsEnd) {
+    public ArrayList<Long> getIntervalsEnd() {
+        return intervalsEnd;
+    }
+
+    public void setIntervalsEnd(ArrayList<Long> intervalsEnd) {
         this.intervalsEnd = intervalsEnd;
+    }
+
+    public ArrayList<Long> getIntervalScore() {
+        return intervalScore;
+    }
+
+    public void setIntervalScore(ArrayList<Long> intervalScore) {
+        this.intervalScore = intervalScore;
     }
 
     public void setType(Type type) {

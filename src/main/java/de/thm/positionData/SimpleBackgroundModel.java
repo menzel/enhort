@@ -2,9 +2,7 @@ package de.thm.positionData;
 
 import de.thm.misc.ChromosomSizes;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -16,7 +14,6 @@ public class SimpleBackgroundModel extends BackgroundModel{
 
     public SimpleBackgroundModel(int sites) {
 
-        initMap();
         rand = new Random(System.currentTimeMillis());
         createSites(sites);
 
@@ -26,26 +23,14 @@ public class SimpleBackgroundModel extends BackgroundModel{
 
         long genomeSize = ChromosomSizes.getInstance().getGenomeSize();
 
-        for (Map.Entry<String, ArrayList<Long>> entry: positions.entrySet()) {
+        for(long i = 0 ; i < sites; i++) {
+            long r = Math.round(rand.nextDouble() * ((double) genomeSize));
 
-            double c = ChromosomSizes.getInstance().getChrSize(entry.getKey());
-            double perChr = sites * (c/genomeSize);
-
-            for(long i = 0 ; i < perChr; i++) {
-                long rand = randomPosition(entry.getKey());
-
-                entry.getValue().add(rand);
-                positionCount++;
-            }
-
-            Collections.sort(entry.getValue());
-
+            positions.add(r);
+            positionCount++;
         }
+
+        Collections.sort(positions);
+
     }
-
-    private Long randomPosition(String chr) {
-
-        return (long)(rand.nextDouble() * ChromosomSizes.getInstance().getChrSize(chr));
-    }
-
 }
