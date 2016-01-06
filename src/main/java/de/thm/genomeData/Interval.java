@@ -3,6 +3,7 @@ package de.thm.genomeData;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -38,7 +39,7 @@ public abstract class Interval implements Serializable{
      */
     protected void loadIntervalData(File file){
 
-        try(Stream<String> lines = Files.lines(file.toPath())){
+        try(Stream<String> lines = Files.lines(file.toPath(), StandardCharsets.UTF_8)){
             Iterator<String> it = lines.iterator();
 
             while(it.hasNext()){
