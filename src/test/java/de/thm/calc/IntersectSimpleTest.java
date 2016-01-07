@@ -59,7 +59,45 @@ public class IntersectSimpleTest {
         intv.setIntervalsEnd(endList);
         intv.setIntervalName(namesList);
     }
-     @Test
+
+
+    @Test
+    public void testLastInterval() throws Exception {
+
+        Sites sites =  new Sites() {
+            @Override
+            public List<Long> getPositions() {
+
+                List<Long> sites = new ArrayList<>();
+
+                ChromosomSizes chrSizes = ChromosomSizes.getInstance();
+                long offset = chrSizes.offset("chr4");
+
+                sites.add(1L);
+                sites.add(4L);
+                sites.add(5L);
+                sites.add(6L);
+                sites.add(1L + offset);
+                sites.add(4L + offset);
+                sites.add(5L + offset);
+                sites.add(6L + offset);
+                sites.add(19 + offset);
+                sites.add(20 + offset);
+
+
+                return sites;
+
+            }
+        };
+
+        Result result = intersect.searchSingleIntervall(intv,sites);
+        assertEquals(5, result.getIn());
+
+        assertEquals(5, result.getOut().intValue());
+    }
+
+
+    @Test
     public void testOffsetSearch() throws Exception {
 
         Sites sites =  new Sites() {
@@ -71,17 +109,14 @@ public class IntersectSimpleTest {
                 ChromosomSizes chrSizes = ChromosomSizes.getInstance();
                 long offset = chrSizes.offset("chr4");
 
-                //in
                 sites.add(1L);
                 sites.add(4L);
-                sites.add(1L + offset);
-                sites.add(6L + offset);
-
-                //out
                 sites.add(5L);
                 sites.add(6L);
+                sites.add(1L + offset);
                 sites.add(4L + offset);
                 sites.add(5L + offset);
+                sites.add(6L + offset);
 
 
                 return sites;
