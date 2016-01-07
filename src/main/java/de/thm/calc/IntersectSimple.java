@@ -38,7 +38,7 @@ public class IntersectSimple implements Intersect{
                 out++;
 
             } else if(i == intervalCount){ //last Interval
-                if(p <= intervalEnd.get(i)){
+                if(p <= intervalEnd.get(i) && p >= intervalStart.get(i)){
 
                     in++;
                     result.add(intervalName.get(i));
@@ -46,10 +46,7 @@ public class IntersectSimple implements Intersect{
                             result.add(intervalScore.get(i-1));
 
                 } else{
-                    // the remaining positions cannot be in an interval.
-                    int size =  pos.getPositions().size();
-                    out += 1 + size - pCount;  // adding count of positions left to out
-                    break;
+                    out++;
 
                 }
             }else{

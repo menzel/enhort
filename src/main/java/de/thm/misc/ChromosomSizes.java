@@ -10,7 +10,8 @@ public class ChromosomSizes {
     private long genomeSize = 0;
     private Map<String, Integer> sizes;
     private static ChromosomSizes instance;
-    private Collection<String> names;
+    private List<String> names = new ArrayList<>();
+    private Map<String, Long> offsets = new HashMap<>();
 
     public static ChromosomSizes getInstance(){
         if (instance == null){
@@ -50,7 +51,8 @@ public class ChromosomSizes {
         sizes.put("chr22", 51304566);
         sizes.put("chr21", 48129895);
 
-        names = sizes.keySet();
+        names.addAll(sizes.keySet());
+        java.util.Collections.sort(names);
 
 
        for(String key: sizes.keySet()){
@@ -76,7 +78,6 @@ public class ChromosomSizes {
      */
     public Long offset(String chromosomeName) {
 
-        Map<String, Long> offsets = new HashMap<>();
 
         if(!offsets.containsKey(chromosomeName)){
             offsets.put(chromosomeName, calcOffset(chromosomeName));
