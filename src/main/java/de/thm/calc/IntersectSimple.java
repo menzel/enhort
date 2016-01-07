@@ -18,7 +18,6 @@ public class IntersectSimple implements Intersect{
 
 
         int i = 0;
-        int pCount = 0;
 
         ArrayList<Long> intervalStart = intv.getIntervalsStart();
         ArrayList<Long> intervalEnd = intv.getIntervalsEnd();
@@ -28,7 +27,6 @@ public class IntersectSimple implements Intersect{
         int intervalCount = intervalStart.size()-1;
 
         for(Long p: pos.getPositions()) {
-            pCount++;
 
             while(i < intervalCount && intervalStart.get(i) <= p){
                 i++;
