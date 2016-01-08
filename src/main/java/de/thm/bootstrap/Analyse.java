@@ -56,44 +56,6 @@ public class Analyse {
     }
 
 
-
-    /*
-    public void foo(Sites userSites){
-
-        Sites bg = new SimpleBackgroundModel(userSites.getPositionCount());
-
-        Result userResult = simple.searchSingleIntervall(invGenes,userSites);
-        Result bgResult = simple.searchSingleIntervall(invGenes,bg);
-
-        System.out.println("" + "\t\t" + "in" + "\t" + "out");
-        System.out.println("user:\t" + userResult.getA() + "\t" + userResult.getB());
-        System.out.println("bg:\t\t" + bgResult.getA() + "\t" + bgResult.getB());
-
-        System.out.println("P-value: " +  QuiSquareTest.chiSquareTest(userResult, bgResult));
-
-
-        // conservation :
-
-        userResult = simple.searchSingleIntervall(invConservation,userSites);
-        bgResult = simple.searchSingleIntervall(invConservation,bg);
-
-        try(BufferedWriter writer = Files.newBufferedWriter(new File("/home/menzel/Desktop/THM/lfba/projekphase/R-eval/user").toPath())){
-            writer.write(userResult.getResultScores());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try(BufferedWriter writer = Files.newBufferedWriter(new File("/home/menzel/Desktop/THM/lfba/projekphase/R-eval/bg").toPath())){
-            writer.write(bgResult.getResultScores());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-*/
-
     public void benchmark(){
         String basePath = "/home/menzel/Desktop/THM/lfba/projekphase/dat/";
 
