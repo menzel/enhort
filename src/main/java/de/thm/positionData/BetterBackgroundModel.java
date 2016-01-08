@@ -42,7 +42,8 @@ public class BetterBackgroundModel extends BackgroundModel{
 
         //get some random numbers
         for(int i = 0; i < siteCount; i++){
-            randomValues.add(Math.round(rand.nextDouble() * maxValue));
+            Long r = Math.round(Math.floor(rand.nextDouble() * (maxValue+1)));
+            randomValues.add(r);
         }
 
         Collections.sort(randomValues); // very important!
