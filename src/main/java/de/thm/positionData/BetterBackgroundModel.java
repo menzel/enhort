@@ -10,12 +10,13 @@ import java.util.*;
 public class BetterBackgroundModel extends BackgroundModel{
 
     private Random rand;
+    private final int factor = 10;
 
     public BetterBackgroundModel(int sitesIn, int sitesOut, Interval interval) {
 
 
-        positions.addAll(randPositions(sitesIn, interval, "in"));
-        positions.addAll(randPositions(sitesOut, interval, "out"));
+        positions.addAll(randPositions(sitesIn * factor, interval, "in"));
+        positions.addAll(randPositions(sitesOut * factor, interval, "out"));
 
     }
 
