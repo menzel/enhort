@@ -13,11 +13,16 @@ import java.util.stream.Stream;
  * Created by Michael Menzel on 8/12/15.
  */
 public class UserData extends Sites{
-        /**
+
+    public UserData(File file) {
+        loadPositionsFromFile(file);
+    }
+
+    /**
      *
      * @param file
      */
-    public void loadPositionsFromFile(File file){
+    private void loadPositionsFromFile(File file){
 
         int posCount = 0;
         ChromosomSizes chrSizes = ChromosomSizes.getInstance();
