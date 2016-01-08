@@ -6,6 +6,7 @@ import de.thm.calc.Result;
 import de.thm.genomeData.Interval;
 import de.thm.genomeData.IntervalLoader;
 import de.thm.genomeData.IntervalNamed;
+import de.thm.positionData.BetterBackgroundModel;
 import de.thm.positionData.SimpleBackgroundModel;
 import de.thm.positionData.Sites;
 import de.thm.stat.IndependenceTest;
@@ -31,10 +32,15 @@ public class Analyse {
 
     public void analyse(Sites userSites){
 
-        Sites bg = new SimpleBackgroundModel(userSites.getPositionCount());
+        //Sites bg = new SimpleBackgroundModel(userSites.getPositionCount());
 
         Result resultUserSites;
         Result resultBg;
+
+        Interval genes = intervals.get("knownGenes.bed");
+        resultUserSites = simple.searchSingleIntervall(genes, userSites);
+        Sites bg = new BetterBackgroundModel(resultUserSites.getIn(),resultUserSites.getOut() , genes);
+
 
         // H_0: bg and user sites are independent. Large pValue: bg and user are independent. Small pValue: bg and user are dependent.
 
