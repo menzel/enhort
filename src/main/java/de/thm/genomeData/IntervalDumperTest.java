@@ -21,7 +21,7 @@ public class IntervalDumperTest {
         basePath = "/home/menzel/Desktop/THM/lfba/projekphase/dat/";
 
         long startTime = System.nanoTime();
-        interval = new IntervalNamed(new File(basePath + "score/conservation.bed"), Interval.Type.inout);
+        interval = new IntervalNamed(new File(basePath + "inout/exons.bed"), Interval.Type.inout);
 
         long endTime = System.nanoTime();
         long duration = (endTime - startTime);
