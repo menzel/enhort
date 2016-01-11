@@ -10,17 +10,24 @@ import java.util.Iterator;
 import java.util.stream.Stream;
 
 /**
+ * Handles position data supplied in a file by a user
+ *
  * Created by Michael Menzel on 8/12/15.
  */
 public class UserData extends Sites{
 
+    /**
+     * Constructor
+     * @param file - file to load positions from
+     */
     public UserData(File file) {
         loadPositionsFromFile(file);
     }
 
     /**
+     * Loads positions from a bed file
      *
-     * @param file
+     * @param file - file to load
      */
     private void loadPositionsFromFile(File file){
 
@@ -51,7 +58,6 @@ public class UserData extends Sites{
     }
 
     private Long getPosition(String line) {
-
         return Long.parseLong(line.split("\t")[1]);
     }
 
