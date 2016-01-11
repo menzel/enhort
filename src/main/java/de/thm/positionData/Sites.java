@@ -11,6 +11,9 @@ import java.util.List;
 public abstract class Sites {
 
     protected List<Long> positions = new ArrayList<>();
+    protected int positionCount;
+
+
 
     /*
     Getter and Setter
@@ -20,4 +23,11 @@ public abstract class Sites {
         return positions;
     }
 
+    public int getPositionCount() {
+        return positionCount;
+    }
+
+    public void setPositionCount(int positionCount) {
+        this.positionCount = positionCount;
+    }
 }
