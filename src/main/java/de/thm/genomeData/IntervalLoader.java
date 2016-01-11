@@ -9,15 +9,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Handles the loading of all intervals
+ *
  * Created by Michael Menzel on 18/12/15.
  */
 public class IntervalLoader {
 
-    private Path basePath = new File("/home/menzel/Desktop/THM/lfba/projekphase/dat/").toPath();
+    private final Path basePath = new File("/home/menzel/Desktop/THM/lfba/projekphase/dat/").toPath();
     private Map<String, Interval> intervals;
     private IntervalDumper intervalDumper;
 
     /**
+     * Constructor. Parses the base dir and gets all intervals from files.
+     * Expects three dirs with the names 'inout', 'named' and 'score' for types.
      *
      */
     public IntervalLoader() {
@@ -36,10 +40,11 @@ public class IntervalLoader {
     }
 
     /**
+     * Gets all intervals from a single type
      *
-     * @param path
-     * @param type
-     * @throws IOException
+     * @param path - path to the dir with files
+     * @param type - Interval.Type. Type based upon dir name
+     * @throws IOException on file problems
      */
     private void getIntervals(Path path, Interval.Type type) throws IOException {
 
@@ -53,10 +58,13 @@ public class IntervalLoader {
     }
 
     /**
+     * Loads a single Interval from a file.
+     * Checks if a binary files exists and calls intervalDumper to load this if possible
      *
-     * @param file
-     * @param type
-     * @return
+     * @param file - file to load
+     * @param type - Interval.Typ. type of the file (inout, named, score)
+     *
+     * @return interval, either from binary or bed file
      */
     private Interval loadInterval(File file, Interval.Type type) {
 

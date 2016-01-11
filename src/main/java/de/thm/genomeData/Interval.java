@@ -35,10 +35,15 @@ public class Interval implements Serializable{
 
     public enum Type {inout, score, named}
 
-    public Interval(){}
      /**
-     *
-     * @param file
+     * Constructor for Test Intervals
+     */
+    public Interval(){}
+
+     /**
+     * Constructor for Intervals
+     * @param file - file to parse for data
+     * @param type - Type of data (inout, score, named)
      */
     public Interval(File file, Type type) {
 
@@ -54,8 +59,9 @@ public class Interval implements Serializable{
 
 
     /**
+     * Loads interval data from a bed file. Calls handleParts to handle each line
      *
-     * @param file
+     * @param file - file to parse
      */
     private void loadIntervalData(File file){
 
@@ -79,8 +85,9 @@ public class Interval implements Serializable{
     }
 
     /**
+     * Handling for each line in the bed file
      *
-     * @param parts
+     * @param parts - parts of the line splitted at seperator
      */
     protected void handleParts(String[] parts) {
 
@@ -100,6 +107,7 @@ public class Interval implements Serializable{
                 intervalScore.add(0L);
        }
     }
+
 
     public ArrayList<String> getIntervalName() {
         return intervalName;

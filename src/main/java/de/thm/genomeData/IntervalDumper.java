@@ -11,6 +11,8 @@ import java.io.FileOutputStream;
 import java.nio.file.Path;
 
 /**
+ * Dumps intervals to binary files for faster loading
+ *
  * Created by Michael Menzel on 15/12/15.
  */
 public class IntervalDumper {
@@ -23,12 +25,22 @@ public class IntervalDumper {
         kryo = new Kryo();
     }
 
+    /**
+     * returns the extension of binary files
+     * @return - extension name without dot
+     */
     public static String getExtension() {
         return extension;
     }
 
-    public void dumpInterval(Interval interval, String name){
-        try (Output output = new Output(new FileOutputStream(baseDir.resolve(name).toString() + "." + extension))) {
+    /**
+     *
+     * @param interval - dumps an interval to a directory
+     * @param filename - name of original file without extension
+     */
+    public void dumpInterval(Interval interval, String filename){
+
+        try (Output output = new Output(new FileOutputStream(baseDir.resolve(filename).toString() + "." + extension))) {
 
             kryo.writeObject(output, interval);
             output.flush();
@@ -41,6 +53,12 @@ public class IntervalDumper {
     }
 
 
+    /**
+     * Creates an interval from a given binary file
+     *
+     * @param file - binary file to parse
+     * @return Interval based on given binary
+     */
     public Interval getInterval(File file){
         Interval interval;
         String name = file.getName();
@@ -60,6 +78,12 @@ public class IntervalDumper {
         }
     }
 
+    /**
+     * Checks if a binary file exists to a given bed file
+     *
+     * @param name - bed file (with extension) *
+     * @return true if exists. False otherwise
+     */
     public boolean exists(String name) {
         name = name.substring(0,name.indexOf(".")) + ".kryo";
         Path path = baseDir.resolve("kryo");
