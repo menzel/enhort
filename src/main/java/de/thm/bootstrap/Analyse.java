@@ -5,7 +5,6 @@ import de.thm.calc.IntersectSimple;
 import de.thm.calc.Result;
 import de.thm.genomeData.Interval;
 import de.thm.genomeData.IntervalLoader;
-import de.thm.genomeData.IntervalNamed;
 import de.thm.positionData.BetterBackgroundModel;
 import de.thm.positionData.SimpleBackgroundModel;
 import de.thm.positionData.Sites;
@@ -43,6 +42,8 @@ public class Analyse {
 
 
         // H_0: bg and user sites are independent. Large pValue: bg and user are independent. Small pValue: bg and user are dependent.
+        // Large pValue (> 0.05): the insertion points look random
+        // Small pValue (< 0.05): the insertion points are not random  (more interesting)
 
         for(String intervalName: intervals.keySet()){
             resultUserSites = simple.searchSingleIntervall(intervals.get(intervalName), userSites);
@@ -59,7 +60,7 @@ public class Analyse {
     public void benchmark(){
         String basePath = "/home/menzel/Desktop/THM/lfba/projekphase/dat/";
 
-        Interval invExons = new IntervalNamed(new File(basePath + "inout/exons.bed"), Interval.Type.inout);
+        Interval invExons = new Interval(new File(basePath + "inout/exons.bed"), Interval.Type.inout);
 
         for(int i = 0 ; i < 20 ; i++){
             int j = i * 5000;
