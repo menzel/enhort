@@ -52,7 +52,7 @@ public class Interval implements Serializable{
         loadIntervalData(file);
 
         if(type == Type.inout)
-            PositionPreprocessor.preprocessData(intervalsStart,intervalsEnd,intervalName, intervalScore);
+            PositionPreprocessor.preprocessData(this);
 
     }
 
