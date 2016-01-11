@@ -14,6 +14,8 @@ import java.io.File;
 import java.util.Map;
 
 /**
+ * Bootstraps basic analysis with all intervals one of the two background models and user input.
+ *
  * Created by Michael Menzel on 11/12/15.
  */
 public class Analyse {
@@ -29,6 +31,11 @@ public class Analyse {
         simple = new IntersectSimple();
     }
 
+    /**
+     * Analysis of the user sites with all intervals and one background model
+     *
+     * @param userSites - sites for measurement
+     */
     public void analyse(Sites userSites){
 
         //Sites bg = new SimpleBackgroundModel(userSites.getPositionCount());
@@ -57,6 +64,9 @@ public class Analyse {
     }
 
 
+    /**
+     * Benchmarks the search with different position counts
+     */
     public void benchmark(){
         String basePath = "/home/menzel/Desktop/THM/lfba/projekphase/dat/";
 
