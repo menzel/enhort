@@ -1,22 +1,33 @@
 package de.thm.calc;
 
+import de.thm.genomeData.Interval;
+
 import java.util.ArrayList;
 
 /**
+ * Data preprocessor for merging overlaping intervals
+ *
  * Created by Michael Menzel on 8/12/15.
  */
 public class PositionPreprocessor {
 
-        public static void preprocessData(ArrayList<Long> intervalsStart, ArrayList<Long> intervalsEnd, ArrayList<String> intervalName, ArrayList<Long> intervalScore) {
 
-
+    /**
+    * Preprocesses data. Join intervals which cover the same positions.
+    * TODO: set new scores and check of named interval overlap.(join names?)
+    *
+    * @param interval to process
+    */
+    public static void preprocessData(Interval interval) {
         ArrayList<Long> newStart = new ArrayList<>();
         ArrayList<Long> newEnd = new ArrayList<>();
         ArrayList<String> newName = new ArrayList<>();
 
-        if(intervalsStart.isEmpty()) return;
+        ArrayList<Long> intervalsStart = interval.getIntervalsStart();
+        ArrayList<Long> intervalsEnd = interval.getIntervalsEnd();
+        ArrayList<String> intervalName = interval.getIntervalName();
 
-        long start = intervalsStart.get(0);
+        if(intervalsStart.isEmpty()) return; long start = intervalsStart.get(0);
         long end = intervalsEnd.get(0);
 
         String name = intervalName.get(0);
@@ -45,13 +56,13 @@ public class PositionPreprocessor {
         }
 
         intervalsStart.clear();
-        intervalsStart.addAll(newStart);
+        interval.setIntervalsStart(newStart);
 
         intervalsEnd.clear();
-        intervalsEnd.addAll(newEnd);
+        interval.setIntervalsEnd(newEnd);
 
         intervalName.clear();
-        intervalName.addAll(newName);
+        interval.setIntervalName(newName);
     }
 
 }
