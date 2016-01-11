@@ -31,7 +31,6 @@ public class UserData extends Sites{
      */
     private void loadPositionsFromFile(File file){
 
-        int posCount = 0;
         ChromosomSizes chrSizes = ChromosomSizes.getInstance();
 
         try(Stream<String> lines = Files.lines(file.toPath())){
@@ -42,11 +41,8 @@ public class UserData extends Sites{
                 String line = (String) it.next();
 
                 positions.add(getPosition(line) + chrSizes.offset(getChr(line)));
-                posCount++;
-
             }
 
-            setPositionCount(posCount);
             lines.close();
 
         } catch (IOException e ){
