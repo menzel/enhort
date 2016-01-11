@@ -44,7 +44,7 @@ public class Analyse {
         Result resultBg;
 
         Interval genes = intervals.get("knownGenes.bed");
-        resultUserSites = simple.searchSingleIntervall(genes, userSites);
+        resultUserSites = simple.searchSingleInterval(genes, userSites);
         Sites bg = new BetterBackgroundModel(resultUserSites.getIn(),resultUserSites.getOut() , genes);
 
 
@@ -53,8 +53,8 @@ public class Analyse {
         // Small pValue (< 0.05): the insertion points are not random  (more interesting)
 
         for(String intervalName: intervals.keySet()){
-            resultUserSites = simple.searchSingleIntervall(intervals.get(intervalName), userSites);
-            resultBg = simple.searchSingleIntervall(intervals.get(intervalName), bg);
+            resultUserSites = simple.searchSingleInterval(intervals.get(intervalName), userSites);
+            resultBg = simple.searchSingleInterval(intervals.get(intervalName), bg);
 
             IndependenceTest tester = new IndependenceTest();
             double pValue = tester.test(resultUserSites, resultBg);
@@ -78,7 +78,7 @@ public class Analyse {
             Sites bg = new SimpleBackgroundModel(j);
             long startTime = System.nanoTime();
 
-            simple.searchSingleIntervall(invExons,bg);
+            simple.searchSingleInterval(invExons,bg);
 
             long duration = System.nanoTime() - startTime;
             System.out.print(j + "\t"  + duration/1000000 + "\n");
