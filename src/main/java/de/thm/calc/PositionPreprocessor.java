@@ -14,7 +14,6 @@ public class PositionPreprocessor {
 
     /**
     * Preprocesses data. Join intervals which cover the same positions.
-    * TODO: set new scores and check of named interval overlap.(join names?)
     *
     * @param interval to process
     */
@@ -22,15 +21,19 @@ public class PositionPreprocessor {
         ArrayList<Long> newStart = new ArrayList<>();
         ArrayList<Long> newEnd = new ArrayList<>();
         ArrayList<String> newName = new ArrayList<>();
+        ArrayList<Long> newScore = new ArrayList<>();
 
         ArrayList<Long> intervalsStart = interval.getIntervalsStart();
         ArrayList<Long> intervalsEnd = interval.getIntervalsEnd();
         ArrayList<String> intervalName = interval.getIntervalName();
+        ArrayList<Long> intervalsScore = interval.getIntervalScore();
 
         if(intervalsStart.isEmpty()) return; long start = intervalsStart.get(0);
         long end = intervalsEnd.get(0);
 
         String name = intervalName.get(0);
+        long score = 0;
+        int count = 0;
 
 
         for (int i = 0; i < intervalsStart.size(); i++) {
@@ -40,17 +43,23 @@ public class PositionPreprocessor {
                 if(end < intervalsEnd.get(i+1)){
                     end = intervalsEnd.get(i+1);
                 }
+                score += intervalsScore.get(i);
+                count++;
 
             }else{  //do not overlap
                 newStart.add(start);
                 newEnd.add(end);
                 newName.add(name);
+                newScore.add(score/count);
 
                 if(i >= intervalsStart.size()-1) break; // do not get next points if this was the last
 
                 start = intervalsStart.get(i+1);
                 end = intervalsEnd.get(i+1);
                 name = intervalName.get(i+1);
+
+                score = 0;
+                count = 0;
 
             }
         }
