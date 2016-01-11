@@ -6,20 +6,11 @@ import de.thm.positionData.Sites;
 import java.util.ArrayList;
 
 /**
- * Calculates the intersect between an interval and some points. Handles in/out count, names and scores
- *
- * Created by Michael Menzel on 8/12/15.
+ * Simple version of intersect, going list by list.
  */
 public class IntersectSimple implements Intersect{
 
-    /**
-     * Calculates the intersect between an interval and some points. Handles in/out count, names and scores.
-     *
-     * @param intv - interval to find positions
-     * @param pos - positions to find
-     *
-     * @return Result which contains the in/out count, names or scores
-     */
+
     public Result searchSingleInterval(Interval intv, Sites pos){
 
         int out = 0;
