@@ -3,6 +3,7 @@ package de.thm.misc;
 import java.util.*;
 
 /**
+ * Supplies chromosome sizes for HG19
  * Created by Michael Menzel on 8/12/15.
  */
 public class ChromosomSizes {
@@ -22,6 +23,10 @@ public class ChromosomSizes {
     }
 
 
+    /**
+     * Private Constructor
+     *
+     */
     private ChromosomSizes() {
 
         sizes = new HashMap<>();
@@ -87,6 +92,13 @@ public class ChromosomSizes {
 
     }
 
+    /**
+     * Calculates the offset for a given chromosome
+     *
+     * @param chromosomeName - name of the chromosome
+     *
+     * @return  offset as Long
+     */
     private Long calcOffset(String chromosomeName) {
 
         long offset = 0;
