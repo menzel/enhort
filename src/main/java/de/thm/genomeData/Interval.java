@@ -1,5 +1,8 @@
 package de.thm.genomeData;
 
+import de.thm.calc.PositionPreprocessor;
+import de.thm.misc.ChromosomSizes;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -12,7 +15,7 @@ import java.util.stream.Stream;
 /**
  * Created by Michael Menzel on 8/12/15.
  */
-public abstract class Interval implements Serializable{
+public class Interval implements Serializable{
 
 
     private static final long serialVersionUID = 1690225L;
@@ -32,12 +35,29 @@ public abstract class Interval implements Serializable{
 
     public enum Type {inout, score, named}
 
+    public Interval(){}
+     /**
+     *
+     * @param file
+     */
+    public Interval(File file, Type type) {
+
+        this.type = type;
+
+        loadIntervalData(file);
+
+        if(type == Type.inout)
+            PositionPreprocessor.preprocessData(intervalsStart,intervalsEnd,intervalName, intervalScore);
+
+    }
+
+
 
     /**
      *
      * @param file
      */
-    protected void loadIntervalData(File file){
+    private void loadIntervalData(File file){
 
         try(Stream<String> lines = Files.lines(file.toPath(), StandardCharsets.UTF_8)){
             Iterator<String> it = lines.iterator();
@@ -56,6 +76,29 @@ public abstract class Interval implements Serializable{
         }
 
 
+    }
+
+    /**
+     *
+     * @param parts
+     */
+    protected void handleParts(String[] parts) {
+
+       ChromosomSizes chrSizes = ChromosomSizes.getInstance();
+
+       if(parts[0].matches("chr(\\d{1,2}|X|Y)")) { //TODO get other chromosoms
+           long offset = chrSizes.offset(parts[0]); //handle null pointer exc if chromosome name is not in list
+
+           intervalsStart.add(Long.parseLong(parts[1]) + offset);
+           intervalsEnd.add(Long.parseLong(parts[2])+ offset);
+
+           intervalName.add(parts[3]);
+
+           if(parts.length > 4)
+                intervalScore.add(Long.parseLong(parts[4]));
+           else
+                intervalScore.add(0L);
+       }
     }
 
     public ArrayList<String> getIntervalName() {
@@ -93,8 +136,5 @@ public abstract class Interval implements Serializable{
     public void setType(Type type) {
         this.type = type;
     }
-
-    protected abstract void handleParts(String[] parts);
-
 
 }

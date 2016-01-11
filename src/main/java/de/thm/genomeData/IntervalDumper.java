@@ -16,14 +16,19 @@ import java.nio.file.Path;
 public class IntervalDumper {
     private Path baseDir;
     private Kryo kryo;
+    private static final String extension = "kryo";
 
     public IntervalDumper(Path baseDir) {
         this.baseDir = baseDir;
         kryo = new Kryo();
     }
 
-    public void dumpInterval(IntervalNamed interval, String name){
-        try (Output output = new Output(new FileOutputStream(baseDir.resolve(name).toString()))) {
+    public static String getExtension() {
+        return extension;
+    }
+
+    public void dumpInterval(Interval interval, String name){
+        try (Output output = new Output(new FileOutputStream(baseDir.resolve(name).toString() + "." + extension))) {
 
             kryo.writeObject(output, interval);
             output.flush();
@@ -36,12 +41,14 @@ public class IntervalDumper {
     }
 
 
-    public IntervalNamed getInterval(File file){
-        IntervalNamed interval;
+    public Interval getInterval(File file){
+        Interval interval;
+        String name = file.getName();
+        name = name.substring(0,name.indexOf(".")) + ".kryo";
 
         try {
-            Input input = new Input(new FileInputStream(file.toString()));
-            interval = kryo.readObject(input, IntervalNamed.class);
+            Input input = new Input(new FileInputStream(baseDir + "/kryo/" + name));
+            interval = kryo.readObject(input, Interval.class);
 
             input.close();
             return interval;
@@ -51,5 +58,14 @@ public class IntervalDumper {
 
             return null;
         }
+    }
+
+    public boolean exists(String name) {
+        name = name.substring(0,name.indexOf(".")) + ".kryo";
+        Path path = baseDir.resolve("kryo");
+        File file = path.resolve(name).toFile();
+
+        return  file.exists();
+
     }
 }
