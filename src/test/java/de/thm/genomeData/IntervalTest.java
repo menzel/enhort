@@ -12,7 +12,7 @@ public class IntervalTest {
 
     @Test
     public void testHandleParts() throws Exception {
-        Interval intv = new IntervalNamed();
+        Interval intv = new Interval();
         ChromosomSizes chrSizes = ChromosomSizes.getInstance();
 
         intv.handleParts(mockParts("chr1", "10", "20", "name"));
