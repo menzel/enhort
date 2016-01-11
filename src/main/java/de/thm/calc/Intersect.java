@@ -8,6 +8,6 @@ import de.thm.positionData.Sites;
  */
 public interface Intersect {
 
-    Result searchSingleIntervall(Interval intv, Sites pos);
+    Result searchSingleInterval(Interval intv, Sites pos);
 
 }

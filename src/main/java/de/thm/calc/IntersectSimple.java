@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class IntersectSimple implements Intersect{
 
-    public Result searchSingleIntervall(Interval intv, Sites pos){
+    public Result searchSingleInterval(Interval intv, Sites pos){
         int out = 0;
         int in = 0;
         Result result = new Result();
