@@ -26,9 +26,10 @@ public class IndependenceTest {
      *
      * @param resultA first result to test
      * @param resultB second result to test
+     * @param trackName
      * @return p value of independence test
      */
-    public double test(Result resultA, Result resultB) {
+    public TestResult test(Result resultA, Result resultB, String trackName) {
 
 
         switch (resultA.getType()){
@@ -39,11 +40,7 @@ public class IndependenceTest {
                 Map<String, Integer> measured = resultA.getResultNames();
                 Map<String, Integer> expected = resultB.getResultNames();
 
-                System.out.println("======");
-                System.out.println("measured " + resultA.toString());
-                System.out.println("expected " + resultB.toString());
-
-                return tester.chiSquareTest(prepareLists(measured,expected));
+                return new TestResult(tester.chiSquareTest(prepareLists(measured,expected)),resultA, resultB, trackName);
 
             case inout:
 
@@ -51,17 +48,10 @@ public class IndependenceTest {
                 counts[0] = new long[] {resultA.getIn(), resultA.getOut()};
                 counts[1] = new long[] {resultB.getIn(), resultB.getOut()};
 
-
-                System.out.println("======");
-                System.out.print("measured " + resultA.toString());
-                System.out.print("expected " + resultB.toString());
-
-                return tester.chiSquareTest(counts);
-
-
+                return new TestResult(tester.chiSquareTest(counts),resultA, resultB, trackName);
 
             default:
-                return -1;
+                return null;
         }
     }
 
