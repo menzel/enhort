@@ -50,7 +50,7 @@ public class TestResult {
         return "measured in: " + measuredIn + "\n" +
                 "out: "+ measuredOut + "\n" +
                 "expected in: " + expectedIn + "\n" +
-                "out" + expectedOut + "\n" +
+                "out: " + expectedOut + "\n" +
                 trackName + " p-value: " + pValue + "\n" +
                 "=====";
     }
