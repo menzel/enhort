@@ -50,7 +50,7 @@ public class PositionPreprocessor {
                 newStart.add(start);
                 newEnd.add(end);
                 newName.add(name);
-                newScore.add(score/count);
+                newScore.add((count != 0)?score/count : 0);
 
                 if(i >= intervalsStart.size()-1) break; // do not get next points if this was the last
 

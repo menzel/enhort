@@ -10,6 +10,8 @@ import de.thm.positionData.Sites;
  */
 public interface Intersect {
 
+
+
     /**
      * Calculates the intersect between an interval and some points. Handles in/out count, names and scores.
      *

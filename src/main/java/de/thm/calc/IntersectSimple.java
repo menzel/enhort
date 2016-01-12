@@ -10,6 +10,12 @@ import java.util.ArrayList;
  */
 public class IntersectSimple implements Intersect{
 
+    private Result result;
+
+
+    public IntersectSimple() {
+    }
+
 
     public Result searchSingleInterval(Interval intv, Sites pos){
 
@@ -63,6 +69,10 @@ public class IntersectSimple implements Intersect{
         result.add("out", out);
         result.setIn(in);
 
+        return result;
+    }
+
+    public Result getResult() {
         return result;
     }
 }

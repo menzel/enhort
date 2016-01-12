@@ -1,6 +1,7 @@
 package de.thm.bootstrap;
 
 import de.thm.calc.Intersect;
+import de.thm.calc.IntersectMultithread;
 import de.thm.calc.IntersectSimple;
 import de.thm.calc.Result;
 import de.thm.genomeData.Interval;
@@ -8,7 +9,6 @@ import de.thm.genomeData.IntervalLoader;
 import de.thm.positionData.BetterBackgroundModel;
 import de.thm.positionData.SimpleBackgroundModel;
 import de.thm.positionData.Sites;
-import de.thm.stat.IndependenceTest;
 
 import java.io.File;
 import java.util.Map;
@@ -52,14 +52,7 @@ public class Analyse {
         // Large pValue (> 0.05): the insertion points look random
         // Small pValue (< 0.05): the insertion points are not random  (more interesting)
 
-        for(String intervalName: intervals.keySet()){
-            resultUserSites = simple.searchSingleInterval(intervals.get(intervalName), userSites);
-            resultBg = simple.searchSingleInterval(intervals.get(intervalName), bg);
-
-            IndependenceTest tester = new IndependenceTest();
-            double pValue = tester.test(resultUserSites, resultBg);
-            System.out.println(intervalName + " p-value: " + pValue);
-        }
+        IntersectMultithread multi = new IntersectMultithread(intervals, userSites, bg);
 
     }
 
@@ -78,7 +71,7 @@ public class Analyse {
             Sites bg = new SimpleBackgroundModel(j);
             long startTime = System.nanoTime();
 
-            simple.searchSingleInterval(invExons,bg);
+            simple.searchSingleInterval(invExons, bg);
 
             long duration = System.nanoTime() - startTime;
             System.out.print(j + "\t"  + duration/1000000 + "\n");
