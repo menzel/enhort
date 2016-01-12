@@ -73,7 +73,7 @@ public class IntervalLoader {
 
         } else{
             Interval interval = new Interval(file, type);
-            intervalDumper.dumpInterval(interval, type.toString()+ "/" + file.getName());
+            intervalDumper.dumpInterval(interval, file.getName());
             return  interval;
         }
     }

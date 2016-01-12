@@ -40,7 +40,9 @@ public class IntervalDumper {
      */
     public void dumpInterval(Interval interval, String filename){
 
-        try (Output output = new Output(new FileOutputStream(baseDir.resolve(filename).toString() + "." + extension))) {
+        filename = filename.substring(0,filename.indexOf(".")) + ".kryo";
+
+        try (Output output = new Output(new FileOutputStream(baseDir.resolve("kryo/" + filename).toString()))) {
 
             kryo.writeObject(output, interval);
             output.flush();
