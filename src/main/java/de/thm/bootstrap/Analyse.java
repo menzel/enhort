@@ -2,8 +2,8 @@ package de.thm.bootstrap;
 
 import de.thm.calc.Intersect;
 import de.thm.calc.IntersectMultithread;
-import de.thm.calc.IntersectSimple;
-import de.thm.calc.Result;
+import de.thm.calc.IntersectCalculate;
+import de.thm.calc.IntersectResult;
 import de.thm.genomeData.Interval;
 import de.thm.genomeData.IntervalLoader;
 import de.thm.positionData.BetterBackgroundModel;
@@ -28,7 +28,7 @@ public class Analyse {
         intervals =  loader.getAllIntervals();
 
 
-        simple = new IntersectSimple();
+        simple = new IntersectCalculate();
     }
 
     /**
@@ -40,8 +40,8 @@ public class Analyse {
 
         //Sites bg = new SimpleBackgroundModel(userSites.getPositionCount());
 
-        Result resultUserSites;
-        Result resultBg;
+        IntersectResult resultUserSites;
+        IntersectResult resultBg;
 
         Interval genes = intervals.get("knownGenes.bed");
         resultUserSites = simple.searchSingleInterval(genes, userSites);

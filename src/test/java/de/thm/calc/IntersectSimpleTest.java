@@ -1,7 +1,6 @@
 package de.thm.calc;
 
 import de.thm.genomeData.Interval;
-import de.thm.genomeData.IntervalNamed;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
 import org.junit.Before;
@@ -18,11 +17,11 @@ import static junit.framework.TestCase.assertEquals;
 public class IntersectSimpleTest {
 
     Interval intv;
-    Intersect intersect = new IntersectSimple();
+    Intersect intersect = new IntersectCalculate();
 
     @Before
     public void setupIntv() throws Exception {
-        intv = new IntervalNamed();
+        intv = new Interval();
         ChromosomSizes chrSizes = ChromosomSizes.getInstance();
         long offset = chrSizes.offset("chr4");
 
@@ -90,10 +89,10 @@ public class IntersectSimpleTest {
             }
         };
 
-        Result result = intersect.searchSingleIntervall(intv,sites);
-        assertEquals(5, result.getIn());
+        IntersectResult intersectResult = intersect.searchSingleInterval(intv,sites);
+        assertEquals(5, intersectResult.getIn());
 
-        assertEquals(5, result.getOut().intValue());
+        assertEquals(5, intersectResult.getOut().intValue());
     }
 
 
@@ -124,10 +123,10 @@ public class IntersectSimpleTest {
             }
         };
 
-        Result result = intersect.searchSingleIntervall(intv,sites);
-        assertEquals(4, result.getIn());
+        IntersectResult intersectResult = intersect.searchSingleInterval(intv,sites);
+        assertEquals(4, intersectResult.getIn());
 
-        assertEquals(4, result.getOut().intValue());
+        assertEquals(4, intersectResult.getOut().intValue());
     }
 
 
@@ -163,9 +162,9 @@ public class IntersectSimpleTest {
             }
         };
 
-        Result result = intersect.searchSingleIntervall(intv,sites);
-        assertEquals(5, result.getIn());
+        IntersectResult intersectResult = intersect.searchSingleInterval(intv,sites);
+        assertEquals(5, intersectResult.getIn());
 
-        assertEquals(8, result.getOut().intValue());
+        assertEquals(8, intersectResult.getOut().intValue());
     }
 }

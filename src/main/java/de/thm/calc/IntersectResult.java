@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * Created by Michael Menzel on 8/12/15.
  */
-public class Result {
+public class IntersectResult {
 
 
     private final Map<String, Integer> resultNames;
@@ -27,7 +27,7 @@ public class Result {
     /**
      *
      */
-    public Result() {
+    public IntersectResult() {
         this.resultNames = new HashMap<>();
         //this.resultScores= new HashMap<>();
     }

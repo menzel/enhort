@@ -27,11 +27,11 @@ public class IntersectWrapper implements Runnable{
 
     @Override
     public void run() {
-        Intersect intersec1 = new IntersectSimple();
-        Intersect intersec2 = new IntersectSimple();
+        Intersect intersec1 = new IntersectCalculate();
+        Intersect intersec2 = new IntersectCalculate();
 
-        Result result1 = intersec1.searchSingleInterval(interval, measuredPos);
-        Result result2 = intersec2.searchSingleInterval(interval, randomPos);
+        IntersectResult result1 = intersec1.searchSingleInterval(interval, measuredPos);
+        IntersectResult result2 = intersec2.searchSingleInterval(interval, randomPos);
 
         IndependenceTest tester = new IndependenceTest();
         testResult  = tester.test(result1, result2, trackName);

@@ -8,23 +8,23 @@ import java.util.ArrayList;
 /**
  * Simple version of intersect, going list by list.
  */
-public class IntersectSimple implements Intersect{
+public class IntersectCalculate implements Intersect{
 
-    private Result result;
+    private IntersectResult intersectResult;
 
 
-    public IntersectSimple() {
+    public IntersectCalculate() {
     }
 
 
-    public Result searchSingleInterval(Interval intv, Sites pos){
+    public IntersectResult searchSingleInterval(Interval intv, Sites pos){
 
         int out = 0;
         int in = 0;
         int i = 0;
 
-        Result result = new Result();
-        result.setUsedInterval(intv);
+        IntersectResult intersectResult = new IntersectResult();
+        intersectResult.setUsedInterval(intv);
 
         ArrayList<Long> intervalStart = intv.getIntervalsStart();
         ArrayList<Long> intervalEnd = intv.getIntervalsEnd();
@@ -47,9 +47,9 @@ public class IntersectSimple implements Intersect{
                 if(p < intervalEnd.get(i) && p >= intervalStart.get(i)){
 
                     in++;
-                    result.add(intervalName.get(i));
+                    intersectResult.add(intervalName.get(i));
                     if(intv.getType() == Interval.Type.score)
-                            result.add(intervalScore.get(i-1));
+                            intersectResult.add(intervalScore.get(i-1));
                 } else{
                     out++;
                 }
@@ -59,20 +59,20 @@ public class IntersectSimple implements Intersect{
 
                 }else{
                     in++;
-                    result.add(intervalName.get(i));
+                    intersectResult.add(intervalName.get(i));
                     if(intv.getType() == Interval.Type.score)
-                            result.add(intervalScore.get(i-1));
+                            intersectResult.add(intervalScore.get(i-1));
                 }
             }
         }
 
-        result.add("out", out);
-        result.setIn(in);
+        intersectResult.add("out", out);
+        intersectResult.setIn(in);
 
-        return result;
+        return intersectResult;
     }
 
-    public Result getResult() {
-        return result;
+    public IntersectResult getIntersectResult() {
+        return intersectResult;
     }
 }

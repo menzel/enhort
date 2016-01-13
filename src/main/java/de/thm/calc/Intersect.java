@@ -20,6 +20,6 @@ public interface Intersect {
      *
      * @return Result which contains the in/out count, names or scores
      */
-    Result searchSingleInterval(Interval intv, Sites pos);
+    IntersectResult searchSingleInterval(Interval intv, Sites pos);
 
 }

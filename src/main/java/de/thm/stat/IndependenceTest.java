@@ -1,6 +1,6 @@
 package de.thm.stat;
 
-import de.thm.calc.Result;
+import de.thm.calc.IntersectResult;
 import org.apache.commons.math3.stat.inference.ChiSquareTest;
 
 import java.util.ArrayList;
@@ -24,31 +24,31 @@ public class IndependenceTest {
     /**
      * Tests two Result objects upon independence
      *
-     * @param resultA  measured results
-     * @param resultB expected (random) results
+     * @param intersectResultA  measured results
+     * @param intersectResultB expected (random) results
      * @param trackName - name of the track for output
      * @return p value of independence test
      */
-    public TestResult test(Result resultA, Result resultB, String trackName) {
+    public TestResult test(IntersectResult intersectResultA, IntersectResult intersectResultB, String trackName) {
 
 
-        switch (resultA.getType()){
+        switch (intersectResultA.getType()){
 
             case score:
             case named:
 
-                Map<String, Integer> measured = resultA.getResultNames();
-                Map<String, Integer> expected = resultB.getResultNames();
+                Map<String, Integer> measured = intersectResultA.getResultNames();
+                Map<String, Integer> expected = intersectResultB.getResultNames();
 
-                return new TestResult(tester.chiSquareTest(prepareLists(measured,expected)),resultA, resultB, trackName);
+                return new TestResult(tester.chiSquareTest(prepareLists(measured,expected)), intersectResultA, intersectResultB, trackName);
 
             case inout:
 
                 long[][] counts = new long[2][2];
-                counts[0] = new long[] {resultA.getIn(), resultA.getOut()};
-                counts[1] = new long[] {resultB.getIn(), resultB.getOut()};
+                counts[0] = new long[] {intersectResultA.getIn(), intersectResultA.getOut()};
+                counts[1] = new long[] {intersectResultB.getIn(), intersectResultB.getOut()};
 
-                return new TestResult(tester.chiSquareTest(counts),resultA, resultB, trackName);
+                return new TestResult(tester.chiSquareTest(counts), intersectResultA, intersectResultB, trackName);
 
             default:
                 return null;
