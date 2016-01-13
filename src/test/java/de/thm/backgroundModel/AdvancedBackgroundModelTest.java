@@ -7,6 +7,8 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static junit.framework.TestCase.assertEquals;
+
 /**
  * Created by Michael Menzel on 13/1/16.
  */
@@ -82,6 +84,35 @@ public class AdvancedBackgroundModelTest {
 
 
         AdvancedBackgroundModel model = new AdvancedBackgroundModel(intervalList, sites);
+        /*System.out.println(appearanceTable.getAppearance(intervals));
+        System.out.println(appearanceTable.getAppearance(intervals.subList(0,1)));
+        System.out.println(appearanceTable.getAppearance(intervals.subList(1,2)));
+        System.out.println(appearanceTable.getAppearance(intervals.subList(2,3)));
+        System.out.println(appearanceTable.getAppearance(intervals.subList(1,3)));
+        */
+
+
+        //check list count of pos in list 1:
+        assertEquals(1,model.getAppearanceTable().getAppearance(intervalList.subList(0,1)));
+
+        //check list 2:
+        assertEquals(1,model.getAppearanceTable().getAppearance(intervalList.subList(1,2)));
+
+
+        //check count of pos which are in all lists:
+        assertEquals(2,model.getAppearanceTable().getAppearance(intervalList));
+
+        // check pos in list 2 and 3:
+        assertEquals(1,model.getAppearanceTable().getAppearance(intervalList.subList(1,3)));
+
+        //check 0 values for other lists:
+        assertEquals(0,model.getAppearanceTable().getAppearance(intervalList.subList(2,3))); //list 3
+
+        List<Interval> zeroList = new ArrayList<>();
+        zeroList.add(interval1);
+        zeroList.add(interval3);
+
+        assertEquals(0,model.getAppearanceTable().getAppearance(zeroList));
 
     }
 

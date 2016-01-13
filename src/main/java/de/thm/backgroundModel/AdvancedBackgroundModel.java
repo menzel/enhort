@@ -14,6 +14,7 @@ public class AdvancedBackgroundModel extends BackgroundModel {
 
     private Random rand;
     private final int factor = 10;
+    private AppearanceTable appearanceTable;
 
     /**
      *
@@ -21,15 +22,9 @@ public class AdvancedBackgroundModel extends BackgroundModel {
      */
     public AdvancedBackgroundModel(List<Interval> intervals, Sites inputPositions) {
 
-        AppearanceTable appearanceTable = new AppearanceTable();
+        appearanceTable = new AppearanceTable();
 
         appearanceTable.fillTable(intervals, inputPositions);
-
-        System.out.println(appearanceTable.getAppearance(intervals));
-        System.out.println(appearanceTable.getAppearance(intervals.subList(0,1)));
-        System.out.println(appearanceTable.getAppearance(intervals.subList(1,2)));
-        System.out.println(appearanceTable.getAppearance(intervals.subList(2,3)));
-        System.out.println(appearanceTable.getAppearance(intervals.subList(1,3)));
 
 
         //positions.addAll(randPositions(appearanceTable));
@@ -38,5 +33,9 @@ public class AdvancedBackgroundModel extends BackgroundModel {
     private Collection<? extends Long> randPositions(AppearanceTable appearanceTable) {
 
         return null;
+    }
+
+    public AppearanceTable getAppearanceTable() {
+        return appearanceTable;
     }
 }

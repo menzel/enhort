@@ -4,7 +4,6 @@ import de.thm.genomeData.Interval;
 import de.thm.positionData.Sites;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by Michael Menzel on 13/1/16.
@@ -103,10 +102,10 @@ public class AppearanceTable {
      * @return
      */
     public int getAppearance(List<Interval> intervals){
-        System.out.println("given interval ids: " +intervals.stream().map(Interval::getUid).collect(Collectors.toList()));
-        System.out.println("appearance hash: " +Arrays.toString(appearance.keySet().toArray()));
-        System.out.print("Hash function of given interval ids " + hash(intervals));
-        System.out.println("\n_______");
+        //System.out.println("given interval ids: " +intervals.stream().map(Interval::getUid).collect(Collectors.toList()));
+        //System.out.println("appearance hash: " +Arrays.toString(appearance.keySet().toArray()));
+        //System.out.print("Hash function of given interval ids " + hash(intervals));
+        //System.out.println("\n_______");
 
         if(appearance.containsKey(hash(intervals))){
             return appearance.get(hash(intervals));
