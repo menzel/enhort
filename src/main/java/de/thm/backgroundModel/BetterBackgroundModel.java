@@ -1,4 +1,4 @@
-package de.thm.positionData;
+package de.thm.backgroundModel;
 
 import de.thm.genomeData.Interval;
 

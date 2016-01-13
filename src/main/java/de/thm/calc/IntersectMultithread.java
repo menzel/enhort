@@ -15,7 +15,7 @@ import java.util.concurrent.Executors;
  */
 public class IntersectMultithread {
 
-    ExecutorService exe = Executors.newFixedThreadPool(4);
+    ExecutorService exe = Executors.newFixedThreadPool(8);
     List<IntersectWrapper> wrappers = new ArrayList<>();
 
     public IntersectMultithread(Map<String, Interval> intervals, Sites measuredPositions, Sites randomPositions) {

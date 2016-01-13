@@ -1,5 +1,6 @@
 package de.thm.positionData;
 
+import de.thm.backgroundModel.BetterBackgroundModel;
 import de.thm.genomeData.Interval;
 import org.junit.Test;
 

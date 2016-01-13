@@ -6,8 +6,8 @@ import de.thm.calc.IntersectCalculate;
 import de.thm.calc.IntersectResult;
 import de.thm.genomeData.Interval;
 import de.thm.genomeData.IntervalLoader;
-import de.thm.positionData.BetterBackgroundModel;
-import de.thm.positionData.SimpleBackgroundModel;
+import de.thm.backgroundModel.BetterBackgroundModel;
+import de.thm.backgroundModel.SimpleBackgroundModel;
 import de.thm.positionData.Sites;
 
 import java.io.File;
