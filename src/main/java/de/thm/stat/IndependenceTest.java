@@ -24,9 +24,9 @@ public class IndependenceTest {
     /**
      * Tests two Result objects upon independence
      *
-     * @param resultA first result to test
-     * @param resultB second result to test
-     * @param trackName
+     * @param resultA  measured results
+     * @param resultB expected (random) results
+     * @param trackName - name of the track for output
      * @return p value of independence test
      */
     public TestResult test(Result resultA, Result resultB, String trackName) {

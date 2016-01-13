@@ -13,9 +13,14 @@ public class TestResult {
     private final int measuredOut;
     private final int expectedIn;
     private final int expectedOut;
+    private final Result resultMeasured;
+    private final Result resultExpected;
 
     public TestResult(double pValue, Result measured, Result expected, String trackName) {
         this.pValue = pValue;
+
+        resultExpected = expected;
+        resultMeasured = measured;
 
         this.measuredIn = measured.getIn();
         this.measuredOut = measured.getOut();
@@ -47,12 +52,10 @@ public class TestResult {
     }
 
     public String toString(){
-        return "measured in: " + measuredIn + "\n" +
-                "out: "+ measuredOut + "\n" +
-                "expected in: " + expectedIn + "\n" +
-                "out: " + expectedOut + "\n" +
-                trackName + " p-value: " + pValue + "\n" +
-                "=====";
+        return "measured "  + resultMeasured.toString() +
+                "expected " +resultExpected.toString() +
+                trackName + " p-value: " + pValue +
+                "\n=====";
     }
 
 }

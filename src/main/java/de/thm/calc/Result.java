@@ -106,10 +106,10 @@ public class Result {
                 return "in: " + in + "\n" +
                         "out: " + resultNames.get("out") + "\n";
             case named:
-                return resultNames.toString();
+                return resultNames.toString() + "\n";
 
             case score:
-                return resultNames.toString();
+                return resultNames.toString() + "\n";
             default:
                 return "";
         }
