@@ -3,7 +3,7 @@ package de.thm.calc;
 import de.thm.genomeData.Interval;
 import de.thm.positionData.Sites;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Simple version of intersect, going list by list.
@@ -26,10 +26,10 @@ public class IntersectCalculate implements Intersect{
         IntersectResult intersectResult = new IntersectResult();
         intersectResult.setUsedInterval(intv);
 
-        ArrayList<Long> intervalStart = intv.getIntervalsStart();
-        ArrayList<Long> intervalEnd = intv.getIntervalsEnd();
-        ArrayList<String> intervalName = intv.getIntervalName();
-        ArrayList<Long> intervalScore = intv.getIntervalScore();
+        List<Long> intervalStart = intv.getIntervalsStart();
+        List<Long> intervalEnd = intv.getIntervalsEnd();
+        List<String> intervalName = intv.getIntervalName();
+        List<Long> intervalScore = intv.getIntervalScore();
 
         int intervalCount = intervalStart.size()-1;
 

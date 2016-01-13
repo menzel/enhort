@@ -38,8 +38,8 @@ public class BetterBackgroundModel extends BackgroundModel{
 
         List<Long> randomValues = new ArrayList<>();
         List<Long> sites = new ArrayList<>();
-        ArrayList<Long> intervalStart = interval.getIntervalsStart();
-        ArrayList<Long> intervalEnd = interval.getIntervalsEnd();
+        List<Long> intervalStart = interval.getIntervalsStart();
+        List<Long> intervalEnd = interval.getIntervalsEnd();
 
         //get some random numbers
         for(int i = 0; i < siteCount; i++){
@@ -91,8 +91,8 @@ public class BetterBackgroundModel extends BackgroundModel{
         long size = 0;
         int io = (mode.equals("in"))? 0: 1;
 
-        ArrayList<Long> intervalStart = interval.getIntervalsStart();
-        ArrayList<Long> intervalEnd = interval.getIntervalsEnd();
+        List<Long> intervalStart = interval.getIntervalsStart();
+        List<Long> intervalEnd = interval.getIntervalsEnd();
 
         for(int i = 0; i < intervalStart.size()-io; i++){
             if(mode.equals("in"))

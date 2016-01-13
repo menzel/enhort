@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.stream.Stream;
 
 /**
@@ -17,14 +18,15 @@ import java.util.stream.Stream;
  */
 public class Interval implements Serializable{
 
-
     private static final long serialVersionUID = 1690225L;
+    private static int UID = 0;
+    private int uid = ++UID;
 
-    protected ArrayList<Long> intervalsStart = new ArrayList<>();
-    protected ArrayList<Long> intervalsEnd = new ArrayList<>();
+    protected List<Long> intervalsStart = new ArrayList<>();
+    protected List<Long> intervalsEnd = new ArrayList<>();
 
-    protected ArrayList<String> intervalName = new ArrayList<>();
-    protected ArrayList<Long> intervalScore = new ArrayList<>();
+    protected List<String> intervalName = new ArrayList<>();
+    protected List<Long> intervalScore = new ArrayList<>();
 
 
     protected Type type;
@@ -109,35 +111,35 @@ public class Interval implements Serializable{
     }
 
 
-    public ArrayList<String> getIntervalName() {
+    public List<String> getIntervalName() {
         return intervalName;
     }
 
-    public void setIntervalName(ArrayList<String> intervalName) {
+    public void setIntervalName(List<String> intervalName) {
         this.intervalName = intervalName;
     }
 
-    public ArrayList<Long> getIntervalsStart() {
+    public List<Long> getIntervalsStart() {
         return intervalsStart;
     }
 
-    public void setIntervalsStart(ArrayList<Long> intervalsStart) {
+    public void setIntervalsStart(List<Long> intervalsStart) {
         this.intervalsStart = intervalsStart;
     }
 
-    public ArrayList<Long> getIntervalsEnd() {
+    public List<Long> getIntervalsEnd() {
         return intervalsEnd;
     }
 
-    public void setIntervalsEnd(ArrayList<Long> intervalsEnd) {
+    public void setIntervalsEnd(List<Long> intervalsEnd) {
         this.intervalsEnd = intervalsEnd;
     }
 
-    public ArrayList<Long> getIntervalScore() {
+    public List<Long> getIntervalScore() {
         return intervalScore;
     }
 
-    public void setIntervalScore(ArrayList<Long> intervalScore) {
+    public void setIntervalScore(List<Long> intervalScore) {
         this.intervalScore = intervalScore;
     }
 
@@ -145,4 +147,7 @@ public class Interval implements Serializable{
         this.type = type;
     }
 
+    public int getUid() {
+        return uid;
+    }
 }

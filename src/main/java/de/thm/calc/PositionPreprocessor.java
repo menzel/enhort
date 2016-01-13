@@ -3,6 +3,7 @@ package de.thm.calc;
 import de.thm.genomeData.Interval;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Data preprocessor for merging overlaping intervals
@@ -18,15 +19,15 @@ public class PositionPreprocessor {
     * @param interval to process
     */
     public static void preprocessData(Interval interval) {
-        ArrayList<Long> newStart = new ArrayList<>();
-        ArrayList<Long> newEnd = new ArrayList<>();
-        ArrayList<String> newName = new ArrayList<>();
-        ArrayList<Long> newScore = new ArrayList<>();
+        List<Long> newStart = new ArrayList<>();
+        List<Long> newEnd = new ArrayList<>();
+        List<String> newName = new ArrayList<>();
+        List<Long> newScore = new ArrayList<>();
 
-        ArrayList<Long> intervalsStart = interval.getIntervalsStart();
-        ArrayList<Long> intervalsEnd = interval.getIntervalsEnd();
-        ArrayList<String> intervalName = interval.getIntervalName();
-        ArrayList<Long> intervalsScore = interval.getIntervalScore();
+        List<Long> intervalsStart = interval.getIntervalsStart();
+        List<Long> intervalsEnd = interval.getIntervalsEnd();
+        List<String> intervalName = interval.getIntervalName();
+        List<Long> intervalsScore = interval.getIntervalScore();
 
         if(intervalsStart.isEmpty()) return; long start = intervalsStart.get(0);
         long end = intervalsEnd.get(0);

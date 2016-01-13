@@ -1,16 +1,18 @@
 package de.thm.bootstrap;
 
+import de.thm.backgroundModel.AdvancedBackgroundModel;
+import de.thm.backgroundModel.BetterBackgroundModel;
+import de.thm.backgroundModel.SimpleBackgroundModel;
 import de.thm.calc.Intersect;
-import de.thm.calc.IntersectMultithread;
 import de.thm.calc.IntersectCalculate;
 import de.thm.calc.IntersectResult;
 import de.thm.genomeData.Interval;
 import de.thm.genomeData.IntervalLoader;
-import de.thm.backgroundModel.BetterBackgroundModel;
-import de.thm.backgroundModel.SimpleBackgroundModel;
 import de.thm.positionData.Sites;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,12 +49,17 @@ public class Analyse {
         resultUserSites = simple.searchSingleInterval(genes, userSites);
         Sites bg = new BetterBackgroundModel(resultUserSites.getIn(),resultUserSites.getOut() , genes);
 
+        List<Interval> covariants = new ArrayList<>();
+        covariants.add(intervals.get("knownGenes.bed"));
+        covariants.add(intervals.get("exons.bed"));
+
+        AdvancedBackgroundModel adv = new AdvancedBackgroundModel(covariants,userSites);
 
         // H_0: bg and user sites are independent. Large pValue: bg and user are independent. Small pValue: bg and user are dependent.
         // Large pValue (> 0.05): the insertion points look random
         // Small pValue (< 0.05): the insertion points are not random  (more interesting)
 
-        IntersectMultithread multi = new IntersectMultithread(intervals, userSites, bg);
+        //IntersectMultithread multi = new IntersectMultithread(intervals, userSites, bg);
 
     }
 
