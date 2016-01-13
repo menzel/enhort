@@ -139,23 +139,23 @@ public class IntersectSimpleTest {
 
                 List<Long> sites = new ArrayList<>();
 
-                sites.add(1L);
-                sites.add(4L);
+                sites.add(1L); // out
+                sites.add(4L); // out
 
                 sites.add(5L);
                 sites.add(6L);
 
-                sites.add(8L);
+                sites.add(8L); // out
 
                 sites.add(21L);
-                sites.add(22L);
-                sites.add(22L);
+                sites.add(22L); // out
+                sites.add(22L); // out
 
-                sites.add(23L);
-                sites.add(24L);
-                sites.add(24L);
-                sites.add(26L);
-                sites.add(128L);
+                sites.add(23L); // out
+                sites.add(24L); // out
+                sites.add(24L); // out
+                sites.add(26L); // out
+                sites.add(128L); // out
 
                 return sites;
 
@@ -163,8 +163,10 @@ public class IntersectSimpleTest {
         };
 
         IntersectResult intersectResult = intersect.searchSingleInterval(intv,sites);
-        assertEquals(5, intersectResult.getIn());
 
-        assertEquals(8, intersectResult.getOut().intValue());
+        assertEquals(10, intersectResult.getOut().intValue());
+
+        assertEquals(3, intersectResult.getIn());
+
     }
 }

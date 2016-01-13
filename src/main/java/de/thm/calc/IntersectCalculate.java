@@ -43,7 +43,7 @@ public class IntersectCalculate implements Intersect{
             if(i == 0){
                 out++;
 
-            } else if(i == intervalCount){ //last Interval
+            } else if(i == intervalCount && p > intervalEnd.get(i-1)){ //last Interval and p not in previous
                 if(p < intervalEnd.get(i) && p >= intervalStart.get(i)){
 
                     in++;
