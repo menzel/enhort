@@ -8,6 +8,21 @@ import java.util.List;
  */
 public class IntervalIntersect {
 
+    public static Interval intersect(List<Interval> intervals){
+        if(intervals.size() < 2){
+            return null;
+
+        } else if(intervals.size() == 2){
+            return intersect(intervals.get(0), intervals.get(1));
+
+        }else{
+            List<Interval> newList = intervals.subList(2, intervals.size());
+            newList.add(intersect(intervals.get(0), intervals.get(1)));
+
+            return intersect(newList);
+        }
+    }
+
     public static Interval intersect(Interval intv1, Interval intv2){
 
 
