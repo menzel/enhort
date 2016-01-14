@@ -2,6 +2,7 @@ package de.thm.genomeData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Michael Menzel on 13/1/16.
@@ -9,8 +10,11 @@ import java.util.List;
 public class IntervalIntersect {
 
     public static Interval intersect(List<Interval> intervals){
-        if(intervals.size() < 2){
+        if(intervals.size() == 0){
             return null;
+
+        } else if(intervals.size() == 1){
+            return intervals.get(0);
 
         } else if(intervals.size() == 2){
             return intersect(intervals.get(0), intervals.get(1));
@@ -70,6 +74,12 @@ public class IntervalIntersect {
         result.setIntervalsStart(result_start);
         result.setIntervalsEnd(result_end);
 
-        return  result;
+        return result;
+    }
+
+    public static Interval intersectNone(List<Interval> intervals) {
+        List<Interval> inverts = intervals.stream().map(Interval::invert).collect(Collectors.toList());
+
+        return  intersect(inverts);
     }
 }
