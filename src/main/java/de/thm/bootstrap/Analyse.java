@@ -1,10 +1,10 @@
 package de.thm.bootstrap;
 
 import de.thm.backgroundModel.AdvancedBackgroundModel;
-import de.thm.backgroundModel.BetterBackgroundModel;
 import de.thm.backgroundModel.SimpleBackgroundModel;
 import de.thm.calc.Intersect;
 import de.thm.calc.IntersectCalculate;
+import de.thm.calc.IntersectMultithread;
 import de.thm.calc.IntersectResult;
 import de.thm.genomeData.Interval;
 import de.thm.genomeData.IntervalLoader;
@@ -26,7 +26,7 @@ public class Analyse {
     private Map<String, Interval> intervals;
 
     public Analyse() {
-        IntervalLoader loader = new IntervalLoader();
+        IntervalLoader loader = IntervalLoader.getInstance();
         intervals =  loader.getAllIntervals();
 
 
@@ -47,11 +47,13 @@ public class Analyse {
 
         Interval genes = intervals.get("knownGenes.bed");
         resultUserSites = simple.searchSingleInterval(genes, userSites);
-        Sites bg = new BetterBackgroundModel(resultUserSites.getIn(),resultUserSites.getOut() , genes);
+        //Sites bg = new BetterBackgroundModel(resultUserSites.getIn(),resultUserSites.getOut() , genes);
 
         List<Interval> covariants = new ArrayList<>();
-        covariants.add(intervals.get("knownGenes.bed"));
         covariants.add(intervals.get("exons.bed"));
+        covariants.add(intervals.get("knownGenes.bed"));
+        //covariants.add(intervals.get("open-chrom-synth-HeLa-S3-valid.bed"));
+
 
         AdvancedBackgroundModel adv = new AdvancedBackgroundModel(covariants,userSites);
 
@@ -59,7 +61,7 @@ public class Analyse {
         // Large pValue (> 0.05): the insertion points look random
         // Small pValue (< 0.05): the insertion points are not random  (more interesting)
 
-        //IntersectMultithread multi = new IntersectMultithread(intervals, userSites, bg);
+        IntersectMultithread multi = new IntersectMultithread(intervals, userSites, adv);
 
     }
 
