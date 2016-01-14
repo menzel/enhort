@@ -35,6 +35,18 @@ public class Interval implements Serializable{
         return type;
     }
 
+    public Interval invert() {
+        Interval tmp = new Interval();
+
+        tmp.setIntervalsStart(intervalsEnd);
+        tmp.setIntervalsEnd(intervalsStart);
+
+        tmp.getIntervalsStart().add(0,0L);
+        tmp.setIntervalsStart(tmp.getIntervalsStart().subList(0, tmp.getIntervalsStart().size()-1));
+
+        return tmp;
+    }
+
     public enum Type {inout, score, named}
 
      /**

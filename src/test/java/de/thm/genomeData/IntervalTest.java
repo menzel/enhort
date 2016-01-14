@@ -3,6 +3,9 @@ package de.thm.genomeData;
 import de.thm.misc.ChromosomSizes;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static junit.framework.TestCase.assertEquals;
 
 /**
@@ -31,5 +34,40 @@ public class IntervalTest {
         parts[3] = name;
 
         return parts;
+    }
+
+    @Test
+    public void testInvert() throws Exception {
+        Interval base = new Interval();
+
+        List<Long> starts = new ArrayList<>();
+        List<Long> ends = new ArrayList<>();
+
+        starts.add(5L);
+        starts.add(15L);
+        starts.add(25L);
+
+        ends.add(10L);
+        ends.add(20L);
+        ends.add(26L);
+
+        base.setIntervalsStart(starts);
+        base.setIntervalsEnd(ends);
+
+        Interval invert  = base.invert();
+        List<Long> expectedStarts = new ArrayList<>();
+        List<Long> expectedEnds = new ArrayList<>();
+
+        expectedStarts.add(0L);
+        expectedStarts.add(10L);
+        expectedStarts.add(20L);
+
+        expectedEnds.add(5L);
+        expectedEnds.add(15L);
+        expectedEnds.add(25L);
+
+        assertEquals(expectedStarts, invert.getIntervalsStart());
+        assertEquals(expectedEnds, invert.getIntervalsEnd());
+
     }
 }
