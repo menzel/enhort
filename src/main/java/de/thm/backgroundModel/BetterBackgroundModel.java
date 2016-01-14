@@ -12,6 +12,9 @@ public class BetterBackgroundModel extends BackgroundModel{
     private Random rand;
     private final int factor = 10;
 
+    public BetterBackgroundModel(){}
+
+
     public BetterBackgroundModel(int sitesIn, int sitesOut, Interval interval) {
 
 
@@ -29,7 +32,7 @@ public class BetterBackgroundModel extends BackgroundModel{
      *
      * @return Collection of random positions
      */
-    private Collection<? extends Long> randPositions(int siteCount, Interval interval, String mode) {
+    public Collection<? extends Long> randPositions(int siteCount, Interval interval, String mode) {
 
         int io = (mode.equals("in"))? 0: 1; //remember if rand positions should be in or outside of an interval
 

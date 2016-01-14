@@ -1,6 +1,7 @@
 package de.thm.backgroundModel;
 
 import de.thm.genomeData.Interval;
+import de.thm.genomeData.IntervalLoader;
 import de.thm.positionData.Sites;
 
 import java.util.*;
@@ -96,6 +97,10 @@ public class AppearanceTable {
         return hash(new TreeSet<>(containing));
     }
 
+    public Set<Long> getKeySet(){
+        return appearance.keySet();
+    }
+
     /**
      *
      * @param intervals
@@ -111,9 +116,26 @@ public class AppearanceTable {
             return appearance.get(hash(intervals));
 
         } else{
-
-
             return 0;
         }
+    }
+
+    public int getAppearance(Long app) {
+        return appearance.get(app);
+    }
+
+    public List<Interval> translate(Long app) {
+        List<Interval> intervals = new ArrayList<>();
+        IntervalLoader loader = IntervalLoader.getInstance();
+
+        String number = app.toString();
+        char[] digits = number.toCharArray();
+
+        for (char id : digits) {
+            intervals.add(loader.getIntervalById(Character.getNumericValue(id)));
+        }
+
+
+        return intervals;
     }
 }

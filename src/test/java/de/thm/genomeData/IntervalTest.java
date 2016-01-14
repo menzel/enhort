@@ -69,5 +69,8 @@ public class IntervalTest {
         assertEquals(expectedStarts, invert.getIntervalsStart());
         assertEquals(expectedEnds, invert.getIntervalsEnd());
 
+        assertEquals(starts, base.getIntervalsStart());
+        assertEquals(ends, base.getIntervalsEnd());
+
     }
 }
