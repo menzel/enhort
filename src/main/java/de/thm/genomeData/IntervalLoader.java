@@ -18,13 +18,21 @@ public class IntervalLoader {
     private final Path basePath = new File("/home/menzel/Desktop/THM/lfba/projekphase/dat/").toPath();
     private Map<String, Interval> intervals;
     private IntervalDumper intervalDumper;
+    private static IntervalLoader instance;
+
+
+    public static IntervalLoader getInstance(){
+        if(instance == null)
+            instance = new IntervalLoader();
+        return  instance;
+    }
 
     /**
      * Constructor. Parses the base dir and gets all intervals from files.
      * Expects three dirs with the names 'inout', 'named' and 'score' for types.
      *
      */
-    public IntervalLoader() {
+    private IntervalLoader() {
         intervalDumper = new IntervalDumper(basePath);
         intervals = new HashMap<>();
 
@@ -80,5 +88,16 @@ public class IntervalLoader {
 
     public Map<String, Interval> getAllIntervals() {
         return intervals;
+    }
+
+    public Interval getIntervalById(int id) {
+
+        for(String keys: intervals.keySet()){
+            if(intervals.get(keys).getUid() == id){
+                return intervals.get(keys);
+            }
+        }
+
+        return null;
     }
 }
