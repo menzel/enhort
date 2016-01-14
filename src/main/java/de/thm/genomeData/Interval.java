@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 public class Interval implements Serializable{
 
     private static final long serialVersionUID = 1690225L;
-    private static int UID = 0;
+    private static int UID = 1;
     private int uid = ++UID;
 
     protected List<Long> intervalsStart = new ArrayList<>();
@@ -38,8 +38,8 @@ public class Interval implements Serializable{
     public Interval invert() {
         Interval tmp = new Interval();
 
-        tmp.setIntervalsStart(intervalsEnd);
-        tmp.setIntervalsEnd(intervalsStart);
+        tmp.setIntervalsStart(new ArrayList<>(intervalsEnd));
+        tmp.setIntervalsEnd(new ArrayList<>(intervalsStart));
 
         tmp.getIntervalsStart().add(0,0L);
         tmp.setIntervalsStart(tmp.getIntervalsStart().subList(0, tmp.getIntervalsStart().size()-1));
