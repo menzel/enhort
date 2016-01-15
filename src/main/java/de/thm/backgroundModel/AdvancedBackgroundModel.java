@@ -7,6 +7,7 @@ import de.thm.positionData.Sites;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Michael Menzel on 13/1/16.
@@ -31,19 +32,23 @@ public class AdvancedBackgroundModel extends BackgroundModel {
         List<Long> sites = new ArrayList<>();
         BetterBackgroundModel better = new BetterBackgroundModel();
 
-        for(Long app: appearanceTable.getKeySet()){
-            if(app == 0L)
+        for(String app: appearanceTable.getKeySet()){
+            if(app.compareTo("[]") == 0){
                 continue;
+            }
 
             int count = appearanceTable.getAppearance(app);
             List<Interval> currentIntervals = appearanceTable.translate(app);
+            List<Interval> negativeIntevals = appearanceTable.translateNegative(intervals, app);
+
+            currentIntervals.addAll(negativeIntevals.stream().map(Interval::invert).collect(Collectors.toList()));
 
             Interval interval = IntervalIntersect.intersect(currentIntervals);
 
             sites.addAll(better.randPositions(count,interval ,"in"));
         }
 
-        int count = appearanceTable.getAppearance(0L);
+        int count = appearanceTable.getAppearance("[]");
 
         Interval outs = IntervalIntersect.intersectNone(intervals);
         sites.addAll(better.randPositions(count, outs ,"out"));

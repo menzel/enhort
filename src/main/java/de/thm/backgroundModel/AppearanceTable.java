@@ -5,13 +5,14 @@ import de.thm.genomeData.IntervalLoader;
 import de.thm.positionData.Sites;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by Michael Menzel on 13/1/16.
  */
 public class AppearanceTable {
 
-    private Map<Long, Integer> appearance;
+    private Map<String, Integer> appearance;
 
 
     /**
@@ -74,18 +75,17 @@ public class AppearanceTable {
         }
     }
 
-    protected Long hash(Set<Integer> containing) {
+    protected String hash(Set<Integer> containing) {
         long r = 0;
         int i = 0;
 
-        for(Integer value: containing){
-            r += value * Math.pow(10,i++);
-        }
+        List<Integer> list = new ArrayList<>(containing);
+        Collections.sort(list);
 
-        return r;
+        return Arrays.toString(list.toArray());
     }
 
-    protected Long hash(List<Interval> intervals) {
+    protected String hash(List<Interval> intervals) {
         List<Integer> containing = new ArrayList<>();
 
         for(Interval interval: intervals){
@@ -94,10 +94,10 @@ public class AppearanceTable {
 
         Collections.sort(containing);
 
-        return hash(new TreeSet<>(containing));
+        return Arrays.toString(containing.toArray());
     }
 
-    public Set<Long> getKeySet(){
+    public Set<String> getKeySet(){
         return appearance.keySet();
     }
 
@@ -120,21 +120,61 @@ public class AppearanceTable {
         }
     }
 
-    public int getAppearance(Long app) {
+    public int getAppearance(String app) {
         return appearance.get(app);
     }
 
-    public List<Interval> translate(Long app) {
+    /**
+     *
+     * @param app
+     * @return
+     */
+    public List<Interval> translate(String app) {
+
+        if(app.compareTo("[]") == 0){ //empty array
+            return null;
+        }
+
         List<Interval> intervals = new ArrayList<>();
         IntervalLoader loader = IntervalLoader.getInstance();
 
-        String number = app.toString();
-        char[] digits = number.toCharArray();
+        app = app.substring(1, app.length()-1);
 
-        for (char id : digits) {
-            intervals.add(loader.getIntervalById(Character.getNumericValue(id)));
+        int[] digits =  Arrays.stream(app.split(",")).map(String::trim).mapToInt(Integer::parseInt).toArray();
+
+        for (int id : digits) {
+            intervals.add(loader.getIntervalById(id));
         }
 
+
+        return intervals;
+    }
+
+    /**
+     * Returns all intervals exepct the ones given by param
+     *
+     *
+     * @param keySet
+     * @param app - string from Arrays.toString() [1,2,3,..] as key
+     *
+     * @return list of all intervals exepect the ones on app list of interval ids.
+     */
+    public List<Interval> translateNegative(List<Interval> outer, String app) {
+
+        List<Interval> intervals = new CopyOnWriteArrayList<>(outer);
+
+        app = app.substring(1, app.length()-1);
+
+        int[] digits =  Arrays.stream(app.split(",")).map(String::trim).mapToInt(Integer::parseInt).toArray();
+
+
+        //remove those which are in the given list
+        for (int id : digits) {
+            for(Interval interval: intervals){
+                if(interval.getUid() == id)
+                    intervals.remove(interval);
+            }
+        }
 
         return intervals;
     }
