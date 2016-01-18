@@ -121,7 +121,36 @@ public class AppearanceTable {
     }
 
     public int getAppearance(String app) {
+
         return appearance.get(app);
+    }
+
+    /**
+     *
+     * @param app
+     * @return
+     */
+    public List<Interval> translate(String app, List<Interval> knownIntervals) {
+
+        if(app.compareTo("[]") == 0){ //empty array
+            return null;
+        }
+
+        List<Interval> intervals = new ArrayList<>();
+
+        app = app.substring(1, app.length()-1);
+
+        int[] digits =  Arrays.stream(app.split(",")).map(String::trim).mapToInt(Integer::parseInt).toArray();
+
+        for (int id : digits) {
+            for(Interval interval: knownIntervals){
+                if(id == interval.getUid())
+                    intervals.add(interval);
+            }
+        }
+
+
+        return intervals;
     }
 
     /**
@@ -154,7 +183,7 @@ public class AppearanceTable {
      * Returns all intervals exepct the ones given by param
      *
      *
-     * @param keySet
+     * @param outer - all intervals which were selected for bg
      * @param app - string from Arrays.toString() [1,2,3,..] as key
      *
      * @return list of all intervals exepect the ones on app list of interval ids.
@@ -177,5 +206,13 @@ public class AppearanceTable {
         }
 
         return intervals;
+    }
+
+    public Map<String, Integer> getAppearance() {
+        return appearance;
+    }
+
+    public void setAppearance(Map<String, Integer> appearance) {
+        this.appearance = appearance;
     }
 }

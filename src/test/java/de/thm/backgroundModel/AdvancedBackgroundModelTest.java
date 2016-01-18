@@ -4,8 +4,7 @@ import de.thm.genomeData.Interval;
 import de.thm.positionData.Sites;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -82,15 +81,7 @@ public class AdvancedBackgroundModelTest {
         };
 
 
-
         AdvancedBackgroundModel model = new AdvancedBackgroundModel(intervalList, sites);
-        /*System.out.println(appearanceTable.getAppearance(intervals));
-        System.out.println(appearanceTable.getAppearance(intervals.subList(0,1)));
-        System.out.println(appearanceTable.getAppearance(intervals.subList(1,2)));
-        System.out.println(appearanceTable.getAppearance(intervals.subList(2,3)));
-        System.out.println(appearanceTable.getAppearance(intervals.subList(1,3)));
-        */
-
 
         //check list count of pos in list 1:
         assertEquals(1,model.getAppearanceTable().getAppearance(intervalList.subList(0,1)));
@@ -123,5 +114,71 @@ public class AdvancedBackgroundModelTest {
         interval.setIntervalsEnd(end);
 
         return interval;
+    }
+
+    @Test
+    public void testRandPositions() throws Exception {
+
+        // intervals:
+
+        List<Long> start1 = new ArrayList<>();
+        List<Long> start2 = new ArrayList<>();
+
+        List<Long> end1 = new ArrayList<>();
+        List<Long> end2 = new ArrayList<>();
+
+        start1.add(0L);
+        start1.add(20L);
+        start1.add(45L);
+
+        start2.add(5L);
+        start2.add(35L);
+        start2.add(50L);
+
+        end1.add(10L);
+        end1.add(30L);
+        end1.add(80L);
+
+        end2.add(15L);
+        end2.add(40L);
+        end2.add(55L);
+
+        Interval interval1 = mockInterval(start1, end1);
+        Interval interval2 = mockInterval(start2, end2);
+
+        List<Interval> intervalList = new ArrayList<>();
+
+        intervalList.add(interval1);
+        intervalList.add(interval2);
+
+
+        // appearance table
+        AppearanceTable app = new AppearanceTable();
+        Map<String, Integer> appearance_map = new HashMap<>();
+        Set<Integer> containing = new TreeSet<>();
+
+        containing.add(interval1.getUid());
+        appearance_map.put(app.hash(containing), 2);
+
+        containing.add(interval2.getUid());
+        appearance_map.put(app.hash(containing), 5);
+
+        containing.clear();
+
+        containing.add(interval2.getUid());
+        appearance_map.put(app.hash(containing), 8);
+
+        appearance_map.put("[]", 7);
+
+        app.setAppearance(appearance_map);
+
+
+
+        AdvancedBackgroundModel bg = new AdvancedBackgroundModel();
+
+        for(long l: bg.randPositions(app, intervalList)){
+            System.out.println(l);
+        }
+
     }
 }

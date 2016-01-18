@@ -1,7 +1,7 @@
 package de.thm.backgroundModel;
 
 import de.thm.genomeData.Interval;
-import de.thm.genomeData.IntervalIntersect;
+import de.thm.genomeData.Intervals;
 import de.thm.positionData.Sites;
 
 import java.util.ArrayList;
@@ -27,7 +27,10 @@ public class AdvancedBackgroundModel extends BackgroundModel {
         positions.addAll(randPositions(appearanceTable, intervals));
     }
 
-    private Collection<? extends Long> randPositions(AppearanceTable appearanceTable, List<Interval> intervals){
+    protected AdvancedBackgroundModel() { }
+
+
+    protected Collection<? extends Long> randPositions(AppearanceTable appearanceTable, List<Interval> intervals){
 
         List<Long> sites = new ArrayList<>();
         BetterBackgroundModel better = new BetterBackgroundModel();
@@ -38,20 +41,19 @@ public class AdvancedBackgroundModel extends BackgroundModel {
             }
 
             int count = appearanceTable.getAppearance(app);
-            List<Interval> currentIntervals = appearanceTable.translate(app);
-            List<Interval> negativeIntevals = appearanceTable.translateNegative(intervals, app);
+            List<Interval> currentIntervals = appearanceTable.translate(app, intervals);
+            List<Interval> negativeIntervals = appearanceTable.translateNegative(intervals, app);
 
-            currentIntervals.addAll(negativeIntevals.stream().map(Interval::invert).collect(Collectors.toList()));
+            currentIntervals.addAll(negativeIntervals.stream().map(Interval::invert).collect(Collectors.toList()));
 
-            Interval interval = IntervalIntersect.intersect(currentIntervals);
+            Interval interval = Intervals.intersect(currentIntervals);
 
             sites.addAll(better.randPositions(count,interval ,"in"));
         }
 
         int count = appearanceTable.getAppearance("[]");
-
-        Interval outs = IntervalIntersect.intersectNone(intervals);
-        sites.addAll(better.randPositions(count, outs ,"out"));
+        Interval outs = Intervals.sum(intervals).invert();
+        sites.addAll(better.randPositions(count, outs ,"in"));
 
         return sites;
     }

@@ -67,7 +67,7 @@ public class IntervalIntersectTest {
         intervalList.add(interval1);
         intervalList.add(interval3);
 
-        Interval newInterval = IntervalIntersect.intersect(intervalList);
+        Interval newInterval = Intervals.intersect(intervalList);
 
         List<Long> expected_start = new ArrayList<>();
         expected_start.add(3L);
@@ -123,7 +123,7 @@ public class IntervalIntersectTest {
         Interval interval1 = mockInterval(start1, end1);
         Interval interval2 = mockInterval(start2, end2);
 
-        Interval newInterval = IntervalIntersect.intersect(interval1,interval2);
+        Interval newInterval = Intervals.intersect(interval1,interval2);
 
         /**
         for(int i = 0; i < newInterval.getIntervalsStart().size(); i++){
