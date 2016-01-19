@@ -101,29 +101,59 @@ public class Intervals {
         List<Long> ends1 = intv1.getIntervalsEnd();
         List<Long> ends2 = intv2.getIntervalsEnd();
 
+        if(starts1.get(0) > starts2.get(0)){ //swap all lists
+            starts1 = intv2.getIntervalsStart();
+            starts2 = intv1.getIntervalsStart();
+
+            ends2 = intv1.getIntervalsEnd();
+            ends1 = intv2.getIntervalsEnd();
+        }
+
+
         Interval result = new Interval();
         List<Long> result_start = new ArrayList<>();
         List<Long> result_end = new ArrayList<>();
 
+        int j = 0;
+        for(int i = 0; i < starts1.size();i++){
 
-        int i2 = 0;
+            long start = starts1.get(i);
+            long end = ends1.get(i);
+            long nextStart = starts2.get(j);
+            boolean s = true;
 
-        for(int i1 = 0; i1 < starts1.size(); i1++) {
-            for(; i2 < ends2.size(); i2++) {
-
-                if(starts1.get(i1) < ends2.get(i2)){
-                    if(starts2.get(i2) < ends1.get(i1)){
-                        long start = Math.min(starts1.get(i1), starts2.get(i2));
-                        long end = Math.max(ends1.get(i1), ends2.get(i2));
-
-                        result_start.add(start);
-                        result_end.add(end);
-                    }
-                }
-
-                if(ends1.get(i1) < starts2.get(i2))
-                    break;
+            if(start > starts2.get(j)){
+                start = starts2.get(j);
+                end = ends2.get(j);
+                nextStart = starts1.get(i);
+                s = false;
             }
+
+            while(end > nextStart){
+                end = Math.max(ends2.get(j),end);
+                j++;
+
+                if(i < starts1.size()-1){
+                    nextStart = Math.min(starts1.get(i+1),starts2.get(j));
+                } else {
+                    nextStart = Long.MAX_VALUE;
+                }
+            }
+
+            result_start.add(start);
+            result_end.add(end);
+
+            if(!s){
+                i--;
+                j++;
+            }
+
+        }
+
+        //add remaining intervals
+        for(; j < starts2.size(); j++){
+            result_start.add(starts2.get(j));
+            result_end.add(ends2.get(j));
         }
 
         result.setIntervalsStart(result_start);
