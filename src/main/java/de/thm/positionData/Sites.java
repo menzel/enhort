@@ -1,6 +1,7 @@
 package de.thm.positionData;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -19,8 +20,16 @@ public abstract class Sites {
     Getter and Setter
      */
 
+    public void addPositions(Collection<Long> values) {
+        positions.addAll(values);
+    }
+
     public List<Long> getPositions() {
         return positions;
+    }
+
+    public void setPositions(List<Long> positions) {
+        this.positions = positions;
     }
 
     public int getPositionCount() {
@@ -30,4 +39,5 @@ public abstract class Sites {
     public void setPositionCount(int positionCount) {
         this.positionCount = positionCount;
     }
+
 }
