@@ -6,6 +6,7 @@ import de.thm.positionData.Sites;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +31,7 @@ public class AdvancedBackgroundModel extends BackgroundModel {
     protected AdvancedBackgroundModel() { }
 
 
-    protected Collection<? extends Long> randPositions(AppearanceTable appearanceTable, List<Interval> intervals){
+    protected Collection<Long> randPositions(AppearanceTable appearanceTable, List<Interval> intervals){
 
         List<Long> sites = new ArrayList<>();
         BetterBackgroundModel better = new BetterBackgroundModel();
@@ -54,6 +55,8 @@ public class AdvancedBackgroundModel extends BackgroundModel {
         int count = appearanceTable.getAppearance("[]");
         Interval outs = Intervals.sum(intervals).invert();
         sites.addAll(better.randPositions(count, outs ,"in"));
+
+        Collections.sort(sites);
 
         return sites;
     }
