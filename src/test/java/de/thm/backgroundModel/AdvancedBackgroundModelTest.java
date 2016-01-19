@@ -1,5 +1,8 @@
 package de.thm.backgroundModel;
 
+import de.thm.calc.Intersect;
+import de.thm.calc.IntersectCalculate;
+import de.thm.calc.IntersectResult;
 import de.thm.genomeData.Interval;
 import de.thm.positionData.Sites;
 import org.junit.Test;
@@ -13,7 +16,7 @@ import static junit.framework.TestCase.assertEquals;
  */
 public class AdvancedBackgroundModelTest {
 
-    @Test
+    //@Test
     public void testAdvancedBg() throws Exception {
         List<Long> start1 = new ArrayList<>();
         List<Long> start2 = new ArrayList<>();
@@ -143,13 +146,25 @@ public class AdvancedBackgroundModelTest {
         end2.add(40L);
         end2.add(55L);
 
+        List<String> names = new ArrayList<>();
+
+        names.add("foo");
+        names.add("foo");
+        names.add("foo");
+
         Interval interval1 = mockInterval(start1, end1);
         Interval interval2 = mockInterval(start2, end2);
+
+        interval1.setType(Interval.Type.inout);
+        interval2.setType(Interval.Type.inout);
 
         List<Interval> intervalList = new ArrayList<>();
 
         intervalList.add(interval1);
         intervalList.add(interval2);
+
+        interval1.setIntervalName(names);
+        interval2.setIntervalName(names);
 
 
         // appearance table
@@ -157,28 +172,46 @@ public class AdvancedBackgroundModelTest {
         Map<String, Integer> appearance_map = new HashMap<>();
         Set<Integer> containing = new TreeSet<>();
 
+        int inFirst = 123;
+        int inSecond = 21;
+        int inBoth = 110;
+        int out = 78;
+
         containing.add(interval1.getUid());
-        appearance_map.put(app.hash(containing), 2);
+        appearance_map.put(app.hash(containing), inFirst);
 
         containing.add(interval2.getUid());
-        appearance_map.put(app.hash(containing), 5);
+        appearance_map.put(app.hash(containing), inBoth);
 
         containing.clear();
 
         containing.add(interval2.getUid());
-        appearance_map.put(app.hash(containing), 8);
+        appearance_map.put(app.hash(containing), inSecond);
 
-        appearance_map.put("[]", 7);
+        appearance_map.put("[]", out);
 
         app.setAppearance(appearance_map);
 
-
-
         AdvancedBackgroundModel bg = new AdvancedBackgroundModel();
 
-        for(long l: bg.randPositions(app, intervalList)){
-            System.out.println(l);
-        }
+        bg.addPositions(bg.randPositions(app, intervalList));
+
+        Intersect calc = new IntersectCalculate();
+
+        //check in first:
+        IntersectResult result1 = calc.searchSingleInterval(interval1, bg);
+        assertEquals(inFirst + inBoth, result1.getIn());
+
+
+        //check in second:
+        IntersectResult result2 = calc.searchSingleInterval(interval2, bg);
+        assertEquals(inSecond + inBoth, result2.getIn());
+
+        //check outsiders first:
+        assertEquals(new Integer(inSecond + out), result1.getOut());
+
+        //check outsiders second:
+        assertEquals(new Integer(inFirst + out), result2.getOut());
 
     }
 }
