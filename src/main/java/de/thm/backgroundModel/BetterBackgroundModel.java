@@ -32,7 +32,7 @@ public class BetterBackgroundModel extends BackgroundModel{
      *
      * @return Collection of random positions
      */
-    public Collection<? extends Long> randPositions(int siteCount, Interval interval, String mode) {
+    public Collection<Long> randPositions(int siteCount, Interval interval, String mode) {
 
         int io = (mode.equals("in"))? 0: 1; //remember if rand positions should be in or outside of an interval
 
@@ -46,7 +46,7 @@ public class BetterBackgroundModel extends BackgroundModel{
 
         //get some random numbers
         for(int i = 0; i < siteCount; i++){
-            Long r = Math.round(Math.floor(rand.nextDouble() * (maxValue+1)));
+            Long r = Math.round(Math.floor(rand.nextDouble() * (maxValue)));
             randomValues.add(r);
         }
 
@@ -61,7 +61,7 @@ public class BetterBackgroundModel extends BackgroundModel{
             long iEnd = intervalEnd.get(j);
             long randV = randomValues.get(i) - sumOfPrevious; // substract sum of previous intervals. Since random values are in order this works.
 
-            while(iEnd < iStart + randV && j < intervalStart.size()-(1+io)){ // if it does not fit in go to next interval and substract interval length from rand value
+            while(iEnd-1 < iStart + randV && j < intervalStart.size()-(1+io)){ // if it does not fit in go to next interval and substract interval length from rand value
                 j++;
                 randV = randV  - (iEnd - iStart);
                 sumOfPrevious += (iEnd - iStart);
