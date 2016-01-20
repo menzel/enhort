@@ -8,6 +8,12 @@ import java.util.List;
  */
 public class Intervals {
 
+    /**
+     * Intersect a list of intervals. Resulting interval has only starts/stop where all input interval were marked.
+     * *
+     * @param intervals - list of Interval Objects
+     * @return interval object. Can be empty
+     */
     public static Interval intersect(List<Interval> intervals){
         if(intervals.size() == 0){
             return null;
@@ -26,6 +32,13 @@ public class Intervals {
         }
     }
 
+    /**
+     * Intersect two intervals. Resulting interval has only starts/stop where both input interval were marked.
+     *
+     * @param intv1 - first input  interval object
+     * @param intv2 - second input interval object
+     * @return interval with marked intervals were both input intervals were marked.
+     */
     public static Interval intersect(Interval intv1, Interval intv2){
 
         List<Long> starts1 = intv1.getIntervalsStart();
@@ -76,6 +89,12 @@ public class Intervals {
     }
 
 
+    /**
+     * Sums up a list of intervals. The result has a interval were any of the input intervals were marked
+     *
+     * @param intervals - list of intervals
+     * @return interval with the sum of positions
+     */
     public static Interval sum(List<Interval> intervals) {
         if(intervals.size() == 0){
             return null;
@@ -94,6 +113,14 @@ public class Intervals {
         }
     }
 
+    /**
+     * Sums up two intervals. The result has a interval were any of the input intervals were marked
+     *
+     * @param intv1  - first interval for sum
+     * @param intv2 - second interval for sum
+     *
+     * @return sum of intv1 and intv2
+     */
     private static Interval sum(Interval intv1, Interval intv2) {
         List<Long> starts1 = intv1.getIntervalsStart();
         List<Long> starts2 = intv2.getIntervalsStart();
