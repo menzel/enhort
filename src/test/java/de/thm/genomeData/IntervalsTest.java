@@ -24,20 +24,20 @@ public class IntervalsTest {
         start1.add(0L);
         start1.add(20L);
         start1.add(45L);
+        start1.add(100L);
 
         start2.add(5L);
         start2.add(35L);
         start2.add(50L);
-        start2.add(100L);
 
         end1.add(10L);
         end1.add(30L);
         end1.add(80L);
+        end1.add(110L);
 
         end2.add(15L);
         end2.add(40L);
         end2.add(55L);
-        end2.add(110L);
 
         List<String> names = new ArrayList<>();
 
