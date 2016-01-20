@@ -25,7 +25,9 @@ public class Intervals {
             return intersect(intervals.get(0), intervals.get(1));
 
         }else{
-            List<Interval> newList = intervals.subList(2, intervals.size());
+            List<Interval> newList = new ArrayList<>();
+            newList.addAll(intervals.subList(2, intervals.size()));
+
             newList.add(intersect(intervals.get(0), intervals.get(1)));
 
             return intersect(newList);
@@ -106,10 +108,11 @@ public class Intervals {
             return sum(intervals.get(0), intervals.get(1));
 
         }else{
-            List<Interval> newList = intervals.subList(2, intervals.size());
+            List<Interval> newList = new ArrayList<>();
+            newList.addAll(intervals.subList(2, intervals.size()));
             newList.add(sum(intervals.get(0), intervals.get(1)));
 
-            return intersect(newList);
+            return sum(newList);
         }
     }
 
