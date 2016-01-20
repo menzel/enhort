@@ -16,7 +16,7 @@ import static junit.framework.TestCase.assertEquals;
  */
 public class AdvancedBackgroundModelTest {
 
-    //@Test
+    @Test
     public void testAdvancedBg() throws Exception {
         List<Long> start1 = new ArrayList<>();
         List<Long> start2 = new ArrayList<>();
@@ -78,6 +78,7 @@ public class AdvancedBackgroundModelTest {
                 sites.add(53L);
                 sites.add(54L);
 
+                sites.add(60L);
                 return sites;
 
             }
