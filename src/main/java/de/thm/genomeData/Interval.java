@@ -40,6 +40,7 @@ public class Interval implements Serializable{
 
         tmp.setIntervalsStart(new ArrayList<>(intervalsEnd));
         tmp.setIntervalsEnd(new ArrayList<>(intervalsStart));
+        tmp.setType(this.type);
 
         if(intervalsStart.get(0) != 0L) {
             tmp.getIntervalsStart().add(0, 0L);
