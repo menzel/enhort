@@ -52,10 +52,15 @@ public class IntervalsTest {
         interval1.setIntervalName(names);
         interval2.setIntervalName(names);
 
-        // sum(a, -b) == intersect(-a, b)
 
-        assertEquals(Intervals.sum(interval1, interval2.invert().invert()).getIntervalsStart(), Intervals.intersect(interval1.invert(), interval2).getIntervalsStart());
+        // sum(a,b) == -Intersect(-a, -b)
+        assertEquals(Intervals.sum(interval1,interval2).getIntervalsStart(), Intervals.intersect(interval1.invert(),interval2.invert()).invert().getIntervalsStart());
 
+        // sum(a, -b) == Intersect(-a, b)
+        assertEquals(Intervals.sum(interval1, interval2.invert()).invert().getIntervalsStart(), Intervals.intersect(interval1.invert(), interval2).getIntervalsStart());
+
+        // sum(-a, -b) == -Intersect(a, b)
+        assertEquals(Intervals.sum(interval1.invert(), interval2.invert()).getIntervalsStart(), Intervals.intersect(interval1, interval2).invert().getIntervalsStart());
 
     }
 
