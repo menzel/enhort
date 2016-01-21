@@ -47,7 +47,9 @@ public class IntersectCalculate implements Intersect{
                 if(p < intervalEnd.get(i) && p >= intervalStart.get(i)){
 
                     in++;
-                    intersectResult.add(intervalName.get(i));
+
+                    if(intv.getType() == Interval.Type.named)
+                        intersectResult.add(intervalName.get(i));
                     if(intv.getType() == Interval.Type.score)
                             intersectResult.add(intervalScore.get(i-1));
                 } else{
@@ -59,7 +61,9 @@ public class IntersectCalculate implements Intersect{
 
                 }else{
                     in++;
-                    intersectResult.add(intervalName.get(i));
+
+                    if(intv.getType() == Interval.Type.named)
+                        intersectResult.add(intervalName.get(i));
                     if(intv.getType() == Interval.Type.score)
                             intersectResult.add(intervalScore.get(i-1));
                 }
