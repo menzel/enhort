@@ -61,10 +61,12 @@ public class IntervalTest {
         expectedStarts.add(0L);
         expectedStarts.add(10L);
         expectedStarts.add(20L);
+        expectedStarts.add(26L);
 
         expectedEnds.add(5L);
         expectedEnds.add(15L);
         expectedEnds.add(25L);
+        expectedEnds.add(ChromosomSizes.getInstance().getGenomeSize());
 
         assertEquals(expectedStarts, invert.getIntervalsStart());
         assertEquals(expectedEnds, invert.getIntervalsEnd());
@@ -72,5 +74,9 @@ public class IntervalTest {
         assertEquals(starts, base.getIntervalsStart());
         assertEquals(ends, base.getIntervalsEnd());
 
+        Interval doubleInvert = base.invert().invert();
+
+        assertEquals(starts, doubleInvert.getIntervalsStart());
+        assertEquals(ends, doubleInvert.getIntervalsEnd());
     }
 }
