@@ -123,7 +123,8 @@ public class AppearanceTable {
     }
 
     public int getAppearance(String app) {
-
+        if(app.equals("[]") && !appearance.containsKey("[]"))
+            return 0;
         return appearance.get(app);
     }
 
