@@ -41,14 +41,19 @@ public class Interval implements Serializable{
         tmp.setIntervalsStart(new ArrayList<>(intervalsEnd));
         tmp.setIntervalsEnd(new ArrayList<>(intervalsStart));
 
-        if(tmp.getIntervalsEnd().get(0) == 0L){
+        if(intervalsStart.get(0) != 0L) {
+            tmp.getIntervalsStart().add(0, 0L);
+        } else {
             tmp.getIntervalsEnd().remove(0);
-            tmp.getIntervalsStart().remove(intervalsStart.size()-1);
+        }
 
-        } else{
-            tmp.getIntervalsStart().add(0,0L);
+        if(intervalsEnd.get(intervalsEnd.size()-1) == ChromosomSizes.getInstance().getGenomeSize()) {
+            tmp.getIntervalsStart().remove(tmp.getIntervalsStart().size()-1);
+
+        } else {
             tmp.getIntervalsEnd().add(ChromosomSizes.getInstance().getGenomeSize());
         }
+
 
         return tmp;
     }
