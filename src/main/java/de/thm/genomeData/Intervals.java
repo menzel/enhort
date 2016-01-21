@@ -50,6 +50,7 @@ public class Intervals {
         List<Long> ends2 = intv2.getIntervalsEnd();
 
         Interval result = new Interval();
+        result.setType(intv1.getType());
         List<Long> result_start = new ArrayList<>();
         List<Long> result_end = new ArrayList<>();
 
@@ -124,7 +125,7 @@ public class Intervals {
      *
      * @return sum of intv1 and intv2
      */
-    private static Interval sum(Interval intv1, Interval intv2) {
+    protected static Interval sum(Interval intv1, Interval intv2) {
         List<Long> starts1 = intv1.getIntervalsStart();
         List<Long> starts2 = intv2.getIntervalsStart();
 
@@ -132,6 +133,7 @@ public class Intervals {
         List<Long> ends2 = intv2.getIntervalsEnd();
 
         Interval result = new Interval();
+        result.setType(intv1.getType());
         List<Long> result_start = new ArrayList<>();
         List<Long> result_end = new ArrayList<>();
 
