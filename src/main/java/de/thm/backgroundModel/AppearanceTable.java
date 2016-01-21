@@ -45,7 +45,9 @@ public class AppearanceTable {
                 }
 
                 if(i == 0){
-                     continue;
+                    if(p >= intervalStart.get(i)){
+                        containing.add(interval.getUid());
+                    }
 
                 } else if(i == intervalCount && p > intervalEnd.get(i-1)){ //last Interval and p not in previous
                     if(p < intervalEnd.get(i) && p >= intervalStart.get(i)){
