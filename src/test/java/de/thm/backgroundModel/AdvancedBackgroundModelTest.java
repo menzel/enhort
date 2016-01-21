@@ -111,6 +111,91 @@ public class AdvancedBackgroundModelTest {
 
     }
 
+    @Test
+    public void testAdvancedBgSecond() throws Exception {
+        List<Long> start1 = new ArrayList<>();
+        List<Long> start2 = new ArrayList<>();
+        List<Long> start3 = new ArrayList<>();
+
+        List<Long> end1 = new ArrayList<>();
+        List<Long> end2 = new ArrayList<>();
+        List<Long> end3 = new ArrayList<>();
+
+        start1.add(0L);
+        start1.add(10L);
+
+        end1.add(5L);
+        end1.add(15L);
+
+
+        start2.add(30L);
+        start2.add(50L);
+
+        end2.add(35L);
+        end2.add(55L);
+
+        start3.add(0L);
+        end3.add(58L);
+
+
+        Interval interval1 = mockInterval(start1, end1);
+        Interval interval2 = mockInterval(start2, end2);
+        Interval interval3 = mockInterval(start3, end3);
+
+        List<Interval> intervalList = new ArrayList<>();
+
+        intervalList.add(interval1);
+        intervalList.add(interval2);
+        intervalList.add(interval3);
+
+        // positions:
+
+         Sites sites =  new Sites() {
+            @Override
+            public List<Long> getPositions() {
+
+                List<Long> sites = new ArrayList<>();
+
+                sites.add(3L);
+                sites.add(6L);
+                sites.add(11L);
+                sites.add(20L);
+                sites.add(52L);
+
+                return sites;
+
+            }
+        };
+
+
+        AdvancedBackgroundModel model = new AdvancedBackgroundModel(intervalList, sites);
+
+        //check list count of pos in list 1:
+        assertEquals(0,model.getAppearanceTable().getAppearance(intervalList.subList(0,1)));
+
+        //check list 2:
+        assertEquals(0,model.getAppearanceTable().getAppearance(intervalList.subList(1,2)));
+
+
+        //check count of pos which are in all lists:
+        assertEquals(0,model.getAppearanceTable().getAppearance(intervalList));
+
+        // check pos in list 2 and 3:
+        assertEquals(1,model.getAppearanceTable().getAppearance(intervalList.subList(1,3)));
+
+        //check values for other list:
+        assertEquals(2,model.getAppearanceTable().getAppearance(intervalList.subList(2,3))); //list 3
+
+        List<Interval> otherList = new ArrayList<>();
+        otherList.add(interval1);
+        otherList.add(interval3);
+
+        assertEquals(2,model.getAppearanceTable().getAppearance(otherList));
+
+    }
+
+
+
     private Interval mockInterval(List<Long> start, List<Long> end) {
         Interval interval = new Interval();
 
@@ -215,4 +300,5 @@ public class AdvancedBackgroundModelTest {
         assertEquals(new Integer(inFirst + out), result2.getOut());
 
     }
+
 }
