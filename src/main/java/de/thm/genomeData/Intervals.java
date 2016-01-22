@@ -139,49 +139,56 @@ public class Intervals {
 
         int j = 0;
         int i = 0;
+
+        long start;
+        long end;
+
         for(; i < starts1.size(); i++){
 
-            long start = starts1.get(i);
-            long end = ends1.get(i);
-            long nextStart = (j >= starts2.size()) ? Long.MAX_VALUE: starts2.get(j);
-            boolean s = true;
+            if(j > starts2.size() - 1)
+                break;
 
-            if(start > nextStart){
+            start = starts1.get(i);
+            end = ends1.get(i);
+            long nextStart = starts2.get(j);
+            boolean s = false;
+            boolean x = false;
+
+            if(start > starts2.get(j)){
+                nextStart = start;
                 start = starts2.get(j);
                 end = ends2.get(j);
-                nextStart = starts1.get(i);
-                s = false;
+                s = true;
+                x = true;
             }
 
-            while(end > nextStart){
-                if(j < starts2.size()-1){
-                    end = Math.max(ends2.get(j),end);
+            while (end >= nextStart && i < starts1.size() - 1 && j < starts2.size() - 1){
+
+                if (s) {
+                    end = ends1.get(i);
+                    i++;
+                    nextStart = starts1.get(i);
+
+                    s = false;
+
+                } else {
+                    end = ends2.get(j);
                     j++;
-                } else {
-                    break;
-                }
+                    nextStart = starts2.get(j);
 
-                if(i < starts1.size()-1){
-                    if(j >= starts2.size()-1){
-                        nextStart = starts1.get(i+1);
-
-                    } else{
-                        nextStart = Math.min(starts1.get(i+1),starts2.get(j));
-                    }
-
-                } else {
-                    nextStart = Long.MAX_VALUE;
+                    s = true;
                 }
             }
 
-            result_start.add(start);
-            result_end.add(end);
-
-            if(!s){
+            if(x){ //if the interval from start1(i) was omitted
                 i--;
                 j++;
             }
 
+            if(!(result_end.size() > 1 && end < result_end.get(result_end.size()-1))){ // test for special case of omitted interval was complete in last interval
+                result_start.add(start);
+                result_end.add(end);
+            }
         }
 
         //add remaining intervals
@@ -189,6 +196,12 @@ public class Intervals {
             result_start.add(starts2.get(j));
             result_end.add(ends2.get(j));
         }
+
+        for(; i < starts1.size(); i++){
+            result_start.add(starts1.get(i));
+            result_end.add(ends1.get(i));
+        }
+
 
         result.setIntervalsStart(result_start);
         result.setIntervalsEnd(result_end);
