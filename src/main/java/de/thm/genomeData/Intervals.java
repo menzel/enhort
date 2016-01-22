@@ -195,4 +195,101 @@ public class Intervals {
 
         return result;
     }
+
+    /**
+     * Xor a list of intervals. The result has a interval were one of each was marked
+     *
+     * @param intervals - list of intervals
+     * @return interval with the xor of positions
+     */
+    public static Interval xor(List<Interval> intervals) {
+        if(intervals.size() == 0){
+            return null;
+
+        } else if(intervals.size() == 1){
+            return intervals.get(0);
+
+        } else if(intervals.size() == 2){
+            return xor(intervals.get(0), intervals.get(1));
+
+        }else{
+            List<Interval> newList = new ArrayList<>();
+            newList.addAll(intervals.subList(2, intervals.size()));
+            newList.add(xor(intervals.get(0), intervals.get(1)));
+
+            return xor(newList);
+        }
+    }
+
+    /**
+     * Xor of two intervals
+     *
+     * @param intv1 - first interval
+     * @param intv2 - second interval
+     *
+     * @return xor(interval1, interval2)
+     */
+    public static Interval xor(Interval intv1, Interval intv2) {
+
+        List<Long> starts1 = intv1.getIntervalsStart();
+        List<Long> starts2 = intv2.getIntervalsStart();
+
+        List<Long> ends1 = intv1.getIntervalsEnd();
+        List<Long> ends2 = intv2.getIntervalsEnd();
+
+        Interval result = new Interval();
+        result.setType(intv1.getType());
+        List<Long> result_start = new ArrayList<>();
+        List<Long> result_end = new ArrayList<>();
+        long previousEnd = 0;
+
+        int j = 0;
+        int i = 0;
+
+        for(; i < starts1.size(); i++){
+            long start = starts1.get(i);
+            long end = ends1.get(i);
+            long nextStart;
+            boolean s = false;
+
+            if(start > starts2.get(j)){
+                s = true;
+            }
+
+            if(s && j < starts2.size()-1) {
+                nextStart = starts1.get(i);
+                start = starts2.get(j);
+                end = ends2.get(j++);
+
+            } else {
+                nextStart = starts2.get(j);
+            }
+
+            if(start < previousEnd){
+                start = previousEnd;
+            }
+
+            previousEnd = end;
+
+            if(end > nextStart){
+                end = nextStart;
+            }
+
+
+            if(end != start){
+                result_start.add(start);
+                result_end.add(end);
+            }
+
+            if(s) i--;
+
+        }
+
+        result.setIntervalsStart(result_start);
+        result.setIntervalsEnd(result_end);
+
+        return result;
+    }
+
+
 }

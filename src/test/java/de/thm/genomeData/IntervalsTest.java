@@ -134,6 +134,71 @@ public class IntervalsTest {
 
     }
 
+    @Test
+    public void testXor() throws Exception {
+                List<Long> start1 = new ArrayList<>();
+        List<Long> start2 = new ArrayList<>();
+
+        List<Long> end1 = new ArrayList<>();
+        List<Long> end2 = new ArrayList<>();
+
+        start1.add(0L);
+        start1.add(20L);
+        start1.add(50L);
+
+        end1.add(10L);
+        end1.add(30L);
+        end1.add(60L);
+
+        start2.add(5L);
+        start2.add(35L);
+        start2.add(50L);
+
+        end2.add(15L);
+        end2.add(40L);
+        end2.add(60L);
+
+        List<String> names = new ArrayList<>();
+
+        names.add("foo");
+        names.add("foo");
+        names.add("foo");
+
+        Interval interval1 = mockInterval(start1, end1);
+        Interval interval2 = mockInterval(start2, end2);
+
+        interval1.setType(Interval.Type.inout);
+        interval2.setType(Interval.Type.inout);
+
+        List<Interval> intervalList = new ArrayList<>();
+
+        intervalList.add(interval1);
+        intervalList.add(interval2);
+
+        interval1.setIntervalName(names);
+        interval2.setIntervalName(names);
+
+
+        Interval result = Intervals.xor(interval1, interval2);
+
+        List<Long> expectedStarts = new ArrayList<>();
+        List<Long> expectedEnds = new ArrayList<>();
+
+        expectedStarts.add(0L);
+        expectedStarts.add(10L);
+        expectedStarts.add(20L);
+        expectedStarts.add(35L);
+
+        expectedEnds.add(5L);
+        expectedEnds.add(15L);
+        expectedEnds.add(30L);
+        expectedEnds.add(40L);
+
+        assertEquals(expectedStarts, result.getIntervalsStart());
+        assertEquals(expectedEnds, result.getIntervalsEnd());
+
+    }
+
     private Interval mockInterval(List<Long> start, List<Long> end) {
         Interval interval = new Interval();
 
@@ -142,4 +207,7 @@ public class IntervalsTest {
 
         return interval;
     }
+
+
+
 }
