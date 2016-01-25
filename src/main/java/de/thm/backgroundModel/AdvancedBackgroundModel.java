@@ -53,7 +53,8 @@ public class AdvancedBackgroundModel extends BackgroundModel {
         }
 
         int count = appearanceTable.getAppearance("[]");
-        Interval outs = Intervals.sum(intervals).invert();
+        //Interval outs = Intervals.sum(intervals).invert();
+        Interval outs = Intervals.intersect(intervals.stream().map(Interval::invert).collect(Collectors.toList()));
         sites.addAll(better.randPositions(count, outs ,"in"));
 
         Collections.sort(sites);
