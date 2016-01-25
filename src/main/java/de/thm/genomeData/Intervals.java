@@ -80,7 +80,7 @@ public class Intervals {
                     }
                 }
 
-                if(ends1.get(i1) < starts2.get(i2))
+                if(i1 < starts1.size()-1 && ends2.get(i2) > starts1.get(i1+1))
                     break;
             }
         }
@@ -125,7 +125,7 @@ public class Intervals {
      *
      * @return sum of intv1 and intv2
      */
-    protected static Interval sum(Interval intv1, Interval intv2) {
+    public static Interval sum(Interval intv1, Interval intv2) {
         List<Long> starts1 = intv1.getIntervalsStart();
         List<Long> starts2 = intv2.getIntervalsStart();
 
