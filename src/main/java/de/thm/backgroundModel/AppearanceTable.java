@@ -59,7 +59,7 @@ public class AppearanceTable {
                     }
                 }else{
                     if(p >= intervalEnd.get(i-1)){
-                        continue;
+                        continue; // not inside the last interval
 
                     }else{
                         containing.add(interval.getUid());
