@@ -5,7 +5,6 @@ import de.thm.backgroundModel.SimpleBackgroundModel;
 import de.thm.calc.Intersect;
 import de.thm.calc.IntersectCalculate;
 import de.thm.calc.IntersectMultithread;
-import de.thm.calc.IntersectResult;
 import de.thm.genomeData.Interval;
 import de.thm.genomeData.IntervalLoader;
 import de.thm.positionData.Sites;
@@ -42,17 +41,24 @@ public class Analyse {
 
         //Sites bg = new SimpleBackgroundModel(userSites.getPositionCount());
 
-        IntersectResult resultUserSites;
-        IntersectResult resultBg;
+        //IntersectResult resultUserSites;
+        //IntersectResult resultBg;
 
-        Interval genes = intervals.get("knownGenes.bed");
-        resultUserSites = simple.searchSingleInterval(genes, userSites);
+        //Interval genes = intervals.get("knownGenes.bed");
+        //resultUserSites = simple.searchSingleInterval(genes, userSites);
         //Sites bg = new BetterBackgroundModel(resultUserSites.getIn(),resultUserSites.getOut() , genes);
 
         List<Interval> covariants = new ArrayList<>();
-        covariants.add(intervals.get("exons.bed"));
-        covariants.add(intervals.get("knownGenes.bed"));
+        //covariants.add(intervals.get("H1-hESC-H3K4m1.bed"));
+        //covariants.add(intervals.get("H1-hESC-H3K4m3.bed"));
         //covariants.add(intervals.get("open-chrom-synth-HeLa-S3-valid.bed"));
+        //covariants.add(intervals.get("HeLa-S3-H3K4m1.bed"));
+        covariants.add(intervals.get("knownGenes.bed"));
+        covariants.add(intervals.get("exons_5UTR.bed"));
+        covariants.add(intervals.get("exons_3UTR.bed"));
+        //covariants.add(intervals.get("open-chrom-synth-HeLa-S3-valid.bed"));
+        //covariants.add(intervals.get("exons.bed"));
+        //covariants.add(intervals.get("introns.bed"));
 
 
         AdvancedBackgroundModel adv = new AdvancedBackgroundModel(covariants,userSites);
@@ -61,8 +67,36 @@ public class Analyse {
         // Large pValue (> 0.05): the insertion points look random
         // Small pValue (< 0.05): the insertion points are not random  (more interesting)
 
+
         IntersectMultithread multi = new IntersectMultithread(intervals, userSites, adv);
 
+        /*
+        //not in any:
+        Interval s = Intervals.intersect(covariants.get(0).invert(), covariants.get(1).invert());
+        System.out.printf(simple.searchSingleInterval(s, userSites).toString());
+
+        //not in first, but second
+        s = Intervals.intersect(covariants.get(0).invert(), covariants.get(1));
+        System.out.printf(simple.searchSingleInterval(s, userSites).toString());
+
+        //not in second, but first
+        s = Intervals.intersect(covariants.get(0), covariants.get(1).invert());
+        System.out.printf(simple.searchSingleInterval(s, userSites).toString());
+
+        //in both
+        s = Intervals.intersect(covariants.get(0), covariants.get(1));
+        System.out.printf(simple.searchSingleInterval(s, userSites).toString());
+        //System.out.println(simple.searchSingleInterval(s, adv).toString());
+
+
+        System.out.println("----");
+
+        //in first + in both
+        System.out.printf(simple.searchSingleInterval(covariants.get(0), userSites).toString());
+
+        //in second + in both
+        System.out.printf(simple.searchSingleInterval(covariants.get(1), userSites).toString());
+        */
     }
 
 

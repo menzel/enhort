@@ -26,7 +26,7 @@ public class Interval implements Serializable{
     protected List<Long> intervalsEnd = new ArrayList<>();
 
     protected List<String> intervalName = new ArrayList<>();
-    protected List<Long> intervalScore = new ArrayList<>();
+    protected List<Integer> intervalScore = new ArrayList<>();
 
     protected Type type;
     public enum Type {inout, score, named}
@@ -97,9 +97,9 @@ public class Interval implements Serializable{
            intervalName.add(parts[3]);
 
            if(parts.length > 4)
-                intervalScore.add(Long.parseLong(parts[4]));
+                intervalScore.add(Integer.parseInt(parts[4]));
            else
-                intervalScore.add(0L);
+                intervalScore.add(0);
        }
     }
 
@@ -154,11 +154,11 @@ public class Interval implements Serializable{
         this.intervalsEnd = intervalsEnd;
     }
 
-    public List<Long> getIntervalScore() {
+    public List<Integer> getIntervalScore() {
         return intervalScore;
     }
 
-    public void setIntervalScore(List<Long> intervalScore) {
+    public void setIntervalScore(List<Integer> intervalScore) {
         this.intervalScore = intervalScore;
     }
 

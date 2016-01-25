@@ -10,13 +10,6 @@ import java.util.List;
  */
 public class IntersectCalculate implements Intersect{
 
-    private IntersectResult intersectResult;
-
-
-    public IntersectCalculate() {
-    }
-
-
     public IntersectResult searchSingleInterval(Interval intv, Sites pos){
 
         int out = 0;
@@ -29,7 +22,7 @@ public class IntersectCalculate implements Intersect{
         List<Long> intervalStart = intv.getIntervalsStart();
         List<Long> intervalEnd = intv.getIntervalsEnd();
         List<String> intervalName = intv.getIntervalName();
-        List<Long> intervalScore = intv.getIntervalScore();
+        List<Integer> intervalScore = intv.getIntervalScore();
 
         int intervalCount = intervalStart.size()-1;
 
@@ -49,7 +42,7 @@ public class IntersectCalculate implements Intersect{
                     in++;
 
                     if(intv.getType() == Interval.Type.named)
-                        intersectResult.add(intervalName.get(i));
+                        intersectResult.add(intervalName.get(i-1));
                     if(intv.getType() == Interval.Type.score)
                             intersectResult.add(intervalScore.get(i-1));
                 } else{
@@ -63,7 +56,7 @@ public class IntersectCalculate implements Intersect{
                     in++;
 
                     if(intv.getType() == Interval.Type.named)
-                        intersectResult.add(intervalName.get(i));
+                        intersectResult.add(intervalName.get(i-1));
                     if(intv.getType() == Interval.Type.score)
                             intersectResult.add(intervalScore.get(i-1));
                 }
@@ -76,7 +69,4 @@ public class IntersectCalculate implements Intersect{
         return intersectResult;
     }
 
-    public IntersectResult getIntersectResult() {
-        return intersectResult;
-    }
 }

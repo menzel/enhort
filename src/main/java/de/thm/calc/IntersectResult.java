@@ -11,7 +11,7 @@ public class IntersectResult {
 
 
     private final Map<String, Integer> resultNames;
-    //private final Map<Long, Integer> resultScores;
+    private final List<Integer> resultScores;
     private int in;
     private Interval usedInterval;
 
@@ -29,22 +29,16 @@ public class IntersectResult {
      */
     public IntersectResult() {
         this.resultNames = new HashMap<>();
-        //this.resultScores= new HashMap<>();
+        this.resultScores = new ArrayList<>();
     }
+
 
     /**
      *
      * @param score
      */
-    public void add(long score){
-
-        add(Long.toString(score));
-
-        /*if(resultScores.containsKey(score)){
-            resultScores.put(score, resultScores.get(score)+1);
-        }else{
-            resultScores.put(score, 1);
-        }*/
+    public void add(Integer score){
+        resultScores.add(score);
     }
 
     /**
@@ -81,22 +75,9 @@ public class IntersectResult {
      *
      * @return
      */
-    /*
-    public String getResultScores() {
-        String val = "";
-        List<Long> keys = new ArrayList<>(resultScores.keySet());
-        Collections.sort(keys);
-
-        val = "200\t" + resultNames.get("out") + "\n";
-        for(Long key: keys){
-            System.out.println(key + "\t" + resultScores.get(key));
-
-            val = val + key + "\t" + resultScores.get(key) + "\n";
-        }
-
-        return val;
+    public List<Integer> getResultScores() {
+        return resultScores;
     }
-    */
 
     @Override
     public String toString() {
@@ -131,5 +112,6 @@ public class IntersectResult {
     public void setUsedInterval(Interval usedInterval) {
         this.usedInterval = usedInterval;
     }
+
 }
 

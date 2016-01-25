@@ -2,6 +2,7 @@ package de.thm.stat;
 
 import de.thm.calc.IntersectResult;
 import org.apache.commons.math3.stat.inference.ChiSquareTest;
+import org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,6 +16,7 @@ import java.util.Map;
 public class IndependenceTest {
 
     private ChiSquareTest tester;
+    private KolmogorovSmirnovTest kolmoTester;
 
     public IndependenceTest() {
 
@@ -35,6 +37,12 @@ public class IndependenceTest {
         switch (intersectResultA.getType()){
 
             case score:
+
+                double[] measuredScore = intersectResultA.getResultScores().stream().mapToDouble(i ->i).toArray();
+                double[] expectedScore = intersectResultB.getResultScores().stream().mapToDouble(i ->i).toArray();
+
+                return new TestResult(kolmoTester.kolmogorovSmirnovTest(measuredScore, expectedScore), intersectResultA, intersectResultB, trackName);
+
             case named:
 
                 Map<String, Integer> measured = intersectResultA.getResultNames();
