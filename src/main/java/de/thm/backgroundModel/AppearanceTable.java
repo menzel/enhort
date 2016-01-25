@@ -8,6 +8,8 @@ import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
+ * This class holds the appearances for the different combinations of points in intervals
+ *
  * Created by Michael Menzel on 13/1/16.
  */
 public class AppearanceTable {
@@ -16,8 +18,10 @@ public class AppearanceTable {
 
 
     /**
+     * Puts the appearances in the appearance table. Each point is added to one of the hash values, depending if it is in none, one or more intervals
      *
-     * @param intervals
+     * @param positions - positions to find in intervals
+     * @param intervals - intervals to match against
      */
     public void fillTable(List<Interval> intervals, Sites positions) {
         appearance = new HashMap<>();
@@ -77,9 +81,13 @@ public class AppearanceTable {
         }
     }
 
+    /**
+     * Gets the hash key for a list of Interval Ids.
+     *
+     * @param containing - list of interval id's
+     * @return HashMap key as String
+     */
     protected String hash(Set<Integer> containing) {
-        long r = 0;
-        int i = 0;
 
         List<Integer> list = new ArrayList<>(containing);
         Collections.sort(list);
@@ -87,6 +95,13 @@ public class AppearanceTable {
         return Arrays.toString(list.toArray());
     }
 
+
+    /**
+     * Gets the hash key for a list of Interval Ids.
+     *
+     * @param intervals - list of intervals
+     * @return HashMap key as String
+     */
     protected String hash(List<Interval> intervals) {
         List<Integer> containing = new ArrayList<>();
 
@@ -104,15 +119,12 @@ public class AppearanceTable {
     }
 
     /**
+     * Get the appearance for a list of intervals
      *
-     * @param intervals
-     * @return
+     * @param intervals - intervals to fetch the value from
+     * @return appearance count
      */
     public int getAppearance(List<Interval> intervals){
-        //System.out.println("given interval ids: " +intervals.stream().map(Interval::getUid).collect(Collectors.toList()));
-        //System.out.println("appearance hash: " +Arrays.toString(appearance.keySet().toArray()));
-        //System.out.print("Hash function of given interval ids " + hash(intervals));
-        //System.out.println("\n_______");
 
         if(appearance.containsKey(hash(intervals))){
             return appearance.get(hash(intervals));
@@ -122,18 +134,26 @@ public class AppearanceTable {
         }
     }
 
+    /**
+     * Get the appearance for a String key.
+     *
+     * @param app - Hash map key
+     * @return appearance count
+     */
     public int getAppearance(String app) {
-        if(app.equals("[]") && !appearance.containsKey("[]"))
+        if(!appearance.containsKey(app))
             return 0;
         return appearance.get(app);
     }
 
     /**
+     * Translates a hash key (String) app to a list of intervals.
+     * This method is for testing environment, use translate(String) for other
      *
-     * @param app
-     * @return
+     * @param app - hash key as String
+     * @return List of intervals which are referenced in the hash key
      */
-    public List<Interval> translate(String app, List<Interval> knownIntervals) {
+    protected List<Interval> translate(String app, List<Interval> knownIntervals) {
 
         if(app.compareTo("[]") == 0){ //empty array
             return null;
@@ -157,9 +177,10 @@ public class AppearanceTable {
     }
 
     /**
+     * Translates a String of Interval Ids to a list of intervals.
      *
-     * @param app
-     * @return
+     * @param app - appearance hash key as string
+     * @return List of Intervals
      */
     public List<Interval> translate(String app) {
 
