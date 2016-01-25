@@ -28,37 +28,7 @@ public class Interval implements Serializable{
     protected List<String> intervalName = new ArrayList<>();
     protected List<Long> intervalScore = new ArrayList<>();
 
-
     protected Type type;
-
-    public Type getType() {
-        return type;
-    }
-
-    public Interval invert() {
-        Interval tmp = new Interval();
-
-        tmp.setIntervalsStart(new ArrayList<>(intervalsEnd));
-        tmp.setIntervalsEnd(new ArrayList<>(intervalsStart));
-        tmp.setType(this.type);
-
-        if(intervalsStart.get(0) != 0L) {
-            tmp.getIntervalsStart().add(0, 0L);
-        } else {
-            tmp.getIntervalsEnd().remove(0);
-        }
-
-        if(intervalsEnd.get(intervalsEnd.size()-1) == ChromosomSizes.getInstance().getGenomeSize()) {
-            tmp.getIntervalsStart().remove(tmp.getIntervalsStart().size()-1);
-
-        } else {
-            tmp.getIntervalsEnd().add(ChromosomSizes.getInstance().getGenomeSize());
-        }
-
-
-        return tmp;
-    }
-
     public enum Type {inout, score, named}
 
      /**
@@ -81,7 +51,6 @@ public class Interval implements Serializable{
             PositionPreprocessor.preprocessData(this);
 
     }
-
 
 
     /**
@@ -134,6 +103,32 @@ public class Interval implements Serializable{
        }
     }
 
+
+    public Interval invert() {
+        Interval tmp = new Interval();
+
+        tmp.setIntervalsStart(new ArrayList<>(intervalsEnd));
+        tmp.setIntervalsEnd(new ArrayList<>(intervalsStart));
+        tmp.setType(this.type);
+
+        if(intervalsStart.get(0) != 0L) {
+            tmp.getIntervalsStart().add(0, 0L);
+        } else {
+            tmp.getIntervalsEnd().remove(0);
+        }
+
+        if(intervalsEnd.get(intervalsEnd.size()-1) == ChromosomSizes.getInstance().getGenomeSize()) {
+            tmp.getIntervalsStart().remove(tmp.getIntervalsStart().size()-1);
+
+        } else {
+            tmp.getIntervalsEnd().add(ChromosomSizes.getInstance().getGenomeSize());
+        }
+
+
+        return tmp;
+    }
+
+    public Type getType() { return type; }
 
     public List<String> getIntervalName() {
         return intervalName;
