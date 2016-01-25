@@ -11,9 +11,10 @@ import static junit.framework.TestCase.assertEquals;
  * Created by Michael Menzel on 19/1/16.
  */
 public class IntervalsTest {
+
     @Test
     public void crossvalidationSumIntersect() throws Exception {
-          List<Long> start1 = new ArrayList<>();
+        List<Long> start1 = new ArrayList<>();
         List<Long> start2 = new ArrayList<>();
 
         List<Long> end1 = new ArrayList<>();
@@ -46,23 +47,82 @@ public class IntervalsTest {
         Interval interval1 = mockInterval(start1, end1);
         Interval interval2 = mockInterval(start2, end2);
 
-        interval1.setType(Interval.Type.inout);
-        interval2.setType(Interval.Type.inout);
 
         interval1.setIntervalName(names);
         interval2.setIntervalName(names);
+
+        Interval f1 = interval1.invert();
+        Interval f2 = interval2.invert();
+        Interval t1 = Intervals.sum(f1,f2);
+        Interval t2 = Intervals.intersect(f1,f2);
 
 
         // sum(a,b) == -Intersect(-a, -b)
         assertEquals(Intervals.sum(interval1,interval2).getIntervalsStart(), Intervals.intersect(interval1.invert(),interval2.invert()).invert().getIntervalsStart());
 
-        // sum(a, -b) == Intersect(-a, b)
-        assertEquals(Intervals.sum(interval1, interval2.invert()).invert().getIntervalsStart(), Intervals.intersect(interval1.invert(), interval2).getIntervalsStart());
-
         // sum(-a, -b) == -Intersect(a, b)
         assertEquals(Intervals.sum(interval1.invert(), interval2.invert()).getIntervalsStart(), Intervals.intersect(interval1, interval2).invert().getIntervalsStart());
 
+        // sum(a, -b) == Intersect(-a, b)
+        assertEquals(Intervals.sum(interval1, interval2.invert()).getIntervalsStart(), Intervals.intersect(interval1.invert(), interval2).getIntervalsStart());
+
+
     }
+
+    @Test
+    public void testIntersect() throws Exception {
+        List<Long> start1 = new ArrayList<>();
+        List<Long> start2 = new ArrayList<>();
+
+        List<Long> end1 = new ArrayList<>();
+        List<Long> end2 = new ArrayList<>();
+
+        start1.add(10L);
+        start1.add(30L);
+        start1.add(80L);
+        start1.add(110L);
+
+        end1.add(20L);
+        end1.add(45L);
+        end1.add(100L);
+        end1.add(3095677412L);
+
+
+        start2.add(0L);
+        start2.add(15L);
+        start2.add(40L);
+        start2.add(55L);
+
+        end2.add(5L);
+        end2.add(35L);
+        end2.add(50L);
+        end2.add(3095677412L);
+
+        Interval interval1 = mockInterval(start1, end1);
+        Interval interval2 = mockInterval(start2, end2);
+
+        List<Long> expectedStarts = new ArrayList<>();
+        List<Long> expectedEnds = new ArrayList<>();
+
+        expectedStarts.add(15L);
+        expectedStarts.add(30L);
+        expectedStarts.add(40L);
+        expectedStarts.add(80L);
+        expectedStarts.add(110L);
+
+        expectedEnds.add(20L);
+        expectedEnds.add(35L);
+        expectedEnds.add(45L);
+        expectedEnds.add(100L);
+        expectedEnds.add(3095677412L);
+
+        Interval result = Intervals.intersect(interval1, interval2);
+
+        assertEquals(expectedStarts, result.getIntervalsStart());
+        assertEquals(expectedEnds, result.getIntervalsEnd());
+
+    }
+
 
     @Test
     public void testSum() throws Exception {
@@ -100,8 +160,6 @@ public class IntervalsTest {
         Interval interval1 = mockInterval(start1, end1);
         Interval interval2 = mockInterval(start2, end2);
 
-        interval1.setType(Interval.Type.inout);
-        interval2.setType(Interval.Type.inout);
 
         List<Interval> intervalList = new ArrayList<>();
 
@@ -167,8 +225,6 @@ public class IntervalsTest {
         Interval interval1 = mockInterval(start1, end1);
         Interval interval2 = mockInterval(start2, end2);
 
-        interval1.setType(Interval.Type.inout);
-        interval2.setType(Interval.Type.inout);
 
         List<Interval> intervalList = new ArrayList<>();
 
@@ -204,6 +260,9 @@ public class IntervalsTest {
 
         interval.setIntervalsStart(start);
         interval.setIntervalsEnd(end);
+
+
+        interval.setType(Interval.Type.inout);
 
         return interval;
     }
