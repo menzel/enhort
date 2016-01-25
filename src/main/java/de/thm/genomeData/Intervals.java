@@ -301,7 +301,8 @@ public class Intervals {
         result.setIntervalsStart(result_start);
         result.setIntervalsEnd(result_end);
 
-        return result;
+        //return result;
+        return null;
     }
 
 
