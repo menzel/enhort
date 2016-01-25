@@ -51,11 +51,6 @@ public class IntervalsTest {
         interval1.setIntervalName(names);
         interval2.setIntervalName(names);
 
-        Interval f1 = interval1.invert();
-        Interval f2 = interval2.invert();
-        Interval t1 = Intervals.sum(f1,f2);
-        Interval t2 = Intervals.intersect(f1,f2);
-
 
         // sum(a,b) == -Intersect(-a, -b)
         assertEquals(Intervals.sum(interval1,interval2).getIntervalsStart(), Intervals.intersect(interval1.invert(),interval2.invert()).invert().getIntervalsStart());
@@ -85,7 +80,7 @@ public class IntervalsTest {
         end1.add(20L);
         end1.add(45L);
         end1.add(100L);
-        end1.add(3095677412L);
+        end1.add(3095677412L); // chromosome end
 
 
         start2.add(0L);
@@ -96,7 +91,7 @@ public class IntervalsTest {
         end2.add(5L);
         end2.add(35L);
         end2.add(50L);
-        end2.add(3095677412L);
+        end2.add(3095677412L); // chromosome end
 
         Interval interval1 = mockInterval(start1, end1);
         Interval interval2 = mockInterval(start2, end2);
@@ -114,7 +109,7 @@ public class IntervalsTest {
         expectedEnds.add(35L);
         expectedEnds.add(45L);
         expectedEnds.add(100L);
-        expectedEnds.add(3095677412L);
+        expectedEnds.add(3095677412L); // chromosome end
 
         Interval result = Intervals.intersect(interval1, interval2);
 
