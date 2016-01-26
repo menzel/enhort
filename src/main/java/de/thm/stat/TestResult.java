@@ -55,7 +55,7 @@ public class TestResult {
         return "measured "  + resultMeasured.toString() +
                 "expected " +resultExpected.toString() +
                 trackName + " p-value: " + pValue +
-                "\n=====";
+                "\n=====\n";
     }
 
 }
