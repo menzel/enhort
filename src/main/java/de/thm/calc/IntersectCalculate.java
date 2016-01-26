@@ -22,7 +22,7 @@ public class IntersectCalculate implements Intersect{
         List<Long> intervalStart = intv.getIntervalsStart();
         List<Long> intervalEnd = intv.getIntervalsEnd();
         List<String> intervalName = intv.getIntervalName();
-        List<Integer> intervalScore = intv.getIntervalScore();
+        List<Double> intervalScore = intv.getIntervalScore();
 
         int intervalCount = intervalStart.size()-1;
 

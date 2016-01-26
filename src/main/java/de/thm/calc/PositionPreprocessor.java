@@ -22,18 +22,18 @@ public class PositionPreprocessor {
         List<Long> newStart = new ArrayList<>();
         List<Long> newEnd = new ArrayList<>();
         List<String> newName = new ArrayList<>();
-        List<Integer> newScore = new ArrayList<>();
+        List<Double> newScore = new ArrayList<>();
 
         List<Long> intervalsStart = interval.getIntervalsStart();
         List<Long> intervalsEnd = interval.getIntervalsEnd();
         List<String> intervalName = interval.getIntervalName();
-        List<Integer> intervalsScore = interval.getIntervalScore();
+        List<Double> intervalsScore = interval.getIntervalScore();
 
         if(intervalsStart.isEmpty()) return; long start = intervalsStart.get(0);
         long end = intervalsEnd.get(0);
 
         String name = intervalName.get(0);
-        int score = 0;
+        double score = 0;
         int count = 0;
 
 

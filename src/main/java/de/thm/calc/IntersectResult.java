@@ -11,7 +11,7 @@ public class IntersectResult {
 
 
     private final Map<String, Integer> resultNames;
-    private final List<Integer> resultScores;
+    private final List<Double> resultScores;
     private int in;
     private Interval usedInterval;
 
@@ -37,7 +37,7 @@ public class IntersectResult {
      *
      * @param score
      */
-    public void add(Integer score){
+    public void add(Double score){
         resultScores.add(score);
     }
 
@@ -75,7 +75,7 @@ public class IntersectResult {
      *
      * @return
      */
-    public List<Integer> getResultScores() {
+    public List<Double> getResultScores() {
         return resultScores;
     }
 
