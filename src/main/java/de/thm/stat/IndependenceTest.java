@@ -21,6 +21,7 @@ public class IndependenceTest {
     public IndependenceTest() {
 
         tester = new ChiSquareTest();
+        kolmoTester = new KolmogorovSmirnovTest();
     }
 
     /**
@@ -40,6 +41,9 @@ public class IndependenceTest {
 
                 double[] measuredScore = intersectResultA.getResultScores().stream().mapToDouble(i ->i).toArray();
                 double[] expectedScore = intersectResultB.getResultScores().stream().mapToDouble(i ->i).toArray();
+
+                intersectResultA.add("in", measuredScore.length);
+                intersectResultB.add("in", expectedScore.length);
 
                 return new TestResult(kolmoTester.kolmogorovSmirnovTest(measuredScore, expectedScore), intersectResultA, intersectResultB, trackName);
 
