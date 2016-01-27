@@ -1,6 +1,7 @@
 package de.thm.stat;
 
 import de.thm.calc.IntersectResult;
+import org.json.JSONObject;
 
 /**
  * Created by Michael Menzel on 12/1/16.
@@ -58,4 +59,20 @@ public class TestResult {
                 "\n=====\n";
     }
 
+    public String toJson(){
+
+        JSONObject obj = new JSONObject();
+
+        obj.put("meIn", this.measuredIn);
+        obj.put("meOut", this.measuredOut);
+        obj.put("exIn", this.expectedIn);
+        obj.put("exOut", this.expectedOut);
+        obj.put("pValue", this.pValue);
+
+        return  obj.toString();
+    }
+
+    public String getTrackname() {
+        return trackName;
+    }
 }

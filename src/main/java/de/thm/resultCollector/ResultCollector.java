@@ -1,6 +1,7 @@
 package de.thm.resultCollector;
 
 import de.thm.stat.TestResult;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,5 +42,15 @@ public class ResultCollector {
 
         return r;
 
+    }
+
+    public String toJson() {
+        JSONObject obj = new JSONObject();
+
+        for(TestResult result: results) {
+            obj.put(result.getTrackname(), result.toJson());
+        }
+
+        return obj.toString();
     }
 }
