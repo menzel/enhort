@@ -30,10 +30,11 @@ public class IntersectMultithread {
             exe.execute(wrapper);
         }
 
+
         exe.shutdown();
 
         try {
-            exe.awaitTermination(1, TimeUnit.MINUTES);
+            exe.awaitTermination(1, TimeUnit.SECONDS);
 
         } catch (InterruptedException e) {
             e.printStackTrace();
