@@ -8,8 +8,14 @@ import de.thm.calc.IntersectMultithread;
 import de.thm.genomeData.Interval;
 import de.thm.genomeData.IntervalLoader;
 import de.thm.positionData.Sites;
+import de.thm.resultCollector.ResultCollector;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +45,6 @@ public class Analyse {
      */
     public void analyse(Sites userSites){
 
-        //Sites bg = new SimpleBackgroundModel(userSites.getPositionCount());
 
         //IntersectResult resultUserSites;
         //IntersectResult resultBg;
@@ -53,50 +58,47 @@ public class Analyse {
         //covariants.add(intervals.get("H1-hESC-H3K4m3.bed"));
         //covariants.add(intervals.get("open-chrom-synth-HeLa-S3-valid.bed"));
         //covariants.add(intervals.get("HeLa-S3-H3K4m1.bed"));
-        covariants.add(intervals.get("knownGenes.bed"));
-        covariants.add(intervals.get("exons_5UTR.bed"));
-        covariants.add(intervals.get("exons_3UTR.bed"));
+        //covariants.add(intervals.get("knownGenes.bed"));
+        //covariants.add(intervals.get("exons_5UTR.bed"));
+        //covariants.add(intervals.get("exons_3UTR.bed"));
         //covariants.add(intervals.get("open-chrom-synth-HeLa-S3-valid.bed"));
         //covariants.add(intervals.get("exons.bed"));
         //covariants.add(intervals.get("introns.bed"));
+        //covariants.add(intervals.get("cpg.bed"));
 
 
-        AdvancedBackgroundModel adv = new AdvancedBackgroundModel(covariants,userSites);
+        Sites bg;
+
+        if(covariants.isEmpty()){
+            bg = new SimpleBackgroundModel(userSites.getPositionCount());
+        }
+        else{
+            bg = new AdvancedBackgroundModel(covariants,userSites);
+        }
 
         // H_0: bg and user sites are independent. Large pValue: bg and user are independent. Small pValue: bg and user are dependent.
         // Large pValue (> 0.05): the insertion points look random
         // Small pValue (< 0.05): the insertion points are not random  (more interesting)
 
 
-        IntersectMultithread multi = new IntersectMultithread(intervals, userSites, adv);
-
-        /*
-        //not in any:
-        Interval s = Intervals.intersect(covariants.get(0).invert(), covariants.get(1).invert());
-        System.out.printf(simple.searchSingleInterval(s, userSites).toString());
-
-        //not in first, but second
-        s = Intervals.intersect(covariants.get(0).invert(), covariants.get(1));
-        System.out.printf(simple.searchSingleInterval(s, userSites).toString());
-
-        //not in second, but first
-        s = Intervals.intersect(covariants.get(0), covariants.get(1).invert());
-        System.out.printf(simple.searchSingleInterval(s, userSites).toString());
-
-        //in both
-        s = Intervals.intersect(covariants.get(0), covariants.get(1));
-        System.out.printf(simple.searchSingleInterval(s, userSites).toString());
-        //System.out.println(simple.searchSingleInterval(s, adv).toString());
+        IntersectMultithread multi = new IntersectMultithread(intervals, userSites, bg);
 
 
-        System.out.println("----");
+        System.out.println(ResultCollector.getInstance().toString());
 
-        //in first + in both
-        System.out.printf(simple.searchSingleInterval(covariants.get(0), userSites).toString());
+        Path path = Paths.get("/home/menzel/Desktop/THM/lfba/projekphase/MultiGenBrowser/src/web/raw_data.csv");
 
-        //in second + in both
-        System.out.printf(simple.searchSingleInterval(covariants.get(1), userSites).toString());
-        */
+        try {
+            try (BufferedWriter writer = Files.newBufferedWriter(path)) {
+
+                writer.write("Question,1,2,3,4,5,N\n");
+                writer.write(ResultCollector.getInstance().toCsv());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
 

@@ -27,7 +27,6 @@ public class SimpleBackgroundModel extends BackgroundModel{
             long r = Math.round(rand.nextDouble() * ((double) genomeSize));
 
             positions.add(r);
-            positionCount++;
         }
 
         Collections.sort(positions);
