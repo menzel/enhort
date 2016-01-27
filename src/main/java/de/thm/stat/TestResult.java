@@ -1,7 +1,6 @@
 package de.thm.stat;
 
 import de.thm.calc.IntersectResult;
-import org.json.JSONObject;
 
 /**
  * Created by Michael Menzel on 12/1/16.
@@ -59,17 +58,24 @@ public class TestResult {
                 "\n=====\n";
     }
 
-    public String toJson(){
+    public String toCsv(){
 
-        JSONObject obj = new JSONObject();
+        String line;
+        String name = trackName.substring(0,trackName.indexOf("."));
 
-        obj.put("meIn", this.measuredIn);
-        obj.put("meOut", this.measuredOut);
-        obj.put("exIn", this.expectedIn);
-        obj.put("exOut", this.expectedOut);
-        obj.put("pValue", this.pValue);
+        double h = 1 - Math.log10(pValue);
+        double sumMe = measuredIn + measuredOut;
+        double sumEx = expectedIn + expectedOut;
 
-        return  obj.toString();
+        line = name + " Me,";
+        line += Double.toString(Math.round((measuredIn/sumMe)*h)) + ",";
+        line += Double.toString(Math.round((measuredOut/sumMe)*h)) + "\n";
+        line += name + " Ex,";
+        line += Double.toString(Math.round((expectedIn/sumEx)*h)) + ",";
+        line += Double.toString(Math.round((expectedOut/sumEx)*h)) + "\n";
+
+        return  line;
+
     }
 
     public String getTrackname() {
