@@ -60,19 +60,14 @@ public class TestResult {
 
     public String toCsv(){
 
-        String line;
-        String name = trackName.substring(0,trackName.indexOf("."));
-
-        double h = 1 - Math.log10(pValue);
-        double sumMe = measuredIn + measuredOut;
-        double sumEx = expectedIn + expectedOut;
-
-        line = name + " Me,";
-        line += Double.toString(Math.round((measuredIn/sumMe)*h)) + ",";
-        line += Double.toString(Math.round((measuredOut/sumMe)*h)) + "\n";
-        line += name + " Ex,";
-        line += Double.toString(Math.round((expectedIn/sumEx)*h)) + ",";
-        line += Double.toString(Math.round((expectedOut/sumEx)*h)) + "\n";
+        String line = trackName.substring(0,trackName.indexOf("."));
+        //double all = (measuredIn+expectedIn+measuredOut+expectedOut);
+        double all = (measuredIn+expectedIn);
+        int max = 100;
+        if(pValue > 0.05)
+            line += "," + 0 + "," + (measuredIn/all)*max + ",0," + (expectedIn/all)*max +  "," + 0 + "," + max + "\n";
+        else
+            line += "," + (measuredIn/all)*max + ",0,0,0," + (expectedIn/all)*max +  "," + max + "\n";
 
         return  line;
 

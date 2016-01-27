@@ -1,7 +1,6 @@
 package de.thm.resultCollector;
 
 import de.thm.stat.TestResult;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,13 +43,15 @@ public class ResultCollector {
 
     }
 
-    public String toJson() {
-        JSONObject obj = new JSONObject();
+    public String toCsv() {
+        String data = "";
 
-        for(TestResult result: results) {
-            obj.put(result.getTrackname(), result.toJson());
+        results.sort((result, t1) -> (result.getpValue() >= t1.getpValue())? 1 : -1);
+
+        for(TestResult tr: results) {
+            data += tr.toCsv();
         }
 
-        return obj.toString();
+        return data;
     }
 }
