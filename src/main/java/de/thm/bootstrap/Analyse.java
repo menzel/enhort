@@ -122,10 +122,18 @@ public class Analyse {
 
 
         try {
-            try (BufferedWriter writer = Files.newBufferedWriter(path.resolve("raw_data.csv"))) {
+            try (BufferedWriter writer = Files.newBufferedWriter(path.resolve("raw_data.json"))) {
 
-                writer.write("Question,1,2,3,4,5,N\n");
-                writer.write(ResultCollector.getInstance().toCsv());
+                writer.write(ResultCollector.getInstance().toJson());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            try (BufferedWriter writer = Files.newBufferedWriter(path.resolve("bubbles.json"))) {
+
+                writer.write(ResultCollector.getInstance().toBubblesJson());
             }
         } catch (IOException e) {
             e.printStackTrace();
