@@ -1,6 +1,7 @@
 package de.thm.stat;
 
 import de.thm.calc.IntersectResult;
+import de.thm.genomeData.Interval;
 
 /**
  * Created by Michael Menzel on 12/1/16.
@@ -75,5 +76,17 @@ public class TestResult {
 
     public String getTrackname() {
         return trackName;
+    }
+
+    public Interval.Type getType(){
+        return this.resultExpected.getType();
+    }
+
+    public IntersectResult getResultMeasured() {
+        return resultMeasured;
+    }
+
+    public IntersectResult getResultExpected() {
+        return resultExpected;
     }
 }
