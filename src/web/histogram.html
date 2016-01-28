@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.4.13/d3.min.js"></script>
+    <title>Histogram</title>
+</head>
+<body>
+
+<div id="hist" style="width:1000px;height:600px;"></div>
+<div id="hist2" style="width:1000px;height:600px;"></div>
+
+<script>
+
+    d3.json("expression_lymph_node.json", function(d) {
+        var x0 = d[0];
+        var x1 = d[1];
+
+        var measured = {
+          x: x0,
+          opacity: 0.75,
+          type: 'histogram',
+          name: "measured"
+        };
+
+        var expected = {
+          x: x1,
+          opacity: 0.75,
+          type: 'histogram',
+          name: "expected"
+        };
+        var data = [measured, expected];
+        var layout = {barmode: 'overlay'};
+        Plotly.newPlot('hist2', data, layout);
+
+    });
+
+    d3.json("expression_blood.json", function(d) {
+        var x0 = d[0];
+        var x1 = d[1];
+
+        var measured = {
+          x: x0,
+          opacity: 0.75,
+          type: 'histogram',
+          name: "measured"
+        };
+
+        var expected = {
+          x: x1,
+          opacity: 0.75,
+          type: 'histogram',
+          name: "expected"
+        };
+        var data = [measured, expected];
+        var layout = {barmode: 'overlay'};
+        Plotly.newPlot('hist', data, layout);
+
+    });
+
+</script>
+
+
+</body>
+
+</html>

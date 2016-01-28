@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.4.13/d3.min.js"></script>
+    <title>Named</title>
+</head>
+<body>
+
+<div id="plot" style="width:1000px;height:600px;"></div>
+
+<script>
+  d3.json("chromHmm-hESC.json", function(d) {
+
+    var trace1 = {
+      x: d[0],
+      y: d[1],
+      type: 'bar',
+      name: 'Measured',
+      marker: {
+      color: 'rgb(49,130,189)',
+      opacity: 0.7,
+      }
+    };
+
+    var trace2 = {
+      x: d[2],
+      y: d[3],
+      type: 'bar',
+      name: 'Expected',
+      marker: {
+        color: 'rgb(204,204,204)',
+        opacity: 0.5
+      }
+    };
+
+    var data = [trace1, trace2];
+
+    var layout = {
+      title: '',
+      xaxis: {
+        tickangle: -45
+      },
+      barmode: 'group'
+    };
+
+    Plotly.newPlot('plot', data, layout);
+
+
+  });
+
+</script>
+</body>
+</html>
