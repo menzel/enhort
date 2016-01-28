@@ -1,24 +1,22 @@
 package de.thm.resultCollector;
 
+import de.thm.genomeData.Interval;
 import de.thm.stat.TestResult;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Michael Menzel on 26/1/16.
  */
 public class ResultCollector {
 
-    private static ResultCollector resultCollector;
+    private static final ResultCollector resultCollector = new ResultCollector();
     private final List<TestResult> results;
 
     public static ResultCollector getInstance(){
-        if(resultCollector == null){
-            resultCollector = new ResultCollector();
-        }
-
         return resultCollector;
     }
 
@@ -53,5 +51,9 @@ public class ResultCollector {
         }
 
         return data;
+    }
+
+    public List<TestResult> getResultsByType(Interval.Type score) {
+        return  results.stream().filter(testResult -> testResult.getType().equals(score)).collect(Collectors.toList());
     }
 }
