@@ -9,6 +9,7 @@ import de.thm.genomeData.Interval;
 import de.thm.genomeData.IntervalLoader;
 import de.thm.positionData.Sites;
 import de.thm.resultCollector.ResultCollector;
+import de.thm.stat.TestResult;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -17,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -58,7 +60,7 @@ public class Analyse {
         //covariants.add(intervals.get("H1-hESC-H3K4m3.bed"));
         //covariants.add(intervals.get("open-chrom-synth-HeLa-S3-valid.bed"));
         //covariants.add(intervals.get("HeLa-S3-H3K4m1.bed"));
-        //covariants.add(intervals.get("knownGenes.bed"));
+        covariants.add(intervals.get("knownGenes.bed"));
         //covariants.add(intervals.get("exons_5UTR.bed"));
         //covariants.add(intervals.get("exons_3UTR.bed"));
         //covariants.add(intervals.get("open-chrom-synth-HeLa-S3-valid.bed"));
@@ -86,10 +88,41 @@ public class Analyse {
 
         System.out.println(ResultCollector.getInstance().toString());
 
-        Path path = Paths.get("/home/menzel/Desktop/THM/lfba/projekphase/MultiGenBrowser/src/web/raw_data.csv");
+        Path path = Paths.get("/home/menzel/Desktop/THM/lfba/projekphase/MultiGenBrowser/src/web/");
+
+        for(TestResult testResult: ResultCollector.getInstance().getResultsByType(Interval.Type.score)){
+            try {
+                try (BufferedWriter writer = Files.newBufferedWriter(path.resolve(testResult.getTrackname().substring(0,testResult.getTrackname().indexOf(".")).concat(".json")))) {
+                    writer.write("[");
+                    writer.write(Arrays.toString(testResult.getResultMeasured().getResultScores().toArray()));
+                    writer.write(",");
+                    writer.write(Arrays.toString(testResult.getResultExpected().getResultScores().toArray()));
+                    writer.write("]");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        for(TestResult testResult: ResultCollector.getInstance().getResultsByType(Interval.Type.named)){
+            try {
+                try (BufferedWriter writer = Files.newBufferedWriter(path.resolve(testResult.getTrackname().substring(0, testResult.getTrackname().indexOf(".")).concat(".json")))) {
+
+                    writer.write("[");
+                    writer.write(toJsonArray(testResult.getResultMeasured().getResultNames()));
+                    writer.write(",");
+                    writer.write(toJsonArray(testResult.getResultExpected().getResultNames()));
+                    writer.write("]");
+
+                }
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
 
         try {
-            try (BufferedWriter writer = Files.newBufferedWriter(path)) {
+            try (BufferedWriter writer = Files.newBufferedWriter(path.resolve("raw_data.csv"))) {
 
                 writer.write("Question,1,2,3,4,5,N\n");
                 writer.write(ResultCollector.getInstance().toCsv());
@@ -97,8 +130,26 @@ public class Analyse {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    private String toJsonArray(Map<String, Integer> names) {
+        String r = "";
 
+        r += "[";
+        for(String name: names.keySet()){
+            r += '"' + name + '"' + ',';
+        }
+        r = r.substring(0,r.length()-1);
+        r += "],";
+        r += "[";
+
+        for(String name: names.keySet()){
+            r += names.get(name) + ",";
+        }
+        r = r.substring(0,r.length()-1);
+        r += "]";
+
+        return r;
     }
 
 
