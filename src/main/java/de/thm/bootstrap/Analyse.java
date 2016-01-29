@@ -8,7 +8,7 @@ import de.thm.calc.IntersectMultithread;
 import de.thm.genomeData.Interval;
 import de.thm.genomeData.IntervalLoader;
 import de.thm.positionData.Sites;
-import de.thm.resultCollector.ResultCollector;
+import de.thm.stat.ResultCollector;
 import de.thm.stat.TestResult;
 
 import java.io.BufferedWriter;

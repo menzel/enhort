@@ -15,7 +15,6 @@ public class BetterBackgroundModelTest {
     public void testConstructor(){
         BetterBackgroundModel better = new BetterBackgroundModel(3,2,mockInterval(4));
 
-        System.out.println(better.positionCount);
     }
 
     private static Interval mockInterval(int i) {

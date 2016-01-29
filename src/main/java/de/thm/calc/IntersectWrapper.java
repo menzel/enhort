@@ -2,7 +2,7 @@ package de.thm.calc;
 
 import de.thm.genomeData.Interval;
 import de.thm.positionData.Sites;
-import de.thm.resultCollector.ResultCollector;
+import de.thm.stat.ResultCollector;
 import de.thm.stat.IndependenceTest;
 import de.thm.stat.TestResult;
 

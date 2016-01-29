@@ -1,7 +1,6 @@
-package de.thm.resultCollector;
+package de.thm.stat;
 
 import de.thm.genomeData.Interval;
-import de.thm.stat.TestResult;
 
 import java.util.ArrayList;
 import java.util.Arrays;
