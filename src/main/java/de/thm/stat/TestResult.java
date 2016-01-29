@@ -9,6 +9,7 @@ import de.thm.genomeData.Interval;
 public class TestResult {
 
     private final double pValue;
+    private final double effectSize;
     private final String trackName;
     private final int measuredIn;
     private final int measuredOut;
@@ -17,8 +18,9 @@ public class TestResult {
     private final IntersectResult resultMeasured;
     private final IntersectResult resultExpected;
 
-    public TestResult(double pValue, IntersectResult measured, IntersectResult expected, String trackName) {
+    public TestResult(double pValue, IntersectResult measured, IntersectResult expected, double effectSize, String trackName) {
         this.pValue = pValue;
+        this.effectSize = effectSize;
 
         resultExpected = expected;
         resultMeasured = measured;
@@ -55,6 +57,7 @@ public class TestResult {
     public String toString(){
         return "measured "  + resultMeasured.toString() +
                 "expected " +resultExpected.toString() +
+                "Pearson Correlation: " + effectSize + "\n" +
                 trackName + " p-value: " + pValue +
                 "\n=====\n";
     }
@@ -88,5 +91,9 @@ public class TestResult {
 
     public IntersectResult getResultExpected() {
         return resultExpected;
+    }
+
+    public double getEffectSize() {
+        return effectSize;
     }
 }

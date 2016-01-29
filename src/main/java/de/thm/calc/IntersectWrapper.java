@@ -2,6 +2,7 @@ package de.thm.calc;
 
 import de.thm.genomeData.Interval;
 import de.thm.positionData.Sites;
+import de.thm.stat.EffectSize;
 import de.thm.stat.ResultCollector;
 import de.thm.stat.IndependenceTest;
 import de.thm.stat.TestResult;
@@ -37,7 +38,11 @@ public class IntersectWrapper implements Runnable{
         IntersectResult result2 = intersec2.searchSingleInterval(interval, randomPos);
 
         IndependenceTest tester = new IndependenceTest();
+        EffectSize effectSize = new EffectSize();
+
         testResult  = tester.test(result1, result2, trackName);
+        effectSize.test(result1, result2, trackName);
+
         collector.addResult(testResult);
 
     }

@@ -17,11 +17,13 @@ public class IndependenceTest {
 
     private ChiSquareTest tester;
     private KolmogorovSmirnovTest kolmoTester;
+    private EffectSize effectSizeTester;
 
     public IndependenceTest() {
 
         tester = new ChiSquareTest();
         kolmoTester = new KolmogorovSmirnovTest();
+        effectSizeTester = new EffectSize();
     }
 
     /**
@@ -34,6 +36,12 @@ public class IndependenceTest {
      */
     public TestResult test(IntersectResult intersectResultA, IntersectResult intersectResultB, String trackName) {
 
+        long[][] counts = new long[2][2];
+        counts[0] = new long[] {intersectResultA.getIn(), intersectResultA.getOut()};
+        counts[1] = new long[] {intersectResultB.getIn(), intersectResultB.getOut()};
+
+        double effectSize = effectSizeTester.test(intersectResultA,intersectResultB,trackName);
+
 
         switch (intersectResultA.getType()){
 
@@ -45,22 +53,18 @@ public class IndependenceTest {
                 intersectResultA.add("in", measuredScore.length);
                 intersectResultB.add("in", expectedScore.length);
 
-                return new TestResult(kolmoTester.kolmogorovSmirnovTest(measuredScore, expectedScore), intersectResultA, intersectResultB, trackName);
+                return new TestResult(kolmoTester.kolmogorovSmirnovTest(measuredScore, expectedScore), intersectResultA, intersectResultB, effectSize, trackName);
 
             case named:
 
                 Map<String, Integer> measured = intersectResultA.getResultNames();
                 Map<String, Integer> expected = intersectResultB.getResultNames();
 
-                return new TestResult(tester.chiSquareTest(prepareLists(measured,expected)), intersectResultA, intersectResultB, trackName);
+                return new TestResult(tester.chiSquareTest(prepareLists(measured,expected)), intersectResultA, intersectResultB, effectSize, trackName);
 
             case inout:
 
-                long[][] counts = new long[2][2];
-                counts[0] = new long[] {intersectResultA.getIn(), intersectResultA.getOut()};
-                counts[1] = new long[] {intersectResultB.getIn(), intersectResultB.getOut()};
-
-                return new TestResult(tester.chiSquareTest(counts), intersectResultA, intersectResultB, trackName);
+                return new TestResult(tester.chiSquareTest(counts), intersectResultA, intersectResultB, effectSize, trackName);
 
             default:
                 return null;
