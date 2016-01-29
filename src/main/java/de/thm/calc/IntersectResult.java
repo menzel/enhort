@@ -84,8 +84,8 @@ public class IntersectResult {
 
         switch (getType()){
             case inout:
-                return "in: " + in + "\n" +
-                        "out: " + resultNames.get("out") + "\n";
+                return "in: " + in +
+                        " out: " + resultNames.get("out") + "\n";
             case named:
                 return resultNames.toString() + "\n";
 
