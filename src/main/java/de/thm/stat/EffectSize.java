@@ -8,15 +8,13 @@ import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
  */
 public class EffectSize {
 
-    private PearsonsCorrelation correlation;
+    private PearsonsCorrelation correlation = new PearsonsCorrelation();
 
     public double test(IntersectResult intersectResultA, IntersectResult intersectResultB, String trackName) {
 
         double[][] values= new double[2][2];
         values[0] = new double[] {intersectResultA.getIn(), intersectResultA.getOut()};
         values[1] = new double[] {intersectResultB.getIn(), intersectResultB.getOut()};
-
-        correlation = new PearsonsCorrelation();
 
         return correlation.correlation(values[0], values[1]);
 
