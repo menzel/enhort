@@ -4,10 +4,7 @@ import de.thm.calc.IntersectResult;
 import org.apache.commons.math3.stat.inference.ChiSquareTest;
 import org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -53,7 +50,14 @@ public class IndependenceTest {
                 intersectResultA.add("in", measuredScore.length);
                 intersectResultB.add("in", expectedScore.length);
 
-                return new TestResult(kolmoTester.kolmogorovSmirnovTest(measuredScore, expectedScore), intersectResultA, intersectResultB, effectSize, trackName);
+                if(measuredScore.length != expectedScore.length && expectedScore.length != 2){
+                    System.err.println(trackName + " Failed");
+                    System.err.println(Arrays.toString(measuredScore));
+                    System.err.println(Arrays.toString(expectedScore));
+
+                } else {
+                    return new TestResult(kolmoTester.kolmogorovSmirnovTest(measuredScore, expectedScore), intersectResultA, intersectResultB, effectSize, trackName);
+                }
 
             case named:
 
