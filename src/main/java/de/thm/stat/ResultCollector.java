@@ -45,7 +45,7 @@ public class ResultCollector {
         String output = "[";
 
         //sort by p value
-        results.sort((result, t1) -> (result.getpValue() >= t1.getpValue())? 1 : -1);
+        results.sort((result, t1) -> (result.getEffectSize() >= t1.getEffectSize())? 1 : -1);
 
         // only keep results from inout checks
         List<TestResult> inoutResults = results.stream().filter(p -> p.getType().equals(Interval.Type.inout)).collect(Collectors.toList());
