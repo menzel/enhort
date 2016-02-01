@@ -1,8 +1,12 @@
 package de.thm.backgroundModel;
 
+import de.thm.calc.IntersectCalculate;
+import de.thm.calc.IntersectResult;
 import de.thm.genomeData.Interval;
+import de.thm.positionData.Sites;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by Michael Menzel on 6/1/16.
@@ -15,13 +19,123 @@ public class BetterBackgroundModel extends BackgroundModel{
     public BetterBackgroundModel(){}
 
 
-    public BetterBackgroundModel(int sitesIn, int sitesOut, Interval interval) {
+    public BetterBackgroundModel(Interval interval,Sites sites) {
 
+        IntersectCalculate calc = new IntersectCalculate();
+        IntersectResult result = calc.searchSingleInterval(interval,sites);
 
-        positions.addAll(randPositions(sitesIn * factor, interval, "in"));
-        positions.addAll(randPositions(sitesOut * factor, interval, "out"));
+        if(interval.getType().equals(Interval.Type.score))
+            positions.addAll(randPositionsScored(interval, result));
+
+        else {
+            positions.addAll(randPositions(result.getIn()* factor, interval, "in"));
+            positions.addAll(randPositions(result.getOut()* factor, interval, "out"));
+        }
 
     }
+
+    private Collection<Long> randPositionsScored(Interval interval, IntersectResult result){
+
+        List<Long> newSites;
+        Interval probabilityInterval = interval.copy();
+
+        probabilityInterval.setIntervalScore(generateProbabilityScores(interval,result));
+
+        newSites = generatePositons(probabilityInterval, result.getIn());
+        Collections.sort(newSites);
+
+        newSites.addAll(randPositions(result.getOut(), interval, "out"));
+
+        return newSites;
+    }
+
+    private List<Long> generatePositons(Interval probabilityInterval, int siteCount) {
+
+        List<Long> sites = new ArrayList<>();
+        List<Long> starts = probabilityInterval.getIntervalsStart();
+        List<Long> ends = probabilityInterval.getIntervalsEnd();
+        List<Double> probabilities = probabilityInterval.getIntervalScore();
+        List<Double> random = new ArrayList<>();
+        rand = new Random(System.currentTimeMillis());
+
+        for(int i = 0; i < siteCount; i++){
+            random.add(rand.nextDouble());
+        }
+
+        Collections.sort(random);
+
+
+        double prev = 0;
+
+        for (Double aRandom : random) {
+            double value = aRandom - prev;
+
+            for (int j = 0; j < starts.size(); j++) {
+
+                double prob = probabilities.get(j);
+
+                if (value > prob) {
+                    value -= prob;
+                    prev += prob;
+
+                } else {
+                    Long intervalLength = ends.get(j) - starts.get(j);
+                    sites.add(starts.get(j) + Math.round(intervalLength * value));
+
+                    break;
+                }
+            }
+        }
+
+        return sites;
+    }
+
+
+    /**
+     * Translate scores into probability for each interval based on frequency of sites inside.
+     * A smoothing function is applied to the probability values.
+     *
+     * @param interval - intervals with scores
+     * @param result - result of intersecting the interval with the given user input
+     *
+     * @return new score list to be added to a new interval with probability scores
+     */
+    private List<Double> generateProbabilityScores(Interval interval, IntersectResult result) {
+
+        List<Double> scores = interval.getIntervalScore();
+        List<Double> probabilityScores = new ArrayList<>();
+        List<Long> starts = interval.getIntervalsStart();
+        List<Long> ends = interval.getIntervalsEnd();
+
+        for(int i = 0 ; i < scores.size(); i++){
+            double prob = count(scores.get(i),result.getResultScores())/result.getResultScores().size();
+            Long length = ends.get(i) - starts.get(i);
+            probabilityScores.add(prob*length);
+        }
+
+        //map values to be 1 if summed up
+        double sum = probabilityScores.stream().mapToDouble(Double::doubleValue).sum();
+        probabilityScores = probabilityScores.stream().map(p -> p/sum).collect(Collectors.toList());
+
+        return probabilityScores;
+    }
+
+    private double count(Double value, List<Double> scores) {
+
+        //TODO dynamic programming
+
+        int count = 0;
+
+        for (int i = 0, scoresSize = scores.size(); i < scoresSize; i++) {
+            Double score = scores.get(i);
+            if (score.equals(value)) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
 
     /**
      * Generates random positions which are either all inside or outside of the given intervals
