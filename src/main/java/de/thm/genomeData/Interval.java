@@ -29,6 +29,8 @@ public class Interval implements Serializable{
     protected List<Double> intervalScore;
 
     protected Type type;
+
+
     public enum Type {inout, score, named}
 
      /**
@@ -144,6 +146,16 @@ public class Interval implements Serializable{
 
 
         return tmp;
+    }
+
+    public Interval copy() {
+        Interval copy = new Interval();
+
+        copy.setIntervalsStart(new ArrayList<>(intervalsStart));
+        copy.setIntervalsEnd(new ArrayList<>(intervalsEnd));
+        copy.setType(this.type);
+
+        return copy;
     }
 
     public Type getType() { return type; }
