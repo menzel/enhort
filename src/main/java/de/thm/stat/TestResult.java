@@ -59,7 +59,7 @@ public class TestResult implements Serializable{
     public String toString(){
         return "measured "  + resultMeasured.toString() +
                 "expected " +resultExpected.toString() +
-                "Pearson Correlation: " + effectSize + "\n" +
+                "Fold change Ratio: " + effectSize + "\n" +
                 trackName + " p-value: " + pValue +
                 "\n=====\n";
     }
