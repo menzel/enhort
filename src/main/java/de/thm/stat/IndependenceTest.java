@@ -50,7 +50,7 @@ public class IndependenceTest {
                 intersectResultA.add("in", measuredScore.length);
                 intersectResultB.add("in", expectedScore.length);
 
-                if(measuredScore.length != expectedScore.length && expectedScore.length != 2){
+                if(measuredScore.length < 2 || expectedScore.length < 2){
                     System.err.println(trackName + " Failed");
                     System.err.println(Arrays.toString(measuredScore));
                     System.err.println(Arrays.toString(expectedScore));
