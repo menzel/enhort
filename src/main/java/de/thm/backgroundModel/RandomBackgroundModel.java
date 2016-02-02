@@ -12,6 +12,11 @@ public class RandomBackgroundModel extends BackgroundModel{
 
     private Random rand;
 
+    /**
+     * Constructor
+     *
+     * @param sites count of sites to be generated
+     */
     public RandomBackgroundModel(int sites) {
 
         rand = new Random(System.currentTimeMillis());
@@ -19,6 +24,11 @@ public class RandomBackgroundModel extends BackgroundModel{
 
     }
 
+    /**
+     * Creates random sites.
+     *
+     * @param sites count of sites to be created.
+     */
     private void createSites(int sites) {
 
         long genomeSize = ChromosomSizes.getInstance().getGenomeSize();

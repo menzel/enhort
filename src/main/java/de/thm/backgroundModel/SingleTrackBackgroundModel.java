@@ -3,6 +3,7 @@ package de.thm.backgroundModel;
 import de.thm.calc.IntersectCalculate;
 import de.thm.calc.IntersectResult;
 import de.thm.genomeData.Interval;
+import de.thm.genomeData.Intervals;
 import de.thm.positionData.Sites;
 
 import java.util.*;
@@ -16,32 +17,51 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
     private Random rand;
     private final int factor = 10;
 
+    /**
+     * Contstructor
+     */
     public SingleTrackBackgroundModel(){}
 
 
-    public SingleTrackBackgroundModel(Interval interval, Sites sites) {
+    /**
+     * Constructor for running sites against one interval
+     *
+     * @param interval - interval to search against
+     * @param sites - sites to search
+     */
+    public SingleTrackBackgroundModel(Interval interval, Sites sites) throws Exception {
 
         IntersectCalculate calc = new IntersectCalculate();
         IntersectResult result = calc.searchSingleInterval(interval,sites);
 
-        if(interval.getType().equals(Interval.Type.score))
+        if(interval.getType().equals(Interval.Type.score)) {
             positions.addAll(randPositionsScored(interval, result));
-
-        else {
+        } else {
             positions.addAll(randPositions(result.getIn()* factor, interval, "in"));
             positions.addAll(randPositions(result.getOut()* factor, interval, "out"));
         }
 
     }
 
-    private Collection<Long> randPositionsScored(Interval interval, IntersectResult result){
+    /**
+     * Generate positions for scored interval
+     *
+     * @param interval - interval of type score
+     * @param result intersect result of the interval and some sites
+     *
+     * @return collection of positions according to interval
+     */
+    private Collection<Long> randPositionsScored(Interval interval, IntersectResult result) throws Exception {
 
-        List<Long> newSites;
+        if(interval.getType()!= Interval.Type.score)
+            throw new Exception("Wrong type");
+
+        List<Long> newSites = new ArrayList<>();
         Interval probabilityInterval = interval.copy();
 
         probabilityInterval.setIntervalScore(generateProbabilityScores(interval,result));
 
-        newSites = generatePositons(probabilityInterval, result.getIn());
+        newSites.addAll(generatePositons(probabilityInterval, result.getIn()));
         Collections.sort(newSites);
 
         newSites.addAll(randPositions(result.getOut(), interval, "out"));
@@ -49,7 +69,16 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
         return newSites;
     }
 
-    private List<Long> generatePositons(Interval probabilityInterval, int siteCount) {
+    /**
+     * generates positions inside the interval according to the probabilities in the probability interval.
+     *
+     *
+     * @param probabilityInterval - interval with probability as score
+     * @param siteCount - count of sites to be generated inside
+     *
+     * @return collection of positions inside the interval
+     */
+    private Collection<Long> generatePositons(Interval probabilityInterval, int siteCount) {
 
         List<Long> sites = new ArrayList<>();
         List<Long> starts = probabilityInterval.getIntervalsStart();
@@ -151,7 +180,7 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
         int io = (mode.equals("in"))? 0: 1; //remember if rand positions should be in or outside of an interval
 
         rand = new Random(System.currentTimeMillis());
-        long maxValue = sumOfIntervals(interval, mode);
+        long maxValue = Intervals.sumOfIntervals(interval, mode);
 
         List<Long> randomValues = new ArrayList<>();
         List<Long> sites = new ArrayList<>();
@@ -195,29 +224,4 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
 
     }
 
-    /**
-     * Sums up the size of all intervals. Either all intervals or the space between them
-     *
-     * @param interval - intervals to sum up
-     * @param mode - either "in" or "out".
-     *
-     * @return sum of interval length inside or outside the intervals
-     */
-    private long sumOfIntervals(Interval interval, String mode) {
-
-        long size = 0;
-        int io = (mode.equals("in"))? 0: 1;
-
-        List<Long> intervalStart = interval.getIntervalsStart();
-        List<Long> intervalEnd = interval.getIntervalsEnd();
-
-        for(int i = 0; i < intervalStart.size()-io; i++){
-            if(mode.equals("in"))
-                size += intervalEnd.get(i) - intervalStart.get(i);
-            else
-                size +=  intervalStart.get(i+1) - intervalEnd.get(i);
-        }
-
-        return size;
-    }
 }

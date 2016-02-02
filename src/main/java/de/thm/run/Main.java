@@ -17,7 +17,11 @@ public class Main {
 
 
         Analyse analyse = new Analyse();
-        analyse.analyse(userDat);
+        try {
+            analyse.analyse(userDat);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 }

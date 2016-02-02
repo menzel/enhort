@@ -36,8 +36,6 @@ public class Analyse {
     public Analyse() {
         IntervalLoader loader = IntervalLoader.getInstance();
         intervals =  loader.getAllIntervals();
-
-
         simple = new IntersectCalculate();
     }
 
@@ -46,7 +44,7 @@ public class Analyse {
      *
      * @param userSites - sites for measurement
      */
-    public void analyse(Sites userSites){
+    public void analyse(Sites userSites) throws Exception {
 
 
         //IntersectResult resultUserSites;
@@ -78,8 +76,8 @@ public class Analyse {
                 bg = new RandomBackgroundModel(userSites.getPositionCount());
             }
             else{
-                bg = new MultiTrackBackgroundModel(covariants,userSites);
-            }
+                    bg = new MultiTrackBackgroundModel(covariants,userSites);
+                }
 
         } else {
             bg = new SingleTrackBackgroundModel(intervals.get("expression_blood.bed"), userSites);

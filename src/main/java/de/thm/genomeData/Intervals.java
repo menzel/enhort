@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Collection of utils for interval objects.
+ *
  * Created by Michael Menzel on 13/1/16.
  */
 public class Intervals {
@@ -305,5 +307,31 @@ public class Intervals {
         return null;
     }
 
+
+    /**
+     * Sums up the size of all intervals. Either all intervals or the space between them
+     *
+     * @param interval - intervals to sum up
+     * @param mode - either "in" or "out".
+     *
+     * @return sum of interval length inside or outside the intervals
+     */
+    public static long sumOfIntervals(Interval interval, String mode) {
+
+        long size = 0;
+        int io = (mode.equals("in"))? 0: 1;
+
+        List<Long> intervalStart = interval.getIntervalsStart();
+        List<Long> intervalEnd = interval.getIntervalsEnd();
+
+        for(int i = 0; i < intervalStart.size()-io; i++){
+            if(mode.equals("in"))
+                size += intervalEnd.get(i) - intervalStart.get(i);
+            else
+                size +=  intervalStart.get(i+1) - intervalEnd.get(i);
+        }
+
+        return size;
+    }
 
 }
