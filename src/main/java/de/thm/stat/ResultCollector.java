@@ -44,11 +44,13 @@ public class ResultCollector {
     public String toJson() {
         String output = "[";
 
-        //sort by p value
+
+        // only keep results from inout checks and filter out everything above p value of .05
+        List<TestResult> inoutResults = results.stream().filter(p -> p.getType().equals(Interval.Type.inout)).filter(p -> p.getpValue() < .05).collect(Collectors.toList());
+
+        //sort by effect size
         results.sort((result, t1) -> (result.getEffectSize() >= t1.getEffectSize())? 1 : -1);
 
-        // only keep results from inout checks
-        List<TestResult> inoutResults = results.stream().filter(p -> p.getType().equals(Interval.Type.inout)).collect(Collectors.toList());
 
         String names[] = new String[inoutResults.size()];
         int data[] = new int[inoutResults.size()];
