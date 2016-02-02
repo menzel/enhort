@@ -95,11 +95,12 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
 
 
         double prev = 0;
+        int j = 0;
 
         for (Double aRandom : random) {
             double value = aRandom - prev;
 
-            for (int j = 0; j < starts.size(); j++) {
+            for (; j < starts.size(); j++) {
 
                 double prob = probabilities.get(j);
 
