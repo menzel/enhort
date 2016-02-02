@@ -1,6 +1,5 @@
 package de.thm.positionData;
 
-import de.thm.backgroundModel.BetterBackgroundModel;
 import de.thm.genomeData.Interval;
 import org.junit.Test;
 
@@ -12,8 +11,9 @@ import java.util.ArrayList;
 public class BetterBackgroundModelTest {
 
     @Test
-    public void testConstructor(){
-        BetterBackgroundModel better = new BetterBackgroundModel(3,2,mockInterval(4));
+    public void testConstructor() throws Exception{
+        //BetterBackgroundModel better = new BetterBackgroundModel(mockInterval(4));
+        throw new Exception("No test here");
 
     }
 

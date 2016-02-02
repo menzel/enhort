@@ -11,15 +11,15 @@ import java.util.stream.Collectors;
 /**
  * Created by Michael Menzel on 6/1/16.
  */
-public class BetterBackgroundModel extends BackgroundModel{
+public class SingleTrackBackgroundModel extends BackgroundModel{
 
     private Random rand;
     private final int factor = 10;
 
-    public BetterBackgroundModel(){}
+    public SingleTrackBackgroundModel(){}
 
 
-    public BetterBackgroundModel(Interval interval,Sites sites) {
+    public SingleTrackBackgroundModel(Interval interval, Sites sites) {
 
         IntersectCalculate calc = new IntersectCalculate();
         IntersectResult result = calc.searchSingleInterval(interval,sites);

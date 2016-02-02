@@ -1,7 +1,8 @@
 package de.thm.bootstrap;
 
-import de.thm.backgroundModel.AdvancedBackgroundModel;
-import de.thm.backgroundModel.SimpleBackgroundModel;
+import de.thm.backgroundModel.MultiTrackBackgroundModel;
+import de.thm.backgroundModel.SingleTrackBackgroundModel;
+import de.thm.backgroundModel.RandomBackgroundModel;
 import de.thm.calc.Intersect;
 import de.thm.calc.IntersectCalculate;
 import de.thm.calc.IntersectMultithread;
@@ -71,12 +72,19 @@ public class Analyse {
 
         Sites bg;
 
-        if(covariants.isEmpty()){
-            bg = new SimpleBackgroundModel(userSites.getPositionCount());
+        if(true){
+
+            if(covariants.isEmpty()){
+                bg = new RandomBackgroundModel(userSites.getPositionCount());
+            }
+            else{
+                bg = new MultiTrackBackgroundModel(covariants,userSites);
+            }
+
+        } else {
+            bg = new SingleTrackBackgroundModel(intervals.get("expression_blood.bed"), userSites);
         }
-        else{
-            bg = new AdvancedBackgroundModel(covariants,userSites);
-        }
+
 
         // H_0: bg and user sites are independent. Large pValue: bg and user are independent. Small pValue: bg and user are dependent.
         // Large pValue (> 0.05): the insertion points look random
@@ -172,7 +180,7 @@ public class Analyse {
         for(int i = 0 ; i < 20 ; i++){
             int j = i * 5000;
 
-            Sites bg = new SimpleBackgroundModel(j);
+            Sites bg = new RandomBackgroundModel(j);
             long startTime = System.nanoTime();
 
             simple.searchSingleInterval(invExons, bg);

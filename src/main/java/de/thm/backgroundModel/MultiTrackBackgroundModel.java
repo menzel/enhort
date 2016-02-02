@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Michael Menzel on 13/1/16.
  */
-public class AdvancedBackgroundModel extends BackgroundModel {
+public class MultiTrackBackgroundModel extends BackgroundModel {
 
     private AppearanceTable appearanceTable;
 
@@ -21,20 +21,20 @@ public class AdvancedBackgroundModel extends BackgroundModel {
      *
      * @param intervals
      */
-    public AdvancedBackgroundModel(List<Interval> intervals, Sites inputPositions) {
+    public MultiTrackBackgroundModel(List<Interval> intervals, Sites inputPositions) {
 
         appearanceTable = new AppearanceTable();
         appearanceTable.fillTable(intervals, inputPositions);
         positions.addAll(randPositions(appearanceTable, intervals));
     }
 
-    protected AdvancedBackgroundModel() { }
+    protected MultiTrackBackgroundModel() { }
 
 
     protected Collection<Long> randPositions(AppearanceTable appearanceTable, List<Interval> intervals){
 
         List<Long> sites = new ArrayList<>();
-        BetterBackgroundModel better = new BetterBackgroundModel();
+        SingleTrackBackgroundModel better = new SingleTrackBackgroundModel();
 
         for(String app: appearanceTable.getKeySet()){
             if(app.compareTo("[]") == 0){

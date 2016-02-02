@@ -14,7 +14,7 @@ import static junit.framework.TestCase.assertEquals;
 /**
  * Created by Michael Menzel on 13/1/16.
  */
-public class AdvancedBackgroundModelTest {
+public class MultiTrackBackgroundModelTest {
 
     @Test
     public void testAdvancedBg() throws Exception {
@@ -85,7 +85,7 @@ public class AdvancedBackgroundModelTest {
         };
 
 
-        AdvancedBackgroundModel model = new AdvancedBackgroundModel(intervalList, sites);
+        MultiTrackBackgroundModel model = new MultiTrackBackgroundModel(intervalList, sites);
 
         //check list count of pos in list 1:
         assertEquals(1,model.getAppearanceTable().getAppearance(intervalList.subList(0,1)));
@@ -168,7 +168,7 @@ public class AdvancedBackgroundModelTest {
         };
 
 
-        AdvancedBackgroundModel model = new AdvancedBackgroundModel(intervalList, sites);
+        MultiTrackBackgroundModel model = new MultiTrackBackgroundModel(intervalList, sites);
 
         //check list count of pos in list 1:
         assertEquals(0,model.getAppearanceTable().getAppearance(intervalList.subList(0,1)));
@@ -278,7 +278,7 @@ public class AdvancedBackgroundModelTest {
 
         app.setAppearance(appearance_map);
 
-        AdvancedBackgroundModel bg = new AdvancedBackgroundModel();
+        MultiTrackBackgroundModel bg = new MultiTrackBackgroundModel();
 
         bg.addPositions(bg.randPositions(app, intervalList));
 

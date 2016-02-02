@@ -8,11 +8,11 @@ import java.util.Random;
 /**
  * Created by Michael Menzel on 8/12/15.
  */
-public class SimpleBackgroundModel extends BackgroundModel{
+public class RandomBackgroundModel extends BackgroundModel{
 
     private Random rand;
 
-    public SimpleBackgroundModel(int sites) {
+    public RandomBackgroundModel(int sites) {
 
         rand = new Random(System.currentTimeMillis());
         createSites(sites);
