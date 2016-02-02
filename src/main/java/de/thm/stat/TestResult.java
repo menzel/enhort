@@ -3,10 +3,12 @@ package de.thm.stat;
 import de.thm.calc.IntersectResult;
 import de.thm.genomeData.Interval;
 
+import java.io.Serializable;
+
 /**
  * Created by Michael Menzel on 12/1/16.
  */
-public class TestResult {
+public class TestResult implements Serializable{
 
     private final double pValue;
     private final double effectSize;

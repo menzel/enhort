@@ -1,5 +1,6 @@
 package de.thm.positionData;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
  *
  * Created by Michael Menzel on 8/12/15.
  */
-public abstract class Sites {
+public abstract class Sites implements Serializable {
 
     protected List<Long> positions = new ArrayList<>();
 
