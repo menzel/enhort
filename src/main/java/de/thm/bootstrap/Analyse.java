@@ -59,28 +59,23 @@ public class Analyse {
         //covariants.add(intervals.get("H1-hESC-H3K4m3.bed"));
         //covariants.add(intervals.get("open-chrom-synth-HeLa-S3-valid.bed"));
         //covariants.add(intervals.get("HeLa-S3-H3K4m1.bed"));
-        covariants.add(intervals.get("knownGenes.bed"));
+        //covariants.add(intervals.get("knownGenes.bed"));
         //covariants.add(intervals.get("exons_5UTR.bed"));
         //covariants.add(intervals.get("exons_3UTR.bed"));
         //covariants.add(intervals.get("open-chrom-synth-HeLa-S3-valid.bed"));
         //covariants.add(intervals.get("exons.bed"));
         //covariants.add(intervals.get("introns.bed"));
         //covariants.add(intervals.get("cpg.bed"));
-
+        covariants.add(intervals.get("expression_blood.bed"));
 
         Sites bg;
 
-        if(true){
-
-            if(covariants.isEmpty()){
-                bg = new RandomBackgroundModel(userSites.getPositionCount());
-            }
-            else{
-                    bg = new MultiTrackBackgroundModel(covariants,userSites);
-                }
-
-        } else {
-            bg = new SingleTrackBackgroundModel(intervals.get("expression_blood.bed"), userSites);
+        if(covariants.size() == 1 && covariants.get(0).getType() == Interval.Type.score){
+            bg = new SingleTrackBackgroundModel(covariants.get(0), userSites);
+        } else if(covariants.isEmpty()){
+            bg = new RandomBackgroundModel(userSites.getPositionCount());
+        }else{
+            bg = new MultiTrackBackgroundModel(covariants,userSites);
         }
 
 
