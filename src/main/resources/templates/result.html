@@ -49,17 +49,27 @@ var results = [[${results}]];
 
 
     <div class="container">
+        <form method="POST" action="/covariant" id="covariant_form"></form>
 
-        <table class="table table-striped table-hover">
-            <tbody>
-            <tr th:each="result: ${results}">
-                <td th:text="${result.trackName}"></td>
-                <td th:text="${result.pValue}"></td>
-                <td th:text="${result.effectSize}"></td>
-                <td th:id="${result.trackName}"></td>
-            </tr>
-            </tbody>
-        </table>
+            <button type="submit" class="btn btn-primary" form="covariant_form">Run with Covariants</button>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <th>Track Name</th>
+                    <th>PValue</th>
+                    <th>Effect Size</th>
+                    <th>Plot</th>
+                    <th>Mark as Covariant</th>
+                </thead>
+                <tbody>
+                <tr th:each="result: ${results}">
+                    <td th:text="${result.trackName}"></td>
+                    <td th:text="${result.pValue}"></td>
+                    <td th:text="${result.effectSize}"></td>
+                    <td th:id="${result.trackName}"></td>
+                    <td><input th:id="${result.trackName + '_check'}" type="checkbox" form="covariant_form"></td>
+                </tr>
+                </tbody>
+            </table>
 
     </div><!-- /.container -->
 
