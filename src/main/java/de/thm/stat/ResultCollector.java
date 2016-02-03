@@ -126,4 +126,8 @@ public class ResultCollector {
         return output + "]";
 
     }
+
+    public void clear() {
+        results.clear();
+    }
 }

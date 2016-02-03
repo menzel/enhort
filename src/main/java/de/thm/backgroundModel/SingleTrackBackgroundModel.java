@@ -10,6 +10,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
+ * Implements the background model sites generation for a single track as covariance.
+ * Scored or inout intervals are possible.
+ *
  * Created by Michael Menzel on 6/1/16.
  */
 public class SingleTrackBackgroundModel extends BackgroundModel{
@@ -61,7 +64,7 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
 
         probabilityInterval.setIntervalScore(generateProbabilityScores(interval,result));
 
-        newSites.addAll(generatePositons(probabilityInterval, result.getIn()));
+        newSites.addAll(generatePositonsByProbability(probabilityInterval, result.getIn()));
         Collections.sort(newSites);
 
         newSites.addAll(randPositions(result.getOut(), interval, "out"));
@@ -78,7 +81,7 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
      *
      * @return collection of positions inside the interval
      */
-    private Collection<Long> generatePositons(Interval probabilityInterval, int siteCount) {
+    private Collection<Long> generatePositonsByProbability(Interval probabilityInterval, int siteCount) {
 
         List<Long> sites = new ArrayList<>();
         List<Long> starts = probabilityInterval.getIntervalsStart();
@@ -137,10 +140,21 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
         List<Long> starts = interval.getIntervalsStart();
         List<Long> ends = interval.getIntervalsEnd();
 
+        Map<Double, Double> probValues = new HashMap<>(); // for dynamic programing
+
         for(int i = 0 ; i < scores.size(); i++){
-            double prob = count(scores.get(i),result.getResultScores())/result.getResultScores().size();
+
+            double prob;
+
+            if(probValues.containsKey(scores.get(i))) {
+                prob = probValues.get(scores.get(i));
+            } else {
+                prob = count(scores.get(i), result.getResultScores()) / result.getResultScores().size();
+                probValues.put(scores.get(i), prob);
+            }
             Long length = ends.get(i) - starts.get(i);
-            probabilityScores.add(prob*length);
+            //probabilityScores.add(prob*Math.log(length));
+            probabilityScores.add(prob); //TODO how to use length
         }
 
         //map values to be 1 if summed up
@@ -152,8 +166,6 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
 
     private double count(Double value, List<Double> scores) {
 
-        //TODO dynamic programming
-
         int count = 0;
 
         for (int i = 0, scoresSize = scores.size(); i < scoresSize; i++) {
@@ -164,7 +176,7 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
         }
 
         return count;
-    }
+}
 
 
     /**
