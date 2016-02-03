@@ -86,7 +86,6 @@ public class InputController {
         List<TestResult> results = new ArrayList<>(ResultCollector.getInstance().getResults());
         ResultCollector.getInstance().clear();
 
-        System.out.println("got: " + results.size());
         return results;
 
     }
