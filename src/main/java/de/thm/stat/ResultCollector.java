@@ -84,8 +84,19 @@ public class ResultCollector {
         return output + "]";
     }
 
-    public List<TestResult> getResultsByType(Interval.Type score) {
-        return  results.stream().filter(testResult -> testResult.getType().equals(score)).collect(Collectors.toList());
+    /**
+     * Return list of all TestResults which have the given type in order sorted by effect size.
+     *
+     * @param type of the interval
+     *
+     * @return list of TestResults of type type
+     */
+    public List<TestResult> getResultsByType(Interval.Type type) {
+        return  results.stream()
+                .filter(testResult -> testResult.getType()
+                .equals(type))
+                .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
+                .collect(Collectors.toList());
     }
 
     public String toBubblesJson() {
