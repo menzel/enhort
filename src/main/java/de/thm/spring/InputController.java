@@ -3,12 +3,12 @@ package de.thm.spring;
 
 import de.thm.backgroundModel.RandomBackgroundModel;
 import de.thm.calc.IntersectMultithread;
+import de.thm.genomeData.Interval;
 import de.thm.positionData.Sites;
 import de.thm.positionData.UserData;
 import de.thm.positionData.WebData;
 import de.thm.run.Server;
 import de.thm.stat.ResultCollector;
-import de.thm.stat.TestResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,9 +21,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Michael Menzel on 3/2/16.
@@ -52,7 +50,11 @@ public class InputController {
 
                 UserData data = new UserData(input);
 
-                model.addAttribute("results", runAnalysis(data, ""));
+                ResultCollector collector = runAnalysis(data);
+                model.addAttribute("results_inout", collector.getResultsByType(Interval.Type.inout));
+                model.addAttribute("results_score", collector.getResultsByType(Interval.Type.score));
+                model.addAttribute("results_named", collector.getResultsByType(Interval.Type.named));
+
                 return "result";
 
             } catch (Exception e) {
@@ -69,24 +71,20 @@ public class InputController {
 
     @RequestMapping("/input")
     public String input(HttpServletRequest request, Model model){
-        String format = request.getParameter("format");
         Date timestamp = new Date();
 
         WebData data = new WebData(request.getParameter("data"), timestamp);
 
-        model.addAttribute("results", runAnalysis(data, format));
+        ResultCollector collector = runAnalysis(data);
+        model.addAttribute("results", collector.getResults());
         return "result";
     }
 
-    private List<TestResult> runAnalysis(Sites input, String format){
+    private ResultCollector runAnalysis(Sites input){
         Sites bg = new RandomBackgroundModel(input.getPositionCount());
 
-        IntersectMultithread multi = new IntersectMultithread(Server.getIntervals(), input, bg);
-
-        List<TestResult> results = new ArrayList<>(ResultCollector.getInstance().getResults());
-        ResultCollector.getInstance().clear();
-
-        return results;
+        IntersectMultithread multi = new IntersectMultithread();
+        return multi.execute(Server.getIntervals(), input, bg);
 
     }
 
