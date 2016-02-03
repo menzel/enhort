@@ -10,13 +10,13 @@ import java.io.Serializable;
  */
 public class TestResult implements Serializable{
 
-    private final double pValue;
-    private final double effectSize;
-    private final String trackName;
-    private final int measuredIn;
-    private final int measuredOut;
-    private final int expectedIn;
-    private final int expectedOut;
+    public final double pValue;
+    public final double effectSize;
+    public final String trackName;
+    public final int measuredIn;
+    public final int measuredOut;
+    public final int expectedIn;
+    public final int expectedOut;
     private final IntersectResult resultMeasured;
     private final IntersectResult resultExpected;
 
