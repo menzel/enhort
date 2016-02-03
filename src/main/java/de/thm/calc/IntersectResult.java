@@ -11,7 +11,7 @@ public class IntersectResult {
 
 
     private final Map<String, Integer> resultNames;
-    private final List<Double> resultScores;
+    public final List<Double> resultScores;
     private int in;
     private Interval usedInterval;
 

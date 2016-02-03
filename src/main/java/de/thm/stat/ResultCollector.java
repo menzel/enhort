@@ -13,14 +13,9 @@ import java.util.stream.Collectors;
  */
 public class ResultCollector {
 
-    private static final ResultCollector resultCollector = new ResultCollector();
     private final List<TestResult> results;
 
-    public static ResultCollector getInstance(){
-        return resultCollector;
-    }
-
-    private ResultCollector() {
+    public ResultCollector() {
         results = Collections.synchronizedList(new ArrayList<>());
     }
 

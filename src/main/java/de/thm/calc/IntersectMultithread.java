@@ -2,6 +2,7 @@ package de.thm.calc;
 
 import de.thm.genomeData.Interval;
 import de.thm.positionData.Sites;
+import de.thm.stat.ResultCollector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +20,18 @@ public class IntersectMultithread {
     ExecutorService exe = Executors.newFixedThreadPool(8);
     List<IntersectWrapper> wrappers = new ArrayList<>();
 
-    public IntersectMultithread(Map<String, Interval> intervals, Sites measuredPositions, Sites randomPositions) {
+    public IntersectMultithread() {
+    }
+
+
+    public ResultCollector execute(Map<String, Interval> intervals, Sites measuredPositions, Sites randomPositions) {
 
         Set<String> tracks = intervals.keySet();
+        ResultCollector collector = new ResultCollector();
 
         for(String track: tracks){
 
-            IntersectWrapper wrapper = new IntersectWrapper(measuredPositions, randomPositions, intervals.get(track), track);
+            IntersectWrapper wrapper = new IntersectWrapper(measuredPositions, randomPositions, intervals.get(track), track, collector);
             wrappers.add(wrapper);
             exe.execute(wrapper);
         }
@@ -39,5 +45,7 @@ public class IntersectMultithread {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        return collector;
     }
 }

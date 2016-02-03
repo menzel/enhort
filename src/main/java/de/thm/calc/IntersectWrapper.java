@@ -20,13 +20,13 @@ public class IntersectWrapper implements Runnable{
     private TestResult testResult;
     private ResultCollector collector;
 
-    public IntersectWrapper(Sites measuredPos, Sites randomPos, Interval interval, String trackName) {
+    public IntersectWrapper(Sites measuredPos, Sites randomPos, Interval interval, String trackName, ResultCollector collector) {
 
         this.randomPos = randomPos;
         this.measuredPos = measuredPos;
         this.interval = interval;
         this.trackName = trackName;
-        this.collector = ResultCollector.getInstance();
+        this.collector = collector;
     }
 
     @Override
