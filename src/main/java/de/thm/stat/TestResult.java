@@ -2,8 +2,10 @@ package de.thm.stat;
 
 import de.thm.calc.IntersectResult;
 import de.thm.genomeData.Interval;
+import org.apache.commons.math3.util.Precision;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 
 /**
  * Created by Michael Menzel on 12/1/16.
@@ -17,12 +19,14 @@ public class TestResult implements Serializable{
     public final int measuredOut;
     public final int expectedIn;
     public final int expectedOut;
-    private final IntersectResult resultMeasured;
-    private final IntersectResult resultExpected;
+    public final IntersectResult resultMeasured;
+    public final IntersectResult resultExpected;
 
     public TestResult(double pValue, IntersectResult measured, IntersectResult expected, double effectSize, String trackName) {
-        this.pValue = pValue;
-        this.effectSize = effectSize;
+
+        DecimalFormat format = new DecimalFormat("0.00E00");
+        this.pValue = Double.parseDouble(format.format(pValue));
+        this.effectSize = Precision.round(effectSize,2);
 
         resultExpected = expected;
         resultMeasured = measured;
