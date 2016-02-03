@@ -8,32 +8,38 @@ import de.thm.positionData.UserData;
 import de.thm.positionData.WebData;
 import de.thm.run.Server;
 import de.thm.stat.ResultCollector;
-import org.springframework.web.bind.annotation.*;
+import de.thm.stat.TestResult;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Michael Menzel on 3/2/16.
  */
-@RestController
+@Controller
 public class InputController {
 
     private static Path basePath = new File("/tmp").toPath();
 
     @RequestMapping(value="/upload", method=RequestMethod.GET)
-    public @ResponseBody String provideUploadInfo() {
+    public String provideUploadInfo() {
         return "You can upload a file by posting to this same URL.";
     }
 
     @RequestMapping(value="/upload", method=RequestMethod.POST)
-    public @ResponseBody String handleFileUpload(@RequestParam("name") String name, @RequestParam("file") MultipartFile file){
+    public String handleFileUpload(Model model, @RequestParam("name") String name, @RequestParam("file") MultipartFile file){
         if (!file.isEmpty()) {
 
             try {
@@ -46,7 +52,8 @@ public class InputController {
 
                 UserData data = new UserData(input);
 
-                return runAnalysis(data, "");
+                model.addAttribute("results", runAnalysis(data, ""));
+                return "result";
 
             } catch (Exception e) {
                 System.err.println("You failed to upload " + name + " => " + e.getMessage());
@@ -61,34 +68,27 @@ public class InputController {
 
 
     @RequestMapping("/input")
-    public String input(HttpServletRequest request){
-        String data = request.getParameter("data");
+    public String input(HttpServletRequest request, Model model){
         String format = request.getParameter("format");
         Date timestamp = new Date();
 
-        WebData input = new WebData(data, timestamp);
+        WebData data = new WebData(request.getParameter("data"), timestamp);
 
-        return runAnalysis(input, format);
+        model.addAttribute("results", runAnalysis(data, format));
+        return "result";
     }
 
-    private String runAnalysis(Sites input, String format){
+    private List<TestResult> runAnalysis(Sites input, String format){
         Sites bg = new RandomBackgroundModel(input.getPositionCount());
-        ModelAndView modelAndView = new ModelAndView("results");
-        String result;
 
         IntersectMultithread multi = new IntersectMultithread(Server.getIntervals(), input, bg);
 
-
-        if(format != null && format.equals("json"))
-            result = ResultCollector.getInstance().toJson();
-        else
-            result = ResultCollector.getInstance().toString().replaceAll("\n", "<br />");
-
-        modelAndView.addObject("results", ResultCollector.getInstance().getResults());
-
+        List<TestResult> results = new ArrayList<>(ResultCollector.getInstance().getResults());
         ResultCollector.getInstance().clear();
 
-        return  result;
+        System.out.println("got: " + results.size());
+        return results;
+
     }
 
 }
