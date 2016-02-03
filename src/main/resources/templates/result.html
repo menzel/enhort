@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+    <title>MultiGenBrowser</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+
+        <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"  crossorigin="anonymous" />
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" crossorigin="anonymous" />
+
+    <link href="result.css" rel="stylesheet">
+
+
+</head>
+<body>
+<script th:inline="javascript">
+/*<![CDATA[*/
+
+var results = [[${results}]];
+
+/*]]>*/
+</script>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+
+    <div class="container">
+
+        <table class="table table-striped table-hover">
+            <tbody>
+            <tr th:each="result: ${results}">
+                <td th:text="${result.trackName}"></td>
+                <td th:text="${result.pValue}"></td>
+                <td th:text="${result.effectSize}"></td>
+                <td th:id="${result.trackName}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div><!-- /.container -->
+
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+
+
+    for(i = 0; i< results.length; i++ ){
+
+        var result = results[i];
+
+        var trace1 = {
+            x: ["Measured", "Expected"],
+            y: [result.measuredIn, result.expectedIn],
+            name: 'In',
+            type: 'bar'
+        };
+
+        var trace2 = {
+            x: ["Measured", "Expected"],
+            y: [result.measuredOut, result.expectedOut],
+            name: 'Out',
+            type: 'bar'
+        };
+
+        console.log(result.trackname);
+
+        var data = [trace1, trace2];
+
+
+        var layout = {
+          autosize: false,
+          width: 200,
+          height: 100,
+          barmode: 'stack',
+          xaxis: {
+            autorange: true,
+            showgrid: false,
+            zeroline: false,
+            showline: false,
+            autotick: true,
+            ticks: '',
+            showticklabels: false
+          },
+          yaxis: {
+            autorange: true,
+            showgrid: false,
+            zeroline: false,
+            showline: false,
+            autotick: true,
+            ticks: '',
+            showticklabels: false
+          },
+          margin: {
+            l: 0,
+            r: 0,
+            b: 0,
+            t: 0,
+            pad: 0
+          }
+        };
+
+
+        Plotly.newPlot(result.trackname, data, layout)
+
+    }
+
+
+/*]]>*/
+</script>
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+</body>
+</html>
