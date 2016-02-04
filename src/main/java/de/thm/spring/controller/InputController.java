@@ -36,7 +36,7 @@ public class InputController {
     @RequestMapping(value="/upload", method=RequestMethod.POST)
     public String handleFileUpload(Model model, @RequestParam("name") String name, @RequestParam("file") MultipartFile file){
 
-        name += UUID.randomUUID();
+        name += "-" + UUID.randomUUID();
         if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
