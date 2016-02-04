@@ -17,6 +17,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Path;
+import java.util.UUID;
 
 /**
  * Created by Michael Menzel on 3/2/16.
@@ -34,8 +35,9 @@ public class InputController {
 
     @RequestMapping(value="/upload", method=RequestMethod.POST)
     public String handleFileUpload(Model model, @RequestParam("name") String name, @RequestParam("file") MultipartFile file){
-        if (!file.isEmpty()) {
 
+        name += UUID.randomUUID();
+        if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
                 BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(basePath.resolve(name).toFile()));
