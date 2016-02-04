@@ -2,9 +2,9 @@ package de.thm.positionData;
 
 import de.thm.misc.ChromosomSizes;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.stream.Stream;
@@ -18,22 +18,22 @@ public class UserData extends Sites{
 
     /**
      * Constructor
-     * @param file - file to load positions from
+     * @param path - file to load positions from
      */
-    public UserData(File file) {
-        loadPositionsFromFile(file);
+    public UserData(Path path) {
+        loadPositionsFromFile(path);
     }
 
     /**
      * Loads positions from a bed file
      *
-     * @param file - file to load
+     * @param path - file to load
      */
-    private void loadPositionsFromFile(File file){
+    private void loadPositionsFromFile(Path path){
 
         ChromosomSizes chrSizes = ChromosomSizes.getInstance();
 
-        try(Stream<String> lines = Files.lines(file.toPath())){
+        try(Stream<String> lines = Files.lines(path)){
 
             Iterator it = lines.iterator();
 
