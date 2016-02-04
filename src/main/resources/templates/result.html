@@ -13,28 +13,48 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" crossorigin="anonymous" />
 
-    <link href="result.css" rel="stylesheet">
+    <style>
+    body {
+    }
+    .container{
+    }
 
+    .sidebar {
+      position: fixed;
+      top: 51px;
+      bottom: 0;
+      left: 0;
+      z-index: 1000;
+      display: block;
+      padding: 20px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      background-color: #f5f5f5;
+      border-right: 1px solid #eee;
+    }
 
+    </style>
 </head>
 <body style="padding-top: 100px">
-<script th:inline="javascript">
-/*<![CDATA[*/
 
-var results_inout = [[${results_inout}]];
-var results_score = [[${results_score}]];
+    <div th:include="header:: bar"></div>
 
-/*]]>*/
-</script>
+<div class="col-sm-3 col-md-2 sidebar">
+    <div th:include="upload:: upload"></div>
 
-  <div th:include="header:: bar"></div>
+    <ul class="nav nav-sidebar">
+        <li><button class="btn btn-default">Export .pdf</button></li>
+        <li><button class="btn btn-default">Export .csv</button></li>
+        <li><button class="btn btn-default">Store Result</button></li>
+    </ul>
+
+</div>
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
 
     <div class="container">
 
-        <button class="btn btn-default">Export .pdf</button>
-        <button class="btn btn-default">Export .csv</button>
-        <button class="btn btn-default">Store Result</button>
-
+        <p th:text="${'Current File: ' + covariantCommand.filepath}"></p>
 
         <form method="POST" action="#" th:action="@{/covariant}" th:object="${covariantCommand}" id="covariant_form"></form>
 
@@ -68,8 +88,13 @@ var results_score = [[${results_score}]];
     </div><!-- /.container -->
 
 
+</div>
+
 <script th:inline="javascript">
 /*<![CDATA[*/
+
+    var results_inout = [[${results_inout}]];
+    var results_score = [[${results_score}]];
 
 
     for(var j = 0; j < results_score.length; j++ ){
@@ -93,7 +118,7 @@ var results_score = [[${results_score}]];
 
         var layout_s = {
           autosize: false,
-          width: 200,
+          width: 600,
           height: 100,
           barmode: 'overlay',
           xaxis: {
@@ -114,13 +139,7 @@ var results_score = [[${results_score}]];
             ticks: '',
             showticklabels: false
           },
-          margin: {
-            l: 0,
-            r: 0,
-            b: 0,
-            t: 0,
-            pad: 0
-          }
+          margin: { l: 0, r: 0, b: 0, t: 0, pad: 0 }
         };
         Plotly.newPlot(results_score[j].trackname, data_s, layout_s);
 
@@ -147,7 +166,7 @@ var results_score = [[${results_score}]];
         var data = [trace1, trace2];
         var layout = {
           autosize: false,
-          width: 200,
+          width: 300,
           height: 100,
           barmode: 'stack',
           xaxis: {
@@ -168,13 +187,7 @@ var results_score = [[${results_score}]];
             ticks: '',
             showticklabels: false
           },
-          margin: {
-            l: 0,
-            r: 0,
-            b: 0,
-            t: 0,
-            pad: 0
-          }
+          margin: { l: 0, r: 0, b: 0, t: 0, pad: 0 }
         };
 
         Plotly.newPlot(result.trackname, data, layout)
