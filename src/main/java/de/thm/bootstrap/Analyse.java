@@ -74,7 +74,7 @@ public class Analyse {
             bg = new SingleTrackBackgroundModel(covariants.get(0), userSites);
         } else if(covariants.isEmpty()){
             bg = new RandomBackgroundModel(userSites.getPositionCount());
-        }else{
+        }else if (true){
             bg = new MultiTrackBackgroundModel(covariants,userSites);
         }
 
@@ -84,14 +84,16 @@ public class Analyse {
         // Small pValue (< 0.05): the insertion points are not random  (more interesting)
 
 
-        IntersectMultithread multi = new IntersectMultithread(intervals, userSites, bg);
+        IntersectMultithread multi = new IntersectMultithread();
+
+        ResultCollector collector = multi.execute(intervals, userSites, bg);
 
 
-        System.out.println(ResultCollector.getInstance().toString());
+        System.out.println(collector.toString());
 
         Path path = Paths.get("/home/menzel/Desktop/THM/lfba/projekphase/MultiGenBrowser/src/web/");
 
-        for(TestResult testResult: ResultCollector.getInstance().getResultsByType(Interval.Type.score)){
+        for(TestResult testResult: collector.getResultsByType(Interval.Type.score)){
             try {
                 try (BufferedWriter writer = Files.newBufferedWriter(path.resolve(testResult.getTrackname().substring(0,testResult.getTrackname().indexOf(".")).concat(".json")))) {
                     writer.write("[");
@@ -105,7 +107,7 @@ public class Analyse {
             }
         }
 
-        for(TestResult testResult: ResultCollector.getInstance().getResultsByType(Interval.Type.named)){
+        for(TestResult testResult: collector.getResultsByType(Interval.Type.named)){
             try {
                 try (BufferedWriter writer = Files.newBufferedWriter(path.resolve(testResult.getTrackname().substring(0, testResult.getTrackname().indexOf(".")).concat(".json")))) {
 
@@ -125,7 +127,7 @@ public class Analyse {
         try {
             try (BufferedWriter writer = Files.newBufferedWriter(path.resolve("raw_data.json"))) {
 
-                writer.write(ResultCollector.getInstance().toJson());
+                writer.write(collector.toJson());
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -134,7 +136,7 @@ public class Analyse {
         try {
             try (BufferedWriter writer = Files.newBufferedWriter(path.resolve("bubbles.json"))) {
 
-                writer.write(ResultCollector.getInstance().toBubblesJson());
+                writer.write(collector.toBubblesJson());
             }
         } catch (IOException e) {
             e.printStackTrace();

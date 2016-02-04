@@ -21,37 +21,25 @@
 <script th:inline="javascript">
 /*<![CDATA[*/
 
-var results = [[${results}]];
+var results_inout = [[${results_inout}]];
+var results_score = [[${results_score}]];
 
 /*]]>*/
 </script>
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Project name</a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
-
+  <div th:include="header:: bar"></div>
 
     <div class="container">
-        <form method="POST" action="/covariant" id="covariant_form"></form>
+
+        <button class="btn btn-default">Export .pdf</button>
+        <button class="btn btn-default">Export .csv</button>
+        <button class="btn btn-default">Store Result</button>
+
+
+        <form method="POST" action="#" th:action="@{/covariant}" th:object="${covariantCommand}" id="covariant_form"></form>
 
             <button type="submit" class="btn btn-primary" form="covariant_form">Run with Covariants</button>
+            <input type="hidden" th:value="${covariantCommand.filepath}" th:field="${covariantCommand.filepath}" form="covariant_form">
             <table class="table table-striped table-hover">
                 <thead>
                     <th>Track Name</th>
@@ -61,12 +49,18 @@ var results = [[${results}]];
                     <th>Mark as Covariant</th>
                 </thead>
                 <tbody>
-                <tr th:each="result: ${results}">
+                <tr th:each="result: ${results_inout}">
                     <td th:text="${result.trackName}"></td>
                     <td th:text="${result.pValue}"></td>
                     <td th:text="${result.effectSize}"></td>
                     <td th:id="${result.trackName}"></td>
-                    <td><input th:id="${result.trackName + '_check'}" type="checkbox" form="covariant_form"></td>
+                    <td><input th:field="*{covariantCommand.covariants}" th:value="${result.trackName}" type="checkbox" form="covariant_form"></td>
+                </tr>
+                <tr th:each="result: ${results_score}">
+                    <td th:text="${result.trackName}"></td>
+                    <td th:text="${result.pValue}"></td>
+                    <td th:text="${result.effectSize}"></td>
+                    <td th:id="${result.trackName}"></td>
                 </tr>
                 </tbody>
             </table>
@@ -78,9 +72,63 @@ var results = [[${results}]];
 /*<![CDATA[*/
 
 
-    for(i = 0; i< results.length; i++ ){
+    for(var j = 0; j < results_score.length; j++ ){
+        var x0 = results_score[j].resultMeasured.resultScores;
+        var x1 = results_score[j].resultExpected.resultScores;
 
-        var result = results[i];
+        var measured = {
+          x: x0,
+          opacity: 0.75,
+          type: 'histogram',
+          name: "measured"
+        };
+
+        var expected = {
+          x: x1,
+          opacity: 0.75,
+          type: 'histogram',
+          name: "expected"
+        };
+        var data_s = [measured, expected];
+
+        var layout_s = {
+          autosize: false,
+          width: 200,
+          height: 100,
+          barmode: 'overlay',
+          xaxis: {
+            autorange: true,
+            showgrid: false,
+            zeroline: false,
+            showline: false,
+            autotick: true,
+            ticks: '',
+            showticklabels: false
+          },
+          yaxis: {
+            autorange: true,
+            showgrid: false,
+            zeroline: false,
+            showline: false,
+            autotick: true,
+            ticks: '',
+            showticklabels: false
+          },
+          margin: {
+            l: 0,
+            r: 0,
+            b: 0,
+            t: 0,
+            pad: 0
+          }
+        };
+        Plotly.newPlot(results_score[j].trackname, data_s, layout_s);
+
+    }
+
+    for(var i = 0; i< results_inout.length; i++ ){
+
+        var result = results_inout[i];
 
         var trace1 = {
             x: ["Measured", "Expected"],
@@ -96,11 +144,7 @@ var results = [[${results}]];
             type: 'bar'
         };
 
-        console.log(result.trackname);
-
         var data = [trace1, trace2];
-
-
         var layout = {
           autosize: false,
           width: 200,
@@ -133,18 +177,12 @@ var results = [[${results}]];
           }
         };
 
-
         Plotly.newPlot(result.trackname, data, layout)
-
     }
 
 
 /*]]>*/
 </script>
-
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
 </body>
 </html>
