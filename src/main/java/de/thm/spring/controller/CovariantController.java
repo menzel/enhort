@@ -29,6 +29,9 @@ public class CovariantController {
         model.addAttribute("results_score", collector.getResultsByType(Interval.Type.score));
         model.addAttribute("results_named", collector.getResultsByType(Interval.Type.named));
 
+        command.setPositionCount(data.getPositionCount()); //TODO count
+        model.addAttribute("covariantCommand", command);
+
         return "result";
     }
 }

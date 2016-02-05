@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" crossorigin="anonymous" />
 
     <style>
-
         .sidebar {
           position: fixed;
           top: 51px;
@@ -36,7 +35,7 @@
             float: right;
         }
 
-        #currentfile{
+        .fileinfo{
             float: left;
             width: 40%;
         }
@@ -47,6 +46,11 @@
 
         #logo{
             float:right;
+        }
+
+        .h3{
+            margin-top: 50px;
+            padding-top: 10px;
         }
 
     </style>
@@ -70,11 +74,16 @@
 
     <div class="container">
 
-        <p class="bg-info" id="currentfile" th:text="${'Current File: ' + covariantCommand.filepath}"></p>
+        <div class="fileinfo bg-info">
+            <p th:text="${'Current File: ' + covariantCommand.filepath}"></p>
+            <p th:text="${'Positions: ' + covariantCommand.positionCount}"></p>
+        </div>
 
         <form method="POST" action="#" th:action="@{/covariant}" th:object="${covariantCommand}" id="covariant_form"></form>
 
             <button id="rerun" type="submit" class="btn btn-primary" form="covariant_form">Run with Covariants</button>
+
+            <h3 class="h3">Statistical significant tracks:</h3>
 
             <input type="hidden" th:value="${covariantCommand.filepath}" th:field="${covariantCommand.filepath}" form="covariant_form">
             <table class="table table-striped table-hover">
@@ -82,7 +91,7 @@
                     <th>Track Name</th>
                     <th>PValue</th>
                     <th>Effect Size</th>
-                    <th>Plot</th>
+                    <th>Plot <small> Data vs. Background</small></th>
                     <th>Mark as Covariant</th>
                 </thead>
                 <tbody>

@@ -9,6 +9,7 @@ import java.util.List;
 public class CovariantCommand {
     private List<String> covariants;
     private String filepath;
+    private int positionCount;
 
     public CovariantCommand() {
         covariants = new ArrayList<>();
@@ -44,5 +45,13 @@ public class CovariantCommand {
 
     public void setFilepath(String filepath) {
         this.filepath = filepath;
+    }
+
+    public int getPositionCount() {
+        return positionCount;
+    }
+
+    public void setPositionCount(int positionCount) {
+        this.positionCount = positionCount;
     }
 }

@@ -55,6 +55,8 @@ public class InputController {
 
                 CovariantCommand command = new CovariantCommand();
                 command.setFilepath(inputFilepath.toString());
+                command.setPositionCount(data.getPositionCount());
+
                 model.addAttribute("covariantCommand", command);
 
                 return "result";
