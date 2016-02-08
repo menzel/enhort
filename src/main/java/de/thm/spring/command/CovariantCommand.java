@@ -1,5 +1,7 @@
 package de.thm.spring.command;
 
+import de.thm.positionData.Sites;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,7 @@ public class CovariantCommand {
     private String filepath;
     private int positionCount;
     private String originalFilename;
+    private Sites userData;
 
     public CovariantCommand() {
         covariants = new ArrayList<>();
@@ -62,5 +65,13 @@ public class CovariantCommand {
 
     public void setOriginalFilename(String originalFilename) {
         this.originalFilename = originalFilename;
+    }
+
+    public Sites getUserData() {
+        return userData;
+    }
+
+    public void setUserData(Sites userData) {
+        this.userData = userData;
     }
 }
