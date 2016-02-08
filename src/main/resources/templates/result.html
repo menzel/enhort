@@ -115,6 +115,7 @@
                     <td th:text="${result.pValue}"></td>
                     <td th:text="${result.effectSize}"></td>
                     <td th:id="${result.trackName}"></td>
+                    <td><input th:field="*{covariantCommand.covariants}" th:value="${result.trackName}" type="checkbox" form="covariant_form"></td>
                 </tr>
                 </tbody>
             </table>
@@ -161,7 +162,7 @@
               barmode: 'overlay',
               xaxis: {
                 autorange: true,
-                showgrid: false,
+                showgrid: true,
                 zeroline: false,
                 showline: false,
                 autotick: true,
@@ -188,25 +189,28 @@
             var result = results_inout[i];
 
             var trace1 = {
-                x: ["Measured", "Expected"],
-                y: [result.measuredIn, result.expectedIn],
+                y: ["Measured", "Expected"],
+                x: [result.measuredIn, result.expectedIn],
                 name: 'In',
-                type: 'bar'
+                type: 'bar',
+                orientation: 'h'
             };
 
             var trace2 = {
-                x: ["Measured", "Expected"],
-                y: [result.measuredOut, result.expectedOut],
+                y: ["Measured", "Expected"],
+                x: [result.measuredOut, result.expectedOut],
                 name: 'Out',
-                type: 'bar'
+                type: 'bar',
+                orientation: 'h'
             };
 
             var data = [trace1, trace2];
             var layout = {
               autosize: false,
               width: 300,
-              height: 100,
+              height: 30,
               barmode: 'stack',
+              showlegend: false,
               xaxis: {
                 autorange: true,
                 showgrid: false,
