@@ -39,6 +39,7 @@
             float: left;
             width: 40%;
             padding-left: 10px;
+            padding-top: 6px;
         }
 
         #navbar{
@@ -91,6 +92,7 @@
 
             <h3 class="h3">Statistical significant tracks:</h3>
 
+            <input type="hidden" th:value="${covariantCommand.originalFilename}" th:field="${covariantCommand.originalFilename}" form="covariant_form">
             <input type="hidden" th:value="${covariantCommand.filepath}" th:field="${covariantCommand.filepath}" form="covariant_form">
             <table class="table table-striped table-hover">
                 <thead>
