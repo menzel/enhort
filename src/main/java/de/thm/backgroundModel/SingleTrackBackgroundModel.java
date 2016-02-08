@@ -44,6 +44,8 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
             positions.addAll(randPositions(result.getOut()* factor, interval, "out"));
         }
 
+        this.hash = positions.hashCode();
+
     }
 
     /**

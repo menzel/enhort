@@ -36,15 +36,15 @@ public class InputController {
     @RequestMapping(value="/upload", method=RequestMethod.POST)
     public String handleFileUpload(Model model, @RequestParam("name") String name, @RequestParam("file") MultipartFile file){
 
-        name += "-" + UUID.randomUUID();
+        String uuid = name + "-" + UUID.randomUUID();
         if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
-                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(basePath.resolve(name).toFile()));
+                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(basePath.resolve(uuid).toFile()));
                 stream.write(bytes);
                 stream.close();
 
-                Path inputFilepath = basePath.resolve(name);
+                Path inputFilepath = basePath.resolve(uuid);
 
                 UserData data = new UserData(inputFilepath);
                 ResultCollector collector = AnalysisHelper.runAnalysis(data);
@@ -56,8 +56,11 @@ public class InputController {
                 CovariantCommand command = new CovariantCommand();
                 command.setFilepath(inputFilepath.toString());
                 command.setPositionCount(data.getPositionCount());
+                command.setOriginalFilename(name);
 
                 model.addAttribute("covariantCommand", command);
+                model.addAttribute("bgHash", collector.getBgModelHash());
+                model.addAttribute("bgCount", collector.getResults().get(0).getExpectedIn() + collector.getResults().get(0).getExpectedOut());
 
                 return "result";
 

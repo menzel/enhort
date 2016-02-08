@@ -14,8 +14,10 @@ import java.util.stream.Collectors;
 public class ResultCollector {
 
     private final List<TestResult> results;
+    private int bgModelHash;
 
-    public ResultCollector() {
+    public ResultCollector(int bgModelHash) {
+        this.bgModelHash = bgModelHash;
         results = Collections.synchronizedList(new ArrayList<>());
     }
 
@@ -136,5 +138,9 @@ public class ResultCollector {
 
     public void clear() {
         results.clear();
+    }
+
+    public int getBgModelHash() {
+        return bgModelHash;
     }
 }

@@ -36,6 +36,8 @@ public class MultiTrackBackgroundModel extends BackgroundModel {
         appearanceTable = new AppearanceTable();
         appearanceTable.fillTable(intervals, inputPositions);
         positions.addAll(randPositions(appearanceTable, intervals));
+
+        this.hash = positions.hashCode();
     }
 
     /**

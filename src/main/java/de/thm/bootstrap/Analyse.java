@@ -1,5 +1,6 @@
 package de.thm.bootstrap;
 
+import de.thm.backgroundModel.BackgroundModel;
 import de.thm.backgroundModel.MultiTrackBackgroundModel;
 import de.thm.backgroundModel.SingleTrackBackgroundModel;
 import de.thm.backgroundModel.RandomBackgroundModel;
@@ -68,7 +69,7 @@ public class Analyse {
         //covariants.add(intervals.get("cpg.bed"));
         covariants.add(intervals.get("expression_blood.bed"));
 
-        Sites bg;
+        BackgroundModel bg;
 
         if(covariants.size() == 1 && covariants.get(0).getType() == Interval.Type.score){
             bg = new SingleTrackBackgroundModel(covariants.get(0), userSites);

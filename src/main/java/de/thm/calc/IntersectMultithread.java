@@ -1,5 +1,6 @@
 package de.thm.calc;
 
+import de.thm.backgroundModel.BackgroundModel;
 import de.thm.genomeData.Interval;
 import de.thm.positionData.Sites;
 import de.thm.stat.ResultCollector;
@@ -24,10 +25,10 @@ public class IntersectMultithread {
     }
 
 
-    public ResultCollector execute(Map<String, Interval> intervals, Sites measuredPositions, Sites randomPositions) {
+    public ResultCollector execute(Map<String, Interval> intervals, Sites measuredPositions, BackgroundModel randomPositions) {
 
         Set<String> tracks = intervals.keySet();
-        ResultCollector collector = new ResultCollector();
+        ResultCollector collector = new ResultCollector(randomPositions.getHash());
 
         for(String track: tracks){
 

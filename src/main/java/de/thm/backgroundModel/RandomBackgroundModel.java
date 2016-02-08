@@ -22,6 +22,8 @@ public class RandomBackgroundModel extends BackgroundModel{
         rand = new Random(System.currentTimeMillis());
         createSites(sites);
 
+        this.hash = positions.hashCode();
+
     }
 
     /**

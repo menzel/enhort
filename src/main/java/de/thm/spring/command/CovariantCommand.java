@@ -10,6 +10,7 @@ public class CovariantCommand {
     private List<String> covariants;
     private String filepath;
     private int positionCount;
+    private String originalFilename;
 
     public CovariantCommand() {
         covariants = new ArrayList<>();
@@ -53,5 +54,13 @@ public class CovariantCommand {
 
     public void setPositionCount(int positionCount) {
         this.positionCount = positionCount;
+    }
+
+    public String getOriginalFilename() {
+        return originalFilename;
+    }
+
+    public void setOriginalFilename(String originalFilename) {
+        this.originalFilename = originalFilename;
     }
 }

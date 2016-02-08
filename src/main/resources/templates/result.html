@@ -38,6 +38,7 @@
         .fileinfo{
             float: left;
             width: 40%;
+            padding-left: 10px;
         }
 
         #navbar{
@@ -49,7 +50,7 @@
         }
 
         .h3{
-            margin-top: 50px;
+            margin-top: 70px;
             padding-top: 10px;
         }
 
@@ -75,8 +76,13 @@
     <div class="container">
 
         <div class="fileinfo bg-info">
-            <p th:text="${'Current File: ' + covariantCommand.filepath}"></p>
+            <p th:text="${'Current File: ' + covariantCommand.originalFilename}"></p>
             <p th:text="${'Positions: ' + covariantCommand.positionCount}"></p>
+        </div>
+
+        <div class="fileinfo bg-warning">
+            <p th:text="${'Background Hash: ' + bgHash}"></p>
+            <p th:text="${'Background Positions: ' + bgCount}"></p>
         </div>
 
         <form method="POST" action="#" th:action="@{/covariant}" th:object="${covariantCommand}" id="covariant_form"></form>

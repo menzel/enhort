@@ -1,5 +1,6 @@
 package de.thm.spring.helper;
 
+import de.thm.backgroundModel.BackgroundModel;
 import de.thm.backgroundModel.MultiTrackBackgroundModel;
 import de.thm.backgroundModel.RandomBackgroundModel;
 import de.thm.backgroundModel.SingleTrackBackgroundModel;
@@ -20,7 +21,7 @@ import java.util.Map;
 public class AnalysisHelper {
 
     public static ResultCollector runAnalysis(Sites input){
-        Sites bg = new RandomBackgroundModel(input.getPositionCount());
+        BackgroundModel bg = new RandomBackgroundModel(input.getPositionCount());
 
         IntersectMultithread multi;
         multi = new IntersectMultithread();
@@ -31,7 +32,7 @@ public class AnalysisHelper {
 
         List<Interval> covariants = getCovariants(covariantNames);
 
-        Sites bg;
+        BackgroundModel bg;
 
         try {
             if(covariants.size() == 1 && covariants.get(0).getType() == Interval.Type.score){
