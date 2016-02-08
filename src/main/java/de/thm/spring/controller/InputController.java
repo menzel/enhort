@@ -57,6 +57,7 @@ public class InputController {
                 command.setFilepath(inputFilepath.toString());
                 command.setPositionCount(data.getPositionCount());
                 command.setOriginalFilename(name);
+                command.setUserData(data);
 
                 model.addAttribute("covariantCommand", command);
                 model.addAttribute("bgHash", collector.getBgModelHash());
