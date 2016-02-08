@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+
+        <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"  crossorigin="anonymous" />
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" crossorigin="anonymous" />
+
+</head>
+
+<body style="padding-top: 100px">
+
+<div th:include="header:: bar"></div>
+<div class="col-sm-3 col-md-2 sidebar">
+    <div th:include="upload:: upload"></div>
+
+    <ul class="nav nav-sidebar" id="sidebar">
+        <li><button class="btn btn-default extra-margin">Export .pdf</button></li>
+        <li><button class="btn btn-default extra-margin">Export .csv</button></li>
+        <li><button class="btn btn-default extra-margin">Store Result</button></li>
+    </ul>
+
+</div>
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+    <div class="container">
+        <div class="bg-danger">
+            <h4>Error message</h4>
+            <p th:text="${errorCode}">500</p>
+            <p th:text="${errorMessage}">Foo</p>
+            <p th:text="${error}"></p>
+            <p th:text="${message}"></p>
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+</html>

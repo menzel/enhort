@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -26,12 +27,6 @@ import java.util.UUID;
 public class InputController {
 
     private static Path basePath = new File("/tmp").toPath();
-
-
-    @RequestMapping(value="/upload", method=RequestMethod.GET)
-    public String provideUploadInfo() {
-        return "You can upload a file by posting to this same URL.";
-    }
 
     @RequestMapping(value="/upload", method=RequestMethod.POST)
     public String handleFileUpload(Model model, @RequestParam("name") String name, @RequestParam("file") MultipartFile file){
@@ -75,5 +70,19 @@ public class InputController {
             return null;
         }
     }
+
+      // Error page
+      @RequestMapping("/error.html")
+      public String error(HttpServletRequest request, Model model) {
+        model.addAttribute("errorCode", request.getAttribute("javax.servlet.error.status_code"));
+        Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
+        String errorMessage = null;
+        if (throwable != null) {
+          errorMessage = throwable.getMessage();
+        }
+        model.addAttribute("errorMessage", errorMessage);
+        return "error.html";
+      }
+
 
 }
