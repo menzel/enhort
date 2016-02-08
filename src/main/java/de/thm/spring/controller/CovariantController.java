@@ -23,7 +23,7 @@ public class CovariantController {
     public String covariant(@ModelAttribute CovariantCommand command, Model model){
 
         UserData data = new UserData(new File(command.getFilepath()).toPath());
-        ResultCollector collector =AnalysisHelper.runAnalysis(data,command.getCovariants());
+        ResultCollector collector = AnalysisHelper.runAnalysis(data,command.getCovariants());
 
         model.addAttribute("results_inout", collector.getResultsByType(Interval.Type.inout));
         model.addAttribute("results_score", collector.getResultsByType(Interval.Type.score));
@@ -31,6 +31,8 @@ public class CovariantController {
 
         command.setPositionCount(data.getPositionCount()); //TODO count
         model.addAttribute("covariantCommand", command);
+        model.addAttribute("bgHash", collector.getBgModelHash());
+        model.addAttribute("bgCount", collector.getResults().get(0).getExpectedIn() + collector.getResults().get(0).getExpectedOut());
 
         return "result";
     }
