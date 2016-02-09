@@ -109,12 +109,12 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
 
                 double prob = probabilities.get(j);
 
-                if (value > prob) {
+                if (value >= prob) {
                     value -= prob;
                     prev += prob;
 
                 } else {
-                    Long intervalLength = ends.get(j) - starts.get(j);
+                    Long intervalLength = (ends.get(j) - starts.get(j)) - 1;
                     sites.add(starts.get(j) + Math.round(intervalLength * value));
 
                     break;
@@ -128,7 +128,7 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
 
     /**
      * Translate scores into probability for each interval based on frequency of sites inside.
-     * A smoothing function is applied to the probability values.
+     * A smoothing function is not applied to the probability values.
      *
      * @param interval - intervals with scores
      * @param result - result of intersecting the interval with the given user input
@@ -139,14 +139,14 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
 
         List<Double> scores = interval.getIntervalScore();
         List<Double> probabilityScores = new ArrayList<>();
-        List<Long> starts = interval.getIntervalsStart();
-        List<Long> ends = interval.getIntervalsEnd();
 
         Map<Double, Double> probValues = new HashMap<>(); // for dynamic programing
+        Map<Double, Double> probValuesGenome = new HashMap<>(); // for dynamic programing
 
         for(int i = 0 ; i < scores.size(); i++){
 
             double prob;
+            //TODO speed up/ test/ spaghetti...
 
             if(probValues.containsKey(scores.get(i))) {
                 prob = probValues.get(scores.get(i));
@@ -154,13 +154,20 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
                 prob = count(scores.get(i), result.getResultScores()) / result.getResultScores().size();
                 probValues.put(scores.get(i), prob);
             }
-            Long length = ends.get(i) - starts.get(i);
-            //probabilityScores.add(prob*Math.log(length));
-            probabilityScores.add(prob); //TODO how to use length
+
+            if(probValuesGenome.containsKey(scores.get(i))){
+                prob /= probValuesGenome.get(scores.get(i));
+            } else {
+                double tmp = count(scores.get(i), scores) / scores.size();
+                probValuesGenome.put(scores.get(i), tmp);
+                prob /= probValuesGenome.get(scores.get(i));
+            }
+
+            probabilityScores.add(prob);
         }
 
         //map values to be 1 if summed up
-        double sum = probabilityScores.stream().mapToDouble(Double::doubleValue).sum();
+        double sum = probabilityScores.size();
         probabilityScores = probabilityScores.stream().map(p -> p/sum).collect(Collectors.toList());
 
         return probabilityScores;
