@@ -2,8 +2,8 @@ package de.thm.bootstrap;
 
 import de.thm.backgroundModel.BackgroundModel;
 import de.thm.backgroundModel.MultiTrackBackgroundModel;
-import de.thm.backgroundModel.SingleTrackBackgroundModel;
 import de.thm.backgroundModel.RandomBackgroundModel;
+import de.thm.backgroundModel.SingleTrackBackgroundModel;
 import de.thm.calc.Intersect;
 import de.thm.calc.IntersectCalculate;
 import de.thm.calc.IntersectMultithread;
@@ -51,23 +51,23 @@ public class Analyse {
         //IntersectResult resultUserSites;
         //IntersectResult resultBg;
 
-        //Interval genes = intervals.get("knownGenes.bed");
+        //Interval genes = intervals.get("knownGenes");
         //resultUserSites = simple.searchSingleInterval(genes, userSites);
         //Sites bg = new BetterBackgroundModel(resultUserSites.getIn(),resultUserSites.getOut() , genes);
 
         List<Interval> covariants = new ArrayList<>();
-        //covariants.add(intervals.get("H1-hESC-H3K4m1.bed"));
-        //covariants.add(intervals.get("H1-hESC-H3K4m3.bed"));
-        //covariants.add(intervals.get("open-chrom-synth-HeLa-S3-valid.bed"));
-        //covariants.add(intervals.get("HeLa-S3-H3K4m1.bed"));
-        //covariants.add(intervals.get("knownGenes.bed"));
-        //covariants.add(intervals.get("exons_5UTR.bed"));
-        //covariants.add(intervals.get("exons_3UTR.bed"));
-        //covariants.add(intervals.get("open-chrom-synth-HeLa-S3-valid.bed"));
-        //covariants.add(intervals.get("exons.bed"));
-        //covariants.add(intervals.get("introns.bed"));
-        //covariants.add(intervals.get("cpg.bed"));
-        covariants.add(intervals.get("expression_blood.bed"));
+        //covariants.add(intervals.get("H1-hESC-H3K4m1"));
+        //covariants.add(intervals.get("H1-hESC-H3K4m3"));
+        //covariants.add(intervals.get("open-chrom-synth-HeLa-S3-valid"));
+        //covariants.add(intervals.get("HeLa-S3-H3K4m1"));
+        //covariants.add(intervals.get("knownGenes"));
+        //covariants.add(intervals.get("exons_5UTR"));
+        //covariants.add(intervals.get("exons_3UTR"));
+        //covariants.add(intervals.get("open-chrom-synth-HeLa-S3-valid"));
+        //covariants.add(intervals.get("exons"));
+        //covariants.add(intervals.get("introns"));
+        //covariants.add(intervals.get("cpg"));
+        covariants.add(intervals.get("expression_blood"));
 
         BackgroundModel bg;
 
@@ -96,7 +96,7 @@ public class Analyse {
 
         for(TestResult testResult: collector.getResultsByType(Interval.Type.score)){
             try {
-                try (BufferedWriter writer = Files.newBufferedWriter(path.resolve(testResult.getTrackname().substring(0,testResult.getTrackname().indexOf(".")).concat(".json")))) {
+                try (BufferedWriter writer = Files.newBufferedWriter(path.resolve(testResult.getTrackname().concat(".json")))) {
                     writer.write("[");
                     writer.write(Arrays.toString(testResult.getResultMeasured().getResultScores().toArray()));
                     writer.write(",");
@@ -106,41 +106,6 @@ public class Analyse {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-
-        for(TestResult testResult: collector.getResultsByType(Interval.Type.named)){
-            try {
-                try (BufferedWriter writer = Files.newBufferedWriter(path.resolve(testResult.getTrackname().substring(0, testResult.getTrackname().indexOf(".")).concat(".json")))) {
-
-                    writer.write("[");
-                    writer.write(toJsonArray(testResult.getResultMeasured().getResultNames()));
-                    writer.write(",");
-                    writer.write(toJsonArray(testResult.getResultExpected().getResultNames()));
-                    writer.write("]");
-
-                }
-            }catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-        try {
-            try (BufferedWriter writer = Files.newBufferedWriter(path.resolve("raw_data.json"))) {
-
-                writer.write(collector.toJson());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            try (BufferedWriter writer = Files.newBufferedWriter(path.resolve("bubbles.json"))) {
-
-                writer.write(collector.toBubblesJson());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
