@@ -171,6 +171,7 @@
     plot([[${results_inout}]], [[${results_score}]]);
 
     function plot(results_inout, results_score) {
+        var buttons_s = {};
         var buttons = {displayModeBar: false};
 
 
@@ -201,11 +202,10 @@
               xaxis: {
                 autorange: true,
                 showgrid: true,
-                zeroline: false,
+                zeroline: true,
                 showline: false,
                 autotick: true,
-                ticks: '',
-                showticklabels: false
+                ticks: ''
               },
               yaxis: {
                 autorange: true,
@@ -216,9 +216,9 @@
                 ticks: '',
                 showticklabels: false
               },
-              margin: { l: 0, r: 0, b: 0, t: 0, pad: 0 }
+              margin: { l: 0, r: 0, b: 15, t: 0, pad: 0 }
             };
-            Plotly.newPlot(results_score[j].trackname, data_s, layout_s, buttons);
+            Plotly.newPlot(results_score[j].trackname, data_s, layout_s, buttons_s);
 
         }
 
