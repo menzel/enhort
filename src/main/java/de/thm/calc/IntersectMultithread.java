@@ -32,7 +32,7 @@ public class IntersectMultithread {
 
         for(String track: tracks){
 
-            IntersectWrapper wrapper = new IntersectWrapper(measuredPositions, randomPositions, intervals.get(track), track, collector);
+            IntersectWrapper wrapper = new IntersectWrapper(measuredPositions, randomPositions, intervals.get(track), collector);
             wrappers.add(wrapper);
             exe.execute(wrapper);
         }

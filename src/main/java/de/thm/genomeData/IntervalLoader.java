@@ -81,7 +81,7 @@ public class IntervalLoader {
             return intervalDumper.getInterval(new File(file.getName()));
 
         } else{
-            Interval interval = new Interval(file, type);
+            Interval interval = new Interval(file, type, file.getName());
             intervalDumper.dumpInterval(interval, file.getName());
             return  interval;
         }

@@ -11,6 +11,8 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 /**
@@ -29,6 +31,22 @@ public class Interval implements Serializable{
     protected List<Double> intervalScore;
 
     protected Type type;
+    private String name;
+    private String filename;
+
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
 
 
     public enum Type {inout, score, named}
@@ -48,9 +66,10 @@ public class Interval implements Serializable{
      * @param file - file to parse for data
      * @param type - Type of data (inout, score, named)
      */
-    public Interval(File file, Type type) {
+    public Interval(File file, Type type, String filename) {
 
         this.type = type;
+        this.filename = filename;
 
         try {
             int length = new Long(Files.lines(file.toPath()).count()).intValue();
@@ -83,11 +102,20 @@ public class Interval implements Serializable{
         try(Stream<String> lines = Files.lines(file.toPath(), StandardCharsets.UTF_8)){
             Iterator<String> it = lines.iterator();
 
+            Pattern header = Pattern.compile("track fullname=.(.*). description=.(.*).."); //TODO . are "
+
             while(it.hasNext()){
                 String line = it.next();
-                String[] parts = line.split("\t");
+                Matcher matcher = header.matcher(line);
 
-                handleParts(parts);
+                if(matcher.matches()){
+                    name = matcher.group(1);
+                    description = matcher.group(2);
+
+                } else if (true){ //TODO build another matcher for normal lines
+                    String[] parts = line.split("\t");
+                    handleParts(parts);
+                }
             }
 
             lines.close();

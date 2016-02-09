@@ -111,26 +111,27 @@
                     <th>Mark as Covariant</th>
                 </thead>
                 <tbody>
-                <tr th:each="result: ${results_inout}" th:attr="data-target='#accordion_'+${result.trackName}" data-toggle="collapse" class="accordion-toggle">
-                        <td th:text="${result.trackName}"></td>
+                <tr th:each="result: ${results_inout}" th:attr="data-target='#accordion_'+${result.filename}" data-toggle="collapse" class="accordion-toggle">
+                        <td th:text="${result.name}"></td>
                         <td th:text="${result.pValue}"></td>
                         <td th:text="${result.effectSize}"></td>
-                        <td th:id="${result.trackName}"></td>
-                        <td><input th:field="*{covariantCommand.covariants}" th:value="${result.trackName}" type="checkbox" form="covariant_form"></td>
+                        <td th:id="${result.filename}"></td>
+                        <td><input th:field="*{covariantCommand.covariants}" th:value="${result.filename}" type="checkbox" form="covariant_form"></td>
                 </tr>
 
                 <tr th:each="result: ${results_inout}">
                         <td colspan="6" class="hiddenRow">
-                            <div class="accordion-body collapse" th:id="'accordion_'+${result.trackName}">there is nothing to see here (yet)
+                            <div class="accordion-body collapse" th:id="'accordion_'+${result.filename}">
+                                <div th:text="${result.description}"></div>
                             </div>
                         </td>
                 </tr>
                 <tr th:each="result: ${results_score}">
-                    <td th:text="${result.trackName}"></td>
+                    <td th:text="${result.name}"></td>
                     <td th:text="${result.pValue}"></td>
                     <td th:text="${result.effectSize}"></td>
-                    <td th:id="${result.trackName}"></td>
-                    <td><input th:field="*{covariantCommand.covariants}" th:value="${result.trackName}" type="checkbox" form="covariant_form"></td>
+                    <td th:id="${result.filename}"></td>
+                    <td><input th:field="*{covariantCommand.covariants}" th:value="${result.filename}" type="checkbox" form="covariant_form"></td>
                 </tr>
                 </tbody>
             </table>
@@ -147,9 +148,9 @@
                 </thead>
                 <tbody>
                 <tr th:each="cov: ${covariants}">
-                    <td th:text="${cov.trackName}"></td>
-                    <td th:id="${cov.trackName}"></td>
-                    <td><input th:field="*{covariantCommand.covariants}" th:value="${cov.trackName}" type="checkbox" form="covariant_form"></td>
+                    <td th:text="${cov.name}"></td>
+                    <td th:id="${cov.filename}"></td>
+                    <td><input th:field="*{covariantCommand.covariants}" th:value="${cov.filename}" type="checkbox" form="covariant_form"></td>
                 </tr>
                 </tbody>
 
@@ -218,7 +219,7 @@
               },
               margin: { l: 0, r: 0, b: 15, t: 0, pad: 0 }
             };
-            Plotly.newPlot(results_score[j].trackname, data_s, layout_s, buttons_s);
+            Plotly.newPlot(results_score[j].filename, data_s, layout_s, buttons_s);
 
         }
 
@@ -276,7 +277,7 @@
               margin: { l: 0, r: 0, b: 0, t: 0, pad: 0 }
             };
 
-            Plotly.newPlot(result.trackname, data, layout, buttons)
+            Plotly.newPlot(result.filename, data, layout, buttons)
         }
 
     }

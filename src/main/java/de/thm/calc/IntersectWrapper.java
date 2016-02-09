@@ -16,16 +16,14 @@ public class IntersectWrapper implements Runnable{
     private final Sites randomPos;
     private final Sites measuredPos;
     private final Interval interval;
-    private String trackName;
     private TestResult testResult;
     private ResultCollector collector;
 
-    public IntersectWrapper(Sites measuredPos, Sites randomPos, Interval interval, String trackName, ResultCollector collector) {
+    public IntersectWrapper(Sites measuredPos, Sites randomPos, Interval interval, ResultCollector collector) {
 
         this.randomPos = randomPos;
         this.measuredPos = measuredPos;
         this.interval = interval;
-        this.trackName = trackName;
         this.collector = collector;
     }
 
@@ -40,8 +38,8 @@ public class IntersectWrapper implements Runnable{
         IndependenceTest tester = new IndependenceTest();
         EffectSize effectSize = new EffectSize();
 
-        testResult  = tester.test(result1, result2, trackName);
-        effectSize.test(result1, result2, trackName);
+        testResult  = tester.test(result1, result2, interval);
+        effectSize.test(result1, result2);
 
         collector.addResult(testResult);
 

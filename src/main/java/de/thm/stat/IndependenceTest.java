@@ -1,6 +1,7 @@
 package de.thm.stat;
 
 import de.thm.calc.IntersectResult;
+import de.thm.genomeData.Interval;
 import org.apache.commons.math3.stat.inference.ChiSquareTest;
 import org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest;
 
@@ -28,16 +29,17 @@ public class IndependenceTest {
      *
      * @param intersectResultA  measured results
      * @param intersectResultB expected (random) results
-     * @param trackName - name of the track for output
+     * @param interval - used interval for reference
+     *
      * @return p value of independence test
      */
-    public TestResult test(IntersectResult intersectResultA, IntersectResult intersectResultB, String trackName) {
+    public TestResult test(IntersectResult intersectResultA, IntersectResult intersectResultB, Interval interval){
 
         long[][] counts = new long[2][2];
         counts[0] = new long[] {intersectResultA.getIn(), intersectResultA.getOut()};
         counts[1] = new long[] {intersectResultB.getIn(), intersectResultB.getOut()};
 
-        double effectSize = effectSizeTester.test(intersectResultA,intersectResultB,trackName);
+        double effectSize = effectSizeTester.test(intersectResultA,intersectResultB);
 
 
         switch (intersectResultA.getType()){
@@ -51,12 +53,12 @@ public class IndependenceTest {
                 intersectResultB.add("in", expectedScore.length);
 
                 if(measuredScore.length < 2 || expectedScore.length < 2){
-                    System.err.println(trackName + " Failed");
+                    System.err.println(interval.getFilename() + " Failed");
                     System.err.println(Arrays.toString(measuredScore));
                     System.err.println(Arrays.toString(expectedScore));
 
                 } else {
-                    return new TestResult(kolmoTester.kolmogorovSmirnovTest(measuredScore, expectedScore), intersectResultA, intersectResultB, effectSize, trackName);
+                    return new TestResult(kolmoTester.kolmogorovSmirnovTest(measuredScore, expectedScore), intersectResultA, intersectResultB, effectSize, interval);
                 }
 
             case named:
@@ -64,11 +66,11 @@ public class IndependenceTest {
                 Map<String, Integer> measured = intersectResultA.getResultNames();
                 Map<String, Integer> expected = intersectResultB.getResultNames();
 
-                return new TestResult(tester.chiSquareTest(prepareLists(measured,expected)), intersectResultA, intersectResultB, effectSize, trackName);
+                return new TestResult(tester.chiSquareTest(prepareLists(measured,expected)), intersectResultA, intersectResultB, effectSize, interval);
 
             case inout:
 
-                return new TestResult(tester.chiSquareTest(counts), intersectResultA, intersectResultB, effectSize, trackName);
+                return new TestResult(tester.chiSquareTest(counts), intersectResultA, intersectResultB, effectSize, interval);
 
             default:
                 return null;

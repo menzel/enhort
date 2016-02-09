@@ -96,7 +96,7 @@ public class Analyse {
 
         for(TestResult testResult: collector.getResultsByType(Interval.Type.score)){
             try {
-                try (BufferedWriter writer = Files.newBufferedWriter(path.resolve(testResult.getTrackname().concat(".json")))) {
+                try (BufferedWriter writer = Files.newBufferedWriter(path.resolve(testResult.getFilename().concat(".json")))) {
                     writer.write("[");
                     writer.write(Arrays.toString(testResult.getResultMeasured().getResultScores().toArray()));
                     writer.write(",");
@@ -136,7 +136,7 @@ public class Analyse {
     public void benchmark(){
         String basePath = "/home/menzel/Desktop/THM/lfba/projekphase/dat/";
 
-        Interval invExons = new Interval(new File(basePath + "inout/exons.bed"), Interval.Type.inout);
+        Interval invExons = new Interval(new File(basePath + "inout/exons.bed"), Interval.Type.inout, "exons.bed");
 
         for(int i = 0 ; i < 20 ; i++){
             int j = i * 5000;

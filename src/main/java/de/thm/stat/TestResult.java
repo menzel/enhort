@@ -14,7 +14,9 @@ public class TestResult implements Serializable{
 
     public final double pValue;
     public final double effectSize;
-    public final String trackName;
+    public final String name;
+    public final String filename;
+    public final String description;
     public final int measuredIn;
     public final int measuredOut;
     public final int expectedIn;
@@ -22,7 +24,7 @@ public class TestResult implements Serializable{
     public final IntersectResult resultMeasured;
     public final IntersectResult resultExpected;
 
-    public TestResult(double pValue, IntersectResult measured, IntersectResult expected, double effectSize, String trackName) {
+    public TestResult(double pValue, IntersectResult measured, IntersectResult expected, double effectSize, Interval usedInterval) {
 
         DecimalFormat format = new DecimalFormat("0.00E00");
         this.pValue = Double.parseDouble(format.format(pValue));
@@ -37,7 +39,9 @@ public class TestResult implements Serializable{
         this.expectedIn = expected.getIn();
         this.expectedOut = expected.getOut();
 
-        this.trackName = trackName;
+        this.name = usedInterval.getName();
+        this.filename = usedInterval.getFilename();
+        this.description = usedInterval.getDescription();
     }
 
     public double getpValue() {
@@ -64,27 +68,19 @@ public class TestResult implements Serializable{
         return "measured "  + resultMeasured.toString() +
                 "expected " +resultExpected.toString() +
                 "Fold change Ratio: " + effectSize + "\n" +
-                trackName + " p-value: " + pValue +
+                name + " p-value: " + pValue +
                 "\n=====\n";
     }
 
-    public String toCsv(){
-
-        String line = trackName.substring(0,trackName.indexOf("."));
-        //double all = (measuredIn+expectedIn+measuredOut+expectedOut);
-        double all = (measuredIn+expectedIn);
-        int max = 100;
-        if(pValue > 0.05)
-            line += "," + 0 + "," + (measuredIn/all)*max + ",0," + (expectedIn/all)*max +  "," + 0 + "," + max + "\n";
-        else
-            line += "," + (measuredIn/all)*max + ",0,0,0," + (expectedIn/all)*max +  "," + max + "\n";
-
-        return  line;
-
+    public String getFilename(){
+        return this.filename;
     }
 
-    public String getTrackname() {
-        return trackName;
+    public String getName() {
+        if(name == null || name.equals("")){
+            return filename;
+        }
+        return name;
     }
 
     public Interval.Type getType(){
