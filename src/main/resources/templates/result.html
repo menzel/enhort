@@ -32,14 +32,10 @@
         }
 
         #rerun {
-            float: right;
         }
 
         .fileinfo{
-            float: left;
-            width: 40%;
-            padding-left: 10px;
-            padding-top: 6px;
+            padding-left: 6px;
         }
 
         #navbar{
@@ -51,7 +47,6 @@
         }
 
         .h3{
-            margin-top: 70px;
             padding-top: 10px;
         }
 
@@ -62,7 +57,18 @@
     <div th:include="header:: bar"></div>
 
 <div class="col-sm-3 col-md-2 sidebar">
+
     <div th:include="upload:: upload"></div>
+
+    <div class="fileinfo bg-info">
+            <p th:text="${'Current File: ' + covariantCommand.originalFilename}"></p>
+            <p th:text="${'Positions: ' + covariantCommand.positionCount}"></p>
+    </div>
+
+    <div class="fileinfo bg-warning">
+            <p th:text="${'Background Hash: ' + bgHash}"></p>
+            <p th:text="${'Background Positions: ' + bgCount}"></p>
+    </div>
 
     <ul class="nav nav-sidebar" id="sidebar">
         <li><button class="btn btn-default extra-margin">Export .pdf</button></li>
@@ -74,21 +80,15 @@
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
 
-    <div class="container">
+    <div class="container row col-md-12">
 
-        <div class="fileinfo bg-info">
-            <p th:text="${'Current File: ' + covariantCommand.originalFilename}"></p>
-            <p th:text="${'Positions: ' + covariantCommand.positionCount}"></p>
-        </div>
+        <button id="rerun" type="submit" class="btn btn-primary" form="covariant_form">Run with Covariants</button>
 
-        <div class="fileinfo bg-warning">
-            <p th:text="${'Background Hash: ' + bgHash}"></p>
-            <p th:text="${'Background Positions: ' + bgCount}"></p>
-        </div>
+        <div class="row">
+        <div class="col-md-8 ">
 
         <form method="POST" action="#" th:action="@{/covariant}" th:object="${covariantCommand}" id="covariant_form"></form>
 
-            <button id="rerun" type="submit" class="btn btn-primary" form="covariant_form">Run with Covariants</button>
 
             <h3 class="h3">Statistical significant tracks:</h3>
 
@@ -119,6 +119,29 @@
                 </tr>
                 </tbody>
             </table>
+
+        </div>
+        <div class="col-md-4">
+
+            <h3 class="h3">Marked as covariant:</h3>
+
+            <table class="table table-striped table-hover">
+                <thead>
+                    <th>Track Name</th>
+                    <th>Is covariant</th>
+                </thead>
+                <tbody>
+                <tr th:each="cov: ${covariants}">
+                    <td th:text="${cov.trackName}"></td>
+                    <td th:id="${cov.trackName}"></td>
+                    <td><input th:field="*{covariantCommand.covariants}" th:value="${cov.trackName}" type="checkbox" form="covariant_form"></td>
+                </tr>
+                </tbody>
+
+            </table>
+
+        </div>
+        </div>
 
     </div><!-- /.container -->
 
@@ -193,6 +216,9 @@
                 x: [result.measuredIn, result.expectedIn],
                 name: 'In',
                 type: 'bar',
+                marker: {
+                    color: 'rgba(27,100,255,1)'
+                },
                 orientation: 'h'
             };
 
@@ -201,6 +227,9 @@
                 x: [result.measuredOut, result.expectedOut],
                 name: 'Out',
                 type: 'bar',
+                marker: {
+                    color: 'rgba(240,173,78,1)'
+                },
                 orientation: 'h'
             };
 
