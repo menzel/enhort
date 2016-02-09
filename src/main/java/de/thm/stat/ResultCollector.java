@@ -94,12 +94,17 @@ public class ResultCollector {
      * @return list of TestResults of type type
      */
     public List<TestResult> getResultsByType(Interval.Type type) {
-        return  results.stream()
+        List<TestResult> r = results.stream()
                 .filter(testResult -> testResult.getType()
                 .equals(type))
-                .filter(testResult -> testResult.getpValue() < 0.05 || testResult.getpValue() == 1)
+                .filter(testResult -> testResult.getpValue() < 0.05)
                 .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
                 .collect(Collectors.toList());
+
+        if(r == null)
+            return new ArrayList<>();
+        return r;
+
     }
 
     public String toBubblesJson() {
@@ -142,5 +147,9 @@ public class ResultCollector {
 
     public int getBgModelHash() {
         return bgModelHash;
+    }
+
+    public List<TestResult> getCovariants() {
+        return results.stream().filter(tr -> tr.getpValue() == 1).collect(Collectors.toList());
     }
 }
