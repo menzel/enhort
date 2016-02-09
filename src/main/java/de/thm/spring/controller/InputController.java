@@ -29,8 +29,9 @@ public class InputController {
     private static Path basePath = new File("/tmp").toPath();
 
     @RequestMapping(value="/upload", method=RequestMethod.POST)
-    public String handleFileUpload(Model model, @RequestParam("name") String name, @RequestParam("file") MultipartFile file){
+    public String handleFileUpload(Model model, @RequestParam("file") MultipartFile file){
 
+        String name = file.getOriginalFilename();
         String uuid = name + "-" + UUID.randomUUID();
         if (!file.isEmpty()) {
             try {
@@ -47,6 +48,8 @@ public class InputController {
                 model.addAttribute("results_inout", collector.getResultsByType(Interval.Type.inout));
                 model.addAttribute("results_score", collector.getResultsByType(Interval.Type.score));
                 model.addAttribute("results_named", collector.getResultsByType(Interval.Type.named));
+
+                model.addAttribute("covariants", collector.getCovariants());
 
                 CovariantCommand command = new CovariantCommand();
                 command.setFilepath(inputFilepath.toString());
