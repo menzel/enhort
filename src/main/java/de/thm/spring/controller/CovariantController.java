@@ -29,7 +29,10 @@ public class CovariantController {
         model.addAttribute("results_score", collector.getResultsByType(Interval.Type.score));
         model.addAttribute("results_named", collector.getResultsByType(Interval.Type.named));
 
-        command.setPositionCount(data.getPositionCount()); //TODO count
+
+        model.addAttribute("covariants", collector.getCovariants());
+
+        command.setPositionCount(data.getPositionCount());
         model.addAttribute("covariantCommand", command);
         model.addAttribute("bgHash", collector.getBgModelHash());
         model.addAttribute("bgCount", collector.getResults().get(0).getExpectedIn() + collector.getResults().get(0).getExpectedOut());
