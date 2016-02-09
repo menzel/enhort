@@ -8,7 +8,8 @@ import de.thm.calc.IntersectResult;
 public class EffectSize {
 
 
-    public double test(IntersectResult intersectResultA, IntersectResult intersectResultB, String trackName) {
+    public double test(IntersectResult intersectResultA, IntersectResult intersectResultB) {
+        //TODO check for 0's
 
         double fc1 = intersectResultA.getIn()/new Double(intersectResultA.getOut());
         double fc2 = intersectResultB.getIn()/new Double(intersectResultB.getOut());
