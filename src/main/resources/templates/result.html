@@ -13,6 +13,9 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" crossorigin="anonymous" />
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
     <style>
         .sidebar {
           position: fixed;
@@ -50,6 +53,10 @@
             padding-top: 10px;
         }
 
+        .hiddenRow{
+            padding: 0 !important;
+        }
+
     </style>
 </head>
 <body style="padding-top: 100px">
@@ -77,8 +84,9 @@
     </ul>
 
 </div>
-<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
     <div class="container row col-md-12">
 
@@ -103,12 +111,19 @@
                     <th>Mark as Covariant</th>
                 </thead>
                 <tbody>
+                <tr th:each="result: ${results_inout}" th:attr="data-target='#accordion_'+${result.trackName}" data-toggle="collapse" class="accordion-toggle">
+                        <td th:text="${result.trackName}"></td>
+                        <td th:text="${result.pValue}"></td>
+                        <td th:text="${result.effectSize}"></td>
+                        <td th:id="${result.trackName}"></td>
+                        <td><input th:field="*{covariantCommand.covariants}" th:value="${result.trackName}" type="checkbox" form="covariant_form"></td>
+                </tr>
+
                 <tr th:each="result: ${results_inout}">
-                    <td th:text="${result.trackName}"></td>
-                    <td th:text="${result.pValue}"></td>
-                    <td th:text="${result.effectSize}"></td>
-                    <td th:id="${result.trackName}"></td>
-                    <td><input th:field="*{covariantCommand.covariants}" th:value="${result.trackName}" type="checkbox" form="covariant_form"></td>
+                        <td colspan="6" class="hiddenRow">
+                            <div class="accordion-body collapse" th:id="'accordion_'+${result.trackName}">there is nothing to see here (yet)
+                            </div>
+                        </td>
                 </tr>
                 <tr th:each="result: ${results_score}">
                     <td th:text="${result.trackName}"></td>
