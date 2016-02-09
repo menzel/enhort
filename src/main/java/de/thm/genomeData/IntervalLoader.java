@@ -59,6 +59,7 @@ public class IntervalLoader {
 
         Files.walk(Paths.get(path.toString())).filter(Files::isRegularFile).forEach(filePath -> {
             String filename = filePath.getFileName().toString();
+            filename = filename.substring(0, filename.indexOf("."));
             Interval interval = loadInterval(filePath.toFile(), type);
 
             intervals.put(filename, interval);
