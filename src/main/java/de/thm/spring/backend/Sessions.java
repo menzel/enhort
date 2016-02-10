@@ -24,9 +24,15 @@ public class Sessions {
 
 
     public void addSession(String key, Path file){
-        Session session = new Session(file,key, new Date());
-        StatisticsCollector.getInstance().addSessionC();
-        sessions.put(key, session);
+        if(sessions.containsKey(key)){ //only renew the file and keep the rest:
+            sessions.put(key, new Session(file,key, sessions.get(key).getDate()));
+
+        } else {
+
+            Session session = new Session(file,key, new Date());
+            StatisticsCollector.getInstance().addSessionC();
+            sessions.put(key, session);
+        }
     }
 
     public Path getFile(String key){
