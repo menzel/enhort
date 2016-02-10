@@ -3,6 +3,7 @@ package de.thm.spring.controller;
 
 import de.thm.genomeData.Interval;
 import de.thm.positionData.UserData;
+import de.thm.spring.backend.Sessions;
 import de.thm.spring.command.CovariantCommand;
 import de.thm.spring.helper.AnalysisHelper;
 import de.thm.stat.ResultCollector;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -29,10 +31,14 @@ public class InputController {
     private static Path basePath = new File("/tmp").toPath();
 
     @RequestMapping(value="/upload", method=RequestMethod.POST)
-    public String handleFileUpload(Model model, @RequestParam("file") MultipartFile file){
+    public String handleFileUpload(Model model, @RequestParam("file") MultipartFile file, HttpSession httpSession){
 
         String name = file.getOriginalFilename();
         String uuid = name + "-" + UUID.randomUUID();
+
+        Sessions sessionControll = Sessions.getInstance();
+
+
         if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
@@ -41,6 +47,8 @@ public class InputController {
                 stream.close();
 
                 Path inputFilepath = basePath.resolve(uuid);
+
+                sessionControll.addSession(httpSession.getId(), inputFilepath);
 
                 UserData data = new UserData(inputFilepath);
                 ResultCollector collector = AnalysisHelper.runAnalysis(data);
@@ -52,7 +60,7 @@ public class InputController {
                 model.addAttribute("covariants", collector.getCovariants());
 
                 CovariantCommand command = new CovariantCommand();
-                command.setFilepath(inputFilepath.toString());
+                //command.setFilepath(inputFilepath.toString());
                 command.setPositionCount(data.getPositionCount());
                 command.setOriginalFilename(name);
                 command.setUserData(data);

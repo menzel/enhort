@@ -2,6 +2,7 @@ package de.thm.spring.controller;
 
 import de.thm.genomeData.Interval;
 import de.thm.positionData.UserData;
+import de.thm.spring.backend.Sessions;
 import de.thm.spring.command.CovariantCommand;
 import de.thm.spring.helper.AnalysisHelper;
 import de.thm.stat.ResultCollector;
@@ -11,7 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.io.File;
+import javax.servlet.http.HttpSession;
+import java.nio.file.Path;
 
 /**
  * Created by Michael Menzel on 3/2/16.
@@ -20,9 +22,12 @@ import java.io.File;
 public class CovariantController {
 
     @RequestMapping(value="/covariant", method= RequestMethod.POST)
-    public String covariant(@ModelAttribute CovariantCommand command, Model model){
+    public String covariant(@ModelAttribute CovariantCommand command, Model model, HttpSession httpSession){
 
-        UserData data = new UserData(new File(command.getFilepath()).toPath());
+        Sessions sessionsControll = Sessions.getInstance();
+        Path file = sessionsControll.getFile(httpSession.getId());
+        UserData data = new UserData(file);
+
         ResultCollector collector = AnalysisHelper.runAnalysis(data,command.getCovariants());
 
         model.addAttribute("results_inout", collector.getResultsByType(Interval.Type.inout));
