@@ -2,6 +2,7 @@ package de.thm.run;
 
 import de.thm.genomeData.Interval;
 import de.thm.genomeData.IntervalLoader;
+import de.thm.spring.backend.StatisticsCollector;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,10 +25,22 @@ public class Server {
       loader = IntervalLoader.getInstance();
       intervals = loader.getAllIntervals();
 
+      attachShutDownHook();
       SpringApplication.run(Server.class, args);
    }
 
    public static Map<String, Interval> getIntervals() {
       return intervals;
    }
+
+    public static void attachShutDownHook(){
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                StatisticsCollector.getInstance().saveStats();
+            }
+        });
+    }
 }
+
+
