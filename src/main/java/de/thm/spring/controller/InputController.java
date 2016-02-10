@@ -4,6 +4,7 @@ package de.thm.spring.controller;
 import de.thm.genomeData.Interval;
 import de.thm.positionData.UserData;
 import de.thm.spring.backend.Sessions;
+import de.thm.spring.backend.StatisticsCollector;
 import de.thm.spring.command.CovariantCommand;
 import de.thm.spring.helper.AnalysisHelper;
 import de.thm.stat.ResultCollector;
@@ -37,6 +38,8 @@ public class InputController {
         String uuid = name + "-" + UUID.randomUUID();
 
         Sessions sessionControll = Sessions.getInstance();
+        StatisticsCollector.getInstance().addFileC();
+        StatisticsCollector.getInstance().addAnaylseC();
 
 
         if (!file.isEmpty()) {

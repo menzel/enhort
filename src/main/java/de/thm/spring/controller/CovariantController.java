@@ -3,6 +3,7 @@ package de.thm.spring.controller;
 import de.thm.genomeData.Interval;
 import de.thm.positionData.UserData;
 import de.thm.spring.backend.Sessions;
+import de.thm.spring.backend.StatisticsCollector;
 import de.thm.spring.command.CovariantCommand;
 import de.thm.spring.helper.AnalysisHelper;
 import de.thm.stat.ResultCollector;
@@ -25,6 +26,10 @@ public class CovariantController {
     public String covariant(@ModelAttribute CovariantCommand command, Model model, HttpSession httpSession){
 
         Sessions sessionsControll = Sessions.getInstance();
+
+        StatisticsCollector.getInstance().addAnaylseC();
+
+
         Path file = sessionsControll.getFile(httpSession.getId());
         UserData data = new UserData(file);
 

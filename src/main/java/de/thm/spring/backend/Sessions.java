@@ -25,6 +25,7 @@ public class Sessions {
 
     public void addSession(String key, Path file){
         Session session = new Session(file,key, new Date());
+        StatisticsCollector.getInstance().addSessionC();
         sessions.put(key, session);
     }
 
