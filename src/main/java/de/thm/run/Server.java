@@ -26,7 +26,13 @@ public class Server {
       intervals = loader.getAllIntervals();
 
       attachShutDownHook();
-      SpringApplication.run(Server.class, args);
+       try{
+
+           SpringApplication.run(Server.class, args);
+       } catch (Exception e){
+           e.printStackTrace();
+           StatisticsCollector.getInstance().addErrorC();
+       }
    }
 
    public static Map<String, Interval> getIntervals() {
