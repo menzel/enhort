@@ -5,6 +5,7 @@ import de.thm.backgroundModel.MultiTrackBackgroundModel;
 import de.thm.backgroundModel.RandomBackgroundModel;
 import de.thm.backgroundModel.SingleTrackBackgroundModel;
 import de.thm.calc.IntersectMultithread;
+import de.thm.exception.TooManyCovariantsException;
 import de.thm.genomeData.Interval;
 import de.thm.genomeData.IntervalLoader;
 import de.thm.positionData.Sites;
@@ -28,25 +29,30 @@ public class AnalysisHelper {
         return multi.execute(Server.getIntervals(), input, bg);
     }
 
-    public static ResultCollector runAnalysis(Sites sites, List<String> covariantNames){
+    public static ResultCollector runAnalysis(Sites sites, List<String> covariantNames) throws TooManyCovariantsException{
 
         List<Interval> covariants = getCovariants(covariantNames);
 
         BackgroundModel bg;
 
         try {
-            if(covariants.size() == 1 && covariants.get(0).getType() == Interval.Type.score){
-                bg = new SingleTrackBackgroundModel(covariants.get(0), sites);
-            } else if(covariants.isEmpty()){
-                bg = new RandomBackgroundModel(sites.getPositionCount());
-            }else{
-                bg = new MultiTrackBackgroundModel(covariants,sites);
+            if(covariants.size() < 7) {
+
+                if (covariants.size() == 1 && covariants.get(0).getType() == Interval.Type.score) {
+                    bg = new SingleTrackBackgroundModel(covariants.get(0), sites);
+                } else if (covariants.isEmpty()) {
+                    bg = new RandomBackgroundModel(sites.getPositionCount());
+                } else {
+                    bg = new MultiTrackBackgroundModel(covariants, sites);
+                }
+
+                IntersectMultithread multi;
+                multi = new IntersectMultithread();
+
+                return multi.execute(Server.getIntervals(), sites, bg);
+            }  else{
+                throw new TooManyCovariantsException("Too many covariants selected by user");
             }
-
-            IntersectMultithread multi;
-            multi = new IntersectMultithread();
-
-            return multi.execute(Server.getIntervals(), sites, bg);
 
         } catch (Exception e) {
             e.printStackTrace(); //TODO

@@ -1,5 +1,6 @@
 package de.thm.spring.controller;
 
+import de.thm.exception.TooManyCovariantsException;
 import de.thm.genomeData.Interval;
 import de.thm.positionData.UserData;
 import de.thm.spring.backend.Sessions;
@@ -33,19 +34,25 @@ public class CovariantController {
         Path file = sessionsControll.getFile(httpSession.getId());
         UserData data = new UserData(file);
 
-        ResultCollector collector = AnalysisHelper.runAnalysis(data,command.getCovariants());
+        ResultCollector collector = null;
+        try {
+            collector = AnalysisHelper.runAnalysis(data,command.getCovariants());
 
-        model.addAttribute("results_inout", collector.getResultsByType(Interval.Type.inout));
-        model.addAttribute("results_score", collector.getResultsByType(Interval.Type.score));
-        model.addAttribute("results_named", collector.getResultsByType(Interval.Type.named));
+            model.addAttribute("results_inout", collector.getResultsByType(Interval.Type.inout));
+            model.addAttribute("results_score", collector.getResultsByType(Interval.Type.score));
+            model.addAttribute("results_named", collector.getResultsByType(Interval.Type.named));
 
 
-        model.addAttribute("covariants", collector.getCovariants());
+            model.addAttribute("covariants", collector.getCovariants());
 
-        command.setPositionCount(data.getPositionCount());
-        model.addAttribute("covariantCommand", command);
-        model.addAttribute("bgHash", collector.getBgModelHash());
-        model.addAttribute("bgCount", collector.getResults().get(0).getExpectedIn() + collector.getResults().get(0).getExpectedOut());
+            command.setPositionCount(data.getPositionCount());
+            model.addAttribute("covariantCommand", command);
+            model.addAttribute("bgHash", collector.getBgModelHash());
+            model.addAttribute("bgCount", collector.getResults().get(0).getExpectedIn() + collector.getResults().get(0).getExpectedOut());
+
+        } catch (TooManyCovariantsException e) {
+            model.addAttribute("errorMessage", "Too many covariants, a max of 7 covariants is allowed.");
+        }
 
         return "result";
     }
