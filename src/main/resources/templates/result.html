@@ -130,22 +130,21 @@
 
                 </th:block>
 
-                <th:block th:each="result: ${results_inout}">
+                <th:block th:each="result: ${results_score}">
                     <tr th:attr="data-target=${#strings.replace('#accordion_'+result.filename,'.','_')}" data-toggle="collapse" class="accordion-toggle">
-                    <td th:text="${result.name}"></td>
-                    <td th:text="${result.pValue}"></td>
-                    <td th:text="${result.effectSize}"></td>
-                    <td th:id="${result.filename}"></td>
-                    <td><input th:field="*{covariantCommand.covariants}" th:value="${result.filename}" type="checkbox" form="covariant_form"></td>
-                </tr>
-                <tr>
-                    <td colspan="6" class="hiddenRow">
-                        <div class="accordion-body collapse" th:id="${#strings.replace('accordion_'+result.filename,'.','_')}">
-                            <div th:text="${result.description}"></div>
-                        </div>
-                    </td>
-                </tr>
-
+                        <td th:text="${result.name}"></td>
+                        <td th:text="${result.pValue}"></td>
+                        <td th:text="${result.effectSize}"></td>
+                        <td th:id="${result.filename}"></td>
+                        <td><input th:field="*{covariantCommand.covariants}" th:value="${result.filename}" type="checkbox" form="covariant_form"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" class="hiddenRow">
+                            <div class="accordion-body collapse" th:id="${#strings.replace('accordion_'+result.filename,'.','_')}">
+                                <div th:text="${result.description}"></div>
+                            </div>
+                        </td>
+                    </tr>
                 </th:block>
                 </tbody>
             </table>
