@@ -75,11 +75,13 @@ public class InputController {
                 return "result";
 
             } catch (Exception e) {
+                StatisticsCollector.getInstance().addErrorC();
                 System.err.println("You failed to upload " + name + " => " + e.getMessage());
                 return null;
             }
 
         } else {
+            StatisticsCollector.getInstance().addErrorC();
             System.err.println("You failed to upload " + name + " because the file was empty.");
             return null;
         }
