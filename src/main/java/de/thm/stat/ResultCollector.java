@@ -65,4 +65,31 @@ public class ResultCollector {
     public List<TestResult> getCovariants() {
         return results.stream().filter(tr -> tr.getpValue() > 0.9).collect(Collectors.toList());
     }
+
+    /**
+     * Returns all significant results sorted by effect size in csv format.
+     *
+     * @return results in csv format.
+     */
+    public String getCsv(){
+        String output = "Track name, p value, effect size";
+
+        //filter by p value and sort by effect size:
+        List<TestResult> filtered_results = results.stream()
+                .filter(testResult -> testResult.getpValue() < 0.05)
+                .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
+                .collect(Collectors.toList());
+
+        for(TestResult result: filtered_results){
+            output += result.getName();
+            output += ",";
+            output += result.getpValue();
+            output += ",";
+            output += result.getEffectSize();
+            output += "\n";
+        }
+
+        return output;
+    }
+
 }
