@@ -34,25 +34,27 @@ public class CovariantController {
         Path file = sessionsControll.getFile(httpSession.getId());
         UserData data = new UserData(file);
 
-        ResultCollector collector = null;
+        ResultCollector collector;
         try {
             collector = AnalysisHelper.runAnalysis(data,command.getCovariants());
 
-            model.addAttribute("results_inout", collector.getResultsByType(Interval.Type.inout));
-            model.addAttribute("results_score", collector.getResultsByType(Interval.Type.score));
-            model.addAttribute("results_named", collector.getResultsByType(Interval.Type.named));
-
-
-            model.addAttribute("covariants", collector.getCovariants());
-
-            command.setPositionCount(data.getPositionCount());
-            model.addAttribute("covariantCommand", command);
-            model.addAttribute("bgHash", collector.getBgModelHash());
-            model.addAttribute("bgCount", collector.getResults().get(0).getExpectedIn() + collector.getResults().get(0).getExpectedOut());
-
         } catch (TooManyCovariantsException e) {
             model.addAttribute("errorMessage", "Too many covariants, a max of 7 covariants is allowed.");
+            collector = AnalysisHelper.runAnalysis(data);
         }
+
+        model.addAttribute("results_inout", collector.getResultsByType(Interval.Type.inout));
+        model.addAttribute("results_score", collector.getResultsByType(Interval.Type.score));
+        model.addAttribute("results_named", collector.getResultsByType(Interval.Type.named));
+
+
+        model.addAttribute("covariants", collector.getCovariants());
+
+        command.setPositionCount(data.getPositionCount());
+        model.addAttribute("covariantCommand", command);
+        model.addAttribute("bgHash", collector.getBgModelHash());
+        model.addAttribute("bgCount", collector.getResults().get(0).getExpectedIn() + collector.getResults().get(0).getExpectedOut());
+
 
         return "result";
     }
