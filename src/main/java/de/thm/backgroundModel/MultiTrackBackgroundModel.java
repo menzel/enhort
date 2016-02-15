@@ -1,5 +1,6 @@
 package de.thm.backgroundModel;
 
+import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.genomeData.Interval;
 import de.thm.genomeData.Intervals;
 import de.thm.positionData.Sites;
@@ -26,11 +27,11 @@ public class MultiTrackBackgroundModel extends BackgroundModel {
      * @param inputPositions - positions to match against
      *
      */
-    public MultiTrackBackgroundModel(List<Interval> intervals, Sites inputPositions) throws Exception {
+    public MultiTrackBackgroundModel(List<Interval> intervals, Sites inputPositions) throws IntervalTypeNotAllowedExcpetion{
 
         //check if there is an interval with the type score
         if(intervals.stream().filter(p -> p.getType() == Interval.Type.score).count() > 0){
-            throw new Exception("Scored intervals not allowed");
+            throw new IntervalTypeNotAllowedExcpetion("Scored intervals are not allowed");
         }
 
         appearanceTable = new AppearanceTable();

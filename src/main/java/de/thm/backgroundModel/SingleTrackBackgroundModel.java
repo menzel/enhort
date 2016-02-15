@@ -2,6 +2,7 @@ package de.thm.backgroundModel;
 
 import de.thm.calc.IntersectCalculate;
 import de.thm.calc.IntersectResult;
+import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.genomeData.Interval;
 import de.thm.genomeData.Intervals;
 import de.thm.positionData.Sites;
@@ -32,7 +33,7 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
      * @param interval - interval to search against
      * @param sites - sites to search
      */
-    public SingleTrackBackgroundModel(Interval interval, Sites sites) throws Exception {
+    public SingleTrackBackgroundModel(Interval interval, Sites sites) throws IntervalTypeNotAllowedExcpetion {
 
         IntersectCalculate calc = new IntersectCalculate();
         IntersectResult result = calc.searchSingleInterval(interval,sites);
@@ -56,10 +57,10 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
      *
      * @return collection of positions according to interval
      */
-    private Collection<Long> randPositionsScored(Interval interval, IntersectResult result) throws Exception {
+    private Collection<Long> randPositionsScored(Interval interval, IntersectResult result) throws IntervalTypeNotAllowedExcpetion {
 
         if(interval.getType()!= Interval.Type.score)
-            throw new Exception("Wrong type");
+            throw new IntervalTypeNotAllowedExcpetion("Named and Inout Intervals are not allowed to pass through this random positions generator");
 
         List<Long> newSites = new ArrayList<>();
         Interval probabilityInterval = interval.copy();
