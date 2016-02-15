@@ -1,5 +1,7 @@
 package de.thm.spring.backend;
 
+import de.thm.stat.ResultCollector;
+
 import java.nio.file.Path;
 import java.util.Date;
 
@@ -9,6 +11,7 @@ import java.util.Date;
 public class Session {
 
     private Path file;
+    private ResultCollector collector;
     private final String key;
     private final Date date;
 
@@ -42,5 +45,13 @@ public class Session {
     public void delete() {
         //TODO delte file
 
+    }
+
+    public ResultCollector getCollector() {
+        return collector;
+    }
+
+    public void setCollector(ResultCollector collector) {
+        this.collector = collector;
     }
 }

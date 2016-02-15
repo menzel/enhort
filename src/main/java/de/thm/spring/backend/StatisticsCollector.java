@@ -22,6 +22,8 @@ public class StatisticsCollector {
     private int analyseCount;
     private int sessionCount;
     private int errorCount;
+    private int downloadCount;
+
     private Path logPath;
 
     public static StatisticsCollector getInstance(){
@@ -44,6 +46,7 @@ public class StatisticsCollector {
                 analyseCount = Integer.parseInt(values[1]);
                 sessionCount = Integer.parseInt(values[2]);
                 errorCount= Integer.parseInt(values[3]);
+                errorCount= Integer.parseInt(values[4]);
 
                 lines.close();
 
@@ -57,6 +60,7 @@ public class StatisticsCollector {
     public void addAnaylseC(){analyseCount++;}
     public void addSessionC(){sessionCount++;}
     public void addErrorC(){errorCount++;}
+    public void addDownloadC(){downloadCount++;}
 
 
     @Override
@@ -66,6 +70,7 @@ public class StatisticsCollector {
                 ", analyseCount=" + analyseCount +
                 ", sessionCount=" + sessionCount +
                 ", errorCount=" + errorCount +
+                ", downloadCount=" + downloadCount+
                 '}';
     }
 
@@ -76,6 +81,7 @@ public class StatisticsCollector {
             writer.write(analyseCount+ "\n");
             writer.write(sessionCount+ "\n");
             writer.write(errorCount + "\n");
+            writer.write(downloadCount+ "\n");
 
         } catch (IOException e) {
             e.printStackTrace();

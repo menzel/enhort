@@ -23,7 +23,7 @@ public class Sessions {
     }
 
 
-    public void addSession(String key, Path file){
+    public Session addSession(String key, Path file){
         if(sessions.containsKey(key)){ //only renew the file and keep the rest:
             sessions.put(key, new Session(file,key, sessions.get(key).getDate()));
 
@@ -33,6 +33,14 @@ public class Sessions {
             StatisticsCollector.getInstance().addSessionC();
             sessions.put(key, session);
         }
+
+        return sessions.get(key);
+    }
+
+    public Session getSession(String key){
+         if(sessions.containsKey(key))
+            return sessions.get(key);
+        return null;
     }
 
     public Path getFile(String key){
@@ -40,6 +48,7 @@ public class Sessions {
             return sessions.get(key).getFile();
         return null;
     }
+
 
     private void cleanUp(){
         Calendar tomorrow = Calendar.getInstance();

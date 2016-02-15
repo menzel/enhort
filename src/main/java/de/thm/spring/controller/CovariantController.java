@@ -3,6 +3,7 @@ package de.thm.spring.controller;
 import de.thm.exception.TooManyCovariantsException;
 import de.thm.genomeData.Interval;
 import de.thm.positionData.UserData;
+import de.thm.spring.backend.Session;
 import de.thm.spring.backend.Sessions;
 import de.thm.spring.backend.StatisticsCollector;
 import de.thm.spring.command.CovariantCommand;
@@ -27,11 +28,10 @@ public class CovariantController {
     public String covariant(@ModelAttribute CovariantCommand command, Model model, HttpSession httpSession){
 
         Sessions sessionsControll = Sessions.getInstance();
-
         StatisticsCollector.getInstance().addAnaylseC();
 
-
-        Path file = sessionsControll.getFile(httpSession.getId());
+        Session currentSession = sessionsControll.getSession(httpSession.getId());
+        Path file = currentSession.getFile();
         UserData data = new UserData(file);
 
         ResultCollector collector;
@@ -42,6 +42,8 @@ public class CovariantController {
             model.addAttribute("errorMessage", "Too many covariants, a max of 7 covariants is allowed.");
             collector = AnalysisHelper.runAnalysis(data);
         }
+
+        currentSession.setCollector(collector);
 
         model.addAttribute("results_inout", collector.getResultsByType(Interval.Type.inout));
         model.addAttribute("results_score", collector.getResultsByType(Interval.Type.score));

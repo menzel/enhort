@@ -3,6 +3,7 @@ package de.thm.spring.controller;
 
 import de.thm.genomeData.Interval;
 import de.thm.positionData.UserData;
+import de.thm.spring.backend.Session;
 import de.thm.spring.backend.Sessions;
 import de.thm.spring.backend.StatisticsCollector;
 import de.thm.spring.command.CovariantCommand;
@@ -51,10 +52,11 @@ public class InputController {
 
                 Path inputFilepath = basePath.resolve(uuid);
 
-                sessionControll.addSession(httpSession.getId(), inputFilepath);
+                Session currentSession = sessionControll.addSession(httpSession.getId(), inputFilepath);
 
                 UserData data = new UserData(inputFilepath);
                 ResultCollector collector = AnalysisHelper.runAnalysis(data);
+                currentSession.setCollector(collector);
 
                 model.addAttribute("results_inout", collector.getResultsByType(Interval.Type.inout));
                 model.addAttribute("results_score", collector.getResultsByType(Interval.Type.score));
