@@ -1,6 +1,7 @@
 package de.thm.run;
 
 import de.thm.bootstrap.Analyse;
+import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.positionData.Sites;
 import de.thm.positionData.UserData;
 
@@ -21,6 +22,8 @@ public class Main {
             analyse.analyse(userDat);
         } catch (Exception e) {
             e.printStackTrace();
+        } catch (IntervalTypeNotAllowedExcpetion intervalTypeNotAllowedExcpetion) {
+            intervalTypeNotAllowedExcpetion.printStackTrace();
         }
 
     }

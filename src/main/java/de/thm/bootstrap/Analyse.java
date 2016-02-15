@@ -7,6 +7,7 @@ import de.thm.backgroundModel.SingleTrackBackgroundModel;
 import de.thm.calc.Intersect;
 import de.thm.calc.IntersectCalculate;
 import de.thm.calc.IntersectMultithread;
+import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.genomeData.Interval;
 import de.thm.genomeData.IntervalLoader;
 import de.thm.positionData.Sites;
@@ -45,7 +46,7 @@ public class Analyse {
      *
      * @param userSites - sites for measurement
      */
-    public void analyse(Sites userSites) throws Exception {
+    public void analyse(Sites userSites) throws Exception, IntervalTypeNotAllowedExcpetion {
 
 
         //IntersectResult resultUserSites;
