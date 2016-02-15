@@ -57,6 +57,11 @@
             padding: 0 !important;
         }
 
+        #error{
+            margin-bottom: 20px;
+            padding-left: 3px;
+        }
+
     </style>
 </head>
 <body style="padding-top: 100px">
@@ -89,7 +94,7 @@
 
     <div class="container row col-md-12">
 
-        <div th:text="${errorMessage}" class="bg-error"></div>
+        <div id="error" th:text="${errorMessage}" class="bg-danger"></div>
 
         <button id="rerun" type="submit" class="btn btn-primary" form="covariant_form">Run with Covariants</button>
 
