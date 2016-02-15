@@ -120,8 +120,8 @@
 
                 <!-- remove . (dot) from filename for divs to work! -->
                 <th:block th:each="result: ${results_inout}">
-                    <tr th:attr="data-target=${#strings.replace('#accordion_'+result.filename,'.','_')}" data-toggle="collapse" class="accordion-toggle">
-                        <td th:text="${result.name}"></td>
+                    <tr >
+                        <td th:text="${result.name}" th:attr="data-target=${#strings.replace('#accordion_'+result.filename,'.','_')}" data-toggle="collapse" class="accordion-toggle" ></td>
                         <td th:text="${result.pValue}"></td>
                         <td th:text="${result.effectSize}"></td>
                         <td th:id="${result.filename}"></td>
