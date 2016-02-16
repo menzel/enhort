@@ -24,6 +24,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -51,7 +52,7 @@ public class CalculationController {
             model.addAttribute("results_named", collector.getResultsByType(Interval.Type.named));
 
 
-            model.addAttribute("covariants", collector.getCovariants());
+            model.addAttribute("covariants", currentSession.getCovariants());
 
             Path file = currentSession.getFile();
             UserData data = new UserData(file);
@@ -101,7 +102,7 @@ public class CalculationController {
                 model.addAttribute("results_score", collector.getResultsByType(Interval.Type.score));
                 model.addAttribute("results_named", collector.getResultsByType(Interval.Type.named));
 
-                model.addAttribute("covariants", collector.getCovariants());
+                model.addAttribute("covariants", new ArrayList<>());
 
                 CovariantCommand command = new CovariantCommand();
                 //command.setFilepath(inputFilepath.toString());
@@ -165,14 +166,14 @@ public class CalculationController {
         }
 
         currentSession.setCollector(collector);
+        currentSession.setCovariants(command.getCovariants());
 
 
         model.addAttribute("results_inout", collector.getResultsByType(Interval.Type.inout));
         model.addAttribute("results_score", collector.getResultsByType(Interval.Type.score));
         model.addAttribute("results_named", collector.getResultsByType(Interval.Type.named));
 
-
-        model.addAttribute("covariants", collector.getCovariants());
+        model.addAttribute("covariants", collector.getCovariants(command.getCovariants()));
 
         command.setPositionCount(data.getPositionCount());
         model.addAttribute("covariantCommand", command);

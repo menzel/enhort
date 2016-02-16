@@ -62,8 +62,8 @@ public class ResultCollector {
         return bgModelHash;
     }
 
-    public List<TestResult> getCovariants() {
-        return results.stream().filter(tr -> tr.getpValue() > 0.99).collect(Collectors.toList());
+    public List<TestResult> getCovariants(List<String> covariants) {
+        return results.stream().filter(tr -> covariants.contains(tr.getFilename())).collect(Collectors.toList());
     }
 
     /**
