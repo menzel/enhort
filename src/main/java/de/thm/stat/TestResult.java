@@ -26,10 +26,14 @@ public class TestResult implements Serializable{
 
     public TestResult(double pValue, IntersectResult measured, IntersectResult expected, double effectSize, Interval usedInterval) {
 
-        if(pValue == Double.NaN) {
+        if(pValue != Double.NaN) {
             DecimalFormat format = new DecimalFormat("0.00E00");
             this.pValue = Double.parseDouble(format.format(pValue));
-        } else this.pValue = 1;
+        } else{
+            System.err.println(measured);
+            System.err.println(expected);
+            this.pValue = 1;
+        }
 
         this.effectSize = Precision.round(effectSize,2);
 
