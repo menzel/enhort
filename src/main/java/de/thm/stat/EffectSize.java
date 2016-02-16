@@ -9,10 +9,12 @@ public class EffectSize {
 
 
     public double test(IntersectResult intersectResultA, IntersectResult intersectResultB) {
-        //TODO check for 0's
 
         double fc1 = intersectResultA.getIn()/new Double(intersectResultA.getOut());
         double fc2 = intersectResultB.getIn()/new Double(intersectResultB.getOut());
+
+        if(fc1 == 0 || fc2 == 0)
+            return 0;
 
         return Math.abs(Math.log(fc1/fc2));
 
