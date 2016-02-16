@@ -3,6 +3,7 @@ package de.thm.backgroundModel;
 import de.thm.calc.Intersect;
 import de.thm.calc.IntersectCalculate;
 import de.thm.calc.IntersectResult;
+import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.genomeData.Interval;
 import de.thm.positionData.Sites;
 import org.junit.Test;
@@ -85,7 +86,12 @@ public class MultiTrackBackgroundModelTest {
         };
 
 
-        MultiTrackBackgroundModel model = new MultiTrackBackgroundModel(intervalList, sites);
+        MultiTrackBackgroundModel model = null;
+        try {
+            model = new MultiTrackBackgroundModel(intervalList, sites);
+        } catch (IntervalTypeNotAllowedExcpetion intervalTypeNotAllowedExcpetion) {
+            intervalTypeNotAllowedExcpetion.printStackTrace();
+        }
 
         //check list count of pos in list 1:
         assertEquals(1,model.getAppearanceTable().getAppearance(intervalList.subList(0,1)));
@@ -168,7 +174,12 @@ public class MultiTrackBackgroundModelTest {
         };
 
 
-        MultiTrackBackgroundModel model = new MultiTrackBackgroundModel(intervalList, sites);
+        MultiTrackBackgroundModel model = null;
+        try {
+            model = new MultiTrackBackgroundModel(intervalList, sites);
+        } catch (IntervalTypeNotAllowedExcpetion intervalTypeNotAllowedExcpetion) {
+            intervalTypeNotAllowedExcpetion.printStackTrace();
+        }
 
         //check list count of pos in list 1:
         assertEquals(0,model.getAppearanceTable().getAppearance(intervalList.subList(0,1)));

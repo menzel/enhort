@@ -48,7 +48,7 @@ public class ResultCollector {
         List<TestResult> r = results.stream()
                 .filter(testResult -> testResult.getType()
                 .equals(type))
-                //.filter(testResult -> testResult.getpValue() < 0.05)
+                .filter(testResult -> testResult.getpValue() < 0.05)
                 .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
                 .collect(Collectors.toList());
 
@@ -63,7 +63,7 @@ public class ResultCollector {
     }
 
     public List<TestResult> getCovariants() {
-        return results.stream().filter(tr -> tr.getpValue() > 0.9).collect(Collectors.toList());
+        return results.stream().filter(tr -> tr.getpValue() > 0.99).collect(Collectors.toList());
     }
 
     /**

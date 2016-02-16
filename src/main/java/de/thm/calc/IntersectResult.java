@@ -10,7 +10,7 @@ import java.util.*;
 public class IntersectResult {
 
 
-    private final Map<String, Integer> resultNames;
+    public final Map<String, Integer> resultNames;
     public final List<Double> resultScores;
     private int in;
     private Interval usedInterval;
