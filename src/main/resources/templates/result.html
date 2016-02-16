@@ -24,16 +24,33 @@
   <div th:include="upload:: upload"></div>
 
   <div class="box">
+      <h4>Assembly</h4>
+      <select class="form-control">
+          <option>hg19</option>
+          <option>hg38</option>
+      </select>
+  </div>
+
+  <div class="box">
+      <h4>Cell Line</h4>
+      <select class="form-control">
+          <option>None</option>
+          <option>HeLa</option>
+          <option>hESC</option>
+      </select>
+  </div>
+
+  <div class="box">
     <h4> Track packages </h4>
 
     <div class="checkbox">
       <label><input type="checkbox" value="" checked>Basic</label>
     </div>
     <div class="checkbox">
-      <label><input type="checkbox" value="" checked>Histone modifications</label>
+      <label><input type="checkbox" value="" checked>Expression</label>
     </div>
     <div class="checkbox">
-      <label><input type="checkbox" value="" checked>Expression</label>
+      <label><input type="checkbox" value="" >Histone modifications</label>
     </div>
   </div>
 
@@ -45,14 +62,14 @@
     </div>
 
     <div class="fileinfo">
-            <p th:text="${'Background Hash: ' + bgHash}"></p>
+            <!--<p th:text="${'Background Hash: ' + bgHash}"></p> -->
             <p th:text="${'Background Positions: ' + bgCount}"></p>
     </div>
 
-    <ul class="nav nav-sidebar" id="sidebar">
-        <li><a class="btn btn-default extra-margin" href="export/pdf">Export pdf</a></li>
-        <li><a class="btn btn-default extra-margin" href="export/csv">Export csv</a></li>
-    </ul>
+    <button id="rerun" type="submit" class="btn btn-primary" form="covariant_form">Run with Covariants</button>
+
+    <a class="btn btn-default extra-margin" href="export/pdf">Export pdf</a>
+    <a class="btn btn-default extra-margin" href="export/csv">Export csv</a>
 
 </div>
 
@@ -63,7 +80,6 @@
 
         <div id="error" th:text="${errorMessage}" class="bg-danger"></div>
 
-        <button id="rerun" type="submit" class="btn btn-primary" form="covariant_form">Run with Covariants</button>
 
         <div class="row">
         <div class="col-md-8 ">
