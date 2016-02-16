@@ -15,17 +15,11 @@ import java.util.Map;
  */
 public class IntervalLoader {
 
+    private static IntervalLoader instance;
     private final Path basePath = new File("/home/menzel/Desktop/THM/lfba/projekphase/dat/").toPath();
     private Map<String, Interval> intervals;
     private IntervalDumper intervalDumper;
-    private static IntervalLoader instance;
 
-
-    public static IntervalLoader getInstance(){
-        if(instance == null)
-            instance = new IntervalLoader();
-        return  instance;
-    }
 
     /**
      * Constructor. Parses the base dir and gets all intervals from files.
@@ -38,6 +32,7 @@ public class IntervalLoader {
 
         try {
             getIntervals(basePath.resolve("inout"), Interval.Type.inout);
+            getIntervals(basePath.resolve("broadHistone"), Interval.Type.inout);
             getIntervals(basePath.resolve("named"), Interval.Type.named);
             getIntervals(basePath.resolve("score"), Interval.Type.score);
 
@@ -45,6 +40,12 @@ public class IntervalLoader {
             e.printStackTrace();
         }
 
+    }
+
+    public static IntervalLoader getInstance(){
+        if(instance == null)
+            instance = new IntervalLoader();
+        return  instance;
     }
 
     /**
