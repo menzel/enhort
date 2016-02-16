@@ -57,6 +57,10 @@ public class CalculationController {
             UserData data = new UserData(file);
 
             command.setPositionCount(data.getPositionCount());
+
+            command.setOriginalFilename(currentSession.getOriginalFilename());
+            command.setFilepath(currentSession.getFile().toString());
+
             model.addAttribute("covariantCommand", command);
             model.addAttribute("bgHash", collector.getBgModelHash());
             model.addAttribute("bgCount", collector.getResults().get(0).getExpectedIn() + collector.getResults().get(0).getExpectedOut());
