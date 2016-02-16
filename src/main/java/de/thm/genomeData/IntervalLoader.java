@@ -32,7 +32,7 @@ public class IntervalLoader {
 
         try {
             getIntervals(basePath.resolve("inout"), Interval.Type.inout);
-            getIntervals(basePath.resolve("broadHistone"), Interval.Type.inout);
+            //getIntervals(basePath.resolve("broadHistone"), Interval.Type.inout);
             getIntervals(basePath.resolve("named"), Interval.Type.named);
             getIntervals(basePath.resolve("score"), Interval.Type.score);
 
