@@ -28,6 +28,32 @@
 
     <div th:include="upload:: upload"></div>
 
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+      <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingOne">
+          <h4 class="panel-title">
+            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Track packages
+            </a>
+          </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            <div class="checkbox">
+              <label><input type="checkbox" value="">Basic</label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" value="">Histone modifications</label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" value="">Expression</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
     <div class="fileinfo bg-info">
             <p th:text="${'Current File: ' + covariantCommand.originalFilename}"></p>
             <p th:text="${'Positions: ' + covariantCommand.positionCount}"></p>
