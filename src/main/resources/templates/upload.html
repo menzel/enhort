@@ -1,32 +1,20 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
 
   <body>
       <div th:fragment="upload">
-        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-          <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="headingOne">
-              <h4 class="panel-title">
-                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                  Upload other file
-                </a>
-              </h4>
-            </div>
-            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-              <div class="panel-body">
-                    <form method="POST" enctype="multipart/form-data" action="/upload">
-                      <div class="form-group">
-                        <input type="file" name="file" id="file">
-                        <input type="hidden" name="name" value="foo">
-                      </div>
-                      <button type="submit" class="btn btn-primary">Upload</button>
-                    </form>
-              </div>
-            </div>
+      <div class="box">
+        <h4> Upload other file </h4>
+        <form method="POST" enctype="multipart/form-data" action="/upload">
+          <div>
+            <input type="file" name="file" id="file" class="btn">
+            <input type="hidden" name="name" value="foo">
           </div>
-        </div>
+          <button type="submit" class="btn btn-primary" id="upload_btn">Upload</button>
+        </form>
+      </div>
       </div>
 
   </body>

@@ -15,39 +15,29 @@
 
 
 </head>
-<body style="padding-top: 100px">
+<body>
 
     <div th:include="header:: bar"></div>
 
 <div class="col-sm-3 col-md-2 sidebar">
 
-    <div th:include="upload:: upload"></div>
+  <div th:include="upload:: upload"></div>
 
-    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-      <div class="panel panel-default">
-        <div class="panel-heading" role="tab" id="headingOne">
-          <h4 class="panel-title">
-            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-              Track packages
-            </a>
-          </h4>
-        </div>
-        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-          <div class="panel-body">
-            <div class="checkbox">
-              <label><input type="checkbox" value="" checked>Basic</label>
-            </div>
-            <div class="checkbox">
-              <label><input type="checkbox" value="" checked>Histone modifications</label>
-            </div>
-            <div class="checkbox">
-              <label><input type="checkbox" value="" checked>Expression</label>
-            </div>
-          </div>
-        </div>
-      </div>
+  <div class="box">
+    <h4> Track packages </h4>
+
+    <div class="checkbox">
+      <label><input type="checkbox" value="" checked>Basic</label>
     </div>
+    <div class="checkbox">
+      <label><input type="checkbox" value="" checked>Histone modifications</label>
+    </div>
+    <div class="checkbox">
+      <label><input type="checkbox" value="" checked>Expression</label>
+    </div>
+  </div>
 
+    <h4>Information</h4>
 
     <div class="fileinfo">
             <p th:text="${'Current File: ' + covariantCommand.originalFilename}"></p>
@@ -84,7 +74,7 @@
             <h3 class="h3">Statistical significant tracks:</h3>
 
             <input type="hidden" th:value="${covariantCommand.originalFilename}" th:field="${covariantCommand.originalFilename}" form="covariant_form">
-            <table class="table table-striped table-hover fixed">
+            <table class="table table-hover fixed">
 
                 <col width="200px" />
                 <col width="40px" />
@@ -115,7 +105,7 @@
                         <td colspan="5" class="hiddenRow">
                             <div class="accordion-body collapse" th:id="${#strings.replace('accordion_'+result.filename,'.','_')}">
                                 <div>
-                                    <table class="table table-bordered">
+                                    <table class="table">
                                         <thead>
                                             <th></th>
                                             <th>In</th>
@@ -184,7 +174,7 @@
 
             <h3 class="h3">Marked as covariant:</h3>
 
-            <table class="table table-striped table-hover">
+            <table class="table table-hover">
                 <thead>
                     <th>Track Name</th>
                     <th>Is covariant</th>
@@ -225,6 +215,7 @@
 
             var measured = {
               x: x0,
+              color: "rgba(27,100,255,1)",
               opacity: 0.75,
               type: 'histogram',
               name: "measured"
@@ -233,6 +224,7 @@
             var expected = {
               x: x1,
               opacity: 0.75,
+              color: "rgba(229,229,229,1)",
               type: 'histogram',
               name: "expected"
             };
@@ -287,7 +279,7 @@
                 name: 'Out',
                 type: 'bar',
                 marker: {
-                    color: 'rgba(240,173,78,1)'
+                    color: 'rgba(229,229,229,1)'
                 },
                 orientation: 'h'
             };

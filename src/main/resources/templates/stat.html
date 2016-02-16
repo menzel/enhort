@@ -36,6 +36,7 @@
         <div class="container row col-md-12">
 
             <div class="container row col-md-12">
+
                 <table class="table table-hover table-condensed table-striped">
                     <thead>
                     </thead>
@@ -71,6 +72,20 @@
 
                     </tbody>
                 </table>
+
+                <div>
+                    <table class="table table-hover table-condensed table-striped">
+                        <tbody>
+                            <tr th:each="item : ${memory_items}">
+                                <td th:text="${item}"></td>
+                            </tr>
+                        </tbody>
+
+
+                    </table>
+
+
+                </div>
             </div>
 
         </div>

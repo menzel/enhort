@@ -1,6 +1,15 @@
+
+.navbar{
+}
+
+body{
+    padding-top: 100px;
+}
+
+
 .sidebar {
   position: fixed;
-  top: 51px;
+  top: 50px;
   bottom: 0;
   left: 0;
   z-index: 1000;
@@ -8,18 +17,25 @@
   padding: 20px;
   overflow-x: hidden;
   overflow-y: auto;
-  background-color: #f5f5f5;
-  border-right: 1px solid #eee;
+  background-color: #fbfbfb;
+  border-right: 1px solid #d1d1d1;
+  min-width: 200px;
 }
+
+.box{
+    margin-bottom: 20px;
+}
+
+.sidebar h4{
+    border-top:1px solid #eee;
+    padding-top: 5px;
+}
+
 .extra-margin{
     margin-top: 5px;
 }
 
 #rerun {
-}
-
-.fileinfo{
-    padding-left: 6px;
 }
 
 #navbar{
@@ -53,4 +69,8 @@
 .bold {
     font-weight: bold;
 
+}
+
+#upload_btn{
+    margin-left: 13px;
 }
