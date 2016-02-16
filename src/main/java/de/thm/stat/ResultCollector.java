@@ -86,7 +86,7 @@ public class ResultCollector {
             output += result.getpValue();
             output += ",";
             output += result.getEffectSize();
-            output += "\n";
+            output += "<br>";
         }
 
         return output;
