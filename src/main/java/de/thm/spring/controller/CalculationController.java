@@ -1,6 +1,7 @@
 package de.thm.spring.controller;
 
 
+import de.thm.exception.TooManyCovariantsException;
 import de.thm.genomeData.Interval;
 import de.thm.positionData.UserData;
 import de.thm.spring.backend.Session;
@@ -11,6 +12,7 @@ import de.thm.spring.helper.AnalysisHelper;
 import de.thm.stat.ResultCollector;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,9 +30,42 @@ import java.util.UUID;
  * Created by Michael Menzel on 3/2/16.
  */
 @Controller
-public class InputController {
+public class CalculationController {
 
     private static Path basePath = new File("/tmp").toPath();
+
+    @RequestMapping(value="/upload", method=RequestMethod.GET)
+    public String plainView(Model model, HttpSession httpSession){
+
+        CovariantCommand command = new CovariantCommand();
+
+        Sessions sessionsControll = Sessions.getInstance();
+        Session currentSession = sessionsControll.getSession(httpSession.getId());
+
+        ResultCollector collector = currentSession.getCollector();
+
+        if(collector != null){
+
+            model.addAttribute("results_inout", collector.getResultsByType(Interval.Type.inout));
+            model.addAttribute("results_score", collector.getResultsByType(Interval.Type.score));
+            model.addAttribute("results_named", collector.getResultsByType(Interval.Type.named));
+
+
+            model.addAttribute("covariants", collector.getCovariants());
+
+            Path file = currentSession.getFile();
+            UserData data = new UserData(file);
+
+            command.setPositionCount(data.getPositionCount());
+            model.addAttribute("covariantCommand", command);
+            model.addAttribute("bgHash", collector.getBgModelHash());
+            model.addAttribute("bgCount", collector.getResults().get(0).getExpectedIn() + collector.getResults().get(0).getExpectedOut());
+
+        }
+
+        model.addAttribute("covariantCommand", command);
+        return "result";
+    }
 
     @RequestMapping(value="/upload", method=RequestMethod.POST)
     public String handleFileUpload(Model model, @RequestParam("file") MultipartFile file, HttpSession httpSession){
@@ -103,4 +138,44 @@ public class InputController {
       }
 
 
+    @RequestMapping(value="/covariant", method= RequestMethod.POST)
+    public String covariant(@ModelAttribute CovariantCommand command, Model model, HttpSession httpSession){
+
+        Sessions sessionsControll = Sessions.getInstance();
+        StatisticsCollector.getInstance().addAnaylseC();
+
+        Session currentSession = sessionsControll.getSession(httpSession.getId());
+        Path file = currentSession.getFile();
+        UserData data = new UserData(file);
+
+        ResultCollector collector;
+        try {
+            collector = AnalysisHelper.runAnalysis(data,command.getCovariants());
+
+        } catch (TooManyCovariantsException e) {
+            model.addAttribute("errorMessage", "Too many covariants, a max of 7 covariants is allowed.");
+            collector = currentSession.getCollector();
+
+            if(collector == null) //if there is no collector known to the session run with no covariants
+                collector = AnalysisHelper.runAnalysis(data);
+        }
+
+        currentSession.setCollector(collector);
+
+
+        model.addAttribute("results_inout", collector.getResultsByType(Interval.Type.inout));
+        model.addAttribute("results_score", collector.getResultsByType(Interval.Type.score));
+        model.addAttribute("results_named", collector.getResultsByType(Interval.Type.named));
+
+
+        model.addAttribute("covariants", collector.getCovariants());
+
+        command.setPositionCount(data.getPositionCount());
+        model.addAttribute("covariantCommand", command);
+        model.addAttribute("bgHash", collector.getBgModelHash());
+        model.addAttribute("bgCount", collector.getResults().get(0).getExpectedIn() + collector.getResults().get(0).getExpectedOut());
+
+
+        return "result";
+    }
 }
