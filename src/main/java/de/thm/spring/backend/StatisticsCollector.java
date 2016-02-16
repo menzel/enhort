@@ -26,10 +26,6 @@ public class StatisticsCollector {
 
     private Path logPath;
 
-    public static StatisticsCollector getInstance(){
-        return instance;
-    }
-
     private StatisticsCollector(Path logPath) {
         this.logPath = logPath;
 
@@ -56,6 +52,11 @@ public class StatisticsCollector {
 
         }
     }
+
+    public static StatisticsCollector getInstance(){
+        return instance;
+    }
+
     public void addFileC(){fileCount++;}
     public void addAnaylseC(){analyseCount++;}
     public void addSessionC(){sessionCount++;}
@@ -88,4 +89,24 @@ public class StatisticsCollector {
         }
     }
 
+
+    public int getFileCount() {
+        return fileCount;
+    }
+
+    public int getAnalyseCount() {
+        return analyseCount;
+    }
+
+    public int getSessionCount() {
+        return sessionCount;
+    }
+
+    public int getErrorCount() {
+        return errorCount;
+    }
+
+    public int getDownloadCount() {
+        return downloadCount;
+    }
 }
