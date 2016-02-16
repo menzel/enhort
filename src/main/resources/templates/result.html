@@ -54,12 +54,12 @@
     </div>
 
 
-    <div class="fileinfo bg-info">
+    <div class="fileinfo">
             <p th:text="${'Current File: ' + covariantCommand.originalFilename}"></p>
             <p th:text="${'Positions: ' + covariantCommand.positionCount}"></p>
     </div>
 
-    <div class="fileinfo bg-warning">
+    <div class="fileinfo">
             <p th:text="${'Background Hash: ' + bgHash}"></p>
             <p th:text="${'Background Positions: ' + bgCount}"></p>
     </div>
@@ -126,12 +126,12 @@
                                             <th>In</th>
                                             <th>Out</th>
                                         </thead>
-                                        <tr class="info">
+                                        <tr class="">
                                             <td class="bold" th:text="${covariantCommand.originalFilename}"></td>
                                             <td th:text="${result.measuredIn + ' (' + result.percentInM + '%)'}"></td>
                                             <td th:text="${result.measuredOut+ ' (' + result.percentOutM+ '%)'}"></td>
                                         </tr>
-                                        <tr class="warning">
+                                        <tr class="">
                                             <td><b>Background</b></td>
                                             <td th:text="${result.expectedIn+ ' (' + result.percentInE + '%)'}"></td>
                                             <td th:text="${result.expectedOut+ ' (' + result.percentOutE+ '%)'}"></td>
