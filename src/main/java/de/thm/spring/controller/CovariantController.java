@@ -40,7 +40,10 @@ public class CovariantController {
 
         } catch (TooManyCovariantsException e) {
             model.addAttribute("errorMessage", "Too many covariants, a max of 7 covariants is allowed.");
-            collector = AnalysisHelper.runAnalysis(data);
+            collector = currentSession.getCollector();
+
+            if(collector == null) //if there is no collector known to the session run with no covariants
+                collector = AnalysisHelper.runAnalysis(data);
         }
 
         currentSession.setCollector(collector);
