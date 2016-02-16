@@ -130,6 +130,25 @@
                     <tr>
                         <td colspan="6" class="hiddenRow">
                             <div class="accordion-body collapse" th:id="${#strings.replace('accordion_'+result.filename,'.','_')}">
+                                <div>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <th></th>
+                                            <th>In</th>
+                                            <th>Out</th>
+                                        </thead>
+                                        <tr>
+                                            <td th:text="${covariantCommand.originalFilename}"></td>
+                                            <td th:text="${result.measuredIn + ' (' + result.percentInM + '%)'}"></td>
+                                            <td th:text="${result.measuredOut+ ' (' + result.percentOutM+ '%)'}"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Background</b></td>
+                                            <td th:text="${result.expectedIn+ ' (' + result.percentInE + '%)'}"></td>
+                                            <td th:text="${result.expectedOut+ ' (' + result.percentOutE+ '%)'}"></td>
+                                        </tr>
+                                    </table>
+                                </div>
                                 <div th:text="${result.description}"></div>
                             </div>
                         </td>
@@ -164,6 +183,10 @@
                     <tr>
                         <td colspan="6" class="hiddenRow">
                             <div class="accordion-body collapse" th:id="${#strings.replace('accordion_'+result.filename,'.','_')}">
+                                <div>
+                                    <p th:text="${result.resultMeasured.resultNames}"></p>
+                                    <p th:text="${result.resultExpected.resultNames}"></p>
+                                </div>
                                 <div th:text="${result.description}"></div>
                             </div>
                         </td>
