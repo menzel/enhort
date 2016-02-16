@@ -2,6 +2,7 @@ package de.thm.genomeData;
 
 import de.thm.calc.PositionPreprocessor;
 import de.thm.misc.ChromosomSizes;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,34 +23,16 @@ public class Interval implements Serializable{
 
     private static final long serialVersionUID = 1690225L;
     private static int UID = 1;
-    private int uid = ++UID;
-
     protected List<Long> intervalsStart;
     protected List<Long> intervalsEnd;
-
     protected List<String> intervalName;
     protected List<Double> intervalScore;
-
     protected Type type;
+    private int uid = ++UID;
     private String name;
     private String filename;
 
     private String description;
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getFilename() {
-        return filename;
-    }
-
-
-    public enum Type {inout, score, named}
 
      /**
      * Constructor for Test Intervals
@@ -91,6 +74,17 @@ public class Interval implements Serializable{
 
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
 
     /**
      * Loads interval data from a bed file. Calls handleParts to handle each line
@@ -144,13 +138,13 @@ public class Interval implements Serializable{
 
            intervalName.add(parts[3].intern());
 
-           if(parts.length > 4)
+
+           if(parts.length > 4 && StringUtils.isNumeric(parts[4]))
                 intervalScore.add(Double.parseDouble(parts[4]));
            else
                 intervalScore.add(.0);
        }
     }
-
 
     public Interval invert() {
         Interval tmp = new Interval();
@@ -188,6 +182,10 @@ public class Interval implements Serializable{
 
     public Type getType() { return type; }
 
+    public void setType(Type type) {
+        this.type = type;
+    }
+
     public List<String> getIntervalName() {
         return intervalName;
     }
@@ -220,11 +218,9 @@ public class Interval implements Serializable{
         this.intervalScore = intervalScore;
     }
 
-    public void setType(Type type) {
-        this.type = type;
-    }
-
     public int getUid() {
         return uid;
     }
+
+    public enum Type {inout, score, named}
 }
