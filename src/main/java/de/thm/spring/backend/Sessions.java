@@ -11,17 +11,16 @@ import java.util.Map;
  */
 public class Sessions {
 
-    private Map<String, Session> sessions;
     private static Sessions instance = new Sessions();
-
-    public static Sessions getInstance(){
-        return instance;
-    }
+    private Map<String, Session> sessions;
 
     private Sessions() {
         sessions = new HashMap<>();
     }
 
+    public static Sessions getInstance(){
+        return instance;
+    }
 
     public Session addSession(String key, Path file){
         if(sessions.containsKey(key)){ //only renew the file and keep the rest:
@@ -38,9 +37,9 @@ public class Sessions {
     }
 
     public Session getSession(String key){
-         if(sessions.containsKey(key))
-            return sessions.get(key);
-        return null;
+         if(!sessions.containsKey(key))
+             sessions.put(key, new Session(key, new Date()));
+         return sessions.get(key);
     }
 
     public Path getFile(String key){
