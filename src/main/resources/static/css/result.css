@@ -1,0 +1,45 @@
+.sidebar {
+  position: fixed;
+  top: 51px;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  display: block;
+  padding: 20px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: #f5f5f5;
+  border-right: 1px solid #eee;
+}
+.extra-margin{
+    margin-top: 5px;
+}
+
+#rerun {
+}
+
+.fileinfo{
+    padding-left: 6px;
+}
+
+#navbar{
+    float:left;
+}
+
+#logo{
+    float:right;
+}
+
+.h3{
+    padding-top: 10px;
+}
+
+.hiddenRow{
+    padding: 0 !important;
+}
+
+#error{
+    margin-bottom: 20px;
+    padding-left: 3px;
+}
+
