@@ -40,13 +40,13 @@
         <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
           <div class="panel-body">
             <div class="checkbox">
-              <label><input type="checkbox" value="">Basic</label>
+              <label><input type="checkbox" value="" checked>Basic</label>
             </div>
             <div class="checkbox">
-              <label><input type="checkbox" value="">Histone modifications</label>
+              <label><input type="checkbox" value="" checked>Histone modifications</label>
             </div>
             <div class="checkbox">
-              <label><input type="checkbox" value="">Expression</label>
+              <label><input type="checkbox" value="" checked>Expression</label>
             </div>
           </div>
         </div>
@@ -126,12 +126,12 @@
                                             <th>In</th>
                                             <th>Out</th>
                                         </thead>
-                                        <tr>
-                                            <td th:text="${covariantCommand.originalFilename}"></td>
+                                        <tr class="info">
+                                            <td class="bold" th:text="${covariantCommand.originalFilename}"></td>
                                             <td th:text="${result.measuredIn + ' (' + result.percentInM + '%)'}"></td>
                                             <td th:text="${result.measuredOut+ ' (' + result.percentOutM+ '%)'}"></td>
                                         </tr>
-                                        <tr>
+                                        <tr class="warning">
                                             <td><b>Background</b></td>
                                             <td th:text="${result.expectedIn+ ' (' + result.percentInE + '%)'}"></td>
                                             <td th:text="${result.expectedOut+ ' (' + result.percentOutE+ '%)'}"></td>

@@ -49,3 +49,8 @@
 .fixed td {
     overflow: hidden;
 }
+
+.bold {
+    font-weight: bold;
+
+}
