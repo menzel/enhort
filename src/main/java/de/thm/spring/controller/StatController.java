@@ -16,7 +16,13 @@ public class StatController {
 
         StatisticsCollector stats = StatisticsCollector.getInstance();
 
-        model.addAttribute("foo", stats.toString() );
+        model.addAttribute("version", "0.0.2");
+
+        model.addAttribute("fileCount", stats.getFileCount());
+        model.addAttribute("analyseCount", stats.getAnalyseCount());
+        model.addAttribute("sessionCount", stats.getSessionCount());
+        model.addAttribute("errorCount", stats.getErrorCount());
+        model.addAttribute("downloadCount", stats.getDownloadCount());
 
         return "stat";
     }
