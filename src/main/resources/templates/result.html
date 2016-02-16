@@ -86,9 +86,6 @@
 
         <form method="POST" action="#" th:action="@{/covariant}" th:object="${covariantCommand}" id="covariant_form"></form>
 
-
-            <h3 class="h3">Statistical significant tracks:</h3>
-
             <input type="hidden" th:value="${covariantCommand.originalFilename}" th:field="${covariantCommand.originalFilename}" form="covariant_form">
             <table class="table table-hover fixed">
 
@@ -99,7 +96,7 @@
                 <col width="30px" />
 
                 <thead>
-                    <th>Track Name</th>
+                    <th>Significant track</th>
                     <th>PValue</th>
                     <th>Effect Size</th>
                     <th>Plot <small> Data vs. Background</small></th>
@@ -188,12 +185,10 @@
         </div>
         <div class="col-md-4">
 
-            <h3 class="h3">Marked as covariant:</h3>
-
             <table class="table table-hover">
                 <thead>
-                    <th>Track Name</th>
-                    <th>Is covariant</th>
+                    <th>Covariant</th>
+                    <th>Mark</th>
                 </thead>
                 <tbody>
                 <tr th:each="cov: ${covariants}">
