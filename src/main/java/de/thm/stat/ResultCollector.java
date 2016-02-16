@@ -37,6 +37,16 @@ public class ResultCollector {
 
     }
 
+    public long getSignificantTrackCount(){
+        return results.stream()
+               .filter(testResult -> testResult.getpValue() < 0.05)
+                .count();
+    }
+
+    public long getTrackCount(){
+        return results.size();
+    }
+
     /**
      * Return list of all TestResults which have the given type in order sorted by effect size.
      *

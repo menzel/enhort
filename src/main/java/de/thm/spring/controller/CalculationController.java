@@ -10,6 +10,7 @@ import de.thm.spring.backend.StatisticsCollector;
 import de.thm.spring.command.CovariantCommand;
 import de.thm.spring.helper.AnalysisHelper;
 import de.thm.stat.ResultCollector;
+import de.thm.stat.TestResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,6 +26,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -113,6 +115,9 @@ public class CalculationController {
                 model.addAttribute("covariantCommand", command);
                 model.addAttribute("bgHash", collector.getBgModelHash());
                 model.addAttribute("bgCount", collector.getResults().get(0).getExpectedIn() + collector.getResults().get(0).getExpectedOut());
+                model.addAttribute("covariantCount", 0);
+                model.addAttribute("sigTrackCount", collector.getSignificantTrackCount());
+                model.addAttribute("trackCount", collector.getTrackCount());
 
                 return "result";
 
@@ -173,7 +178,13 @@ public class CalculationController {
         model.addAttribute("results_score", collector.getResultsByType(Interval.Type.score));
         model.addAttribute("results_named", collector.getResultsByType(Interval.Type.named));
 
-        model.addAttribute("covariants", collector.getCovariants(command.getCovariants()));
+        List<TestResult> covariants = collector.getCovariants(command.getCovariants());
+        model.addAttribute("covariants", covariants);
+
+        model.addAttribute("covariantCount", covariants.size());
+        model.addAttribute("sigTrackCount", collector.getSignificantTrackCount());
+        model.addAttribute("trackCount", collector.getTrackCount());
+
 
         command.setPositionCount(data.getPositionCount());
         model.addAttribute("covariantCommand", command);

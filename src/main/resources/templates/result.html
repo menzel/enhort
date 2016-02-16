@@ -96,7 +96,8 @@
                 <col width="30px" />
 
                 <thead>
-                    <th>Significant track</th>
+                    <th th:text="${'Significant tracks' + ' (' + sigTrackCount + '/' + trackCount + ')'}">Significant tracks</th>
+
                     <th>PValue</th>
                     <th>Effect Size</th>
                     <th>Plot <small> Data vs. Background</small></th>
@@ -187,7 +188,7 @@
 
             <table class="table table-hover">
                 <thead>
-                    <th>Covariant</th>
+                    <th th:text="${'Covariants' + ' (' + covariantCount + ')'}">Covariants</th>
                     <th>Mark</th>
                 </thead>
                 <tbody>
