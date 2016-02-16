@@ -63,13 +63,20 @@
             <h3 class="h3">Statistical significant tracks:</h3>
 
             <input type="hidden" th:value="${covariantCommand.originalFilename}" th:field="${covariantCommand.originalFilename}" form="covariant_form">
-            <table class="table table-striped table-hover">
+            <table class="table table-striped table-hover fixed">
+
+                <col width="200px" />
+                <col width="40px" />
+                <col width="50px" />
+                <col width="150px" />
+                <col width="30px" />
+
                 <thead>
                     <th>Track Name</th>
                     <th>PValue</th>
                     <th>Effect Size</th>
                     <th>Plot <small> Data vs. Background</small></th>
-                    <th>Mark as Covariant</th>
+                    <th>Covariant</th>
                 </thead>
                 <tbody>
 
@@ -84,7 +91,7 @@
                         <td><input th:field="*{covariantCommand.covariants}" th:value="${result.filename}" type="checkbox" form="covariant_form"></td>
                     </tr>
                     <tr>
-                        <td colspan="6" class="hiddenRow">
+                        <td colspan="5" class="hiddenRow">
                             <div class="accordion-body collapse" th:id="${#strings.replace('accordion_'+result.filename,'.','_')}">
                                 <div>
                                     <table class="table table-bordered">
@@ -121,7 +128,7 @@
                         <td><input th:field="*{covariantCommand.covariants}" th:value="${result.filename}" type="checkbox" form="covariant_form"></td>
                     </tr>
                     <tr>
-                        <td colspan="6" class="hiddenRow">
+                        <td colspan="5" class="hiddenRow">
                             <div class="accordion-body collapse" th:id="${#strings.replace('accordion_'+result.filename,'.','_')}">
                                 <div th:text="${result.description}"></div>
                             </div>
@@ -137,7 +144,7 @@
                         <td><input th:field="*{covariantCommand.covariants}" th:value="${result.filename}" type="checkbox" form="covariant_form"></td>
                     </tr>
                     <tr>
-                        <td colspan="6" class="hiddenRow">
+                        <td colspan="5" class="hiddenRow">
                             <div class="accordion-body collapse" th:id="${#strings.replace('accordion_'+result.filename,'.','_')}">
                                 <div>
                                     <p th:text="${result.resultMeasured.resultNames}"></p>

@@ -43,3 +43,9 @@
     padding-left: 3px;
 }
 
+.fixed {
+    table-layout:fixed;
+}
+.fixed td {
+    overflow: hidden;
+}
