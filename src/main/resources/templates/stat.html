@@ -73,10 +73,11 @@
                     </tbody>
                 </table>
 
+                <h4>Curent System Usage:</h4>
                 <div>
                     <table class="table table-hover table-condensed table-striped">
                         <tbody>
-                            <tr th:each="item : ${memory_items}">
+                            <tr th:each="item : ${memory_map}">
                                 <td th:text="${item}"></td>
                             </tr>
                         </tbody>
