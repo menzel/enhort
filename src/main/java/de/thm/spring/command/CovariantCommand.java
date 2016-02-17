@@ -10,7 +10,6 @@ import java.util.List;
  */
 public class CovariantCommand {
     private List<String> covariants;
-    private String filepath;
     private int positionCount;
     private String originalFilename;
     private Sites userData;
@@ -41,14 +40,6 @@ public class CovariantCommand {
     @Override
     public int hashCode() {
         return (covariants.hashCode());
-    }
-
-    public String getFilepath() {
-        return filepath;
-    }
-
-    public void setFilepath(String filepath) {
-        this.filepath = filepath;
     }
 
     public int getPositionCount() {

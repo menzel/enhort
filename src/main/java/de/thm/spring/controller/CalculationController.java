@@ -49,25 +49,15 @@ public class CalculationController {
 
         if(collector != null){
 
-            model.addAttribute("results_inout", collector.getResultsByType(Interval.Type.inout));
-            model.addAttribute("results_score", collector.getResultsByType(Interval.Type.score));
-            model.addAttribute("results_named", collector.getResultsByType(Interval.Type.named));
-
-
-            model.addAttribute("covariants", currentSession.getCovariants());
-
             Path file = currentSession.getFile();
             UserData data = new UserData(file);
 
+            setModle(model, collector, data, currentSession.getOriginalFilename());
+            //model.addAttribute("covariants", currentSession.getCovariants());
+            model.addAttribute("covariants", new ArrayList<>()); //TODO set List<TestResult>
+
             command.setPositionCount(data.getPositionCount());
-
             command.setOriginalFilename(currentSession.getOriginalFilename());
-            command.setFilepath(currentSession.getFile().toString());
-
-            model.addAttribute("covariantCommand", command);
-            model.addAttribute("bgHash", collector.getBgModelHash());
-            model.addAttribute("bgCount", collector.getResults().get(0).getExpectedIn() + collector.getResults().get(0).getExpectedOut());
-
         }
 
         model.addAttribute("covariantCommand", command);
@@ -100,24 +90,9 @@ public class CalculationController {
                 ResultCollector collector = AnalysisHelper.runAnalysis(data);
                 currentSession.setCollector(collector);
 
-                model.addAttribute("results_inout", collector.getResultsByType(Interval.Type.inout));
-                model.addAttribute("results_score", collector.getResultsByType(Interval.Type.score));
-                model.addAttribute("results_named", collector.getResultsByType(Interval.Type.named));
-
+                setModle(model, collector, data, name);
                 model.addAttribute("covariants", new ArrayList<>());
-
-                CovariantCommand command = new CovariantCommand();
-                //command.setFilepath(inputFilepath.toString());
-                command.setPositionCount(data.getPositionCount());
-                command.setOriginalFilename(name);
-                command.setUserData(data);
-
-                model.addAttribute("covariantCommand", command);
-                model.addAttribute("bgHash", collector.getBgModelHash());
-                model.addAttribute("bgCount", collector.getResults().get(0).getExpectedIn() + collector.getResults().get(0).getExpectedOut());
                 model.addAttribute("covariantCount", 0);
-                model.addAttribute("sigTrackCount", collector.getSignificantTrackCount());
-                model.addAttribute("trackCount", collector.getTrackCount());
 
                 return "result";
 
@@ -134,18 +109,6 @@ public class CalculationController {
         }
     }
 
-      // Error page
-      @RequestMapping("/error.html")
-      public String error(HttpServletRequest request, Model model) {
-        model.addAttribute("errorCode", request.getAttribute("javax.servlet.error.status_code"));
-        Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
-        String errorMessage = null;
-        if (throwable != null) {
-          errorMessage = throwable.getMessage();
-        }
-        model.addAttribute("errorMessage", errorMessage);
-        return "error.html";
-      }
 
 
     @RequestMapping(value="/covariant", method= RequestMethod.POST)
@@ -173,25 +136,49 @@ public class CalculationController {
         currentSession.setCollector(collector);
         currentSession.setCovariants(command.getCovariants());
 
+        setModle(model,collector,data,currentSession.getOriginalFilename());
+
+        List<TestResult> covariants = collector.getCovariants(command.getCovariants());
+        model.addAttribute("covariants", covariants);
+        model.addAttribute("covariantCount", covariants.size());
+
+        command.setPositionCount(data.getPositionCount());
+
+        return "result";
+    }
+
+
+    private void setModle(Model model, ResultCollector collector, UserData data, String name) {
 
         model.addAttribute("results_inout", collector.getResultsByType(Interval.Type.inout));
         model.addAttribute("results_score", collector.getResultsByType(Interval.Type.score));
         model.addAttribute("results_named", collector.getResultsByType(Interval.Type.named));
 
-        List<TestResult> covariants = collector.getCovariants(command.getCovariants());
-        model.addAttribute("covariants", covariants);
 
-        model.addAttribute("covariantCount", covariants.size());
-        model.addAttribute("sigTrackCount", collector.getSignificantTrackCount());
-        model.addAttribute("trackCount", collector.getTrackCount());
-
-
+        CovariantCommand command = new CovariantCommand();
+        //command.setFilepath(inputFilepath.toString());
         command.setPositionCount(data.getPositionCount());
+        command.setOriginalFilename(name);
+        command.setUserData(data);
+
         model.addAttribute("covariantCommand", command);
         model.addAttribute("bgHash", collector.getBgModelHash());
         model.addAttribute("bgCount", collector.getResults().get(0).getExpectedIn() + collector.getResults().get(0).getExpectedOut());
-
-
-        return "result";
+        model.addAttribute("sigTrackCount", collector.getSignificantTrackCount());
+        model.addAttribute("trackCount", collector.getTrackCount());
     }
+
+        // Error page
+      @RequestMapping("/error.html")
+      public String error(HttpServletRequest request, Model model) {
+        model.addAttribute("errorCode", request.getAttribute("javax.servlet.error.status_code"));
+        Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
+        String errorMessage = null;
+        if (throwable != null) {
+          errorMessage = throwable.getMessage();
+        }
+        model.addAttribute("errorMessage", errorMessage);
+        return "error.html";
+      }
+
 }

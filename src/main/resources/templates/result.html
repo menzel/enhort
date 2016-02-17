@@ -33,10 +33,10 @@
 
   <div class="box">
       <h4>Cell Line</h4>
-      <select class="form-control">
-          <option>None</option>
-          <option>HeLa</option>
-          <option>hESC</option>
+      <select id="cellline" class="form-control" name="assembly" form="covariant_form">
+          <option value="none">None</option>
+          <option value="hela">HeLa</option>
+          <option value="hesc">hESC</option>
       </select>
   </div>
 
@@ -44,13 +44,13 @@
     <h4> Track packages </h4>
 
     <div class="checkbox">
-      <label><input type="checkbox" value="" checked>Basic</label>
+      <label><input type="checkbox" value="basic" form="covariant_form" checked>Basic</label>
     </div>
     <div class="checkbox">
-      <label><input type="checkbox" value="" checked>Expression</label>
+      <label><input type="checkbox" value="expression" form="covariant_form" checked>Expression</label>
     </div>
     <div class="checkbox">
-      <label><input type="checkbox" value="" >Histone modifications</label>
+      <label><input type="checkbox" value="histone" form="covariant_form" >Histone modifications</label>
     </div>
   </div>
 
@@ -68,8 +68,10 @@
 
     <button id="rerun" type="submit" class="btn btn-primary" form="covariant_form">Run with Covariants</button>
 
-    <a class="btn btn-default extra-margin" href="export/pdf">Export pdf</a>
-    <a class="btn btn-default extra-margin" href="export/csv">Export csv</a>
+    <div>
+        <a class="btn btn-default extra-margin" href="export/pdf">Export pdf</a>
+        <a class="btn btn-default extra-margin" href="export/csv">Export csv</a>
+    </div>
 
 </div>
 
