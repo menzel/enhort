@@ -5,6 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Michael Menzel on 10/2/16.
  */
@@ -24,6 +27,16 @@ public class StatController {
         model.addAttribute("errorCount", stats.getErrorCount());
         model.addAttribute("downloadCount", stats.getDownloadCount());
 
+
+        model.addAttribute("memory_map", getMemoryUsage());
+
         return "stat";
     }
+
+    private List<String> getMemoryUsage() {
+        List<String> stats = new ArrayList<>();
+        return stats;
+    }
+
+
 }
