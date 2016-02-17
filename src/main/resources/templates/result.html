@@ -197,7 +197,7 @@
                 <tr th:each="cov: ${covariants}">
                     <td th:text="${cov.name}"></td>
                     <td th:id="${cov.filename}"></td>
-                    <td><input th:field="*{covariantCommand.covariants}" th:value="${cov.filename}" type="checkbox" form="covariant_form"></td>
+                    <td><input th:field="*{covariantCommand.covariants}" th:value="${cov.filename}" type="checkbox" form="covariant_form" checked></td>
                 </tr>
                 </tbody>
 
