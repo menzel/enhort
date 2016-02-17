@@ -59,7 +59,6 @@ public class CalculationController {
             setModle(model, collector, data, currentSession.getOriginalFilename());
             List<TestResult> covariants = currentSession.getCovariants();
             model.addAttribute("covariants", covariants);
-            model.addAttribute("covariants", new ArrayList<>()); //TODO set List<TestResult>
 
             model.addAttribute("covariantCount", covariants.size());
 
