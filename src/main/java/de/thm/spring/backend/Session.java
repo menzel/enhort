@@ -1,6 +1,7 @@
 package de.thm.spring.backend;
 
 import de.thm.stat.ResultCollector;
+import de.thm.stat.TestResult;
 
 import java.nio.file.Path;
 import java.util.Date;
@@ -16,7 +17,7 @@ public class Session {
     private Path file;
     private ResultCollector collector;
     private String originalFilename;
-    private List<String> covariants;
+    private List<TestResult> covariants;
 
     public Session(Path file, String key, Date date) {
         this.file = file;
@@ -71,11 +72,11 @@ public class Session {
         this.originalFilename = originalFilename;
     }
 
-    public List<String> getCovariants() {
+    public List<TestResult> getCovariants() {
         return covariants;
     }
 
-    public void setCovariants(List<String> covariants) {
+    public void setCovariants(List<TestResult> covariants) {
         this.covariants = covariants;
     }
 }
