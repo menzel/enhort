@@ -30,6 +30,10 @@ import java.util.List;
 import java.util.UUID;
 
 /**
+ * Controller for main page. Relies heavily on the model and session/command objects:
+ * The model is used to get stuff to the view as well as the command object.
+ * The session is used to keep information for reload and reruns.
+ *
  * Created by Michael Menzel on 3/2/16.
  */
 @Controller
@@ -53,8 +57,11 @@ public class CalculationController {
             UserData data = new UserData(file);
 
             setModle(model, collector, data, currentSession.getOriginalFilename());
-            //model.addAttribute("covariants", currentSession.getCovariants());
+            List<TestResult> covariants = currentSession.getCovariants();
+            model.addAttribute("covariants", covariants);
             model.addAttribute("covariants", new ArrayList<>()); //TODO set List<TestResult>
+
+            model.addAttribute("covariantCount", covariants.size());
 
             command.setPositionCount(data.getPositionCount());
             command.setOriginalFilename(currentSession.getOriginalFilename());
@@ -135,11 +142,12 @@ public class CalculationController {
         }
 
         currentSession.setCollector(collector);
-        currentSession.setCovariants(command.getCovariants());
 
         setModle(model,collector,data,currentSession.getOriginalFilename());
 
         List<TestResult> covariants = collector.getCovariants(command.getCovariants());
+
+        currentSession.setCovariants(covariants);
         model.addAttribute("covariants", covariants);
         model.addAttribute("covariantCount", covariants.size());
 
