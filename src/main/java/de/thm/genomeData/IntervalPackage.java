@@ -7,25 +7,27 @@ import java.util.List;
  */
 public class IntervalPackage {
     private List<Interval> intervalList;
-    private String name;
     private String description;
+    private PackageName name;
 
 
-    public IntervalPackage(List<Interval> intervalList, String name, String description) {
+        public IntervalPackage(List<Interval> intervalList, PackageName name, String description) {
         this.intervalList = intervalList;
         this.name = name;
         this.description = description;
-    }
+    };
 
     public List<Interval> getIntervalList() {
         return intervalList;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public String getDescription() {
         return description;
     }
+
+    public PackageName getName() {
+        return name;
+    }
+
+public enum PackageName{Basic, Expression, Histone}
 }

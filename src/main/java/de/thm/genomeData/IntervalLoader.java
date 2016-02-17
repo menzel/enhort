@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,7 +21,7 @@ public class IntervalLoader {
     private final Path basePath = new File("/home/menzel/Desktop/THM/lfba/projekphase/dat/").toPath();
     private Map<String, Interval> intervals;
     private IntervalDumper intervalDumper;
-
+    private List<IntervalPackage> packageList;
 
     /**
      * Constructor. Parses the base dir and gets all intervals from files.
@@ -29,6 +31,8 @@ public class IntervalLoader {
     private IntervalLoader() {
         intervalDumper = new IntervalDumper(basePath);
         intervals = new HashMap<>();
+
+        packageList = new ArrayList<>();
 
         try {
             getIntervals(basePath.resolve("inout"), Interval.Type.inout);
@@ -91,6 +95,14 @@ public class IntervalLoader {
         return intervals;
     }
 
+    public List<Interval> getIntervalsByPackage(IntervalPackage.PackageName name){
+        for(IntervalPackage pack: packageList){
+            if(pack.getName() == name)
+                return pack.getIntervalList();
+        }
+        return null;
+    }
+
     public Interval getIntervalById(int id) {
 
         for(String keys: intervals.keySet()){
@@ -101,4 +113,5 @@ public class IntervalLoader {
 
         return null;
     }
+
 }
