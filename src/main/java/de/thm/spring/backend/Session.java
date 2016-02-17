@@ -67,6 +67,10 @@ public class Session {
         return originalFilename;
     }
 
+    public void setOriginalFilename(String originalFilename) {
+        this.originalFilename = originalFilename;
+    }
+
     public List<String> getCovariants() {
         return covariants;
     }

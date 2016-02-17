@@ -89,6 +89,7 @@ public class CalculationController {
                 UserData data = new UserData(inputFilepath);
                 ResultCollector collector = AnalysisHelper.runAnalysis(data);
                 currentSession.setCollector(collector);
+                currentSession.setOriginalFilename(name);
 
                 setModle(model, collector, data, name);
                 model.addAttribute("covariants", new ArrayList<>());
