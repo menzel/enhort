@@ -2,6 +2,7 @@ package de.thm.genomeData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Collection of utils for interval objects.
@@ -360,28 +361,28 @@ public class Intervals {
 
     }
 
-    public static Interval combine(List<Interval> intervals) {
+    public static Interval combine(List<Interval> intervals, Map<String, Double> score_map) {
         if(intervals.size() == 0){
             return null;
 
         } else if(intervals.size() == 1){
-            return intervals.get(0);
+            return null; // TODO method to set score for one interval
 
         } else if(intervals.size() == 2){
-            return combine(intervals.get(0), intervals.get(1));
+            return combine(intervals.get(0), intervals.get(1), score_map);
 
         }else{
             List<Interval> newList = new ArrayList<>();
             newList.addAll(intervals.subList(2, intervals.size()));
 
-            newList.add(combine(intervals.get(0), intervals.get(1)));
+            newList.add(combine(intervals.get(0), intervals.get(1), score_map));
 
-            return combine(newList);
+            return combine(newList, score_map);
         }
 
     }
 
-    public static Interval combine(Interval intv1, Interval intv2) {
+    public static Interval combine(Interval intv1, Interval intv2, Map<String, Double> score_map) {
 
         List<Long> starts1 = intv1.getIntervalsStart();
         List<Long> starts2 = intv2.getIntervalsStart();
@@ -391,6 +392,9 @@ public class Intervals {
 
         List<Double> scores1 = intv1.getIntervalScore();
         List<Double> scores2 = intv2.getIntervalScore();
+
+        int name1 = intv1.getUid();
+        int name2 = intv2.getUid();
 
         Interval result = new Interval();
         result.setType(intv1.getType());
@@ -419,26 +423,36 @@ public class Intervals {
                 if(ends1.get(i1) < starts2.get(i2)) { //do not overlap
                     result_start.add(starts1.get(i1));
                     result_end.add(ends1.get(i1));
-                    result_score.add(scores1.get(i1));
-                    i1++;
+                    result_score.add(score_map.get("|" + name1 + "|"));
 
-                    if(ends2.get(i2) < starts1.get(i1)) { //interval on second before next from s1
+                    i1++;
+                    if(i1 >= starts1.size()-1)
+                        System.out.println("foo");
+
+                    if(i1 >= starts1.size()-1 || ends2.get(i2) < starts1.get(i1)) { //interval on second before next from s1
                         result_start.add(starts2.get(i2));
                         result_end.add(ends2.get(i2));
                         result_score.add(scores2.get(i2));
+                        result_score.add(score_map.get("|" + name2 + "|"));
                         i2++;
                     }
 
+
                 } else if(ends2.get(i2) > ends1.get(i1)){ //overlap
+                    //first part
                     result_start.add(starts1.get(i1));
                     result_end.add(starts2.get(i2));
-                    result_score.add(scores1.get(i1));
+                    result_score.add(score_map.get("|" + name1 + "|"));
 
-                    // do not assign overlapping part
+                    //overlapping part
+                    result_start.add(starts2.get(i2));
+                    result_end.add(ends1.get(i1));
+                    result_score.add(score_map.get("|" + name1 + "|" + name2));
 
+                    //second part
                     result_start.add(ends1.get(i1));
                     result_end.add(ends2.get(i2));
-                    result_score.add(scores2.get(i2));
+                    result_score.add(score_map.get("|" + name2 + "|"));
                     i1++;
 
                 }  else { //second interval is inside the first
@@ -446,11 +460,16 @@ public class Intervals {
 
                     result_start.add(starts1.get(i1));
                     result_end.add(starts2.get(i2));
-                    result_score.add(scores1.get(i1));
+                    result_score.add(score_map.get("|" + name1 + "|"));
+
+                    //overlapping part
+                    result_start.add(starts2.get(i2));
+                    result_end.add(ends2.get(i2));
+                    result_score.add(score_map.get("|" + name1 + "|" + name2));
 
                     result_start.add(ends2.get(i2));
                     result_end.add(ends1.get(i1));
-                    result_score.add(scores1.get(i1));
+                    result_score.add(score_map.get("|" + name2 + "|"));
                 }
 
 
