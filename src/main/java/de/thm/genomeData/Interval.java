@@ -147,6 +147,9 @@ public class Interval implements Serializable{
     }
 
     public Interval invert() {
+        if(intervalsStart.size() == 0)
+            return this.copy();
+
         Interval tmp = new Interval();
 
         tmp.setIntervalsStart(new ArrayList<>(intervalsEnd));
@@ -212,6 +215,15 @@ public class Interval implements Serializable{
 
     public List<Double> getIntervalScore() {
         return intervalScore;
+    }
+
+    public void setIntervalScore(double prob) {
+        intervalScore = new ArrayList<>();
+
+        for(int i = 0; i < intervalsStart.size(); i++){
+            intervalScore.add(prob);
+        }
+
     }
 
     public void setIntervalScore(List<Double> intervalScore) {
