@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
  */
 public class SingleTrackBackgroundModel extends BackgroundModel{
 
-    private Random rand;
     private final int factor = 10;
+    private Random rand;
 
     /**
      * Contstructor
@@ -84,7 +84,7 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
      *
      * @return collection of positions inside the interval
      */
-    private Collection<Long> generatePositonsByProbability(Interval probabilityInterval, int siteCount) {
+    public Collection<Long> generatePositonsByProbability(Interval probabilityInterval, int siteCount) {
 
         List<Long> sites = new ArrayList<>();
         List<Long> starts = probabilityInterval.getIntervalsStart();
@@ -161,7 +161,7 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
             } else {
                 double tmp = count(scores.get(i), scores) / scores.size();
                 probValuesGenome.put(scores.get(i), tmp);
-                prob /= probValuesGenome.get(scores.get(i));
+                prob /= tmp;
             }
 
             probabilityScores.add(prob);
@@ -186,7 +186,7 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
         }
 
         return count;
-}
+    }
 
 
     /**
