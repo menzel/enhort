@@ -189,7 +189,7 @@ public class IntervalsTest {
 
     @Test
     public void testXor() throws Exception {
-                List<Long> start1 = new ArrayList<>();
+        List<Long> start1 = new ArrayList<>();
         List<Long> start2 = new ArrayList<>();
 
         List<Long> end1 = new ArrayList<>();
@@ -263,5 +263,48 @@ public class IntervalsTest {
     }
 
 
+    @Test
+    public void testSubsetScore() throws Exception {
+        List<Long> start1 = new ArrayList<>();
 
+        List<Long> end1 = new ArrayList<>();
+
+        start1.add(0L);
+        start1.add(20L);
+        start1.add(50L);
+        start1.add(80L);
+        start1.add(100L);
+
+        end1.add(10L);
+        end1.add(30L);
+        end1.add(60L);
+        end1.add(90L);
+        end1.add(110L);
+
+
+        List<Double> scores = new ArrayList<>();
+
+        scores.add(0.5);
+        scores.add(0.5);
+        scores.add(0.3);
+        scores.add(0.2);
+        scores.add(0.5);
+
+        Interval interval1 = mockInterval(start1, end1);
+
+        interval1.setIntervalScore(scores);
+
+        List<Double> result = new ArrayList<>();
+
+        result.add(0.5);
+        result.add(0.5);
+        result.add(0.5);
+
+        Interval interval = Intervals.subsetScore(interval1, 0.5);
+        assertEquals(interval.getIntervalScore(), result);
+        assertEquals(interval.getIntervalsStart().size(), 3);
+        assertEquals(interval.getIntervalsEnd().size(), 3);
+
+
+    }
 }
