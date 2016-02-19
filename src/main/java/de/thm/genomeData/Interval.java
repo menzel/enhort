@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 /**
  * Created by Michael Menzel on 8/12/15.
  */
-public class Interval implements Serializable{
+public class Interval implements Serializable, Cloneable{
 
     private static final long serialVersionUID = 1690225L;
     private static int UID = 1;
@@ -217,6 +217,10 @@ public class Interval implements Serializable{
         return intervalScore;
     }
 
+    public void setIntervalScore(List<Double> intervalScore) {
+        this.intervalScore = intervalScore;
+    }
+
     public void setIntervalScore(double prob) {
         intervalScore = new ArrayList<>();
 
@@ -226,12 +230,39 @@ public class Interval implements Serializable{
 
     }
 
-    public void setIntervalScore(List<Double> intervalScore) {
-        this.intervalScore = intervalScore;
-    }
-
     public int getUid() {
         return uid;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Interval)) return false;
+
+        Interval interval = (Interval) o;
+
+        if (!intervalsStart.equals(interval.intervalsStart)) return false;
+        if (!intervalsEnd.equals(interval.intervalsEnd)) return false;
+        if (intervalName != null ? !intervalName.equals(interval.intervalName) : interval.intervalName != null)
+            return false;
+        if (intervalScore != null ? !intervalScore.equals(interval.intervalScore) : interval.intervalScore != null)
+            return false;
+        if (type != interval.type) return false;
+        return !(description != null ? !description.equals(interval.description) : interval.description != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = intervalsStart.hashCode();
+        result = 31 * result + intervalsEnd.hashCode();
+        result = 31 * result + (intervalName != null ? intervalName.hashCode() : 0);
+        result = 31 * result + (intervalScore != null ? intervalScore.hashCode() : 0);
+        result = 31 * result + type.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + filename.hashCode();
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        return result;
     }
 
     public enum Type {inout, score, named}
