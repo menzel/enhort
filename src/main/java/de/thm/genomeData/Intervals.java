@@ -391,6 +391,15 @@ public class Intervals {
 
     }
 
+    /**
+     * Combines two intervals to a probability interval.
+     * Probablities are given in a map with (k,v): (score, probability)
+     *
+     * @param intv1
+     * @param intv2
+     * @param score_map
+     * @return
+     */
     public static Interval combine(Interval intv1, Interval intv2, Map<String, Double> score_map) {
 
         List<Long> starts1 = intv1.getIntervalsStart();
@@ -407,6 +416,7 @@ public class Intervals {
         List<Long> result_start = new ArrayList<>();
         List<Long> result_end = new ArrayList<>();
         List<Double> result_score = new ArrayList<>();
+        List<String> result_names = new ArrayList<>();
 
         if(starts1.size() > starts2.size()){ //if start2 is smaller swap lists
 
@@ -440,30 +450,41 @@ public class Intervals {
                 if(s1 < s2 && e1 < s2) {// no overlap, interval from 1 is next
                     result_start.add(s1);
                     result_end.add(e1);
-                    result_score.add(score_map.get("|" + scores1.get(i1) + "|"));
+                    String ref = "|".concat(scores1.get(i1).toString()).concat("|");
+                    result_score.add(score_map.get(ref));
+                    result_names.add(ref);
 
                     i1++;
                 } else if(s1 > s2 && e2 < s1) { //no overlap, interval from 2 comes first
                     result_start.add(s2);
                     result_end.add(e2);
-                    //result_score.add(scores2.get(i2));
-                    result_score.add(score_map.get("|" + scores2.get(i2) + "|"));
+                    String ref = "|".concat(scores2.get(i2).toString()).concat("|");
+                    result_score.add(score_map.get(ref));
+                    result_names.add(ref);
+
                     i2++;
                 } else if((s1 < e2 && e1 > e2) || s2 < e1 && e2 > e1){ //overlap
                     //first part
                     result_start.add(s1);
                     result_end.add(s2);
-                    result_score.add(score_map.get("|" + scores1.get(i1) + "|"));
+                    String ref = "|".concat(scores1.get(i1).toString()).concat("|");
+                    result_score.add(score_map.get(ref));
+                    result_names.add(ref);
 
                     //overlapping part
                     result_start.add(s2);
                     result_end.add(e1);
-                    result_score.add(score_map.get("|" + scores1.get(i1)+ "|" + scores2.get(i2)));
+                    String refm = "|".concat(scores1.get(i1).toString()).concat("|").concat(scores2.get(i2).toString());
+                    result_score.add(score_map.get(refm));
+                    result_names.add(refm);
 
                     //second part
                     result_start.add(e1);
                     result_end.add(e2);
-                    result_score.add(score_map.get("|" + scores2.get(i2) + "|"));
+                    String ref2 = "|".concat(scores2.get(i2).toString()).concat("|");
+                    result_score.add(score_map.get(ref2));
+                    result_names.add(ref2);
+
                     i1++;
 
                 }  else { //second interval is inside the first
@@ -472,16 +493,22 @@ public class Intervals {
 
                     result_start.add(s1);
                     result_end.add(s2);
-                    result_score.add(score_map.get("|" + scores1.get(i1) + "|"));
+                    String ref = "|".concat(scores1.get(i1).toString()).concat("|");
+                    result_score.add(score_map.get(ref));
+                    result_names.add(ref);
 
                     //overlapping part
                     result_start.add(s2);
                     result_end.add(e2);
-                    result_score.add(score_map.get("|" + scores1.get(i1)+ "|" + scores2.get(i2)));
+                    String refm = "|".concat(scores1.get(i1).toString()).concat("|").concat(scores2.get(i2).toString());
+                    result_score.add(score_map.get(refm));
+                    result_names.add(refm);
 
                     result_start.add(e2);
                     result_end.add(e1);
-                    result_score.add(score_map.get("|" + scores2.get(i2) + "|"));
+                    String ref2 = "|".concat(scores2.get(i2).toString()).concat("|");
+                    result_score.add(score_map.get(ref2));
+                    result_names.add(ref2);
                 }
 
 
@@ -494,6 +521,7 @@ public class Intervals {
         result.setIntervalsStart(result_start);
         result.setIntervalsEnd(result_end);
         result.setIntervalScore(result_score);
+        result.setIntervalName(result_names);
 
         return result;
     }
