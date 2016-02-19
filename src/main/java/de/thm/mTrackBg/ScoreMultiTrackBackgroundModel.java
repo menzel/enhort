@@ -1,10 +1,12 @@
 package de.thm.mTrackBg;
 
 import de.thm.backgroundModel.BackgroundModel;
+import de.thm.backgroundModel.SingleTrackBackgroundModel;
 import de.thm.genomeData.Interval;
 import de.thm.genomeData.Intervals;
 import de.thm.positionData.Sites;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,13 +18,17 @@ public class ScoreMultiTrackBackgroundModel extends BackgroundModel {
 
     public ScoreMultiTrackBackgroundModel(Sites sites, List<Interval> intervals) {
         Interval interval = generateProbabilityInterval(sites, intervals);
+        SingleTrackBackgroundModel bgModel = new SingleTrackBackgroundModel();
+
+        Collection<Long> pos = bgModel.generatePositonsByProbability(interval, sites.getPositionCount());
+
+        positions.addAll(pos);
 
     }
 
     private Interval generateProbabilityInterval(Sites sites, List<Interval> intervals) {
         Map<String, Double> map = new HashMap<>();
         Map<Interval, Integer> indices = new HashMap<>();
-        String key = "";
 
         //init indices map:
         for(Interval interval: intervals) {
@@ -30,7 +36,7 @@ public class ScoreMultiTrackBackgroundModel extends BackgroundModel {
         }
 
         for(Long p : sites.getPositions()){
-            key = "";
+            String key = "";
 
             for(Interval interval:intervals){
 
@@ -80,7 +86,8 @@ public class ScoreMultiTrackBackgroundModel extends BackgroundModel {
         }
 
         // normalize values
-        double sum = map.values().stream().mapToDouble(Double::doubleValue).sum();
+        double sum = sites.getPositionCount(); //TODO check if is same as above
+
         //map.keySet().stream().map(k -> map.put(k,map.get(k)/sum));
 
         for(String k: map.keySet())
