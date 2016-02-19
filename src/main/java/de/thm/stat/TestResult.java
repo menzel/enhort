@@ -2,6 +2,7 @@ package de.thm.stat;
 
 import de.thm.calc.IntersectResult;
 import de.thm.genomeData.Interval;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.math3.util.Precision;
 
 import java.io.Serializable;
@@ -26,8 +27,10 @@ public class TestResult implements Serializable{
 
     public TestResult(double pValue, IntersectResult measured, IntersectResult expected, double effectSize, Interval usedInterval) {
 
-        if(pValue != Double.NaN) {
-            DecimalFormat format = new DecimalFormat("0.00E00");
+        DecimalFormat format = new DecimalFormat("0.00E00");
+        String v = format.format(pValue);
+
+        if(pValue != Double.NaN && NumberUtils.isNumber(v)) {
             this.pValue = Double.parseDouble(format.format(pValue));
         } else{
             System.err.println(measured);
@@ -88,6 +91,7 @@ public class TestResult implements Serializable{
     }
 
     public String toString(){
+        String name = (this.name != null)? this.name: filename;
         return "measured "  + resultMeasured.toString() +
                 "expected " +resultExpected.toString() +
                 "Fold change Ratio: " + effectSize + "\n" +
