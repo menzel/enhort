@@ -11,6 +11,9 @@ import java.util.Map;
  */
 public class Intervals {
 
+    //prevent init of Intervals object with private constructor
+    private Intervals(){}
+
     /**
      * Intersect a list of intervals. Resulting interval has only starts/stop where all input interval were marked.
      * *
@@ -420,7 +423,7 @@ public class Intervals {
         for(int i1 = 0; i1 < starts1.size(); i1++) {
             for (; i2 < ends2.size(); i2++) {
 
-                if(ends1.get(i1) < starts2.get(i2)) { //do not overlap
+                if(i1 < starts1.size()-1 && ends1.get(i1) < starts2.get(i2)) { //do not overlap
                     result_start.add(starts1.get(i1));
                     result_end.add(ends1.get(i1));
                     result_score.add(score_map.get("|" + name1 + "|"));
@@ -438,7 +441,7 @@ public class Intervals {
                     }
 
 
-                } else if(ends2.get(i2) > ends1.get(i1)){ //overlap
+                } else if(i1 < starts1.size()-1 && ends2.get(i2) > ends1.get(i1)){ //overlap
                     //first part
                     result_start.add(starts1.get(i1));
                     result_end.add(starts2.get(i2));
@@ -455,7 +458,7 @@ public class Intervals {
                     result_score.add(score_map.get("|" + name2 + "|"));
                     i1++;
 
-                }  else { //second interval is inside the first
+                }  else if(i1 < starts1.size()-1){ //second interval is inside the first
                     //todo check if start and end are the same
 
                     result_start.add(starts1.get(i1));
