@@ -86,20 +86,56 @@ public class ScoreMultiTrackBackgroundModel extends BackgroundModel {
         }
 
         // normalize values
-        double sum = sites.getPositionCount(); //TODO check if is same as above
-
-        //map.keySet().stream().map(k -> map.put(k,map.get(k)/sum));
-
+        double sum = sites.getPositionCount();
         for(String k: map.keySet())
             map.put(k, map.get(k)/sum);
 
-        // get p for interval without sites information
 
-        // use conversion list (score -> probability to create prob interval
+        //if( 1 == Double.compare(map.values().stream().filter(Double::isFinite).mapToDouble(i -> i).sum(), 1)) System.err.println("Not 1");
+
+        // get p for interval without sites information
 
         Interval interval = Intervals.combine(intervals, map);
 
+        //divide each value in the interval by the count of occurences of intervals with the same key
+        //" split the probability to the intervals "
+
+
+        Map<String, Integer> occurenceTable = new HashMap<>();
+
+        //count occurences:
+        for(String key: interval.getIntervalName()){
+            if(occurenceTable.containsKey(key)){
+                occurenceTable.put(key, occurenceTable.get(key)+1);
+            } else {
+                occurenceTable.put(key, 1);
+            }
+        }
+        List<String> keys = interval.getIntervalName();
+
+        List<Double> intervalScore = interval.getIntervalScore();
+
+        for (int i = 0; i < intervalScore.size(); i++) {
+            Double p = intervalScore.get(i);
+            p = p / occurenceTable.get(keys.get(i));
+            intervalScore.add(i, p);
+        }
+
+        interval.setIntervalScore(intervalScore); //TODO neccessary?
+
+
         return interval;
     }
+
+    private Double divideByProb(String key, Double value, Interval probInterval) {
+        //count how often the key (|value|value) is inside the names of the interval
+
+        double prob = probInterval.getIntervalName().stream().filter(i -> i.equals(key)).count();
+
+
+        //divide value by that count and return
+        return value/ prob;
+    }
+
 
 }
