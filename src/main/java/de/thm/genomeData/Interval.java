@@ -218,10 +218,6 @@ public class Interval implements Serializable, Cloneable{
         return intervalScore;
     }
 
-    public void setIntervalScore(List<Double> intervalScore) {
-        this.intervalScore = intervalScore;
-    }
-
     public void setIntervalScore(double prob) {
         intervalScore = new ArrayList<>();
 
@@ -229,6 +225,10 @@ public class Interval implements Serializable, Cloneable{
             intervalScore.add(prob);
         }
 
+    }
+
+    public void setIntervalScore(List<Double> intervalScore) {
+        this.intervalScore = intervalScore;
     }
 
     public int getUid() {
@@ -255,12 +255,9 @@ public class Interval implements Serializable, Cloneable{
 
     @Override
     public int hashCode() {
-        int result = intervalsStart.hashCode();
-        result = 31 * result + intervalsEnd.hashCode();
-        result = 31 * result + (intervalName != null ? intervalName.hashCode() : 0);
-        result = 31 * result + (intervalScore != null ? intervalScore.hashCode() : 0);
+        int result = uid;
         result = 31 * result + type.hashCode();
-        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + intervalsEnd.size();
         return result;
     }
 
