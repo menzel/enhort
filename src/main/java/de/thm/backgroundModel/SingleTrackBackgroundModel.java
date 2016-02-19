@@ -68,8 +68,6 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
         probabilityInterval.setIntervalScore(generateProbabilityScores(interval,result));
 
         newSites.addAll(generatePositonsByProbability(probabilityInterval, result.getIn()));
-        Collections.sort(newSites);
-
         newSites.addAll(randPositions(result.getOut(), interval, "out"));
 
         return newSites;
@@ -108,7 +106,11 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
 
             for (; j < starts.size(); j++) {
 
-                double prob = probabilities.get(j);
+                Double prob = probabilities.get(j);
+
+                if(prob == null)
+                    prob = 0d;
+
 
                 if (value >= prob) {
                     value -= prob;
@@ -123,6 +125,7 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
             }
         }
 
+        Collections.sort(sites);
         return sites;
     }
 
