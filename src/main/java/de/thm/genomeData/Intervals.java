@@ -105,6 +105,12 @@ public class Intervals {
      * @return interval with the sum of positions
      */
     public static Interval sum(List<Interval> intervals) {
+        try {
+            throw new Exception("Not working right now");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if(intervals.size() == 0){
             return null;
 
@@ -396,9 +402,6 @@ public class Intervals {
         List<Double> scores1 = intv1.getIntervalScore();
         List<Double> scores2 = intv2.getIntervalScore();
 
-        int name1 = intv1.getUid();
-        int name2 = intv2.getUid();
-
         Interval result = new Interval();
         result.setType(intv1.getType());
         List<Long> result_start = new ArrayList<>();
@@ -422,62 +425,68 @@ public class Intervals {
 
         for(int i1 = 0; i1 < starts1.size(); i1++) {
             for (; i2 < ends2.size(); i2++) {
+                long s1 = Long.MAX_VALUE;
+                long e1 = Long.MAX_VALUE;
 
-                if(i1 < starts1.size()-1 && ends1.get(i1) < starts2.get(i2)) { //do not overlap
-                    result_start.add(starts1.get(i1));
-                    result_end.add(ends1.get(i1));
-                    result_score.add(score_map.get("|" + name1 + "|"));
+                if(i1 < starts1.size()-1){
+                    s1 = starts1.get(i1);
+                    e1 = ends1.get(i1);
+                }
+
+                long e2 = ends2.get(i2);
+                long s2 = starts2.get(i2);
+
+
+                if(s1 < s2 && e1 < s2) {// no overlap, interval from 1 is next
+                    result_start.add(s1);
+                    result_end.add(e1);
+                    result_score.add(score_map.get("|" + scores1.get(i1) + "|"));
 
                     i1++;
-                    if(i1 >= starts1.size()-1)
-                        System.out.println("foo");
-
-                    if(i1 >= starts1.size()-1 || ends2.get(i2) < starts1.get(i1)) { //interval on second before next from s1
-                        result_start.add(starts2.get(i2));
-                        result_end.add(ends2.get(i2));
-                        result_score.add(scores2.get(i2));
-                        result_score.add(score_map.get("|" + name2 + "|"));
-                        i2++;
-                    }
-
-
-                } else if(i1 < starts1.size()-1 && ends2.get(i2) > ends1.get(i1)){ //overlap
+                } else if(s1 > s2 && e2 < s1) { //no overlap, interval from 2 comes first
+                    result_start.add(s2);
+                    result_end.add(e2);
+                    //result_score.add(scores2.get(i2));
+                    result_score.add(score_map.get("|" + scores2.get(i2) + "|"));
+                    i2++;
+                } else if((s1 < e2 && e1 > e2) || s2 < e1 && e2 > e1){ //overlap
                     //first part
-                    result_start.add(starts1.get(i1));
-                    result_end.add(starts2.get(i2));
-                    result_score.add(score_map.get("|" + name1 + "|"));
+                    result_start.add(s1);
+                    result_end.add(s2);
+                    result_score.add(score_map.get("|" + scores1.get(i1) + "|"));
 
                     //overlapping part
-                    result_start.add(starts2.get(i2));
-                    result_end.add(ends1.get(i1));
-                    result_score.add(score_map.get("|" + name1 + "|" + name2));
+                    result_start.add(s2);
+                    result_end.add(e1);
+                    result_score.add(score_map.get("|" + scores1.get(i1)+ "|" + scores2.get(i2)));
 
                     //second part
-                    result_start.add(ends1.get(i1));
-                    result_end.add(ends2.get(i2));
-                    result_score.add(score_map.get("|" + name2 + "|"));
+                    result_start.add(e1);
+                    result_end.add(e2);
+                    result_score.add(score_map.get("|" + scores2.get(i2) + "|"));
                     i1++;
 
-                }  else if(i1 < starts1.size()-1){ //second interval is inside the first
+                }  else { //second interval is inside the first
                     //todo check if start and end are the same
+                    //TODO first interval in second interval??
 
-                    result_start.add(starts1.get(i1));
-                    result_end.add(starts2.get(i2));
-                    result_score.add(score_map.get("|" + name1 + "|"));
+                    result_start.add(s1);
+                    result_end.add(s2);
+                    result_score.add(score_map.get("|" + scores1.get(i1) + "|"));
 
                     //overlapping part
-                    result_start.add(starts2.get(i2));
-                    result_end.add(ends2.get(i2));
-                    result_score.add(score_map.get("|" + name1 + "|" + name2));
+                    result_start.add(s2);
+                    result_end.add(e2);
+                    result_score.add(score_map.get("|" + scores1.get(i1)+ "|" + scores2.get(i2)));
 
-                    result_start.add(ends2.get(i2));
-                    result_end.add(ends1.get(i1));
-                    result_score.add(score_map.get("|" + name2 + "|"));
+                    result_start.add(e2);
+                    result_end.add(e1);
+                    result_score.add(score_map.get("|" + scores2.get(i2) + "|"));
                 }
 
 
 
-                if(i1 < starts1.size()-1 && ends2.get(i2) > starts1.get(i1+1))
+                if(i1 < starts1.size()-1 && e2 > starts1.get(i1+1))
                     break;
             }
         }
