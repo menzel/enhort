@@ -148,7 +148,7 @@ public class Interval implements Serializable, Cloneable{
 
     public Interval invert() {
         if(intervalsStart.size() == 0)
-            return this.copy();
+            return this.clone();
 
         Interval tmp = new Interval();
 
@@ -173,7 +173,8 @@ public class Interval implements Serializable, Cloneable{
         return tmp;
     }
 
-    public Interval copy() {
+    @Override
+    public Interval clone() {
         Interval copy = new Interval();
 
         copy.setIntervalsStart(new ArrayList<>(intervalsStart));
@@ -217,10 +218,6 @@ public class Interval implements Serializable, Cloneable{
         return intervalScore;
     }
 
-    public void setIntervalScore(List<Double> intervalScore) {
-        this.intervalScore = intervalScore;
-    }
-
     public void setIntervalScore(double prob) {
         intervalScore = new ArrayList<>();
 
@@ -228,6 +225,10 @@ public class Interval implements Serializable, Cloneable{
             intervalScore.add(prob);
         }
 
+    }
+
+    public void setIntervalScore(List<Double> intervalScore) {
+        this.intervalScore = intervalScore;
     }
 
     public int getUid() {

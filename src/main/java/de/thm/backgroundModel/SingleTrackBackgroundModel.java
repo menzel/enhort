@@ -63,7 +63,7 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
             throw new IntervalTypeNotAllowedExcpetion("Named and Inout Intervals are not allowed to pass through this random positions generator");
 
         List<Long> newSites = new ArrayList<>();
-        Interval probabilityInterval = interval.copy();
+        Interval probabilityInterval = interval.clone();
 
         probabilityInterval.setIntervalScore(generateProbabilityScores(interval,result));
 
