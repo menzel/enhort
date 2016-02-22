@@ -1,5 +1,7 @@
 package de.thm.genomeData;
 
+import de.thm.misc.ChromosomSizes;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -354,6 +356,8 @@ public class Intervals {
         int i2 = 0;
         int i1 = 0;
 
+        result_start.add(0L);
+
         while(i1 < starts1.size()){
             while(i2 < ends2.size()){
                 long s1 = Long.MAX_VALUE;
@@ -367,24 +371,44 @@ public class Intervals {
                 long e2 = ends2.get(i2);
                 long s2 = starts2.get(i2);
 
-
                 if(s1 < s2 && e1 < s2) {// no overlap, interval from 1 is next
+                    result_score.add(score_map.get("||"));
+                    result_names.add("||");
+                    result_end.add(s1);
+
                     result_start.add(s1);
                     result_end.add(e1);
+
+                    result_start.add(e1);
+
                     String ref = "|".concat(scores1.get(i1).toString()).concat("|");
                     result_score.add(score_map.get(ref));
                     result_names.add(ref);
 
                     i1++;
                 } else if(s1 > s2 && e2 < s1) { //no overlap, interval from 2 comes first
+
+                    result_score.add(score_map.get("||"));
+                    result_names.add("||");
+                    result_end.add(s2);
+
                     result_start.add(s2);
                     result_end.add(e2);
+
+                    result_start.add(e2);
+
                     String ref = "||".concat(scores2.get(i2).toString());
                     result_score.add(score_map.get(ref));
                     result_names.add(ref);
 
                     i2++;
                 } else if((s1 < e2 && e1 > e2) || s2 < e1 && e2 > e1){ //overlap
+
+                    //outside part
+                    result_score.add(score_map.get("||"));
+                    result_names.add("||");
+                    result_end.add(s1);
+
                     //first part
                     result_start.add(s1);
                     result_end.add(s2);
@@ -406,10 +430,19 @@ public class Intervals {
                     result_score.add(score_map.get(ref2));
                     result_names.add(ref2);
 
+
+                    //outside part
+                    result_start.add(e2);
+
                     i1++;
                     i2++;
 
                 }  else { //second interval is inside the first
+
+                    //outside part
+                    result_score.add(score_map.get("||"));
+                    result_names.add("||");
+                    result_end.add(s1);
 
                     if(s1 != s2) {
                         result_start.add(s1);
@@ -434,11 +467,19 @@ public class Intervals {
                         result_names.add(ref2);
                     }
 
+                    //outside part
+
+                    result_start.add(e1);
+
                     i1++;
                     i2++;
                 }
             }
         }
+
+        result_score.add(score_map.get("||"));
+        result_names.add("||");
+        result_end.add(ChromosomSizes.getInstance().getGenomeSize());
 
         result.setIntervalsStart(result_start);
         result.setIntervalsEnd(result_end);
