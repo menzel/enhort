@@ -67,13 +67,13 @@ public class ScoreMultiTrackBackgroundModelTest {
             public List<Long> getPositions() {
                 List<Long> l = new ArrayList<>();
 
-                l.add(5L);
-                l.add(7L);
-                l.add(8L);
-                l.add(17L);
+                l.add(5L); //.5.4
+                l.add(7L); //.5.4
+                l.add(8L); //.5.4
+                l.add(17L);// ||
 
-                l.add(37L);
-                l.add(55L);
+                l.add(37L); // .6
+                l.add(55L); // .7.8
 
                 return l;
             }
@@ -89,11 +89,10 @@ public class ScoreMultiTrackBackgroundModelTest {
 
 
         Map<String, Double> result_map = new HashMap<>();
-        result_map.put("|.5|",1.0);
-        result_map.put("|.5|.4",2.0);
+        result_map.put("|0.5|0.4",3.0);
         result_map.put("||",1.0);
-        result_map.put("||.6",1.);
-        result_map.put("|.7|.8",1.);
+        result_map.put("||0.6",1.);
+        result_map.put("|0.7|0.8",1.);
 
 
         assertEquals(result_map, m.fillOccurenceMap(intervals, sites));

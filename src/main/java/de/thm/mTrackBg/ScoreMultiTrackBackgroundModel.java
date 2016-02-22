@@ -121,26 +121,22 @@ public class ScoreMultiTrackBackgroundModel extends BackgroundModel {
                 }
 
                 if(i == 0){
-                    if(p >= intervalStart.get(i)){
-                        key += "|" + interval.getIntervalScore().get(i);
-                    }
+                        key += "|";
 
                 } else if(i == intervalCount && p > intervalEnd.get(i-1)){ //last Interval and p not in previous
                     if(p < intervalEnd.get(i) && p >= intervalStart.get(i)){
-
+                        //inside last interval
                         key += "|" + interval.getIntervalScore().get(i);
 
                     } else{
                         key += "|";
-                        continue;
                     }
                 }else{
                     if(p >= intervalEnd.get(i-1)){
-                        key += "|";
-                        continue; // not inside the last interval
+                        key += "|"; // not inside the previous interval
 
                     }else{
-                        key += "|" + interval.getIntervalScore().get(i);
+                        key += "|" + interval.getIntervalScore().get(i-1);
                     }
                 }
 
