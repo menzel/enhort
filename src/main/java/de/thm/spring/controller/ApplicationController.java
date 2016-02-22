@@ -21,7 +21,7 @@ public class ApplicationController {
         Sessions sessionsControl = Sessions.getInstance();
         sessionsControl.clear(session.getId());
 
-        return "result";
+        return "/index.html";
     }
 
 
@@ -37,7 +37,7 @@ public class ApplicationController {
         }
 
         model.addAttribute("errorMessage", errorMessage);
-        return "error.html";
+        return "error";
     }
 
 
