@@ -9,6 +9,7 @@
   }
 
 th{
+    font-weight:500;
     font-size: 17px;
 }
 
@@ -38,6 +39,7 @@ body{
 .sidebar h4{
     border-top:1px solid #eee;
     padding-top: 5px;
+    font-weight:500;
 }
 
 .extra-margin{
