@@ -3,7 +3,10 @@ package de.thm.spring.backend;
 import de.thm.stat.ResultCollector;
 import de.thm.stat.TestResult;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -51,9 +54,12 @@ public class Session {
                 '}';
     }
 
-    public void delete() {
-        //TODO delte file
-
+    void delete(){
+        try {
+            Files.deleteIfExists(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public ResultCollector getCollector() {
@@ -73,6 +79,8 @@ public class Session {
     }
 
     public List<TestResult> getCovariants() {
+        if(covariants == null)
+            covariants = new ArrayList<>();
         return covariants;
     }
 

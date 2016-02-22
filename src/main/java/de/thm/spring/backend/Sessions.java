@@ -48,6 +48,15 @@ public class Sessions {
         return null;
     }
 
+    public void clear(String key){
+        Session session = sessions.get(key);
+        if(sessions.containsKey(key)){
+            sessions.remove(key);
+            session.delete();
+        }
+    }
+
+
 
     private void cleanUp(){
         Calendar tomorrow = Calendar.getInstance();
