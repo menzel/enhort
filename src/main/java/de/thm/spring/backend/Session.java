@@ -3,6 +3,8 @@ package de.thm.spring.backend;
 import de.thm.stat.ResultCollector;
 import de.thm.stat.TestResult;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,9 +54,12 @@ public class Session {
                 '}';
     }
 
-    void delete() {
-        //TODO delte file
-
+    void delete(){
+        try {
+            Files.deleteIfExists(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public ResultCollector getCollector() {
