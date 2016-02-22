@@ -25,39 +25,38 @@ public class ScoreMultiTrackBackgroundModel extends BackgroundModel {
 
     public ScoreMultiTrackBackgroundModel() { }
 
-    private Interval generateProbabilityInterval(Sites sites, List<Interval> intervals) {
+    Interval generateProbabilityInterval(Sites sites, List<Interval> intervals) {
 
-        Map<String, Double> map = fillOccurenceMap(intervals,sites);
+        Map<String, Double> sitesOccurence = fillOccurenceMap(intervals,sites);
 
         // normalize values
         double sum = sites.getPositionCount();
 
         //substract all points that are outside
-        //sum -= map.get("||");
-        //sum -= map.get("|");
+        sum -= sitesOccurence.get("||");
 
-        for(String k: map.keySet())
-            map.put(k, map.get(k)/sum);
+        for(String k: sitesOccurence.keySet())
+            sitesOccurence.put(k, sitesOccurence.get(k)/sum);
 
 
-        //if( 1 == Double.compare(map.values().stream().filter(Double::isFinite).mapToDouble(i -> i).sum(), 1)) System.err.println("Not 1");
+        //if( 1 == Double.compare(sitesOccurence.values().stream().filter(Double::isFinite).mapToDouble(i -> i).sum(), 1)) System.err.println("Not 1");
 
         // get p for interval without sites information
 
-        Interval interval = Intervals.combine(intervals, map);
+        Interval interval = Intervals.combine(intervals, sitesOccurence);
 
         //divide each value in the interval by the count of occurences of intervals with the same key
         //" split the probability to the intervals "
 
 
-        Map<String, Integer> occurenceTable = new HashMap<>();
+        Map<String, Integer> genomeOccurence = new HashMap<>();
 
         //count occurences:
         for(String key: interval.getIntervalName()){
-            if(occurenceTable.containsKey(key)){
-                occurenceTable.put(key, occurenceTable.get(key)+1);
+            if(genomeOccurence.containsKey(key)){
+                genomeOccurence.put(key, genomeOccurence.get(key)+1);
             } else {
-                occurenceTable.put(key, 1);
+                genomeOccurence.put(key, 1);
             }
         }
         List<String> keys = interval.getIntervalName();
@@ -67,19 +66,19 @@ public class ScoreMultiTrackBackgroundModel extends BackgroundModel {
 
         for (int i = 0; i < intervalScore.size(); i++) {
             Double p = intervalScore.get(i);
-            int o = occurenceTable.get(keys.get(i));
+            int o = genomeOccurence.get(keys.get(i));
 
             if(p == null){
                 newScores.add(0d);
 
             } else {
                 p = p / o;
+                p = divideByProb(keys.get(i),p,interval);
                 newScores.add(p);
             }
         }
 
         interval.setIntervalScore(newScores);
-        System.out.println(interval.getIntervalScore().stream().mapToDouble(i -> i).sum()); //should be 1
 
 
         return interval;
@@ -88,6 +87,8 @@ public class ScoreMultiTrackBackgroundModel extends BackgroundModel {
     private Double divideByProb(String key, Double value, Interval probInterval) {
         //count how often the key (|value|value) is inside the names of the interval
 
+        //TODO dynamic progrmaming
+        //TODO use length of interval
         double prob = probInterval.getIntervalName().stream().filter(i -> i.equals(key)).count();
 
 
