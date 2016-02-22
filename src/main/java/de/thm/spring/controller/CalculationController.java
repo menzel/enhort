@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -175,18 +174,5 @@ public class CalculationController {
         model.addAttribute("sigTrackCount", collector.getSignificantTrackCount());
         model.addAttribute("trackCount", collector.getTrackCount());
     }
-
-        // Error page
-      @RequestMapping("/error.html")
-      public String error(HttpServletRequest request, Model model) {
-        model.addAttribute("errorCode", request.getAttribute("javax.servlet.error.status_code"));
-        Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
-        String errorMessage = null;
-        if (throwable != null) {
-          errorMessage = throwable.getMessage();
-        }
-        model.addAttribute("errorMessage", errorMessage);
-        return "error.html";
-      }
 
 }
