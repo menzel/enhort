@@ -105,12 +105,7 @@ public class Intervals {
      * @return interval with the sum of positions
      */
     public static Interval sum(List<Interval> intervals) {
-        try {
-            throw new Exception("Not working right now");
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         if(intervals.size() == 0){
             return null;
 
@@ -138,87 +133,7 @@ public class Intervals {
      * @return sum of intv1 and intv2
      */
     public static Interval sum(Interval intv1, Interval intv2) {
-        List<Long> starts1 = intv1.getIntervalsStart();
-        List<Long> starts2 = intv2.getIntervalsStart();
-
-        List<Long> ends1 = intv1.getIntervalsEnd();
-        List<Long> ends2 = intv2.getIntervalsEnd();
-
-        Interval result = new Interval();
-        result.setType(intv1.getType());
-        List<Long> result_start = new ArrayList<>();
-        List<Long> result_end = new ArrayList<>();
-
-        int j = 0;
-        int i = 0;
-
-        long start;
-        long end;
-
-        for(; i < starts1.size(); i++){
-
-            if(j > starts2.size() - 1)
-                break;
-
-            start = starts1.get(i);
-            end = ends1.get(i);
-            long nextStart = starts2.get(j);
-            boolean s = false;
-            boolean x = false;
-
-            if(start > starts2.get(j)){
-                nextStart = start;
-                start = starts2.get(j);
-                end = ends2.get(j);
-                s = true;
-                x = true;
-            }
-
-            while (end >= nextStart && i < starts1.size() - 1 && j < starts2.size() - 1){
-
-                if (s) {
-                    end = ends1.get(i);
-                    i++;
-                    nextStart = starts1.get(i);
-
-                    s = false;
-
-                } else {
-                    end = ends2.get(j);
-                    j++;
-                    nextStart = starts2.get(j);
-
-                    s = true;
-                }
-            }
-
-            if(x){ //if the interval from start1(i) was omitted
-                i--;
-                j++;
-            }
-
-            if(!(result_end.size() > 1 && end < result_end.get(result_end.size()-1))){ // test for special case of omitted interval was complete in last interval
-                result_start.add(start);
-                result_end.add(end);
-            }
-        }
-
-        //add remaining intervals
-        for(; j < starts2.size(); j++){
-            result_start.add(starts2.get(j));
-            result_end.add(ends2.get(j));
-        }
-
-        for(; i < starts1.size(); i++){
-            result_start.add(starts1.get(i));
-            result_end.add(ends1.get(i));
-        }
-
-
-        result.setIntervalsStart(result_start);
-        result.setIntervalsEnd(result_end);
-
-        return result;
+        return intersect(intv1.invert(), intv2.invert()).invert();
     }
 
     /**
