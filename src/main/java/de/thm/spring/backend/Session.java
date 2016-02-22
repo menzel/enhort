@@ -51,7 +51,7 @@ public class Session {
                 '}';
     }
 
-    public void delete() {
+    void delete() {
         //TODO delte file
 
     }
