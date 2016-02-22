@@ -45,7 +45,9 @@ public class Intervals {
      *
      * @param intv1 - first input  interval object
      * @param intv2 - second input interval object
-     * @return interval with marked intervals were both input intervals were marked.
+     *
+     * @return interval with marked intervals were both input intervals were marked. Type is set to inout, names and scores get lost in intersect
+     *
      */
     public static Interval intersect(Interval intv1, Interval intv2){
 
@@ -56,7 +58,10 @@ public class Intervals {
         List<Long> ends2 = intv2.getIntervalsEnd();
 
         Interval result = new Interval();
-        result.setType(intv1.getType());
+        //result.setType(intv1.getType());
+        result.setType(Interval.Type.inout); // scores and names are lost
+
+
         List<Long> result_start = new ArrayList<>();
         List<Long> result_end = new ArrayList<>();
 
