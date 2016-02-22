@@ -4,6 +4,7 @@ import de.thm.stat.ResultCollector;
 import de.thm.stat.TestResult;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -73,6 +74,8 @@ public class Session {
     }
 
     public List<TestResult> getCovariants() {
+        if(covariants == null)
+            covariants = new ArrayList<>();
         return covariants;
     }
 
