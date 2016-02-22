@@ -114,4 +114,10 @@ public class IntervalLoader {
         return null;
     }
 
+    public void addInterval(String key, Interval interval) {
+        if(!intervals.containsKey(key)){
+            intervals.put(key, interval);
+        }
+
+    }
 }
