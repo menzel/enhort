@@ -1,15 +1,14 @@
 package de.thm.bootstrap;
 
 import de.thm.backgroundModel.BackgroundModel;
-import de.thm.backgroundModel.MultiTrackBackgroundModel;
 import de.thm.backgroundModel.RandomBackgroundModel;
-import de.thm.backgroundModel.SingleTrackBackgroundModel;
 import de.thm.calc.Intersect;
 import de.thm.calc.IntersectCalculate;
 import de.thm.calc.IntersectMultithread;
 import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.genomeData.Interval;
 import de.thm.genomeData.IntervalLoader;
+import de.thm.mTrackBg.ScoreMultiTrackBackgroundModel;
 import de.thm.positionData.Sites;
 import de.thm.stat.ResultCollector;
 import de.thm.stat.TestResult;
@@ -61,35 +60,19 @@ public class Analyse {
         //covariants.add(intervals.get("H1-hESC-H3K4m3"));
         //covariants.add(intervals.get("open-chrom-synth-HeLa-S3-valid"));
         //covariants.add(intervals.get("HeLa-S3-H3K4m1"));
-        //covariants.add(intervals.get("knownGenes"));
-        //covariants.add(intervals.get("exons_5UTR"));
-        //covariants.add(intervals.get("exons_3UTR"));
-        //covariants.add(intervals.get("open-chrom-synth-HeLa-S3-valid"));
         //covariants.add(intervals.get("exons"));
         //covariants.add(intervals.get("introns"));
         //covariants.add(intervals.get("cpg"));
-        covariants.add(intervals.get("expression_blood"));
+        covariants.add(intervals.get("expression_blood.bed"));
+        covariants.add(intervals.get("expression_fetal_brain.bed"));
 
-        BackgroundModel bg;
-
-        if(covariants.size() == 1 && covariants.get(0).getType() == Interval.Type.score){
-            bg = new SingleTrackBackgroundModel(covariants.get(0), userSites);
-        } else if(covariants.isEmpty()){
-            bg = new RandomBackgroundModel(userSites.getPositionCount());
-        }else if (true){
-            bg = new MultiTrackBackgroundModel(covariants,userSites);
-        }
-
-
-        // H_0: bg and user sites are independent. Large pValue: bg and user are independent. Small pValue: bg and user are dependent.
-        // Large pValue (> 0.05): the insertion points look random
-        // Small pValue (< 0.05): the insertion points are not random  (more interesting)
+        BackgroundModel bg = new ScoreMultiTrackBackgroundModel(userSites, covariants);
+        //bg = new RandomBackgroundModel(userSites.getPositionCount());
 
 
         IntersectMultithread multi = new IntersectMultithread();
 
         ResultCollector collector = multi.execute(intervals, userSites, bg);
-
 
         System.out.println(collector.toString());
 
