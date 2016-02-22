@@ -3,7 +3,9 @@ package de.thm.genomeData;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -305,6 +307,93 @@ public class IntervalsTest {
         assertEquals(interval.getIntervalsStart().size(), 3);
         assertEquals(interval.getIntervalsEnd().size(), 3);
 
+
+    }
+
+    @Test
+    public void testCombine() throws Exception {
+        List<Long> start1 = new ArrayList<>();
+        List<Long> start2 = new ArrayList<>();
+
+        List<Long> end1 = new ArrayList<>();
+        List<Long> end2 = new ArrayList<>();
+
+        start1.add(0L);
+        start1.add(20L);
+        start1.add(50L);
+
+        end1.add(10L);
+        end1.add(30L);
+        end1.add(60L);
+
+        start2.add(5L);
+        start2.add(35L);
+        start2.add(50L);
+
+        end2.add(15L);
+        end2.add(40L);
+        end2.add(60L);
+
+        List<Double> scores1 = new ArrayList<>();
+        List<Double> scores2 = new ArrayList<>();
+
+        scores1.add(0.5);
+        scores1.add(0.2);
+        scores1.add(0.7);
+
+        scores2.add(0.4);
+        scores2.add(0.6);
+        scores2.add(0.8);
+
+        Interval interval1 = mockInterval(start1, end1);
+        Interval interval2 = mockInterval(start2, end2);
+
+        interval1.setIntervalScore(scores1);
+        interval2.setIntervalScore(scores2);
+
+        Map<String, Double> map = new HashMap<>();
+        map.put("|0.5|", 5d);
+        map.put("|0.2|", 5d);
+        map.put("|0.7|", 5d);
+
+        map.put("||0.4", 5d);
+        map.put("||0.6", 5d);
+        map.put("||0.8", 5d);
+
+        map.put("|0.5|0.4", 5d);
+        map.put("|0.7|0.8", 5d);
+
+        Interval result = Intervals.combine(interval1, interval2, map);
+
+        List<Long> expectedStarts = new ArrayList<>();
+        List<Long> expectedEnds = new ArrayList<>();
+        List<Double> expectedScores = new ArrayList<>();
+
+        expectedStarts.add(0L);
+        expectedStarts.add(5L);
+        expectedStarts.add(10L);
+        expectedStarts.add(20L);
+        expectedStarts.add(35L);
+        expectedStarts.add(50L);
+
+        expectedEnds.add(5L);
+        expectedEnds.add(10L);
+        expectedEnds.add(15L);
+        expectedEnds.add(30L);
+        expectedEnds.add(40L);
+        expectedEnds.add(60L);
+
+        expectedScores.add(5d);
+        expectedScores.add(5d);
+        expectedScores.add(5d);
+        expectedScores.add(5d);
+        expectedScores.add(5d);
+        expectedScores.add(5d);
+
+
+        assertEquals(expectedStarts, result.getIntervalsStart());
+        assertEquals(expectedEnds, result.getIntervalsEnd());
+        assertEquals(expectedScores, result.getIntervalScore());
 
     }
 }
