@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static junit.framework.Assert.assertTrue;
 import static junit.framework.TestCase.assertEquals;
 
 /**
@@ -78,5 +79,30 @@ public class IntervalTest {
 
         assertEquals(starts, doubleInvert.getIntervalsStart());
         assertEquals(ends, doubleInvert.getIntervalsEnd());
+    }
+
+    @Test
+    public void testCopy() throws Exception {
+        Interval base = new Interval();
+
+        List<Long> starts = new ArrayList<>();
+        List<Long> ends = new ArrayList<>();
+
+        starts.add(5L);
+        starts.add(15L);
+        starts.add(25L);
+
+        ends.add(10L);
+        ends.add(20L);
+        ends.add(26L);
+
+        base.setIntervalsStart(starts);
+        base.setIntervalsEnd(ends);
+
+        Interval copy = base.clone();
+
+        assertTrue(copy.equals(base));
+
+
     }
 }
