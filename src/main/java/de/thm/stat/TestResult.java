@@ -5,13 +5,12 @@ import de.thm.genomeData.Interval;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.math3.util.Precision;
 
-import java.io.Serializable;
 import java.text.DecimalFormat;
 
 /**
  * Created by Michael Menzel on 12/1/16.
  */
-public class TestResult implements Serializable{
+public final class TestResult {
 
     public final double pValue;
     public final double effectSize;
