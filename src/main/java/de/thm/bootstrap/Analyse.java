@@ -8,6 +8,7 @@ import de.thm.calc.IntersectMultithread;
 import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.genomeData.Interval;
 import de.thm.genomeData.IntervalLoader;
+import de.thm.genomeData.Intervals;
 import de.thm.mTrackBg.ScoreMultiTrackBackgroundModel;
 import de.thm.positionData.Sites;
 import de.thm.stat.ResultCollector;
@@ -65,6 +66,12 @@ public class Analyse {
         //covariants.add(intervals.get("cpg"));
         covariants.add(intervals.get("expression_blood.bed"));
         covariants.add(intervals.get("expression_fetal_brain.bed"));
+
+        Interval blood_fetal  = Intervals.intersect(covariants);
+        blood_fetal.setType(Interval.Type.inout);
+        blood_fetal.setName("Expression Blood + Fetal brain");
+
+        IntervalLoader.getInstance().addInterval("blood_fetal", blood_fetal);
 
         BackgroundModel bg = new ScoreMultiTrackBackgroundModel(userSites, covariants);
         //bg = new RandomBackgroundModel(userSites.getPositionCount());
