@@ -432,13 +432,14 @@ public class Intervals {
 
 
         int i2 = 0;
+        int i1 = 0;
 
-        for(int i1 = 0; i1 < starts1.size(); i1++) {
-            for (; i2 < ends2.size(); i2++) {
+        while(i1 < starts1.size()){
+            while(i2 < ends2.size()){
                 long s1 = Long.MAX_VALUE;
                 long e1 = Long.MAX_VALUE;
 
-                if(i1 < starts1.size()-1){
+                if(i1 < starts1.size()){
                     s1 = starts1.get(i1);
                     e1 = ends1.get(i1);
                 }
@@ -458,7 +459,7 @@ public class Intervals {
                 } else if(s1 > s2 && e2 < s1) { //no overlap, interval from 2 comes first
                     result_start.add(s2);
                     result_end.add(e2);
-                    String ref = "|".concat(scores2.get(i2).toString()).concat("|");
+                    String ref = "||".concat(scores2.get(i2).toString());
                     result_score.add(score_map.get(ref));
                     result_names.add(ref);
 
@@ -481,21 +482,22 @@ public class Intervals {
                     //second part
                     result_start.add(e1);
                     result_end.add(e2);
-                    String ref2 = "|".concat(scores2.get(i2).toString()).concat("|");
+                    String ref2 = "||".concat(scores2.get(i2).toString());
                     result_score.add(score_map.get(ref2));
                     result_names.add(ref2);
 
                     i1++;
+                    i2++;
 
                 }  else { //second interval is inside the first
-                    //todo check if start and end are the same
-                    //TODO first interval in second interval??
 
-                    result_start.add(s1);
-                    result_end.add(s2);
-                    String ref = "|".concat(scores1.get(i1).toString()).concat("|");
-                    result_score.add(score_map.get(ref));
-                    result_names.add(ref);
+                    if(s1 != s2) {
+                        result_start.add(s1);
+                        result_end.add(s2);
+                        String ref = "|".concat(scores1.get(i1).toString()).concat("|");
+                        result_score.add(score_map.get(ref));
+                        result_names.add(ref);
+                    }
 
                     //overlapping part
                     result_start.add(s2);
@@ -504,17 +506,17 @@ public class Intervals {
                     result_score.add(score_map.get(refm));
                     result_names.add(refm);
 
-                    result_start.add(e2);
-                    result_end.add(e1);
-                    String ref2 = "|".concat(scores2.get(i2).toString()).concat("|");
-                    result_score.add(score_map.get(ref2));
-                    result_names.add(ref2);
+                    if(e1 != e2) {
+                        result_start.add(e2);
+                        result_end.add(e1);
+                        String ref2 = "||".concat(scores2.get(i2).toString());
+                        result_score.add(score_map.get(ref2));
+                        result_names.add(ref2);
+                    }
+
+                    i1++;
+                    i2++;
                 }
-
-
-
-                if(i1 < starts1.size()-1 && e2 > starts1.get(i1+1))
-                    break;
             }
         }
 
