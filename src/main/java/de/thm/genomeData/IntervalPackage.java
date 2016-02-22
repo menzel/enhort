@@ -11,11 +11,11 @@ public class IntervalPackage {
     private PackageName name;
 
 
-        public IntervalPackage(List<Interval> intervalList, PackageName name, String description) {
+    public IntervalPackage(List<Interval> intervalList, PackageName name, String description) {
         this.intervalList = intervalList;
         this.name = name;
         this.description = description;
-    };
+    }
 
     public List<Interval> getIntervalList() {
         return intervalList;
