@@ -25,7 +25,7 @@ public class ScoreMultiTrackBackgroundModelTest {
         List<Long> end1 = new ArrayList<>();
         List<Long> end2 = new ArrayList<>();
 
-        start1.add(0L);
+        start1.add(1L);
         start1.add(20L);
         start1.add(50L);
 
@@ -74,13 +74,14 @@ public class ScoreMultiTrackBackgroundModelTest {
 
                 l.add(37L); // .6
                 l.add(55L); // .7.8
+                l.add(70L); // ||
 
                 return l;
             }
 
             @Override
             public int getPositionCount() {
-                return 6;
+                return 7;
             }
         };
 
@@ -90,7 +91,7 @@ public class ScoreMultiTrackBackgroundModelTest {
 
         Map<String, Double> result_map = new HashMap<>();
         result_map.put("|0.5|0.4",3.0);
-        result_map.put("||",1.0);
+        result_map.put("||",2.0);
         result_map.put("||0.6",1.);
         result_map.put("|0.7|0.8",1.);
 
