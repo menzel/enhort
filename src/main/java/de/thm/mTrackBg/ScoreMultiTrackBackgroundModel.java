@@ -13,10 +13,11 @@ import java.util.*;
  */
 public class ScoreMultiTrackBackgroundModel extends BackgroundModel {
 
-    public ScoreMultiTrackBackgroundModel(Sites sites, List<Interval> intervals) {
-        Interval interval = generateProbabilityInterval(sites, intervals);
+    public ScoreMultiTrackBackgroundModel(Sites sites, List<Interval> covariants) {
+        Interval interval = generateProbabilityInterval(sites, covariants);
         SingleTrackBackgroundModel bgModel = new SingleTrackBackgroundModel();
 
+        //inside positions
         Collection<Long> pos = bgModel.generatePositonsByProbability(interval, sites.getPositionCount());
 
         positions.addAll(pos);
@@ -33,7 +34,7 @@ public class ScoreMultiTrackBackgroundModel extends BackgroundModel {
         double sum = sites.getPositionCount();
 
         //substract all points that are outside
-        sum -= sitesOccurence.get("||");
+        //sum -= sitesOccurence.get("||");
 
         for(String k: sitesOccurence.keySet())
             sitesOccurence.put(k, sitesOccurence.get(k)/sum);
@@ -59,8 +60,10 @@ public class ScoreMultiTrackBackgroundModel extends BackgroundModel {
                 genomeOccurence.put(key, 1);
             }
         }
-        List<String> keys = interval.getIntervalName();
 
+        //TODO create hash for lengths per key
+
+        List<String> keys = interval.getIntervalName();
         List<Double> intervalScore = interval.getIntervalScore();
         List<Double> newScores = new ArrayList<>();
 
@@ -73,7 +76,6 @@ public class ScoreMultiTrackBackgroundModel extends BackgroundModel {
 
             } else {
                 p = p / o;
-                p = divideByProb(keys.get(i),p,interval);
                 newScores.add(p);
             }
         }
@@ -83,19 +85,6 @@ public class ScoreMultiTrackBackgroundModel extends BackgroundModel {
 
         return interval;
     }
-
-    private Double divideByProb(String key, Double value, Interval probInterval) {
-        //count how often the key (|value|value) is inside the names of the interval
-
-        //TODO dynamic progrmaming
-        //TODO use length of interval
-        double prob = probInterval.getIntervalName().stream().filter(i -> i.equals(key)).count();
-
-
-        //divide value by that count and return
-        return value/ prob;
-    }
-
 
     public Map<String, Double> fillOccurenceMap(List<Interval> intervals, Sites sites) {
         Map<String, Double> map = new HashMap<>(); //holds the conversion between score and probability
