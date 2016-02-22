@@ -50,9 +50,10 @@ public class Sessions {
 
     public void clear(String key){
         Session session = sessions.get(key);
-        sessions.remove(key);
-
-        session.delete();
+        if(sessions.containsKey(key)){
+            sessions.remove(key);
+            session.delete();
+        }
     }
 
 
