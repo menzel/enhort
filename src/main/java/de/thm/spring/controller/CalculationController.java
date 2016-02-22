@@ -1,7 +1,7 @@
 package de.thm.spring.controller;
 
 
-import de.thm.exception.TooManyCovariantsException;
+import de.thm.exception.CovariantsException;
 import de.thm.genomeData.Interval;
 import de.thm.positionData.UserData;
 import de.thm.spring.backend.Session;
@@ -131,7 +131,7 @@ public class CalculationController {
         try {
             collector = AnalysisHelper.runAnalysis(data,command.getCovariants());
 
-        } catch (TooManyCovariantsException e) {
+        } catch (CovariantsException e) {
             model.addAttribute("errorMessage", "Too many covariants, a max of 7 covariants is allowed.");
             collector = currentSession.getCollector();
 
