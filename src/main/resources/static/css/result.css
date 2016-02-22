@@ -1,5 +1,15 @@
+@font-face {
+    font-family: "Clear Sans";
+    src: url(../fonts/ClearSans-Medium.woff);
+}
 
-.navbar{
+* {
+    font-family: "Fira Sans", Helvetica, Arial;
+    font-size: 18px;
+  }
+
+th{
+    font-size: 17px;
 }
 
 body{
@@ -77,4 +87,8 @@ table{
 
 .box form{
     margin-left: -13px;
+}
+
+.add{
+    font-size: 30px;
 }

@@ -147,6 +147,13 @@
                     </tr>
 
                 </th:block>
+                <tr>
+                    <td class="add" colspan="5">
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add_track">
+                            &#43;
+                        </button>
+                    </td>
+                </tr>
 
                 <th:block th:each="result: ${results_score}">
                     <tr th:attr="data-target=${#strings.replace('#accordion_'+result.filename,'.','_')}" data-toggle="collapse" class="accordion-toggle">
@@ -249,6 +256,8 @@
 
     </div><!-- /.container -->
 
+    <div th:include="add_track:: add_track"></div>
+
 
 </div>
     <script>
@@ -329,8 +338,8 @@
             var result = results_inout[i];
 
             var trace1 = {
-                y: ["Measured", "Expected"],
-                x: [result.measuredIn, result.expectedIn],
+                y: ["Expected", "Measured"],
+                x: [result.expectedIn, result.measuredIn ],
                 name: 'In',
                 type: 'bar',
                 marker: {
@@ -340,8 +349,8 @@
             };
 
             var trace2 = {
-                y: ["Measured", "Expected"],
-                x: [result.measuredOut, result.expectedOut],
+                y: ["Expected", "Measured"],
+                x: [result.expectedOut, result.measuredOut],
                 name: 'Out',
                 type: 'bar',
                 marker: {

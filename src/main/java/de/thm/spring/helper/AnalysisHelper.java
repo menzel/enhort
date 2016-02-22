@@ -5,8 +5,8 @@ import de.thm.backgroundModel.MultiTrackBackgroundModel;
 import de.thm.backgroundModel.RandomBackgroundModel;
 import de.thm.backgroundModel.SingleTrackBackgroundModel;
 import de.thm.calc.IntersectMultithread;
+import de.thm.exception.CovariantsException;
 import de.thm.exception.IntervalTypeNotAllowedExcpetion;
-import de.thm.exception.TooManyCovariantsException;
 import de.thm.genomeData.Interval;
 import de.thm.genomeData.IntervalLoader;
 import de.thm.positionData.Sites;
@@ -32,7 +32,7 @@ public class AnalysisHelper {
         return multi.execute(Server.getIntervals(), input, bg);
     }
 
-    public static ResultCollector runAnalysis(Sites sites, List<String> covariantNames) throws TooManyCovariantsException{
+    public static ResultCollector runAnalysis(Sites sites, List<String> covariantNames) throws CovariantsException {
 
         List<Interval> covariants = getCovariants(covariantNames);
 
@@ -62,7 +62,7 @@ public class AnalysisHelper {
                 }
 
             }  else{
-                throw new TooManyCovariantsException("Too many covariants selected by user");
+                throw new CovariantsException("Too many covariants selected by user");
             }
     }
 

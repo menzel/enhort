@@ -1,0 +1,41 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+
+  <body>
+      <div th:fragment="add_track">
+
+        <!-- Modal -->
+        <div class="modal fade" id="add_track" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Add or create custom track</h4>
+              </div>
+              <div class="modal-body">
+                <div>
+                  <h3>Upload track</h3>
+                  <input type="file">
+                  <button class="btn btn-default">Upload</button>
+
+                  <h3>Create custom track</h3>
+                  <input type="text" placeholder="Expression">
+                  <input type="text" placeholder="Name">
+                  <button class="btn btn-default">Create</button>
+
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+  </body>
+
+</html>
