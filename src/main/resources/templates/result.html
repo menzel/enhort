@@ -329,8 +329,8 @@
             var result = results_inout[i];
 
             var trace1 = {
-                y: ["Measured", "Expected"],
-                x: [result.measuredIn, result.expectedIn],
+                y: ["Expected", "Measured"],
+                x: [result.expectedIn, result.measuredIn ],
                 name: 'In',
                 type: 'bar',
                 marker: {
@@ -340,8 +340,8 @@
             };
 
             var trace2 = {
-                y: ["Measured", "Expected"],
-                x: [result.measuredOut, result.expectedOut],
+                y: ["Expected", "Measured"],
+                x: [result.expectedOut, result.measuredOut],
                 name: 'Out',
                 type: 'bar',
                 marker: {
