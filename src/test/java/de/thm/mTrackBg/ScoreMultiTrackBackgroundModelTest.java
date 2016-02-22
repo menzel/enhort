@@ -97,7 +97,11 @@ public class ScoreMultiTrackBackgroundModelTest {
 
         assertEquals(result_map, m.fillOccurenceMap(intervals, sites));
 
+        /* Test prob interval */
 
+        Interval probInterval = m.generateProbabilityInterval(sites, intervals);
+
+        assertEquals(probInterval.getIntervalScore().stream().mapToDouble(i -> i).sum(), 1.0, 0.01);
 
     }
 
