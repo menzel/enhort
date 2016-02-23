@@ -12,17 +12,17 @@ import java.text.DecimalFormat;
  */
 public final class TestResult {
 
-    public final double pValue;
-    public final double effectSize;
-    public final String name;
-    public final String filename;
-    public final String description;
-    public final int measuredIn;
-    public final int measuredOut;
-    public final int expectedIn;
-    public final int expectedOut;
-    public final IntersectResult resultMeasured;
-    public final IntersectResult resultExpected;
+    private final double pValue;
+    private final double effectSize;
+    private final String name;
+    private final String filename;
+    private final String description;
+    private final int measuredIn;
+    private final int measuredOut;
+    private final int expectedIn;
+    private final int expectedOut;
+    private final IntersectResult resultMeasured;
+    private final IntersectResult resultExpected;
 
     public TestResult(double pValue, IntersectResult measured, IntersectResult expected, double effectSize, Interval usedInterval) {
 
@@ -123,5 +123,9 @@ public final class TestResult {
 
     public double getEffectSize() {
         return effectSize;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
