@@ -11,7 +11,7 @@
 Expression blood:
 <div id="hist" style="width:1000px;height:600px;"></div>
 
-expression lymph node
+Expression fetal brain
 <div id="hist2" style="width:1000px;height:600px;"></div>
 
 distance from trans. start:
@@ -42,7 +42,7 @@ distance from trans. start:
 
     });
 
-    d3.json("expression_lymph_node.json", function(d) {
+    d3.json("expression_fetal_brain.json", function(d) {
         var x0 = d[0];
         var x1 = d[1];
 
@@ -65,7 +65,7 @@ distance from trans. start:
 
     });
 
-    d3.json("expression_blood.json", function(d) {
+    d3.json("expression_blood.bed.json", function(d) {
         var x0 = d[0];
         var x1 = d[1];
 
