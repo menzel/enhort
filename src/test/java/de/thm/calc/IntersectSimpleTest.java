@@ -1,6 +1,6 @@
 package de.thm.calc;
 
-import de.thm.genomeData.Interval;
+import de.thm.genomeData.GenomeInterval;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
 import org.junit.Before;
@@ -17,12 +17,12 @@ import static junit.framework.TestCase.assertEquals;
  */
 public class IntersectSimpleTest {
 
-    Interval intv;
+    GenomeInterval intv;
     Intersect intersect = new IntersectCalculate();
 
     @Before
     public void setupIntv() throws Exception {
-        intv = new Interval();
+        intv = new GenomeInterval();
         ChromosomSizes chrSizes = ChromosomSizes.getInstance();
         long offset = chrSizes.offset("chr4");
 

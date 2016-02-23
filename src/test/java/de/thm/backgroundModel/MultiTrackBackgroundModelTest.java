@@ -3,8 +3,9 @@ package de.thm.backgroundModel;
 import de.thm.calc.Intersect;
 import de.thm.calc.IntersectCalculate;
 import de.thm.calc.IntersectResult;
-import de.thm.exception.IntervalTypeNotAllowedExcpetion;
+import de.thm.genomeData.GenomeInterval;
 import de.thm.genomeData.Interval;
+import de.thm.genomeData.Intervals;
 import de.thm.positionData.Sites;
 import org.junit.Test;
 
@@ -101,12 +102,7 @@ public class MultiTrackBackgroundModelTest {
          };
 
 
-        MultiTrackBackgroundModel model = null;
-        try {
-            model = new MultiTrackBackgroundModel(intervalList, sites);
-        } catch (IntervalTypeNotAllowedExcpetion intervalTypeNotAllowedExcpetion) {
-            intervalTypeNotAllowedExcpetion.printStackTrace();
-        }
+        MultiTrackBackgroundModel model = new MultiTrackBackgroundModel(intervalList, sites);
 
         //check list count of pos in list 1:
         assertEquals(1,model.getAppearanceTable().getAppearance(intervalList.subList(0,1)));
@@ -204,12 +200,7 @@ public class MultiTrackBackgroundModelTest {
          };
 
 
-        MultiTrackBackgroundModel model = null;
-        try {
-            model = new MultiTrackBackgroundModel(intervalList, sites);
-        } catch (IntervalTypeNotAllowedExcpetion intervalTypeNotAllowedExcpetion) {
-            intervalTypeNotAllowedExcpetion.printStackTrace();
-        }
+        MultiTrackBackgroundModel model = new MultiTrackBackgroundModel(intervalList, sites);
 
         //check list count of pos in list 1:
         assertEquals(0,model.getAppearanceTable().getAppearance(intervalList.subList(0,1)));
@@ -237,8 +228,8 @@ public class MultiTrackBackgroundModelTest {
 
 
 
-    private Interval mockInterval(List<Long> start, List<Long> end) {
-        Interval interval = new Interval();
+    private GenomeInterval mockInterval(List<Long> start, List<Long> end) {
+        GenomeInterval interval = new GenomeInterval();
 
         interval.setIntervalsStart(start);
         interval.setIntervalsEnd(end);
@@ -279,11 +270,11 @@ public class MultiTrackBackgroundModelTest {
         names.add("foo");
         names.add("foo");
 
-        Interval interval1 = mockInterval(start1, end1);
-        Interval interval2 = mockInterval(start2, end2);
+        GenomeInterval interval1 = mockInterval(start1, end1);
+        GenomeInterval interval2 = mockInterval(start2, end2);
 
-        interval1.setType(Interval.Type.inout);
-        interval2.setType(Interval.Type.inout);
+        interval1.setType(Intervals.Type.inout);
+        interval2.setType(Intervals.Type.inout);
 
         List<Interval> intervalList = new ArrayList<>();
 

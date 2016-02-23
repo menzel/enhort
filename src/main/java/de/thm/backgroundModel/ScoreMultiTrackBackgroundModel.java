@@ -1,5 +1,6 @@
 package de.thm.backgroundModel;
 
+import de.thm.genomeData.GenomeInterval;
 import de.thm.genomeData.Interval;
 import de.thm.genomeData.Intervals;
 import de.thm.positionData.Sites;
@@ -49,7 +50,7 @@ class ScoreMultiTrackBackgroundModel implements Sites{
         for(String k: sitesOccurence.keySet())
             sitesOccurence.put(k, sitesOccurence.get(k)/sum);
 
-        Interval interval = Intervals.combine(intervals, sitesOccurence);
+        GenomeInterval interval = (GenomeInterval) Intervals.combine(intervals, sitesOccurence);
 
         Map<String, Integer> genomeOccurence = new HashMap<>();
 

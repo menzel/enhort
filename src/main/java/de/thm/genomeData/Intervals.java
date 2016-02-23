@@ -16,6 +16,9 @@ public class Intervals {
     //prevent init of Intervals object with private constructor
     private Intervals(){}
 
+
+    public enum Type {inout, score, named}
+
     /**
      * Intersect a list of intervals. Resulting interval has only starts/stop where all input interval were marked.
      * *
@@ -59,9 +62,9 @@ public class Intervals {
         List<Long> ends1 = intv1.getIntervalsEnd();
         List<Long> ends2 = intv2.getIntervalsEnd();
 
-        Interval result = new Interval();
+        GenomeInterval result = new GenomeInterval();
         //result.setType(intv1.getType());
-        result.setType(Interval.Type.inout); // scores and names are lost
+        result.setType(Type.inout); // scores and names are lost
 
 
         List<Long> result_start = new ArrayList<>();
@@ -184,7 +187,7 @@ public class Intervals {
         List<Long> ends1 = intv1.getIntervalsEnd();
         List<Long> ends2 = intv2.getIntervalsEnd();
 
-        Interval result = new Interval();
+        GenomeInterval result = new GenomeInterval();
         result.setType(intv1.getType());
         List<Long> result_start = new ArrayList<>();
         List<Long> result_end = new ArrayList<>();
@@ -267,7 +270,7 @@ public class Intervals {
     }
 
     public static Interval subsetScore(Interval interval, double score) {
-        Interval n = new Interval();
+        GenomeInterval n = new GenomeInterval();
 
         List<Long> intervalStart = new ArrayList<>();
         List<Long> intervalEnd = new ArrayList<>();
@@ -333,7 +336,7 @@ public class Intervals {
         List<Double> scores1 = intv1.getIntervalScore();
         List<Double> scores2 = intv2.getIntervalScore();
 
-        Interval result = new Interval();
+        GenomeInterval result = new GenomeInterval();
         result.setType(intv1.getType());
         List<Long> result_start = new ArrayList<>();
         List<Long> result_end = new ArrayList<>();
@@ -496,7 +499,7 @@ public class Intervals {
         if(interval.getIntervalsStart().size() == 0)
             return interval.clone();
 
-        Interval tmp = new Interval();
+        GenomeInterval tmp = new GenomeInterval();
 
         tmp.setIntervalsStart(new ArrayList<>(interval.getIntervalsEnd()));
         tmp.setIntervalsEnd(new ArrayList<>(interval.getIntervalsStart()));

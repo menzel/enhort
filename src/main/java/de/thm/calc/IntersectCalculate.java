@@ -1,10 +1,10 @@
 package de.thm.calc;
 
 import de.thm.genomeData.Interval;
+import de.thm.genomeData.Intervals.Type;
 import de.thm.positionData.Sites;
 
 import java.util.List;
-
 /**
  * Simple version of intersect, going list by list.
  */
@@ -41,9 +41,9 @@ public final class IntersectCalculate implements Intersect{
 
                     in++;
 
-                    if(intv.getType() == Interval.Type.named)
+                    if(intv.getType() == Type.named)
                         intersectResult.add(intervalName.get(i-1));
-                    if(intv.getType() == Interval.Type.score)
+                    if(intv.getType() == Type.score)
                             intersectResult.add(intervalScore.get(i-1));
                 } else{
                     out++;
@@ -55,9 +55,9 @@ public final class IntersectCalculate implements Intersect{
                 }else{
                     in++;
 
-                    if(intv.getType() == Interval.Type.named)
+                    if(intv.getType() == Type.named)
                         intersectResult.add(intervalName.get(i-1));
-                    if(intv.getType() == Interval.Type.score)
+                    if(intv.getType() == Type.score)
                             intersectResult.add(intervalScore.get(i-1));
                 }
             }

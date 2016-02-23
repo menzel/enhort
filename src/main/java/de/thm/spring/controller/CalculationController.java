@@ -2,7 +2,7 @@ package de.thm.spring.controller;
 
 
 import de.thm.exception.CovariantsException;
-import de.thm.genomeData.Interval;
+import de.thm.genomeData.Intervals.Type;
 import de.thm.positionData.UserData;
 import de.thm.spring.backend.Session;
 import de.thm.spring.backend.Sessions;
@@ -157,9 +157,9 @@ public class CalculationController {
 
     private void setModle(Model model, ResultCollector collector, UserData data, String name) {
 
-        model.addAttribute("results_inout", collector.getResultsByType(Interval.Type.inout));
-        model.addAttribute("results_score", collector.getResultsByType(Interval.Type.score));
-        model.addAttribute("results_named", collector.getResultsByType(Interval.Type.named));
+        model.addAttribute("results_inout", collector.getResultsByType(Type.inout));
+        model.addAttribute("results_score", collector.getResultsByType(Type.score));
+        model.addAttribute("results_named", collector.getResultsByType(Type.named));
 
 
         CovariantCommand command = new CovariantCommand();

@@ -152,7 +152,7 @@ public class IntervalIntersectTest {
 
 
     private Interval mockInterval(List<Long> start, List<Long> end) {
-        Interval interval = new Interval();
+        GenomeInterval interval = new GenomeInterval();
 
         interval.setIntervalsStart(start);
         interval.setIntervalsEnd(end);

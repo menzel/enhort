@@ -4,6 +4,7 @@ import de.thm.exception.CovariantsException;
 import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.genomeData.Interval;
 import de.thm.genomeData.Intervals;
+import de.thm.genomeData.Intervals.Type;
 import de.thm.positionData.Sites;
 
 import java.util.List;
@@ -21,33 +22,45 @@ public final class BackgroundModelFactory {
 
     }
 
-    public static Sites createBackgroundModel(Interval interval, Sites sites) throws Exception {
-        if(interval.getType() == Interval.Type.inout)
+    public static Sites createBackgroundModel(Interval interval, Sites sites) {
+        if(interval.getType() == Type.inout)
             try {
                 return new SingleTrackBackgroundModel(interval,sites);
             } catch (IntervalTypeNotAllowedExcpetion intervalTypeNotAllowedExcpetion) {
                 intervalTypeNotAllowedExcpetion.printStackTrace();
             }
-        else if(interval.getType() == Interval.Type.score)
-            throw new Exception("Not impl yet");
+        else if(interval.getType() == Type.score)
+            try {
+                throw new Exception("Not impl yet");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         return null;
     }
 
     public static Sites createBackgroundModel(List<Interval> intervalList, Sites sites) throws CovariantsException {
+        if(intervalList.isEmpty())
+            return createBackgroundModel(sites.getPositionCount());
+        else if(intervalList.size() == 1)
+            return createBackgroundModel(intervalList.get(0), sites);
 
         if(intervalList.size() < maxCovariants) {
-            if (intervalList.stream().allMatch(i -> i.getType() == Interval.Type.score))
+            if (intervalList.stream().allMatch(i -> i.getType() == Type.score))
                 return new ScoreMultiTrackBackgroundModel(intervalList, sites);
 
-            else {
+            else if (intervalList.stream().allMatch(i -> i.getType() == Type.inout)) {
+
+                return new MultiTrackBackgroundModel(intervalList, sites);
+
+            } else {
                 List<Interval> scoredIntervals = intervalList.stream()
-                        .filter(i -> i.getType() == Interval.Type.score)
+                        .filter(i -> i.getType() == Type.score)
                         .collect(Collectors.toList());
 
                 //convert all non score intervals to score interval
                 scoredIntervals.addAll(intervalList.stream()
-                        .filter(i -> i.getType() == Interval.Type.inout)
+                        .filter(i -> i.getType() == Type.inout)
                         .map(Intervals::convertToScore)
                         .collect(Collectors.toList()));
 

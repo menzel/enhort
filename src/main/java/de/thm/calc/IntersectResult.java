@@ -1,6 +1,7 @@
 package de.thm.calc;
 
 import de.thm.genomeData.Interval;
+import de.thm.genomeData.Intervals;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +28,7 @@ public final class IntersectResult {
         this.resultScores = new ArrayList<>();
     }
 
-    public Interval.Type getType() {
+    public Intervals.Type getType() {
         return usedInterval.getType();
     }
 

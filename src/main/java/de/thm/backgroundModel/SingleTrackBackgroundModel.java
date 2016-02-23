@@ -38,7 +38,7 @@ class SingleTrackBackgroundModel implements Sites{
         IntersectCalculate calc = new IntersectCalculate();
         IntersectResult result = calc.searchSingleInterval(interval,sites);
 
-        if(interval.getType().equals(Interval.Type.inout)) {
+        if(interval.getType().equals(Intervals.Type.inout)) {
             positions.addAll(randPositions(result.getIn()* factor, interval, "in"));
             positions.addAll(randPositions(result.getOut()* factor, interval, "out"));
         }

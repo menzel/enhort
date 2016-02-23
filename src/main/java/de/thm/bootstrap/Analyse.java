@@ -13,7 +13,6 @@ import de.thm.stat.ResultCollector;
 import de.thm.stat.TestResult;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -65,11 +64,11 @@ public class Analyse {
         covariants.add(intervals.get("expression_blood.bed"));
         covariants.add(intervals.get("distance.bed"));
 
-        Interval blood = Intervals.intersect(covariants);
-        blood.setType(Interval.Type.inout);
-        blood.setName("Expression Blood + Distance");
+        //GenomeInterval blood = Intervals.intersect(covariants);
+        //blood.setType(GenomeInterval.Type.inout);
+        //blood.setName("Expression Blood + Distance");
 
-        IntervalLoader.getInstance().addInterval("bloodDistance", blood);
+        //IntervalLoader.getInstance().addInterval("bloodDistance", blood);
 
         Sites bg = BackgroundModelFactory.createBackgroundModel(covariants, userSites);
         //bg = new RandomBackgroundModel(userSites.getPositionCount());
@@ -83,7 +82,7 @@ public class Analyse {
 
         Path path = Paths.get("/home/menzel/Desktop/THM/lfba/projekphase/MultiGenBrowser/src/web/");
 
-        for(TestResult testResult: collector.getResultsByType(Interval.Type.score)){
+        for(TestResult testResult: collector.getResultsByType(Intervals.Type.score)){
             try {
                 try (BufferedWriter writer = Files.newBufferedWriter(path.resolve(testResult.getFilename().concat(".json")))) {
                     writer.write("[");
@@ -116,30 +115,6 @@ public class Analyse {
         r += "]";
 
         return r;
-    }
-
-
-    /**
-     * Benchmarks the search with different position counts
-     */
-    public void benchmark(){
-        String basePath = "/home/menzel/Desktop/THM/lfba/projekphase/dat/";
-
-        Interval invExons = new Interval(new File(basePath + "inout/exons.bed"), Interval.Type.inout, "exons.bed");
-
-        for(int i = 0 ; i < 20 ; i++){
-            int j = i * 5000;
-
-            Sites bg = BackgroundModelFactory.createBackgroundModel(j);
-            long startTime = System.nanoTime();
-
-            simple.searchSingleInterval(invExons, bg);
-
-            long duration = System.nanoTime() - startTime;
-            System.out.print(j + "\t"  + duration/1000000 + "\n");
-
-        }
-
     }
 
 }

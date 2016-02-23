@@ -1,6 +1,6 @@
 package de.thm.stat;
 
-import de.thm.genomeData.Interval;
+import de.thm.genomeData.Intervals.Type;
 import de.thm.positionData.Sites;
 
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ public class ResultCollector {
      *
      * @return list of TestResults of type type
      */
-    public List<TestResult> getResultsByType(Interval.Type type) {
+    public List<TestResult> getResultsByType(Type type) {
         List<TestResult> r = results.stream()
                 .filter(testResult -> testResult.getType()
                 .equals(type))

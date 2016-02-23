@@ -1,6 +1,8 @@
 package de.thm.backgroundModel;
 
+import de.thm.genomeData.GenomeInterval;
 import de.thm.genomeData.Interval;
+import de.thm.genomeData.Intervals;
 import de.thm.positionData.Sites;
 import org.junit.Test;
 
@@ -49,8 +51,8 @@ public class ScoreMultiTrackBackgroundModelTest {
         scores2.add(0.6);
         scores2.add(0.8);
 
-        Interval interval1 = mockInterval(start1, end1);
-        Interval interval2 = mockInterval(start2, end2);
+        GenomeInterval interval1 = mockInterval(start1, end1);
+        GenomeInterval interval2 = mockInterval(start2, end2);
 
         interval1.setIntervalScore(scores1);
         interval2.setIntervalScore(scores2);
@@ -109,14 +111,14 @@ public class ScoreMultiTrackBackgroundModelTest {
 
     }
 
-    private Interval mockInterval(List<Long> start, List<Long> end) {
-        Interval interval = new Interval();
+    private GenomeInterval mockInterval(List<Long> start, List<Long> end) {
+        GenomeInterval interval = new GenomeInterval();
 
         interval.setIntervalsStart(start);
         interval.setIntervalsEnd(end);
 
 
-        interval.setType(Interval.Type.inout);
+        interval.setType(Intervals.Type.inout);
 
         return interval;
     }

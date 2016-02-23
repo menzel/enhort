@@ -1,7 +1,8 @@
 package de.thm.backgroundModel;
 
 import de.thm.exception.IntervalTypeNotAllowedExcpetion;
-import de.thm.genomeData.Interval;
+import de.thm.genomeData.GenomeInterval;
+import de.thm.genomeData.Intervals;
 import de.thm.positionData.Sites;
 import org.junit.Test;
 
@@ -20,8 +21,8 @@ public class BetterBackgroundModelTest {
         ArrayList<Long> endList = new ArrayList<>();
         ArrayList<Double> scoreList= new ArrayList<>();
         ArrayList<String> namesList = new ArrayList<>();
-        Interval intv = new Interval();
-        intv.setType(Interval.Type.score);
+        GenomeInterval intv = new GenomeInterval();
+        intv.setType(Intervals.Type.score);
 
         startList.add(5L);
         startList.add(20L);

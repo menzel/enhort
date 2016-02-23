@@ -19,7 +19,7 @@ public class IntervalDumperTest {
     public void setUp() throws Exception {
 
         basePath = "/home/menzel/Desktop/THM/lfba/projekphase/dat/";
-        interval = new Interval(new File(basePath + "inout/exons.bed"), Interval.Type.inout, "exons.bed");
+        interval = new GenomeInterval(new File(basePath + "inout/exons.bed"), Intervals.Type.inout, "exons.bed");
         dumper = new IntervalDumper(new File("/tmp/").toPath());
 
         File folder = new File("/tmp/kryo/");

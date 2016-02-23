@@ -1,9 +1,11 @@
 package de.thm.positionData;
 
 import de.thm.genomeData.Interval;
+import de.thm.genomeData.Intervals;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Michael Menzel on 8/1/16.
@@ -19,8 +21,6 @@ public class BetterBackgroundModelTest {
 
     private static Interval mockInterval(int i) {
         Interval intv = new Interval() {
-            @Override
-            protected void handleParts(String[] parts) { }
 
             @Override
             public ArrayList<Long> getIntervalsEnd() {
@@ -29,6 +29,46 @@ public class BetterBackgroundModelTest {
                     add(28L);
                     add(50L);
                 }};
+            }
+
+            @Override
+            public List<Double> getIntervalScore() {
+                return null;
+            }
+
+            @Override
+            public int getUid() {
+                return 0;
+            }
+
+            @Override
+            public String getDescription() {
+                return null;
+            }
+
+            @Override
+            public String getName() {
+                return null;
+            }
+
+            @Override
+            public String getFilename() {
+                return null;
+            }
+
+            @Override
+            public Interval clone() {
+                return null;
+            }
+
+            @Override
+            public Intervals.Type getType() {
+                return null;
+            }
+
+            @Override
+            public List<String> getIntervalName() {
+                return null;
             }
 
             @Override

@@ -68,7 +68,7 @@ public final class IntervalDumper {
 
         try {
             Input input = new Input(new FileInputStream(baseDir + "/kryo/" + name));
-            interval = kryo.readObject(input, Interval.class);
+            interval = kryo.readObject(input, GenomeInterval.class);
 
             input.close();
             return interval;

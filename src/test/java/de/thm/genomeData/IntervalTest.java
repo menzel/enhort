@@ -16,7 +16,7 @@ public class IntervalTest {
 
     @Test
     public void testHandleParts() throws Exception {
-        Interval intv = new Interval();
+        GenomeInterval intv = new GenomeInterval();
         ChromosomSizes chrSizes = ChromosomSizes.getInstance();
 
         intv.handleParts(mockParts("chr1", "10", "20", "name"));
@@ -41,7 +41,7 @@ public class IntervalTest {
 
     @Test
     public void testCopy() throws Exception {
-        Interval base = new Interval();
+        GenomeInterval base = new GenomeInterval();
 
         List<Long> starts = new ArrayList<>();
         List<Long> ends = new ArrayList<>();

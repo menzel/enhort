@@ -1,5 +1,7 @@
 package de.thm.genomeData;
 
+import de.thm.genomeData.Intervals.Type;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -35,10 +37,10 @@ public class IntervalLoader {
         packageList = new ArrayList<>();
 
         try {
-            getIntervals(basePath.resolve("inout"), Interval.Type.inout);
+            getIntervals(basePath.resolve("inout"), Type.inout);
             //getIntervals(basePath.resolve("broadHistone"), Interval.Type.inout);
-            getIntervals(basePath.resolve("named"), Interval.Type.named);
-            getIntervals(basePath.resolve("score"), Interval.Type.score);
+            getIntervals(basePath.resolve("named"), Type.named);
+            getIntervals(basePath.resolve("score"), Type.score);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -59,7 +61,7 @@ public class IntervalLoader {
      * @param type - Interval.Type. Type based upon dir name
      * @throws IOException on file problems
      */
-    private void getIntervals(Path path, Interval.Type type) throws IOException {
+    private void getIntervals(Path path, Type type) throws IOException {
 
 
         Files.walk(Paths.get(path.toString())).filter(Files::isRegularFile).forEach(filePath -> {
@@ -79,13 +81,13 @@ public class IntervalLoader {
      *
      * @return interval, either from binary or bed file
      */
-    private Interval loadInterval(File file, Interval.Type type) {
+    private Interval loadInterval(File file, Type type) {
 
         if(intervalDumper.exists(file.getName())){
             return intervalDumper.getInterval(new File(file.getName()));
 
         } else{
-            Interval interval = new Interval(file, type, file.getName());
+            Interval interval = new GenomeInterval(file, type, file.getName());
             intervalDumper.dumpInterval(interval, file.getName());
             return  interval;
         }
