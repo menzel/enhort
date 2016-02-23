@@ -251,8 +251,6 @@
                                             </tr>
                                         </table>
 
-                                        <div class="inner_plot" th:id="${cov.filename}"></div>
-
                                     </div>
                                 </div>
                             </div>
@@ -315,7 +313,7 @@
             var expected = {
               x: x1,
               opacity: 0.75,
-              color: "rgba(229,229,229,1)",
+              marker: {color: 'rgb(229,229,229)'},
               type: 'histogram',
               name: "expected"
             };
