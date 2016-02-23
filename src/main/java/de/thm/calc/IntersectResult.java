@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * Created by Michael Menzel on 8/12/15.
  */
-public class IntersectResult {
+public final class IntersectResult {
 
 
     private final Map<String, Integer> resultNames;
