@@ -1,27 +1,24 @@
 package de.thm.misc;
 
-import java.util.*;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Supplies chromosome sizes for HG19
  * Created by Michael Menzel on 8/12/15.
  */
-public class ChromosomSizes {
+public final class ChromosomSizes {
 
-    private long genomeSize = 0;
-    private Map<String, Integer> sizes;
     private static ChromosomSizes instance;
-    private List<String> names = new ArrayList<>();
+    private final Map<String, Integer> sizes;
+    private final List<String> names = new ArrayList<>();
+    private long genomeSize = 0;
     private Map<String, Long> offsets = new HashMap<>();
-
-    public static ChromosomSizes getInstance(){
-        if (instance == null){
-            instance = new ChromosomSizes();
-        }
-
-        return instance;
-    }
-
 
     /**
      * Private Constructor
@@ -63,6 +60,19 @@ public class ChromosomSizes {
        for(String key: sizes.keySet()){
             genomeSize += sizes.get(key);
        }
+    }
+
+    /**
+     * get instance for singleton pattern
+     *
+     * @return intance of ChromosomeSizes.
+     */
+    public static ChromosomSizes getInstance(){
+        if (instance == null){
+            instance = new ChromosomSizes();
+        }
+
+        return instance;
     }
 
     public Long getChrSize(String chr) {
@@ -112,4 +122,24 @@ public class ChromosomSizes {
 
         return null;
     }
+
+    /**
+     * Invert of offset + position. The original position and chr name is restored.
+     *
+     * @param position - position in genome
+     *
+     * @return a pair containing chromosome name and position inside that chromosome.
+     */
+    public Pair<String, Long> mapToChr(Long position){
+        int i = 0;
+        Long chrSize = Long.valueOf(sizes.get(names.get(0)));
+
+        while(position > chrSize){
+            position -= chrSize;
+            chrSize = Long.valueOf(sizes.get(names.get(++i)));
+        }
+
+        return new ImmutablePair<>(names.get(i),position);
+    }
+
 }
