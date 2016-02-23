@@ -169,7 +169,6 @@ public class CalculationController {
         command.setUserData(data);
 
         model.addAttribute("covariantCommand", command);
-        model.addAttribute("bgHash", collector.getBgModelHash());
         model.addAttribute("bgCount", collector.getResults().get(0).getExpectedIn() + collector.getResults().get(0).getExpectedOut());
         model.addAttribute("sigTrackCount", collector.getSignificantTrackCount());
         model.addAttribute("trackCount", collector.getTrackCount());
