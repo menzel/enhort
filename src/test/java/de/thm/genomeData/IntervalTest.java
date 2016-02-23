@@ -37,49 +37,7 @@ public class IntervalTest {
         return parts;
     }
 
-    @Test
-    public void testInvert() throws Exception {
-        Interval base = new Interval();
 
-        List<Long> starts = new ArrayList<>();
-        List<Long> ends = new ArrayList<>();
-
-        starts.add(5L);
-        starts.add(15L);
-        starts.add(25L);
-
-        ends.add(10L);
-        ends.add(20L);
-        ends.add(26L);
-
-        base.setIntervalsStart(starts);
-        base.setIntervalsEnd(ends);
-
-        Interval invert  = base.invert();
-        List<Long> expectedStarts = new ArrayList<>();
-        List<Long> expectedEnds = new ArrayList<>();
-
-        expectedStarts.add(0L);
-        expectedStarts.add(10L);
-        expectedStarts.add(20L);
-        expectedStarts.add(26L);
-
-        expectedEnds.add(5L);
-        expectedEnds.add(15L);
-        expectedEnds.add(25L);
-        expectedEnds.add(ChromosomSizes.getInstance().getGenomeSize());
-
-        assertEquals(expectedStarts, invert.getIntervalsStart());
-        assertEquals(expectedEnds, invert.getIntervalsEnd());
-
-        assertEquals(starts, base.getIntervalsStart());
-        assertEquals(ends, base.getIntervalsEnd());
-
-        Interval doubleInvert = base.invert().invert();
-
-        assertEquals(starts, doubleInvert.getIntervalsStart());
-        assertEquals(ends, doubleInvert.getIntervalsEnd());
-    }
 
     @Test
     public void testCopy() throws Exception {

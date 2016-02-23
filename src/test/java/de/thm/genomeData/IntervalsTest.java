@@ -1,5 +1,6 @@
 package de.thm.genomeData;
 
+import de.thm.misc.ChromosomSizes;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -55,13 +56,13 @@ public class IntervalsTest {
 
 
         // sum(a,b) == -Intersect(-a, -b)
-        assertEquals(Intervals.sum(interval1,interval2).getIntervalsStart(), Intervals.intersect(interval1.invert(),interval2.invert()).invert().getIntervalsStart());
+        assertEquals(Intervals.sum(interval1,interval2).getIntervalsStart(), Intervals.invert(Intervals.intersect(Intervals.invert(interval1),Intervals.invert(interval2))).getIntervalsStart());
 
         // sum(-a, -b) == -Intersect(a, b)
-        assertEquals(Intervals.sum(interval1.invert(), interval2.invert()).getIntervalsStart(), Intervals.intersect(interval1, interval2).invert().getIntervalsStart());
+        assertEquals(Intervals.sum(Intervals.invert(interval1), Intervals.invert(interval2)).getIntervalsStart(), Intervals.invert(Intervals.intersect(interval1, interval2)).getIntervalsStart());
 
         // sum(a, -b) == Intersect(-a, b)
-        assertEquals(Intervals.sum(interval1, interval2.invert()).getIntervalsStart(), Intervals.intersect(interval1.invert(), interval2).getIntervalsStart());
+        assertEquals(Intervals.sum(interval1, Intervals.invert(interval2)).getIntervalsStart(), Intervals.intersect(Intervals.invert(interval1), interval2).getIntervalsStart());
 
 
     }
@@ -395,5 +396,49 @@ public class IntervalsTest {
         assertEquals(expectedEnds, result.getIntervalsEnd());
         assertEquals(expectedScores, result.getIntervalScore());
 
+    }
+
+     @Test
+    public void testInvert() throws Exception {
+        Interval base = new Interval();
+
+        List<Long> starts = new ArrayList<>();
+        List<Long> ends = new ArrayList<>();
+
+        starts.add(5L);
+        starts.add(15L);
+        starts.add(25L);
+
+        ends.add(10L);
+        ends.add(20L);
+        ends.add(26L);
+
+        base.setIntervalsStart(starts);
+        base.setIntervalsEnd(ends);
+
+        Interval invert  = Intervals.invert(base);
+        List<Long> expectedStarts = new ArrayList<>();
+        List<Long> expectedEnds = new ArrayList<>();
+
+        expectedStarts.add(0L);
+        expectedStarts.add(10L);
+        expectedStarts.add(20L);
+        expectedStarts.add(26L);
+
+        expectedEnds.add(5L);
+        expectedEnds.add(15L);
+        expectedEnds.add(25L);
+        expectedEnds.add(ChromosomSizes.getInstance().getGenomeSize());
+
+        assertEquals(expectedStarts, invert.getIntervalsStart());
+        assertEquals(expectedEnds, invert.getIntervalsEnd());
+
+        assertEquals(starts, base.getIntervalsStart());
+        assertEquals(ends, base.getIntervalsEnd());
+
+        Interval doubleInvert = Intervals.invert(Intervals.invert(base));
+
+        assertEquals(starts, doubleInvert.getIntervalsStart());
+        assertEquals(ends, doubleInvert.getIntervalsEnd());
     }
 }

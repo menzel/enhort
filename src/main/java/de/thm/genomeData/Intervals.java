@@ -140,7 +140,7 @@ public class Intervals {
      * @return sum of intv1 and intv2
      */
     public static Interval sum(Interval intv1, Interval intv2) {
-        return intersect(intv1.invert(), intv2.invert()).invert();
+        return invert(intersect(invert(intv1), invert(intv2)));
     }
 
     /**
@@ -488,6 +488,36 @@ public class Intervals {
 
         return result;
     }
+
+
+    public static Interval invert(Interval interval) {
+
+
+        if(interval.getIntervalsStart().size() == 0)
+            return interval.clone();
+
+        Interval tmp = new Interval();
+
+        tmp.setIntervalsStart(new ArrayList<>(interval.getIntervalsEnd()));
+        tmp.setIntervalsEnd(new ArrayList<>(interval.getIntervalsStart()));
+        tmp.setType(interval.getType());
+
+        if(interval.getIntervalsStart().get(0) != 0L) {
+            tmp.getIntervalsStart().add(0, 0L);
+        } else {
+            tmp.getIntervalsEnd().remove(0);
+        }
+
+        if(interval.getIntervalsEnd().get(interval.getIntervalsEnd().size()-1) == ChromosomSizes.getInstance().getGenomeSize()) {
+            tmp.getIntervalsStart().remove(tmp.getIntervalsStart().size()-1);
+
+        } else {
+            tmp.getIntervalsEnd().add(ChromosomSizes.getInstance().getGenomeSize());
+        }
+
+        return tmp;
+    }
+
 
     public static Interval convertToScore(Interval interval) {
         return null;

@@ -69,7 +69,7 @@ class MultiTrackBackgroundModel implements Sites{
             List<Interval> currentIntervals = appearanceTable.translate(app, intervals);
             List<Interval> negativeIntervals = appearanceTable.translateNegative(intervals, app);
 
-            currentIntervals.addAll(negativeIntervals.stream().map(Interval::invert).collect(Collectors.toList()));
+            currentIntervals.addAll(negativeIntervals.stream().map(Intervals::invert).collect(Collectors.toList()));
 
             Interval interval = Intervals.intersect(currentIntervals);
 
@@ -78,7 +78,7 @@ class MultiTrackBackgroundModel implements Sites{
 
         int count = appearanceTable.getAppearance("[]");
         //Interval outs = Intervals.sum(intervals).invert();
-        Interval outs = Intervals.intersect(intervals.stream().map(Interval::invert).collect(Collectors.toList()));
+        Interval outs = Intervals.intersect(intervals.stream().map(Intervals::invert).collect(Collectors.toList()));
         sites.addAll(better.randPositions(count, outs ,"in"));
 
         Collections.sort(sites);

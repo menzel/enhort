@@ -25,10 +25,10 @@ public class Interval implements Serializable, Cloneable{
     private static int UID = 1;
     private final int uid = ++UID;
     private final String filename;
-    protected List<Long> intervalsStart;
-    protected List<Long> intervalsEnd;
-    protected List<String> intervalName;
-    protected List<Double> intervalScore;
+    private List<Long> intervalsStart;
+    private List<Long> intervalsEnd;
+    private List<String> intervalName;
+    private List<Double> intervalScore;
     private Type type;
     private String name;
     private String description;
@@ -148,32 +148,6 @@ public class Interval implements Serializable, Cloneable{
        }
     }
 
-    public Interval invert() {
-        if(intervalsStart.size() == 0)
-            return this.clone();
-
-        Interval tmp = new Interval();
-
-        tmp.setIntervalsStart(new ArrayList<>(intervalsEnd));
-        tmp.setIntervalsEnd(new ArrayList<>(intervalsStart));
-        tmp.setType(this.type);
-
-        if(intervalsStart.get(0) != 0L) {
-            tmp.getIntervalsStart().add(0, 0L);
-        } else {
-            tmp.getIntervalsEnd().remove(0);
-        }
-
-        if(intervalsEnd.get(intervalsEnd.size()-1) == ChromosomSizes.getInstance().getGenomeSize()) {
-            tmp.getIntervalsStart().remove(tmp.getIntervalsStart().size()-1);
-
-        } else {
-            tmp.getIntervalsEnd().add(ChromosomSizes.getInstance().getGenomeSize());
-        }
-
-
-        return tmp;
-    }
 
     @Override
     public Interval clone() {
