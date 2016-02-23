@@ -23,21 +23,21 @@ public class Interval implements Serializable, Cloneable{
 
     private static final long serialVersionUID = 1690225L;
     private static int UID = 1;
+    private final int uid = ++UID;
+    private final String filename;
     protected List<Long> intervalsStart;
     protected List<Long> intervalsEnd;
     protected List<String> intervalName;
     protected List<Double> intervalScore;
-    protected Type type;
-    private int uid = ++UID;
+    private Type type;
     private String name;
-    private String filename;
-
     private String description;
 
      /**
      * Constructor for Test Intervals
      */
     public Interval(){
+        filename = "testfilename";
         intervalsStart = new ArrayList<>();
         intervalsEnd = new ArrayList<>();
         intervalName = new ArrayList<>();
@@ -220,10 +220,6 @@ public class Interval implements Serializable, Cloneable{
         return intervalScore;
     }
 
-    public void setIntervalScore(List<Double> intervalScore) {
-        this.intervalScore = intervalScore;
-    }
-
     public void setIntervalScore(double prob) {
         intervalScore = new ArrayList<>();
 
@@ -231,6 +227,10 @@ public class Interval implements Serializable, Cloneable{
             intervalScore.add(prob);
         }
 
+    }
+
+    public void setIntervalScore(List<Double> intervalScore) {
+        this.intervalScore = intervalScore;
     }
 
     public int getUid() {
