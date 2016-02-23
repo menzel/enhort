@@ -62,11 +62,15 @@
     </div>
 
     <div class="fileinfo">
-            <!--<p th:text="${'Background Hash: ' + bgHash}"></p> -->
-            <p th:text="${'Background Positions: ' + bgCount}"></p>
+            <a href="#"><p th:text="${'Background Positions: ' + bgCount}"></p></a>
     </div>
 
-    <button id="rerun" type="submit" class="btn btn-primary" form="covariant_form">Run with Covariants</button>
+    <th:block th:if="${#lists.isEmpty(results_inout)}">
+        <button id="rerun" type="submit" class="btn btn-default" form="covariant_form">Run with Covariants</button>
+    </th:block>
+    <th:block th:if="${not #lists.isEmpty(results_inout)}">
+        <button id="rerun" type="submit" class="btn btn-primary" form="covariant_form">Run with Covariants</button>
+    </th:block>
 
     <div>
         <a class="btn btn-default extra-margin" href="export/pdf">Export pdf</a>
@@ -104,7 +108,7 @@
 
                     <th data-toggle="tooltip" data-placement="right" title="P-value computed by chi-square-test">PValue</th>
                     <th>Effect Size</th>
-                    <th>Plot <small> Data vs. Background</small></th>
+                    <th>Plot<span style="font-size: 10px;"> <span style="color: #337ab7; font-size: 13px;">Data</span> vs. <span style="color: #555; font-size: 13px;"> Background</span></span></th>
                     <th>Covariant</th>
                 </thead>
                 <tbody>
@@ -116,7 +120,10 @@
                         <td th:text="${result.name}" th:attr="data-target=${#strings.replace('#accordion_'+result.filename,'.','_')}" data-toggle="collapse" class="accordion-toggle" ></td>
                         <td th:text="${result.pValue}"></td>
                         <td th:text="${result.effectSize}"></td>
-                        <td th:id="${result.filename}"></td>
+                        <td class="bars">
+                            <div class="bar measured" th:style="'width: ' + ${result.percentInM} + '%;'"></div>
+                            <div class="bar expected" th:style="'width: ' + ${result.percentInE} + '%;'"></div>
+                        </td>
                         <td><input th:field="*{covariantCommand.covariants}" th:value="${result.filename}" type="checkbox" form="covariant_form"></td>
                     </tr>
                     <tr>
@@ -126,8 +133,8 @@
                                     <table class="table">
                                         <thead>
                                             <th></th>
-                                            <th>In</th>
-                                            <th>Out</th>
+                                            <th class="bold">In</th>
+                                            <th class="bold">Out</th>
                                         </thead>
                                         <tr class="">
                                             <td class="bold" th:text="${covariantCommand.originalFilename}"></td>
@@ -135,7 +142,7 @@
                                             <td th:text="${result.measuredOut+ ' (' + result.percentOutM+ '%)'}"></td>
                                         </tr>
                                         <tr class="">
-                                            <td><b>Background</b></td>
+                                            <td class="bold">Background</td>
                                             <td th:text="${result.expectedIn+ ' (' + result.percentInE + '%)'}"></td>
                                             <td th:text="${result.expectedOut+ ' (' + result.percentOutE+ '%)'}"></td>
                                         </tr>
@@ -148,8 +155,8 @@
 
                 </th:block>
                 <tr>
-                    <td class="add" colspan="5">
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add_track">
+                    <td class="add" colspan="5" data-placement="right" title="Create or upload custom track" data-toggle="tooltip">
+                        <button type="button" class="btn btn-default" data-toggle="modal"  data-target="#add_track">
                             &#43;
                         </button>
                     </td>
@@ -277,12 +284,10 @@
     'use strict';
 
 
-    plot([[${results_inout}]], [[${results_score}]]);
+    plot([[${results_score}]]);
 
-    function plot(results_inout, results_score) {
+    function plot(results_score) {
         var buttons_s = {};
-        var buttons = {staticPlot: true};
-
 
         for(var j = 0; j < results_score.length; j++ ){
             var x0 = results_score[j].resultMeasured.resultScores;
@@ -332,64 +337,6 @@
             Plotly.newPlot(results_score[j].filename, data_s, layout_s, buttons_s);
 
         }
-
-        for(var i = 0; i< results_inout.length; i++ ){
-
-            var result = results_inout[i];
-
-            var trace1 = {
-                y: ["Expected", "Measured"],
-                x: [result.expectedIn, result.measuredIn ],
-                name: 'In',
-                type: 'bar',
-                marker: {
-                    color: 'rgba(27,100,255,1)'
-                },
-                orientation: 'h'
-            };
-
-            var trace2 = {
-                y: ["Expected", "Measured"],
-                x: [result.expectedOut, result.measuredOut],
-                name: 'Out',
-                type: 'bar',
-                marker: {
-                    color: 'rgba(229,229,229,1)'
-                },
-                orientation: 'h'
-            };
-
-            var data = [trace1, trace2];
-            var layout = {
-              autosize: false,
-              width: 300,
-              height: 30,
-              barmode: 'stack',
-              showlegend: false,
-              xaxis: {
-                autorange: true,
-                showgrid: false,
-                zeroline: false,
-                showline: false,
-                autotick: true,
-                ticks: '',
-                showticklabels: false
-              },
-              yaxis: {
-                autorange: true,
-                showgrid: false,
-                zeroline: false,
-                showline: false,
-                autotick: true,
-                ticks: '',
-                showticklabels: false
-              },
-              margin: { l: 0, r: 0, b: 0, t: 0, pad: 0 }
-            };
-
-            Plotly.newPlot(result.filename, data, layout, buttons)
-        }
-
     }
 
 /*]]>*/

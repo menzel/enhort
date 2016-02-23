@@ -17,6 +17,17 @@ body{
     padding-top: 40px;
 }
 
+body a{
+    text-decoration: none;
+    color: #333;
+}
+
+a:hover{
+    text-decoration: none !important;
+    color: #333;
+    background-color: rgba(0, 153, 255, 0.26);
+}
+
 
 .sidebar {
   position: fixed;
@@ -34,6 +45,23 @@ body{
 
 .box{
     margin-bottom: 20px;
+}
+
+.bars{
+    min-width: 200px;
+}
+
+.bar{
+    height: 10px;
+    margin-top: 3px;
+}
+
+.measured{
+    background-color: #337ab7;
+}
+
+.expected{
+    background-color: #555555;
 }
 
 .sidebar h4{
@@ -79,7 +107,8 @@ table{
 }
 
 .bold {
-    font-weight: bold;
+    font-weight: 500;
+    font-size:17px;
 
 }
 
