@@ -8,7 +8,6 @@ import de.thm.genomeData.Intervals;
 import de.thm.positionData.Sites;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Implements the background model sites generation for a single track as covariance.
@@ -38,9 +37,7 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
         IntersectCalculate calc = new IntersectCalculate();
         IntersectResult result = calc.searchSingleInterval(interval,sites);
 
-        if(interval.getType().equals(Interval.Type.score)) {
-            positions.addAll(randPositionsScored(interval, result));
-        } else {
+        if(interval.getType().equals(Interval.Type.inout)) {
             positions.addAll(randPositions(result.getIn()* factor, interval, "in"));
             positions.addAll(randPositions(result.getOut()* factor, interval, "out"));
         }
@@ -49,147 +46,6 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
 
     }
 
-    /**
-     * Generate positions for scored interval
-     *
-     * @param interval - interval of type score
-     * @param result intersect result of the interval and some sites
-     *
-     * @return collection of positions according to interval
-     */
-    private Collection<Long> randPositionsScored(Interval interval, IntersectResult result) throws IntervalTypeNotAllowedExcpetion {
-
-        if(interval.getType()!= Interval.Type.score)
-            throw new IntervalTypeNotAllowedExcpetion("Named and Inout Intervals are not allowed to pass through this random positions generator");
-
-        List<Long> newSites = new ArrayList<>();
-        Interval probabilityInterval = interval.clone();
-
-        probabilityInterval.setIntervalScore(generateProbabilityScores(interval,result));
-
-        newSites.addAll(generatePositonsByProbability(probabilityInterval, result.getIn()));
-        newSites.addAll(randPositions(result.getOut(), interval, "out"));
-
-        return newSites;
-    }
-
-    /**
-     * generates positions inside the interval according to the probabilities in the probability interval.
-     *
-     *
-     * @param probabilityInterval - interval with probability as score
-     * @param siteCount - count of sites to be generated inside
-     *
-     * @return collection of positions inside the interval
-     */
-    public Collection<Long> generatePositonsByProbability(Interval probabilityInterval, int siteCount) {
-
-        List<Long> sites = new ArrayList<>();
-        List<Long> starts = probabilityInterval.getIntervalsStart();
-        List<Long> ends = probabilityInterval.getIntervalsEnd();
-        List<Double> probabilities = probabilityInterval.getIntervalScore();
-        List<Double> random = new ArrayList<>();
-        rand = new Random(System.currentTimeMillis());
-
-        for(int i = 0; i < siteCount; i++){
-            random.add(rand.nextDouble());
-        }
-
-        Collections.sort(random);
-
-
-        double prev = 0;
-        int j = 0;
-
-        for (Double aRandom : random) {
-            double value = aRandom - prev;
-
-            for (; j < starts.size(); j++) {
-
-                Double prob = probabilities.get(j);
-
-                if(prob == null)
-                    prob = 0d;
-
-
-                if (value >= prob) {
-                    value -= prob;
-                    prev += prob;
-
-                } else {
-                    Long intervalLength = (ends.get(j) - starts.get(j)) - 1;
-                    sites.add(starts.get(j) + Math.round(intervalLength * value));
-
-                    break;
-                }
-            }
-        }
-
-        Collections.sort(sites);
-        return sites;
-    }
-
-
-    /**
-     * Translate scores into probability for each interval based on frequency of sites inside.
-     * A smoothing function is not applied to the probability values.
-     *
-     * @param interval - intervals with scores
-     * @param result - result of intersecting the interval with the given user input
-     *
-     * @return new score list to be added to a new interval with probability scores
-     */
-    private List<Double> generateProbabilityScores(Interval interval, IntersectResult result) {
-
-        List<Double> scores = interval.getIntervalScore();
-        List<Double> probabilityScores = new ArrayList<>();
-
-        Map<Double, Double> probValues = new HashMap<>(); // for dynamic programing
-        Map<Double, Double> probValuesGenome = new HashMap<>(); // for dynamic programing
-
-        for(int i = 0 ; i < scores.size(); i++){
-
-            double prob;
-            //TODO speed up/ test/ spaghetti...
-
-            if(probValues.containsKey(scores.get(i))) {
-                prob = probValues.get(scores.get(i));
-            } else {
-                prob = count(scores.get(i), result.getResultScores()) / result.getResultScores().size();
-                probValues.put(scores.get(i), prob);
-            }
-
-            if(probValuesGenome.containsKey(scores.get(i))){
-                prob /= probValuesGenome.get(scores.get(i));
-            } else {
-                double tmp = count(scores.get(i), scores) / scores.size();
-                probValuesGenome.put(scores.get(i), tmp);
-                prob /= tmp;
-            }
-
-            probabilityScores.add(prob);
-        }
-
-        //map values to be 1 if summed up
-        double sum = probabilityScores.size();
-        probabilityScores = probabilityScores.stream().map(p -> p/sum).collect(Collectors.toList());
-
-        return probabilityScores;
-    }
-
-    private double count(Double value, List<Double> scores) {
-
-        int count = 0;
-
-        for (int i = 0, scoresSize = scores.size(); i < scoresSize; i++) {
-            Double score = scores.get(i);
-            if (score.equals(value)) {
-                count++;
-            }
-        }
-
-        return count;
-    }
 
 
     /**

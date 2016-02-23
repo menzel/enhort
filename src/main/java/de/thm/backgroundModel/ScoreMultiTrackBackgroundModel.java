@@ -1,7 +1,5 @@
-package de.thm.mTrackBg;
+package de.thm.backgroundModel;
 
-import de.thm.backgroundModel.BackgroundModel;
-import de.thm.backgroundModel.SingleTrackBackgroundModel;
 import de.thm.genomeData.Interval;
 import de.thm.genomeData.Intervals;
 import de.thm.positionData.Sites;
@@ -9,46 +7,47 @@ import de.thm.positionData.Sites;
 import java.util.*;
 
 /**
+ * Background model for multiple tracks which have scored values.
+ *
  * Created by Michael Menzel on 17/2/16.
  */
 public class ScoreMultiTrackBackgroundModel extends BackgroundModel {
 
-    public ScoreMultiTrackBackgroundModel(Sites sites, List<Interval> covariants) {
-        Interval interval = generateProbabilityInterval(sites, covariants);
-        SingleTrackBackgroundModel bgModel = new SingleTrackBackgroundModel();
-
-        //inside positions
-        Collection<Long> pos = bgModel.generatePositonsByProbability(interval, sites.getPositionCount());
-
-        positions.addAll(pos);
-
-    }
-
     public ScoreMultiTrackBackgroundModel() { }
 
+    /**
+     * Consturcotr
+     *
+     * @param sites - sites to build model against.
+     * @param covariants - list of intervals to build model against.
+     */
+    public ScoreMultiTrackBackgroundModel(Sites sites, List<Interval> covariants) {
+        Interval interval = generateProbabilityInterval(sites, covariants);
+
+        Collection<Long> pos = generatePositonsByProbability(interval, sites.getPositionCount());
+
+        positions.addAll(pos);
+    }
+
+
+    /**
+     * Generates an interval with probabilities as scores based on the intervals given and the sites.
+     * In the names of the interval is the original score combination based on the hashing.
+     *
+     * @param sites - sites to set probability by.
+     * @param intervals - list of intervals as covariants.
+     *
+     * @return new interval with probability scores.
+     */
     Interval generateProbabilityInterval(Sites sites, List<Interval> intervals) {
 
         Map<String, Double> sitesOccurence = fillOccurenceMap(intervals,sites);
 
-        // normalize values
         double sum = sites.getPositionCount();
-
-        //substract all points that are outside
-        //sum -= sitesOccurence.get("||");
-
         for(String k: sitesOccurence.keySet())
             sitesOccurence.put(k, sitesOccurence.get(k)/sum);
 
-
-        //if( 1 == Double.compare(sitesOccurence.values().stream().filter(Double::isFinite).mapToDouble(i -> i).sum(), 1)) System.err.println("Not 1");
-
-        // get p for interval without sites information
-
         Interval interval = Intervals.combine(intervals, sitesOccurence);
-
-        //divide each value in the interval by the count of occurences of intervals with the same key
-        //" split the probability to the intervals "
-
 
         Map<String, Integer> genomeOccurence = new HashMap<>();
 
@@ -86,6 +85,15 @@ public class ScoreMultiTrackBackgroundModel extends BackgroundModel {
         return interval;
     }
 
+    /**
+     * Computes an occurence map which holds information about how often a score combination from the given intervals is picked by one of the given sites.
+     * The returning map contains probablities. *
+     *
+     * @param intervals - scores to get from.
+     * @param sites - positions to look up.
+     *
+     * @return map to score combination to  probablity
+     */
     Map<String, Double> fillOccurenceMap(List<Interval> intervals, Sites sites) {
         Map<String, Double> map = new HashMap<>(); //holds the conversion between score and probability
         Map<Interval, Integer> indices = new HashMap<>();
@@ -142,5 +150,64 @@ public class ScoreMultiTrackBackgroundModel extends BackgroundModel {
         }
         return map;
     }
+
+
+
+    /**
+     * generates positions inside the interval according to the probabilities in the probability interval.
+     *
+     *
+     * @param probabilityInterval - interval with probability as score
+     * @param siteCount - count of sites to be generated inside
+     *
+     * @return collection of positions inside the interval
+     */
+    Collection<Long> generatePositonsByProbability(Interval probabilityInterval, int siteCount) {
+
+        List<Long> sites = new ArrayList<>();
+        List<Long> starts = probabilityInterval.getIntervalsStart();
+        List<Long> ends = probabilityInterval.getIntervalsEnd();
+        List<Double> probabilities = probabilityInterval.getIntervalScore();
+        List<Double> random = new ArrayList<>();
+        Random rand = new Random(System.currentTimeMillis());
+
+        for(int i = 0; i < siteCount; i++){
+            random.add(rand.nextDouble());
+        }
+
+        Collections.sort(random);
+
+
+        double prev = 0;
+        int j = 0;
+
+        for (Double aRandom : random) {
+            double value = aRandom - prev;
+
+            for (; j < starts.size(); j++) {
+
+                Double prob = probabilities.get(j);
+
+                if(prob == null)
+                    prob = 0d;
+
+
+                if (value >= prob) {
+                    value -= prob;
+                    prev += prob;
+
+                } else {
+                    Long intervalLength = (ends.get(j) - starts.get(j)) - 1;
+                    sites.add(starts.get(j) + Math.round(intervalLength * value));
+
+                    break;
+                }
+            }
+        }
+
+        Collections.sort(sites);
+        return sites;
+    }
+
 
 }

@@ -1,4 +1,4 @@
-package de.thm.mTrackBg;
+package de.thm.backgroundModel;
 
 import de.thm.genomeData.Interval;
 import de.thm.positionData.Sites;
