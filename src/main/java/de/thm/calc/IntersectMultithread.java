@@ -28,7 +28,8 @@ public class IntersectMultithread {
     public ResultCollector execute(Map<String, Interval> intervals, Sites measuredPositions, BackgroundModel randomPositions) {
 
         Set<String> tracks = intervals.keySet();
-        ResultCollector collector = new ResultCollector(randomPositions.getHash());
+
+        ResultCollector collector = new ResultCollector(randomPositions);
 
         for(String track: tracks){
 
