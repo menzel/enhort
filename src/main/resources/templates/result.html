@@ -241,13 +241,18 @@
                                                 <td th:text="${cov.expectedIn+ ' (' + cov.percentInE + '%)'}"></td>
                                                 <td th:text="${cov.expectedOut+ ' (' + cov.percentOutE+ '%)'}"></td>
                                             </tr>
+                                            <tr>
+                                                <td>P Value</td>
+                                                <td th:text="${cov.pValue}"></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3" th:id="${cov.filename}"></td>
+                                            </tr>
                                         </table>
 
-                                        <p>
-                                            P Value: <span th:text="${cov.pValue}"></span>
-                                        </p>
-
                                         <div class="inner_plot" th:id="${cov.filename}"></div>
+
                                     </div>
                                 </div>
                             </div>
@@ -290,13 +295,14 @@
 
 
     plot([[${results_score}]]);
+    plot([[${covariants}]]);
 
-    function plot(results_score) {
+    function plot(results) {
         var buttons_s = {};
 
-        for(var j = 0; j < results_score.length; j++ ){
-            var x0 = results_score[j].resultMeasured.resultScores;
-            var x1 = results_score[j].resultExpected.resultScores;
+        for(var j = 0; j < results.length; j++ ){
+            var x0 = results[j].resultMeasured.resultScores;
+            var x1 = results[j].resultExpected.resultScores;
 
             var measured = {
               x: x0,
@@ -339,7 +345,7 @@
               },
               margin: { l: 0, r: 0, b: 15, t: 0, pad: 0 }
             };
-            Plotly.newPlot(results_score[j].filename, data_s, layout_s, buttons_s);
+            Plotly.newPlot(results[j].filename, data_s, layout_s, buttons_s);
 
         }
     }
