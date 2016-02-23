@@ -1,6 +1,6 @@
 package de.thm.genomeData;
 
-import de.thm.calc.PositionPreprocessor;
+import de.thm.misc.PositionPreprocessor;
 import de.thm.misc.ChromosomSizes;
 import org.apache.commons.lang3.StringUtils;
 

@@ -12,7 +12,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  *
  * Created by Michael Menzel on 13/1/16.
  */
-public class AppearanceTable {
+class AppearanceTable {
 
     private Map<String, Integer> appearance;
 
@@ -23,7 +23,7 @@ public class AppearanceTable {
      * @param positions - positions to find in intervals
      * @param intervals - intervals to match against
      */
-    public void fillTable(List<Interval> intervals, Sites positions) {
+    void fillTable(List<Interval> intervals, Sites positions) {
         appearance = new HashMap<>();
         Map<Interval, Integer> indices = new HashMap<>();
 
@@ -85,7 +85,7 @@ public class AppearanceTable {
      * @param containing - list of interval id's
      * @return HashMap key as String
      */
-    protected String hash(Set<Integer> containing) {
+    String hash(Set<Integer> containing) {
 
         List<Integer> list = new ArrayList<>(containing);
         Collections.sort(list);
@@ -100,7 +100,7 @@ public class AppearanceTable {
      * @param intervals - list of intervals
      * @return HashMap key as String
      */
-    protected String hash(List<Interval> intervals) {
+    String hash(List<Interval> intervals) {
         List<Integer> containing = new ArrayList<>();
 
         for(Interval interval: intervals){
@@ -112,7 +112,7 @@ public class AppearanceTable {
         return Arrays.toString(containing.toArray());
     }
 
-    public Set<String> getKeySet(){
+    Set<String> getKeySet(){
         return appearance.keySet();
     }
 
@@ -122,7 +122,7 @@ public class AppearanceTable {
      * @param intervals - intervals to fetch the value from
      * @return appearance count
      */
-    public int getAppearance(List<Interval> intervals){
+    int getAppearance(List<Interval> intervals){
 
         if(appearance.containsKey(hash(intervals))){
             return appearance.get(hash(intervals));

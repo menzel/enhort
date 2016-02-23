@@ -1,28 +1,27 @@
 package de.thm.backgroundModel;
 
 import de.thm.misc.ChromosomSizes;
+import de.thm.positionData.Sites;
 
-import java.util.Collections;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by Michael Menzel on 8/12/15.
  */
-public class RandomBackgroundModel extends BackgroundModel{
+class RandomBackgroundModel implements Sites {
 
     private Random rand;
+    private List<Long> positions = new ArrayList<>();
 
     /**
      * Constructor
      *
      * @param sites count of sites to be generated
      */
-    public RandomBackgroundModel(int sites) {
+    RandomBackgroundModel(int sites) {
 
         rand = new Random(System.currentTimeMillis());
         createSites(sites);
-
-        this.hash = positions.hashCode();
 
     }
 
@@ -43,5 +42,25 @@ public class RandomBackgroundModel extends BackgroundModel{
 
         Collections.sort(positions);
 
+    }
+
+    @Override
+    public void addPositions(Collection<Long> values) {
+        this.positions.addAll(values);
+    }
+
+    @Override
+    public List<Long> getPositions() {
+        return this.positions;
+    }
+
+    @Override
+    public void setPositions(List<Long> positions) {
+        this.positions = positions;
+    }
+
+    @Override
+    public int getPositionCount() {
+        return this.positions.size();
     }
 }

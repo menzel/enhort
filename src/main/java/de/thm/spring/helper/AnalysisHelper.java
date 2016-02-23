@@ -1,12 +1,8 @@
 package de.thm.spring.helper;
 
-import de.thm.backgroundModel.BackgroundModel;
-import de.thm.backgroundModel.MultiTrackBackgroundModel;
-import de.thm.backgroundModel.RandomBackgroundModel;
-import de.thm.backgroundModel.ScoreMultiTrackBackgroundModel;
+import de.thm.backgroundModel.BackgroundModelFactory;
 import de.thm.calc.IntersectMultithread;
 import de.thm.exception.CovariantsException;
-import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.genomeData.Interval;
 import de.thm.genomeData.IntervalLoader;
 import de.thm.positionData.Sites;
@@ -22,10 +18,8 @@ import java.util.Map;
  */
 public class AnalysisHelper {
 
-    private static final int maxCovariants = 7;
-
     public static ResultCollector runAnalysis(Sites input){
-        BackgroundModel bg = new RandomBackgroundModel(input.getPositionCount());
+        Sites bg = BackgroundModelFactory.createBackgroundModel(input.getPositionCount());
 
         IntersectMultithread multi;
         multi = new IntersectMultithread();
@@ -36,33 +30,11 @@ public class AnalysisHelper {
 
         List<Interval> covariants = getCovariants(covariantNames);
 
-        BackgroundModel bg;
+        Sites bg = BackgroundModelFactory.createBackgroundModel(covariants, sites);
 
-            if(covariants.size() < maxCovariants) {
+        IntersectMultithread multi = new IntersectMultithread();
+        return multi.execute(Server.getIntervals(), sites, bg);
 
-                try {
-                    if (covariants.isEmpty()) {
-                        bg = new RandomBackgroundModel(sites.getPositionCount());
-                    } else if (covariants.stream().allMatch(i -> i.getType() == Interval.Type.score)) {
-                        bg = new ScoreMultiTrackBackgroundModel(covariants, sites);
-                    } else {
-                        bg = new MultiTrackBackgroundModel(covariants, sites);
-                    }
-
-
-                    IntersectMultithread multi;
-                    multi = new IntersectMultithread();
-
-                    return multi.execute(Server.getIntervals(), sites, bg);
-
-                } catch (IntervalTypeNotAllowedExcpetion intervalTypeNotAllowedExcpetion) {
-                    intervalTypeNotAllowedExcpetion.printStackTrace();
-                    return null;
-                }
-
-            }  else{
-                throw new CovariantsException("Too many covariants selected by user");
-            }
     }
 
     private static List<Interval> getCovariants(List<String> covariantNames) {

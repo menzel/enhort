@@ -16,9 +16,10 @@ import java.util.stream.Collectors;
  *
  * Created by Michael Menzel on 13/1/16.
  */
-public class MultiTrackBackgroundModel extends BackgroundModel {
+class MultiTrackBackgroundModel implements Sites{
 
     private AppearanceTable appearanceTable;
+    private List<Long> positions = new ArrayList<>();
 
     /**
      * Constructor. Creates a Bg Model with covariants according the given intervals and positions.
@@ -27,7 +28,7 @@ public class MultiTrackBackgroundModel extends BackgroundModel {
      * @param inputPositions - positions to match against
      *
      */
-    public MultiTrackBackgroundModel(List<Interval> intervals, Sites inputPositions) throws IntervalTypeNotAllowedExcpetion{
+    MultiTrackBackgroundModel(List<Interval> intervals, Sites inputPositions) throws IntervalTypeNotAllowedExcpetion{
 
         //check if there is an interval with the type score
         if(intervals.stream().filter(p -> p.getType() == Interval.Type.score).count() > 0){
@@ -37,14 +38,12 @@ public class MultiTrackBackgroundModel extends BackgroundModel {
         appearanceTable = new AppearanceTable();
         appearanceTable.fillTable(intervals, inputPositions);
         positions.addAll(randPositions(appearanceTable, intervals));
-
-        this.hash = positions.hashCode();
     }
 
     /**
      * Empty constructor
      */
-    protected MultiTrackBackgroundModel() { }
+    MultiTrackBackgroundModel() { }
 
 
     /**
@@ -56,7 +55,7 @@ public class MultiTrackBackgroundModel extends BackgroundModel {
      *
      * @return list of positions which are spread by the same appearance values
      */
-    protected Collection<Long> randPositions(AppearanceTable appearanceTable, List<Interval> intervals){
+    Collection<Long> randPositions(AppearanceTable appearanceTable, List<Interval> intervals){
 
         List<Long> sites = new ArrayList<>();
         SingleTrackBackgroundModel better = new SingleTrackBackgroundModel();
@@ -87,7 +86,27 @@ public class MultiTrackBackgroundModel extends BackgroundModel {
         return sites;
     }
 
-    public AppearanceTable getAppearanceTable() {
+    AppearanceTable getAppearanceTable() {
         return appearanceTable;
+    }
+
+    @Override
+    public void addPositions(Collection<Long> values) {
+        this.positions.addAll(values);
+    }
+
+    @Override
+    public List<Long> getPositions() {
+        return this.positions;
+    }
+
+    @Override
+    public void setPositions(List<Long> positions) {
+        this.positions = positions;
+    }
+
+    @Override
+    public int getPositionCount() {
+        return this.positions.size();
     }
 }

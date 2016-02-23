@@ -1,6 +1,5 @@
 package de.thm.calc;
 
-import de.thm.backgroundModel.BackgroundModel;
 import de.thm.genomeData.Interval;
 import de.thm.positionData.Sites;
 import de.thm.stat.ResultCollector;
@@ -16,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Michael Menzel on 11/1/16.
  */
-public class IntersectMultithread {
+public final class IntersectMultithread {
 
     ExecutorService exe = Executors.newFixedThreadPool(8);
     List<IntersectWrapper> wrappers = new ArrayList<>();
@@ -25,7 +24,7 @@ public class IntersectMultithread {
     }
 
 
-    public ResultCollector execute(Map<String, Interval> intervals, Sites measuredPositions, BackgroundModel randomPositions) {
+    public ResultCollector execute(Map<String, Interval> intervals, Sites measuredPositions, Sites randomPositions) {
 
         Set<String> tracks = intervals.keySet();
 

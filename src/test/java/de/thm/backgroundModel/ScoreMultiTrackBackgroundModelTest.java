@@ -4,10 +4,7 @@ import de.thm.genomeData.Interval;
 import de.thm.positionData.Sites;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -64,6 +61,9 @@ public class ScoreMultiTrackBackgroundModelTest {
 
         Sites sites = new Sites() {
             @Override
+            public void addPositions(Collection<Long> values) {}
+
+            @Override
             public List<Long> getPositions() {
                 List<Long> l = new ArrayList<>();
 
@@ -78,6 +78,9 @@ public class ScoreMultiTrackBackgroundModelTest {
 
                 return l;
             }
+
+            @Override
+            public void setPositions(List<Long> positions) {}
 
             @Override
             public int getPositionCount() {

@@ -10,7 +10,7 @@ import de.thm.stat.TestResult;
 /**
  * Created by Michael Menzel on 12/1/16.
  */
-public class IntersectWrapper implements Runnable{
+class IntersectWrapper implements Runnable{
 
 
     private final Sites randomPos;
@@ -19,7 +19,7 @@ public class IntersectWrapper implements Runnable{
     private TestResult testResult;
     private ResultCollector collector;
 
-    public IntersectWrapper(Sites measuredPos, Sites randomPos, Interval interval, ResultCollector collector) {
+    IntersectWrapper(Sites measuredPos, Sites randomPos, Interval interval, ResultCollector collector) {
 
         this.randomPos = randomPos;
         this.measuredPos = measuredPos;
@@ -45,7 +45,7 @@ public class IntersectWrapper implements Runnable{
 
     }
 
-    public TestResult getTestResult() {
+    TestResult getTestResult() {
         return testResult;
     }
 }

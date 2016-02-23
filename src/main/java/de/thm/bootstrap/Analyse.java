@@ -1,8 +1,6 @@
 package de.thm.bootstrap;
 
-import de.thm.backgroundModel.BackgroundModel;
-import de.thm.backgroundModel.RandomBackgroundModel;
-import de.thm.backgroundModel.ScoreMultiTrackBackgroundModel;
+import de.thm.backgroundModel.BackgroundModelFactory;
 import de.thm.calc.Intersect;
 import de.thm.calc.IntersectCalculate;
 import de.thm.calc.IntersectMultithread;
@@ -65,15 +63,15 @@ public class Analyse {
         //covariants.add(intervals.get("introns"));
         //covariants.add(intervals.get("cpg"));
         covariants.add(intervals.get("expression_blood.bed"));
-        covariants.add(intervals.get("expression_fetal_brain.bed"));
+        covariants.add(intervals.get("distance.bed"));
 
-        Interval blood_fetal  = Intervals.intersect(covariants);
-        blood_fetal.setType(Interval.Type.inout);
-        blood_fetal.setName("Expression Blood + Fetal brain");
+        Interval blood = Intervals.intersect(covariants);
+        blood.setType(Interval.Type.inout);
+        blood.setName("Expression Blood + Distance");
 
-        IntervalLoader.getInstance().addInterval("blood_fetal", blood_fetal);
+        IntervalLoader.getInstance().addInterval("bloodDistance", blood);
 
-        BackgroundModel bg = new ScoreMultiTrackBackgroundModel( covariants, userSites );
+        Sites bg = BackgroundModelFactory.createBackgroundModel(covariants, userSites);
         //bg = new RandomBackgroundModel(userSites.getPositionCount());
 
 
@@ -132,7 +130,7 @@ public class Analyse {
         for(int i = 0 ; i < 20 ; i++){
             int j = i * 5000;
 
-            Sites bg = new RandomBackgroundModel(j);
+            Sites bg = BackgroundModelFactory.createBackgroundModel(j);
             long startTime = System.nanoTime();
 
             simple.searchSingleInterval(invExons, bg);

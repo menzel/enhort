@@ -15,15 +15,16 @@ import java.util.*;
  *
  * Created by Michael Menzel on 6/1/16.
  */
-public class SingleTrackBackgroundModel extends BackgroundModel{
+class SingleTrackBackgroundModel implements Sites{
 
     private final int factor = 10;
     private Random rand;
+    private List<Long> positions = new ArrayList<>();
 
     /**
      * Contstructor
      */
-    public SingleTrackBackgroundModel(){}
+    SingleTrackBackgroundModel(){}
 
 
     /**
@@ -32,7 +33,7 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
      * @param interval - interval to search against
      * @param sites - sites to search
      */
-    public SingleTrackBackgroundModel(Interval interval, Sites sites) throws IntervalTypeNotAllowedExcpetion {
+    SingleTrackBackgroundModel(Interval interval, Sites sites) throws IntervalTypeNotAllowedExcpetion {
 
         IntersectCalculate calc = new IntersectCalculate();
         IntersectResult result = calc.searchSingleInterval(interval,sites);
@@ -41,8 +42,6 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
             positions.addAll(randPositions(result.getIn()* factor, interval, "in"));
             positions.addAll(randPositions(result.getOut()* factor, interval, "out"));
         }
-
-        this.hash = positions.hashCode();
 
     }
 
@@ -57,7 +56,7 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
      *
      * @return Collection of random positions
      */
-    public Collection<Long> randPositions(int siteCount, Interval interval, String mode) {
+    Collection<Long> randPositions(int siteCount, Interval interval, String mode) {
 
         int io = (mode.equals("in"))? 0: 1; //remember if rand positions should be in or outside of an interval
 
@@ -106,4 +105,23 @@ public class SingleTrackBackgroundModel extends BackgroundModel{
 
     }
 
+    @Override
+    public void addPositions(Collection<Long> values) {
+        this.positions.addAll(values);
+    }
+
+    @Override
+    public List<Long> getPositions() {
+        return this.positions;
+    }
+
+    @Override
+    public void setPositions(List<Long> positions) {
+        this.positions = positions;
+    }
+
+    @Override
+    public int getPositionCount() {
+        return this.positions.size();
+    }
 }

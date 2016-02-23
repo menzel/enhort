@@ -1,7 +1,6 @@
 package de.thm.positionData;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -10,30 +9,14 @@ import java.util.List;
  *
  * Created by Michael Menzel on 8/12/15.
  */
-public abstract class Sites implements Serializable {
+public interface Sites extends Serializable {
 
-    protected List<Long> positions = new ArrayList<>();
+    void addPositions(Collection<Long> values);
 
+    List<Long> getPositions();
 
-    /*
-    Getter and Setter
-     */
+    void setPositions(List<Long> positions);
 
-    public void addPositions(Collection<Long> values) {
-        positions.addAll(values);
-    }
-
-    public List<Long> getPositions() {
-        return positions;
-    }
-
-    public void setPositions(List<Long> positions) {
-        this.positions = positions;
-    }
-
-    public int getPositionCount() {
-        return positions.size();
-    }
-
+    int getPositionCount();
 
 }

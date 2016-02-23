@@ -5,8 +5,7 @@ import de.thm.misc.ChromosomSizes;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collections;
-import java.util.Iterator;
+import java.util.*;
 import java.util.stream.Stream;
 
 /**
@@ -14,7 +13,9 @@ import java.util.stream.Stream;
  *
  * Created by Michael Menzel on 8/12/15.
  */
-public class UserData extends Sites{
+public final class UserData implements Sites{
+
+    private List<Long> positions = new ArrayList<>();
 
     /**
      * Constructor
@@ -59,5 +60,25 @@ public class UserData extends Sites{
 
     private String getChr(String line) {
         return line.split("\t")[0];
+    }
+
+    @Override
+    public void addPositions(Collection<Long> values) {
+        this.positions.addAll(values);
+    }
+
+    @Override
+    public List<Long> getPositions() {
+        return this.positions;
+    }
+
+    @Override
+    public void setPositions(List<Long> positions) {
+        this.positions = positions;
+    }
+
+    @Override
+    public int getPositionCount() {
+        return this.positions.size();
     }
 }

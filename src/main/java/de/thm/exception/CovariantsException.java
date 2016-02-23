@@ -5,7 +5,7 @@ import de.thm.spring.backend.StatisticsCollector;
 /**
  * Created by Michael Menzel on 15/2/16.
  */
-public class CovariantsException extends Exception{
+public final class CovariantsException extends Exception{
 
     public CovariantsException() {
         StatisticsCollector.getInstance().addErrorC();

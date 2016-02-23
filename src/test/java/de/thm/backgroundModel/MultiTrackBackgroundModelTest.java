@@ -68,7 +68,12 @@ public class MultiTrackBackgroundModelTest {
         // positions:
 
          Sites sites =  new Sites() {
-            @Override
+             @Override
+             public void addPositions(Collection<Long> values) {
+
+             }
+
+             @Override
             public List<Long> getPositions() {
 
                 List<Long> sites = new ArrayList<>();
@@ -83,7 +88,17 @@ public class MultiTrackBackgroundModelTest {
                 return sites;
 
             }
-        };
+
+             @Override
+             public void setPositions(List<Long> positions) {
+
+             }
+
+             @Override
+             public int getPositionCount() {
+                 return 0;
+             }
+         };
 
 
         MultiTrackBackgroundModel model = null;
@@ -157,7 +172,12 @@ public class MultiTrackBackgroundModelTest {
         // positions:
 
          Sites sites =  new Sites() {
-            @Override
+             @Override
+             public void addPositions(Collection<Long> values) {
+
+             }
+
+             @Override
             public List<Long> getPositions() {
 
                 List<Long> sites = new ArrayList<>();
@@ -171,7 +191,17 @@ public class MultiTrackBackgroundModelTest {
                 return sites;
 
             }
-        };
+
+             @Override
+             public void setPositions(List<Long> positions) {
+
+             }
+
+             @Override
+             public int getPositionCount() {
+                 return 0;
+             }
+         };
 
 
         MultiTrackBackgroundModel model = null;

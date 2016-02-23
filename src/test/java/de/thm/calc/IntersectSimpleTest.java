@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
@@ -65,6 +66,11 @@ public class IntersectSimpleTest {
 
         Sites sites =  new Sites() {
             @Override
+            public void addPositions(Collection<Long> values) {
+
+            }
+
+            @Override
             public List<Long> getPositions() {
 
                 List<Long> sites = new ArrayList<>();
@@ -87,6 +93,16 @@ public class IntersectSimpleTest {
                 return sites;
 
             }
+
+            @Override
+            public void setPositions(List<Long> positions) {
+
+            }
+
+            @Override
+            public int getPositionCount() {
+                return 0;
+            }
         };
 
         IntersectResult intersectResult = intersect.searchSingleInterval(intv,sites);
@@ -100,6 +116,11 @@ public class IntersectSimpleTest {
     public void testOffsetSearch() throws Exception {
 
         Sites sites =  new Sites() {
+            @Override
+            public void addPositions(Collection<Long> values) {
+
+            }
+
             @Override
             public List<Long> getPositions() {
 
@@ -121,6 +142,16 @@ public class IntersectSimpleTest {
                 return sites;
 
             }
+
+            @Override
+            public void setPositions(List<Long> positions) {
+
+            }
+
+            @Override
+            public int getPositionCount() {
+                return 0;
+            }
         };
 
         IntersectResult intersectResult = intersect.searchSingleInterval(intv,sites);
@@ -134,6 +165,11 @@ public class IntersectSimpleTest {
     public void testSearchSingleIntervall() throws Exception {
 
         Sites sites =  new Sites() {
+            @Override
+            public void addPositions(Collection<Long> values) {
+
+            }
+
             @Override
             public List<Long> getPositions() {
 
@@ -159,6 +195,16 @@ public class IntersectSimpleTest {
 
                 return sites;
 
+            }
+
+            @Override
+            public void setPositions(List<Long> positions) {
+
+            }
+
+            @Override
+            public int getPositionCount() {
+                return 0;
             }
         };
 

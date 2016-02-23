@@ -22,7 +22,7 @@ public final class IntersectResult {
     /**
      *
      */
-    public IntersectResult() {
+    IntersectResult() {
         this.resultNames = new HashMap<>();
         this.resultScores = new ArrayList<>();
     }
@@ -39,7 +39,7 @@ public final class IntersectResult {
      *
      * @param score
      */
-    public void add(Double score){
+    void add(Double score){
         resultScores.add(score);
     }
 
@@ -62,7 +62,7 @@ public final class IntersectResult {
      *
      * @param name
      */
-    public void add(String name){
+    void add(String name){
 
         if(resultNames.containsKey(name)){
             resultNames.put(name, resultNames.get(name)+1);
@@ -102,7 +102,7 @@ public final class IntersectResult {
         return in;
     }
 
-    public void setIn(int in) {
+    void setIn(int in) {
         this.in = in;
     }
 
@@ -110,7 +110,7 @@ public final class IntersectResult {
         return resultNames.get("out");
     }
 
-    public void setUsedInterval(Interval usedInterval) {
+    void setUsedInterval(Interval usedInterval) {
         this.usedInterval = usedInterval;
     }
 

@@ -52,9 +52,25 @@ public class BetterBackgroundModelTest {
 
 
         Sites sites = new Sites() {
+            List<Long> positions = new ArrayList<>();
             @Override
             public void addPositions(Collection<Long> values) {
-                super.addPositions(values);
+                this.positions.addAll(values);
+            }
+
+            @Override
+            public List<Long> getPositions() {
+                return this.positions;
+            }
+
+            @Override
+            public void setPositions(List<Long> positions) {
+
+            }
+
+            @Override
+            public int getPositionCount() {
+                return this.positions.size();
             }
         };
 

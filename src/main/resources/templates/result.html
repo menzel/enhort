@@ -299,6 +299,8 @@
         var buttons_s = {};
 
         for(var j = 0; j < results.length; j++ ){
+            //if(results[j].resultMeasured.type != "score"){ break; }
+
             var x0 = results[j].resultMeasured.resultScores;
             var x1 = results[j].resultExpected.resultScores;
 

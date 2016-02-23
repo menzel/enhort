@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Simple version of intersect, going list by list.
  */
-public class IntersectCalculate implements Intersect{
+public final class IntersectCalculate implements Intersect{
 
     public IntersectResult searchSingleInterval(Interval intv, Sites pos){
 

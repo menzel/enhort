@@ -488,4 +488,8 @@ public class Intervals {
 
         return result;
     }
+
+    public static Interval convertToScore(Interval interval) {
+        return null;
+    }
 }

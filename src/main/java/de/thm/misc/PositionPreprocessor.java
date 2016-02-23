@@ -1,4 +1,4 @@
-package de.thm.calc;
+package de.thm.misc;
 
 import de.thm.genomeData.Interval;
 
@@ -10,7 +10,7 @@ import java.util.List;
  *
  * Created by Michael Menzel on 8/12/15.
  */
-public class PositionPreprocessor {
+public final class PositionPreprocessor {
 
 
     /**

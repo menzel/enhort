@@ -11,9 +11,11 @@ import java.util.*;
  *
  * Created by Michael Menzel on 17/2/16.
  */
-public class ScoreMultiTrackBackgroundModel extends BackgroundModel {
+class ScoreMultiTrackBackgroundModel implements Sites{
 
-    public ScoreMultiTrackBackgroundModel() { }
+    private List<Long> positions = new ArrayList<>();
+
+    ScoreMultiTrackBackgroundModel() { }
 
     /**
      * Consturcotr
@@ -21,7 +23,7 @@ public class ScoreMultiTrackBackgroundModel extends BackgroundModel {
      * @param sites - sites to build model against.
      * @param covariants - list of intervals to build model against.
      */
-    public ScoreMultiTrackBackgroundModel(List<Interval> covariants, Sites sites) {
+    ScoreMultiTrackBackgroundModel(List<Interval> covariants, Sites sites) {
         Interval interval = generateProbabilityInterval(sites, covariants);
 
         Collection<Long> pos = generatePositonsByProbability(interval, sites.getPositionCount());
@@ -210,4 +212,23 @@ public class ScoreMultiTrackBackgroundModel extends BackgroundModel {
     }
 
 
+    @Override
+    public void addPositions(Collection<Long> values) {
+        this.positions.addAll(values);
+    }
+
+    @Override
+    public List<Long> getPositions() {
+        return this.positions;
+    }
+
+    @Override
+    public void setPositions(List<Long> positions) {
+        this.positions = positions;
+    }
+
+    @Override
+    public int getPositionCount() {
+        return this.positions.size();
+    }
 }
