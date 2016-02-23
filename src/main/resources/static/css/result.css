@@ -128,3 +128,26 @@ th{
 .add{
     font-size: 30px;
 }
+
+.fileinfo p{
+    margin-bottom: 0px;
+}
+
+.fileinfo input{
+    margin-left:10px;
+    width:80px;
+    border: none;
+}
+
+.fileinfo .file_positions{
+    margin-left: 105px;
+}
+
+#rerun{
+    margin-top:10px;
+}
+
+.inner_plot{
+    height: 100px;
+    width:400px;
+}
