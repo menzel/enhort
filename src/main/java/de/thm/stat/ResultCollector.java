@@ -1,6 +1,7 @@
 package de.thm.stat;
 
 import de.thm.genomeData.Interval;
+import de.thm.positionData.Sites;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,11 +14,11 @@ import java.util.stream.Collectors;
 public class ResultCollector {
 
     private final List<TestResult> results;
-    private int bgModelHash;
+    private final Sites backgroundSites;
 
-    public ResultCollector(int bgModelHash) {
-        this.bgModelHash = bgModelHash;
+    public ResultCollector(Sites bgModel) {
         results = Collections.synchronizedList(new ArrayList<>());
+        backgroundSites = bgModel;
     }
 
     public List<TestResult> getResults(){ return  this.results;}
@@ -68,9 +69,6 @@ public class ResultCollector {
 
     }
 
-    public int getBgModelHash() {
-        return bgModelHash;
-    }
 
     public List<TestResult> getCovariants(List<String> covariants) {
         return results.stream().filter(tr -> covariants.contains(tr.getFilename())).collect(Collectors.toList());
@@ -102,4 +100,7 @@ public class ResultCollector {
         return output;
     }
 
+    public Sites getBackgroundSites() {
+        return backgroundSites;
+    }
 }
