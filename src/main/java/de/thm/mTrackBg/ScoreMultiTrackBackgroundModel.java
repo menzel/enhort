@@ -86,7 +86,7 @@ public class ScoreMultiTrackBackgroundModel extends BackgroundModel {
         return interval;
     }
 
-    public Map<String, Double> fillOccurenceMap(List<Interval> intervals, Sites sites) {
+    Map<String, Double> fillOccurenceMap(List<Interval> intervals, Sites sites) {
         Map<String, Double> map = new HashMap<>(); //holds the conversion between score and probability
         Map<Interval, Integer> indices = new HashMap<>();
 
