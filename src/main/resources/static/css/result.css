@@ -4,14 +4,10 @@
 }
 
 * {
-    font-family: "Fira Sans", Helvetica, Arial;
+    font-family: "Fira Sans", "Clear Sans", Helvetica, Arial;
     font-size: 18px;
   }
 
-th{
-    font-weight:500;
-    font-size: 17px;
-}
 
 body{
     padding-top: 40px;
@@ -23,9 +19,13 @@ body a{
 }
 
 a:hover{
-    text-decoration: none !important;
+    text-decoration: none;
     color: #333;
     background-color: rgba(0, 153, 255, 0.26);
+}
+
+.container{
+    padding-left:0px !important;
 }
 
 
@@ -104,6 +104,11 @@ table{
 }
 .fixed td {
     overflow: hidden;
+}
+
+th{
+    font-weight:500;
+    font-size: 17px;
 }
 
 .bold {

@@ -66,15 +66,16 @@
     </div>
 
     <th:block th:if="${#lists.isEmpty(results_inout)}">
-        <button id="rerun" type="submit" class="btn btn-default" form="covariant_form">Run with Covariants</button>
+        <button id="rerun" type="submit" class="btn btn-default" form="covariant_form">Run again</button>
     </th:block>
     <th:block th:if="${not #lists.isEmpty(results_inout)}">
-        <button id="rerun" type="submit" class="btn btn-primary" form="covariant_form">Run with Covariants</button>
+        <button id="rerun" type="submit" class="btn btn-primary" form="covariant_form">Run again</button>
     </th:block>
 
     <div>
         <a class="btn btn-default extra-margin" href="export/pdf">Export pdf</a>
         <a class="btn btn-default extra-margin" href="export/csv">Export csv</a>
+        <br>
         <a class="btn btn-default extra-margin" href="clear_session">Clear session</a>
     </div>
 
@@ -88,7 +89,6 @@
         <div id="error" th:text="${errorMessage}" class="bg-danger"></div>
 
 
-        <div class="row">
         <div class="col-md-8 ">
 
         <form method="POST" action="#" th:action="@{/covariant}" th:object="${covariantCommand}" id="covariant_form"></form>
@@ -104,9 +104,9 @@
 
 
                 <thead>
-                    <th th:text="${'Significant tracks' + ' (' + sigTrackCount + '/' + trackCount + ')'}" data-toggle="tooltip" data-placement="right" title="Count of significant tracks vs all tracks">Significant tracks</th>
+                    <th th:text="${'Significant tracks' + ' (' + sigTrackCount + '/' + trackCount + ')'}" data-toggle="tooltip" data-placement="right" title="Count of significant tracks vs all tracks">Significant Tracks</th>
 
-                    <th data-toggle="tooltip" data-placement="right" title="P-value computed by chi-square-test">PValue</th>
+                    <th data-toggle="tooltip" data-placement="right" title="P-value computed by chi-square-test">P Value</th>
                     <th>Effect Size</th>
                     <th>Plot<span style="font-size: 10px;"> <span style="color: #337ab7; font-size: 13px;">Data</span> vs. <span style="color: #555; font-size: 13px;"> Background</span></span></th>
                     <th>Covariant</th>
@@ -229,8 +229,8 @@
 
                                             <thead>
                                                 <th></th>
-                                                <th>In</th>
-                                                <th>Out</th>
+                                                <th class="bold">In</th>
+                                                <th class="bold">Out</th>
                                             </thead>
                                             <tr class="">
                                                 <td class="bold" th:text="${covariantCommand.originalFilename}"></td>
@@ -238,7 +238,7 @@
                                                 <td th:text="${cov.measuredOut+ ' (' + cov.percentOutM+ '%)'}"></td>
                                             </tr>
                                             <tr class="">
-                                                <td><b>Background</b></td>
+                                                <td class="bold">Background</td>
                                                 <td th:text="${cov.expectedIn+ ' (' + cov.percentInE + '%)'}"></td>
                                                 <td th:text="${cov.expectedOut+ ' (' + cov.percentOutE+ '%)'}"></td>
                                             </tr>
@@ -258,7 +258,6 @@
 
             </table>
 
-        </div>
         </div>
 
     </div><!-- /.container -->
