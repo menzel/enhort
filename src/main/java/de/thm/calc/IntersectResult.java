@@ -2,7 +2,10 @@ package de.thm.calc;
 
 import de.thm.genomeData.Interval;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Michael Menzel on 8/12/15.
@@ -10,19 +13,11 @@ import java.util.*;
 public class IntersectResult {
 
 
-    public final Map<String, Integer> resultNames;
-    public final List<Double> resultScores;
+    private final Map<String, Integer> resultNames;
+    private final List<Double> resultScores;
     private int in;
     private Interval usedInterval;
 
-
-    public Interval.Type getType() {
-        return usedInterval.getType();
-    }
-
-    public Map<String, Integer> getResultNames() {
-        return resultNames;
-    }
 
     /**
      *
@@ -32,6 +27,13 @@ public class IntersectResult {
         this.resultScores = new ArrayList<>();
     }
 
+    public Interval.Type getType() {
+        return usedInterval.getType();
+    }
+
+    public Map<String, Integer> getResultNames() {
+        return resultNames;
+    }
 
     /**
      *
@@ -96,13 +98,12 @@ public class IntersectResult {
         }
     }
 
+    public int getIn() {
+        return in;
+    }
 
     public void setIn(int in) {
         this.in = in;
-    }
-
-    public int getIn() {
-        return in;
     }
 
     public Integer getOut() {
