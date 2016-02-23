@@ -3,7 +3,7 @@ package de.thm.spring.helper;
 import de.thm.backgroundModel.BackgroundModel;
 import de.thm.backgroundModel.MultiTrackBackgroundModel;
 import de.thm.backgroundModel.RandomBackgroundModel;
-import de.thm.backgroundModel.SingleTrackBackgroundModel;
+import de.thm.backgroundModel.ScoreMultiTrackBackgroundModel;
 import de.thm.calc.IntersectMultithread;
 import de.thm.exception.CovariantsException;
 import de.thm.exception.IntervalTypeNotAllowedExcpetion;
@@ -41,11 +41,10 @@ public class AnalysisHelper {
             if(covariants.size() < maxCovariants) {
 
                 try {
-                    if (covariants.size() == 1 && covariants.get(0).getType() == Interval.Type.score) {
-                            bg = new SingleTrackBackgroundModel(covariants.get(0), sites);
-
-                    } else if (covariants.isEmpty()) {
+                    if (covariants.isEmpty()) {
                         bg = new RandomBackgroundModel(sites.getPositionCount());
+                    } else if (covariants.stream().allMatch(i -> i.getType() == Interval.Type.score)) {
+                        bg = new ScoreMultiTrackBackgroundModel(covariants, sites);
                     } else {
                         bg = new MultiTrackBackgroundModel(covariants, sites);
                     }

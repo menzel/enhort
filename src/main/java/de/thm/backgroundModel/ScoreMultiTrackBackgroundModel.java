@@ -21,7 +21,7 @@ public class ScoreMultiTrackBackgroundModel extends BackgroundModel {
      * @param sites - sites to build model against.
      * @param covariants - list of intervals to build model against.
      */
-    public ScoreMultiTrackBackgroundModel(Sites sites, List<Interval> covariants) {
+    public ScoreMultiTrackBackgroundModel(List<Interval> covariants, Sites sites) {
         Interval interval = generateProbabilityInterval(sites, covariants);
 
         Collection<Long> pos = generatePositonsByProbability(interval, sites.getPositionCount());

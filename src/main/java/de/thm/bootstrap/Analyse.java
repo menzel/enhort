@@ -2,6 +2,7 @@ package de.thm.bootstrap;
 
 import de.thm.backgroundModel.BackgroundModel;
 import de.thm.backgroundModel.RandomBackgroundModel;
+import de.thm.backgroundModel.ScoreMultiTrackBackgroundModel;
 import de.thm.calc.Intersect;
 import de.thm.calc.IntersectCalculate;
 import de.thm.calc.IntersectMultithread;
@@ -9,7 +10,6 @@ import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.genomeData.Interval;
 import de.thm.genomeData.IntervalLoader;
 import de.thm.genomeData.Intervals;
-import de.thm.mTrackBg.ScoreMultiTrackBackgroundModel;
 import de.thm.positionData.Sites;
 import de.thm.stat.ResultCollector;
 import de.thm.stat.TestResult;
@@ -73,7 +73,7 @@ public class Analyse {
 
         IntervalLoader.getInstance().addInterval("blood_fetal", blood_fetal);
 
-        BackgroundModel bg = new ScoreMultiTrackBackgroundModel(userSites, covariants);
+        BackgroundModel bg = new ScoreMultiTrackBackgroundModel( covariants, userSites );
         //bg = new RandomBackgroundModel(userSites.getPositionCount());
 
 
