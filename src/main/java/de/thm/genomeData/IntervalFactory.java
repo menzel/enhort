@@ -153,7 +153,7 @@ public class IntervalFactory {
 
             lines.close();
 
-            return new GenomeInterval(starts, ends, names, scores, name, file.getName(), description, type);
+            return new ImmutableInterval(starts, ends, names, scores, name, file.getName(), description, type);
 
         } catch (IOException e) {
             e.printStackTrace();
