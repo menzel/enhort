@@ -55,7 +55,7 @@ public class CalculationController {
             Path file = currentSession.getFile();
             UserData data = new UserData(file);
 
-            setModle(model, collector, data, currentSession.getOriginalFilename());
+            setModel(model, collector, data, currentSession.getOriginalFilename());
             List<TestResult> covariants = currentSession.getCovariants();
             model.addAttribute("covariants", covariants);
 
@@ -96,7 +96,7 @@ public class CalculationController {
                 currentSession.setCollector(collector);
                 currentSession.setOriginalFilename(name);
 
-                setModle(model, collector, data, name);
+                setModel(model, collector, data, name);
                 model.addAttribute("covariants", new ArrayList<>());
                 model.addAttribute("covariantCount", 0);
 
@@ -141,7 +141,7 @@ public class CalculationController {
 
         currentSession.setCollector(collector);
 
-        setModle(model,collector,data,currentSession.getOriginalFilename());
+        setModel(model,collector,data,currentSession.getOriginalFilename());
 
         List<TestResult> covariants = collector.getCovariants(command.getCovariants());
 
@@ -155,7 +155,7 @@ public class CalculationController {
     }
 
 
-    private void setModle(Model model, ResultCollector collector, UserData data, String name) {
+    private void setModel(Model model, ResultCollector collector, UserData data, String name) {
 
         model.addAttribute("results_inout", collector.getResultsByType(Type.inout));
         model.addAttribute("results_score", collector.getResultsByType(Type.score));
