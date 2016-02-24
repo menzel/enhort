@@ -1,16 +1,19 @@
 package de.thm.genomeData;
 
 import de.thm.genomeData.Intervals.Type;
+import de.thm.misc.ChromosomSizes;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * Handles the loading of all intervals
@@ -24,7 +27,6 @@ public class IntervalFactory {
     private Map<String, Interval> intervals;
     private IntervalDumper intervalDumper;
     private List<IntervalPackage> packageList;
-
 
     /**
      * Constructor. Parses the base dir and gets all intervals from files.
@@ -87,11 +89,79 @@ public class IntervalFactory {
             return intervalDumper.getInterval(new File(file.getName()));
 
         } else{
-            Interval interval = new GenomeInterval(file, type, file.getName());
+            Interval interval =  initIntervalfromFile(file);
             intervalDumper.dumpInterval(interval, file.getName());
             return  interval;
         }
     }
+
+
+    /**
+     * Loads interval data from a bed file. Calls handleParts to handle each line
+     *
+     * @param file - file to parse
+     */
+    private Interval initIntervalfromFile(File file){
+
+        String name = "";
+        String description = "";
+        int length = 0;
+        ChromosomSizes chrSizes = ChromosomSizes.getInstance();
+
+        try {
+            length = new Long(Files.lines(file.toPath()).count()).intValue();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        List<Long> starts = new ArrayList<>(length);
+        List<Long> ends = new ArrayList<>(length);
+        List<String> names = new ArrayList<>(length);
+        List<Double> scores = new ArrayList<>(length);
+
+        try(Stream<String> lines = Files.lines(file.toPath(), StandardCharsets.UTF_8)){
+            Iterator<String> it = lines.iterator();
+
+            Pattern header = Pattern.compile("track fullname=.(.*). description=.(.*).."); //TODO . are "
+
+            while(it.hasNext()){
+                String line = it.next();
+                Matcher matcher = header.matcher(line);
+
+                if(matcher.matches()){
+                    name = matcher.group(1);
+                    description = matcher.group(2);
+
+                } else if (true){ //TODO build another matcher for normal lines
+                    String[] parts = line.split("\t");
+
+                   if(parts[0].matches("chr(\\d{1,2}|X|Y)")) { //TODO get other chromosoms
+                   long offset = chrSizes.offset(parts[0]); //handle null pointer exc if chromosome name is not in list
+
+                   starts.add(Long.parseLong(parts[1]) + offset);
+                   ends.add(Long.parseLong(parts[2])+ offset);
+
+                   names.add(parts[3].intern());
+
+
+                   if(parts.length > 4 && StringUtils.isNumeric(parts[4]))
+                        scores.add(Double.parseDouble(parts[4]));
+                   else
+                        scores.add(.0);
+               }
+                }
+            }
+
+            lines.close();
+
+            return new GenomeInterval(starts, ends, names, scores,name, description,file.getName());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
     public Map<String, Interval> getAllIntervals() {
         return intervals;
