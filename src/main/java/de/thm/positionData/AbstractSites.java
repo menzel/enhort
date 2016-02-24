@@ -5,9 +5,11 @@ import java.util.Collection;
 import java.util.List;
 
 /**
+ * Skeletal implementation for the Sites interface.
+ *
  * Created by Michael Menzel on 23/2/16.
  */
-public class AbstractSites implements Sites{
+public abstract class AbstractSites implements Sites{
 
     private List<Long> positions = new ArrayList<>();
 
