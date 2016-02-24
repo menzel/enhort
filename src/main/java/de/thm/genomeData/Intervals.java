@@ -3,6 +3,7 @@ package de.thm.genomeData;
 import de.thm.misc.ChromosomSizes;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -341,18 +342,6 @@ public class Intervals {
         List<Double> result_score = new ArrayList<>();
         List<String> result_names = new ArrayList<>();
 
-        if(starts1.size() > starts2.size()){ //if start2 is smaller swap lists
-
-            starts2 = intv1.getIntervalsStart();
-            starts1 = intv2.getIntervalsStart();
-
-            ends2 = intv1.getIntervalsEnd();
-            ends1 = intv2.getIntervalsEnd();
-
-            scores1 = intv2.getIntervalScore();
-            scores2 = intv1.getIntervalScore();
-        }
-
 
         int i2 = 0;
         int i1 = 0;
@@ -372,9 +361,10 @@ public class Intervals {
                 long e2 = ends2.get(i2);
                 long s2 = starts2.get(i2);
 
+                result_score.add(score_map.get("||"));
+                result_names.add("||");
+
                 if(s1 < s2 && e1 < s2) {// no overlap, interval from 1 is next
-                    result_score.add(score_map.get("||"));
-                    result_names.add("||");
                     result_end.add(s1);
 
                     result_start.add(s1);
@@ -389,8 +379,6 @@ public class Intervals {
                     i1++;
                 } else if(s1 > s2 && e2 < s1) { //no overlap, interval from 2 comes first
 
-                    result_score.add(score_map.get("||"));
-                    result_names.add("||");
                     result_end.add(s2);
 
                     result_start.add(s2);
@@ -406,8 +394,6 @@ public class Intervals {
                 } else if((s1 < e2 && e1 > e2) || s2 < e1 && e2 > e1){ //overlap
 
                     //outside part
-                    result_score.add(score_map.get("||"));
-                    result_names.add("||");
                     result_end.add(s1);
 
                     //first part
@@ -441,8 +427,6 @@ public class Intervals {
                 }  else { //second interval is inside the first
 
                     //outside part
-                    result_score.add(score_map.get("||"));
-                    result_names.add("||");
                     result_end.add(s1);
 
                     if(s1 != s2) {
@@ -521,8 +505,10 @@ public class Intervals {
 
 
     public static Interval convertToScore(Interval interval) {
-        GenomeInterval scoredInterval = (GenomeInterval) interval.clone();
-        //TODO
+
+        List<Double> scores = new ArrayList<>(Collections.nCopies(interval.getIntervalsStart().size(), 1.0));
+        GenomeInterval scoredInterval  = ((GenomeInterval) interval);
+        scoredInterval.setIntervalScore(scores);
 
         return scoredInterval;
 
