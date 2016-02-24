@@ -6,7 +6,7 @@ import de.thm.calc.IntersectCalculate;
 import de.thm.calc.IntersectMultithread;
 import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.genomeData.Interval;
-import de.thm.genomeData.IntervalLoader;
+import de.thm.genomeData.IntervalFactory;
 import de.thm.genomeData.Intervals;
 import de.thm.positionData.Sites;
 import de.thm.stat.ResultCollector;
@@ -33,7 +33,7 @@ public class Analyse {
     private Map<String, Interval> intervals;
 
     public Analyse() {
-        IntervalLoader loader = IntervalLoader.getInstance();
+        IntervalFactory loader = IntervalFactory.getInstance();
         intervals =  loader.getAllIntervals();
         simple = new IntersectCalculate();
     }

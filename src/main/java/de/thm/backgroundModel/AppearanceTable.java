@@ -1,7 +1,7 @@
 package de.thm.backgroundModel;
 
 import de.thm.genomeData.Interval;
-import de.thm.genomeData.IntervalLoader;
+import de.thm.genomeData.IntervalFactory;
 import de.thm.positionData.Sites;
 
 import java.util.*;
@@ -187,7 +187,7 @@ class AppearanceTable {
         }
 
         List<Interval> intervals = new ArrayList<>();
-        IntervalLoader loader = IntervalLoader.getInstance();
+        IntervalFactory loader = IntervalFactory.getInstance();
 
         app = app.substring(1, app.length()-1);
 
