@@ -144,7 +144,7 @@ public class IntervalFactory {
 
                     names.add(parts[3].intern());
 
-                    if(parts.length >= 4)
+                    if(parts.length > 4 && parts[4] != null)
                         scores.add(Double.parseDouble(parts[4]));
                     else
                         scores.add(.0);
@@ -153,7 +153,7 @@ public class IntervalFactory {
 
             lines.close();
 
-            return new GenomeInterval(starts, ends, names, scores,name, description,file.getName(), type);
+            return new GenomeInterval(starts, ends, names, scores, name, file.getName(), description, type);
 
         } catch (IOException e) {
             e.printStackTrace();
