@@ -1,7 +1,7 @@
 package de.thm.run;
 
 import de.thm.genomeData.Interval;
-import de.thm.genomeData.IntervalLoader;
+import de.thm.genomeData.IntervalFactory;
 import de.thm.spring.backend.StatisticsCollector;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -18,11 +18,11 @@ import java.util.Map;
 @EnableAutoConfiguration
 public class Server {
 
-   private static IntervalLoader loader;
+   private static IntervalFactory loader;
    private static Map<String, Interval> intervals;
 
    public static void main(String[] args){
-      loader = IntervalLoader.getInstance();
+      loader = IntervalFactory.getInstance();
       intervals = loader.getAllIntervals();
 
       attachShutDownHook();

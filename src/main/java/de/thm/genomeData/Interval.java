@@ -14,6 +14,9 @@ import java.util.List;
  * Created by Michael Menzel on 23/2/16.
  */
 public interface Interval extends Serializable, Cloneable {
+
+   enum Type {inout, score, named}
+
     String getDescription();
 
     String getName();
@@ -22,7 +25,7 @@ public interface Interval extends Serializable, Cloneable {
 
     Interval clone();
 
-    Intervals.Type getType();
+    Type getType();
 
     List<String> getIntervalName();
 

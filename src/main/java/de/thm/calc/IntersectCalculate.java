@@ -1,7 +1,7 @@
 package de.thm.calc;
 
 import de.thm.genomeData.Interval;
-import de.thm.genomeData.Intervals.Type;
+import de.thm.genomeData.Interval.Type;
 import de.thm.positionData.Sites;
 
 import java.util.List;

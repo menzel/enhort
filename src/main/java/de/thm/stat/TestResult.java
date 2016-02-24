@@ -2,7 +2,7 @@ package de.thm.stat;
 
 import de.thm.calc.IntersectResult;
 import de.thm.genomeData.Interval;
-import de.thm.genomeData.Intervals;
+import de.thm.genomeData.Interval.Type;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.math3.util.Precision;
 
@@ -110,7 +110,7 @@ public final class TestResult {
         return name;
     }
 
-    public Intervals.Type getType(){
+    public Type getType(){
         return this.resultExpected.getType();
     }
 

@@ -4,7 +4,7 @@ import de.thm.exception.CovariantsException;
 import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.genomeData.Interval;
 import de.thm.genomeData.Intervals;
-import de.thm.genomeData.Intervals.Type;
+import de.thm.genomeData.Interval.Type;
 import de.thm.positionData.Sites;
 
 import java.util.List;

@@ -16,11 +16,11 @@ public final class ImmutableInterval implements Interval{
     private final List<Long> intervalsEnd;
     private final List<String> intervalName;
     private final List<Double> intervalScore;
-    private final Intervals.Type type;
+    private final Type type;
     private final String name;
     private final String description;
 
-    ImmutableInterval(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String filename, String description, Intervals.Type type) {
+    public ImmutableInterval(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String filename, String description, Type type) {
 
         this.filename = filename;
         this.intervalsStart = starts;
@@ -60,7 +60,7 @@ public final class ImmutableInterval implements Interval{
     }
 
     @Override
-    public Intervals.Type getType() { return type; }
+    public Type getType() { return type; }
 
 
     @Override

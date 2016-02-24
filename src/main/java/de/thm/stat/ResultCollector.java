@@ -1,6 +1,6 @@
 package de.thm.stat;
 
-import de.thm.genomeData.Intervals.Type;
+import de.thm.genomeData.Interval.Type;
 import de.thm.positionData.Sites;
 
 import java.util.ArrayList;

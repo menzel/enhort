@@ -1,6 +1,6 @@
 package de.thm.genomeData;
 
-import de.thm.genomeData.Intervals.Type;
+import de.thm.genomeData.Interval.Type;
 import de.thm.misc.ChromosomSizes;
 import org.apache.commons.lang3.StringUtils;
 

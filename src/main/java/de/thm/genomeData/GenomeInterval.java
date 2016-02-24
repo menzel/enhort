@@ -1,6 +1,5 @@
 package de.thm.genomeData;
 
-import de.thm.genomeData.Intervals.Type;
 import de.thm.misc.PositionPreprocessor;
 
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ public final class GenomeInterval implements Interval  {
     private List<Long> intervalsEnd;
     private List<String> intervalName;
     private List<Double> intervalScore;
-    private Intervals.Type type;
+    private Type type;
     private String name;
     private String description;
 

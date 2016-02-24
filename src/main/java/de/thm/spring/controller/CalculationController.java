@@ -2,7 +2,7 @@ package de.thm.spring.controller;
 
 
 import de.thm.exception.CovariantsException;
-import de.thm.genomeData.Intervals.Type;
+import de.thm.genomeData.Interval.Type;
 import de.thm.positionData.UserData;
 import de.thm.spring.backend.Session;
 import de.thm.spring.backend.Sessions;

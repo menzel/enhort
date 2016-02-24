@@ -19,7 +19,7 @@ public abstract class AbstractInterval implements Interval{
     private List<Long> intervalsEnd;
     private List<String> intervalName;
     private List<Double> intervalScore;
-    private Intervals.Type type;
+    private Type type;
     private String name;
     private String description;
 
@@ -61,7 +61,7 @@ public abstract class AbstractInterval implements Interval{
     }
 
     @Override
-    public Intervals.Type getType() { return type; }
+    public Type getType() { return type; }
 
 
     @Override

@@ -17,8 +17,6 @@ public class Intervals {
     private Intervals(){}
 
 
-    public enum Type {inout, score, named}
-
     /**
      * Intersect a list of intervals. Resulting interval has only starts/stop where all input interval were marked.
      * *
@@ -64,7 +62,7 @@ public class Intervals {
 
         GenomeInterval result = new GenomeInterval();
         //result.setType(intv1.getType());
-        result.setType(Type.inout); // scores and names are lost
+        result.setType(Interval.Type.inout); // scores and names are lost
 
 
         List<Long> result_start = new ArrayList<>();
@@ -523,6 +521,10 @@ public class Intervals {
 
 
     public static Interval convertToScore(Interval interval) {
-        return null;
+        GenomeInterval scoredInterval = (GenomeInterval) interval.clone();
+        //TODO
+
+        return scoredInterval;
+
     }
 }

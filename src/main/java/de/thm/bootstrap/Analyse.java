@@ -7,7 +7,8 @@ import de.thm.calc.IntersectMultithread;
 import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.genomeData.Interval;
 import de.thm.genomeData.IntervalFactory;
-import de.thm.genomeData.Intervals;
+
+import de.thm.genomeData.Interval.Type;
 import de.thm.positionData.Sites;
 import de.thm.stat.ResultCollector;
 import de.thm.stat.TestResult;
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import static de.thm.genomeData.Interval.Type.*;
 
 /**
  * Bootstraps basic analysis with all intervals one of the two background models and user input.
@@ -82,7 +85,7 @@ public class Analyse {
 
         Path path = Paths.get("/home/menzel/Desktop/THM/lfba/projekphase/MultiGenBrowser/src/web/");
 
-        for(TestResult testResult: collector.getResultsByType(Intervals.Type.score)){
+        for(TestResult testResult: collector.getResultsByType(score)){
             try {
                 try (BufferedWriter writer = Files.newBufferedWriter(path.resolve(testResult.getFilename().concat(".json")))) {
                     writer.write("[");
