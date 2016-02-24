@@ -89,7 +89,7 @@ public class IntervalFactory {
             return intervalDumper.getInterval(new File(file.getName()));
 
         } else{
-            Interval interval =  initIntervalfromFile(file);
+            Interval interval =  initIntervalfromFile(file, type);
             intervalDumper.dumpInterval(interval, file.getName());
             return  interval;
         }
@@ -100,8 +100,9 @@ public class IntervalFactory {
      * Loads interval data from a bed file. Calls handleParts to handle each line
      *
      * @param file - file to parse
+     * @param type - type of interval
      */
-    private Interval initIntervalfromFile(File file){
+    private Interval initIntervalfromFile(File file, Type type){
 
         String name = "";
         String description = "";
@@ -154,7 +155,7 @@ public class IntervalFactory {
 
             lines.close();
 
-            return new GenomeInterval(starts, ends, names, scores,name, description,file.getName());
+            return new GenomeInterval(starts, ends, names, scores,name, description,file.getName(), type);
 
         } catch (IOException e) {
             e.printStackTrace();

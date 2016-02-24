@@ -11,7 +11,7 @@ import java.util.List;
  *
  * Created by Michael Menzel on 8/12/15.
  */
-public final class GenomeInterval implements Interval {
+public final class GenomeInterval implements Interval  {
 
     private static final long serialVersionUID = 60624950L;
     private static int UID = 1;
@@ -38,7 +38,7 @@ public final class GenomeInterval implements Interval {
     }
 
 
-    GenomeInterval(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String filename, String description) {
+    GenomeInterval(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String filename, String description, Type type) {
 
         this.filename = filename;
         intervalsStart = starts;
@@ -47,6 +47,7 @@ public final class GenomeInterval implements Interval {
         intervalScore = scores;
         this.description = description;
         this.name = name;
+        this.type = type;
 
         if(type == Type.inout)
             PositionPreprocessor.preprocessData(this);
