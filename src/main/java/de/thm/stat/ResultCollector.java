@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Michael Menzel on 26/1/16.
  */
-public class ResultCollector {
+public final class ResultCollector {
 
     private final List<TestResult> results;
     private final Sites backgroundSites;
