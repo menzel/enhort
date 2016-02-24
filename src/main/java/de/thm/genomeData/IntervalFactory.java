@@ -2,7 +2,6 @@ package de.thm.genomeData;
 
 import de.thm.genomeData.Interval.Type;
 import de.thm.misc.ChromosomSizes;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -124,32 +123,31 @@ public class IntervalFactory {
             Iterator<String> it = lines.iterator();
 
             Pattern header = Pattern.compile("track fullname=.(.*). description=.(.*).."); //TODO . are "
+            Pattern entry = Pattern.compile("chr(\\d{1,2}|X|Y)\\s(\\d*)\\s(\\d*).*");
 
             while(it.hasNext()){
                 String line = it.next();
-                Matcher matcher = header.matcher(line);
+                Matcher header_matcher = header.matcher(line);
+                Matcher line_matcher = entry.matcher(line);
 
-                if(matcher.matches()){
-                    name = matcher.group(1);
-                    description = matcher.group(2);
+                if(header_matcher.matches()){
+                    name = header_matcher.group(1);
+                    description = header_matcher.group(2);
 
-                } else if (true){ //TODO build another matcher for normal lines
+                } else if (line_matcher.matches()){
                     String[] parts = line.split("\t");
 
-                   if(parts[0].matches("chr(\\d{1,2}|X|Y)")) { //TODO get other chromosoms
-                   long offset = chrSizes.offset(parts[0]); //handle null pointer exc if chromosome name is not in list
+                    long offset = chrSizes.offset(parts[0]); //handle null pointer exc if chromosome name is not in list
 
-                   starts.add(Long.parseLong(parts[1]) + offset);
-                   ends.add(Long.parseLong(parts[2])+ offset);
+                    starts.add(Long.parseLong(parts[1]) + offset);
+                    ends.add(Long.parseLong(parts[2])+ offset);
 
-                   names.add(parts[3].intern());
+                    names.add(parts[3].intern());
 
-
-                   if(parts.length > 4 && StringUtils.isNumeric(parts[4]))
+                    if(parts.length >= 4)
                         scores.add(Double.parseDouble(parts[4]));
-                   else
+                    else
                         scores.add(.0);
-               }
                 }
             }
 
