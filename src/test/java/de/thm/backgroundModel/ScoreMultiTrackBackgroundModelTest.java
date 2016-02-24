@@ -2,7 +2,6 @@ package de.thm.backgroundModel;
 
 import de.thm.genomeData.GenomeInterval;
 import de.thm.genomeData.Interval;
-import de.thm.genomeData.Intervals;
 import de.thm.positionData.Sites;
 import org.junit.Test;
 
@@ -118,7 +117,7 @@ public class ScoreMultiTrackBackgroundModelTest {
         interval.setIntervalsEnd(end);
 
 
-        interval.setType(Intervals.Type.inout);
+        interval.setType(Interval.Type.inout);
 
         return interval;
     }

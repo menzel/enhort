@@ -260,7 +260,7 @@ public class IntervalsTest {
         interval.setIntervalsEnd(end);
 
 
-        interval.setType(Intervals.Type.inout);
+        interval.setType(Interval.Type.inout);
 
         return interval;
     }

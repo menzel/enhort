@@ -5,7 +5,6 @@ import de.thm.calc.IntersectCalculate;
 import de.thm.calc.IntersectResult;
 import de.thm.genomeData.GenomeInterval;
 import de.thm.genomeData.Interval;
-import de.thm.genomeData.Intervals;
 import de.thm.positionData.Sites;
 import org.junit.Test;
 
@@ -273,8 +272,8 @@ public class MultiTrackBackgroundModelTest {
         GenomeInterval interval1 = mockInterval(start1, end1);
         GenomeInterval interval2 = mockInterval(start2, end2);
 
-        interval1.setType(Intervals.Type.inout);
-        interval2.setType(Intervals.Type.inout);
+        interval1.setType(Interval.Type.inout);
+        interval2.setType(Interval.Type.inout);
 
         List<Interval> intervalList = new ArrayList<>();
 

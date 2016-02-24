@@ -1,7 +1,6 @@
 package de.thm.positionData;
 
 import de.thm.genomeData.Interval;
-import de.thm.genomeData.Intervals;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -62,7 +61,7 @@ public class BetterBackgroundModelTest {
             }
 
             @Override
-            public Intervals.Type getType() {
+            public Interval.Type getType() {
                 return null;
             }
 
