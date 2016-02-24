@@ -50,6 +50,11 @@ public final class ImmutableInterval implements Interval{
 
     @Override
     public Interval clone() {
+        try {
+            super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
         GenomeInterval copy = new GenomeInterval();
 
         copy.setIntervalsStart(new ArrayList<>(intervalsStart));

@@ -47,7 +47,7 @@ public final class UserData implements Sites{
             lines.close();
 
         } catch (IOException e ){
-            System.out.println(e);
+            e.printStackTrace();
 
         }
 

@@ -2,11 +2,10 @@ package de.thm.backgroundModel;
 
 import de.thm.calc.IntersectCalculate;
 import de.thm.calc.IntersectResult;
-import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.genomeData.Interval;
+import de.thm.genomeData.Interval.Type;
 import de.thm.genomeData.Intervals;
 import de.thm.positionData.Sites;
-import de.thm.genomeData.Interval.Type;
 
 import java.util.*;
 
@@ -19,6 +18,7 @@ import java.util.*;
 class SingleTrackBackgroundModel implements Sites{
 
     private final int factor = 10;
+    @SuppressWarnings("FieldCanBeLocal")
     private Random rand;
     private List<Long> positions = new ArrayList<>();
 
@@ -34,7 +34,7 @@ class SingleTrackBackgroundModel implements Sites{
      * @param interval - interval to search against
      * @param sites - sites to search
      */
-    SingleTrackBackgroundModel(Interval interval, Sites sites) throws IntervalTypeNotAllowedExcpetion {
+    SingleTrackBackgroundModel(Interval interval, Sites sites) {
 
         IntersectCalculate calc = new IntersectCalculate();
         IntersectResult result = calc.searchSingleInterval(interval,sites);

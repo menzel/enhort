@@ -4,11 +4,8 @@ import de.thm.backgroundModel.BackgroundModelFactory;
 import de.thm.calc.Intersect;
 import de.thm.calc.IntersectCalculate;
 import de.thm.calc.IntersectMultithread;
-import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.genomeData.Interval;
 import de.thm.genomeData.IntervalFactory;
-
-import de.thm.genomeData.Interval.Type;
 import de.thm.positionData.Sites;
 import de.thm.stat.ResultCollector;
 import de.thm.stat.TestResult;
@@ -23,7 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static de.thm.genomeData.Interval.Type.*;
+import static de.thm.genomeData.Interval.Type.score;
 
 /**
  * Bootstraps basic analysis with all intervals one of the two background models and user input.
@@ -32,13 +29,12 @@ import static de.thm.genomeData.Interval.Type.*;
  */
 public class Analyse {
 
-    private Intersect simple;
     private Map<String, Interval> intervals;
 
     public Analyse() {
         IntervalFactory loader = IntervalFactory.getInstance();
         intervals =  loader.getAllIntervals();
-        simple = new IntersectCalculate();
+        Intersect simple = new IntersectCalculate();
     }
 
     /**
@@ -46,7 +42,7 @@ public class Analyse {
      *
      * @param userSites - sites for measurement
      */
-    public void analyse(Sites userSites) throws Exception, IntervalTypeNotAllowedExcpetion {
+    public void analyse(Sites userSites) throws Exception {
 
 
         //IntersectResult resultUserSites;

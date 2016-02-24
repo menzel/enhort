@@ -12,7 +12,7 @@ import java.util.stream.Stream;
  */
 public class StatisticsCollector {
 
-    private static StatisticsCollector instance = new StatisticsCollector(new File("/tmp/log").toPath());
+    private static final StatisticsCollector instance = new StatisticsCollector(new File("/tmp/log").toPath());
 
 
     /**
@@ -24,7 +24,7 @@ public class StatisticsCollector {
     private int errorCount;
     private int downloadCount;
 
-    private Path logPath;
+    private final Path logPath;
 
     private StatisticsCollector(Path logPath) {
         this.logPath = logPath;

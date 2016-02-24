@@ -151,7 +151,7 @@ class AppearanceTable {
      * @param app - hash key as String
      * @return List of intervals which are referenced in the hash key
      */
-    protected List<Interval> translate(String app, List<Interval> knownIntervals) {
+    List<Interval> translate(String app, List<Interval> knownIntervals) {
 
         if(app.compareTo("[]") == 0){ //empty array
             return null;

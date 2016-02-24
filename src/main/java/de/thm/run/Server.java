@@ -18,11 +18,10 @@ import java.util.Map;
 @EnableAutoConfiguration
 public class Server {
 
-   private static IntervalFactory loader;
-   private static Map<String, Interval> intervals;
+    private static Map<String, Interval> intervals;
 
    public static void main(String[] args){
-      loader = IntervalFactory.getInstance();
+       IntervalFactory loader = IntervalFactory.getInstance();
       intervals = loader.getAllIntervals();
 
       attachShutDownHook();
@@ -39,7 +38,7 @@ public class Server {
       return intervals;
    }
 
-    public static void attachShutDownHook(){
+    static void attachShutDownHook(){
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {

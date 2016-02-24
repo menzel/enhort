@@ -6,9 +6,9 @@ import java.util.List;
  * Created by Michael Menzel on 12/2/16.
  */
 public class IntervalPackage {
-    private List<Interval> intervalList;
-    private String description;
-    private PackageName name;
+    private final List<Interval> intervalList;
+    private final String description;
+    private final PackageName name;
 
 
     public IntervalPackage(List<Interval> intervalList, PackageName name, String description) {

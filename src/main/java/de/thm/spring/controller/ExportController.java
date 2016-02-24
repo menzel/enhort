@@ -34,6 +34,7 @@ public class ExportController {
         //create file
         File output = new File("/tmp/csv_output_" + httpSession.getId());
         try(BufferedWriter writer = Files.newBufferedWriter(output.toPath())){
+            //noinspection ResultOfMethodCallIgnored
             output.createNewFile();
             writer.write(currentSession.getCollector().getCsv());
 
@@ -64,6 +65,7 @@ public class ExportController {
         File output = new File("/tmp/bg_output_" + httpSession.getId());
 
         try(BufferedWriter writer = Files.newBufferedWriter(output.toPath())){
+            //noinspection ResultOfMethodCallIgnored
             output.createNewFile();
 
             for(String line: positions) writer.write(line);

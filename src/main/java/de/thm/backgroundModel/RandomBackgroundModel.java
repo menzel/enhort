@@ -10,7 +10,7 @@ import java.util.*;
  */
 class RandomBackgroundModel implements Sites {
 
-    private Random rand;
+    private final Random rand;
     private List<Long> positions = new ArrayList<>();
 
     /**

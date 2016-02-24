@@ -1,6 +1,5 @@
 package de.thm.backgroundModel;
 
-import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.genomeData.GenomeInterval;
 import de.thm.genomeData.Interval;
 import de.thm.positionData.Sites;
@@ -86,12 +85,6 @@ public class BetterBackgroundModelTest {
 
         sites.setPositions(positions);
 
-        try {
-            SingleTrackBackgroundModel better = new SingleTrackBackgroundModel(intv, sites);
-        } catch (IntervalTypeNotAllowedExcpetion intervalTypeNotAllowedExcpetion) {
-            intervalTypeNotAllowedExcpetion.printStackTrace();
-        }
-
-
+        SingleTrackBackgroundModel better = new SingleTrackBackgroundModel(intv, sites);
     }
 }

@@ -17,8 +17,8 @@ import java.nio.file.Path;
  */
 final class IntervalDumper {
     private static final String extension = "kryo";
-    private Path baseDir;
-    private Kryo kryo;
+    private final Path baseDir;
+    private final Kryo kryo;
 
     IntervalDumper(Path baseDir) {
         this.baseDir = baseDir;

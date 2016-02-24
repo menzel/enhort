@@ -13,11 +13,31 @@
   <component name="ChangeListManager">
     <list default="true" id="9ac5bf7f-aa21-443c-9819-d391adab5fa9" name="Default" comment="redirect to new main page">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/AppearanceTable.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/AppearanceTable.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/BackgroundModelFactory.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/BackgroundModelFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/RandomBackgroundModel.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/RandomBackgroundModel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/ScoreMultiTrackBackgroundModel.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/ScoreMultiTrackBackgroundModel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/SingleTrackBackgroundModel.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/SingleTrackBackgroundModel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/bootstrap/Analyse.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/bootstrap/Analyse.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/calc/IntersectMultithread.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/calc/IntersectMultithread.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/calc/IntersectWrapper.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/calc/IntersectWrapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/genomeData/AbstractInterval.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/genomeData/AbstractInterval.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/genomeData/GenomeInterval.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/genomeData/GenomeInterval.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/genomeData/ImmutableInterval.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/genomeData/ImmutableInterval.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/genomeData/IntervalDumper.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/genomeData/IntervalDumper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/genomeData/IntervalFactory.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/genomeData/IntervalFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/genomeData/IntervalPackage.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/genomeData/IntervalPackage.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/misc/ChromosomSizes.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/misc/ChromosomSizes.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/positionData/UserData.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/positionData/UserData.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/run/Main.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/run/Main.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/run/Server.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/run/Server.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/spring/backend/Sessions.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/spring/backend/Sessions.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/spring/backend/StatisticsCollector.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/spring/backend/StatisticsCollector.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/spring/controller/CalculationController.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/spring/controller/CalculationController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/spring/controller/ExportController.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/spring/controller/ExportController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/BetterBackgroundModelTest.java" afterPath="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/BetterBackgroundModelTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/MultiTrackBackgroundModelTest.java" afterPath="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/MultiTrackBackgroundModelTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/ScoreMultiTrackBackgroundModelTest.java" afterPath="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/ScoreMultiTrackBackgroundModelTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/de/thm/genomeData/IntervalsTest.java" afterPath="$PROJECT_DIR$/src/test/java/de/thm/genomeData/IntervalsTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/de/thm/positionData/BetterBackgroundModelTest.java" afterPath="$PROJECT_DIR$/src/test/java/de/thm/positionData/BetterBackgroundModelTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/web/index.html" afterPath="$PROJECT_DIR$/src/web/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/web/named.html" afterPath="$PROJECT_DIR$/src/web/named.html" />
     </list>
     <list id="8ce51779-683a-4a4a-b00e-89aacd62971d" name="Rejected commit: Default" comment="javadoc" />
     <ignored path="MultiGenBrowser.iws" />
@@ -50,145 +70,110 @@
     <favorites_list name="MultiGenBrowser" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
-      <split-first>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="ResultCollector.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/stat/ResultCollector.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="BetterBackgroundModelTest.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/BetterBackgroundModelTest.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="24" column="21" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="IntervalsTest.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/genomeData/IntervalsTest.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="262" column="33" selection-start-line="262" selection-start-column="33" selection-end-line="262" selection-end-column="33" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="IntervalFactory.java" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/IntervalFactory.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.7428023">
-                  <caret line="151" column="12" selection-start-line="151" selection-start-column="12" selection-end-line="151" selection-end-column="12" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                    <element signature="e#5393#5394#0" expanded="true" />
-                    <element signature="e#5425#5426#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="MultiTrackBackgroundModelTest.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/MultiTrackBackgroundModelTest.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="275" column="34" selection-start-line="275" selection-start-column="34" selection-end-line="275" selection-end-column="34" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="result.html" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/resources/templates/result.html">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-20.0">
-                  <caret line="171" column="20" selection-start-line="171" selection-start-column="20" selection-end-line="171" selection-end-column="20" />
-                  <folding>
-                    <element signature="n#style#0;n#span#0;n#th#3;n#thead#0;n#table#0;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                    <element signature="n#style#0;n#span#0;n#span#0;n#th#3;n#thead#0;n#table#0;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                    <element signature="n#style#0;n#span#1;n#span#0;n#th#3;n#thead#0;n#table#0;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="BetterBackgroundModelTest.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/positionData/BetterBackgroundModelTest.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="63" column="27" selection-start-line="63" selection-start-column="27" selection-end-line="63" selection-end-column="27" />
-                  <folding>
-                    <element signature="e#1480#1481#0" expanded="true" />
-                    <element signature="e#1523#1524#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="GenomeInterval.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/GenomeInterval.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="39" column="4" selection-start-line="39" selection-start-column="4" selection-end-line="39" selection-end-column="4" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="ScoreMultiTrackBackgroundModelTest.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/ScoreMultiTrackBackgroundModelTest.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="119" column="33" selection-start-line="119" selection-start-column="33" selection-end-line="119" selection-end-column="33" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/run/Main.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file leaf-file-name="GenomeInterval.java" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/GenomeInterval.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.48368523">
-                  <caret line="39" column="4" selection-start-line="39" selection-start-column="4" selection-end-line="39" selection-end-column="4" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="AnalysisHelper.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/helper/AnalysisHelper.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="result.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/static/css/result.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-4.0">
+              <caret line="6" column="4" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/web/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-14.666667">
+              <caret line="22" column="17" selection-start-line="22" selection-start-column="17" selection-end-line="22" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="named.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/web/named.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-14.666667">
+              <caret line="22" column="17" selection-start-line="22" selection-start-column="17" selection-end-line="22" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bubble.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/web/bubble.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-2.6666667">
+              <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/run/Main.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ScoreMultiTrackBackgroundModel.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/ScoreMultiTrackBackgroundModel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="57" column="31" selection-start-line="57" selection-start-column="31" selection-end-line="57" selection-end-column="31" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ExportController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/controller/ExportController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="68" column="19" selection-start-line="68" selection-start-column="19" selection-end-line="68" selection-end-column="19" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BackgroundModelFactory.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/BackgroundModelFactory.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="27" column="7" selection-start-line="27" selection-start-column="7" selection-end-line="27" selection-end-column="7" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BetterBackgroundModelTest.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/BetterBackgroundModelTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.86180425">
+              <caret line="87" column="0" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -217,57 +202,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/resources/templates/error.html" />
-        <option value="$PROJECT_DIR$/src/main/resources/templates/stat.html" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/mTrackBg/ScoreMultiTrackBackgroundModel.java" />
-        <option value="/usr/lib/jvm/java-8-openjdk/jre/lib/rt.jar!/sun/reflect/NativeMethodAccessorImpl.class" />
-        <option value="$PROJECT_DIR$/src/test/java/de/thm/misc/ChromosomSizesTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/spring/controller/ExportController.java" />
         <option value="$PROJECT_DIR$/src/main/resources/static/css/result.css" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/result.html" />
         <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/BackgroundModel.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/misc/ChromosomSizes.java" />
         <option value="$PROJECT_DIR$/src/main/java/de/thm/positionData/Sites.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/RandomBackgroundModel.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/AppearanceTable.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/calc/IntersectWrapper.java" />
         <option value="$PROJECT_DIR$/src/main/java/de/thm/calc/PositionPreprocessor.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/calc/IntersectMultithread.java" />
         <option value="$PROJECT_DIR$/src/main/java/de/thm/calc/Intersect.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/positionData/UserData.java" />
         <option value="$PROJECT_DIR$/src/main/java/de/thm/exception/CovariantsException.java" />
         <option value="$PROJECT_DIR$/src/main/java/de/thm/exception/IntervalTypeNotAllowedExcpetion.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/ScoreMultiTrackBackgroundModel.java" />
         <option value="$PROJECT_DIR$/src/main/java/de/thm/genomeData/IntervalLoader.java" />
         <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/MultiTrackBackgroundModel.java" />
         <option value="$PROJECT_DIR$/src/main/java/de/thm/spring/helper/AnalysisHelper.java" />
         <option value="$PROJECT_DIR$/src/test/java/de/thm/calc/IntersectSimpleTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/genomeData/IntervalPackage.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/genomeData/IntervalDumper.java" />
         <option value="$PROJECT_DIR$/src/main/java/de/thm/positionData/AbstractSites.java" />
         <option value="$PROJECT_DIR$/src/test/java/de/thm/genomeData/IntervalTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/de/thm/genomeData/IntervalDumperTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/de/thm/misc/PositionPreprocessor.java" />
         <option value="$PROJECT_DIR$/src/main/java/de/thm/genomeData/Interval.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/genomeData/Intervals.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/BackgroundModelFactory.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/SingleTrackBackgroundModel.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/bootstrap/Analyse.java" />
         <option value="$PROJECT_DIR$/src/main/java/de/thm/calc/IntersectCalculate.java" />
         <option value="$PROJECT_DIR$/src/main/java/de/thm/calc/IntersectResult.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/genomeData/AbstractInterval.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/genomeData/GenomeInterval.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/genomeData/ImmutableInterval.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/spring/controller/CalculationController.java" />
         <option value="$PROJECT_DIR$/src/main/java/de/thm/stat/TestResult.java" />
-        <option value="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/BetterBackgroundModelTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/de/thm/genomeData/IntervalsTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/MultiTrackBackgroundModelTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/de/thm/positionData/BetterBackgroundModelTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/ScoreMultiTrackBackgroundModelTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/run/Main.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/genomeData/IntervalFactory.java" />
         <option value="$PROJECT_DIR$/src/main/java/de/thm/stat/ResultCollector.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/genomeData/AbstractInterval.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/genomeData/GenomeInterval.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/genomeData/ImmutableInterval.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/positionData/UserData.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/AppearanceTable.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/genomeData/Intervals.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/run/Server.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/spring/controller/CalculationController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/misc/ChromosomSizes.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/calc/IntersectMultithread.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/calc/IntersectWrapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/genomeData/IntervalFactory.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/genomeData/IntervalPackage.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/RandomBackgroundModel.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/spring/backend/Sessions.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/spring/backend/StatisticsCollector.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/genomeData/IntervalDumper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/bootstrap/Analyse.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/SingleTrackBackgroundModel.java" />
+        <option value="$PROJECT_DIR$/src/web/index.html" />
+        <option value="$PROJECT_DIR$/src/web/named.html" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/run/Main.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/ScoreMultiTrackBackgroundModel.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/spring/controller/ExportController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/BackgroundModelFactory.java" />
+        <option value="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/BetterBackgroundModelTest.java" />
       </list>
     </option>
   </component>
@@ -403,6 +388,32 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiGenBrowser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiGenBrowser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="thm" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1649,7 +1660,7 @@
       <workItem from="1455059693756" duration="4600000" />
       <workItem from="1455112902455" duration="9411000" />
       <workItem from="1455534265125" duration="53347000" />
-      <workItem from="1456153553555" duration="42428000" />
+      <workItem from="1456153553555" duration="43738000" />
     </task>
     <task id="LOCAL-00254" summary="package support">
       <created>1455705264460</created>
@@ -1981,11 +1992,11 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="606144000" />
+    <option name="totallyTimeSpent" value="607454000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1920" height="1181" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1994,13 +2005,14 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4640523" sideWeight="0.59658486" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" x="576" y="339" width="444" height="166" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3816651" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30689207" sideWeight="0.46424758" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="WINDOWED" visible="true" show_stripe_button="true" weight="1.0" sideWeight="0.46851653" order="2" side_tool="false" content_ui="tabs" x="1280" y="0" width="640" height="1181" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="WINDOWED" visible="true" show_stripe_button="true" weight="1.0" sideWeight="0.46851653" order="2" side_tool="false" content_ui="tabs" x="1280" y="0" width="640" height="1181" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.108512625" sideWeight="0.5357524" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21771611" sideWeight="0.49672592" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32899868" sideWeight="0.49786553" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2497332" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -2011,10 +2023,9 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="combo" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2871843" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -2121,178 +2132,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/stat.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.6666667">
-          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/add_track.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/upload.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.333333">
-          <caret line="14" column="62" selection-start-line="14" selection-start-column="62" selection-end-line="14" selection-end-column="62" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/static/css/result.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.333333">
-          <caret line="55" column="1" selection-start-line="55" selection-start-column="1" selection-end-line="55" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/controller/ApplicationController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.08637236">
-          <caret line="12" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="12" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/misc/ChromosomSizes.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/exception/CovariantsException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="12" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/exception/IntervalTypeNotAllowedExcpetion.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="12" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/stat/IndependenceTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="51" column="34" selection-start-line="51" selection-start-column="34" selection-end-line="51" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MultiGenBrowser.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/helper/AnalysisHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="32" column="50" selection-start-line="32" selection-start-column="50" selection-end-line="32" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/calc/IntersectSimpleTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="19" column="4" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="4" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="uml://JAVA/de.thm">
-      <provider selected="true" editor-type-id="UmlEditorProvider">
-        <state>
-          <ID>JAVA</ID>
-          <OriginalElement>de.thm</OriginalElement>
-          <nodes>
-            <node x="" y="">de.thm.genomeData.IntervalDumper</node>
-            <node x="" y="">de.thm.calc.Intersect</node>
-            <node x="" y="">de.thm.stat.EffectSize</node>
-            <node x="" y="">de.thm.backgroundModel.ScoreMultiTrackBackgroundModel</node>
-            <node x="" y="">de.thm.backgroundModel.SingleTrackBackgroundModel</node>
-            <node x="" y="">de.thm.genomeData.IntervalPackage.PackageName</node>
-            <node x="" y="">de.thm.backgroundModel.MultiTrackBackgroundModel</node>
-            <node x="" y="">de.thm.stat.ResultCollector</node>
-            <node x="" y="">de.thm.misc.ChromosomSizesTest</node>
-            <node x="" y="">de.thm.genomeData.Intervals.Type</node>
-            <node x="" y="">de.thm.stat.IndependenceTest</node>
-            <node x="" y="">de.thm.stat.TestResult</node>
-            <node x="" y="">de.thm.genomeData.GenomeInterval</node>
-            <node x="" y="">de.thm.backgroundModel.AppearanceTable</node>
-            <node x="" y="">de.thm.genomeData.IntervalIntersectTest</node>
-            <node x="" y="">de.thm.calc.IntersectMultithread</node>
-            <node x="" y="">de.thm.positionData.BetterBackgroundModelTest</node>
-            <node x="" y="">de.thm.genomeData.IntervalLoader</node>
-            <node x="" y="">de.thm.spring</node>
-            <node x="" y="">de.thm.bootstrap</node>
-            <node x="" y="">de.thm.positionData.AbstractSites</node>
-            <node x="" y="">de.thm.calc.IntersectCalculate</node>
-            <node x="" y="">de.thm.genomeData.Interval</node>
-            <node x="" y="">de.thm.backgroundModel.BackgroundModelFactory</node>
-            <node x="" y="">de.thm.genomeData.Intervals</node>
-            <node x="" y="">de.thm.run</node>
-            <node x="" y="">de.thm.backgroundModel.RandomBackgroundModel</node>
-            <node x="" y="">de.thm.genomeData.IntervalFactory</node>
-            <node x="" y="">de.thm.backgroundModel.AppearanceTableTest</node>
-            <node x="" y="">de.thm.genomeData.IntervalPackage</node>
-            <node x="" y="">de.thm.positionData.UserData</node>
-            <node x="" y="">de.thm.calc.IntersectResult</node>
-            <node x="" y="">de.thm.calc.IntersectWrapper</node>
-            <node x="" y="">de.thm.backgroundModel.MultiTrackBackgroundModelTest</node>
-            <node x="" y="">de.thm.positionData.Sites</node>
-            <node x="" y="">de.thm.backgroundModel.BetterBackgroundModelTest</node>
-            <node x="" y="">de.thm.misc.PositionPreprocessor</node>
-            <node x="" y="">de.thm.misc.ChromosomSizes</node>
-            <node x="" y="">de.thm.genomeData.IntervalDumperTest</node>
-            <node x="" y="">de.thm.calc.IntersectSimpleTest</node>
-            <node x="" y="">de.thm.genomeData.IntervalTest</node>
-            <node x="" y="">de.thm.genomeData.IntervalsTest</node>
-            <node x="" y="">de.thm.backgroundModel.ScoreMultiTrackBackgroundModelTest</node>
-            <node x="" y="">de.thm.exception</node>
-          </nodes>
-          <notes />
-          <edges />
-          <settings layout="Hierarchic Group" zoom="0.1419370819915779" x="5154.260034904014" y="3028.806282722513" />
-          <SelectedNodes />
-          <Categories>
-            <Category>Fields</Category>
-            <Category>Methods</Category>
-          </Categories>
-          <SCOPE>All</SCOPE>
-          <VISIBILITY>public</VISIBILITY>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/genomeData/IntervalTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2317,71 +2156,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/Intervals.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="64" column="23" selection-start-line="64" selection-start-column="23" selection-end-line="64" selection-end-column="23" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/AppearanceTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="193" column="56" selection-start-line="193" selection-start-column="56" selection-end-line="193" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/BackgroundModelFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="6" column="33" selection-start-line="6" selection-start-column="33" selection-end-line="6" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/MultiTrackBackgroundModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/RandomBackgroundModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/ScoreMultiTrackBackgroundModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="113" column="0" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/SingleTrackBackgroundModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="38" selection-start-line="8" selection-start-column="38" selection-end-line="8" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/bootstrap/Analyse.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="87" column="62" selection-start-line="87" selection-start-column="62" selection-end-line="87" selection-end-column="62" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2401,25 +2180,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/calc/IntersectMultithread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="17" column="12" selection-start-line="17" selection-start-column="12" selection-end-line="17" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/calc/IntersectWrapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="47" column="4" selection-start-line="47" selection-start-column="4" selection-end-line="47" selection-end-column="4" />
-          <folding>
-            <element signature="e#1389#1390#0" expanded="true" />
-            <element signature="e#1422#1423#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/calc/IntersectResult.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2428,46 +2188,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/AbstractInterval.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="22" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/Interval.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="27" column="4" selection-start-line="27" selection-start-column="4" selection-end-line="27" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/ImmutableInterval.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="62" column="11" selection-start-line="62" selection-start-column="11" selection-end-line="62" selection-end-column="11" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/IntervalPackage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="28" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/IntervalDumper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="17" column="12" selection-start-line="17" selection-start-column="12" selection-end-line="17" selection-end-column="12" />
           <folding />
         </state>
       </provider>
@@ -2490,29 +2214,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/positionData/UserData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="15" column="12" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/command/CovariantCommand.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/controller/CalculationController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="159" column="60" selection-start-line="159" selection-start-column="60" selection-end-line="159" selection-end-column="60" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2523,14 +2229,6 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/BetterBackgroundModelTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="21" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2571,36 +2269,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/run/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/result.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-20.0">
-          <caret line="171" column="20" selection-start-line="171" selection-start-column="20" selection-end-line="171" selection-end-column="20" />
-          <folding>
-            <element signature="n#style#0;n#span#0;n#th#3;n#thead#0;n#table#0;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#span#0;n#th#3;n#thead#0;n#table#0;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#1;n#span#0;n#th#3;n#thead#0;n#table#0;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/GenomeInterval.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="39" column="4" selection-start-line="39" selection-start-column="4" selection-end-line="39" selection-end-column="4" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/stat/ResultCollector.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2611,15 +2279,739 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/IntervalFactory.java">
+    <entry file="uml://JAVA/de.thm">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>JAVA</ID>
+          <OriginalElement>de.thm</OriginalElement>
+          <nodes>
+            <node x="4312.347343351897" y="1412.0">de.thm.genomeData.IntervalDumper</node>
+            <node x="2516.329826880734" y="1401.5">de.thm.calc.Intersect</node>
+            <node x="4770.997343351897" y="1285.5">de.thm.genomeData.AbstractInterval</node>
+            <node x="2096.6214935474" y="1401.5">de.thm.stat.EffectSize</node>
+            <node x="2853.2649867754308" y="1932.0">de.thm.backgroundModel.ScoreMultiTrackBackgroundModel</node>
+            <node x="4205.681932137391" y="2297.5">de.thm.backgroundModel.SingleTrackBackgroundModel</node>
+            <node x="4722.414010018563" y="867.0">de.thm.genomeData.IntervalPackage.PackageName</node>
+            <node x="3950.126376581836" y="2490.0">de.thm.backgroundModel.MultiTrackBackgroundModel</node>
+            <node x="741.4978824362888" y="1869.0">de.thm.stat.ResultCollector</node>
+            <node x="1268.0086120286287" y="2522.0">de.thm.exception.IntervalTypeNotAllowedExcpetion</node>
+            <node x="2190.079826880734" y="1953.5">de.thm.stat.IndependenceTest</node>
+            <node x="5652.997343351897" y="1285.5">de.thm.genomeData.ImmutableInterval</node>
+            <node x="1591.6214935474004" y="1233.0">de.thm.stat.TestResult</node>
+            <node x="5353.600278695295" y="772.0">de.thm.genomeData.GenomeInterval</node>
+            <node x="3909.681932137392" y="2287.0">de.thm.backgroundModel.AppearanceTable</node>
+            <node x="1955.7086120286285" y="2511.5">de.thm.calc.IntersectMultithread</node>
+            <node x="5150.466474870669" y="0.0">de.thm.genomeData.Interval.Type</node>
+            <node x="1153.4978824362893" y="1380.0">de.thm.positionData.AbstractSites</node>
+            <node x="3196.2649867754308" y="1953.5">de.thm.calc.IntersectCalculate</node>
+            <node x="3991.6498082040025" y="201.0">de.thm.genomeData.Interval</node>
+            <node x="2990.108612028628" y="2662.0">de.thm.backgroundModel.BackgroundModelFactory</node>
+            <node x="5157.997343351897" y="1286.0">de.thm.genomeData.Intervals</node>
+            <node x="17.83333333333303" y="1380.0">de.thm.backgroundModel.RandomBackgroundModel</node>
+            <node x="4163.447343351896" y="1921.5">de.thm.genomeData.IntervalFactory</node>
+            <node x="360.83333333333303" y="1380.0">de.thm.positionData.UserData</node>
+            <node x="4089.3473433518966" y="1380.5">de.thm.genomeData.IntervalPackage</node>
+            <node x="3205.433612028628" y="824.5">de.thm.calc.IntersectResult</node>
+            <node x="2144.7086120286285" y="2319.0">de.thm.calc.IntersectWrapper</node>
+            <node x="1267.3163756643198" y="866.5">de.thm.positionData.Sites</node>
+            <node x="5505.600278695295" y="317.0">de.thm.misc.PositionPreprocessor</node>
+            <node x="1265.8163756643198" y="274.5">de.thm.misc.ChromosomSizes</node>
+            <node x="3018.608612028628" y="2522.0">de.thm.exception.CovariantsException</node>
+          </nodes>
+          <notes />
+          <edges>
+            <edge source="de.thm.genomeData.Interval" target="de.thm.genomeData.Interval.Type">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.calc.Intersect" target="de.thm.positionData.Sites">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.stat.IndependenceTest" target="de.thm.genomeData.Interval">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.ScoreMultiTrackBackgroundModel" target="de.thm.genomeData.GenomeInterval">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.genomeData.IntervalFactory" target="de.thm.genomeData.IntervalDumper">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.MultiTrackBackgroundModel" target="de.thm.genomeData.Intervals">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.genomeData.IntervalFactory" target="de.thm.genomeData.IntervalPackage.PackageName">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.BackgroundModelFactory" target="de.thm.exception.CovariantsException">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.stat.TestResult" target="de.thm.genomeData.Interval.Type">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.calc.IntersectResult" target="de.thm.genomeData.Interval.Type">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.genomeData.Intervals" target="de.thm.misc.ChromosomSizes">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.BackgroundModelFactory" target="de.thm.backgroundModel.MultiTrackBackgroundModel">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.genomeData.GenomeInterval" target="de.thm.genomeData.Interval.Type">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.genomeData.IntervalFactory" target="de.thm.genomeData.Interval.Type">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.AppearanceTable" target="de.thm.genomeData.IntervalFactory">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.misc.PositionPreprocessor" target="de.thm.genomeData.GenomeInterval">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.calc.Intersect" target="de.thm.calc.IntersectResult">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.genomeData.IntervalFactory" target="de.thm.genomeData.GenomeInterval">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.calc.IntersectWrapper" target="de.thm.genomeData.Interval">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.SingleTrackBackgroundModel" target="de.thm.genomeData.Interval.Type">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.calc.IntersectWrapper" target="de.thm.stat.EffectSize">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.SingleTrackBackgroundModel" target="de.thm.genomeData.Interval">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.stat.TestResult" target="de.thm.genomeData.Interval">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.stat.IndependenceTest" target="de.thm.calc.IntersectResult">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.ScoreMultiTrackBackgroundModel" target="de.thm.genomeData.Intervals">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.genomeData.IntervalFactory" target="de.thm.genomeData.IntervalPackage">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.genomeData.IntervalPackage" target="de.thm.genomeData.IntervalPackage.PackageName">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.calc.IntersectMultithread" target="de.thm.calc.IntersectWrapper">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.calc.IntersectWrapper" target="de.thm.stat.ResultCollector">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.genomeData.IntervalFactory" target="de.thm.misc.ChromosomSizes">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.calc.IntersectWrapper" target="de.thm.calc.IntersectResult">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.genomeData.GenomeInterval" target="de.thm.genomeData.Interval">
+              <point x="-152.5" y="-140.5" />
+              <point x="5384.100278695295" y="512.0" />
+              <point x="4336.534423588618" y="512.0" />
+              <point x="161.88461538461547" y="140.5" />
+            </edge>
+            <edge source="de.thm.calc.IntersectResult" target="de.thm.genomeData.Interval">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.calc.Intersect" target="de.thm.genomeData.Interval">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.BackgroundModelFactory" target="de.thm.positionData.Sites">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.SingleTrackBackgroundModel" target="de.thm.genomeData.Intervals">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.AppearanceTable" target="de.thm.positionData.Sites">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.calc.IntersectMultithread" target="de.thm.stat.ResultCollector">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.calc.IntersectWrapper" target="de.thm.calc.IntersectCalculate">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.calc.IntersectWrapper" target="de.thm.positionData.Sites">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.genomeData.ImmutableInterval" target="de.thm.genomeData.Interval.Type">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.genomeData.AbstractInterval" target="de.thm.genomeData.Interval">
+              <point x="-91.5" y="-140.5" />
+              <point x="4862.497343351897" y="1163.0" />
+              <point x="4876.914010018563" y="1163.0" />
+              <point x="4876.914010018563" y="552.0" />
+              <point x="4280.226731280925" y="552.0" />
+              <point x="105.5769230769231" y="140.5" />
+            </edge>
+            <edge source="de.thm.calc.IntersectCalculate" target="de.thm.genomeData.Interval.Type">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.calc.IntersectWrapper" target="de.thm.calc.Intersect">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.positionData.UserData" target="de.thm.positionData.Sites">
+              <point x="80.75" y="-46.0" />
+              <point x="603.083333333333" y="1153.0" />
+              <point x="1294.2330423309863" y="1153.0" />
+              <point x="-134.58333333333348" y="46.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.BackgroundModelFactory" target="de.thm.genomeData.Interval.Type">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.BackgroundModelFactory" target="de.thm.backgroundModel.ScoreMultiTrackBackgroundModel">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.genomeData.IntervalDumper" target="de.thm.genomeData.GenomeInterval">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.BackgroundModelFactory" target="de.thm.exception.IntervalTypeNotAllowedExcpetion">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.ScoreMultiTrackBackgroundModel" target="de.thm.positionData.Sites">
+              <point x="-64.59999999999991" y="-46.0" />
+              <point x="2950.1649867754304" y="1739.0" />
+              <point x="1573.897882436289" y="1739.0" />
+              <point x="1573.897882436289" y="1143.0" />
+              <point x="1545.455264553209" y="1143.0" />
+              <point x="116.63888888888914" y="46.0" />
+            </edge>
+            <edge source="de.thm.genomeData.Intervals" target="de.thm.genomeData.Interval.Type">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.calc.IntersectMultithread" target="de.thm.positionData.Sites">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.calc.IntersectCalculate" target="de.thm.positionData.Sites">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.AppearanceTable" target="de.thm.genomeData.Interval">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.positionData.Sites" target="de.thm.misc.ChromosomSizes">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.MultiTrackBackgroundModel" target="de.thm.genomeData.Interval">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.stat.IndependenceTest" target="de.thm.stat.EffectSize">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.genomeData.IntervalPackage" target="de.thm.genomeData.Interval">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.genomeData.IntervalDumper" target="de.thm.genomeData.Interval">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.genomeData.ImmutableInterval" target="de.thm.genomeData.GenomeInterval">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.positionData.AbstractSites" target="de.thm.positionData.Sites">
+              <point x="0.0" y="-46.0" />
+              <point x="1314.9978824362893" y="1213.0" />
+              <point x="1401.8997089976533" y="1213.0" />
+              <point x="-26.916666666666515" y="46.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.BackgroundModelFactory" target="de.thm.backgroundModel.RandomBackgroundModel">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.genomeData.IntervalFactory" target="de.thm.genomeData.Interval">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.stat.IndependenceTest" target="de.thm.stat.TestResult">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.genomeData.Intervals" target="de.thm.genomeData.GenomeInterval">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.RandomBackgroundModel" target="de.thm.misc.ChromosomSizes">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.stat.ResultCollector" target="de.thm.stat.TestResult">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.calc.IntersectWrapper" target="de.thm.stat.IndependenceTest">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.BackgroundModelFactory" target="de.thm.backgroundModel.SingleTrackBackgroundModel">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.calc.IntersectCalculate" target="de.thm.calc.Intersect">
+              <point x="-93.25" y="-24.5" />
+              <point x="3289.5149867754308" y="1719.0" />
+              <point x="2796.079826880734" y="1719.0" />
+              <point x="93.25" y="24.5" />
+            </edge>
+            <edge source="de.thm.backgroundModel.MultiTrackBackgroundModel" target="de.thm.backgroundModel.SingleTrackBackgroundModel">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.genomeData.AbstractInterval" target="de.thm.genomeData.GenomeInterval">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.stat.TestResult" target="de.thm.calc.IntersectResult">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.SingleTrackBackgroundModel" target="de.thm.calc.IntersectResult">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.MultiTrackBackgroundModel" target="de.thm.backgroundModel.AppearanceTable">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.RandomBackgroundModel" target="de.thm.positionData.Sites">
+              <point x="80.75" y="-46.0" />
+              <point x="260.08333333333303" y="1143.0" />
+              <point x="1276.288597886542" y="1143.0" />
+              <point x="-152.52777777777783" y="46.0" />
+            </edge>
+            <edge source="de.thm.genomeData.AbstractInterval" target="de.thm.genomeData.Interval.Type">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.stat.ResultCollector" target="de.thm.positionData.Sites">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.MultiTrackBackgroundModel" target="de.thm.positionData.Sites">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.genomeData.Intervals" target="de.thm.genomeData.Interval">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.ScoreMultiTrackBackgroundModel" target="de.thm.genomeData.Interval">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.calc.IntersectCalculate" target="de.thm.calc.IntersectResult">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.SingleTrackBackgroundModel" target="de.thm.positionData.Sites">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.genomeData.ImmutableInterval" target="de.thm.genomeData.Interval">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.SingleTrackBackgroundModel" target="de.thm.calc.IntersectCalculate">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.calc.IntersectMultithread" target="de.thm.genomeData.Interval">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.positionData.UserData" target="de.thm.misc.ChromosomSizes">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.calc.IntersectWrapper" target="de.thm.stat.TestResult">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.BackgroundModelFactory" target="de.thm.genomeData.Intervals">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.backgroundModel.BackgroundModelFactory" target="de.thm.genomeData.Interval">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.calc.IntersectCalculate" target="de.thm.genomeData.Interval">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.stat.EffectSize" target="de.thm.calc.IntersectResult">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.stat.ResultCollector" target="de.thm.genomeData.Interval.Type">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+            <edge source="de.thm.genomeData.GenomeInterval" target="de.thm.misc.PositionPreprocessor">
+              <point x="0.0" y="0.0" />
+              <point x="0.0" y="0.0" />
+            </edge>
+          </edges>
+          <settings layout="Hierarchic Group" zoom="0.5709967736457803" x="410.3176113721525" y="558.3176113721524" />
+          <SelectedNodes />
+          <Categories>
+            <Category>Fields</Category>
+            <Category>Methods</Category>
+            <Category>Properties</Category>
+          </Categories>
+          <SCOPE>All</SCOPE>
+          <VISIBILITY>public</VISIBILITY>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/GenomeInterval.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7428023">
-          <caret line="151" column="12" selection-start-line="151" selection-start-column="12" selection-end-line="151" selection-end-column="12" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="78" column="7" selection-start-line="78" selection-start-column="7" selection-end-line="78" selection-end-column="7" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#5393#5394#0" expanded="true" />
-            <element signature="e#5425#5426#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/ImmutableInterval.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="55" column="12" selection-start-line="55" selection-start-column="12" selection-end-line="55" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/positionData/UserData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="49" column="31" selection-start-line="49" selection-start-column="31" selection-end-line="49" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/controller/StatController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="38" column="4" selection-start-line="38" selection-start-column="4" selection-end-line="38" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/exception/CovariantsException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="13" column="31" selection-start-line="13" selection-start-column="31" selection-end-line="13" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/AppearanceTable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="153" column="4" selection-start-line="153" selection-start-column="4" selection-end-line="153" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/Intervals.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="152" column="0" selection-start-line="152" selection-start-column="0" selection-end-line="152" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/run/Server.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="40" column="4" selection-start-line="40" selection-start-column="4" selection-end-line="40" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/AbstractInterval.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="20" column="25" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/controller/CalculationController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="40" column="24" selection-start-line="40" selection-start-column="24" selection-end-line="40" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/misc/ChromosomSizes.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="20" column="36" selection-start-line="20" selection-start-column="36" selection-end-line="20" selection-end-column="36" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/calc/IntersectMultithread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19" column="34" selection-start-line="19" selection-start-column="34" selection-end-line="19" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/calc/IntersectWrapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19" column="34" selection-start-line="19" selection-start-column="34" selection-end-line="19" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/IntervalPackage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="10" column="30" selection-start-line="10" selection-start-column="30" selection-end-line="10" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/RandomBackgroundModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="25" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/backend/Sessions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="14" column="39" selection-start-line="14" selection-start-column="39" selection-end-line="14" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/backend/StatisticsCollector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="26" column="23" selection-start-line="26" selection-start-column="23" selection-end-line="26" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/IntervalDumper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="20" column="23" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/controller/ApplicationController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="17" column="4" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/bootstrap/Analyse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="44" column="57" selection-start-line="44" selection-start-column="57" selection-end-line="44" selection-end-column="57" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/SingleTrackBackgroundModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="36" column="63" selection-start-line="36" selection-start-column="63" selection-end-line="36" selection-end-column="63" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/IntervalFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="168" column="26" selection-start-line="168" selection-start-column="26" selection-end-line="168" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/result.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.481482">
+          <caret line="304" column="47" selection-start-line="304" selection-start-column="47" selection-end-line="304" selection-end-column="47" />
+          <folding>
+            <element signature="n#style#0;n#span#0;n#th#3;n#thead#0;n#table#0;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#span#0;n#th#3;n#thead#0;n#table#0;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#1;n#span#0;n#th#3;n#thead#0;n#table#0;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/helper/AnalysisHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/web/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-14.666667">
+          <caret line="22" column="17" selection-start-line="22" selection-start-column="17" selection-end-line="22" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/web/named.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-14.666667">
+          <caret line="22" column="17" selection-start-line="22" selection-start-column="17" selection-end-line="22" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/web/bubble.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.6666667">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/run/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/ScoreMultiTrackBackgroundModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="57" column="31" selection-start-line="57" selection-start-column="31" selection-end-line="57" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/static/css/result.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.0">
+          <caret line="6" column="4" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/controller/ExportController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="68" column="19" selection-start-line="68" selection-start-column="19" selection-end-line="68" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/BackgroundModelFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="27" column="7" selection-start-line="27" selection-start-column="7" selection-end-line="27" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/BetterBackgroundModelTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.86180425">
+          <caret line="87" column="0" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

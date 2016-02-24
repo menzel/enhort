@@ -18,7 +18,7 @@ public final class ChromosomSizes {
     private final Map<String, Integer> sizes;
     private final List<String> names = new ArrayList<>();
     private long genomeSize = 0;
-    private Map<String, Long> offsets = new HashMap<>();
+    private final Map<String, Long> offsets = new HashMap<>();
 
     /**
      * Private Constructor

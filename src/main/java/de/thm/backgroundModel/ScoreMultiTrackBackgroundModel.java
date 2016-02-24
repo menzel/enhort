@@ -55,6 +55,7 @@ class ScoreMultiTrackBackgroundModel implements Sites{
         Map<String, Integer> genomeOccurence = new HashMap<>();
 
         //count occurences:
+        assert interval != null;
         for(String key: interval.getIntervalName()){
             if(genomeOccurence.containsKey(key)){
                 genomeOccurence.put(key, genomeOccurence.get(key)+1);

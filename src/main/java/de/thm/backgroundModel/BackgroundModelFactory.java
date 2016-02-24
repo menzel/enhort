@@ -1,10 +1,9 @@
 package de.thm.backgroundModel;
 
 import de.thm.exception.CovariantsException;
-import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.genomeData.Interval;
-import de.thm.genomeData.Intervals;
 import de.thm.genomeData.Interval.Type;
+import de.thm.genomeData.Intervals;
 import de.thm.positionData.Sites;
 
 import java.util.List;
@@ -24,11 +23,8 @@ public final class BackgroundModelFactory {
 
     public static Sites createBackgroundModel(Interval interval, Sites sites) {
         if(interval.getType() == Type.inout)
-            try {
-                return new SingleTrackBackgroundModel(interval,sites);
-            } catch (IntervalTypeNotAllowedExcpetion intervalTypeNotAllowedExcpetion) {
-                intervalTypeNotAllowedExcpetion.printStackTrace();
-            }
+            return new SingleTrackBackgroundModel(interval,sites);
+
         else if(interval.getType() == Type.score)
             try {
                 throw new Exception("Not impl yet");

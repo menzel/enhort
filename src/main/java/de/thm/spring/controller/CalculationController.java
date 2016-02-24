@@ -38,7 +38,7 @@ import java.util.UUID;
 @Controller
 public class CalculationController {
 
-    private static Path basePath = new File("/tmp").toPath();
+    private static final Path basePath = new File("/tmp").toPath();
 
     @RequestMapping(value="/upload", method=RequestMethod.GET)
     public String plainView(Model model, HttpSession httpSession){

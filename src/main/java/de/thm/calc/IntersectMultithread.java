@@ -17,8 +17,8 @@ import java.util.concurrent.TimeUnit;
  */
 public final class IntersectMultithread {
 
-    ExecutorService exe = Executors.newFixedThreadPool(8);
-    List<IntersectWrapper> wrappers = new ArrayList<>();
+    private final ExecutorService exe = Executors.newFixedThreadPool(8);
+    private List<IntersectWrapper> wrappers = new ArrayList<>();
 
     public IntersectMultithread() {
     }

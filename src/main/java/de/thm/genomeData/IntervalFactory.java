@@ -23,9 +23,9 @@ public class IntervalFactory {
 
     private static IntervalFactory instance;
     private final Path basePath = new File("/home/menzel/Desktop/THM/lfba/projekphase/dat/").toPath();
-    private Map<String, Interval> intervals;
-    private IntervalDumper intervalDumper;
-    private List<IntervalPackage> packageList;
+    private final Map<String, Interval> intervals;
+    private final IntervalDumper intervalDumper;
+    private final List<IntervalPackage> packageList;
 
     /**
      * Constructor. Parses the base dir and gets all intervals from files.

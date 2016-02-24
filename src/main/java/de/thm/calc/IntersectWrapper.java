@@ -17,7 +17,7 @@ class IntersectWrapper implements Runnable{
     private final Sites measuredPos;
     private final Interval interval;
     private TestResult testResult;
-    private ResultCollector collector;
+    private final ResultCollector collector;
 
     IntersectWrapper(Sites measuredPos, Sites randomPos, Interval interval, ResultCollector collector) {
 

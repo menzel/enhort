@@ -11,8 +11,8 @@ import java.util.Map;
  */
 public class Sessions {
 
-    private static Sessions instance = new Sessions();
-    private Map<String, Session> sessions;
+    private static final Sessions instance = new Sessions();
+    private final Map<String, Session> sessions;
 
     private Sessions() {
         sessions = new HashMap<>();
