@@ -319,7 +319,7 @@ public class IntervalsTest {
         List<Long> end1 = new ArrayList<>();
         List<Long> end2 = new ArrayList<>();
 
-        start1.add(0L);
+        start1.add(1L);
         start1.add(20L);
         start1.add(50L);
 
@@ -364,6 +364,9 @@ public class IntervalsTest {
         map.put("|0.5|0.4", 5d);
         map.put("|0.7|0.8", 5d);
 
+        map.put("||", 1d);
+
+
         Interval result = Intervals.combine(interval1, interval2, map);
 
         List<Long> expectedStarts = new ArrayList<>();
@@ -371,26 +374,40 @@ public class IntervalsTest {
         List<Double> expectedScores = new ArrayList<>();
 
         expectedStarts.add(0L);
+        expectedStarts.add(1L);
         expectedStarts.add(5L);
         expectedStarts.add(10L);
+        expectedStarts.add(15L);
         expectedStarts.add(20L);
+        expectedStarts.add(30L);
         expectedStarts.add(35L);
+        expectedStarts.add(40L);
         expectedStarts.add(50L);
+        expectedStarts.add(60L);
 
+        expectedEnds.add(1L);
         expectedEnds.add(5L);
         expectedEnds.add(10L);
         expectedEnds.add(15L);
+        expectedEnds.add(20L);
         expectedEnds.add(30L);
+        expectedEnds.add(35L);
         expectedEnds.add(40L);
+        expectedEnds.add(50L);
         expectedEnds.add(60L);
+        expectedEnds.add(ChromosomSizes.getInstance().getGenomeSize());
 
+        expectedScores.add(1d);
         expectedScores.add(5d);
         expectedScores.add(5d);
         expectedScores.add(5d);
+        expectedScores.add(1d);
         expectedScores.add(5d);
+        expectedScores.add(1d);
         expectedScores.add(5d);
+        expectedScores.add(1d);
         expectedScores.add(5d);
-
+        expectedScores.add(1d);
 
         assertEquals(expectedStarts, result.getIntervalsStart());
         assertEquals(expectedEnds, result.getIntervalsEnd());
@@ -440,5 +457,36 @@ public class IntervalsTest {
 
         assertEquals(starts, doubleInvert.getIntervalsStart());
         assertEquals(ends, doubleInvert.getIntervalsEnd());
+    }
+
+    @Test
+    public void testConvertToScore() throws Exception {
+         GenomeInterval base = new GenomeInterval();
+
+        List<Long> starts = new ArrayList<>();
+        List<Long> ends = new ArrayList<>();
+
+        starts.add(5L);
+        starts.add(15L);
+        starts.add(25L);
+
+        ends.add(10L);
+        ends.add(20L);
+        ends.add(26L);
+
+        base.setIntervalsStart(starts);
+        base.setIntervalsEnd(ends);
+
+        List<Double> expectedScores = new ArrayList<>();
+
+
+        expectedScores.add(1d);
+        expectedScores.add(1d);
+        expectedScores.add(1d);
+
+        Interval result = Intervals.convertToScore(base);
+
+        assertEquals(expectedScores, result.getIntervalScore());
+
     }
 }
