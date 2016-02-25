@@ -11,7 +11,7 @@ import java.util.*;
 /**
  * Created by Michael Menzel on 10/12/15.
  */
-public class IndependenceTest {
+public final class IndependenceTest {
 
     private ChiSquareTest tester;
     private KolmogorovSmirnovTest kolmoTester;

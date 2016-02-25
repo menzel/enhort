@@ -61,7 +61,7 @@ public class Intervals {
 
         GenomeInterval result = new GenomeInterval();
         //result.setType(intv1.getType());
-        result.setType(Interval.Type.inout); // scores and names are lost
+        //result.setType(Interval.Type.inout); // scores and names are lost
 
 
         List<Long> result_start = new ArrayList<>();
@@ -331,16 +331,20 @@ public class Intervals {
         outsideInterval.setType(Interval.Type.inout);
         outsideInterval = (GenomeInterval) invert(outsideInterval);
 
+        //convert outsider interval to scored interval with specific score value
+        outsideInterval.setType(Interval.Type.score);
         List<Double> outsideProb= new ArrayList<>(Collections.nCopies(outsideInterval.getIntervalsStart().size(), score_map.get("|")));
         outsideInterval.setIntervalScore(outsideProb);
 
         Map<String, Double> newMap = new HashMap<>(score_map.size());
 
+        //convert score map to have values for dual interval list
         for(String key: score_map.keySet()){
             double value = score_map.get(key);
             newMap.put(key.concat("|"), value);
         }
 
+        //do default combine
         return combine(outsideInterval, inputInterval, newMap);
     }
 
@@ -584,7 +588,7 @@ public class Intervals {
         List<Double> scores = new ArrayList<>(Collections.nCopies(interval.getIntervalsStart().size(), 1.0));
         GenomeInterval scoredInterval  = ((GenomeInterval) interval);
         scoredInterval.setIntervalScore(scores);
-        scoredInterval.setType(Interval.Type.score);
+        //scoredInterval.setType(Interval.Type.score);
 
         return scoredInterval;
     }
