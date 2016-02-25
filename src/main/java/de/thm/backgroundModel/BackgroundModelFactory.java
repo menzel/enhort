@@ -44,15 +44,14 @@ public final class BackgroundModelFactory {
         else if(intervalList.size() == 1)
             return createBackgroundModel(intervalList.get(0), sites);
 
+        else if (intervalList.stream().allMatch(i -> i.getType() == Type.inout))
+                return new MultiTrackBackgroundModel(intervalList, sites);
+
         else if(intervalList.size() <= maxCovariants) {
             if (intervalList.stream().allMatch(i -> i.getType() == Type.score))
                 return new ScoreMultiTrackBackgroundModel(intervalList, sites);
 
-            else if (intervalList.stream().allMatch(i -> i.getType() == Type.inout)) {
-
-                return new MultiTrackBackgroundModel(intervalList, sites);
-
-            } else {
+            else {
                 List<Interval> scoredIntervals = intervalList.stream()
                         .filter(i -> i.getType() == Type.score)
                         .collect(Collectors.toList());
