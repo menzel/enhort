@@ -40,10 +40,11 @@ public final class BackgroundModelFactory {
     public static Sites createBackgroundModel(List<Interval> intervalList, Sites sites) throws CovariantsException {
         if(intervalList.isEmpty())
             return createBackgroundModel(sites.getPositionCount());
+
         else if(intervalList.size() == 1)
             return createBackgroundModel(intervalList.get(0), sites);
 
-        if(intervalList.size() < maxCovariants) {
+        else if(intervalList.size() <= maxCovariants) {
             if (intervalList.stream().allMatch(i -> i.getType() == Type.score))
                 return new ScoreMultiTrackBackgroundModel(intervalList, sites);
 
