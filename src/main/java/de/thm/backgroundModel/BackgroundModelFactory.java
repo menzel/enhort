@@ -6,6 +6,7 @@ import de.thm.genomeData.Interval.Type;
 import de.thm.genomeData.Intervals;
 import de.thm.positionData.Sites;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,11 +27,8 @@ public final class BackgroundModelFactory {
             return new SingleTrackBackgroundModel(interval,sites);
 
         else if(interval.getType() == Type.score)
-            try {
-                throw new Exception("Not impl yet");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            return new ScoreMultiTrackBackgroundModel(Collections.singletonList(interval), sites);
+
 
         return null;
     }
