@@ -1,5 +1,6 @@
 package de.thm.genomeData;
 
+import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.misc.ChromosomSizes;
 import org.junit.Test;
 
@@ -56,14 +57,18 @@ public class IntervalsTest {
 
 
         // sum(a,b) == -Intersect(-a, -b)
-        assertEquals(Intervals.sum(interval1,interval2).getIntervalsStart(), Intervals.invert(Intervals.intersect(Intervals.invert(interval1),Intervals.invert(interval2))).getIntervalsStart());
+        try {
+            assertEquals(Intervals.sum(interval1,interval2).getIntervalsStart(), Intervals.invert(Intervals.intersect(Intervals.invert(interval1),Intervals.invert(interval2))).getIntervalsStart());
 
-        // sum(-a, -b) == -Intersect(a, b)
-        assertEquals(Intervals.sum(Intervals.invert(interval1), Intervals.invert(interval2)).getIntervalsStart(), Intervals.invert(Intervals.intersect(interval1, interval2)).getIntervalsStart());
+            // sum(-a, -b) == -Intersect(a, b)
+            assertEquals(Intervals.sum(Intervals.invert(interval1), Intervals.invert(interval2)).getIntervalsStart(), Intervals.invert(Intervals.intersect(interval1, interval2)).getIntervalsStart());
 
-        // sum(a, -b) == Intersect(-a, b)
-        assertEquals(Intervals.sum(interval1, Intervals.invert(interval2)).getIntervalsStart(), Intervals.intersect(Intervals.invert(interval1), interval2).getIntervalsStart());
+            // sum(a, -b) == Intersect(-a, b)
+            assertEquals(Intervals.sum(interval1, Intervals.invert(interval2)).getIntervalsStart(), Intervals.intersect(Intervals.invert(interval1), interval2).getIntervalsStart());
 
+        }  catch (IntervalTypeNotAllowedExcpetion intervalTypeNotAllowedExcpetion) {
+            intervalTypeNotAllowedExcpetion.printStackTrace();
+        }
 
     }
 
@@ -167,7 +172,12 @@ public class IntervalsTest {
         interval1.setIntervalName(names);
         interval2.setIntervalName(names);
 
-        Interval result = Intervals.sum(intervalList);
+        Interval result = null;
+        try {
+            result = Intervals.sum(intervalList);
+        } catch (IntervalTypeNotAllowedExcpetion intervalTypeNotAllowedExcpetion) {
+            intervalTypeNotAllowedExcpetion.printStackTrace();
+        }
 
         List<Long> expectedStarts = new ArrayList<>();
         List<Long> expectedEnds = new ArrayList<>();
@@ -330,10 +340,12 @@ public class IntervalsTest {
         start2.add(5L);
         start2.add(35L);
         start2.add(50L);
+        start2.add(100L);
 
         end2.add(15L);
         end2.add(40L);
         end2.add(60L);
+        end2.add(110L);
 
         List<Double> scores1 = new ArrayList<>();
         List<Double> scores2 = new ArrayList<>();
@@ -345,6 +357,8 @@ public class IntervalsTest {
         scores2.add(0.4);
         scores2.add(0.6);
         scores2.add(0.8);
+
+        scores2.add(0.11);
 
         GenomeInterval interval1 = mockInterval(start1, end1);
         GenomeInterval interval2 = mockInterval(start2, end2);
@@ -365,6 +379,7 @@ public class IntervalsTest {
         map.put("|0.7|0.8", 5d);
 
         map.put("||", 1d);
+        map.put("||0.11", 2d);
 
 
         Interval result = Intervals.combine(interval1, interval2, map);
@@ -384,6 +399,8 @@ public class IntervalsTest {
         expectedStarts.add(40L);
         expectedStarts.add(50L);
         expectedStarts.add(60L);
+        expectedStarts.add(100L);
+        expectedStarts.add(110L);
 
         expectedEnds.add(1L);
         expectedEnds.add(5L);
@@ -395,6 +412,8 @@ public class IntervalsTest {
         expectedEnds.add(40L);
         expectedEnds.add(50L);
         expectedEnds.add(60L);
+        expectedEnds.add(100L);
+        expectedEnds.add(110L);
         expectedEnds.add(ChromosomSizes.getInstance().getGenomeSize());
 
         expectedScores.add(1d);
@@ -407,6 +426,8 @@ public class IntervalsTest {
         expectedScores.add(5d);
         expectedScores.add(1d);
         expectedScores.add(5d);
+        expectedScores.add(1d);
+        expectedScores.add(2d);
         expectedScores.add(1d);
 
         assertEquals(expectedStarts, result.getIntervalsStart());
