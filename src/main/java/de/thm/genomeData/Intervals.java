@@ -1,11 +1,9 @@
 package de.thm.genomeData;
 
+import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.misc.ChromosomSizes;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Collection of utils for interval objects.
@@ -113,7 +111,7 @@ public class Intervals {
      * @param intervals - list of intervals
      * @return interval with the sum of positions
      */
-    public static Interval sum(List<Interval> intervals) {
+    public static Interval sum(List<Interval> intervals) throws IntervalTypeNotAllowedExcpetion {
 
         if(intervals.size() == 0){
             return null;
@@ -141,7 +139,7 @@ public class Intervals {
      *
      * @return sum of intv1 and intv2
      */
-    public static Interval sum(Interval intv1, Interval intv2) {
+    public static Interval sum(Interval intv1, Interval intv2) throws IntervalTypeNotAllowedExcpetion {
         return invert(intersect(invert(intv1), invert(intv2)));
     }
 
@@ -294,12 +292,24 @@ public class Intervals {
 
     }
 
+
+    /**
+     * Combines a list of intervals to a probability interval.
+     * Probablities are given in a map with (k,v): (score, probability)
+     *
+     * The intervals between the given intervals are also filled with scores.
+     *
+     * @param intervals - list of intervals
+     * @param score_map - map of score names to probabilities. The score names should match the scores in intv1 and intv2
+     *
+     * @return Interval of type GenomeInterval
+     */
     public static Interval combine(List<Interval> intervals, Map<String, Double> score_map) {
         if(intervals.size() == 0){
             return null;
 
         } else if(intervals.size() == 1){
-            return null; // TODO method to set score for one interval
+            return combine(intervals.get(0), score_map);
 
         } else if(intervals.size() == 2){
             return combine(intervals.get(0), intervals.get(1), score_map);
@@ -315,14 +325,36 @@ public class Intervals {
 
     }
 
+    private static Interval combine(Interval inputInterval, Map<String, Double> score_map) {
+
+        GenomeInterval outsideInterval = (GenomeInterval) inputInterval;
+        outsideInterval.setType(Interval.Type.inout);
+        outsideInterval = (GenomeInterval) invert(outsideInterval);
+
+        List<Double> outsideProb= new ArrayList<>(Collections.nCopies(outsideInterval.getIntervalsStart().size(), score_map.get("|")));
+        outsideInterval.setIntervalScore(outsideProb);
+
+        Map<String, Double> newMap = new HashMap<>(score_map.size());
+
+        for(String key: score_map.keySet()){
+            double value = score_map.get(key);
+            newMap.put(key.concat("|"), value);
+        }
+
+        return combine(outsideInterval, inputInterval, newMap);
+    }
+
     /**
      * Combines two intervals to a probability interval.
      * Probablities are given in a map with (k,v): (score, probability)
      *
-     * @param intv1
-     * @param intv2
-     * @param score_map
-     * @return
+     * The intervals between the given intervals are also filled with scores.
+     *
+     * @param intv1 - first interval to combine
+     * @param intv2 - second interval to combine
+     * @param score_map - map of score names to probabilities. The score names should match the scores in intv1 and intv2
+     *
+     * @return Interval of type GenomeInterval
      */
     public static Interval combine(Interval intv1, Interval intv2, Map<String, Double> score_map) {
 
@@ -335,36 +367,51 @@ public class Intervals {
         List<Double> scores1 = intv1.getIntervalScore();
         List<Double> scores2 = intv2.getIntervalScore();
 
-        GenomeInterval result = new GenomeInterval();
-        result.setType(intv1.getType());
         List<Long> result_start = new ArrayList<>();
         List<Long> result_end = new ArrayList<>();
         List<Double> result_score = new ArrayList<>();
         List<String> result_names = new ArrayList<>();
 
+        long genomeSize = ChromosomSizes.getInstance().getGenomeSize();
+
 
         int i2 = 0;
         int i1 = 0;
 
-        result_start.add(0L);
+        if(intv1.getIntervalsStart().get(0) != 0L)
+            result_start.add(0L);
 
         while(i1 < starts1.size()){
-            while(i2 < ends2.size()){
-                long s1 = Long.MAX_VALUE;
-                long e1 = Long.MAX_VALUE;
+
+            while(true){
+                long s1 = genomeSize;
+                long e1 = genomeSize;
+
+                long e2 = genomeSize;
+                long s2 = genomeSize;
+
 
                 if(i1 < starts1.size()){
                     s1 = starts1.get(i1);
                     e1 = ends1.get(i1);
                 }
 
-                long e2 = ends2.get(i2);
-                long s2 = starts2.get(i2);
+                if(i2 < starts2.size()){
+                    e2 = ends2.get(i2);
+                    s2 = starts2.get(i2);
+                }
+
+
+                if(s1 == genomeSize && s1 == s2 && e1 == genomeSize && e1 == e2){
+                    //break out of both loops because this is the last iteration. both intervals are equals genome size
+                    i1 = Integer.MAX_VALUE;
+                    break;
+                }
 
                 result_score.add(score_map.get("||"));
                 result_names.add("||");
 
-                if(s1 < s2 && e1 < s2) {// no overlap, interval from 1 is next
+                if(s1 < s2 && e1 <= s2) {// no overlap, interval from 1 is next
                     result_end.add(s1);
 
                     result_start.add(s1);
@@ -377,7 +424,7 @@ public class Intervals {
                     result_names.add(ref);
 
                     i1++;
-                } else if(s1 > s2 && e2 < s1) { //no overlap, interval from 2 comes first
+                } else if(s1 > s2 && e2 <= s1) { //no overlap, interval from 2 comes first
 
                     result_end.add(s2);
 
@@ -462,9 +509,16 @@ public class Intervals {
             }
         }
 
-        result_score.add(score_map.get("||"));
-        result_names.add("||");
-        result_end.add(ChromosomSizes.getInstance().getGenomeSize());
+
+        if(result_end.get(result_end.size() - 1) != genomeSize){
+            result_score.add(score_map.get("||"));
+            result_names.add("||");
+            result_end.add(genomeSize);
+        }
+
+
+        GenomeInterval result = new GenomeInterval();
+        result.setType(intv1.getType());
 
         result.setIntervalsStart(result_start);
         result.setIntervalsEnd(result_end);
@@ -475,7 +529,21 @@ public class Intervals {
     }
 
 
+    /**
+     * Inverts interval. Scored and named intervals loose their Type because scores and names cannot be kept.
+     *
+     * @param interval - interval to invert
+     * @return inverted interval
+     */
     public static Interval invert(Interval interval) {
+
+        if(interval.getType() != Interval.Type.inout)
+            try { //TODO throw not possible for lambda expressions
+                throw new IntervalTypeNotAllowedExcpetion("Scored and named intervals loose their names/ scores due to invert");
+
+            } catch (IntervalTypeNotAllowedExcpetion intervalTypeNotAllowedExcpetion) {
+                intervalTypeNotAllowedExcpetion.printStackTrace();
+            }
 
 
         if(interval.getIntervalsStart().size() == 0)
@@ -504,13 +572,20 @@ public class Intervals {
     }
 
 
+    /**
+     * Converts a non score interval to a scored interval with score 1.0 for each interval.
+     *
+     * @param interval input interval
+     *
+     * @return intervals of type score with score values
+     */
     public static Interval convertToScore(Interval interval) {
 
         List<Double> scores = new ArrayList<>(Collections.nCopies(interval.getIntervalsStart().size(), 1.0));
         GenomeInterval scoredInterval  = ((GenomeInterval) interval);
         scoredInterval.setIntervalScore(scores);
+        scoredInterval.setType(Interval.Type.score);
 
         return scoredInterval;
-
     }
 }
