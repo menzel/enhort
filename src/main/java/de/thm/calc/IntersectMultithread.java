@@ -22,7 +22,7 @@ public final class IntersectMultithread {
 
     private static final int threadCount = 8;
     private final ExecutorService exe;
-    private List<IntersectWrapper> wrappers;
+    private final List<IntersectWrapper> wrappers;
 
     public IntersectMultithread() {
         exe = Executors.newFixedThreadPool(threadCount);

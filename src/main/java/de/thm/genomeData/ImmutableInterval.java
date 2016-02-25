@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Immutable Interval with final lists.
+ *
  * Created by Michael Menzel on 24/2/16.
  */
 public final class ImmutableInterval implements Interval{

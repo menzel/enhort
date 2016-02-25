@@ -6,6 +6,8 @@ import de.thm.positionData.Sites;
 import java.util.*;
 
 /**
+ * Background model to create random distributed sites without covariants.
+ *
  * Created by Michael Menzel on 8/12/15.
  */
 class RandomBackgroundModel implements Sites {

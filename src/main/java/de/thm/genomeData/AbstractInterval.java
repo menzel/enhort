@@ -8,6 +8,7 @@ import java.util.List;
  *
  * Created by Michael Menzel on 24/2/16.
  */
+@SuppressWarnings("unused")
 public abstract class AbstractInterval implements Interval{
 
     private static final long serialVersionUID = 30624951L;

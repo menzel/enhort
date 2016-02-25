@@ -9,6 +9,8 @@ import org.apache.commons.math3.util.Precision;
 import java.text.DecimalFormat;
 
 /**
+ * The Results of one Test together with the input params (intersect results, measured in/ out counts, names files, pvalue, fold change )
+ *
  * Created by Michael Menzel on 12/1/16.
  */
 public final class TestResult {

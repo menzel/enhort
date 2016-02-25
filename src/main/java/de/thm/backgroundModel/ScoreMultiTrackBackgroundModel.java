@@ -28,7 +28,7 @@ class ScoreMultiTrackBackgroundModel implements Sites{
         Interval interval = generateProbabilityInterval(sites, covariants);
 
         int count = (sites.getPositionCount() > 10000)? sites.getPositionCount() : 12000;
-        Collection<Long> pos = generatePositonsByProbability(interval, count);
+        Collection<Long> pos = generatePositionsByProbability(interval, count);
 
         positions.addAll(pos);
     }
@@ -167,7 +167,7 @@ class ScoreMultiTrackBackgroundModel implements Sites{
      *
      * @return collection of positions inside the interval
      */
-    Collection<Long> generatePositonsByProbability(Interval probabilityInterval, int siteCount) {
+    private Collection<Long> generatePositionsByProbability(Interval probabilityInterval, int siteCount) {
 
         List<Long> sites = new ArrayList<>();
         List<Long> starts = probabilityInterval.getIntervalsStart();

@@ -9,13 +9,15 @@ import java.util.*;
 
 
 /**
+ * Tests the indepence of two intersect results and a given interval with either ChiSquare of KolmogorovSmirnov test.
+ *
  * Created by Michael Menzel on 10/12/15.
  */
 public final class IndependenceTest {
 
-    private ChiSquareTest tester;
-    private KolmogorovSmirnovTest kolmoTester;
-    private EffectSize effectSizeTester;
+    private final ChiSquareTest tester;
+    private final KolmogorovSmirnovTest kolmoTester;
+    private final EffectSize effectSizeTester;
 
     public IndependenceTest() {
 
