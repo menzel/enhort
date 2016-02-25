@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Holds the list of known session objects
+ *
  * Created by Michael Menzel on 10/2/16.
  */
 public class Sessions {
@@ -22,6 +24,14 @@ public class Sessions {
         return instance;
     }
 
+    /**
+     * Creates a session and adds it to the list of known sessions.
+     *
+     * @param key - http session key
+     * @param file - input file of the user
+     *
+     * @return new Session object
+     */
     public Session addSession(String key, Path file){
         if(sessions.containsKey(key)){ //only renew the file and keep the rest:
             sessions.put(key, new Session(file,key, sessions.get(key).getDate()));
@@ -36,18 +46,24 @@ public class Sessions {
         return sessions.get(key);
     }
 
+    /**
+     * Returns session by given http session key
+     *
+     * @param key - http session key
+     * @return Session from session list. Returns new session if the given key does not exist.
+     */
     public Session getSession(String key){
          if(!sessions.containsKey(key))
              sessions.put(key, new Session(key, new Date()));
          return sessions.get(key);
     }
 
-    public Path getFile(String key){
-        if(sessions.containsKey(key))
-            return sessions.get(key).getFile();
-        return null;
-    }
-
+    /**
+     * Removes a session from the list by the given key.
+     * If the key does not exists this method has no effect.
+     *
+     * @param key - http session key to identify session to delete
+     */
     public void clear(String key){
         Session session = sessions.get(key);
         if(sessions.containsKey(key)){
@@ -57,7 +73,10 @@ public class Sessions {
     }
 
 
-
+    /**
+     * Deletes all old Sessions
+     * Old means older than one day
+     */
     private void cleanUp(){
         Calendar tomorrow = Calendar.getInstance();
         tomorrow.add(Calendar.DATE, 1);

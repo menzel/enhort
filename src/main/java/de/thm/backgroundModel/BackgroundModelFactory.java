@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  */
 public final class BackgroundModelFactory {
 
-    private static final int maxCovariants = 7;
+    private static final int maxCovariants = 2;
 
     public static Sites createBackgroundModel(int positionCount){
         return new RandomBackgroundModel(positionCount);

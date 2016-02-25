@@ -57,27 +57,21 @@ public class Analyse {
         //covariants.add(intervals.get("H1-hESC-H3K4m3"));
         //covariants.add(intervals.get("open-chrom-synth-HeLa-S3-valid"));
         //covariants.add(intervals.get("HeLa-S3-H3K4m1"));
-        //covariants.add(intervals.get("exons"));
-        //covariants.add(intervals.get("introns"));
+        covariants.add(intervals.get("exons.bed"));
+        covariants.add(intervals.get("knownGenes.bed"));
         //covariants.add(intervals.get("cpg"));
         covariants.add(intervals.get("expression_blood.bed"));
-        covariants.add(intervals.get("distance.bed"));
-
-        //GenomeInterval blood = Intervals.intersect(covariants);
-        //blood.setType(GenomeInterval.Type.inout);
-        //blood.setName("Expression Blood + Distance");
-
-        //IntervalLoader.getInstance().addInterval("bloodDistance", blood);
+        //covariants.add(intervals.get("distance.bed"));
 
         Sites bg = BackgroundModelFactory.createBackgroundModel(covariants, userSites);
-        //bg = new RandomBackgroundModel(userSites.getPositionCount());
-
 
         IntersectMultithread multi = new IntersectMultithread();
 
         ResultCollector collector = multi.execute(intervals, userSites, bg);
 
         System.out.println(collector.toString());
+
+        System.out.println(intervals.get("expression_blood.bed").getType());
 
         Path path = Paths.get("/home/menzel/Desktop/THM/lfba/projekphase/MultiGenBrowser/src/web/");
 

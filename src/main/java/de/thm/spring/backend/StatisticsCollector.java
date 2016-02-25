@@ -8,6 +8,8 @@ import java.nio.file.Path;
 import java.util.stream.Stream;
 
 /**
+ * Collects statistics about the usage of the web interface
+ *
  * Created by Michael Menzel on 10/2/16.
  */
 public class StatisticsCollector {
@@ -26,6 +28,11 @@ public class StatisticsCollector {
 
     private final Path logPath;
 
+    /**
+     * Creates the collector. The known log file is parsed for values
+     *
+     * @param logPath - path to log file
+     */
     private StatisticsCollector(Path logPath) {
         this.logPath = logPath;
 
@@ -75,6 +82,9 @@ public class StatisticsCollector {
                 '}';
     }
 
+    /**
+     * Writes statistics to known file. Is called from a shutdown hook in the run.server file
+     */
     public void saveStats() {
 
         try (BufferedWriter writer = Files.newBufferedWriter(logPath)) {

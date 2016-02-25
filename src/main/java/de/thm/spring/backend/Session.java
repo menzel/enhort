@@ -11,6 +11,12 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * Holds a single session for a user. The session includes a key (http session key) and a date when it was created.
+ *
+ * The session also can have references to results, a input file, covariants, and the original filename.
+ *
+ * If a session is needed let the Session class create one.
+ *
  * Created by Michael Menzel on 10/2/16.
  */
 public class Session {
@@ -22,13 +28,13 @@ public class Session {
     private String originalFilename;
     private List<TestResult> covariants;
 
-    public Session(Path file, String key, Date date) {
+    Session(Path file, String key, Date date) {
         this.file = file;
         this.key = key;
         this.date = date;
     }
 
-    public Session(String key, Date date) {
+    Session(String key, Date date) {
         this.key = key;
         this.date = date;
     }
@@ -54,6 +60,9 @@ public class Session {
                 '}';
     }
 
+    /**
+     * Deletes the known file
+     */
     void delete(){
         try {
             Files.deleteIfExists(file);

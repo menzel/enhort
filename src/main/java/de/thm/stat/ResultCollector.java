@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * Collects results from a single intersect run.
+ *
  * Created by Michael Menzel on 26/1/16.
  */
 public final class ResultCollector {
@@ -19,33 +21,6 @@ public final class ResultCollector {
     public ResultCollector(Sites bgModel) {
         results = Collections.synchronizedList(new ArrayList<>());
         backgroundSites = bgModel;
-    }
-
-    public List<TestResult> getResults(){ return  this.results;}
-
-    public void addResult(TestResult result){
-        this.results.add(result);
-    }
-
-    public String toString(){
-        String r = "";
-
-        for(TestResult result: results){
-            r += result.toString();
-        }
-
-        return r;
-
-    }
-
-    public long getSignificantTrackCount(){
-        return results.stream()
-               .filter(testResult -> testResult.getpValue() < 0.05)
-                .count();
-    }
-
-    public long getTrackCount(){
-        return results.size();
     }
 
     /**
@@ -103,4 +78,48 @@ public final class ResultCollector {
     public Sites getBackgroundSites() {
         return backgroundSites;
     }
+
+
+    public String toString(){
+        String r = "";
+
+        for(TestResult result: results){
+            r += result.toString();
+        }
+
+        return r;
+    }
+
+    public List<TestResult> getResults(){ return  this.results;}
+
+    /**
+     * Add test result to current collection of tests
+     *
+     * @param result - test result to add
+     */
+    public void addResult(TestResult result){
+        this.results.add(result);
+    }
+
+
+    /**
+     * Returns how many tracks are registered as signicant on a 5% basis.
+     *
+     * @return count of significant tracks
+     */
+    public long getSignificantTrackCount(){
+        return results.stream()
+               .filter(testResult -> testResult.getpValue() < 0.05)
+                .count();
+    }
+
+    /**
+     * Get overall track count
+     *
+     * @return count of all tracks
+     */
+    public long getTrackCount(){
+        return results.size();
+    }
+
 }

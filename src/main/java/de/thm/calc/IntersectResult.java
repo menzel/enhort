@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Results of one intersect run with the count of inside values. And depening on the interval type result names and result scores.
+ *
  * Created by Michael Menzel on 8/12/15.
  */
 public final class IntersectResult {
@@ -21,7 +23,7 @@ public final class IntersectResult {
 
 
     /**
-     *
+     * Constructor
      */
     IntersectResult() {
         this.resultNames = new HashMap<>();
@@ -37,17 +39,19 @@ public final class IntersectResult {
     }
 
     /**
+     * Adds a single score to the result
      *
-     * @param score
+     * @param score  - score value to add
      */
     void add(Double score){
         resultScores.add(score);
     }
 
     /**
+     * Adds count to the given result name
      *
-     * @param name
-     * @param count
+     * @param name - result name string
+     * @param count - count to add
      */
     public void add(String name, int count){
 
@@ -60,8 +64,9 @@ public final class IntersectResult {
     }
 
     /**
+     * Adds 1 to the given result name
      *
-     * @param name
+     * @param name - result name
      */
     void add(String name){
 
@@ -73,11 +78,6 @@ public final class IntersectResult {
 
     }
 
-    /**
-     *
-     *
-     * @return
-     */
     public List<Double> getResultScores() {
         return resultScores;
     }
