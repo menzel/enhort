@@ -4,6 +4,7 @@ import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.misc.ChromosomSizes;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Collection of utils for interval objects.
@@ -327,7 +328,7 @@ public class Intervals {
 
     private static Interval combine(Interval inputInterval, Map<String, Double> score_map) {
 
-        GenomeInterval outsideInterval = (GenomeInterval) inputInterval;
+        GenomeInterval outsideInterval = (GenomeInterval) inputInterval.clone();
         outsideInterval.setType(Interval.Type.inout);
         outsideInterval = (GenomeInterval) invert(outsideInterval);
 
@@ -520,6 +521,9 @@ public class Intervals {
             result_end.add(genomeSize);
         }
 
+        //set null values to 0.0
+        result_score = result_score.stream().filter(i -> i == null).mapToDouble(i -> 0.0).boxed().collect(Collectors.toList());
+
 
         GenomeInterval result = new GenomeInterval();
         result.setType(intv1.getType());
@@ -588,7 +592,7 @@ public class Intervals {
         List<Double> scores = new ArrayList<>(Collections.nCopies(interval.getIntervalsStart().size(), 1.0));
         GenomeInterval scoredInterval  = ((GenomeInterval) interval);
         scoredInterval.setIntervalScore(scores);
-        //scoredInterval.setType(Interval.Type.score);
+        scoredInterval.setType(Interval.Type.score);
 
         return scoredInterval;
     }
