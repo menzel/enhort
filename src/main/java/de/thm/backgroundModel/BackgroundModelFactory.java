@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 public final class BackgroundModelFactory {
 
     private static final int maxCovariants = 2;
+    private static final int maxCovariantsInOutOnly = 7;
 
     public static Sites createBackgroundModel(int positionCount){
         return new RandomBackgroundModel(positionCount);
@@ -44,7 +45,7 @@ public final class BackgroundModelFactory {
         else if(intervalList.size() == 1)
             return createBackgroundModel(intervalList.get(0), sites);
 
-        else if (intervalList.stream().allMatch(i -> i.getType() == Type.inout))
+        else if (intervalList.stream().allMatch(i -> i.getType() == Type.inout)) //check for maxCovariantsInOut
                 return new MultiTrackBackgroundModel(intervalList, sites);
 
         else if(intervalList.size() <= maxCovariants) {
