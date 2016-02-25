@@ -4,7 +4,6 @@ import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.misc.ChromosomSizes;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Collection of utils for interval objects.
@@ -522,7 +521,7 @@ public class Intervals {
         }
 
         //set null values to 0.0
-        result_score = result_score.stream().filter(i -> i == null).mapToDouble(i -> 0.0).boxed().collect(Collectors.toList());
+        result_score.stream().filter(val -> val == null).forEach(val -> val = 0.0);
 
 
         GenomeInterval result = new GenomeInterval();
