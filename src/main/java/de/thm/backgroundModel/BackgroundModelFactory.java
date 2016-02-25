@@ -11,6 +11,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * Factory for Background models. Start here to generate a background model based on a count of sites or a list or a single
+ * covariant.
+ *
+ *
  * Created by Michael Menzel on 23/2/16.
  */
 public final class BackgroundModelFactory {
