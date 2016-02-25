@@ -137,6 +137,8 @@ public class CalculationController {
 
             if(collector == null) //if there is no collector known to the session run with no covariants
                 collector = AnalysisHelper.runAnalysis(data);
+
+            return "result";
         }
 
         currentSession.setCollector(collector);
