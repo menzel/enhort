@@ -27,7 +27,8 @@ class ScoreMultiTrackBackgroundModel implements Sites{
     ScoreMultiTrackBackgroundModel(List<Interval> covariants, Sites sites) {
         Interval interval = generateProbabilityInterval(sites, covariants);
 
-        Collection<Long> pos = generatePositonsByProbability(interval, sites.getPositionCount());
+        int count = (sites.getPositionCount() > 10000)? sites.getPositionCount() : 12000;
+        Collection<Long> pos = generatePositonsByProbability(interval, count);
 
         positions.addAll(pos);
     }
@@ -191,10 +192,6 @@ class ScoreMultiTrackBackgroundModel implements Sites{
             for (; j < starts.size(); j++) {
 
                 Double prob = probabilities.get(j);
-
-                if(prob == null)
-                    prob = 0d;
-
 
                 if (value >= prob) {
                     value -= prob;
