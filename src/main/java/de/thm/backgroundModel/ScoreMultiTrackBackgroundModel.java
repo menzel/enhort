@@ -84,8 +84,9 @@ class ScoreMultiTrackBackgroundModel implements Sites{
             }
         }
 
-        interval.setIntervalScore(newScores);
+        //if(newScores.stream().mapToDouble(i->i).sum() < 0.99){ //TODO eval check }
 
+        interval.setIntervalScore(newScores);
 
         return interval;
     }
