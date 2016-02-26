@@ -166,7 +166,7 @@
                         <td th:text="${result.name}"></td>
                         <td th:text="${result.pValue}"></td>
                         <td th:text="${result.effectSize}"></td>
-                        <td th:id="${result.id}"></td>
+                        <td th:id="${'plot_'+result.id}"></td>
                         <td><input th:field="*{covariantCommand.covariants}" th:value="${result.id}" type="checkbox" form="covariant_form"></td>
                     </tr>
                     <tr>
@@ -189,8 +189,8 @@
                         <td colspan="5" class="hiddenRow">
                             <div class="accordion-body collapse" th:id="${#strings.replace('accordion_'+result.id,'.','_')}">
                                 <div>
-                                    <p th:text="${result.resultMeasured.resultNames}"></p>
-                                    <p th:text="${result.resultExpected.resultNames}"></p>
+                                    <p th:text="${result.namesMea}"></p>
+                                    <p th:text="${result.namesExp}"></p>
                                 </div>
                                 <div th:text="${result.description}"></div>
                             </div>
@@ -300,8 +300,8 @@
         for(var j = 0; j < results.length; j++ ){
             //if(results[j].resultMeasured.type != "score"){ break; }
 
-            var x0 = results[j].resultMeasured.resultScores;
-            var x1 = results[j].resultExpected.resultScores;
+            var x0 = results[j].scoresMea;
+            var x1 = results[j].scoresExp;
 
             var measured = {
               x: x0,
@@ -344,7 +344,7 @@
               },
               margin: { l: 0, r: 0, b: 15, t: 0, pad: 0 }
             };
-            Plotly.newPlot(results[j].id, data_s, layout_s, buttons_s);
+            Plotly.newPlot("plot_" + results[j].id, data_s, layout_s, buttons_s);
 
         }
     }
