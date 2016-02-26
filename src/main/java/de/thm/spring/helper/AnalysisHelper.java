@@ -10,6 +10,7 @@ import de.thm.run.Server;
 import de.thm.stat.ResultCollector;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -66,9 +67,11 @@ public class AnalysisHelper {
         TrackFactory loader = TrackFactory.getInstance();
 
         Map<String, Track> knownIntervals = loader.getAllIntervals();
-        for(String name: covariantNames){
-            if(knownIntervals.containsKey(name)){
-                tracks.add(knownIntervals.get(name));
+        Collection<Track> knownTracks = knownIntervals.values();
+
+        for(Track track: knownTracks){
+            if(covariantNames.contains(Integer.toString(track.getUid()))){
+                tracks.add(track);
             }
         }
 
