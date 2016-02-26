@@ -18,6 +18,6 @@ public interface Intersect<T extends Track>{
      *
      * @return Result which contains the in/out count, names or scores
      */
-    IntersectResult<T> searchSingleInterval(T intv, Sites pos);
+    IntersectResult searchSingleInterval(T intv, Sites pos);
 
 }

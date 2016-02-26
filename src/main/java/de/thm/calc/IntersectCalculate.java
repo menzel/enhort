@@ -1,8 +1,8 @@
 package de.thm.calc;
 
 import de.thm.genomeData.InOutTrack;
-import de.thm.genomeData.Track;
 import de.thm.genomeData.ScoredTrack;
+import de.thm.genomeData.Track;
 import de.thm.positionData.Sites;
 
 import java.util.List;
@@ -13,7 +13,7 @@ public final class IntersectCalculate<T extends Track> implements Intersect<T>{
 
 
     @Override
-    public IntersectResult<T> searchSingleInterval(T intv, Sites pos) {
+    public IntersectResult searchSingleInterval(T intv, Sites pos) {
         if(intv instanceof InOutTrack)
             return searchSingleInterval((InOutTrack)intv, pos);
         if(intv instanceof ScoredTrack)
@@ -22,13 +22,12 @@ public final class IntersectCalculate<T extends Track> implements Intersect<T>{
             return null;
     }
 
-    public IntersectResult<T> searchSingleInterval(InOutTrack intv, Sites pos){
+    public IntersectResult searchSingleInterval(InOutTrack intv, Sites pos){
         int out = 0;
         int in = 0;
         int i = 0;
 
-        T tmp = (T) intv;
-        IntersectResult<T> intersectResult = new IntersectResult<>(tmp);
+        IntersectResult intersectResult = new IntersectResult(intv);
 
         List<Long> intervalStart = intv.getIntervalsStart();
         List<Long> intervalEnd = intv.getIntervalsEnd();
@@ -71,14 +70,13 @@ public final class IntersectCalculate<T extends Track> implements Intersect<T>{
 
 
 
-    public IntersectResult<T> searchSingleInterval(ScoredTrack intv, Sites pos){
+    public IntersectResult searchSingleInterval(ScoredTrack intv, Sites pos){
 
         int out = 0;
         int in = 0;
         int i = 0;
 
-        T tmp = (T) intv;
-        IntersectResult<T> intersectResult = new IntersectResult<>(tmp);
+        IntersectResult intersectResult = new IntersectResult(intv);
 
         List<Long> intervalStart = intv.getIntervalsStart();
         List<Long> intervalEnd = intv.getIntervalsEnd();

@@ -12,20 +12,20 @@ import java.util.Map;
  *
  * Created by Michael Menzel on 8/12/15.
  */
-public final class IntersectResult<T extends Track>{
+public final class IntersectResult{
 
 
     private final Map<String, Integer> resultNames;
     private final List<Double> resultScores;
+    private final Track usedInterval;
     private int in;
     private int out;
-    private final T usedInterval;
 
 
     /**
      * Constructor
      */
-    IntersectResult(T usedInterval) {
+    IntersectResult(Track usedInterval) {
         this.usedInterval = usedInterval;
         this.resultNames = new HashMap<>();
         this.resultScores = new ArrayList<>();
@@ -93,9 +93,9 @@ public final class IntersectResult<T extends Track>{
         this.in = in;
     }
 
-    void setOut(int out) { this.out = out; }
-
     public int getOut(){ return this.out; }
+
+    void setOut(int out) { this.out = out; }
 
     public Class getType(){
         return getClass();
