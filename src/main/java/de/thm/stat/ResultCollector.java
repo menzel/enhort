@@ -20,8 +20,6 @@ public final class ResultCollector {
     private final List<TestResult> results;
     private final Sites backgroundSites;
 
-    private enum Type {inout, named, scored};
-
     public ResultCollector(Sites bgModel) {
         results = Collections.synchronizedList(new ArrayList<>());
         backgroundSites = bgModel;
@@ -105,7 +103,7 @@ public final class ResultCollector {
         String r = "";
 
         for(TestResult result: results){
-            r += result.toString();
+            r += result.toString() + "\n";
         }
 
         return r;

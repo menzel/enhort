@@ -16,7 +16,7 @@ import java.text.DecimalFormat;
  *
  * Created by Michael Menzel on 12/1/16.
  */
-public final class TestResult<T extends Track>{
+public final class TestResult{
 
     private final double pValue;
     private final double effectSize;
@@ -29,9 +29,9 @@ public final class TestResult<T extends Track>{
     private final IntersectResult resultMeasured;
     private final IntersectResult resultExpected;
     private final int id;
-    private T usedInterval;
+    private final Track usedInterval;
 
-    public TestResult(double pValue, IntersectResult measured, IntersectResult expected, double effectSize, T usedInterval) {
+    public TestResult(double pValue, IntersectResult measured, IntersectResult expected, double effectSize, Track usedInterval) {
         this.usedInterval = usedInterval;
 
         DecimalFormat format = new DecimalFormat("0.00E00");

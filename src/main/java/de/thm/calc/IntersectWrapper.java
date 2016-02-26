@@ -48,9 +48,9 @@ class IntersectWrapper<T extends Track> implements Runnable{
         IntersectResult<T> result2 = intersec2.searchSingleInterval((T) track, randomPos);
 
         IndependenceTest<T> tester = new IndependenceTest<>();
-        EffectSize<T> effectSize = new EffectSize<>();
+        EffectSize effectSize = new EffectSize();
 
-        TestResult<T> testResult  = tester.test(result1, result2, track);
+        TestResult testResult  = tester.test(result1, result2, track);
         effectSize.test(result1, result2);
 
         collector.addResult(testResult);

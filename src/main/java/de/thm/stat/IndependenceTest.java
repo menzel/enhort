@@ -2,9 +2,9 @@ package de.thm.stat;
 
 import de.thm.calc.IntersectResult;
 import de.thm.genomeData.InOutTrack;
-import de.thm.genomeData.Track;
 import de.thm.genomeData.NamedTrack;
 import de.thm.genomeData.ScoredTrack;
+import de.thm.genomeData.Track;
 import org.apache.commons.math3.stat.inference.ChiSquareTest;
 import org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest;
 
@@ -38,7 +38,7 @@ public final class IndependenceTest<T extends Track>{
      *
      * @return p value of independence test
      */
-    public TestResult<T> test(IntersectResult<T> intersectResultA, IntersectResult<T> intersectResultB, Track track){
+    public TestResult test(IntersectResult<T> intersectResultA, IntersectResult<T> intersectResultB, Track track){
 
         long[][] counts = new long[2][2];
         counts[0] = new long[] {intersectResultA.getIn(), intersectResultA.getOut()};
@@ -61,7 +61,7 @@ public final class IndependenceTest<T extends Track>{
                 return null;
 
             } else {
-                return new TestResult<T>(kolmoTester.kolmogorovSmirnovTest(measuredScore, expectedScore), intersectResultA, intersectResultB, effectSize, (T) track);
+                return new TestResult(kolmoTester.kolmogorovSmirnovTest(measuredScore, expectedScore), intersectResultA, intersectResultB, effectSize, (T) track);
             }
 
         } else if(track instanceof NamedTrack) {
@@ -70,12 +70,12 @@ public final class IndependenceTest<T extends Track>{
             Map<String, Integer> measured = intersectResultA.getResultNames();
             Map<String, Integer> expected = intersectResultB.getResultNames();
 
-            return new TestResult<T>(tester.chiSquareTest(prepareLists(measured, expected)), intersectResultA, intersectResultB, effectSize, (T) track);
+            return new TestResult(tester.chiSquareTest(prepareLists(measured, expected)), intersectResultA, intersectResultB, effectSize, (T) track);
 
 
         }else if(track instanceof InOutTrack) {
 
-            return new TestResult<T>(tester.chiSquareTest(counts), intersectResultA, intersectResultB, effectSize, (T) track);
+            return new TestResult(tester.chiSquareTest(counts), intersectResultA, intersectResultB, effectSize, (T) track);
 
         } else {
             return null;
