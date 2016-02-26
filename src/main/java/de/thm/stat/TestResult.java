@@ -29,7 +29,8 @@ public final class TestResult{
     private final Set<String> namesMea;
     private final Set<String> namesExp;
     private final int id;
-        private Type type;;
+    private Type type;
+
     public TestResult(double pValue, IntersectResult measured, IntersectResult expected, double effectSize, Track usedInterval, Type type) {
 
         DecimalFormat format = new DecimalFormat("0.00E00");
