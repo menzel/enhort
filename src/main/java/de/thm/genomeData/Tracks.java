@@ -10,10 +10,10 @@ import java.util.*;
  *
  * Created by Michael Menzel on 13/1/16.
  */
-public class Intervals {
+public class Tracks {
 
     //prevent init of Intervals object with private constructor
-    private Intervals(){}
+    private Tracks(){}
 
 
     /**

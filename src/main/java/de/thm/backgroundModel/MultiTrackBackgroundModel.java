@@ -1,7 +1,7 @@
 package de.thm.backgroundModel;
 
 import de.thm.genomeData.Track;
-import de.thm.genomeData.Intervals;
+import de.thm.genomeData.Tracks;
 import de.thm.positionData.Sites;
 
 import java.util.ArrayList;
@@ -63,16 +63,16 @@ class MultiTrackBackgroundModel implements Sites{
             List<Track> currentTracks = appearanceTable.translate(app, tracks);
             List<Track> negativeTracks = appearanceTable.translateNegative(tracks, app);
 
-            currentTracks.addAll(negativeTracks.stream().map(Intervals::invert).collect(Collectors.toList()));
+            currentTracks.addAll(negativeTracks.stream().map(Tracks::invert).collect(Collectors.toList()));
 
-            Track track = Intervals.intersect(currentTracks);
+            Track track = Tracks.intersect(currentTracks);
 
             sites.addAll(better.randPositions(count, track,"in"));
         }
 
         int count = appearanceTable.getAppearance("[]");
         //Interval outs = Intervals.sum(intervals).invert();
-        Track outs = Intervals.intersect(tracks.stream().map(Intervals::invert).collect(Collectors.toList()));
+        Track outs = Tracks.intersect(tracks.stream().map(Tracks::invert).collect(Collectors.toList()));
         sites.addAll(better.randPositions(count, outs ,"in"));
 
         Collections.sort(sites);

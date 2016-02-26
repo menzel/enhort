@@ -5,7 +5,7 @@ import de.thm.calc.Intersect;
 import de.thm.calc.IntersectCalculate;
 import de.thm.calc.IntersectMultithread;
 import de.thm.genomeData.Track;
-import de.thm.genomeData.IntervalFactory;
+import de.thm.genomeData.TrackFactory;
 import de.thm.positionData.Sites;
 import de.thm.stat.ResultCollector;
 
@@ -23,7 +23,7 @@ public class Analyse {
     private Map<String, Track> intervals;
 
     public Analyse() {
-        IntervalFactory loader = IntervalFactory.getInstance();
+        TrackFactory loader = TrackFactory.getInstance();
         intervals =  loader.getAllIntervals();
         Intersect simple = new IntersectCalculate();
     }

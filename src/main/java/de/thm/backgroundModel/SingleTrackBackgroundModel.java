@@ -4,7 +4,7 @@ import de.thm.calc.IntersectCalculate;
 import de.thm.calc.IntersectResult;
 import de.thm.genomeData.InOutTrack;
 import de.thm.genomeData.Track;
-import de.thm.genomeData.Intervals;
+import de.thm.genomeData.Tracks;
 import de.thm.positionData.Sites;
 
 import java.util.*;
@@ -60,7 +60,7 @@ class SingleTrackBackgroundModel implements Sites{
         int io = (mode.equals("in"))? 0: 1; //remember if rand positions should be in or outside of an interval
 
         rand = new Random(System.currentTimeMillis());
-        long maxValue = Intervals.sumOfIntervals(track, mode);
+        long maxValue = Tracks.sumOfIntervals(track, mode);
 
         List<Long> randomValues = new ArrayList<>();
         List<Long> sites = new ArrayList<>();

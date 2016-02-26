@@ -4,7 +4,7 @@ import de.thm.backgroundModel.BackgroundModelFactory;
 import de.thm.calc.IntersectMultithread;
 import de.thm.exception.CovariantsException;
 import de.thm.genomeData.Track;
-import de.thm.genomeData.IntervalFactory;
+import de.thm.genomeData.TrackFactory;
 import de.thm.positionData.Sites;
 import de.thm.run.Server;
 import de.thm.stat.ResultCollector;
@@ -63,7 +63,7 @@ public class AnalysisHelper {
      */
     private static List<Track> getCovariants(List<String> covariantNames) {
         List<Track> tracks = new ArrayList<>();
-        IntervalFactory loader = IntervalFactory.getInstance();
+        TrackFactory loader = TrackFactory.getInstance();
 
         Map<String, Track> knownIntervals = loader.getAllIntervals();
         for(String name: covariantNames){

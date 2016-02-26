@@ -18,13 +18,13 @@ import java.util.stream.Stream;
  *
  * Created by Michael Menzel on 18/12/15.
  */
-public class IntervalFactory {
+public class TrackFactory {
 
-    private static IntervalFactory instance;
+    private static TrackFactory instance;
     private final Path basePath = new File("/home/menzel/Desktop/THM/lfba/projekphase/dat/").toPath();
     private final Map<String, Track> intervals;
-    private final IntervalDumper intervalDumper;
-    private final List<IntervalPackage> packageList;
+    private final TrackDumper trackDumper;
+    private final List<TrackPackage> packageList;
 
     private enum Type {inout, named, scored};
 
@@ -33,8 +33,8 @@ public class IntervalFactory {
      * Expects three dirs with the names 'inout', 'named' and 'score' for types.
      *
      */
-    private IntervalFactory() {
-        intervalDumper = new IntervalDumper(basePath);
+    private TrackFactory() {
+        trackDumper = new TrackDumper(basePath);
         intervals = new HashMap<>();
 
         packageList = new ArrayList<>();
@@ -50,9 +50,9 @@ public class IntervalFactory {
         }
     }
 
-    public static IntervalFactory getInstance(){
+    public static TrackFactory getInstance(){
         if(instance == null)
-            instance = new IntervalFactory();
+            instance = new TrackFactory();
         return  instance;
     }
 
@@ -177,8 +177,8 @@ public class IntervalFactory {
         return intervals;
     }
 
-    public List<Track> getIntervalsByPackage(IntervalPackage.PackageName name){
-        for(IntervalPackage pack: packageList){
+    public List<Track> getIntervalsByPackage(TrackPackage.PackageName name){
+        for(TrackPackage pack: packageList){
             if(pack.getName() == name)
                 return pack.getTrackList();
         }

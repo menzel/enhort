@@ -1,7 +1,7 @@
 package de.thm.misc;
 
 import de.thm.genomeData.InOutTrack;
-import de.thm.genomeData.IntervalFactory;
+import de.thm.genomeData.TrackFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +54,7 @@ public final class PositionPreprocessor {
         intervalsStart.clear();
         intervalsEnd.clear();
 
-        return IntervalFactory.getInstance().createInOutTrack(newStart, newEnd, interval.getName(), interval.getDescription());
+        return TrackFactory.getInstance().createInOutTrack(newStart, newEnd, interval.getName(), interval.getDescription());
     }
 
 }

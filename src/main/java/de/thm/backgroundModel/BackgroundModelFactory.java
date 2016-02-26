@@ -3,7 +3,7 @@ package de.thm.backgroundModel;
 import de.thm.exception.CovariantsException;
 import de.thm.genomeData.InOutTrack;
 import de.thm.genomeData.Track;
-import de.thm.genomeData.Intervals;
+import de.thm.genomeData.Tracks;
 import de.thm.genomeData.ScoredTrack;
 import de.thm.positionData.Sites;
 
@@ -65,7 +65,7 @@ public final class BackgroundModelFactory {
                 scoredIntervals.addAll(trackList.stream()
                         .filter(i -> i instanceof InOutTrack)
                         .map(i -> (InOutTrack) i)
-                        .map(Intervals::cast)
+                        .map(Tracks::cast)
                         .collect(Collectors.toList()));
 
 

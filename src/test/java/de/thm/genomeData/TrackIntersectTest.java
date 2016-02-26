@@ -67,7 +67,7 @@ public class TrackIntersectTest {
         trackList.add(track1);
         trackList.add(track3);
 
-        Track newTrack = Intervals.intersect(trackList);
+        Track newTrack = Tracks.intersect(trackList);
 
         List<Long> expected_start = new ArrayList<>();
         expected_start.add(3L);
@@ -123,7 +123,7 @@ public class TrackIntersectTest {
         Track track1 = mockInterval(start1, end1);
         Track track2 = mockInterval(start2, end2);
 
-        Track newTrack = Intervals.intersect(track1, track2);
+        Track newTrack = Tracks.intersect(track1, track2);
 
         /**
         for(int i = 0; i < newInterval.getIntervalsStart().size(); i++){

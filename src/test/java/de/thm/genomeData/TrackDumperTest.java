@@ -13,14 +13,14 @@ import static junit.framework.TestCase.assertEquals;
 public class TrackDumperTest {
     String basePath;
     Track track;
-    IntervalDumper dumper;
+    TrackDumper dumper;
 
     @Before
     public void setUp() throws Exception {
 
         basePath = "/home/menzel/Desktop/THM/lfba/projekphase/dat/";
-        track = IntervalFactory.getInstance().getAllIntervals().get("exons.bed");
-        dumper = new IntervalDumper(new File("/tmp/").toPath());
+        track = TrackFactory.getInstance().getAllIntervals().get("exons.bed");
+        dumper = new TrackDumper(new File("/tmp/").toPath());
 
         File folder = new File("/tmp/kryo/");
 

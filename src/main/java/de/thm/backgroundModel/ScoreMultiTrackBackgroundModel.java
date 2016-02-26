@@ -1,8 +1,8 @@
 package de.thm.backgroundModel;
 
 import de.thm.genomeData.Track;
-import de.thm.genomeData.IntervalFactory;
-import de.thm.genomeData.Intervals;
+import de.thm.genomeData.TrackFactory;
+import de.thm.genomeData.Tracks;
 import de.thm.genomeData.ScoredTrack;
 import de.thm.positionData.Sites;
 
@@ -52,7 +52,7 @@ class ScoreMultiTrackBackgroundModel implements Sites{
         for(String k: sitesOccurence.keySet())
             sitesOccurence.put(k, sitesOccurence.get(k)/sum);
 
-        ScoredTrack interval = Intervals.combine(intervals, sitesOccurence);
+        ScoredTrack interval = Tracks.combine(intervals, sitesOccurence);
 
         Map<String, Integer> genomeOccurence = new HashMap<>();
 
@@ -87,7 +87,7 @@ class ScoreMultiTrackBackgroundModel implements Sites{
 
         //if(newScores.stream().mapToDouble(i->i).sum() < 0.99){ //TODO eval check }
 
-        return IntervalFactory.getInstance().createScoredTrack(
+        return TrackFactory.getInstance().createScoredTrack(
                     interval.getIntervalsStart(),
                     interval.getIntervalsEnd(),
                     interval.getIntervalName(),

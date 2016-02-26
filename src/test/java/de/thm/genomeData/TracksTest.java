@@ -14,7 +14,7 @@ import static junit.framework.TestCase.assertEquals;
 /**
  * Created by Michael Menzel on 19/1/16.
  */
-public class IntervalsTest {
+public class TracksTest {
 
     @Test
     public void crossvalidationSumIntersect() throws Exception {
@@ -58,13 +58,13 @@ public class IntervalsTest {
 
         // sum(a,b) == -Intersect(-a, -b)
         try {
-            assertEquals(Intervals.sum(interval1,interval2).getIntervalsStart(), Intervals.invert(Intervals.intersect(Intervals.invert(interval1),Intervals.invert(interval2))).getIntervalsStart());
+            assertEquals(Tracks.sum(interval1,interval2).getIntervalsStart(), Tracks.invert(Tracks.intersect(Tracks.invert(interval1), Tracks.invert(interval2))).getIntervalsStart());
 
             // sum(-a, -b) == -Intersect(a, b)
-            assertEquals(Intervals.sum(Intervals.invert(interval1), Intervals.invert(interval2)).getIntervalsStart(), Intervals.invert(Intervals.intersect(interval1, interval2)).getIntervalsStart());
+            assertEquals(Tracks.sum(Tracks.invert(interval1), Tracks.invert(interval2)).getIntervalsStart(), Tracks.invert(Tracks.intersect(interval1, interval2)).getIntervalsStart());
 
             // sum(a, -b) == Intersect(-a, b)
-            assertEquals(Intervals.sum(interval1, Intervals.invert(interval2)).getIntervalsStart(), Intervals.intersect(Intervals.invert(interval1), interval2).getIntervalsStart());
+            assertEquals(Tracks.sum(interval1, Tracks.invert(interval2)).getIntervalsStart(), Tracks.intersect(Tracks.invert(interval1), interval2).getIntervalsStart());
 
         }  catch (IntervalTypeNotAllowedExcpetion intervalTypeNotAllowedExcpetion) {
             intervalTypeNotAllowedExcpetion.printStackTrace();
@@ -119,7 +119,7 @@ public class IntervalsTest {
         expectedEnds.add(100L);
         expectedEnds.add(3095677412L); // chromosome end
 
-        Track result = Intervals.intersect(track1, track2);
+        Track result = Tracks.intersect(track1, track2);
 
         assertEquals(expectedStarts, result.getIntervalsStart());
         assertEquals(expectedEnds, result.getIntervalsEnd());
@@ -174,7 +174,7 @@ public class IntervalsTest {
 
         Track result = null;
         try {
-            result = Intervals.sum(trackList);
+            result = Tracks.sum(trackList);
         } catch (IntervalTypeNotAllowedExcpetion intervalTypeNotAllowedExcpetion) {
             intervalTypeNotAllowedExcpetion.printStackTrace();
         }
@@ -243,7 +243,7 @@ public class IntervalsTest {
         interval2.setIntervalName(names);
 
 
-        Track result = Intervals.xor(interval1, interval2);
+        Track result = Tracks.xor(interval1, interval2);
 
         List<Long> expectedStarts = new ArrayList<>();
         List<Long> expectedEnds = new ArrayList<>();
@@ -313,7 +313,7 @@ public class IntervalsTest {
         result.add(0.5);
         result.add(0.5);
 
-        Track track = Intervals.subsetScore(interval1, 0.5);
+        Track track = Tracks.subsetScore(interval1, 0.5);
         assertEquals(track.getIntervalScore(), result);
         assertEquals(track.getIntervalsStart().size(), 3);
         assertEquals(track.getIntervalsEnd().size(), 3);
@@ -382,7 +382,7 @@ public class IntervalsTest {
         map.put("||0.11", 2d);
 
 
-        Track result = Intervals.combine(interval1, interval2, map);
+        Track result = Tracks.combine(interval1, interval2, map);
 
         List<Long> expectedStarts = new ArrayList<>();
         List<Long> expectedEnds = new ArrayList<>();
@@ -454,7 +454,7 @@ public class IntervalsTest {
         base.setIntervalsStart(starts);
         base.setIntervalsEnd(ends);
 
-        Track invert  = Intervals.invert(base);
+        Track invert  = Tracks.invert(base);
         List<Long> expectedStarts = new ArrayList<>();
         List<Long> expectedEnds = new ArrayList<>();
 
@@ -474,7 +474,7 @@ public class IntervalsTest {
         assertEquals(starts, base.getIntervalsStart());
         assertEquals(ends, base.getIntervalsEnd());
 
-        Track doubleInvert = Intervals.invert(Intervals.invert(base));
+        Track doubleInvert = Tracks.invert(Tracks.invert(base));
 
         assertEquals(starts, doubleInvert.getIntervalsStart());
         assertEquals(ends, doubleInvert.getIntervalsEnd());
@@ -505,7 +505,7 @@ public class IntervalsTest {
         expectedScores.add(1d);
         expectedScores.add(1d);
 
-        Track result = Intervals.cast(base);
+        Track result = Tracks.cast(base);
 
         assertEquals(expectedScores, result.getIntervalScore());
 

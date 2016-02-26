@@ -1,7 +1,7 @@
 package de.thm.backgroundModel;
 
 import de.thm.genomeData.Track;
-import de.thm.genomeData.IntervalFactory;
+import de.thm.genomeData.TrackFactory;
 import de.thm.positionData.Sites;
 
 import java.util.*;
@@ -187,7 +187,7 @@ class AppearanceTable {
         }
 
         List<Track> tracks = new ArrayList<>();
-        IntervalFactory loader = IntervalFactory.getInstance();
+        TrackFactory loader = TrackFactory.getInstance();
 
         app = app.substring(1, app.length()-1);
 

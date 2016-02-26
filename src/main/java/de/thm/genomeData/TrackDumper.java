@@ -15,12 +15,12 @@ import java.nio.file.Path;
  *
  * Created by Michael Menzel on 15/12/15.
  */
-final class IntervalDumper {
+final class TrackDumper {
     private static final String extension = "kryo";
     private final Path baseDir;
     private final Kryo kryo;
 
-    IntervalDumper(Path baseDir) {
+    TrackDumper(Path baseDir) {
         this.baseDir = baseDir;
         kryo = new Kryo();
     }
