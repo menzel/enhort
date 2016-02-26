@@ -15,7 +15,7 @@ import java.util.List;
  */
 public abstract class Track implements Serializable, Cloneable {
 
-    public static long serialVersionUID = 60624950L;
+    public static long serialVersionUID = 606249588L;
     public static int UID = 1;
 
     public abstract String getDescription();

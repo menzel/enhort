@@ -1,8 +1,12 @@
 package de.thm.stat;
 
 import de.thm.calc.IntersectResult;
+import de.thm.genomeData.InOutTrack;
+import de.thm.genomeData.NamedTrack;
+import de.thm.genomeData.ScoredTrack;
 import de.thm.genomeData.Track;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.commons.math3.geometry.euclidean.oned.Interval;
 import org.apache.commons.math3.util.Precision;
 
 import java.text.DecimalFormat;
@@ -25,8 +29,10 @@ public final class TestResult<T extends Track>{
     private final IntersectResult resultMeasured;
     private final IntersectResult resultExpected;
     private final int id;
+    private T usedInterval;
 
     public TestResult(double pValue, IntersectResult measured, IntersectResult expected, double effectSize, T usedInterval) {
+        this.usedInterval = usedInterval;
 
         DecimalFormat format = new DecimalFormat("0.00E00");
         String v = format.format(pValue);
@@ -129,6 +135,13 @@ public final class TestResult<T extends Track>{
     }
 
     public Class getType() {
-        return getClass();
+        if(this.usedInterval instanceof InOutTrack)
+            return InOutTrack.class;
+        if(this.usedInterval instanceof ScoredTrack)
+            return ScoredTrack.class;
+        if(this.usedInterval instanceof NamedTrack)
+            return NamedTrack.class;
+        else
+            return Interval.class;
     }
 }

@@ -66,10 +66,8 @@ public final class ResultCollector {
     }
 
 
-
-
     public List<TestResult> getCovariants(List<String> covariants) {
-        return results.stream().filter(tr -> covariants.contains(tr.getId())).collect(Collectors.toList());
+        return results.stream().filter(tr -> covariants.contains(Integer.toString(tr.getId()))).collect(Collectors.toList());
     }
 
     /**

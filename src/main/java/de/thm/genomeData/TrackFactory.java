@@ -85,15 +85,16 @@ public class TrackFactory {
      */
     private Track loadInterval(File file, Type type) {
 
-        /*if(intervalDumper.exists(file.getName())){
-            return intervalDumper.getInterval(new File(file.getName()));
+        /*if(trackDumper.exists(file.getName())){
+            return trackDumper.getInterval(new File(file.getName()));
 
         } else{
         */
+
             Track track =  initIntervalfromFile(file, type);
-            //intervalDumper.dumpInterval(interval, file.getName());
+            trackDumper.dumpInterval(track, file.getName());
             return track;
-        //}
+       //}
     }
 
 
