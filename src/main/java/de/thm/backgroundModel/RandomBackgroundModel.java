@@ -23,6 +23,7 @@ class RandomBackgroundModel implements Sites {
     RandomBackgroundModel(int sites) {
 
         rand = new Random(System.currentTimeMillis());
+        sites = (sites > 10000)? sites: 10000;
         createSites(sites);
 
     }
