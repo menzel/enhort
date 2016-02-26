@@ -104,6 +104,8 @@ public final class TestResult{
     public String toString(){
         String name = (this.name != null)? this.name: Integer.toString(this.id);
         return "Fold change Ratio: " + effectSize + "\n" +
+               "mea in " + measuredIn + " out " + measuredOut + "\n" +
+               "exp in " + expectedIn + " out " + expectedOut + "\n" +
                 name + " p-value: " + pValue +
                 "\n=====\n";
     }

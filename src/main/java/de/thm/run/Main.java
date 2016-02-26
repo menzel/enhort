@@ -13,7 +13,7 @@ public class Main {
 
         Sites userDat = new UserData(new File("/home/menzel/Desktop/THM/lfba/projekphase/HIV-hg19.bed").toPath());
         //Sites userDat = new UserData(new File("/home/menzel/Desktop/THM/lfba/projekphase/genomic_sites.sleeping_beauty.hg19.txt"));
-        //Sites userDat = new UserData(new File("/home/menzel/Desktop/THM/lfba/projekphase/MLV.bed"));
+        //Sites userDat = new UserData(new File("/home/menzel/Downloads/sites_andreas/copy.tab").toPath());
 
 
         Analyse analyse = new Analyse();

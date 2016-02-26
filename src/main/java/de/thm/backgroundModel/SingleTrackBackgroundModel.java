@@ -17,7 +17,7 @@ import java.util.*;
  */
 class SingleTrackBackgroundModel implements Sites{
 
-    private final int factor = 10;
+    private final int factor = 1;
     @SuppressWarnings("FieldCanBeLocal")
     private Random rand;
     private List<Long> positions = new ArrayList<>();
