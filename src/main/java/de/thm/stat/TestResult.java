@@ -1,15 +1,13 @@
 package de.thm.stat;
 
 import de.thm.calc.IntersectResult;
-import de.thm.genomeData.InOutTrack;
-import de.thm.genomeData.NamedTrack;
-import de.thm.genomeData.ScoredTrack;
 import de.thm.genomeData.Track;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.commons.math3.geometry.euclidean.oned.Interval;
 import org.apache.commons.math3.util.Precision;
 
 import java.text.DecimalFormat;
+import java.util.List;
+import java.util.Set;
 
 /**
  * The Results of one Test together with the input params (intersect results, measured in/ out counts, names files, pvalue, fold change )
@@ -26,13 +24,13 @@ public final class TestResult{
     private final int measuredOut;
     private final int expectedIn;
     private final int expectedOut;
-    private final IntersectResult resultMeasured;
-    private final IntersectResult resultExpected;
+    private final List<Double> scoresMea;
+    private final List<Double> scoresExp;
+    private final Set<String> namesMea;
+    private final Set<String> namesExp;
     private final int id;
-    private final Track usedInterval;
-
-    public TestResult(double pValue, IntersectResult measured, IntersectResult expected, double effectSize, Track usedInterval) {
-        this.usedInterval = usedInterval;
+        private Type type;;
+    public TestResult(double pValue, IntersectResult measured, IntersectResult expected, double effectSize, Track usedInterval, Type type) {
 
         DecimalFormat format = new DecimalFormat("0.00E00");
         String v = format.format(pValue);
@@ -47,8 +45,10 @@ public final class TestResult{
 
         this.effectSize = Precision.round(effectSize,2);
 
-        resultExpected = expected;
-        resultMeasured = measured;
+        this.scoresExp = expected.getResultScores();
+        this.scoresMea = measured.getResultScores();
+        this.namesExp = expected.getResultNames().keySet();
+        this.namesMea = measured.getResultNames().keySet();
 
         this.measuredIn = measured.getIn();
         this.measuredOut = measured.getOut();
@@ -60,6 +60,8 @@ public final class TestResult{
         this.description = usedInterval.getDescription();
 
         this.id = usedInterval.getUid();
+        this.type = type;
+
     }
 
     public double getpValue() {
@@ -100,9 +102,7 @@ public final class TestResult{
 
     public String toString(){
         String name = (this.name != null)? this.name: Integer.toString(this.id);
-        return "measured "  + resultMeasured.toString() +
-                "expected " +resultExpected.toString() +
-                "Fold change Ratio: " + effectSize + "\n" +
+        return "Fold change Ratio: " + effectSize + "\n" +
                 name + " p-value: " + pValue +
                 "\n=====\n";
     }
@@ -112,14 +112,6 @@ public final class TestResult{
             return "track_" + id;
         }
         return name;
-    }
-
-    public IntersectResult getResultMeasured() {
-        return resultMeasured;
-    }
-
-    public IntersectResult getResultExpected() {
-        return resultExpected;
     }
 
     public double getEffectSize() {
@@ -134,14 +126,25 @@ public final class TestResult{
         return id;
     }
 
-    public Class getType() {
-        if(this.usedInterval instanceof InOutTrack)
-            return InOutTrack.class;
-        if(this.usedInterval instanceof ScoredTrack)
-            return ScoredTrack.class;
-        if(this.usedInterval instanceof NamedTrack)
-            return NamedTrack.class;
-        else
-            return Interval.class;
+    public Type getType() {
+        return this.type;
     }
+
+    public List<Double> getScoresMea() {
+        return scoresMea;
+    }
+
+    public List<Double> getScoresExp() {
+        return scoresExp;
+    }
+
+    public Set<String> getNamesMea() {
+        return namesMea;
+    }
+
+    public Set<String> getNamesExp() {
+        return namesExp;
+    }
+
+public enum Type{inout, score, name}
 }

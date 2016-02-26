@@ -1,8 +1,5 @@
 package de.thm.stat;
 
-import de.thm.genomeData.InOutTrack;
-import de.thm.genomeData.NamedTrack;
-import de.thm.genomeData.ScoredTrack;
 import de.thm.positionData.Sites;
 
 import java.util.ArrayList;
@@ -27,7 +24,7 @@ public final class ResultCollector {
 
     public List<TestResult> getScoredResults() {
         List<TestResult> r = results.stream()
-                .filter(testResult -> testResult.getType() == ScoredTrack.class)
+                .filter(testResult -> testResult.getType() == TestResult.Type.score)
                 .filter(testResult -> testResult.getpValue() < 0.05)
                 .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
                 .collect(Collectors.toList());
@@ -39,7 +36,7 @@ public final class ResultCollector {
 
     public List<TestResult> getInOutResults() {
         List<TestResult> r = results.stream()
-                .filter(testResult -> testResult.getType() == InOutTrack.class)
+                .filter(testResult -> testResult.getType() == TestResult.Type.inout)
                 .filter(testResult -> testResult.getpValue() < 0.05)
                 .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
                 .collect(Collectors.toList());
@@ -52,7 +49,7 @@ public final class ResultCollector {
 
     public List<TestResult> getNamedResults() {
         List<TestResult> r = results.stream()
-                .filter(testResult -> testResult.getType() == NamedTrack.class)
+                .filter(testResult -> testResult.getType() == TestResult.Type.name)
                 .filter(testResult -> testResult.getpValue() < 0.05)
                 .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
                 .collect(Collectors.toList());

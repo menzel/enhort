@@ -164,7 +164,6 @@ public class CalculationController {
 
 
         CovariantCommand command = new CovariantCommand();
-        //command.setFilepath(inputFilepath.toString());
         command.setPositionCount(data.getPositionCount());
         command.setOriginalFilename(name);
         command.setUserData(data);
