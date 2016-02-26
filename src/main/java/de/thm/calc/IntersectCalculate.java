@@ -1,6 +1,8 @@
 package de.thm.calc;
 
+import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.genomeData.InOutTrack;
+import de.thm.genomeData.NamedTrack;
 import de.thm.genomeData.ScoredTrack;
 import de.thm.genomeData.Track;
 import de.thm.positionData.Sites;
@@ -18,8 +20,67 @@ public final class IntersectCalculate<T extends Track> implements Intersect<T>{
             return searchSingleInterval((InOutTrack)intv, pos);
         if(intv instanceof ScoredTrack)
             return searchSingleInterval((ScoredTrack)intv, pos);
+        if(intv instanceof NamedTrack)
+            return searchSingleInterval((NamedTrack)intv, pos);
         else
-            return null;
+            try {
+                throw new IntervalTypeNotAllowedExcpetion("Type not allowed in intersect");
+            } catch (IntervalTypeNotAllowedExcpetion intervalTypeNotAllowedExcpetion) {
+                intervalTypeNotAllowedExcpetion.printStackTrace();
+                return null;
+            }
+
+    }
+
+    private IntersectResult searchSingleInterval(NamedTrack intv, Sites pos) {
+
+        int out = 0;
+        int in = 0;
+        int i = 0;
+
+        IntersectResult intersectResult = new IntersectResult(intv);
+
+        List<Long> intervalStart = intv.getIntervalsStart();
+        List<Long> intervalEnd = intv.getIntervalsEnd();
+        List<String> names = intv.getIntervalName();
+
+        int intervalCount = intervalStart.size()-1;
+
+
+        for(Long p: pos.getPositions()) {
+
+            while(i < intervalCount && intervalStart.get(i) <= p){
+                i++;
+            }
+
+            if(i == 0){
+                out++;
+
+            } else if(i == intervalCount && p > intervalEnd.get(i-1)){ //last Interval and p not in previous
+                if(p < intervalEnd.get(i) && p >= intervalStart.get(i)){
+
+                    in++;
+                    intersectResult.add(names.get(i-1));
+
+                } else{
+                    out++;
+                }
+            }else{
+                if(p >= intervalEnd.get(i-1)){
+                    out++;
+
+                }else{
+                    in++;
+                    intersectResult.add(names.get(i-1));
+                }
+            }
+        }
+
+        intersectResult.setOut(out);
+        intersectResult.setIn(in);
+
+        return intersectResult;
+
     }
 
     public IntersectResult searchSingleInterval(InOutTrack intv, Sites pos){
