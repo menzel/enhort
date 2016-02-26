@@ -10,7 +10,7 @@ import static junit.framework.Assert.assertTrue;
 /**
  * Created by Michael Menzel on 7/1/16.
  */
-public class IntervalTest {
+public class TrackTest {
 
     private String[] mockParts(String chr1, String s, String s1, String name) {
         String[] parts = new String[4];
@@ -43,7 +43,7 @@ public class IntervalTest {
         base.setIntervalsStart(starts);
         base.setIntervalsEnd(ends);
 
-        Interval copy = base.clone();
+        Track copy = base.clone();
 
         assertTrue(copy.equals(base));
 

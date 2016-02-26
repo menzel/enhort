@@ -1,7 +1,7 @@
 package de.thm.backgroundModel;
 
 import de.thm.genomeData.GenomeInterval;
-import de.thm.genomeData.Interval;
+import de.thm.genomeData.Track;
 import de.thm.positionData.Sites;
 import org.junit.Test;
 
@@ -21,7 +21,7 @@ public class BetterBackgroundModelTest {
         ArrayList<Double> scoreList= new ArrayList<>();
         ArrayList<String> namesList = new ArrayList<>();
         GenomeInterval intv = new GenomeInterval();
-        intv.setType(Interval.Type.score);
+        intv.setType(Track.Type.score);
 
         startList.add(5L);
         startList.add(20L);

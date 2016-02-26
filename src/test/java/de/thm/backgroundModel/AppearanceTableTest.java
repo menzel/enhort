@@ -1,7 +1,7 @@
 package de.thm.backgroundModel;
 
 import de.thm.genomeData.GenomeInterval;
-import de.thm.genomeData.Interval;
+import de.thm.genomeData.Track;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ public class AppearanceTableTest {
     @Test
     public void testHash() throws Exception {
         AppearanceTable table = new AppearanceTable();
-        List<Interval> list = new ArrayList<>();
+        List<Track> list = new ArrayList<>();
         list.add(new GenomeInterval());
         list.add(new GenomeInterval());
         list.add(new GenomeInterval());

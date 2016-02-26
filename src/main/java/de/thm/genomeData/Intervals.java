@@ -19,24 +19,24 @@ public class Intervals {
     /**
      * Intersect a list of intervals. Resulting interval has only starts/stop where all input interval were marked.
      * *
-     * @param intervals - list of Interval Objects
+     * @param tracks - list of Interval Objects
      * @return interval object. Can be empty
      */
-    public static Interval intersect(List<Interval> intervals){
-        if(intervals.size() == 0){
+    public static Track intersect(List<Track> tracks){
+        if(tracks.size() == 0){
             return null;
 
-        } else if(intervals.size() == 1){
-            return intervals.get(0);
+        } else if(tracks.size() == 1){
+            return tracks.get(0);
 
-        } else if(intervals.size() == 2){
-            return intersect(intervals.get(0), intervals.get(1));
+        } else if(tracks.size() == 2){
+            return intersect(tracks.get(0), tracks.get(1));
 
         }else{
-            List<Interval> newList = new ArrayList<>();
-            newList.addAll(intervals.subList(2, intervals.size()));
+            List<Track> newList = new ArrayList<>();
+            newList.addAll(tracks.subList(2, tracks.size()));
 
-            newList.add(intersect(intervals.get(0), intervals.get(1)));
+            newList.add(intersect(tracks.get(0), tracks.get(1)));
 
             return intersect(newList);
         }
@@ -51,7 +51,7 @@ public class Intervals {
      * @return interval with marked intervals were both input intervals were marked. Type is set to inout, names and scores get lost in intersect
      *
      */
-    public static InOutInterval intersect(Interval intv1, Interval intv2){
+    public static InOutTrack intersect(Track intv1, Track intv2){
 
         List<Long> starts1 = intv1.getIntervalsStart();
         List<Long> starts2 = intv2.getIntervalsStart();
@@ -100,31 +100,31 @@ public class Intervals {
         String name = intv1.getName() + "_" + intv2.getName();
         String desc = intv1.getDescription() + "_" + intv2.getDescription();
 
-        return new InOutInterval(result_start, result_end, name, desc);
+        return new InOutTrack(result_start, result_end, name, desc);
     }
 
 
     /**
      * Sums up a list of intervals. The result has a interval were any of the input intervals were marked
      *
-     * @param intervals - list of intervals
+     * @param tracks - list of intervals
      * @return interval with the sum of positions
      */
-    public static Interval sum(List<Interval> intervals) throws IntervalTypeNotAllowedExcpetion {
+    public static Track sum(List<Track> tracks) throws IntervalTypeNotAllowedExcpetion {
 
-        if(intervals.size() == 0){
+        if(tracks.size() == 0){
             return null;
 
-        } else if(intervals.size() == 1){
-            return intervals.get(0);
+        } else if(tracks.size() == 1){
+            return tracks.get(0);
 
-        } else if(intervals.size() == 2){
-            return sum(intervals.get(0), intervals.get(1));
+        } else if(tracks.size() == 2){
+            return sum(tracks.get(0), tracks.get(1));
 
         }else{
-            List<Interval> newList = new ArrayList<>();
-            newList.addAll(intervals.subList(2, intervals.size()));
-            newList.add(sum(intervals.get(0), intervals.get(1)));
+            List<Track> newList = new ArrayList<>();
+            newList.addAll(tracks.subList(2, tracks.size()));
+            newList.add(sum(tracks.get(0), tracks.get(1)));
 
             return sum(newList);
         }
@@ -138,30 +138,30 @@ public class Intervals {
      *
      * @return sum of intv1 and intv2
      */
-    public static Interval sum(Interval intv1, Interval intv2) throws IntervalTypeNotAllowedExcpetion {
+    public static Track sum(Track intv1, Track intv2) throws IntervalTypeNotAllowedExcpetion {
         return invert(intersect(invert(intv1), invert(intv2)));
     }
 
     /**
      * Xor a list of intervals. The result has a interval were one of each was marked
      *
-     * @param intervals - list of intervals
+     * @param tracks - list of intervals
      * @return interval with the xor of positions
      */
-    public static Interval xor(List<Interval> intervals) {
-        if(intervals.size() == 0){
+    public static Track xor(List<Track> tracks) {
+        if(tracks.size() == 0){
             return null;
 
-        } else if(intervals.size() == 1){
-            return intervals.get(0);
+        } else if(tracks.size() == 1){
+            return tracks.get(0);
 
-        } else if(intervals.size() == 2){
-            return xor(intervals.get(0), intervals.get(1));
+        } else if(tracks.size() == 2){
+            return xor(tracks.get(0), tracks.get(1));
 
         }else{
-            List<Interval> newList = new ArrayList<>();
-            newList.addAll(intervals.subList(2, intervals.size()));
-            newList.add(xor(intervals.get(0), intervals.get(1)));
+            List<Track> newList = new ArrayList<>();
+            newList.addAll(tracks.subList(2, tracks.size()));
+            newList.add(xor(tracks.get(0), tracks.get(1)));
 
             return xor(newList);
         }
@@ -175,7 +175,7 @@ public class Intervals {
      *
      * @return xor(interval1, interval2)
      */
-    public static InOutInterval xor(Interval intv1, Interval intv2) {
+    public static InOutTrack xor(Track intv1, Track intv2) {
 
         List<Long> starts1 = intv1.getIntervalsStart();
         List<Long> starts2 = intv2.getIntervalsStart();
@@ -232,25 +232,25 @@ public class Intervals {
         String name = intv1.getName() + "_" + intv2.getName();
         String desc = intv1.getDescription() + "_" + intv2.getDescription();
 
-        return new InOutInterval(result_start, result_end, name, desc);
+        return new InOutTrack(result_start, result_end, name, desc);
     }
 
 
     /**
      * Sums up the size of all intervals. Either all intervals or the space between them
      *
-     * @param interval - intervals to sum up
+     * @param track - intervals to sum up
      * @param mode - either "in" or "out".
      *
      * @return sum of interval length inside or outside the intervals
      */
-    public static long sumOfIntervals(Interval interval, String mode) {
+    public static long sumOfIntervals(Track track, String mode) {
 
         long size = 0;
         int io = (mode.equals("in"))? 0: 1;
 
-        List<Long> intervalStart = interval.getIntervalsStart();
-        List<Long> intervalEnd = interval.getIntervalsEnd();
+        List<Long> intervalStart = track.getIntervalsStart();
+        List<Long> intervalEnd = track.getIntervalsEnd();
 
         for(int i = 0; i < intervalStart.size()-io; i++){
             if(mode.equals("in"))
@@ -262,7 +262,7 @@ public class Intervals {
         return size;
     }
 
-    public static Interval subsetScore(ScoredTrack interval, double score) {
+    public static Track subsetScore(ScoredTrack interval, double score) {
 
         List<Long> intervalStart = new ArrayList<>();
         List<Long> intervalEnd = new ArrayList<>();
@@ -320,7 +320,7 @@ public class Intervals {
 
     private static ScoredTrack combine(ScoredTrack inputInterval, Map<String, Double> score_map) {
 
-        InOutInterval tmp = invert(inputInterval.clone());
+        InOutTrack tmp = invert(inputInterval.clone());
 
         //convert outsider interval to scored interval with specific score value
         List<Double> outsideProb = new ArrayList<>(Collections.nCopies(tmp.getIntervalsStart().size(), score_map.get("|")));
@@ -529,30 +529,30 @@ public class Intervals {
     /**
      * Inverts interval. Scored and named intervals loose their Type because scores and names cannot be kept.
      *
-     * @param interval - interval to invert
+     * @param track - interval to invert
      * @return inverted interval
      */
-    public static InOutInterval invert(Interval interval) {
+    public static InOutTrack invert(Track track) {
 
         List<Long> starts = new ArrayList<>();
         List<Long> ends = new ArrayList<>();
 
 
-        if(interval.getIntervalsStart().size() == 0)
-            return cast(interval.clone());
+        if(track.getIntervalsStart().size() == 0)
+            return cast(track.clone());
 
 
 
-        starts = new ArrayList<>(interval.getIntervalsEnd());
-        ends = new ArrayList<>(interval.getIntervalsStart());
+        starts = new ArrayList<>(track.getIntervalsEnd());
+        ends = new ArrayList<>(track.getIntervalsStart());
 
-        if(interval.getIntervalsStart().get(0) != 0L) {
+        if(track.getIntervalsStart().get(0) != 0L) {
             starts.add(0, 0L);
         } else {
             ends.remove(0);
         }
 
-        if(interval.getIntervalsEnd().get(interval.getIntervalsEnd().size()-1) == ChromosomSizes.getInstance().getGenomeSize()) {
+        if(track.getIntervalsEnd().get(track.getIntervalsEnd().size()-1) == ChromosomSizes.getInstance().getGenomeSize()) {
             starts.remove(starts.size()-1);
 
         } else {
@@ -560,11 +560,11 @@ public class Intervals {
         }
 
 
-        return new InOutInterval(starts,ends,interval.getName(),interval.getDescription());
+        return new InOutTrack(starts,ends, track.getName(), track.getDescription());
     }
 
-    private static InOutInterval cast(Interval track) {
-        return new InOutInterval(track.getIntervalsStart(), track.getIntervalsEnd(), track.getName(), track.getDescription());
+    private static InOutTrack cast(Track track) {
+        return new InOutTrack(track.getIntervalsStart(), track.getIntervalsEnd(), track.getName(), track.getDescription());
     }
 
 
@@ -575,7 +575,7 @@ public class Intervals {
      *
      * @return intervals of type score with score values
      */
-    public static ScoredTrack cast(InOutInterval interval) {
+    public static ScoredTrack cast(InOutTrack interval) {
 
         List<Double> scores = new ArrayList<>(Collections.nCopies(interval.getIntervalsStart().size(), 1.0));
         List<String> names = new ArrayList<>(Collections.nCopies(interval.getIntervalsStart().size(), ""));

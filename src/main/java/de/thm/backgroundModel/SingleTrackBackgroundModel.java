@@ -2,8 +2,8 @@ package de.thm.backgroundModel;
 
 import de.thm.calc.IntersectCalculate;
 import de.thm.calc.IntersectResult;
-import de.thm.genomeData.InOutInterval;
-import de.thm.genomeData.Interval;
+import de.thm.genomeData.InOutTrack;
+import de.thm.genomeData.Track;
 import de.thm.genomeData.Intervals;
 import de.thm.positionData.Sites;
 
@@ -34,7 +34,7 @@ class SingleTrackBackgroundModel implements Sites{
      * @param interval - interval to search against
      * @param sites - sites to search
      */
-    SingleTrackBackgroundModel(InOutInterval interval, Sites sites) {
+    SingleTrackBackgroundModel(InOutTrack interval, Sites sites) {
 
         IntersectCalculate calc = new IntersectCalculate();
         IntersectResult result = calc.searchSingleInterval(interval,sites);
@@ -50,22 +50,22 @@ class SingleTrackBackgroundModel implements Sites{
      * Generates random positions which are either all inside or outside of the given intervals
      *
      * @param siteCount - count of random positions to be made up
-     * @param interval - interval by which the in/out check is made
+     * @param track - interval by which the in/out check is made
      * @param mode - either the string "in" or "out". Controls the behavior of setting the rand positions in or outside of the intervals
      *
      * @return Collection of random positions
      */
-    Collection<Long> randPositions(int siteCount, Interval interval, String mode) {
+    Collection<Long> randPositions(int siteCount, Track track, String mode) {
 
         int io = (mode.equals("in"))? 0: 1; //remember if rand positions should be in or outside of an interval
 
         rand = new Random(System.currentTimeMillis());
-        long maxValue = Intervals.sumOfIntervals(interval, mode);
+        long maxValue = Intervals.sumOfIntervals(track, mode);
 
         List<Long> randomValues = new ArrayList<>();
         List<Long> sites = new ArrayList<>();
-        List<Long> intervalStart = interval.getIntervalsStart();
-        List<Long> intervalEnd = interval.getIntervalsEnd();
+        List<Long> intervalStart = track.getIntervalsStart();
+        List<Long> intervalEnd = track.getIntervalsEnd();
 
         //get some random numbers
         for(int i = 0; i < siteCount; i++){

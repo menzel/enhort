@@ -1,6 +1,6 @@
 package de.thm.backgroundModel;
 
-import de.thm.genomeData.Interval;
+import de.thm.genomeData.Track;
 import de.thm.genomeData.Intervals;
 import de.thm.positionData.Sites;
 
@@ -23,15 +23,15 @@ class MultiTrackBackgroundModel implements Sites{
     /**
      * Constructor. Creates a Bg Model with covariants according the given intervals and positions.
      *
-     * @param intervals - covariants
+     * @param tracks - covariants
      * @param inputPositions - positions to match against
      *
      */
-    MultiTrackBackgroundModel(List<Interval> intervals, Sites inputPositions) {
+    MultiTrackBackgroundModel(List<Track> tracks, Sites inputPositions) {
 
         appearanceTable = new AppearanceTable();
-        appearanceTable.fillTable(intervals, inputPositions);
-        positions.addAll(randPositions(appearanceTable, intervals));
+        appearanceTable.fillTable(tracks, inputPositions);
+        positions.addAll(randPositions(appearanceTable, tracks));
     }
 
     /**
@@ -45,11 +45,11 @@ class MultiTrackBackgroundModel implements Sites{
      * The appearance table has to be made of the given intervals.
      *
      * @param appearanceTable - table of appearance counts
-     * @param intervals - intervals to match against
+     * @param tracks - intervals to match against
      *
      * @return list of positions which are spread by the same appearance values
      */
-    Collection<Long> randPositions(AppearanceTable appearanceTable, List<Interval> intervals){
+    Collection<Long> randPositions(AppearanceTable appearanceTable, List<Track> tracks){
 
         List<Long> sites = new ArrayList<>();
         SingleTrackBackgroundModel better = new SingleTrackBackgroundModel();
@@ -60,19 +60,19 @@ class MultiTrackBackgroundModel implements Sites{
             }
 
             int count = appearanceTable.getAppearance(app);
-            List<Interval> currentIntervals = appearanceTable.translate(app, intervals);
-            List<Interval> negativeIntervals = appearanceTable.translateNegative(intervals, app);
+            List<Track> currentTracks = appearanceTable.translate(app, tracks);
+            List<Track> negativeTracks = appearanceTable.translateNegative(tracks, app);
 
-            currentIntervals.addAll(negativeIntervals.stream().map(Intervals::invert).collect(Collectors.toList()));
+            currentTracks.addAll(negativeTracks.stream().map(Intervals::invert).collect(Collectors.toList()));
 
-            Interval interval = Intervals.intersect(currentIntervals);
+            Track track = Intervals.intersect(currentTracks);
 
-            sites.addAll(better.randPositions(count,interval ,"in"));
+            sites.addAll(better.randPositions(count, track,"in"));
         }
 
         int count = appearanceTable.getAppearance("[]");
         //Interval outs = Intervals.sum(intervals).invert();
-        Interval outs = Intervals.intersect(intervals.stream().map(Intervals::invert).collect(Collectors.toList()));
+        Track outs = Intervals.intersect(tracks.stream().map(Intervals::invert).collect(Collectors.toList()));
         sites.addAll(better.randPositions(count, outs ,"in"));
 
         Collections.sort(sites);

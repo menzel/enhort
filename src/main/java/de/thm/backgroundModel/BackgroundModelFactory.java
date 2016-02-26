@@ -1,8 +1,8 @@
 package de.thm.backgroundModel;
 
 import de.thm.exception.CovariantsException;
-import de.thm.genomeData.InOutInterval;
-import de.thm.genomeData.Interval;
+import de.thm.genomeData.InOutTrack;
+import de.thm.genomeData.Track;
 import de.thm.genomeData.Intervals;
 import de.thm.genomeData.ScoredTrack;
 import de.thm.positionData.Sites;
@@ -28,43 +28,43 @@ public final class BackgroundModelFactory {
 
     }
 
-    public static Sites createBackgroundModel(Interval interval, Sites sites) {
-        if(interval instanceof InOutInterval)
-            return new SingleTrackBackgroundModel((InOutInterval) interval,sites);
+    public static Sites createBackgroundModel(Track track, Sites sites) {
+        if(track instanceof InOutTrack)
+            return new SingleTrackBackgroundModel((InOutTrack) track,sites);
 
-        else if(interval instanceof ScoredTrack)
-            return new ScoreMultiTrackBackgroundModel(Collections.singletonList((ScoredTrack) interval), sites);
+        else if(track instanceof ScoredTrack)
+            return new ScoreMultiTrackBackgroundModel(Collections.singletonList((ScoredTrack) track), sites);
 
 
         return null;
     }
 
-    public static Sites createBackgroundModel(List<Interval> intervalList, Sites sites) throws CovariantsException {
-        if(intervalList.isEmpty())
+    public static Sites createBackgroundModel(List<Track> trackList, Sites sites) throws CovariantsException {
+        if(trackList.isEmpty())
             return createBackgroundModel(sites.getPositionCount());
 
-        else if(intervalList.size() == 1)
-            return createBackgroundModel(intervalList.get(0), sites);
+        else if(trackList.size() == 1)
+            return createBackgroundModel(trackList.get(0), sites);
 
-        else if (intervalList.stream().allMatch(i -> i instanceof InOutInterval)) //check for maxCovariantsInOut
-                return new MultiTrackBackgroundModel(intervalList, sites);
+        else if (trackList.stream().allMatch(i -> i instanceof InOutTrack)) //check for maxCovariantsInOut
+                return new MultiTrackBackgroundModel(trackList, sites);
 
-        else if(intervalList.size() <= maxCovariants) {
-            if (intervalList.stream().allMatch(i -> i instanceof ScoredTrack)) {
-                List<ScoredTrack> newList = intervalList.stream().map(i -> (ScoredTrack) i).collect(Collectors.toList());
+        else if(trackList.size() <= maxCovariants) {
+            if (trackList.stream().allMatch(i -> i instanceof ScoredTrack)) {
+                List<ScoredTrack> newList = trackList.stream().map(i -> (ScoredTrack) i).collect(Collectors.toList());
 
                 return new ScoreMultiTrackBackgroundModel(newList, sites);
 
             } else {
-                List<ScoredTrack> scoredIntervals = intervalList.stream()
+                List<ScoredTrack> scoredIntervals = trackList.stream()
                         .filter(i -> i instanceof ScoredTrack)
                         .map(i -> (ScoredTrack) i )
                         .collect(Collectors.toList());
 
                 //convert all non score intervals to score interval
-                scoredIntervals.addAll(intervalList.stream()
-                        .filter(i -> i instanceof InOutInterval)
-                        .map(i -> (InOutInterval) i)
+                scoredIntervals.addAll(trackList.stream()
+                        .filter(i -> i instanceof InOutTrack)
+                        .map(i -> (InOutTrack) i)
                         .map(Intervals::cast)
                         .collect(Collectors.toList()));
 

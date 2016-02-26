@@ -1,6 +1,6 @@
 package de.thm.calc;
 
-import de.thm.genomeData.Interval;
+import de.thm.genomeData.Track;
 import de.thm.positionData.Sites;
 
 /**
@@ -8,7 +8,7 @@ import de.thm.positionData.Sites;
  *
  * Created by Michael Menzel on 8/12/15.
  */
-public interface Intersect<T extends Interval>{
+public interface Intersect<T extends Track>{
 
     /**
      * Calculates the intersect between an interval and some points. Handles in/out count, names and scores.

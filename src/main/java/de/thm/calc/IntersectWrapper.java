@@ -1,7 +1,6 @@
 package de.thm.calc;
 
-import de.thm.genomeData.Interval;
-import de.thm.genomeData.ScoredTrack;
+import de.thm.genomeData.Track;
 import de.thm.positionData.Sites;
 import de.thm.stat.EffectSize;
 import de.thm.stat.IndependenceTest;
@@ -16,12 +15,12 @@ import de.thm.stat.TestResult;
  *
  * Created by Michael Menzel on 12/1/16.
  */
-class IntersectWrapper<T extends Interval> implements Runnable{
+class IntersectWrapper<T extends Track> implements Runnable{
 
 
     private final Sites randomPos;
     private final Sites measuredPos;
-    private final Interval interval;
+    private final Track track;
     private final ResultCollector collector;
 
     /**
@@ -29,14 +28,14 @@ class IntersectWrapper<T extends Interval> implements Runnable{
      *
      * @param measuredPos - positions from the outside of the program
      * @param randomPos - positions to match against made up by a background model
-     * @param interval - interval to match against
+     * @param track - interval to match against
      * @param collector - collector to collect results in
      */
-    IntersectWrapper(Sites measuredPos, Sites randomPos, Interval interval, ResultCollector collector) {
+    IntersectWrapper(Sites measuredPos, Sites randomPos, Track track, ResultCollector collector) {
 
         this.randomPos = randomPos;
         this.measuredPos = measuredPos;
-        this.interval = interval;
+        this.track = track;
         this.collector = collector;
     }
 
@@ -45,13 +44,13 @@ class IntersectWrapper<T extends Interval> implements Runnable{
         Intersect<T> intersec1 = new IntersectCalculate<>();
         Intersect<T> intersec2 = new IntersectCalculate<>();
 
-        IntersectResult<T> result1 = intersec1.searchSingleInterval((T) interval, measuredPos);
-        IntersectResult<T> result2 = intersec2.searchSingleInterval((T) interval, randomPos);
+        IntersectResult<T> result1 = intersec1.searchSingleInterval((T) track, measuredPos);
+        IntersectResult<T> result2 = intersec2.searchSingleInterval((T) track, randomPos);
 
         IndependenceTest<T> tester = new IndependenceTest<>();
         EffectSize<T> effectSize = new EffectSize<>();
 
-        TestResult<T> testResult  = tester.test(result1, result2, interval);
+        TestResult<T> testResult  = tester.test(result1, result2, track);
         effectSize.test(result1, result2);
 
         collector.addResult(testResult);

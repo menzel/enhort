@@ -10,16 +10,16 @@ import static junit.framework.TestCase.assertEquals;
 /**
  * Created by Michael Menzel on 15/12/15.
  */
-public class IntervalDumperTest {
+public class TrackDumperTest {
     String basePath;
-    Interval interval;
+    Track track;
     IntervalDumper dumper;
 
     @Before
     public void setUp() throws Exception {
 
         basePath = "/home/menzel/Desktop/THM/lfba/projekphase/dat/";
-        interval = IntervalFactory.getInstance().getAllIntervals().get("exons.bed");
+        track = IntervalFactory.getInstance().getAllIntervals().get("exons.bed");
         dumper = new IntervalDumper(new File("/tmp/").toPath());
 
         File folder = new File("/tmp/kryo/");
@@ -34,8 +34,8 @@ public class IntervalDumperTest {
     @Test
     public void testGetInterval() throws Exception {
 
-        dumper.dumpInterval(interval, "foo.bed");
-        Interval newInterval = dumper.getInterval(new File("/tmp/kryo/" + "foo.kryo"));
-        assertEquals(interval.getIntervalsStart(), newInterval.getIntervalsStart());
+        dumper.dumpInterval(track, "foo.bed");
+        Track newTrack = dumper.getInterval(new File("/tmp/kryo/" + "foo.kryo"));
+        assertEquals(track.getIntervalsStart(), newTrack.getIntervalsStart());
     }
 }

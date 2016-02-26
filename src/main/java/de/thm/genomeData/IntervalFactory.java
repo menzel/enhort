@@ -22,7 +22,7 @@ public class IntervalFactory {
 
     private static IntervalFactory instance;
     private final Path basePath = new File("/home/menzel/Desktop/THM/lfba/projekphase/dat/").toPath();
-    private final Map<String, Interval> intervals;
+    private final Map<String, Track> intervals;
     private final IntervalDumper intervalDumper;
     private final List<IntervalPackage> packageList;
 
@@ -68,9 +68,9 @@ public class IntervalFactory {
 
         Files.walk(Paths.get(path.toString())).filter(Files::isRegularFile).forEach(filePath -> {
             String filename = filePath.getFileName().toString();
-            Interval interval = loadInterval(filePath.toFile(), type);
+            Track track = loadInterval(filePath.toFile(), type);
 
-            intervals.put(filename, interval);
+            intervals.put(filename, track);
         });
     }
 
@@ -83,16 +83,16 @@ public class IntervalFactory {
      *
      * @return interval, either from binary or bed file
      */
-    private Interval loadInterval(File file, Type type) {
+    private Track loadInterval(File file, Type type) {
 
         /*if(intervalDumper.exists(file.getName())){
             return intervalDumper.getInterval(new File(file.getName()));
 
         } else{
         */
-            Interval interval =  initIntervalfromFile(file, type);
+            Track track =  initIntervalfromFile(file, type);
             //intervalDumper.dumpInterval(interval, file.getName());
-            return  interval;
+            return track;
         //}
     }
 
@@ -103,7 +103,7 @@ public class IntervalFactory {
      * @param file - file to parse
      * @param type - type of interval
      */
-    private Interval initIntervalfromFile(File file, Type type){
+    private Track initIntervalfromFile(File file, Type type){
 
         String name = "";
         String description = "";
@@ -157,7 +157,7 @@ public class IntervalFactory {
 
             switch (type){
                 case inout:
-                    return new InOutInterval(starts, ends,name, description);
+                    return new InOutTrack(starts, ends,name, description);
                 case scored:
                     return new ScoredTrack(starts, ends, names, scores, name, description);
                 case named:
@@ -173,19 +173,19 @@ public class IntervalFactory {
     }
 
 
-    public Map<String, Interval> getAllIntervals() {
+    public Map<String, Track> getAllIntervals() {
         return intervals;
     }
 
-    public List<Interval> getIntervalsByPackage(IntervalPackage.PackageName name){
+    public List<Track> getIntervalsByPackage(IntervalPackage.PackageName name){
         for(IntervalPackage pack: packageList){
             if(pack.getName() == name)
-                return pack.getIntervalList();
+                return pack.getTrackList();
         }
         return null;
     }
 
-    public Interval getIntervalById(int id) {
+    public Track getIntervalById(int id) {
 
         for(String keys: intervals.keySet()){
             if(intervals.get(keys).getUid() == id){
@@ -201,7 +201,7 @@ public class IntervalFactory {
     }
 
 
-    public InOutInterval createInOutTrack(List<Long> starts, List<Long> ends, String name, String description) {
-        return new InOutInterval(starts,ends,name, description);
+    public InOutTrack createInOutTrack(List<Long> starts, List<Long> ends, String name, String description) {
+        return new InOutTrack(starts,ends,name, description);
     }
 }

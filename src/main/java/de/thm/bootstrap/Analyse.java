@@ -4,7 +4,7 @@ import de.thm.backgroundModel.BackgroundModelFactory;
 import de.thm.calc.Intersect;
 import de.thm.calc.IntersectCalculate;
 import de.thm.calc.IntersectMultithread;
-import de.thm.genomeData.Interval;
+import de.thm.genomeData.Track;
 import de.thm.genomeData.IntervalFactory;
 import de.thm.positionData.Sites;
 import de.thm.stat.ResultCollector;
@@ -20,7 +20,7 @@ import java.util.Map;
  */
 public class Analyse {
 
-    private Map<String, Interval> intervals;
+    private Map<String, Track> intervals;
 
     public Analyse() {
         IntervalFactory loader = IntervalFactory.getInstance();
@@ -43,7 +43,7 @@ public class Analyse {
         //resultUserSites = simple.searchSingleInterval(genes, userSites);
         //Sites bg = new BetterBackgroundModel(resultUserSites.getIn(),resultUserSites.getOut() , genes);
 
-        List<Interval> covariants = new ArrayList<>();
+        List<Track> covariants = new ArrayList<>();
         //covariants.add(intervals.get("H1-hESC-H3K4m1"));
         //covariants.add(intervals.get("H1-hESC-H3K4m3"));
         //covariants.add(intervals.get("open-chrom-synth-HeLa-S3-valid"));

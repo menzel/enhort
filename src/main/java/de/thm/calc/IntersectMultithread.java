@@ -1,7 +1,7 @@
 package de.thm.calc;
 
-import de.thm.genomeData.InOutInterval;
-import de.thm.genomeData.Interval;
+import de.thm.genomeData.InOutTrack;
+import de.thm.genomeData.Track;
 import de.thm.genomeData.NamedTrack;
 import de.thm.genomeData.ScoredTrack;
 import de.thm.positionData.Sites;
@@ -42,17 +42,17 @@ public final class IntersectMultithread {
      *
      * @return Collector of all results computed by the differen threads
      */
-    public ResultCollector execute(Map<String, Interval> intervals, Sites measuredPositions, Sites randomPositions) {
+    public ResultCollector execute(Map<String, Track> intervals, Sites measuredPositions, Sites randomPositions) {
 
         Set<String> tracks = intervals.keySet();
 
         ResultCollector collector = new ResultCollector(randomPositions);
 
         for(String trackName: tracks){
-            Interval track = intervals.get(trackName);
+            Track track = intervals.get(trackName);
 
-            if(track instanceof InOutInterval) {
-                IntersectWrapper<InOutInterval> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, track, collector);
+            if(track instanceof InOutTrack) {
+                IntersectWrapper<InOutTrack> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, track, collector);
                 wrappers.add(wrapper);
                 exe.execute(wrapper);
 

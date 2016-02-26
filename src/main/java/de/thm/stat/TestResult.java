@@ -1,7 +1,7 @@
 package de.thm.stat;
 
 import de.thm.calc.IntersectResult;
-import de.thm.genomeData.Interval;
+import de.thm.genomeData.Track;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.math3.util.Precision;
 
@@ -12,7 +12,7 @@ import java.text.DecimalFormat;
  *
  * Created by Michael Menzel on 12/1/16.
  */
-public final class TestResult<T extends Interval>{
+public final class TestResult<T extends Track>{
 
     private final double pValue;
     private final double effectSize;

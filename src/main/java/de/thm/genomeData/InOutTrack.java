@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by Michael Menzel on 25/2/16.
  */
-public class InOutInterval extends Interval{
+public class InOutTrack extends Track {
 
     private final int uid = ++UID;
     private final List<Long> intervalsStart;
@@ -13,7 +13,7 @@ public class InOutInterval extends Interval{
     private final String name;
     private final String description;
 
-    InOutInterval(List<Long> starts, List<Long> ends, String name, String description) {
+    InOutTrack(List<Long> starts, List<Long> ends, String name, String description) {
 
         intervalsStart = starts;
         intervalsEnd = ends;
@@ -28,7 +28,7 @@ public class InOutInterval extends Interval{
     }
 
     @Override
-    public Interval clone() {
+    public Track clone() {
         return null;
     }
 
@@ -63,9 +63,9 @@ public class InOutInterval extends Interval{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof InOutInterval)) return false;
+        if (!(o instanceof InOutTrack)) return false;
 
-        InOutInterval interval = (InOutInterval) o;
+        InOutTrack interval = (InOutTrack) o;
 
         if (!intervalsStart.equals(interval.intervalsStart)) return false;
         if (!intervalsEnd.equals(interval.intervalsEnd)) return false;

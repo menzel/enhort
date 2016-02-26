@@ -1,6 +1,6 @@
 package de.thm.backgroundModel;
 
-import de.thm.genomeData.Interval;
+import de.thm.genomeData.Track;
 import de.thm.genomeData.IntervalFactory;
 import de.thm.positionData.Sites;
 
@@ -21,27 +21,27 @@ class AppearanceTable {
      * Puts the appearances in the appearance table. Each point is added to one of the hash values, depending if it is in none, one or more intervals
      *
      * @param positions - positions to find in intervals
-     * @param intervals - intervals to match against
+     * @param tracks - intervals to match against
      */
-    void fillTable(List<Interval> intervals, Sites positions) {
+    void fillTable(List<Track> tracks, Sites positions) {
         appearance = new HashMap<>();
-        Map<Interval, Integer> indices = new HashMap<>();
+        Map<Track, Integer> indices = new HashMap<>();
 
         //init indices map:
-        for(Interval interval: intervals) {
-            indices.put(interval, 0);
+        for(Track track : tracks) {
+            indices.put(track, 0);
         }
 
 
         for(Long p : positions.getPositions()){
             Set<Integer> containing = new TreeSet<>();
 
-            for(Interval interval: intervals){
+            for(Track track : tracks){
 
-                List<Long> intervalStart = interval.getIntervalsStart();
-                List<Long> intervalEnd = interval.getIntervalsEnd();
+                List<Long> intervalStart = track.getIntervalsStart();
+                List<Long> intervalEnd = track.getIntervalsEnd();
 
-                int i = indices.get(interval);
+                int i = indices.get(track);
                 int intervalCount = intervalStart.size()-1;
 
                 while(i < intervalCount && intervalStart.get(i) <= p){
@@ -49,12 +49,12 @@ class AppearanceTable {
                 }
 
                 if(i == 0){
-                    containing.add(interval.getUid());
+                    containing.add(track.getUid());
 
                 } else if(i == intervalCount && p > intervalEnd.get(i-1)){ //last Interval and p not in previous
                     if(p < intervalEnd.get(i) && p >= intervalStart.get(i)){
 
-                        containing.add(interval.getUid());
+                        containing.add(track.getUid());
 
                     } else{
                         continue;
@@ -64,11 +64,11 @@ class AppearanceTable {
                         continue; // not inside the last interval
 
                     }else{
-                        containing.add(interval.getUid());
+                        containing.add(track.getUid());
                     }
                 }
 
-                indices.put(interval, i);
+                indices.put(track, i);
             }
 
             if(appearance.containsKey(hash(containing))){
@@ -97,14 +97,14 @@ class AppearanceTable {
     /**
      * Gets the hash key for a list of Interval Ids.
      *
-     * @param intervals - list of intervals
+     * @param tracks - list of intervals
      * @return HashMap key as String
      */
-    String hash(List<Interval> intervals) {
+    String hash(List<Track> tracks) {
         List<Integer> containing = new ArrayList<>();
 
-        for(Interval interval: intervals){
-            containing.add(interval.getUid());
+        for(Track track : tracks){
+            containing.add(track.getUid());
         }
 
         Collections.sort(containing);
@@ -119,13 +119,13 @@ class AppearanceTable {
     /**
      * Get the appearance for a list of intervals
      *
-     * @param intervals - intervals to fetch the value from
+     * @param tracks - intervals to fetch the value from
      * @return appearance count
      */
-    int getAppearance(List<Interval> intervals){
+    int getAppearance(List<Track> tracks){
 
-        if(appearance.containsKey(hash(intervals))){
-            return appearance.get(hash(intervals));
+        if(appearance.containsKey(hash(tracks))){
+            return appearance.get(hash(tracks));
 
         } else{
             return 0;
@@ -151,27 +151,27 @@ class AppearanceTable {
      * @param app - hash key as String
      * @return List of intervals which are referenced in the hash key
      */
-    List<Interval> translate(String app, List<Interval> knownIntervals) {
+    List<Track> translate(String app, List<Track> knownTracks) {
 
         if(app.compareTo("[]") == 0){ //empty array
             return null;
         }
 
-        List<Interval> intervals = new ArrayList<>();
+        List<Track> tracks = new ArrayList<>();
 
         app = app.substring(1, app.length()-1);
 
         int[] digits =  Arrays.stream(app.split(",")).map(String::trim).mapToInt(Integer::parseInt).toArray();
 
         for (int id : digits) {
-            for(Interval interval: knownIntervals){
-                if(id == interval.getUid())
-                    intervals.add(interval);
+            for(Track track : knownTracks){
+                if(id == track.getUid())
+                    tracks.add(track);
             }
         }
 
 
-        return intervals;
+        return tracks;
     }
 
     /**
@@ -180,13 +180,13 @@ class AppearanceTable {
      * @param app - appearance hash key as string
      * @return List of Intervals
      */
-    public List<Interval> translate(String app) {
+    public List<Track> translate(String app) {
 
         if(app.compareTo("[]") == 0){ //empty array
             return null;
         }
 
-        List<Interval> intervals = new ArrayList<>();
+        List<Track> tracks = new ArrayList<>();
         IntervalFactory loader = IntervalFactory.getInstance();
 
         app = app.substring(1, app.length()-1);
@@ -194,11 +194,11 @@ class AppearanceTable {
         int[] digits =  Arrays.stream(app.split(",")).map(String::trim).mapToInt(Integer::parseInt).toArray();
 
         for (int id : digits) {
-            intervals.add(loader.getIntervalById(id));
+            tracks.add(loader.getIntervalById(id));
         }
 
 
-        return intervals;
+        return tracks;
     }
 
     /**
@@ -210,9 +210,9 @@ class AppearanceTable {
      *
      * @return list of all intervals exepect the ones on app list of interval ids.
      */
-    public List<Interval> translateNegative(List<Interval> outer, String app) {
+    public List<Track> translateNegative(List<Track> outer, String app) {
 
-        List<Interval> intervals = new CopyOnWriteArrayList<>(outer);
+        List<Track> tracks = new CopyOnWriteArrayList<>(outer);
 
         app = app.substring(1, app.length()-1);
 
@@ -221,13 +221,13 @@ class AppearanceTable {
 
         //remove those which are in the given list
         for (int id : digits) {
-            for(Interval interval: intervals){
-                if(interval.getUid() == id)
-                    intervals.remove(interval);
+            for(Track track : tracks){
+                if(track.getUid() == id)
+                    tracks.remove(track);
             }
         }
 
-        return intervals;
+        return tracks;
     }
 
     public Map<String, Integer> getAppearance() {

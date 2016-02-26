@@ -8,7 +8,7 @@ import java.util.List;
  * Created by Michael Menzel on 24/2/16.
  */
 @SuppressWarnings("unused")
-public abstract class AbstractTrack extends Interval{
+public abstract class AbstractTrack extends Track {
 
     private static final long serialVersionUID = 30624951L;
     private static int UID = 1;
@@ -28,7 +28,7 @@ public abstract class AbstractTrack extends Interval{
     }
 
     @Override
-    public abstract Interval clone();
+    public abstract Track clone();
 
     @Override
     public List<Long> getIntervalsStart() { return intervalsStart; }
@@ -55,13 +55,13 @@ public abstract class AbstractTrack extends Interval{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Interval)) return false;
+        if (!(o instanceof Track)) return false;
 
-        Interval interval = (Interval) o;
+        Track track = (Track) o;
 
-        if (!intervalsStart.equals(interval.getIntervalsStart())) return false;
-        if (!intervalsEnd.equals(interval.getIntervalsEnd())) return false;
-        return !(description != null ? !description.equals(interval.getDescription()) : interval.getDescription()!= null);
+        if (!intervalsStart.equals(track.getIntervalsStart())) return false;
+        if (!intervalsEnd.equals(track.getIntervalsEnd())) return false;
+        return !(description != null ? !description.equals(track.getDescription()) : track.getDescription()!= null);
 
     }
 

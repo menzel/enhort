@@ -1,6 +1,6 @@
 package de.thm.misc;
 
-import de.thm.genomeData.InOutInterval;
+import de.thm.genomeData.InOutTrack;
 import de.thm.genomeData.IntervalFactory;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public final class PositionPreprocessor {
     *
     * @param interval to process
     */
-    public static InOutInterval preprocessData(InOutInterval interval) {
+    public static InOutTrack preprocessData(InOutTrack interval) {
         List<Long> newStart = new ArrayList<>();
         List<Long> newEnd = new ArrayList<>();
 

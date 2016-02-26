@@ -4,7 +4,7 @@ import de.thm.calc.Intersect;
 import de.thm.calc.IntersectCalculate;
 import de.thm.calc.IntersectResult;
 import de.thm.genomeData.GenomeInterval;
-import de.thm.genomeData.Interval;
+import de.thm.genomeData.Track;
 import de.thm.positionData.Sites;
 import org.junit.Test;
 
@@ -55,15 +55,15 @@ public class MultiTrackBackgroundModelTest {
         end3.add(45L);
         end3.add(55L);
 
-        Interval interval1 = mockInterval(start1, end1);
-        Interval interval2 = mockInterval(start2, end2);
-        Interval interval3 = mockInterval(start3, end3);
+        Track track1 = mockInterval(start1, end1);
+        Track track2 = mockInterval(start2, end2);
+        Track track3 = mockInterval(start3, end3);
 
-        List<Interval> intervalList = new ArrayList<>();
+        List<Track> trackList = new ArrayList<>();
 
-        intervalList.add(interval1);
-        intervalList.add(interval2);
-        intervalList.add(interval3);
+        trackList.add(track1);
+        trackList.add(track2);
+        trackList.add(track3);
 
         // positions:
 
@@ -101,27 +101,27 @@ public class MultiTrackBackgroundModelTest {
          };
 
 
-        MultiTrackBackgroundModel model = new MultiTrackBackgroundModel(intervalList, sites);
+        MultiTrackBackgroundModel model = new MultiTrackBackgroundModel(trackList, sites);
 
         //check list count of pos in list 1:
-        assertEquals(1,model.getAppearanceTable().getAppearance(intervalList.subList(0,1)));
+        assertEquals(1,model.getAppearanceTable().getAppearance(trackList.subList(0,1)));
 
         //check list 2:
-        assertEquals(1,model.getAppearanceTable().getAppearance(intervalList.subList(1,2)));
+        assertEquals(1,model.getAppearanceTable().getAppearance(trackList.subList(1,2)));
 
 
         //check count of pos which are in all lists:
-        assertEquals(2,model.getAppearanceTable().getAppearance(intervalList));
+        assertEquals(2,model.getAppearanceTable().getAppearance(trackList));
 
         // check pos in list 2 and 3:
-        assertEquals(1,model.getAppearanceTable().getAppearance(intervalList.subList(1,3)));
+        assertEquals(1,model.getAppearanceTable().getAppearance(trackList.subList(1,3)));
 
         //check 0 values for other lists:
-        assertEquals(0,model.getAppearanceTable().getAppearance(intervalList.subList(2,3))); //list 3
+        assertEquals(0,model.getAppearanceTable().getAppearance(trackList.subList(2,3))); //list 3
 
-        List<Interval> zeroList = new ArrayList<>();
-        zeroList.add(interval1);
-        zeroList.add(interval3);
+        List<Track> zeroList = new ArrayList<>();
+        zeroList.add(track1);
+        zeroList.add(track3);
 
         assertEquals(0,model.getAppearanceTable().getAppearance(zeroList));
 
@@ -154,15 +154,15 @@ public class MultiTrackBackgroundModelTest {
         end3.add(58L);
 
 
-        Interval interval1 = mockInterval(start1, end1);
-        Interval interval2 = mockInterval(start2, end2);
-        Interval interval3 = mockInterval(start3, end3);
+        Track track1 = mockInterval(start1, end1);
+        Track track2 = mockInterval(start2, end2);
+        Track track3 = mockInterval(start3, end3);
 
-        List<Interval> intervalList = new ArrayList<>();
+        List<Track> trackList = new ArrayList<>();
 
-        intervalList.add(interval1);
-        intervalList.add(interval2);
-        intervalList.add(interval3);
+        trackList.add(track1);
+        trackList.add(track2);
+        trackList.add(track3);
 
         // positions:
 
@@ -199,27 +199,27 @@ public class MultiTrackBackgroundModelTest {
          };
 
 
-        MultiTrackBackgroundModel model = new MultiTrackBackgroundModel(intervalList, sites);
+        MultiTrackBackgroundModel model = new MultiTrackBackgroundModel(trackList, sites);
 
         //check list count of pos in list 1:
-        assertEquals(0,model.getAppearanceTable().getAppearance(intervalList.subList(0,1)));
+        assertEquals(0,model.getAppearanceTable().getAppearance(trackList.subList(0,1)));
 
         //check list 2:
-        assertEquals(0,model.getAppearanceTable().getAppearance(intervalList.subList(1,2)));
+        assertEquals(0,model.getAppearanceTable().getAppearance(trackList.subList(1,2)));
 
 
         //check count of pos which are in all lists:
-        assertEquals(0,model.getAppearanceTable().getAppearance(intervalList));
+        assertEquals(0,model.getAppearanceTable().getAppearance(trackList));
 
         // check pos in list 2 and 3:
-        assertEquals(1,model.getAppearanceTable().getAppearance(intervalList.subList(1,3)));
+        assertEquals(1,model.getAppearanceTable().getAppearance(trackList.subList(1,3)));
 
         //check values for other list:
-        assertEquals(2,model.getAppearanceTable().getAppearance(intervalList.subList(2,3))); //list 3
+        assertEquals(2,model.getAppearanceTable().getAppearance(trackList.subList(2,3))); //list 3
 
-        List<Interval> otherList = new ArrayList<>();
-        otherList.add(interval1);
-        otherList.add(interval3);
+        List<Track> otherList = new ArrayList<>();
+        otherList.add(track1);
+        otherList.add(track3);
 
         assertEquals(2,model.getAppearanceTable().getAppearance(otherList));
 
@@ -272,13 +272,13 @@ public class MultiTrackBackgroundModelTest {
         GenomeInterval interval1 = mockInterval(start1, end1);
         GenomeInterval interval2 = mockInterval(start2, end2);
 
-        interval1.setType(Interval.Type.inout);
-        interval2.setType(Interval.Type.inout);
+        interval1.setType(Track.Type.inout);
+        interval2.setType(Track.Type.inout);
 
-        List<Interval> intervalList = new ArrayList<>();
+        List<Track> trackList = new ArrayList<>();
 
-        intervalList.add(interval1);
-        intervalList.add(interval2);
+        trackList.add(interval1);
+        trackList.add(interval2);
 
         interval1.setIntervalName(names);
         interval2.setIntervalName(names);
@@ -311,7 +311,7 @@ public class MultiTrackBackgroundModelTest {
 
         MultiTrackBackgroundModel bg = new MultiTrackBackgroundModel();
 
-        bg.addPositions(bg.randPositions(app, intervalList));
+        bg.addPositions(bg.randPositions(app, trackList));
 
         Intersect calc = new IntersectCalculate();
 

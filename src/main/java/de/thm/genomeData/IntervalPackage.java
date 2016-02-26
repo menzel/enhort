@@ -6,19 +6,19 @@ import java.util.List;
  * Created by Michael Menzel on 12/2/16.
  */
 public class IntervalPackage {
-    private final List<Interval> intervalList;
+    private final List<Track> trackList;
     private final String description;
     private final PackageName name;
 
 
-    public IntervalPackage(List<Interval> intervalList, PackageName name, String description) {
-        this.intervalList = intervalList;
+    public IntervalPackage(List<Track> trackList, PackageName name, String description) {
+        this.trackList = trackList;
         this.name = name;
         this.description = description;
     }
 
-    public List<Interval> getIntervalList() {
-        return intervalList;
+    public List<Track> getTrackList() {
+        return trackList;
     }
 
     public String getDescription() {

@@ -1,13 +1,13 @@
 package de.thm.stat;
 
 import de.thm.calc.IntersectResult;
-import de.thm.genomeData.Interval;
+import de.thm.genomeData.Track;
 
 /**
  * Can compute the the fold change
  * Created by Michael Menzel on 29/1/16.
  */
-public final class EffectSize <T extends Interval>{
+public final class EffectSize <T extends Track>{
 
 
     /**

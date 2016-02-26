@@ -1,8 +1,8 @@
 package de.thm.stat;
 
 import de.thm.calc.IntersectResult;
-import de.thm.genomeData.InOutInterval;
-import de.thm.genomeData.Interval;
+import de.thm.genomeData.InOutTrack;
+import de.thm.genomeData.Track;
 import de.thm.genomeData.NamedTrack;
 import de.thm.genomeData.ScoredTrack;
 import org.apache.commons.math3.stat.inference.ChiSquareTest;
@@ -16,7 +16,7 @@ import java.util.*;
  *
  * Created by Michael Menzel on 10/12/15.
  */
-public final class IndependenceTest<T extends Interval>{
+public final class IndependenceTest<T extends Track>{
 
     private final ChiSquareTest tester;
     private final KolmogorovSmirnovTest kolmoTester;
@@ -34,11 +34,11 @@ public final class IndependenceTest<T extends Interval>{
      *
      * @param intersectResultA  measured results
      * @param intersectResultB expected (random) results
-     * @param interval - used interval for reference
+     * @param track - used interval for reference
      *
      * @return p value of independence test
      */
-    public TestResult<T> test(IntersectResult<T> intersectResultA, IntersectResult<T> intersectResultB, Interval interval){
+    public TestResult<T> test(IntersectResult<T> intersectResultA, IntersectResult<T> intersectResultB, Track track){
 
         long[][] counts = new long[2][2];
         counts[0] = new long[] {intersectResultA.getIn(), intersectResultA.getOut()};
@@ -47,7 +47,7 @@ public final class IndependenceTest<T extends Interval>{
         double effectSize = effectSizeTester.test(intersectResultA,intersectResultB);
 
 
-        if(interval instanceof ScoredTrack) {
+        if(track instanceof ScoredTrack) {
 
             double[] measuredScore = intersectResultA.getResultScores().stream().mapToDouble(i -> i).toArray();
             double[] expectedScore = intersectResultB.getResultScores().stream().mapToDouble(i -> i).toArray();
@@ -61,21 +61,21 @@ public final class IndependenceTest<T extends Interval>{
                 return null;
 
             } else {
-                return new TestResult<T>(kolmoTester.kolmogorovSmirnovTest(measuredScore, expectedScore), intersectResultA, intersectResultB, effectSize, (T) interval);
+                return new TestResult<T>(kolmoTester.kolmogorovSmirnovTest(measuredScore, expectedScore), intersectResultA, intersectResultB, effectSize, (T) track);
             }
 
-        } else if(interval instanceof NamedTrack) {
+        } else if(track instanceof NamedTrack) {
 
 
             Map<String, Integer> measured = intersectResultA.getResultNames();
             Map<String, Integer> expected = intersectResultB.getResultNames();
 
-            return new TestResult<T>(tester.chiSquareTest(prepareLists(measured, expected)), intersectResultA, intersectResultB, effectSize, (T) interval);
+            return new TestResult<T>(tester.chiSquareTest(prepareLists(measured, expected)), intersectResultA, intersectResultB, effectSize, (T) track);
 
 
-        }else if(interval instanceof InOutInterval) {
+        }else if(track instanceof InOutTrack) {
 
-            return new TestResult<T>(tester.chiSquareTest(counts), intersectResultA, intersectResultB, effectSize, (T) interval);
+            return new TestResult<T>(tester.chiSquareTest(counts), intersectResultA, intersectResultB, effectSize, (T) track);
 
         } else {
             return null;

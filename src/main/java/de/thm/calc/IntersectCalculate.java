@@ -1,7 +1,7 @@
 package de.thm.calc;
 
-import de.thm.genomeData.InOutInterval;
-import de.thm.genomeData.Interval;
+import de.thm.genomeData.InOutTrack;
+import de.thm.genomeData.Track;
 import de.thm.genomeData.ScoredTrack;
 import de.thm.positionData.Sites;
 
@@ -9,20 +9,20 @@ import java.util.List;
 /**
  * Simple version of intersect, going list by list.
  */
-public final class IntersectCalculate<T extends Interval> implements Intersect<T>{
+public final class IntersectCalculate<T extends Track> implements Intersect<T>{
 
 
     @Override
     public IntersectResult<T> searchSingleInterval(T intv, Sites pos) {
-        if(intv instanceof InOutInterval)
-            return searchSingleInterval((InOutInterval)intv, pos);
+        if(intv instanceof InOutTrack)
+            return searchSingleInterval((InOutTrack)intv, pos);
         if(intv instanceof ScoredTrack)
             return searchSingleInterval((ScoredTrack)intv, pos);
         else
             return null;
     }
 
-    public IntersectResult<T> searchSingleInterval(InOutInterval intv, Sites pos){
+    public IntersectResult<T> searchSingleInterval(InOutTrack intv, Sites pos){
         int out = 0;
         int in = 0;
         int i = 0;

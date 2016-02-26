@@ -1,7 +1,7 @@
 package de.thm.backgroundModel;
 
 import de.thm.genomeData.GenomeInterval;
-import de.thm.genomeData.Interval;
+import de.thm.genomeData.Track;
 import de.thm.positionData.Sites;
 import org.junit.Test;
 
@@ -56,9 +56,9 @@ public class ScoreMultiTrackBackgroundModelTest {
         interval1.setIntervalScore(scores1);
         interval2.setIntervalScore(scores2);
 
-        List<Interval> intervals = new ArrayList<>();
-        intervals.add(interval1);
-        intervals.add(interval2);
+        List<Track> tracks = new ArrayList<>();
+        tracks.add(interval1);
+        tracks.add(interval2);
 
         Sites sites = new Sites() {
             @Override
@@ -100,13 +100,13 @@ public class ScoreMultiTrackBackgroundModelTest {
         result_map.put("|0.7|0.8",1.);
 
 
-        assertEquals(result_map, m.fillOccurenceMap(intervals, sites));
+        assertEquals(result_map, m.fillOccurenceMap(tracks, sites));
 
         /* Test prob interval */
 
-        Interval probInterval = m.generateProbabilityInterval(sites, intervals);
+        Track probTrack = m.generateProbabilityInterval(sites, tracks);
 
-        assertEquals(probInterval.getIntervalScore().stream().mapToDouble(i -> i).sum(), 1.0, 0.01);
+        assertEquals(probTrack.getIntervalScore().stream().mapToDouble(i -> i).sum(), 1.0, 0.01);
 
     }
 
@@ -117,7 +117,7 @@ public class ScoreMultiTrackBackgroundModelTest {
         interval.setIntervalsEnd(end);
 
 
-        interval.setType(Interval.Type.inout);
+        interval.setType(Track.Type.inout);
 
         return interval;
     }

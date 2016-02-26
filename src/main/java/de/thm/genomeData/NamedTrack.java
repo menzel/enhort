@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by Michael Menzel on 26/2/16.
  */
-public class NamedTrack extends Interval {
+public class NamedTrack extends Track {
 
     private final int uid = ++UID;
     private final List<Long> intervalsStart;
@@ -32,7 +32,7 @@ public class NamedTrack extends Interval {
 
 
     @Override
-    public Interval clone() {
+    public Track clone() {
 
         return new NamedTrack(
             new ArrayList<>(intervalsStart),

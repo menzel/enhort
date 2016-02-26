@@ -27,16 +27,16 @@ final class IntervalDumper {
 
     /**
      *
-     * @param interval - dumps an interval to a directory
+     * @param track - dumps an interval to a directory
      * @param filename - name of original file without extension
      */
-    void dumpInterval(Interval interval, String filename){
+    void dumpInterval(Track track, String filename){
 
         filename = filename.substring(0,filename.indexOf(".")) + ".kryo";
 
         try (Output output = new Output(new FileOutputStream(baseDir.resolve("kryo/" + filename).toString()))) {
 
-            kryo.writeObject(output, interval);
+            kryo.writeObject(output, track);
             output.flush();
             output.close();
 
@@ -53,17 +53,17 @@ final class IntervalDumper {
      * @param file - binary file to parse
      * @return Interval based on given binary
      */
-    Interval getInterval(File file){
-        Interval interval;
+    Track getInterval(File file){
+        Track track;
         String name = file.getName();
         name = name.substring(0,name.indexOf(".")) + ".kryo";
 
         try {
             Input input = new Input(new FileInputStream(baseDir + "/kryo/" + name));
-            interval = kryo.readObject(input, Interval.class); //TODO use different objects
+            track = kryo.readObject(input, Track.class); //TODO use different objects
 
             input.close();
-            return interval;
+            return track;
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

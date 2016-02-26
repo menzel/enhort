@@ -3,7 +3,7 @@ package de.thm.spring.helper;
 import de.thm.backgroundModel.BackgroundModelFactory;
 import de.thm.calc.IntersectMultithread;
 import de.thm.exception.CovariantsException;
-import de.thm.genomeData.Interval;
+import de.thm.genomeData.Track;
 import de.thm.genomeData.IntervalFactory;
 import de.thm.positionData.Sites;
 import de.thm.run.Server;
@@ -45,7 +45,7 @@ public class AnalysisHelper {
      */
     public static ResultCollector runAnalysis(Sites sites, List<String> covariantNames) throws CovariantsException {
 
-        List<Interval> covariants = getCovariants(covariantNames);
+        List<Track> covariants = getCovariants(covariantNames);
 
         Sites bg = BackgroundModelFactory.createBackgroundModel(covariants, sites);
 
@@ -61,18 +61,18 @@ public class AnalysisHelper {
      * @param covariantNames - list of interval names
      * @return list of intervals with the same as given by input names
      */
-    private static List<Interval> getCovariants(List<String> covariantNames) {
-        List<Interval> intervals = new ArrayList<>();
+    private static List<Track> getCovariants(List<String> covariantNames) {
+        List<Track> tracks = new ArrayList<>();
         IntervalFactory loader = IntervalFactory.getInstance();
 
-        Map<String, Interval> knownIntervals = loader.getAllIntervals();
+        Map<String, Track> knownIntervals = loader.getAllIntervals();
         for(String name: covariantNames){
             if(knownIntervals.containsKey(name)){
-                intervals.add(knownIntervals.get(name));
+                tracks.add(knownIntervals.get(name));
             }
         }
 
-        return intervals;
+        return tracks;
     }
 
 }

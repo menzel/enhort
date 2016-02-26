@@ -10,7 +10,7 @@ import static junit.framework.TestCase.assertEquals;
 /**
  * Created by Michael Menzel on 14/1/16.
  */
-public class IntervalIntersectTest {
+public class TrackIntersectTest {
         @Test
     public void testIntersectRecursion() throws Exception {
 
@@ -57,17 +57,17 @@ public class IntervalIntersectTest {
 
 
 
-        Interval interval1 = mockInterval(start1, end1);
-        Interval interval2 = mockInterval(start2, end2);
-        Interval interval3 = mockInterval(start3, end3);
+        Track track1 = mockInterval(start1, end1);
+        Track track2 = mockInterval(start2, end2);
+        Track track3 = mockInterval(start3, end3);
 
-        List<Interval> intervalList = new ArrayList<>();
+        List<Track> trackList = new ArrayList<>();
 
-        intervalList.add(interval2);
-        intervalList.add(interval1);
-        intervalList.add(interval3);
+        trackList.add(track2);
+        trackList.add(track1);
+        trackList.add(track3);
 
-        Interval newInterval = Intervals.intersect(intervalList);
+        Track newTrack = Intervals.intersect(trackList);
 
         List<Long> expected_start = new ArrayList<>();
         expected_start.add(3L);
@@ -77,8 +77,8 @@ public class IntervalIntersectTest {
         expected_end.add(5L);
         expected_end.add(44L);
 
-        assertEquals(expected_start, newInterval.getIntervalsStart());
-        assertEquals(expected_end, newInterval.getIntervalsEnd());
+        assertEquals(expected_start, newTrack.getIntervalsStart());
+        assertEquals(expected_end, newTrack.getIntervalsEnd());
 
     }
 
@@ -120,10 +120,10 @@ public class IntervalIntersectTest {
         end2.add(80L);
 
 
-        Interval interval1 = mockInterval(start1, end1);
-        Interval interval2 = mockInterval(start2, end2);
+        Track track1 = mockInterval(start1, end1);
+        Track track2 = mockInterval(start2, end2);
 
-        Interval newInterval = Intervals.intersect(interval1,interval2);
+        Track newTrack = Intervals.intersect(track1, track2);
 
         /**
         for(int i = 0; i < newInterval.getIntervalsStart().size(); i++){
@@ -144,14 +144,14 @@ public class IntervalIntersectTest {
         expected_end.add(16L);
         expected_end.add(44L);
 
-        assertEquals(expected_start, newInterval.getIntervalsStart());
-        assertEquals(expected_end, newInterval.getIntervalsEnd());
+        assertEquals(expected_start, newTrack.getIntervalsStart());
+        assertEquals(expected_end, newTrack.getIntervalsEnd());
 
     }
 
 
 
-    private Interval mockInterval(List<Long> start, List<Long> end) {
+    private Track mockInterval(List<Long> start, List<Long> end) {
         GenomeInterval interval = new GenomeInterval();
 
         interval.setIntervalsStart(start);

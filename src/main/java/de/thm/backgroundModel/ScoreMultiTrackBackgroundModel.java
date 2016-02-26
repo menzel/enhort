@@ -1,6 +1,6 @@
 package de.thm.backgroundModel;
 
-import de.thm.genomeData.Interval;
+import de.thm.genomeData.Track;
 import de.thm.genomeData.IntervalFactory;
 import de.thm.genomeData.Intervals;
 import de.thm.genomeData.ScoredTrack;
@@ -107,11 +107,11 @@ class ScoreMultiTrackBackgroundModel implements Sites{
      */
     Map<String, Double> fillOccurenceMap(List<ScoredTrack> intervals, Sites sites) {
         Map<String, Double> map = new HashMap<>(); //holds the conversion between score and probability
-        Map<Interval, Integer> indices = new HashMap<>();
+        Map<Track, Integer> indices = new HashMap<>();
 
         //init indices map:
-        for(Interval interval: intervals) {
-            indices.put(interval, 0);
+        for(Track track : intervals) {
+            indices.put(track, 0);
         }
 
         for(Long p : sites.getPositions()){

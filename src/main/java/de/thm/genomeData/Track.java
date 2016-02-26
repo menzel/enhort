@@ -13,7 +13,7 @@ import java.util.List;
  *
  * Created by Michael Menzel on 23/2/16.
  */
-public abstract class Interval implements Serializable, Cloneable {
+public abstract class Track implements Serializable, Cloneable {
 
     public static long serialVersionUID = 60624950L;
     public static int UID = 1;
@@ -28,7 +28,7 @@ public abstract class Interval implements Serializable, Cloneable {
 
     public abstract int getUid();
 
-    public abstract Interval clone();
+    public abstract Track clone();
 
     public abstract int hashCode();
 

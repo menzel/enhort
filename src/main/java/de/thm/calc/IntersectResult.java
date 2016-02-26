@@ -1,6 +1,6 @@
 package de.thm.calc;
 
-import de.thm.genomeData.Interval;
+import de.thm.genomeData.Track;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +12,7 @@ import java.util.Map;
  *
  * Created by Michael Menzel on 8/12/15.
  */
-public final class IntersectResult<T extends Interval>{
+public final class IntersectResult<T extends Track>{
 
 
     private final Map<String, Integer> resultNames;

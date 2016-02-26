@@ -1,6 +1,6 @@
 package de.thm.positionData;
 
-import de.thm.genomeData.Interval;
+import de.thm.genomeData.Track;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -18,8 +18,8 @@ public class BetterBackgroundModelTest {
 
     }
 
-    private static Interval mockInterval(int i) {
-        Interval intv = new Interval() {
+    private static Track mockInterval(int i) {
+        Track intv = new Track() {
 
             @Override
             public ArrayList<Long> getIntervalsEnd() {
@@ -56,12 +56,12 @@ public class BetterBackgroundModelTest {
             }
 
             @Override
-            public Interval clone() {
+            public Track clone() {
                 return null;
             }
 
             @Override
-            public Interval.Type getType() {
+            public Track.Type getType() {
                 return null;
             }
 
