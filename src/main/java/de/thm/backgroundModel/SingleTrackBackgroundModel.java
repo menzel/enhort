@@ -2,8 +2,8 @@ package de.thm.backgroundModel;
 
 import de.thm.calc.IntersectCalculate;
 import de.thm.calc.IntersectResult;
+import de.thm.genomeData.InOutInterval;
 import de.thm.genomeData.Interval;
-import de.thm.genomeData.Interval.Type;
 import de.thm.genomeData.Intervals;
 import de.thm.positionData.Sites;
 
@@ -34,15 +34,13 @@ class SingleTrackBackgroundModel implements Sites{
      * @param interval - interval to search against
      * @param sites - sites to search
      */
-    SingleTrackBackgroundModel(Interval interval, Sites sites) {
+    SingleTrackBackgroundModel(InOutInterval interval, Sites sites) {
 
         IntersectCalculate calc = new IntersectCalculate();
         IntersectResult result = calc.searchSingleInterval(interval,sites);
 
-        if(interval.getType().equals(Type.inout)) {
-            positions.addAll(randPositions(result.getIn()* factor, interval, "in"));
-            positions.addAll(randPositions(result.getOut()* factor, interval, "out"));
-        }
+        positions.addAll(randPositions(result.getIn()* factor, interval, "in"));
+        positions.addAll(randPositions(result.getOut()* factor, interval, "out"));
 
     }
 

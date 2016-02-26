@@ -10,10 +10,9 @@ import java.util.List;
  *
  * Created by Michael Menzel on 8/12/15.
  */
-public final class GenomeInterval implements Interval  {
+@Deprecated
+final class GenomeInterval implements Interval  {
 
-    private static final long serialVersionUID = 60624950L;
-    private static int UID = 1;
     private final int uid = ++UID;
 
     private final String filename;
@@ -21,7 +20,6 @@ public final class GenomeInterval implements Interval  {
     private List<Long> intervalsEnd;
     private List<String> intervalName;
     private List<Double> intervalScore;
-    private Type type;
     private String name;
     private String description;
 

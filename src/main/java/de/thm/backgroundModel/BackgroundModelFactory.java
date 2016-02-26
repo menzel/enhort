@@ -60,7 +60,7 @@ public final class BackgroundModelFactory {
                 //convert all non score intervals to score interval
                 scoredIntervals.addAll(intervalList.stream()
                         .filter(i -> i.getType() == Type.inout)
-                        .map(Intervals::convertToScore)
+                        .map(Intervals::cast)
                         .collect(Collectors.toList()));
 
 

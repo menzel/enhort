@@ -505,7 +505,7 @@ public class IntervalsTest {
         expectedScores.add(1d);
         expectedScores.add(1d);
 
-        Interval result = Intervals.convertToScore(base);
+        Interval result = Intervals.cast(base);
 
         assertEquals(expectedScores, result.getIntervalScore());
 

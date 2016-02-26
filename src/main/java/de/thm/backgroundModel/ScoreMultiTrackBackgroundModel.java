@@ -1,8 +1,9 @@
 package de.thm.backgroundModel;
 
-import de.thm.genomeData.GenomeInterval;
 import de.thm.genomeData.Interval;
+import de.thm.genomeData.IntervalFactory;
 import de.thm.genomeData.Intervals;
+import de.thm.genomeData.ScoredTrack;
 import de.thm.positionData.Sites;
 
 import java.util.*;
@@ -24,8 +25,8 @@ class ScoreMultiTrackBackgroundModel implements Sites{
      * @param sites - sites to build model against.
      * @param covariants - list of intervals to build model against.
      */
-    ScoreMultiTrackBackgroundModel(List<Interval> covariants, Sites sites) {
-        Interval interval = generateProbabilityInterval(sites, covariants);
+    ScoreMultiTrackBackgroundModel(List<ScoredTrack> covariants, Sites sites) {
+        ScoredTrack interval = generateProbabilityInterval(sites, covariants);
 
         int count = (sites.getPositionCount() > 10000)? sites.getPositionCount() : 12000;
         Collection<Long> pos = generatePositionsByProbability(interval, count);
@@ -43,7 +44,7 @@ class ScoreMultiTrackBackgroundModel implements Sites{
      *
      * @return new interval with probability scores.
      */
-    Interval generateProbabilityInterval(Sites sites, List<Interval> intervals) {
+    ScoredTrack generateProbabilityInterval(Sites sites, List<ScoredTrack> intervals) {
 
         Map<String, Double> sitesOccurence = fillOccurenceMap(intervals,sites);
 
@@ -51,7 +52,7 @@ class ScoreMultiTrackBackgroundModel implements Sites{
         for(String k: sitesOccurence.keySet())
             sitesOccurence.put(k, sitesOccurence.get(k)/sum);
 
-        GenomeInterval interval = (GenomeInterval) Intervals.combine(intervals, sitesOccurence);
+        ScoredTrack interval = Intervals.combine(intervals, sitesOccurence);
 
         Map<String, Integer> genomeOccurence = new HashMap<>();
 
@@ -86,9 +87,13 @@ class ScoreMultiTrackBackgroundModel implements Sites{
 
         //if(newScores.stream().mapToDouble(i->i).sum() < 0.99){ //TODO eval check }
 
-        interval.setIntervalScore(newScores);
-
-        return interval;
+        return IntervalFactory.getInstance().createScoredTrack(
+                    interval.getIntervalsStart(),
+                    interval.getIntervalsEnd(),
+                    interval.getIntervalName(),
+                    newScores,
+                    interval.getName(),
+                    interval.getDescription());
     }
 
     /**
@@ -100,7 +105,7 @@ class ScoreMultiTrackBackgroundModel implements Sites{
      *
      * @return map to score combination to  probablity
      */
-    Map<String, Double> fillOccurenceMap(List<Interval> intervals, Sites sites) {
+    Map<String, Double> fillOccurenceMap(List<ScoredTrack> intervals, Sites sites) {
         Map<String, Double> map = new HashMap<>(); //holds the conversion between score and probability
         Map<Interval, Integer> indices = new HashMap<>();
 
@@ -112,7 +117,7 @@ class ScoreMultiTrackBackgroundModel implements Sites{
         for(Long p : sites.getPositions()){
             String key = "";
 
-            for(Interval interval:intervals){
+            for(ScoredTrack interval:intervals){
 
                 List<Long> intervalStart = interval.getIntervalsStart();
                 List<Long> intervalEnd = interval.getIntervalsEnd();
@@ -168,7 +173,7 @@ class ScoreMultiTrackBackgroundModel implements Sites{
      *
      * @return collection of positions inside the interval
      */
-    private Collection<Long> generatePositionsByProbability(Interval probabilityInterval, int siteCount) {
+    private Collection<Long> generatePositionsByProbability(ScoredTrack probabilityInterval, int siteCount) {
 
         List<Long> sites = new ArrayList<>();
         List<Long> starts = probabilityInterval.getIntervalsStart();

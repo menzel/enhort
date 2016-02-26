@@ -51,7 +51,7 @@ public class Intervals {
      * @return interval with marked intervals were both input intervals were marked. Type is set to inout, names and scores get lost in intersect
      *
      */
-    public static Interval intersect(Interval intv1, Interval intv2){
+    public static InOutInterval intersect(Interval intv1, Interval intv2){
 
         List<Long> starts1 = intv1.getIntervalsStart();
         List<Long> starts2 = intv2.getIntervalsStart();
@@ -59,7 +59,6 @@ public class Intervals {
         List<Long> ends1 = intv1.getIntervalsEnd();
         List<Long> ends2 = intv2.getIntervalsEnd();
 
-        GenomeInterval result = new GenomeInterval();
         //result.setType(intv1.getType());
         //result.setType(Interval.Type.inout); // scores and names are lost
 
@@ -98,10 +97,10 @@ public class Intervals {
             }
         }
 
-        result.setIntervalsStart(result_start);
-        result.setIntervalsEnd(result_end);
+        String name = intv1.getName() + "_" + intv2.getName();
+        String desc = intv1.getDescription() + "_" + intv2.getDescription();
 
-        return result;
+        return new InOutInterval(result_start, result_end, name, desc);
     }
 
 
@@ -176,7 +175,7 @@ public class Intervals {
      *
      * @return xor(interval1, interval2)
      */
-    public static Interval xor(Interval intv1, Interval intv2) {
+    public static InOutInterval xor(Interval intv1, Interval intv2) {
 
         List<Long> starts1 = intv1.getIntervalsStart();
         List<Long> starts2 = intv2.getIntervalsStart();
@@ -184,8 +183,6 @@ public class Intervals {
         List<Long> ends1 = intv1.getIntervalsEnd();
         List<Long> ends2 = intv2.getIntervalsEnd();
 
-        GenomeInterval result = new GenomeInterval();
-        result.setType(intv1.getType());
         List<Long> result_start = new ArrayList<>();
         List<Long> result_end = new ArrayList<>();
         long previousEnd = 0;
@@ -232,11 +229,10 @@ public class Intervals {
 
         }
 
-        result.setIntervalsStart(result_start);
-        result.setIntervalsEnd(result_end);
+        String name = intv1.getName() + "_" + intv2.getName();
+        String desc = intv1.getDescription() + "_" + intv2.getDescription();
 
-        //return result;
-        return null;
+        return new InOutInterval(result_start, result_end, name, desc);
     }
 
 
@@ -266,8 +262,7 @@ public class Intervals {
         return size;
     }
 
-    public static Interval subsetScore(Interval interval, double score) {
-        GenomeInterval n = new GenomeInterval();
+    public static Interval subsetScore(ScoredTrack interval, double score) {
 
         List<Long> intervalStart = new ArrayList<>();
         List<Long> intervalEnd = new ArrayList<>();
@@ -275,21 +270,19 @@ public class Intervals {
         List<Double> intervalScore = interval.getIntervalScore();
         List<Double> intervalScore_n = new ArrayList<>();
 
+        List<String> names = new ArrayList<>();
+
         for (int i = 0; i < intervalScore.size(); i++) {
 
             if (intervalScore.get(i) == score) {
                 intervalStart.add(interval.getIntervalsStart().get(i));
                 intervalEnd.add(interval.getIntervalsEnd().get(i));
                 intervalScore_n.add(score);
+                names.add(interval.getIntervalName().get(i));
             }
         }
 
-        n.setIntervalScore(intervalScore_n);
-        n.setIntervalsStart(intervalStart);
-        n.setIntervalsEnd(intervalEnd);
-
-        return n;
-
+        return new ScoredTrack(intervalStart, intervalEnd, names, intervalScore_n, interval.getName(), interval.getDescription());
     }
 
 
@@ -304,7 +297,7 @@ public class Intervals {
      *
      * @return Interval of type GenomeInterval
      */
-    public static Interval combine(List<Interval> intervals, Map<String, Double> score_map) {
+    public static ScoredTrack combine(List<ScoredTrack> intervals, Map<String, Double> score_map) {
         if(intervals.size() == 0){
             return null;
 
@@ -315,7 +308,7 @@ public class Intervals {
             return combine(intervals.get(0), intervals.get(1), score_map);
 
         }else{
-            List<Interval> newList = new ArrayList<>();
+            List<ScoredTrack> newList = new ArrayList<>();
             newList.addAll(intervals.subList(2, intervals.size()));
 
             newList.add(combine(intervals.get(0), intervals.get(1), score_map));
@@ -325,16 +318,19 @@ public class Intervals {
 
     }
 
-    private static Interval combine(Interval inputInterval, Map<String, Double> score_map) {
+    private static ScoredTrack combine(ScoredTrack inputInterval, Map<String, Double> score_map) {
 
-        GenomeInterval outsideInterval = (GenomeInterval) inputInterval.clone();
-        outsideInterval.setType(Interval.Type.inout);
-        outsideInterval = (GenomeInterval) invert(outsideInterval);
+        InOutInterval tmp = invert(inputInterval.clone());
 
         //convert outsider interval to scored interval with specific score value
-        outsideInterval.setType(Interval.Type.score);
-        List<Double> outsideProb= new ArrayList<>(Collections.nCopies(outsideInterval.getIntervalsStart().size(), score_map.get("|")));
-        outsideInterval.setIntervalScore(outsideProb);
+        List<Double> outsideProb = new ArrayList<>(Collections.nCopies(tmp.getIntervalsStart().size(), score_map.get("|")));
+        List<String> outsideNames = new ArrayList<>(Collections.nCopies(tmp.getIntervalsStart().size(), ""));
+
+        ScoredTrack outsideInterval = new ScoredTrack(tmp.getIntervalsStart(),
+                    tmp.getIntervalsEnd(),
+                    outsideNames, outsideProb,
+                    "outside_" + inputInterval.getName(),
+                    "outside_of_"+ inputInterval.getDescription());
 
         Map<String, Double> newMap = new HashMap<>(score_map.size());
 
@@ -360,7 +356,7 @@ public class Intervals {
      *
      * @return Interval of type GenomeInterval
      */
-    public static Interval combine(Interval intv1, Interval intv2, Map<String, Double> score_map) {
+    public static ScoredTrack combine(ScoredTrack intv1, ScoredTrack intv2, Map<String, Double> score_map) {
 
         List<Long> starts1 = intv1.getIntervalsStart();
         List<Long> starts2 = intv2.getIntervalsStart();
@@ -524,15 +520,9 @@ public class Intervals {
         result_score.stream().filter(val -> val == null).forEach(val -> val = 0.0);
 
 
-        GenomeInterval result = new GenomeInterval();
-        result.setType(intv1.getType());
-
-        result.setIntervalsStart(result_start);
-        result.setIntervalsEnd(result_end);
-        result.setIntervalScore(result_score);
-        result.setIntervalName(result_names);
-
-        return result;
+        String name = intv1.getName() + "_" + intv2.getName();
+        String desc = intv1.getDescription() + "_" + intv2.getDescription();
+        return new ScoredTrack(result_start, result_end, result_names, result_score,name, desc);
     }
 
 
@@ -542,40 +532,39 @@ public class Intervals {
      * @param interval - interval to invert
      * @return inverted interval
      */
-    public static Interval invert(Interval interval) {
+    public static InOutInterval invert(Interval interval) {
 
-        if(interval.getType() != Interval.Type.inout)
-            try { //TODO throw not possible for lambda expressions
-                throw new IntervalTypeNotAllowedExcpetion("Scored and named intervals loose their names/ scores due to invert");
-
-            } catch (IntervalTypeNotAllowedExcpetion intervalTypeNotAllowedExcpetion) {
-                intervalTypeNotAllowedExcpetion.printStackTrace();
-            }
+        List<Long> starts = new ArrayList<>();
+        List<Long> ends = new ArrayList<>();
 
 
         if(interval.getIntervalsStart().size() == 0)
-            return interval.clone();
+            return cast(interval.clone());
 
-        GenomeInterval tmp = new GenomeInterval();
 
-        tmp.setIntervalsStart(new ArrayList<>(interval.getIntervalsEnd()));
-        tmp.setIntervalsEnd(new ArrayList<>(interval.getIntervalsStart()));
-        tmp.setType(interval.getType());
+
+        starts = new ArrayList<>(interval.getIntervalsEnd());
+        ends = new ArrayList<>(interval.getIntervalsStart());
 
         if(interval.getIntervalsStart().get(0) != 0L) {
-            tmp.getIntervalsStart().add(0, 0L);
+            starts.add(0, 0L);
         } else {
-            tmp.getIntervalsEnd().remove(0);
+            ends.remove(0);
         }
 
         if(interval.getIntervalsEnd().get(interval.getIntervalsEnd().size()-1) == ChromosomSizes.getInstance().getGenomeSize()) {
-            tmp.getIntervalsStart().remove(tmp.getIntervalsStart().size()-1);
+            starts.remove(starts.size()-1);
 
         } else {
-            tmp.getIntervalsEnd().add(ChromosomSizes.getInstance().getGenomeSize());
+            ends.add(ChromosomSizes.getInstance().getGenomeSize());
         }
 
-        return tmp;
+
+        return new InOutInterval(starts,ends,interval.getName(),interval.getDescription());
+    }
+
+    private static InOutInterval cast(Interval track) {
+        return new InOutInterval(track.getIntervalsStart(), track.getIntervalsEnd(), track.getName(), track.getDescription());
     }
 
 
@@ -586,13 +575,11 @@ public class Intervals {
      *
      * @return intervals of type score with score values
      */
-    public static Interval convertToScore(Interval interval) {
+    public static ScoredTrack cast(InOutInterval interval) {
 
         List<Double> scores = new ArrayList<>(Collections.nCopies(interval.getIntervalsStart().size(), 1.0));
-        GenomeInterval scoredInterval  = ((GenomeInterval) interval);
-        scoredInterval.setIntervalScore(scores);
-        scoredInterval.setType(Interval.Type.score);
+        List<String> names = new ArrayList<>(Collections.nCopies(interval.getIntervalsStart().size(), ""));
 
-        return scoredInterval;
+        return new ScoredTrack(interval.getIntervalsStart(), interval.getIntervalsEnd(), names, scores, interval.getName(), interval.getDescription());
     }
 }

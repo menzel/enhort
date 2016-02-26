@@ -13,33 +13,24 @@ import java.util.List;
  *
  * Created by Michael Menzel on 23/2/16.
  */
-public interface Interval extends Serializable, Cloneable {
+public abstract class Interval implements Serializable, Cloneable {
 
-   enum Type {inout, score, named}
+    public static long serialVersionUID = 60624950L;
+    public static int UID = 1;
 
-    String getDescription();
+    public abstract String getDescription();
 
-    String getName();
+    public abstract String getName();
 
-    String getFilename();
+    public abstract List<Long> getIntervalsStart();
 
-    Interval clone();
+    public abstract List<Long> getIntervalsEnd();
 
-    Type getType();
+    public abstract int getUid();
 
-    List<String> getIntervalName();
+    public abstract Interval clone();
 
-    List<Long> getIntervalsStart();
+    public abstract int hashCode();
 
-    List<Long> getIntervalsEnd();
-
-    List<Double> getIntervalScore();
-
-    int getUid();
-
-    @Override
-    boolean equals(Object o);
-
-    @Override
-    int hashCode();
+    public abstract boolean equals(Object o);
 }

@@ -1,7 +1,6 @@
 package de.thm.calc;
 
 import de.thm.genomeData.Interval;
-import de.thm.genomeData.Interval.Type;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,26 +12,25 @@ import java.util.Map;
  *
  * Created by Michael Menzel on 8/12/15.
  */
-public final class IntersectResult {
+public final class IntersectResult<T extends Interval>{
 
 
     private final Map<String, Integer> resultNames;
     private final List<Double> resultScores;
     private int in;
-    private Interval usedInterval;
+    private int out;
+    private final T usedInterval;
 
 
     /**
      * Constructor
      */
-    IntersectResult() {
+    IntersectResult(T usedInterval) {
+        this.usedInterval = usedInterval;
         this.resultNames = new HashMap<>();
         this.resultScores = new ArrayList<>();
     }
 
-    public Type getType() {
-        return usedInterval.getType();
-    }
 
     public Map<String, Integer> getResultNames() {
         return resultNames;
@@ -84,19 +82,7 @@ public final class IntersectResult {
 
     @Override
     public String toString() {
-
-        switch (getType()){
-            case inout:
-                return "in: " + in +
-                        " out: " + resultNames.get("out") + "\n";
-            case named:
-                return resultNames.toString() + "\n";
-
-            case score:
-                return resultNames.toString() + "\n";
-            default:
-                return "";
-        }
+        return usedInterval.getName() + "\t" + in + "\t" + out;
     }
 
     public int getIn() {
@@ -107,13 +93,8 @@ public final class IntersectResult {
         this.in = in;
     }
 
-    public Integer getOut() {
-        return resultNames.get("out");
-    }
+    void setOut(int out) { this.out = out; }
 
-    void setUsedInterval(Interval usedInterval) {
-        this.usedInterval = usedInterval;
-    }
-
+    public int getOut(){ return this.out; }
 }
 

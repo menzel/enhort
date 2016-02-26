@@ -1,6 +1,5 @@
 package de.thm.genomeData;
 
-import de.thm.genomeData.Interval.Type;
 import de.thm.misc.ChromosomSizes;
 
 import java.io.File;
@@ -27,6 +26,8 @@ public class IntervalFactory {
     private final IntervalDumper intervalDumper;
     private final List<IntervalPackage> packageList;
 
+    private enum Type {inout, named, scored};
+
     /**
      * Constructor. Parses the base dir and gets all intervals from files.
      * Expects three dirs with the names 'inout', 'named' and 'score' for types.
@@ -42,7 +43,7 @@ public class IntervalFactory {
             getIntervals(basePath.resolve("inout"), Type.inout);
             //getIntervals(basePath.resolve("broadHistone"), Interval.Type.inout);
             getIntervals(basePath.resolve("named"), Type.named);
-            getIntervals(basePath.resolve("score"), Type.score);
+            getIntervals(basePath.resolve("score"), Type.scored);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -153,7 +154,16 @@ public class IntervalFactory {
 
             lines.close();
 
-            return new ImmutableInterval(starts, ends, names, scores, name, file.getName(), description, type);
+            switch (type){
+                case inout:
+                    return new InOutInterval(starts, ends,name, description);
+                case scored:
+                    return new ScoredTrack(starts, ends, names, scores, name, description);
+                case named:
+                    return new NamedTrack(starts, ends, names, name, description);
+                default:
+                    return null;
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -183,5 +193,14 @@ public class IntervalFactory {
         }
 
         return null;
+    }
+
+    public ScoredTrack createScoredTrack(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String description) {
+        return new ScoredTrack(starts,ends,names,scores,name, description);
+    }
+
+
+    public InOutInterval createInOutTrack(List<Long> starts, List<Long> ends, String name, String description) {
+        return new InOutInterval(starts,ends,name, description);
     }
 }
