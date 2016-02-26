@@ -85,14 +85,15 @@ public class IntervalFactory {
      */
     private Interval loadInterval(File file, Type type) {
 
-        if(intervalDumper.exists(file.getName())){
+        /*if(intervalDumper.exists(file.getName())){
             return intervalDumper.getInterval(new File(file.getName()));
 
         } else{
+        */
             Interval interval =  initIntervalfromFile(file, type);
-            intervalDumper.dumpInterval(interval, file.getName());
+            //intervalDumper.dumpInterval(interval, file.getName());
             return  interval;
-        }
+        //}
     }
 
 

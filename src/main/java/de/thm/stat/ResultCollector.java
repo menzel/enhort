@@ -1,6 +1,8 @@
 package de.thm.stat;
 
-import de.thm.genomeData.Interval.Type;
+import de.thm.genomeData.InOutInterval;
+import de.thm.genomeData.NamedTrack;
+import de.thm.genomeData.ScoredTrack;
 import de.thm.positionData.Sites;
 
 import java.util.ArrayList;
@@ -18,22 +20,41 @@ public final class ResultCollector {
     private final List<TestResult> results;
     private final Sites backgroundSites;
 
+    private enum Type {inout, named, scored};
+
     public ResultCollector(Sites bgModel) {
         results = Collections.synchronizedList(new ArrayList<>());
         backgroundSites = bgModel;
     }
 
-    /**
-     * Return list of all TestResults which have the given type in order sorted by effect size.
-     *
-     * @param type of the interval
-     *
-     * @return list of TestResults of type type
-     */
-    public List<TestResult> getResultsByType(Type type) {
+    public List<TestResult> getScoredResults() {
         List<TestResult> r = results.stream()
-                .filter(testResult -> testResult.getType()
-                .equals(type))
+                .filter(testResult -> testResult.getType() == ScoredTrack.class)
+                .filter(testResult -> testResult.getpValue() < 0.05)
+                .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
+                .collect(Collectors.toList());
+
+        if(r == null)
+            return new ArrayList<>();
+        return r;
+    }
+
+    public List<TestResult> getInOutResults() {
+        List<TestResult> r = results.stream()
+                .filter(testResult -> testResult.getType() == InOutInterval.class)
+                .filter(testResult -> testResult.getpValue() < 0.05)
+                .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
+                .collect(Collectors.toList());
+
+        if(r == null)
+            return new ArrayList<>();
+        return r;
+
+    }
+
+    public List<TestResult> getNamedResults() {
+        List<TestResult> r = results.stream()
+                .filter(testResult -> testResult.getType() == NamedTrack.class)
                 .filter(testResult -> testResult.getpValue() < 0.05)
                 .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
                 .collect(Collectors.toList());
@@ -45,8 +66,10 @@ public final class ResultCollector {
     }
 
 
+
+
     public List<TestResult> getCovariants(List<String> covariants) {
-        return results.stream().filter(tr -> covariants.contains(tr.getFilename())).collect(Collectors.toList());
+        return results.stream().filter(tr -> covariants.contains(tr.getId())).collect(Collectors.toList());
     }
 
     /**

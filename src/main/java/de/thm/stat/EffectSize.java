@@ -1,12 +1,13 @@
 package de.thm.stat;
 
 import de.thm.calc.IntersectResult;
+import de.thm.genomeData.Interval;
 
 /**
  * Can compute the the fold change
  * Created by Michael Menzel on 29/1/16.
  */
-public final class EffectSize {
+public final class EffectSize <T extends Interval>{
 
 
     /**
@@ -17,10 +18,10 @@ public final class EffectSize {
      *
      * @return fold change of both result
      */
-    public double test(IntersectResult intersectResultA, IntersectResult intersectResultB) {
+    public double test(IntersectResult<T> intersectResultA, IntersectResult<T> intersectResultB) {
 
-        double fc1 = intersectResultA.getIn()/new Double(intersectResultA.getOut());
-        double fc2 = intersectResultB.getIn()/new Double(intersectResultB.getOut());
+        double fc1 = intersectResultA.getIn()/ (double) intersectResultA.getOut();
+        double fc2 = intersectResultB.getIn()/ (double) intersectResultB.getOut();
 
         if(fc1 == 0 || fc2 == 0)
             return 0;

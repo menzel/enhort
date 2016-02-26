@@ -96,5 +96,9 @@ public final class IntersectResult<T extends Interval>{
     void setOut(int out) { this.out = out; }
 
     public int getOut(){ return this.out; }
+
+    public Class getType(){
+        return getClass();
+    }
 }
 

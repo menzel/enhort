@@ -2,7 +2,6 @@ package de.thm.stat;
 
 import de.thm.calc.IntersectResult;
 import de.thm.genomeData.Interval;
-import de.thm.genomeData.Interval.Type;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.math3.util.Precision;
 
@@ -13,12 +12,11 @@ import java.text.DecimalFormat;
  *
  * Created by Michael Menzel on 12/1/16.
  */
-public final class TestResult {
+public final class TestResult<T extends Interval>{
 
     private final double pValue;
     private final double effectSize;
     private final String name;
-    private final String filename;
     private final String description;
     private final int measuredIn;
     private final int measuredOut;
@@ -26,8 +24,9 @@ public final class TestResult {
     private final int expectedOut;
     private final IntersectResult resultMeasured;
     private final IntersectResult resultExpected;
+    private final int id;
 
-    public TestResult(double pValue, IntersectResult measured, IntersectResult expected, double effectSize, Interval usedInterval) {
+    public TestResult(double pValue, IntersectResult measured, IntersectResult expected, double effectSize, T usedInterval) {
 
         DecimalFormat format = new DecimalFormat("0.00E00");
         String v = format.format(pValue);
@@ -37,7 +36,7 @@ public final class TestResult {
         } else{
             System.err.println(measured);
             System.err.println(expected);
-            this.pValue = 1;
+            this.pValue = 1; //TODO check
         }
 
         this.effectSize = Precision.round(effectSize,2);
@@ -52,8 +51,9 @@ public final class TestResult {
         this.expectedOut = expected.getOut();
 
         this.name = usedInterval.getName();
-        this.filename = usedInterval.getFilename();
         this.description = usedInterval.getDescription();
+
+        this.id = usedInterval.getUid();
     }
 
     public double getpValue() {
@@ -93,7 +93,7 @@ public final class TestResult {
     }
 
     public String toString(){
-        String name = (this.name != null)? this.name: filename;
+        String name = (this.name != null)? this.name: Integer.toString(this.id);
         return "measured "  + resultMeasured.toString() +
                 "expected " +resultExpected.toString() +
                 "Fold change Ratio: " + effectSize + "\n" +
@@ -101,19 +101,11 @@ public final class TestResult {
                 "\n=====\n";
     }
 
-    public String getFilename(){
-        return this.filename;
-    }
-
     public String getName() {
         if(name == null || name.equals("")){
-            return filename;
+            return "track_" + id;
         }
         return name;
-    }
-
-    public Type getType(){
-        return this.resultExpected.getType();
     }
 
     public IntersectResult getResultMeasured() {
@@ -130,5 +122,13 @@ public final class TestResult {
 
     public String getDescription() {
         return description;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public Class getType() {
+        return getClass();
     }
 }

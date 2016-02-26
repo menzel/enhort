@@ -9,25 +9,26 @@ import java.util.List;
 /**
  * Simple version of intersect, going list by list.
  */
-public final class IntersectCalculate implements Intersect{
+public final class IntersectCalculate<T extends Interval> implements Intersect<T>{
 
 
     @Override
-    public IntersectResult searchSingleInterval(Interval intv, Sites pos) {
+    public IntersectResult<T> searchSingleInterval(T intv, Sites pos) {
         if(intv instanceof InOutInterval)
-            return searchSingleInterval((InOutInterval) intv, pos);
+            return searchSingleInterval((InOutInterval)intv, pos);
         if(intv instanceof ScoredTrack)
-            return searchSingleInterval((ScoredTrack) intv, pos);
+            return searchSingleInterval((ScoredTrack)intv, pos);
         else
             return null;
     }
 
-    public IntersectResult searchSingleInterval(InOutInterval intv, Sites pos){
-         int out = 0;
+    public IntersectResult<T> searchSingleInterval(InOutInterval intv, Sites pos){
+        int out = 0;
         int in = 0;
         int i = 0;
 
-        IntersectResult intersectResult = new IntersectResult<InOutInterval>(intv);
+        T tmp = (T) intv;
+        IntersectResult<T> intersectResult = new IntersectResult<>(tmp);
 
         List<Long> intervalStart = intv.getIntervalsStart();
         List<Long> intervalEnd = intv.getIntervalsEnd();
@@ -70,13 +71,14 @@ public final class IntersectCalculate implements Intersect{
 
 
 
-    public IntersectResult searchSingleInterval(ScoredTrack intv, Sites pos){
+    public IntersectResult<T> searchSingleInterval(ScoredTrack intv, Sites pos){
 
         int out = 0;
         int in = 0;
         int i = 0;
 
-        IntersectResult intersectResult = new IntersectResult<>(intv);
+        T tmp = (T) intv;
+        IntersectResult<T> intersectResult = new IntersectResult<>(tmp);
 
         List<Long> intervalStart = intv.getIntervalsStart();
         List<Long> intervalEnd = intv.getIntervalsEnd();

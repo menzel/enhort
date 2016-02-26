@@ -1,6 +1,7 @@
 package de.thm.calc;
 
 import de.thm.genomeData.Interval;
+import de.thm.genomeData.ScoredTrack;
 import de.thm.positionData.Sites;
 import de.thm.stat.EffectSize;
 import de.thm.stat.IndependenceTest;
@@ -15,7 +16,7 @@ import de.thm.stat.TestResult;
  *
  * Created by Michael Menzel on 12/1/16.
  */
-class IntersectWrapper implements Runnable{
+class IntersectWrapper<T extends Interval> implements Runnable{
 
 
     private final Sites randomPos;
@@ -41,16 +42,16 @@ class IntersectWrapper implements Runnable{
 
     @Override
     public void run() {
-        Intersect intersec1 = new IntersectCalculate();
-        Intersect intersec2 = new IntersectCalculate();
+        Intersect<T> intersec1 = new IntersectCalculate<>();
+        Intersect<T> intersec2 = new IntersectCalculate<>();
 
-        IntersectResult result1 = intersec1.searchSingleInterval(interval, measuredPos);
-        IntersectResult result2 = intersec2.searchSingleInterval(interval, randomPos);
+        IntersectResult<T> result1 = intersec1.searchSingleInterval((T) interval, measuredPos);
+        IntersectResult<T> result2 = intersec2.searchSingleInterval((T) interval, randomPos);
 
-        IndependenceTest tester = new IndependenceTest();
-        EffectSize effectSize = new EffectSize();
+        IndependenceTest<T> tester = new IndependenceTest<>();
+        EffectSize<T> effectSize = new EffectSize<>();
 
-        TestResult testResult  = tester.test(result1, result2, interval);
+        TestResult<T> testResult  = tester.test(result1, result2, interval);
         effectSize.test(result1, result2);
 
         collector.addResult(testResult);

@@ -1,6 +1,9 @@
 package de.thm.calc;
 
+import de.thm.genomeData.InOutInterval;
 import de.thm.genomeData.Interval;
+import de.thm.genomeData.NamedTrack;
+import de.thm.genomeData.ScoredTrack;
 import de.thm.positionData.Sites;
 import de.thm.stat.ResultCollector;
 
@@ -45,11 +48,23 @@ public final class IntersectMultithread {
 
         ResultCollector collector = new ResultCollector(randomPositions);
 
-        for(String track: tracks){
+        for(String trackName: tracks){
+            Interval track = intervals.get(trackName);
 
-            IntersectWrapper wrapper = new IntersectWrapper(measuredPositions, randomPositions, intervals.get(track), collector);
-            wrappers.add(wrapper);
-            exe.execute(wrapper);
+            if(track instanceof InOutInterval) {
+                IntersectWrapper<InOutInterval> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, track, collector);
+                wrappers.add(wrapper);
+                exe.execute(wrapper);
+
+            } else if(track instanceof ScoredTrack) {
+                IntersectWrapper<ScoredTrack> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, track, collector);
+                wrappers.add(wrapper);
+                exe.execute(wrapper);
+            } else if(track instanceof NamedTrack) {
+                IntersectWrapper<NamedTrack> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, track, collector);
+                wrappers.add(wrapper);
+                exe.execute(wrapper);
+            }
         }
 
 

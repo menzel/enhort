@@ -1,7 +1,10 @@
 package de.thm.stat;
 
 import de.thm.calc.IntersectResult;
+import de.thm.genomeData.InOutInterval;
 import de.thm.genomeData.Interval;
+import de.thm.genomeData.NamedTrack;
+import de.thm.genomeData.ScoredTrack;
 import org.apache.commons.math3.stat.inference.ChiSquareTest;
 import org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest;
 
@@ -13,7 +16,7 @@ import java.util.*;
  *
  * Created by Michael Menzel on 10/12/15.
  */
-public final class IndependenceTest {
+public final class IndependenceTest<T extends Interval>{
 
     private final ChiSquareTest tester;
     private final KolmogorovSmirnovTest kolmoTester;
@@ -35,7 +38,7 @@ public final class IndependenceTest {
      *
      * @return p value of independence test
      */
-    public TestResult test(IntersectResult intersectResultA, IntersectResult intersectResultB, Interval interval){
+    public TestResult<T> test(IntersectResult<T> intersectResultA, IntersectResult<T> intersectResultB, Interval interval){
 
         long[][] counts = new long[2][2];
         counts[0] = new long[] {intersectResultA.getIn(), intersectResultA.getOut()};
@@ -44,38 +47,38 @@ public final class IndependenceTest {
         double effectSize = effectSizeTester.test(intersectResultA,intersectResultB);
 
 
-        switch (intersectResultA.getType()){
+        if(interval instanceof ScoredTrack) {
 
-            case score:
+            double[] measuredScore = intersectResultA.getResultScores().stream().mapToDouble(i -> i).toArray();
+            double[] expectedScore = intersectResultB.getResultScores().stream().mapToDouble(i -> i).toArray();
 
-                double[] measuredScore = intersectResultA.getResultScores().stream().mapToDouble(i ->i).toArray();
-                double[] expectedScore = intersectResultB.getResultScores().stream().mapToDouble(i ->i).toArray();
+            intersectResultA.add("in", measuredScore.length);
+            intersectResultB.add("in", expectedScore.length);
 
-                intersectResultA.add("in", measuredScore.length);
-                intersectResultB.add("in", expectedScore.length);
-
-                if(measuredScore.length < 2 || expectedScore.length < 2){
-                    System.err.println(interval.getFilename() + " Failed");
-                    System.err.println(Arrays.toString(measuredScore));
-                    System.err.println(Arrays.toString(expectedScore));
-
-                } else {
-                    return new TestResult(kolmoTester.kolmogorovSmirnovTest(measuredScore, expectedScore), intersectResultA, intersectResultB, effectSize, interval);
-                }
-
-            case named:
-
-                Map<String, Integer> measured = intersectResultA.getResultNames();
-                Map<String, Integer> expected = intersectResultB.getResultNames();
-
-                return new TestResult(tester.chiSquareTest(prepareLists(measured,expected)), intersectResultA, intersectResultB, effectSize, interval);
-
-            case inout:
-
-                return new TestResult(tester.chiSquareTest(counts), intersectResultA, intersectResultB, effectSize, interval);
-
-            default:
+            if (measuredScore.length < 2 || expectedScore.length < 2) {
+                System.err.println(Arrays.toString(measuredScore));
+                System.err.println(Arrays.toString(expectedScore));
                 return null;
+
+            } else {
+                return new TestResult<T>(kolmoTester.kolmogorovSmirnovTest(measuredScore, expectedScore), intersectResultA, intersectResultB, effectSize, (T) interval);
+            }
+
+        } else if(interval instanceof NamedTrack) {
+
+
+            Map<String, Integer> measured = intersectResultA.getResultNames();
+            Map<String, Integer> expected = intersectResultB.getResultNames();
+
+            return new TestResult<T>(tester.chiSquareTest(prepareLists(measured, expected)), intersectResultA, intersectResultB, effectSize, (T) interval);
+
+
+        }else if(interval instanceof InOutInterval) {
+
+            return new TestResult<T>(tester.chiSquareTest(counts), intersectResultA, intersectResultB, effectSize, (T) interval);
+
+        } else {
+            return null;
         }
     }
 
