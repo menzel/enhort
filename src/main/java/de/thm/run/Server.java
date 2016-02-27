@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * Created by Michael Menzel on 3/2/16.
@@ -18,7 +18,7 @@ import java.util.Map;
 @EnableAutoConfiguration
 public class Server {
 
-    private static Map<String, Track> intervals;
+    private static List<Track> intervals;
 
    public static void main(String[] args){
        TrackFactory loader = TrackFactory.getInstance();
@@ -34,7 +34,7 @@ public class Server {
        }
    }
 
-   public static Map<String, Track> getIntervals() {
+   public static List<Track> getIntervals() {
       return intervals;
    }
 
