@@ -26,9 +26,7 @@ public class TrackFactory {
     private final TrackDumper trackDumper;
     private final List<TrackPackage> packageList;
 
-    private enum Type {inout, named, scored};
-
-    /**
+        /**
      * Constructor. Parses the base dir and gets all intervals from files.
      * Expects three dirs with the names 'inout', 'named' and 'score' for types.
      *
@@ -48,7 +46,7 @@ public class TrackFactory {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    };
 
     public static TrackFactory getInstance(){
         if(instance == null)
@@ -96,7 +94,6 @@ public class TrackFactory {
             return track;
        //}
     }
-
 
     /**
      * Loads interval data from a bed file. Calls handleParts to handle each line
@@ -156,9 +153,12 @@ public class TrackFactory {
 
             lines.close();
 
+            if(name.equals(""))
+                name = file.getName();
+
             switch (type){
                 case inout:
-                    return new InOutTrack(starts, ends,name, description);
+                    return new InOutTrack(starts, ends, name, description);
                 case scored:
                     return new ScoredTrack(starts, ends, names, scores, name, description);
                 case named:
@@ -172,7 +172,6 @@ public class TrackFactory {
             return null;
         }
     }
-
 
     public Map<String, Track> getAllIntervals() {
         return intervals;
@@ -201,8 +200,10 @@ public class TrackFactory {
         return new ScoredTrack(starts,ends,names,scores,name, description);
     }
 
-
     public InOutTrack createInOutTrack(List<Long> starts, List<Long> ends, String name, String description) {
         return new InOutTrack(starts,ends,name, description);
     }
+
+
+private enum Type {inout, named, scored}
 }
