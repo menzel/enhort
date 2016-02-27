@@ -1,6 +1,7 @@
 package de.thm.genomeData;
 
 import de.thm.misc.ChromosomSizes;
+import de.thm.misc.PositionPreprocessor;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,7 +33,7 @@ public class TrackFactory {
     private final List<TrackPackage> packageList;
     private List<Track> intervals;
 
-/**
+    /**
      * Constructor. Parses the base dir and gets all intervals from files.
      * Expects three dirs with the names 'inout', 'named' and 'score' for types.
      *
@@ -40,9 +41,16 @@ public class TrackFactory {
     private TrackFactory() {
         trackDumper = new TrackDumper(basePath);
         intervals = new ArrayList<>();
-
         packageList = new ArrayList<>();
+    }
 
+    public static TrackFactory getInstance(){
+        if(instance == null)
+            instance = new TrackFactory();
+        return  instance;
+    }
+
+    public void loadIntervals(){
         try {
             getIntervals(basePath.resolve("inout"), Type.inout);
             //getIntervals(basePath.resolve("broadHistone"), Type.inout);
@@ -52,13 +60,8 @@ public class TrackFactory {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
 
-            public static TrackFactory getInstance(){
-        if(instance == null)
-            instance = new TrackFactory();
-        return  instance;
-    };
+    }
 
     /**
      * Gets all intervals from a single type
@@ -209,7 +212,7 @@ public class TrackFactory {
 
                 switch (type){
                     case inout:
-                        return new InOutTrack(starts, ends, name, description);
+                        return PositionPreprocessor.preprocessData(new InOutTrack(starts, ends, name, description));
                     case scored:
                         return new ScoredTrack(starts, ends, names, scores, name, description);
                     case named:
