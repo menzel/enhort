@@ -10,9 +10,7 @@ import de.thm.run.Server;
 import de.thm.stat.ResultCollector;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Wrapper for the spring gui to call the different intersects and background models.
@@ -63,19 +61,18 @@ public class AnalysisHelper {
      * @return list of intervals with the same as given by input names
      */
     private static List<Track> getCovariants(List<String> covariantNames) {
-        List<Track> tracks = new ArrayList<>();
+        List<Track> selectedTracks = new ArrayList<>();
         TrackFactory loader = TrackFactory.getInstance();
 
-        Map<String, Track> knownIntervals = loader.getAllIntervals();
-        Collection<Track> knownTracks = knownIntervals.values();
+        List<Track> knownTracks = loader.getAllIntervals();
 
         for(Track track: knownTracks){
             if(covariantNames.contains(Integer.toString(track.getUid()))){
-                tracks.add(track);
+                selectedTracks.add(track);
             }
         }
 
-        return tracks;
+        return selectedTracks;
     }
 
 }

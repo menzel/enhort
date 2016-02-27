@@ -11,7 +11,6 @@ import de.thm.stat.ResultCollector;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Bootstraps basic analysis with all intervals one of the two background models and user input.
@@ -20,7 +19,7 @@ import java.util.Map;
  */
 public class Analyse {
 
-    private Map<String, Track> intervals;
+    private List<Track> intervals;
 
     public Analyse() {
         TrackFactory loader = TrackFactory.getInstance();
@@ -49,10 +48,12 @@ public class Analyse {
         //covariants.add(intervals.get("open-chrom-synth-HeLa-S3-valid"));
         //covariants.add(intervals.get("HeLa-S3-H3K4m1"));
         //covariants.add(intervals.get("exons.bed"));
-        covariants.add(intervals.get("knownGenes.bed"));
+        //covariants.add(intervals.get("knownGenes.bed"));
         //covariants.add(intervals.get("cpg"));
         //covariants.add(intervals.get("expression_blood.bed"));
-        //covariants.add(intervals.get("distance.bed"));
+        covariants.add(intervals.get(0));
+
+        System.out.println("covariant: " + covariants.get(0).getName());
 
         Sites bg = BackgroundModelFactory.createBackgroundModel(covariants, userSites);
 

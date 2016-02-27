@@ -66,6 +66,7 @@ class MultiTrackBackgroundModel implements Sites{
             currentTracks.addAll(negativeTracks.stream().map(Tracks::invert).collect(Collectors.toList()));
 
             Track track = Tracks.intersect(currentTracks);
+            //TODO check if track has some intervals left
 
             sites.addAll(better.randPositions(count, track,"in"));
         }
