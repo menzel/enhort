@@ -55,7 +55,7 @@ public class TrackFactory {
             getIntervals(basePath.resolve("inout"), Type.inout);
             //getIntervals(basePath.resolve("broadHistone"), Type.inout);
             getIntervals(basePath.resolve("named"), Type.named);
-            //getIntervals(basePath.resolve("score"), Type.scored);
+            getIntervals(basePath.resolve("score"), Type.scored);
 
         } catch (IOException e) {
             e.printStackTrace();
