@@ -17,8 +17,6 @@ import java.util.*;
  */
 class SingleTrackBackgroundModel implements Sites{
 
-    private final int factor = 1;
-    @SuppressWarnings("FieldCanBeLocal")
     private Random rand;
     private List<Long> positions = new ArrayList<>();
 
@@ -38,9 +36,10 @@ class SingleTrackBackgroundModel implements Sites{
 
         IntersectCalculate calc = new IntersectCalculate();
         IntersectResult result = calc.searchSingleInterval(interval,sites);
+        //TODO enforce min of 10.000 points
 
-        positions.addAll(randPositions(result.getIn()* factor, interval, "in"));
-        positions.addAll(randPositions(result.getOut()* factor, interval, "out"));
+        positions.addAll(randPositions(result.getIn(), interval, "in"));
+        positions.addAll(randPositions(result.getOut(), interval, "out"));
 
     }
 
