@@ -61,10 +61,6 @@ public class Tracks {
         List<Long> ends1 = intv1.getIntervalsEnd();
         List<Long> ends2 = intv2.getIntervalsEnd();
 
-        //result.setType(intv1.getType());
-        //result.setType(Interval.Type.inout); // scores and names are lost
-
-
         List<Long> result_start = new ArrayList<>();
         List<Long> result_end = new ArrayList<>();
 
@@ -297,30 +293,22 @@ public class Tracks {
      */
     public static InOutTrack invert(Track track) {
 
-        List<Long> starts = new ArrayList<>();
-        List<Long> ends = new ArrayList<>();
-
-
         if(track.getIntervalsStart().size() == 0)
             return cast(track.clone());
 
+        List<Long> starts = new ArrayList<>(track.getIntervalsEnd());
+        List<Long> ends = new ArrayList<>(track.getIntervalsStart());
 
-
-        starts = new ArrayList<>(track.getIntervalsEnd());
-        ends = new ArrayList<>(track.getIntervalsStart());
-
-        if(track.getIntervalsStart().get(0) != 0L) {
+        if(track.getIntervalsStart().get(0) != 0L)
             starts.add(0, 0L);
-        } else {
+        else
             ends.remove(0);
-        }
 
-        if(track.getIntervalsEnd().get(track.getIntervalsEnd().size()-1) == ChromosomSizes.getInstance().getGenomeSize()) {
+
+        if(track.getIntervalsEnd().get(track.getIntervalsEnd().size()-1) == ChromosomSizes.getInstance().getGenomeSize())
             starts.remove(starts.size()-1);
-
-        } else {
+        else
             ends.add(ChromosomSizes.getInstance().getGenomeSize());
-        }
 
 
         return new InOutTrack(starts,ends, track.getName(), track.getDescription());
