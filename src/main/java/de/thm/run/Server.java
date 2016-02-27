@@ -18,13 +18,15 @@ import java.util.List;
 @EnableAutoConfiguration
 public class Server {
 
-    private static List<Track> intervals;
+   private static List<Track> intervals;
 
    public static void main(String[] args){
        TrackFactory loader = TrackFactory.getInstance();
-      intervals = loader.getAllIntervals();
+       loader.loadIntervals();
+       intervals = loader.getAllIntervals();
 
-      attachShutDownHook();
+       attachShutDownHook();
+
        try{
 
            SpringApplication.run(Server.class, args);
