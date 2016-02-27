@@ -36,7 +36,7 @@ public final class UserData implements Sites{
 
         ChromosomSizes chrSizes = ChromosomSizes.getInstance();
 
-        Pattern entry = Pattern.compile("chr(\\d{1,2}|X|Y)\\s(\\d*).*");
+        Pattern entry = Pattern.compile("(chr\\d{1,2}|X|Y)\\s(\\d*).*");
 
         try(Stream<String> lines = Files.lines(path)){
 
@@ -48,7 +48,7 @@ public final class UserData implements Sites{
                 Matcher line_matcher = entry.matcher(line);
 
                 if(line_matcher.matches())
-                    positions.add(Long.parseLong(line_matcher.group(1)) + chrSizes.offset(line_matcher.group(0)));
+                    positions.add(Long.parseLong(line_matcher.group(2)) + chrSizes.offset(line_matcher.group(1)));
             }
 
             lines.close();
