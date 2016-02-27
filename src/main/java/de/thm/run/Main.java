@@ -1,6 +1,7 @@
 package de.thm.run;
 
 import de.thm.bootstrap.Analyse;
+import de.thm.genomeData.TrackFactory;
 import de.thm.positionData.Sites;
 import de.thm.positionData.UserData;
 
@@ -15,6 +16,7 @@ public class Main {
         //Sites userDat = new UserData(new File("/home/menzel/Desktop/THM/lfba/projekphase/genomic_sites.sleeping_beauty.hg19.txt"));
         //Sites userDat = new UserData(new File("/home/menzel/Downloads/sites_andreas/copy.tab").toPath());
 
+        TrackFactory.getInstance().loadIntervals();
 
         Analyse analyse = new Analyse();
         try {

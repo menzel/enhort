@@ -2,7 +2,11 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <excludeFromCompile>
-      <directory url="file://$PROJECT_DIR$/src/test" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/test" includeSubdirectories="false" />
+      <directory url="file://$PROJECT_DIR$/src/test/java/de/thm/misc" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/test/java/de/thm/genomeData" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/test/java/de/thm/positionData" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/test/java/de/thm/backgroundModel" includeSubdirectories="true" />
     </excludeFromCompile>
     <resourceExtensions />
     <wildcardResourcePatterns>

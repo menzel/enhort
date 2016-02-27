@@ -1,6 +1,7 @@
 package de.thm.calc;
 
-import de.thm.genomeData.GenomeInterval;
+import de.thm.genomeData.InOutTrack;
+import de.thm.genomeData.TrackFactory;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
 import org.junit.Before;
@@ -17,18 +18,16 @@ import static junit.framework.TestCase.assertEquals;
  */
 public class IntersectSimpleTest {
 
-    GenomeInterval intv;
-    Intersect intersect = new IntersectCalculate();
+    Intersect<InOutTrack> intersect = new IntersectCalculate<>();
+    InOutTrack intv;
 
     @Before
     public void setupIntv() throws Exception {
-        intv = new GenomeInterval();
         ChromosomSizes chrSizes = ChromosomSizes.getInstance();
         long offset = chrSizes.offset("chr4");
 
         ArrayList<Long> startList = new ArrayList<>();
         ArrayList<Long> endList = new ArrayList<>();
-        ArrayList<String> namesList = new ArrayList<>();
 
         startList.add(5L);
         startList.add(10L);
@@ -46,18 +45,8 @@ public class IntersectSimpleTest {
         endList.add(15L + offset);
         endList.add(22L + offset);
 
+        intv = TrackFactory.getInstance().createInOutTrack(startList, endList, "testtrack", "no desc");
 
-        namesList.add("first");
-        namesList.add("second");
-        namesList.add("third");
-
-        namesList.add("first");
-        namesList.add("second");
-        namesList.add("third");
-
-        intv.setIntervalsStart(startList);
-        intv.setIntervalsEnd(endList);
-        intv.setIntervalName(namesList);
     }
 
 
@@ -108,7 +97,7 @@ public class IntersectSimpleTest {
         IntersectResult intersectResult = intersect.searchSingleInterval(intv,sites);
         assertEquals(5, intersectResult.getIn());
 
-        assertEquals(5, intersectResult.getOut().intValue());
+        assertEquals(5, intersectResult.getOut());
     }
 
 
@@ -157,7 +146,7 @@ public class IntersectSimpleTest {
         IntersectResult intersectResult = intersect.searchSingleInterval(intv,sites);
         assertEquals(4, intersectResult.getIn());
 
-        assertEquals(4, intersectResult.getOut().intValue());
+        assertEquals(4, intersectResult.getOut());
     }
 
 
@@ -210,7 +199,7 @@ public class IntersectSimpleTest {
 
         IntersectResult intersectResult = intersect.searchSingleInterval(intv,sites);
 
-        assertEquals(10, intersectResult.getOut().intValue());
+        assertEquals(10, intersectResult.getOut());
 
         assertEquals(3, intersectResult.getIn());
 
