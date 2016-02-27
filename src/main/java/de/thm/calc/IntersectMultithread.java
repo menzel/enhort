@@ -1,16 +1,14 @@
 package de.thm.calc;
 
 import de.thm.genomeData.InOutTrack;
-import de.thm.genomeData.Track;
 import de.thm.genomeData.NamedTrack;
 import de.thm.genomeData.ScoredTrack;
+import de.thm.genomeData.Track;
 import de.thm.positionData.Sites;
 import de.thm.stat.ResultCollector;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -42,14 +40,12 @@ public final class IntersectMultithread {
      *
      * @return Collector of all results computed by the differen threads
      */
-    public ResultCollector execute(Map<String, Track> intervals, Sites measuredPositions, Sites randomPositions) {
+    public ResultCollector execute(List<Track> intervals, Sites measuredPositions, Sites randomPositions) {
 
-        Set<String> tracks = intervals.keySet();
 
         ResultCollector collector = new ResultCollector(randomPositions);
 
-        for(String trackName: tracks){
-            Track track = intervals.get(trackName);
+        for(Track track: intervals){
 
             if(track instanceof InOutTrack) {
                 IntersectWrapper<InOutTrack> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, track, collector);

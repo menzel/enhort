@@ -8,7 +8,13 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -22,37 +28,37 @@ public class TrackFactory {
 
     private static TrackFactory instance;
     private final Path basePath = new File("/home/menzel/Desktop/THM/lfba/projekphase/dat/").toPath();
-    private final Map<String, Track> intervals;
     private final TrackDumper trackDumper;
     private final List<TrackPackage> packageList;
+    private List<Track> intervals;
 
-        /**
+/**
      * Constructor. Parses the base dir and gets all intervals from files.
      * Expects three dirs with the names 'inout', 'named' and 'score' for types.
      *
      */
     private TrackFactory() {
         trackDumper = new TrackDumper(basePath);
-        intervals = new HashMap<>();
+        intervals = new ArrayList<>();
 
         packageList = new ArrayList<>();
 
         try {
             getIntervals(basePath.resolve("inout"), Type.inout);
-            //getIntervals(basePath.resolve("broadHistone"), Interval.Type.inout);
+            //getIntervals(basePath.resolve("broadHistone"), Type.inout);
             getIntervals(basePath.resolve("named"), Type.named);
-            getIntervals(basePath.resolve("score"), Type.scored);
+            //getIntervals(basePath.resolve("score"), Type.scored);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-    };
+    }
 
-    public static TrackFactory getInstance(){
+            public static TrackFactory getInstance(){
         if(instance == null)
             instance = new TrackFactory();
         return  instance;
-    }
+    };
 
     /**
      * Gets all intervals from a single type
@@ -63,117 +69,31 @@ public class TrackFactory {
      */
     private void getIntervals(Path path, Type type) throws IOException {
 
+        List<Path> files = new ArrayList<>();
+        final List<Track> intervals = Collections.synchronizedList(new ArrayList<>());
 
-        Files.walk(Paths.get(path.toString())).filter(Files::isRegularFile).forEach(filePath -> {
-            String filename = filePath.getFileName().toString();
-            Track track = loadInterval(filePath.toFile(), type);
+        Files.walk(Paths.get(path.toString())).filter(Files::isRegularFile).forEach(files::add);
 
-            intervals.put(filename, track);
-        });
-    }
+        ExecutorService exe = Executors.newFixedThreadPool(8);
 
-    /**
-     * Loads a single Interval from a file.
-     * Checks if a binary files exists and calls intervalDumper to load this if possible
-     *
-     * @param file - file to load
-     * @param type - Interval.Typ. type of the file (inout, named, score)
-     *
-     * @return interval, either from binary or bed file
-     */
-    private Track loadInterval(File file, Type type) {
+        for(Path file: files){
+            FileLoader loader = new FileLoader(file, intervals, type);
+            exe.execute(loader);
+        }
 
-        /*
-        if(trackDumper.exists(file.getName())){
-            return trackDumper.getInterval(new File(file.getName()));
-        } else{
-        */
-
-            Track track =  initIntervalfromFile(file, type);
-            //trackDumper.dumpInterval(track, file.getName());
-            return track;
-       //}
-    }
-
-    /**
-     * Loads interval data from a bed file. Calls handleParts to handle each line
-     *
-     * @param file - file to parse
-     * @param type - type of interval
-     */
-    private Track initIntervalfromFile(File file, Type type){
-
-        String name = "";
-        String description = "";
-        int length = 0;
-        ChromosomSizes chrSizes = ChromosomSizes.getInstance();
+        exe.shutdown();
 
         try {
-            length = new Long(Files.lines(file.toPath()).count()).intValue();
-        } catch (IOException e) {
+            exe.awaitTermination(30, TimeUnit.SECONDS);
+
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        List<Long> starts = new ArrayList<>(length);
-        List<Long> ends = new ArrayList<>(length);
-        List<String> names = new ArrayList<>(length);
-        List<Double> scores = new ArrayList<>(length);
-
-        try(Stream<String> lines = Files.lines(file.toPath(), StandardCharsets.UTF_8)){
-            Iterator<String> it = lines.iterator();
-
-            Pattern header = Pattern.compile("track fullname=.(.*). description=.(.*).."); //TODO . are "
-            Pattern entry = Pattern.compile("chr(\\d{1,2}|X|Y)\\s(\\d*)\\s(\\d*).*");
-
-            while(it.hasNext()){
-                String line = it.next();
-                Matcher header_matcher = header.matcher(line);
-                Matcher line_matcher = entry.matcher(line);
-
-                if(header_matcher.matches()){
-                    name = header_matcher.group(1);
-                    description = header_matcher.group(2);
-
-                } else if (line_matcher.matches()){
-                    String[] parts = line.split("\t");
-
-                    long offset = chrSizes.offset(parts[0]); //handle null pointer exc if chromosome name is not in list
-
-                    starts.add(Long.parseLong(parts[1]) + offset);
-                    ends.add(Long.parseLong(parts[2])+ offset);
-
-                    names.add(parts[3].intern());
-
-                    if(parts.length > 4 && parts[4] != null)
-                        scores.add(Double.parseDouble(parts[4]));
-                    else
-                        scores.add(.0);
-                }
-            }
-
-            lines.close();
-
-            if(name.equals(""))
-                name = file.getName();
-
-            switch (type){
-                case inout:
-                    return new InOutTrack(starts, ends, name, description);
-                case scored:
-                    return new ScoredTrack(starts, ends, names, scores, name, description);
-                case named:
-                    return new NamedTrack(starts, ends, names, name, description);
-                default:
-                    return null;
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        this.intervals.addAll(intervals);
     }
 
-    public Map<String, Track> getAllIntervals() {
+    public List<Track> getAllIntervals() {
         return intervals;
     }
 
@@ -187,9 +107,9 @@ public class TrackFactory {
 
     public Track getIntervalById(int id) {
 
-        for(String keys: intervals.keySet()){
-            if(intervals.get(keys).getUid() == id){
-                return intervals.get(keys);
+        for(Track track: intervals){
+            if(track.getUid() == id){
+                return track;
             }
         }
 
@@ -204,6 +124,107 @@ public class TrackFactory {
         return new InOutTrack(starts,ends,name, description);
     }
 
+    private enum Type {inout, named, scored}
 
-private enum Type {inout, named, scored}
+    private final class FileLoader implements Runnable {
+        private final Path path;
+        private final List<Track> intervals;
+        private Type type;
+
+        public FileLoader(Path path, List<Track> intervals, Type type) {
+
+            this.path = path;
+            this.intervals = intervals;
+            this.type = type;
+        }
+
+        @Override
+        public void run() {
+
+            Track track =  initIntervalfromFile(path.toFile(), type);
+            intervals.add(track);
+        }
+
+
+        /**
+         * Loads interval data from a bed file. Calls handleParts to handle each line
+         *
+         * @param file - file to parse
+         * @param type - type of interval
+         */
+        private Track initIntervalfromFile(File file, Type type){
+
+            String name = "";
+            String description = "";
+            int length = 0;
+            ChromosomSizes chrSizes = ChromosomSizes.getInstance();
+
+            try {
+                length = new Long(Files.lines(file.toPath()).count()).intValue();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            List<Long> starts = new ArrayList<>(length);
+            List<Long> ends = new ArrayList<>(length);
+            List<String> names = new ArrayList<>(length);
+            List<Double> scores = new ArrayList<>(length);
+
+            try(Stream<String> lines = Files.lines(file.toPath(), StandardCharsets.UTF_8)){
+                Iterator<String> it = lines.iterator();
+
+                Pattern header = Pattern.compile("track fullname=.(.*). description=.(.*).."); //TODO . are "
+                Pattern entry = Pattern.compile("chr(\\d{1,2}|X|Y)\\s(\\d*)\\s(\\d*).*");
+
+                while(it.hasNext()){
+                    String line = it.next();
+                    Matcher header_matcher = header.matcher(line);
+                    Matcher line_matcher = entry.matcher(line);
+
+                    if(header_matcher.matches()){
+                        name = header_matcher.group(1);
+                        description = header_matcher.group(2);
+
+                    } else if (line_matcher.matches()){
+                        String[] parts = line.split("\t");
+
+                        long offset = chrSizes.offset(parts[0]); //handle null pointer exc if chromosome name is not in list
+
+                        starts.add(Long.parseLong(parts[1]) + offset);
+                        ends.add(Long.parseLong(parts[2])+ offset);
+
+                        names.add(parts[3].intern());
+
+                        if(parts.length > 4 && parts[4] != null)
+                            scores.add(Double.parseDouble(parts[4]));
+                        else
+                            scores.add(.0);
+                    }
+                }
+
+                lines.close();
+
+                if(name.equals(""))
+                    name = file.getName();
+
+                switch (type){
+                    case inout:
+                        return new InOutTrack(starts, ends, name, description);
+                    case scored:
+                        return new ScoredTrack(starts, ends, names, scores, name, description);
+                    case named:
+                        return new NamedTrack(starts, ends, names, name, description);
+                    default:
+                        return null;
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+
+
+    }
 }
