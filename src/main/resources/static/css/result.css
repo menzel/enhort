@@ -61,7 +61,7 @@ a:hover{
 }
 
 .expected{
-    background-color: #555555;
+    background-color: RGBA(85, 85, 85, 0.41);
 }
 
 .sidebar h4{
