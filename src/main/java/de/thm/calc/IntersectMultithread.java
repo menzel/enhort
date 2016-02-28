@@ -66,8 +66,9 @@ public final class IntersectMultithread {
 
         exe.shutdown();
 
+
         try {
-            exe.awaitTermination(1, TimeUnit.SECONDS);
+            exe.awaitTermination(20, TimeUnit.SECONDS);
 
         } catch (InterruptedException e) {
             e.printStackTrace();
