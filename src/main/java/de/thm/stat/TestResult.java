@@ -8,6 +8,7 @@ import org.apache.commons.math3.util.Precision;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * The Results of one Test together with the input params (intersect results, measured in/ out counts, names files, pvalue, fold change )
@@ -48,8 +49,8 @@ public final class TestResult{
 
         this.scoresExp = expected.getResultScores();
         this.scoresMea = measured.getResultScores();
-        this.namesExp = expected.getResultNames().keySet();
-        this.namesMea = measured.getResultNames().keySet();
+        this.namesExp = expected.getResultNames().entrySet().stream().map(i -> i.getKey()+ ":" + i.getValue()).collect(Collectors.toSet());
+        this.namesMea = measured.getResultNames().entrySet().stream().map(i -> i.getKey()+ ":" + i.getValue()).collect(Collectors.toSet());
 
         this.measuredIn = measured.getIn();
         this.measuredOut = measured.getOut();
