@@ -12,7 +12,7 @@ import java.util.stream.Stream;
  * <p>
  * Created by Michael Menzel on 10/2/16.
  */
-public class StatisticsCollector {
+public final class StatisticsCollector {
 
     private static final StatisticsCollector instance = new StatisticsCollector(new File("/tmp/log").toPath());
     private final Path logPath;

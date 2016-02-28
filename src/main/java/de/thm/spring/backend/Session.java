@@ -19,7 +19,7 @@ import java.util.List;
  * <p>
  * Created by Michael Menzel on 10/2/16.
  */
-public class Session {
+public final class Session {
 
     private final String key;
     private final Date date;

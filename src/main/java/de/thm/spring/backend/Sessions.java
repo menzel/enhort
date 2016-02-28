@@ -11,7 +11,7 @@ import java.util.Map;
  * <p>
  * Created by Michael Menzel on 10/2/16.
  */
-public class Sessions {
+public final class Sessions {
 
     private static final Sessions instance = new Sessions();
     private final Map<String, Session> sessions;
