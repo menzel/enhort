@@ -18,13 +18,22 @@ public final class EffectSize {
      */
     public double test(IntersectResult intersectResultA, IntersectResult intersectResultB) {
 
-        double fc1 = intersectResultA.getIn() / (double) intersectResultA.getOut();
-        double fc2 = intersectResultB.getIn() / (double) intersectResultB.getOut();
+
+        return foldChange(intersectResultA.getIn(), intersectResultA.getOut(), intersectResultB.getIn(), intersectResultB.getOut());
+
+    }
+
+    double foldChange(int in, int out, int in1, int out1) {
+
+        double fc1 = in / (double) out;
+        double fc2 = in1 / (double) out1;
+
+        if(Double.isNaN(fc1) || Double.isNaN(fc2))
+            return 0.0;
 
         if (fc1 == 0 || fc2 == 0)
-            return 0;
+            return Double.POSITIVE_INFINITY;
 
         return Math.abs(Math.log(fc1 / fc2));
-
     }
 }
