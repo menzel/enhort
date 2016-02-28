@@ -64,6 +64,11 @@ a:hover{
     background-color: RGBA(85, 85, 85, 0.41);
 }
 
+.nameplot{
+    width:400px;
+    height:200px;
+}
+
 .sidebar h4{
     border-top:1px solid #eee;
     padding-top: 5px;

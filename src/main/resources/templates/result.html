@@ -188,9 +188,7 @@
                     <tr>
                         <td colspan="5" class="hiddenRow">
                             <div class="accordion-body collapse" th:id="${#strings.replace('accordion_'+result.id,'.','_')}">
-                                <div>
-                                    <p th:text="${result.namesMea}"></p>
-                                    <p th:text="${result.namesExp}"></p>
+                                <div class="nameplot" th:id="${'nameplot_'+result.id}">
                                 </div>
                                 <div th:text="${result.description}"></div>
                             </div>
@@ -289,6 +287,58 @@
 <script th:inline="javascript" async>
 /*<![CDATA[*/
     'use strict';
+
+
+    plotNames([[${results_named}]]);
+
+    function plotNames(results) {
+
+        for(var j = 0; j < results.length; j++ ){
+            var result = results[j];
+
+            var y1= "[";
+            for(var key in result.namesExp) {
+                y1 = y1 + ","  + result.namesExp[key];
+            }
+            y1 = y1 + "]";
+
+            var y2= "[";
+            for(var key2 in result.namesMea) {
+                y2 = y2 + ","  + result.namesMea[key2];
+            }
+            y2 = y2 + "]";
+
+
+
+            var trace1 = {
+              x: Object.keys(result.namesExp),
+              y: y1,
+              name: 'Expected',
+              type: 'bar'
+            };
+
+            var trace2 = {
+              x: Object.keys(result.namesMea),
+              y: y2,
+              name: 'Measured',
+              type: 'bar'
+            };
+
+            var data = [trace1, trace2];
+
+            var layout = {
+              title: result.name,
+              xaxis: {
+                tickangle: -45
+              },
+              width: 400,
+              height: 200,
+              barmode: 'group'
+
+            };
+            Plotly.newPlot('nameplot_' + result.id, data, layout);
+        }
+    }
 
 
     plot([[${results_score}]]);

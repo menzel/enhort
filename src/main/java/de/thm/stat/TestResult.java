@@ -7,8 +7,7 @@ import org.apache.commons.math3.util.Precision;
 
 import java.text.DecimalFormat;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 /**
  * The Results of one Test together with the input params (intersect results, measured in/ out counts, names files, pvalue, fold change )
@@ -27,8 +26,8 @@ public final class TestResult {
     private final int expectedOut;
     private final List<Double> scoresMea;
     private final List<Double> scoresExp;
-    private final Set<String> namesMea;
-    private final Set<String> namesExp;
+    private final Map<String, Integer> namesMea;
+    private final Map<String, Integer> namesExp;
     private final int id;
     private Type type;
 
@@ -49,8 +48,10 @@ public final class TestResult {
 
         this.scoresExp = expected.getResultScores();
         this.scoresMea = measured.getResultScores();
-        this.namesExp = expected.getResultNames().entrySet().stream().map(i -> i.getKey() + ":" + i.getValue()).collect(Collectors.toSet());
-        this.namesMea = measured.getResultNames().entrySet().stream().map(i -> i.getKey() + ":" + i.getValue()).collect(Collectors.toSet());
+        //this.namesExp = expected.getResultNames().entrySet().stream().map(i -> i.getKey() + ":" + i.getValue()).collect(Collectors.toSet());
+        //this.namesMea = measured.getResultNames().entrySet().stream().map(i -> i.getKey() + ":" + i.getValue()).collect(Collectors.toSet());
+        this.namesMea = measured.getResultNames();
+        this.namesExp = expected.getResultNames();
 
         this.measuredIn = measured.getIn();
         this.measuredOut = measured.getOut();
@@ -142,11 +143,11 @@ public final class TestResult {
         return scoresExp;
     }
 
-    public Set<String> getNamesMea() {
+    public Map<String, Integer> getNamesMea() {
         return namesMea;
     }
 
-    public Set<String> getNamesExp() {
+    public Map<String, Integer> getNamesExp() {
         return namesExp;
     }
 
