@@ -15,7 +15,7 @@ import de.thm.stat.TestResult;
  * <p>
  * Created by Michael Menzel on 12/1/16.
  */
-class IntersectWrapper<T extends Track> implements Runnable {
+final class IntersectWrapper<T extends Track> implements Runnable {
 
 
     private final Sites randomPos;
