@@ -50,6 +50,9 @@ public final class TestResult {
         this.scoresMea = measured.getResultScores();
         //this.namesExp = expected.getResultNames().entrySet().stream().map(i -> i.getKey() + ":" + i.getValue()).collect(Collectors.toSet());
         //this.namesMea = measured.getResultNames().entrySet().stream().map(i -> i.getKey() + ":" + i.getValue()).collect(Collectors.toSet());
+
+
+        //TODO divide names by count of points
         this.namesMea = measured.getResultNames();
         this.namesExp = expected.getResultNames();
 

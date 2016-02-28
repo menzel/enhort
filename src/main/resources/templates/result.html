@@ -189,6 +189,8 @@
                         <td colspan="5" class="hiddenRow">
                             <div class="accordion-body collapse" th:id="${#strings.replace('accordion_'+result.id,'.','_')}">
                                 <div class="nameplot" th:id="${'nameplot_'+result.id}">
+                                    <div th:value="${result.namesMea}"></div>
+                                    <div th:value="${result.namesExp}"></div>
                                 </div>
                                 <div th:text="${result.description}"></div>
                             </div>
@@ -296,45 +298,62 @@
         for(var j = 0; j < results.length; j++ ){
             var result = results[j];
 
-            var y1= "[";
+            var x1= [];
             for(var key in result.namesExp) {
-                y1 = y1 + ","  + result.namesExp[key];
+                x1.push(result.namesExp[key]/[[${bgCount}]]);
             }
-            y1 = y1 + "]";
 
-            var y2= "[";
+            var x2= [];
             for(var key2 in result.namesMea) {
-                y2 = y2 + ","  + result.namesMea[key2];
+                x2.push(result.namesMea[key2]/[[${covariantCommand.positionCount}]]);
             }
-            y2 = y2 + "]";
+
 
 
 
             var trace1 = {
               x: Object.keys(result.namesExp),
-              y: y1,
+              y: x1,
               name: 'Expected',
-              type: 'bar'
+              type: 'bar',
+              marker: {color: 'rgb(85,85,85)'},
             };
 
             var trace2 = {
               x: Object.keys(result.namesMea),
-              y: y2,
+              y: x2,
               name: 'Measured',
-              type: 'bar'
+              type: 'bar',
+              marker: {color: 'rgb(51,122,183)'},
             };
 
             var data = [trace1, trace2];
 
             var layout = {
-              title: result.name,
-              xaxis: {
-                tickangle: -45
-              },
-              width: 400,
+              width: 600,
               height: 200,
-              barmode: 'group'
-
+              barmode: 'group',
+              xaxis: {
+                autorange: true,
+                showgrid: false,
+                zeroline: true,
+                showline: false,
+                autotick: true,
+                ticks: '',
+                showticklabels: false
+              },
+              yaxis: {
+                autorange: true,
+                showgrid: false,
+                zeroline: false,
+                showline: false,
+                autotick: true,
+                ticks: '',
+                showticklabels: false
+              },
+              margin: { l: 20, r: 20, b: 40, t: 0, pad: 0 },
+              showlegend: false,
+              barnorm:"fraction"
             };
             Plotly.newPlot('nameplot_' + result.id, data, layout);
         }
