@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Abstract skeletal class.
- *
+ * <p>
  * Created by Michael Menzel on 24/2/16.
  */
 @SuppressWarnings("unused")
@@ -31,10 +31,14 @@ public abstract class AbstractTrack extends Track {
     public abstract Track clone();
 
     @Override
-    public List<Long> getIntervalsStart() { return intervalsStart; }
+    public List<Long> getIntervalsStart() {
+        return intervalsStart;
+    }
 
     @Override
-    public List<Long> getIntervalsEnd() { return intervalsEnd; }
+    public List<Long> getIntervalsEnd() {
+        return intervalsEnd;
+    }
 
     @Override
     public int getUid() {
@@ -61,7 +65,7 @@ public abstract class AbstractTrack extends Track {
 
         if (!intervalsStart.equals(track.getIntervalsStart())) return false;
         if (!intervalsEnd.equals(track.getIntervalsEnd())) return false;
-        return !(description != null ? !description.equals(track.getDescription()) : track.getDescription()!= null);
+        return !(description != null ? !description.equals(track.getDescription()) : track.getDescription() != null);
 
     }
 

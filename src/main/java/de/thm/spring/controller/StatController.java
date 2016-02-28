@@ -15,7 +15,7 @@ import java.util.List;
 public class StatController {
 
     @RequestMapping(value = "/statistics")
-    public String basicStats(Model model){
+    public String basicStats(Model model) {
 
         StatisticsCollector stats = StatisticsCollector.getInstance();
 

@@ -12,7 +12,7 @@ import java.nio.file.Path;
 
 /**
  * Dumps intervals to binary files for faster loading
- *
+ * <p>
  * Created by Michael Menzel on 15/12/15.
  */
 final class TrackDumper {
@@ -26,13 +26,12 @@ final class TrackDumper {
     }
 
     /**
-     *
-     * @param track - dumps an interval to a directory
+     * @param track    - dumps an interval to a directory
      * @param filename - name of original file without extension
      */
-    void dumpInterval(Track track, String filename){
+    void dumpInterval(Track track, String filename) {
 
-        filename = filename.substring(0,filename.indexOf(".")) + ".kryo";
+        filename = filename.substring(0, filename.indexOf(".")) + ".kryo";
 
         try (Output output = new Output(new FileOutputStream(baseDir.resolve("kryo/" + filename).toString()))) {
 
@@ -53,10 +52,10 @@ final class TrackDumper {
      * @param file - binary file to parse
      * @return Interval based on given binary
      */
-    Track getInterval(File file){
+    Track getInterval(File file) {
         Track track;
         String name = file.getName();
-        name = name.substring(0,name.indexOf(".")) + ".kryo";
+        name = name.substring(0, name.indexOf(".")) + ".kryo";
 
         try {
             Input input = new Input(new FileInputStream(baseDir + "/kryo/" + name));
@@ -79,11 +78,11 @@ final class TrackDumper {
      * @return true if exists. False otherwise
      */
     boolean exists(String name) {
-        name = name.substring(0,name.indexOf(".")) + ".kryo";
+        name = name.substring(0, name.indexOf(".")) + ".kryo";
         Path path = baseDir.resolve("kryo");
         File file = path.resolve(name).toFile();
 
-        return  file.exists();
+        return file.exists();
 
     }
 }

@@ -15,8 +15,8 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class ApplicationController {
 
-    @RequestMapping(value="/clear_session", method= RequestMethod.GET)
-    public String deleteSession(HttpSession session){
+    @RequestMapping(value = "/clear_session", method = RequestMethod.GET)
+    public String deleteSession(HttpSession session) {
 
         Sessions sessionsControl = Sessions.getInstance();
         sessionsControl.clear(session.getId());

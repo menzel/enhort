@@ -12,15 +12,16 @@ import java.util.stream.Stream;
 
 /**
  * Handles position data supplied in a file by a user
- *
+ * <p>
  * Created by Michael Menzel on 8/12/15.
  */
-public final class UserData implements Sites{
+public final class UserData implements Sites {
 
     private List<Long> positions = new ArrayList<>();
 
     /**
      * Constructor
+     *
      * @param path - file to load positions from
      */
     public UserData(Path path) {
@@ -32,28 +33,28 @@ public final class UserData implements Sites{
      *
      * @param path - file to load
      */
-    private void loadPositionsFromFile(Path path){
+    private void loadPositionsFromFile(Path path) {
 
         ChromosomSizes chrSizes = ChromosomSizes.getInstance();
 
         Pattern entry = Pattern.compile("(chr\\d{1,2}|X|Y)\\s(\\d*).*");
 
-        try(Stream<String> lines = Files.lines(path)){
+        try (Stream<String> lines = Files.lines(path)) {
 
             Iterator it = lines.iterator();
 
-            while(it.hasNext()){
+            while (it.hasNext()) {
 
                 String line = (String) it.next();
                 Matcher line_matcher = entry.matcher(line);
 
-                if(line_matcher.matches())
+                if (line_matcher.matches())
                     positions.add(Long.parseLong(line_matcher.group(2)) + chrSizes.offset(line_matcher.group(1)));
             }
 
             lines.close();
 
-        } catch (IOException e ){
+        } catch (IOException e) {
             e.printStackTrace();
 
         }

@@ -10,12 +10,12 @@ import de.thm.stat.TestResult;
 /**
  * Wraps the call to one intersect round. A round consists of one interval (track), one set of positions from the outside
  * and one set of positions made up by a background model.
- *
+ * <p>
  * It sets the test result of the run to a list in the given collector.
- *
+ * <p>
  * Created by Michael Menzel on 12/1/16.
  */
-class IntersectWrapper<T extends Track> implements Runnable{
+class IntersectWrapper<T extends Track> implements Runnable {
 
 
     private final Sites randomPos;
@@ -27,9 +27,9 @@ class IntersectWrapper<T extends Track> implements Runnable{
      * Constructor for the wrapper object
      *
      * @param measuredPos - positions from the outside of the program
-     * @param randomPos - positions to match against made up by a background model
-     * @param track - interval to match against
-     * @param collector - collector to collect results in
+     * @param randomPos   - positions to match against made up by a background model
+     * @param track       - interval to match against
+     * @param collector   - collector to collect results in
      */
     IntersectWrapper(Sites measuredPos, Sites randomPos, Track track, ResultCollector collector) {
 
@@ -50,7 +50,7 @@ class IntersectWrapper<T extends Track> implements Runnable{
         IndependenceTest<T> tester = new IndependenceTest<>();
         EffectSize effectSize = new EffectSize();
 
-        TestResult testResult  = tester.test(result1, result2, track);
+        TestResult testResult = tester.test(result1, result2, track);
         effectSize.test(result1, result2);
 
         collector.addResult(testResult);

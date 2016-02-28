@@ -12,11 +12,11 @@ import java.util.List;
 
 /**
  * Holds a single session for a user. The session includes a key (http session key) and a date when it was created.
- *
+ * <p>
  * The session also can have references to results, a input file, covariants, and the original filename.
- *
+ * <p>
  * If a session is needed let the Session class create one.
- *
+ * <p>
  * Created by Michael Menzel on 10/2/16.
  */
 public class Session {
@@ -63,7 +63,7 @@ public class Session {
     /**
      * Deletes the known file
      */
-    void delete(){
+    void delete() {
         try {
             Files.deleteIfExists(file);
         } catch (IOException e) {
@@ -88,7 +88,7 @@ public class Session {
     }
 
     public List<TestResult> getCovariants() {
-        if(covariants == null)
+        if (covariants == null)
             covariants = new ArrayList<>();
         return covariants;
     }

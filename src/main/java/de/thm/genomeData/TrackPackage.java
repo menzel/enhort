@@ -29,5 +29,5 @@ public class TrackPackage {
         return name;
     }
 
-public enum PackageName{Basic, Expression, Histone}
+    public enum PackageName {Basic, Expression, Histone}
 }

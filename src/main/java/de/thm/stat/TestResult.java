@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
 
 /**
  * The Results of one Test together with the input params (intersect results, measured in/ out counts, names files, pvalue, fold change )
- *
+ * <p>
  * Created by Michael Menzel on 12/1/16.
  */
-public final class TestResult{
+public final class TestResult {
 
     private final double pValue;
     private final double effectSize;
@@ -37,20 +37,20 @@ public final class TestResult{
         DecimalFormat format = new DecimalFormat("0.00E00");
         String v = format.format(pValue);
 
-        if(pValue != Double.NaN && NumberUtils.isNumber(v)) {
+        if (pValue != Double.NaN && NumberUtils.isNumber(v)) {
             this.pValue = Double.parseDouble(format.format(pValue));
-        } else{
+        } else {
             System.err.println(measured);
             System.err.println(expected);
             this.pValue = 1; //TODO check
         }
 
-        this.effectSize = Precision.round(effectSize,2);
+        this.effectSize = Precision.round(effectSize, 2);
 
         this.scoresExp = expected.getResultScores();
         this.scoresMea = measured.getResultScores();
-        this.namesExp = expected.getResultNames().entrySet().stream().map(i -> i.getKey()+ ":" + i.getValue()).collect(Collectors.toSet());
-        this.namesMea = measured.getResultNames().entrySet().stream().map(i -> i.getKey()+ ":" + i.getValue()).collect(Collectors.toSet());
+        this.namesExp = expected.getResultNames().entrySet().stream().map(i -> i.getKey() + ":" + i.getValue()).collect(Collectors.toSet());
+        this.namesMea = measured.getResultNames().entrySet().stream().map(i -> i.getKey() + ":" + i.getValue()).collect(Collectors.toSet());
 
         this.measuredIn = measured.getIn();
         this.measuredOut = measured.getOut();
@@ -86,33 +86,33 @@ public final class TestResult{
         return expectedOut;
     }
 
-    public double getPercentInM(){
-        return Precision.round(new Double(measuredIn) / (new Double(measuredOut + measuredIn)) * 100,2);
+    public double getPercentInM() {
+        return Precision.round(new Double(measuredIn) / (new Double(measuredOut + measuredIn)) * 100, 2);
     }
 
-    public double getPercentOutM(){
-        return Precision.round(new Double(measuredOut) / (new Double(measuredOut + measuredIn)) * 100,2);
+    public double getPercentOutM() {
+        return Precision.round(new Double(measuredOut) / (new Double(measuredOut + measuredIn)) * 100, 2);
     }
 
-    public double getPercentInE(){
-        return Precision.round(new Double(expectedIn) / (new Double(expectedOut+ expectedIn)) * 100,2);
+    public double getPercentInE() {
+        return Precision.round(new Double(expectedIn) / (new Double(expectedOut + expectedIn)) * 100, 2);
     }
 
-    public double getPercentOutE(){
-        return Precision.round(new Double(expectedOut) / (new Double(expectedOut+ expectedIn)) * 100,2);
+    public double getPercentOutE() {
+        return Precision.round(new Double(expectedOut) / (new Double(expectedOut + expectedIn)) * 100, 2);
     }
 
-    public String toString(){
-        String name = (this.name != null)? this.name: Integer.toString(this.id);
+    public String toString() {
+        String name = (this.name != null) ? this.name : Integer.toString(this.id);
         return "Fold change Ratio: " + effectSize + "\n" +
-               "mea in " + measuredIn + " out " + measuredOut + "\n" +
-               "exp in " + expectedIn + " out " + expectedOut + "\n" +
+                "mea in " + measuredIn + " out " + measuredOut + "\n" +
+                "exp in " + expectedIn + " out " + expectedOut + "\n" +
                 name + " p-value: " + pValue +
                 "\n=====\n";
     }
 
     public String getName() {
-        if(name == null || name.equals("")){
+        if (name == null || name.equals("")) {
             return "track_" + id;
         }
         return name;
@@ -150,5 +150,5 @@ public final class TestResult{
         return namesExp;
     }
 
-public enum Type{inout, score, name}
+    public enum Type {inout, score, name}
 }

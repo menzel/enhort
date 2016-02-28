@@ -31,7 +31,7 @@ import java.util.UUID;
  * Controller for main page. Relies heavily on the model and session/command objects:
  * The model is used to get stuff to the view as well as the command object.
  * The session is used to keep information for reload and reruns.
- *
+ * <p>
  * Created by Michael Menzel on 3/2/16.
  */
 @Controller
@@ -39,8 +39,8 @@ public class CalculationController {
 
     private static final Path basePath = new File("/tmp").toPath();
 
-    @RequestMapping(value="/upload", method=RequestMethod.GET)
-    public String plainView(Model model, HttpSession httpSession){
+    @RequestMapping(value = "/upload", method = RequestMethod.GET)
+    public String plainView(Model model, HttpSession httpSession) {
 
         CovariantCommand command = new CovariantCommand();
 
@@ -49,7 +49,7 @@ public class CalculationController {
 
         ResultCollector collector = currentSession.getCollector();
 
-        if(collector != null){
+        if (collector != null) {
 
             Path file = currentSession.getFile();
             UserData data = new UserData(file);
@@ -68,8 +68,8 @@ public class CalculationController {
         return "result";
     }
 
-    @RequestMapping(value="/upload", method=RequestMethod.POST)
-    public String handleFileUpload(Model model, @RequestParam("file") MultipartFile file, HttpSession httpSession){
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    public String handleFileUpload(Model model, @RequestParam("file") MultipartFile file, HttpSession httpSession) {
 
         String name = file.getOriginalFilename();
         String uuid = name + "-" + UUID.randomUUID();
@@ -115,9 +115,8 @@ public class CalculationController {
     }
 
 
-
-    @RequestMapping(value="/covariant", method= RequestMethod.POST)
-    public String covariant(@ModelAttribute CovariantCommand command, Model model, HttpSession httpSession){
+    @RequestMapping(value = "/covariant", method = RequestMethod.POST)
+    public String covariant(@ModelAttribute CovariantCommand command, Model model, HttpSession httpSession) {
 
         Sessions sessionsControll = Sessions.getInstance();
         StatisticsCollector.getInstance().addAnaylseC();
@@ -128,13 +127,13 @@ public class CalculationController {
 
         ResultCollector collector;
         try {
-            collector = AnalysisHelper.runAnalysis(data,command.getCovariants());
+            collector = AnalysisHelper.runAnalysis(data, command.getCovariants());
 
         } catch (CovariantsException e) {
             model.addAttribute("errorMessage", "Too many covariants, a max of 7 covariants is allowed.");
             collector = currentSession.getCollector();
 
-            if(collector == null) //if there is no collector known to the session run with no covariants
+            if (collector == null) //if there is no collector known to the session run with no covariants
                 collector = AnalysisHelper.runAnalysis(data);
 
             return "result";
@@ -142,7 +141,7 @@ public class CalculationController {
 
         currentSession.setCollector(collector);
 
-        setModel(model,collector,data,currentSession.getOriginalFilename());
+        setModel(model, collector, data, currentSession.getOriginalFilename());
 
         List<TestResult> covariants = collector.getCovariants(command.getCovariants());
 

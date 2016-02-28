@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * Bootstraps basic analysis with all intervals one of the two background models and user input.
- *
+ * <p>
  * Created by Michael Menzel on 11/12/15.
  */
 public class Analyse {
@@ -23,7 +23,7 @@ public class Analyse {
 
     public Analyse() {
         TrackFactory loader = TrackFactory.getInstance();
-        intervals =  loader.getAllIntervals();
+        intervals = loader.getAllIntervals();
         Intersect simple = new IntersectCalculate();
     }
 
@@ -51,10 +51,11 @@ public class Analyse {
         //covariants.add(intervals.get("knownGenes.bed"));
         //covariants.add(intervals.get("cpg"));
         //covariants.add(intervals.get("expression_blood.bed"));
-        for(Track track: intervals){
-            if(track.getName().equals("Known genes"))
+        for (Track track : intervals) {
+            if (track.getName().equals("Known genes"))
                 covariants.add(track);
         }
+
         System.out.println("covariant: " + covariants.get(0).getName());
 
         Sites bg = BackgroundModelFactory.createBackgroundModel(covariants, userSites);

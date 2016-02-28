@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
 
 /**
  * Implements a background model which can use many covariants.
- *
+ * <p>
  * Created by Michael Menzel on 13/1/16.
  */
-class MultiTrackBackgroundModel implements Sites{
+class MultiTrackBackgroundModel implements Sites {
 
     private AppearanceTable appearanceTable;
     private List<Long> positions = new ArrayList<>();
@@ -23,9 +23,8 @@ class MultiTrackBackgroundModel implements Sites{
     /**
      * Constructor. Creates a Bg Model with covariants according the given intervals and positions.
      *
-     * @param tracks - covariants
+     * @param tracks         - covariants
      * @param inputPositions - positions to match against
-     *
      */
     MultiTrackBackgroundModel(List<Track> tracks, Sites inputPositions) {
 
@@ -37,7 +36,8 @@ class MultiTrackBackgroundModel implements Sites{
     /**
      * Empty constructor
      */
-    MultiTrackBackgroundModel() { }
+    MultiTrackBackgroundModel() {
+    }
 
 
     /**
@@ -45,17 +45,16 @@ class MultiTrackBackgroundModel implements Sites{
      * The appearance table has to be made of the given intervals.
      *
      * @param appearanceTable - table of appearance counts
-     * @param tracks - intervals to match against
-     *
+     * @param tracks          - intervals to match against
      * @return list of positions which are spread by the same appearance values
      */
-    Collection<Long> randPositions(AppearanceTable appearanceTable, List<Track> tracks){
+    Collection<Long> randPositions(AppearanceTable appearanceTable, List<Track> tracks) {
 
         List<Long> sites = new ArrayList<>();
         SingleTrackBackgroundModel better = new SingleTrackBackgroundModel();
 
-        for(String app: appearanceTable.getKeySet()){
-            if(app.compareTo("[]") == 0){
+        for (String app : appearanceTable.getKeySet()) {
+            if (app.compareTo("[]") == 0) {
                 continue;
             }
 
@@ -68,13 +67,13 @@ class MultiTrackBackgroundModel implements Sites{
             Track track = Tracks.intersect(currentTracks);
             //TODO check if track has some intervals left
 
-            sites.addAll(better.randPositions(count, track,"in"));
+            sites.addAll(better.randPositions(count, track, "in"));
         }
 
         int count = appearanceTable.getAppearance("[]");
         //Interval outs = Intervals.sum(intervals).invert();
         Track outs = Tracks.intersect(tracks.stream().map(Tracks::invert).collect(Collectors.toList()));
-        sites.addAll(better.randPositions(count, outs ,"in"));
+        sites.addAll(better.randPositions(count, outs, "in"));
 
         Collections.sort(sites);
 

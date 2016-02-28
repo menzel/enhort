@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Implements multithreading of the intersect call.
  * Increase thread count on biggger machines.
- *
+ * <p>
  * Created by Michael Menzel on 11/1/16.
  */
 public final class IntersectMultithread {
@@ -34,10 +34,10 @@ public final class IntersectMultithread {
     /**
      * Executes the intersect algorithm with two sets of sites on a given map of intervals.
      * *
-     * @param intervals map of intervals with <K,V> <Name, Interval reference>
-     * @param measuredPositions - positions supplied from outside
-     * @param randomPositions - positions created by a background model
      *
+     * @param intervals         map of intervals with <K,V> <Name, Interval reference>
+     * @param measuredPositions - positions supplied from outside
+     * @param randomPositions   - positions created by a background model
      * @return Collector of all results computed by the differen threads
      */
     public ResultCollector execute(List<Track> intervals, Sites measuredPositions, Sites randomPositions) {
@@ -45,18 +45,18 @@ public final class IntersectMultithread {
 
         ResultCollector collector = new ResultCollector(randomPositions);
 
-        for(Track track: intervals){
+        for (Track track : intervals) {
 
-            if(track instanceof InOutTrack) {
+            if (track instanceof InOutTrack) {
                 IntersectWrapper<InOutTrack> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, track, collector);
                 wrappers.add(wrapper);
                 exe.execute(wrapper);
 
-            } else if(track instanceof ScoredTrack) {
+            } else if (track instanceof ScoredTrack) {
                 IntersectWrapper<ScoredTrack> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, track, collector);
                 wrappers.add(wrapper);
                 exe.execute(wrapper);
-            } else if(track instanceof NamedTrack) {
+            } else if (track instanceof NamedTrack) {
                 IntersectWrapper<NamedTrack> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, track, collector);
                 wrappers.add(wrapper);
                 exe.execute(wrapper);

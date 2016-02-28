@@ -18,29 +18,29 @@ import java.util.List;
 @EnableAutoConfiguration
 public class Server {
 
-   private static List<Track> intervals;
+    private static List<Track> intervals;
 
-   public static void main(String[] args){
-       TrackFactory loader = TrackFactory.getInstance();
-       loader.loadIntervals();
-       intervals = loader.getAllIntervals();
+    public static void main(String[] args) {
+        TrackFactory loader = TrackFactory.getInstance();
+        loader.loadIntervals();
+        intervals = loader.getAllIntervals();
 
-       attachShutDownHook();
+        attachShutDownHook();
 
-       try{
+        try {
 
-           SpringApplication.run(Server.class, args);
-       } catch (Exception e){
-           e.printStackTrace();
-           StatisticsCollector.getInstance().addErrorC();
-       }
-   }
+            SpringApplication.run(Server.class, args);
+        } catch (Exception e) {
+            e.printStackTrace();
+            StatisticsCollector.getInstance().addErrorC();
+        }
+    }
 
-   public static List<Track> getIntervals() {
-      return intervals;
-   }
+    public static List<Track> getIntervals() {
+        return intervals;
+    }
 
-    static void attachShutDownHook(){
+    static void attachShutDownHook() {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {

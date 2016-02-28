@@ -35,11 +35,11 @@ public class NamedTrack extends Track {
     public Track clone() {
 
         return new NamedTrack(
-            new ArrayList<>(intervalsStart),
-            new ArrayList<>(intervalsEnd),
-            new ArrayList<>(intervalName),
-            name,
-            description
+                new ArrayList<>(intervalsStart),
+                new ArrayList<>(intervalsEnd),
+                new ArrayList<>(intervalName),
+                name,
+                description
         );
     }
 

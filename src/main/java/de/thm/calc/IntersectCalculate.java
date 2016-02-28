@@ -8,20 +8,21 @@ import de.thm.genomeData.Track;
 import de.thm.positionData.Sites;
 
 import java.util.List;
+
 /**
  * Simple version of intersect, going list by list.
  */
-public final class IntersectCalculate<T extends Track> implements Intersect<T>{
+public final class IntersectCalculate<T extends Track> implements Intersect<T> {
 
 
     @Override
     public IntersectResult searchSingleInterval(T intv, Sites pos) {
-        if(intv instanceof InOutTrack)
-            return searchSingleInterval((InOutTrack)intv, pos);
-        if(intv instanceof ScoredTrack)
-            return searchSingleInterval((ScoredTrack)intv, pos);
-        if(intv instanceof NamedTrack)
-            return searchSingleInterval((NamedTrack)intv, pos);
+        if (intv instanceof InOutTrack)
+            return searchSingleInterval((InOutTrack) intv, pos);
+        if (intv instanceof ScoredTrack)
+            return searchSingleInterval((ScoredTrack) intv, pos);
+        if (intv instanceof NamedTrack)
+            return searchSingleInterval((NamedTrack) intv, pos);
         else
             try {
                 throw new IntervalTypeNotAllowedExcpetion("Type not allowed in intersect");
@@ -44,34 +45,34 @@ public final class IntersectCalculate<T extends Track> implements Intersect<T>{
         List<Long> intervalEnd = intv.getIntervalsEnd();
         List<String> names = intv.getIntervalName();
 
-        int intervalCount = intervalStart.size()-1;
+        int intervalCount = intervalStart.size() - 1;
 
 
-        for(Long p: pos.getPositions()) {
+        for (Long p : pos.getPositions()) {
 
-            while(i < intervalCount && intervalStart.get(i) <= p){
+            while (i < intervalCount && intervalStart.get(i) <= p) {
                 i++;
             }
 
-            if(i == 0){
+            if (i == 0) {
                 out++;
 
-            } else if(i == intervalCount && p > intervalEnd.get(i-1)){ //last Interval and p not in previous
-                if(p < intervalEnd.get(i) && p >= intervalStart.get(i)){
+            } else if (i == intervalCount && p > intervalEnd.get(i - 1)) { //last Interval and p not in previous
+                if (p < intervalEnd.get(i) && p >= intervalStart.get(i)) {
 
                     in++;
-                    intersectResult.add(names.get(i-1));
+                    intersectResult.add(names.get(i - 1));
 
-                } else{
+                } else {
                     out++;
                 }
-            }else{
-                if(p >= intervalEnd.get(i-1)){
+            } else {
+                if (p >= intervalEnd.get(i - 1)) {
                     out++;
 
-                }else{
+                } else {
                     in++;
-                    intersectResult.add(names.get(i-1));
+                    intersectResult.add(names.get(i - 1));
                 }
             }
         }
@@ -83,7 +84,7 @@ public final class IntersectCalculate<T extends Track> implements Intersect<T>{
 
     }
 
-    public IntersectResult searchSingleInterval(InOutTrack intv, Sites pos){
+    public IntersectResult searchSingleInterval(InOutTrack intv, Sites pos) {
         int out = 0;
         int in = 0;
         int i = 0;
@@ -93,31 +94,31 @@ public final class IntersectCalculate<T extends Track> implements Intersect<T>{
         List<Long> intervalStart = intv.getIntervalsStart();
         List<Long> intervalEnd = intv.getIntervalsEnd();
 
-        int intervalCount = intervalStart.size()-1;
+        int intervalCount = intervalStart.size() - 1;
 
 
-        for(Long p: pos.getPositions()) {
+        for (Long p : pos.getPositions()) {
 
-            while(i < intervalCount && intervalStart.get(i) <= p){
+            while (i < intervalCount && intervalStart.get(i) <= p) {
                 i++;
             }
 
-            if(i == 0){
+            if (i == 0) {
                 out++;
 
-            } else if(i == intervalCount && p > intervalEnd.get(i-1)){ //last Interval and p not in previous
-                if(p < intervalEnd.get(i) && p >= intervalStart.get(i)){
+            } else if (i == intervalCount && p > intervalEnd.get(i - 1)) { //last Interval and p not in previous
+                if (p < intervalEnd.get(i) && p >= intervalStart.get(i)) {
 
                     in++;
 
-                } else{
+                } else {
                     out++;
                 }
-            }else{
-                if(p >= intervalEnd.get(i-1)){
+            } else {
+                if (p >= intervalEnd.get(i - 1)) {
                     out++;
 
-                }else{
+                } else {
                     in++;
                 }
             }
@@ -130,8 +131,7 @@ public final class IntersectCalculate<T extends Track> implements Intersect<T>{
     }
 
 
-
-    public IntersectResult searchSingleInterval(ScoredTrack intv, Sites pos){
+    public IntersectResult searchSingleInterval(ScoredTrack intv, Sites pos) {
 
         int out = 0;
         int in = 0;
@@ -143,34 +143,34 @@ public final class IntersectCalculate<T extends Track> implements Intersect<T>{
         List<Long> intervalEnd = intv.getIntervalsEnd();
         List<Double> intervalScore = intv.getIntervalScore();
 
-        int intervalCount = intervalStart.size()-1;
+        int intervalCount = intervalStart.size() - 1;
 
 
-        for(Long p: pos.getPositions()) {
+        for (Long p : pos.getPositions()) {
 
-            while(i < intervalCount && intervalStart.get(i) <= p){
+            while (i < intervalCount && intervalStart.get(i) <= p) {
                 i++;
             }
 
-            if(i == 0){
+            if (i == 0) {
                 out++;
 
-            } else if(i == intervalCount && p > intervalEnd.get(i-1)){ //last Interval and p not in previous
-                if(p < intervalEnd.get(i) && p >= intervalStart.get(i)){
+            } else if (i == intervalCount && p > intervalEnd.get(i - 1)) { //last Interval and p not in previous
+                if (p < intervalEnd.get(i) && p >= intervalStart.get(i)) {
 
                     in++;
-                    intersectResult.add(intervalScore.get(i-1));
+                    intersectResult.add(intervalScore.get(i - 1));
 
-                } else{
+                } else {
                     out++;
                 }
-            }else{
-                if(p >= intervalEnd.get(i-1)){
+            } else {
+                if (p >= intervalEnd.get(i - 1)) {
                     out++;
 
-                }else{
+                } else {
                     in++;
-                    intersectResult.add(intervalScore.get(i-1));
+                    intersectResult.add(intervalScore.get(i - 1));
                 }
             }
         }

@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 
 /**
  * Handles the loading of all intervals
- *
+ * <p>
  * Created by Michael Menzel on 18/12/15.
  */
 public class TrackFactory {
@@ -36,7 +36,6 @@ public class TrackFactory {
     /**
      * Constructor. Parses the base dir and gets all intervals from files.
      * Expects three dirs with the names 'inout', 'named' and 'score' for types.
-     *
      */
     private TrackFactory() {
         trackDumper = new TrackDumper(basePath);
@@ -44,13 +43,13 @@ public class TrackFactory {
         packageList = new ArrayList<>();
     }
 
-    public static TrackFactory getInstance(){
-        if(instance == null)
+    public static TrackFactory getInstance() {
+        if (instance == null)
             instance = new TrackFactory();
-        return  instance;
+        return instance;
     }
 
-    public void loadIntervals(){
+    public void loadIntervals() {
         try {
             getIntervals(basePath.resolve("inout"), Type.inout);
             //getIntervals(basePath.resolve("broadHistone"), Type.inout);
@@ -79,7 +78,7 @@ public class TrackFactory {
 
         ExecutorService exe = Executors.newFixedThreadPool(8);
 
-        for(Path file: files){
+        for (Path file : files) {
             FileLoader loader = new FileLoader(file, intervals, type);
             exe.execute(loader);
         }
@@ -100,9 +99,9 @@ public class TrackFactory {
         return intervals;
     }
 
-    public List<Track> getIntervalsByPackage(TrackPackage.PackageName name){
-        for(TrackPackage pack: packageList){
-            if(pack.getName() == name)
+    public List<Track> getIntervalsByPackage(TrackPackage.PackageName name) {
+        for (TrackPackage pack : packageList) {
+            if (pack.getName() == name)
                 return pack.getTrackList();
         }
         return null;
@@ -110,8 +109,8 @@ public class TrackFactory {
 
     public Track getIntervalById(int id) {
 
-        for(Track track: intervals){
-            if(track.getUid() == id){
+        for (Track track : intervals) {
+            if (track.getUid() == id) {
                 return track;
             }
         }
@@ -120,11 +119,11 @@ public class TrackFactory {
     }
 
     public ScoredTrack createScoredTrack(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String description) {
-        return new ScoredTrack(starts,ends,names,scores,name, description);
+        return new ScoredTrack(starts, ends, names, scores, name, description);
     }
 
     public InOutTrack createInOutTrack(List<Long> starts, List<Long> ends, String name, String description) {
-        return new InOutTrack(starts,ends,name, description);
+        return new InOutTrack(starts, ends, name, description);
     }
 
     private enum Type {inout, named, scored}
@@ -144,7 +143,7 @@ public class TrackFactory {
         @Override
         public void run() {
 
-            Track track =  initIntervalfromFile(path.toFile(), type);
+            Track track = initIntervalfromFile(path.toFile(), type);
             intervals.add(track);
         }
 
@@ -155,7 +154,7 @@ public class TrackFactory {
          * @param file - file to parse
          * @param type - type of interval
          */
-        private Track initIntervalfromFile(File file, Type type){
+        private Track initIntervalfromFile(File file, Type type) {
 
             String name = "";
             String description = "";
@@ -173,32 +172,32 @@ public class TrackFactory {
             List<String> names = new ArrayList<>(length);
             List<Double> scores = new ArrayList<>(length);
 
-            try(Stream<String> lines = Files.lines(file.toPath(), StandardCharsets.UTF_8)){
+            try (Stream<String> lines = Files.lines(file.toPath(), StandardCharsets.UTF_8)) {
                 Iterator<String> it = lines.iterator();
 
                 Pattern header = Pattern.compile("track fullname=.(.*). description=.(.*).."); //TODO . are "
                 Pattern entry = Pattern.compile("chr(\\d{1,2}|X|Y)\\s(\\d*)\\s(\\d*).*");
 
-                while(it.hasNext()){
+                while (it.hasNext()) {
                     String line = it.next();
                     Matcher header_matcher = header.matcher(line);
                     Matcher line_matcher = entry.matcher(line);
 
-                    if(header_matcher.matches()){
+                    if (header_matcher.matches()) {
                         name = header_matcher.group(1);
                         description = header_matcher.group(2);
 
-                    } else if (line_matcher.matches()){
+                    } else if (line_matcher.matches()) {
                         String[] parts = line.split("\t");
 
                         long offset = chrSizes.offset(parts[0]); //handle null pointer exc if chromosome name is not in list
 
                         starts.add(Long.parseLong(parts[1]) + offset);
-                        ends.add(Long.parseLong(parts[2])+ offset);
+                        ends.add(Long.parseLong(parts[2]) + offset);
 
                         names.add(parts[3].intern());
 
-                        if(parts.length > 4 && parts[4] != null)
+                        if (parts.length > 4 && parts[4] != null)
                             scores.add(Double.parseDouble(parts[4]));
                         else
                             scores.add(.0);
@@ -207,10 +206,10 @@ public class TrackFactory {
 
                 lines.close();
 
-                if(name.equals(""))
+                if (name.equals(""))
                     name = file.getName();
 
-                switch (type){
+                switch (type) {
                     case inout:
                         return PositionPreprocessor.preprocessData(new InOutTrack(starts, ends, name, description));
                     case scored:
@@ -226,7 +225,6 @@ public class TrackFactory {
                 return null;
             }
         }
-
 
 
     }

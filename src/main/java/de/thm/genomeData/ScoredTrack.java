@@ -37,12 +37,12 @@ public class ScoredTrack extends Track {
     public Track clone() {
 
         return new ScoredTrack(
-            new ArrayList<>(intervalsStart),
-            new ArrayList<>(intervalsEnd),
-            new ArrayList<>(intervalName),
-            new ArrayList<>(intervalScore),
-            name,
-            description
+                new ArrayList<>(intervalsStart),
+                new ArrayList<>(intervalsEnd),
+                new ArrayList<>(intervalName),
+                new ArrayList<>(intervalScore),
+                name,
+                description
         );
     }
 

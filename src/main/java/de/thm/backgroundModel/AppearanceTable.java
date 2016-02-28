@@ -9,7 +9,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * This class holds the appearances for the different combinations of points in intervals
- *
+ * <p>
  * Created by Michael Menzel on 13/1/16.
  */
 class AppearanceTable {
@@ -21,49 +21,49 @@ class AppearanceTable {
      * Puts the appearances in the appearance table. Each point is added to one of the hash values, depending if it is in none, one or more intervals
      *
      * @param positions - positions to find in intervals
-     * @param tracks - intervals to match against
+     * @param tracks    - intervals to match against
      */
     void fillTable(List<Track> tracks, Sites positions) {
         appearance = new HashMap<>();
         Map<Track, Integer> indices = new HashMap<>();
 
         //init indices map:
-        for(Track track : tracks) {
+        for (Track track : tracks) {
             indices.put(track, 0);
         }
 
 
-        for(Long p : positions.getPositions()){
+        for (Long p : positions.getPositions()) {
             Set<Integer> containing = new TreeSet<>();
 
-            for(Track track : tracks){
+            for (Track track : tracks) {
 
                 List<Long> intervalStart = track.getIntervalsStart();
                 List<Long> intervalEnd = track.getIntervalsEnd();
 
                 int i = indices.get(track);
-                int intervalCount = intervalStart.size()-1;
+                int intervalCount = intervalStart.size() - 1;
 
-                while(i < intervalCount && intervalStart.get(i) <= p){
+                while (i < intervalCount && intervalStart.get(i) <= p) {
                     i++;
                 }
 
-                if(i == 0){
+                if (i == 0) {
                     containing.add(track.getUid());
 
-                } else if(i == intervalCount && p > intervalEnd.get(i-1)){ //last Interval and p not in previous
-                    if(p < intervalEnd.get(i) && p >= intervalStart.get(i)){
+                } else if (i == intervalCount && p > intervalEnd.get(i - 1)) { //last Interval and p not in previous
+                    if (p < intervalEnd.get(i) && p >= intervalStart.get(i)) {
 
                         containing.add(track.getUid());
 
-                    } else{
+                    } else {
                         continue;
                     }
-                }else{
-                    if(p >= intervalEnd.get(i-1)){
+                } else {
+                    if (p >= intervalEnd.get(i - 1)) {
                         continue; // not inside the last interval
 
-                    }else{
+                    } else {
                         containing.add(track.getUid());
                     }
                 }
@@ -71,9 +71,9 @@ class AppearanceTable {
                 indices.put(track, i);
             }
 
-            if(appearance.containsKey(hash(containing))){
-                appearance.put(hash(containing), appearance.get(hash(containing))+1);
-            }else{
+            if (appearance.containsKey(hash(containing))) {
+                appearance.put(hash(containing), appearance.get(hash(containing)) + 1);
+            } else {
                 appearance.put(hash(containing), 1);
             }
         }
@@ -103,7 +103,7 @@ class AppearanceTable {
     String hash(List<Track> tracks) {
         List<Integer> containing = new ArrayList<>();
 
-        for(Track track : tracks){
+        for (Track track : tracks) {
             containing.add(track.getUid());
         }
 
@@ -112,7 +112,7 @@ class AppearanceTable {
         return Arrays.toString(containing.toArray());
     }
 
-    Set<String> getKeySet(){
+    Set<String> getKeySet() {
         return appearance.keySet();
     }
 
@@ -122,12 +122,12 @@ class AppearanceTable {
      * @param tracks - intervals to fetch the value from
      * @return appearance count
      */
-    int getAppearance(List<Track> tracks){
+    int getAppearance(List<Track> tracks) {
 
-        if(appearance.containsKey(hash(tracks))){
+        if (appearance.containsKey(hash(tracks))) {
             return appearance.get(hash(tracks));
 
-        } else{
+        } else {
             return 0;
         }
     }
@@ -139,7 +139,7 @@ class AppearanceTable {
      * @return appearance count
      */
     public int getAppearance(String app) {
-        if(!appearance.containsKey(app))
+        if (!appearance.containsKey(app))
             return 0;
         return appearance.get(app);
     }
@@ -153,19 +153,19 @@ class AppearanceTable {
      */
     List<Track> translate(String app, List<Track> knownTracks) {
 
-        if(app.compareTo("[]") == 0){ //empty array
+        if (app.compareTo("[]") == 0) { //empty array
             return null;
         }
 
         List<Track> tracks = new ArrayList<>();
 
-        app = app.substring(1, app.length()-1);
+        app = app.substring(1, app.length() - 1);
 
-        int[] digits =  Arrays.stream(app.split(",")).map(String::trim).mapToInt(Integer::parseInt).toArray();
+        int[] digits = Arrays.stream(app.split(",")).map(String::trim).mapToInt(Integer::parseInt).toArray();
 
         for (int id : digits) {
-            for(Track track : knownTracks){
-                if(id == track.getUid())
+            for (Track track : knownTracks) {
+                if (id == track.getUid())
                     tracks.add(track);
             }
         }
@@ -182,16 +182,16 @@ class AppearanceTable {
      */
     public List<Track> translate(String app) {
 
-        if(app.compareTo("[]") == 0){ //empty array
+        if (app.compareTo("[]") == 0) { //empty array
             return null;
         }
 
         List<Track> tracks = new ArrayList<>();
         TrackFactory loader = TrackFactory.getInstance();
 
-        app = app.substring(1, app.length()-1);
+        app = app.substring(1, app.length() - 1);
 
-        int[] digits =  Arrays.stream(app.split(",")).map(String::trim).mapToInt(Integer::parseInt).toArray();
+        int[] digits = Arrays.stream(app.split(",")).map(String::trim).mapToInt(Integer::parseInt).toArray();
 
         for (int id : digits) {
             tracks.add(loader.getIntervalById(id));
@@ -204,25 +204,23 @@ class AppearanceTable {
     /**
      * Returns all intervals exepct the ones given by param
      *
-     *
      * @param outer - all intervals which were selected for bg
-     * @param app - string from Arrays.toString() [1,2,3,..] as key
-     *
+     * @param app   - string from Arrays.toString() [1,2,3,..] as key
      * @return list of all intervals exepect the ones on app list of interval ids.
      */
     public List<Track> translateNegative(List<Track> outer, String app) {
 
         List<Track> tracks = new CopyOnWriteArrayList<>(outer);
 
-        app = app.substring(1, app.length()-1);
+        app = app.substring(1, app.length() - 1);
 
-        int[] digits =  Arrays.stream(app.split(",")).map(String::trim).mapToInt(Integer::parseInt).toArray();
+        int[] digits = Arrays.stream(app.split(",")).map(String::trim).mapToInt(Integer::parseInt).toArray();
 
 
         //remove those which are in the given list
         for (int id : digits) {
-            for(Track track : tracks){
-                if(track.getUid() == id)
+            for (Track track : tracks) {
+                if (track.getUid() == id)
                     tracks.remove(track);
             }
         }

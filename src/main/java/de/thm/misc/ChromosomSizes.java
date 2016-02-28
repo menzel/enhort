@@ -17,12 +17,11 @@ public final class ChromosomSizes {
     private static ChromosomSizes instance;
     private final Map<String, Integer> sizes;
     private final List<String> names = new ArrayList<>();
-    private long genomeSize = 0;
     private final Map<String, Long> offsets = new HashMap<>();
+    private long genomeSize = 0;
 
     /**
      * Private Constructor
-     *
      */
     private ChromosomSizes() {
 
@@ -57,9 +56,9 @@ public final class ChromosomSizes {
         java.util.Collections.sort(names);
 
 
-       for(String key: sizes.keySet()){
+        for (String key : sizes.keySet()) {
             genomeSize += sizes.get(key);
-       }
+        }
     }
 
     /**
@@ -67,8 +66,8 @@ public final class ChromosomSizes {
      *
      * @return intance of ChromosomeSizes.
      */
-    public static ChromosomSizes getInstance(){
-        if (instance == null){
+    public static ChromosomSizes getInstance() {
+        if (instance == null) {
             instance = new ChromosomSizes();
         }
 
@@ -76,11 +75,11 @@ public final class ChromosomSizes {
     }
 
     public Long getChrSize(String chr) {
-      return new Long(sizes.get(chr));
+        return new Long(sizes.get(chr));
 
     }
 
-    public long getGenomeSize(){
+    public long getGenomeSize() {
 
         return genomeSize;
     }
@@ -94,7 +93,7 @@ public final class ChromosomSizes {
     public Long offset(String chromosomeName) {
 
 
-        if(!offsets.containsKey(chromosomeName)){
+        if (!offsets.containsKey(chromosomeName)) {
             offsets.put(chromosomeName, calcOffset(chromosomeName));
         }
 
@@ -106,15 +105,14 @@ public final class ChromosomSizes {
      * Calculates the offset for a given chromosome
      *
      * @param chromosomeName - name of the chromosome
-     *
-     * @return  offset as Long
+     * @return offset as Long
      */
     private Long calcOffset(String chromosomeName) {
 
         long offset = 0;
 
-        for(String name: names){
-            if(name.equals(chromosomeName))
+        for (String name : names) {
+            if (name.equals(chromosomeName))
                 return offset;
             else
                 offset += sizes.get(name);
@@ -127,19 +125,18 @@ public final class ChromosomSizes {
      * Invert of offset + position. The original position and chr name is restored.
      *
      * @param position - position in genome
-     *
      * @return a pair containing chromosome name and position inside that chromosome.
      */
-    public Pair<String, Long> mapToChr(Long position){
+    public Pair<String, Long> mapToChr(Long position) {
         int i = 0;
         Long chrSize = Long.valueOf(sizes.get(names.get(0)));
 
-        while(position > chrSize){
+        while (position > chrSize) {
             position -= chrSize;
             chrSize = Long.valueOf(sizes.get(names.get(++i)));
         }
 
-        return new ImmutablePair<>(names.get(i),position);
+        return new ImmutablePair<>(names.get(i), position);
     }
 
 }

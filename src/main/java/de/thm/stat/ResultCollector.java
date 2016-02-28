@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 /**
  * Collects results from a single intersect run.
- *
+ * <p>
  * Created by Michael Menzel on 26/1/16.
  */
 public final class ResultCollector {
@@ -29,7 +29,7 @@ public final class ResultCollector {
                 .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
                 .collect(Collectors.toList());
 
-        if(r == null)
+        if (r == null)
             return new ArrayList<>();
         return r;
     }
@@ -41,7 +41,7 @@ public final class ResultCollector {
                 .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
                 .collect(Collectors.toList());
 
-        if(r == null)
+        if (r == null)
             return new ArrayList<>();
         return r;
 
@@ -54,7 +54,7 @@ public final class ResultCollector {
                 .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
                 .collect(Collectors.toList());
 
-        if(r == null)
+        if (r == null)
             return new ArrayList<>();
         return r;
 
@@ -70,7 +70,7 @@ public final class ResultCollector {
      *
      * @return results in csv format.
      */
-    public String getCsv(){
+    public String getCsv() {
         String output = "Track name, p value, effect size";
 
         //filter by p value and sort by effect size:
@@ -79,7 +79,7 @@ public final class ResultCollector {
                 .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
                 .collect(Collectors.toList());
 
-        for(TestResult result: filtered_results){
+        for (TestResult result : filtered_results) {
             output += result.getName();
             output += ",";
             output += result.getpValue();
@@ -96,24 +96,26 @@ public final class ResultCollector {
     }
 
 
-    public String toString(){
+    public String toString() {
         String r = "";
 
-        for(TestResult result: results){
+        for (TestResult result : results) {
             r += result.toString() + "\n";
         }
 
         return r;
     }
 
-    public List<TestResult> getResults(){ return  this.results;}
+    public List<TestResult> getResults() {
+        return this.results;
+    }
 
     /**
      * Add test result to current collection of tests
      *
      * @param result - test result to add
      */
-    public void addResult(TestResult result){
+    public void addResult(TestResult result) {
         this.results.add(result);
     }
 
@@ -123,9 +125,9 @@ public final class ResultCollector {
      *
      * @return count of significant tracks
      */
-    public long getSignificantTrackCount(){
+    public long getSignificantTrackCount() {
         return results.stream()
-               .filter(testResult -> testResult.getpValue() < 0.05)
+                .filter(testResult -> testResult.getpValue() < 0.05)
                 .count();
     }
 
@@ -134,7 +136,7 @@ public final class ResultCollector {
      *
      * @return count of all tracks
      */
-    public long getTrackCount(){
+    public long getTrackCount() {
         return results.size();
     }
 

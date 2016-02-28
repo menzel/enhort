@@ -9,10 +9,10 @@ import java.util.Map;
 
 /**
  * Results of one intersect run with the count of inside values. And depening on the interval type result names and result scores.
- *
+ * <p>
  * Created by Michael Menzel on 8/12/15.
  */
-public final class IntersectResult{
+public final class IntersectResult {
 
 
     private final Map<String, Integer> resultNames;
@@ -39,24 +39,24 @@ public final class IntersectResult{
     /**
      * Adds a single score to the result
      *
-     * @param score  - score value to add
+     * @param score - score value to add
      */
-    void add(Double score){
+    void add(Double score) {
         resultScores.add(score);
     }
 
     /**
      * Adds count to the given result name
      *
-     * @param name - result name string
+     * @param name  - result name string
      * @param count - count to add
      */
-    public void add(String name, int count){
+    public void add(String name, int count) {
 
-        if(resultNames.containsKey(name)){
-            resultNames.put(name, resultNames.get(name)+count);
-        }else{
-            resultNames.put(name,count);
+        if (resultNames.containsKey(name)) {
+            resultNames.put(name, resultNames.get(name) + count);
+        } else {
+            resultNames.put(name, count);
         }
 
     }
@@ -66,12 +66,12 @@ public final class IntersectResult{
      *
      * @param name - result name
      */
-    void add(String name){
+    void add(String name) {
 
-        if(resultNames.containsKey(name)){
-            resultNames.put(name, resultNames.get(name)+1);
-        }else{
-            resultNames.put(name,1);
+        if (resultNames.containsKey(name)) {
+            resultNames.put(name, resultNames.get(name) + 1);
+        } else {
+            resultNames.put(name, 1);
         }
 
     }
@@ -93,11 +93,15 @@ public final class IntersectResult{
         this.in = in;
     }
 
-    public int getOut(){ return this.out; }
+    public int getOut() {
+        return this.out;
+    }
 
-    void setOut(int out) { this.out = out; }
+    void setOut(int out) {
+        this.out = out;
+    }
 
-    public Class getType(){
+    public Class getType() {
         return getClass();
     }
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Holds a list of positions on a genome. Using offset for different chromosomes.
- *
+ * <p>
  * Created by Michael Menzel on 8/12/15.
  */
 public interface Sites extends Serializable {
