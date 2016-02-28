@@ -37,10 +37,11 @@ class SingleTrackBackgroundModel implements Sites {
 
         IntersectCalculate calc = new IntersectCalculate();
         IntersectResult result = calc.searchSingleInterval(interval, sites);
-        //TODO enforce min of 10.000 points
 
-        positions.addAll(randPositions(result.getIn(), interval, "in"));
-        positions.addAll(randPositions(result.getOut(), interval, "out"));
+        int factor = (sites.getPositionCount() < 10000)? 10000 / sites.getPositionCount(): 1;
+
+        positions.addAll(randPositions(result.getIn() * factor, interval, "in"));
+        positions.addAll(randPositions(result.getOut() * factor, interval, "out"));
 
     }
 
