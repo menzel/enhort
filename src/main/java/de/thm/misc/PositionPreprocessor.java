@@ -4,6 +4,7 @@ import de.thm.genomeData.InOutTrack;
 import de.thm.genomeData.TrackFactory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -31,6 +32,12 @@ public final class PositionPreprocessor {
         long start = intervalsStart.get(0);
         long end = intervalsEnd.get(0);
 
+        List<Long> tmp = new ArrayList<>(intervalsStart);
+        Collections.sort(tmp);
+        if(!intervalsStart.equals(tmp)){
+            System.err.println("Interval was not sorted. Uses ./sort_bed script first");
+            return null;
+        }
 
         for (int i = 0; i < intervalsStart.size(); i++) {
 
