@@ -32,6 +32,11 @@ a:hover{
     padding-left:0px !important;
 }
 
+html {
+    overflow: -moz-scrollbars-vertical;
+    overflow-y: scroll;
+}
+
 /*
 * -- Sidebar --
 */
