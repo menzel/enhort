@@ -2,6 +2,7 @@ package de.thm.genomeData;
 
 import de.thm.misc.ChromosomSizes;
 import de.thm.misc.PositionPreprocessor;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -52,7 +53,7 @@ public class TrackFactory {
     public void loadIntervals() {
         try {
             getIntervals(basePath.resolve("inout"), Type.inout);
-            //getIntervals(basePath.resolve("broadHistone"), Type.inout);
+            getIntervals(basePath.resolve("broadHistone"), Type.inout);
             getIntervals(basePath.resolve("named"), Type.named);
             getIntervals(basePath.resolve("score"), Type.scored);
 
@@ -151,7 +152,8 @@ public class TrackFactory {
 
 
         public void saveTrack(Track track, Path path, Type type) {
-        String header = "";
+            String header = "";
+            ChromosomSizes chr = ChromosomSizes.getInstance();
 
             if(type == Type.inout){
                 List<Long> starts = track.getIntervalsStart();
@@ -167,10 +169,13 @@ public class TrackFactory {
 
                 try (BufferedWriter writer = Files.newBufferedWriter(path)) {
                     if(header.contains("track"))
-                        writer.write(header);
+                        writer.write(header + "\n");
 
                     for(int i = 0; i < starts.size(); i++){
-                        writer.write(starts.get(i) + "\t" + ends.get(i) + "\n");
+                        Pair<String, Long> start = chr.mapToChr(starts.get(i));
+                        Pair<String, Long> end = chr.mapToChr(ends.get(i));
+
+                        writer.write(start.getKey() + "\t" + start.getValue() + "\t" + end.getValue() + "\n");
                     }
 
                 } catch (IOException e) {
@@ -228,7 +233,8 @@ public class TrackFactory {
                         starts.add(Long.parseLong(parts[1]) + offset);
                         ends.add(Long.parseLong(parts[2]) + offset);
 
-                        names.add(parts[3].intern());
+                        if(type == Type.named || type == Type.scored)
+                            names.add(parts[3].intern());
 
                         if (parts.length > 4 && parts[4] != null)
                             scores.add(Double.parseDouble(parts[4]));
