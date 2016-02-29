@@ -3,6 +3,8 @@ package de.thm.genomeData;
 import de.thm.misc.ChromosomSizes;
 import de.thm.misc.PositionPreprocessor;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -29,7 +31,6 @@ public class TrackFactory {
 
     private static TrackFactory instance;
     private final Path basePath = new File("/home/menzel/Desktop/THM/lfba/projekphase/dat/").toPath();
-    private final TrackDumper trackDumper;
     private final List<TrackPackage> packageList;
     private List<Track> intervals;
 
@@ -38,7 +39,6 @@ public class TrackFactory {
      * Expects three dirs with the names 'inout', 'named' and 'score' for types.
      */
     private TrackFactory() {
-        trackDumper = new TrackDumper(basePath);
         intervals = new ArrayList<>();
         packageList = new ArrayList<>();
     }
@@ -126,6 +126,7 @@ public class TrackFactory {
         return new InOutTrack(starts, ends, name, description);
     }
 
+
     private enum Type {inout, named, scored}
 
     private final class FileLoader implements Runnable {
@@ -144,8 +145,40 @@ public class TrackFactory {
         public void run() {
 
             Track track = initIntervalfromFile(path.toFile(), type);
+            //saveTrack(track, path, type);
             intervals.add(track);
         }
+
+
+        public void saveTrack(Track track, Path path, Type type) {
+        String header = "";
+
+            if(type == Type.inout){
+                List<Long> starts = track.getIntervalsStart();
+                List<Long> ends = track.getIntervalsEnd();
+
+                try (BufferedReader reader= Files.newBufferedReader(path)) {
+                    header = reader.readLine();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+                try (BufferedWriter writer = Files.newBufferedWriter(path)) {
+                    if(header.contains("track"))
+                        writer.write(header);
+
+                    for(int i = 0; i < starts.size(); i++){
+                        writer.write(starts.get(i) + "\t" + ends.get(i) + "\n");
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
 
 
         /**
