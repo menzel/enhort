@@ -1,0 +1,91 @@
+/*
+* -- Global --
+*/
+
+@font-face {
+    font-family: "Clear Sans";
+    src: url(../fonts/ClearSans-Medium.woff);
+}
+
+* {
+    font-family: "Fira Sans", "Clear Sans", Helvetica, Arial;
+    font-size: 18px;
+  }
+
+
+body{
+    padding-top: 40px;
+}
+
+body a{
+    text-decoration: none;
+    color: #333;
+}
+
+a:hover{
+    text-decoration: none;
+    color: #333;
+    background-color: rgba(0, 153, 255, 0.26);
+}
+
+.container{
+    padding-left:0px !important;
+}
+
+/*
+* -- Sidebar --
+*/
+
+
+.sidebar {
+  position: fixed;
+  top: 50px;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  display: block;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: #fbfbfb;
+  border-right: 1px solid #d1d1d1;
+  min-width: 200px;
+}
+
+.sidebar h4{
+    border-top:1px solid #eee;
+    padding-top: 5px;
+    font-weight:500;
+}
+
+/*
+* -- Misc --
+*/
+
+
+#navbar{
+    float:left;
+}
+
+#logo{
+    float:right;
+}
+
+.h3{
+    padding-top: 10px;
+}
+
+
+#error{
+    margin-bottom: 20px;
+    padding-left: 3px;
+    margin-top:50px;
+}
+
+.bold {
+    font-weight: 500;
+    font-size:17px;
+}
+
+.extra-margin{
+    margin-top: 5px;
+}
