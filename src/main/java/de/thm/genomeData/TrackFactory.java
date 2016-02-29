@@ -1,7 +1,6 @@
 package de.thm.genomeData;
 
 import de.thm.misc.ChromosomSizes;
-import de.thm.misc.PositionPreprocessor;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.BufferedReader;
@@ -250,7 +249,8 @@ public class TrackFactory {
 
                 switch (type) {
                     case inout:
-                        return PositionPreprocessor.preprocessData(new InOutTrack(starts, ends, name, description));
+                        //return PositionPreprocessor.preprocessData(new InOutTrack(starts, ends, name, description));
+                        new InOutTrack(starts, ends, name, description);
                     case scored:
                         return new ScoredTrack(starts, ends, names, scores, name, description);
                     case named:
