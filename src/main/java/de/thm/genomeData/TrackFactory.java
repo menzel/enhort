@@ -256,15 +256,13 @@ public class TrackFactory {
                     case named:
                         return new NamedTrack(starts, ends, names, name, description);
                     default:
-                        return null;
+                        throw new Exception("Something is wrong with this track or file");
                 }
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 return null;
             }
         }
-
-
     }
 }
