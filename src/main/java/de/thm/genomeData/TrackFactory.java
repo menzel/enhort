@@ -52,7 +52,7 @@ public class TrackFactory {
     public void loadIntervals() {
         try {
             getIntervals(basePath.resolve("inout"), Type.inout);
-            getIntervals(basePath.resolve("broadHistone"), Type.inout);
+            //getIntervals(basePath.resolve("broadHistone"), Type.inout);
             getIntervals(basePath.resolve("named"), Type.named);
             getIntervals(basePath.resolve("score"), Type.scored);
 
@@ -245,12 +245,12 @@ public class TrackFactory {
                 lines.close();
 
                 if (name.equals(""))
-                    name = file.getName();
+                    name = file.getName().substring(0,file.getName().indexOf("."));
 
                 switch (type) {
                     case inout:
                         //return PositionPreprocessor.preprocessData(new InOutTrack(starts, ends, name, description));
-                        new InOutTrack(starts, ends, name, description);
+                        return new InOutTrack(starts, ends, name, description);
                     case scored:
                         return new ScoredTrack(starts, ends, names, scores, name, description);
                     case named:
