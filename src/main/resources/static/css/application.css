@@ -75,6 +75,14 @@ html {
 
 #logo{
     float:right;
+    height:30px;
+    margin-top: -4px;
+}
+
+#logo_eihort{
+    float:left;
+    height:50px;
+    margin-top: -17px;
 }
 
 .h3{
