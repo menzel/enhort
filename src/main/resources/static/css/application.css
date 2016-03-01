@@ -10,6 +10,8 @@
 * {
     font-family: "Fira Sans", "Clear Sans", Helvetica, Arial;
     font-size: 18px;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
   }
 
 
