@@ -131,9 +131,16 @@ public final class ChromosomSizes {
         int i = 0;
         Long chrSize = Long.valueOf(sizes.get(names.get(0)));
 
-        while (position > chrSize) {
-            position -= chrSize;
-            chrSize = Long.valueOf(sizes.get(names.get(++i)));
+        try {
+
+            while (position > chrSize) {
+                position -= chrSize;
+                chrSize = Long.valueOf(sizes.get(names.get(++i)));
+            }
+        } catch (IndexOutOfBoundsException e){
+            System.err.println("iofe");
+            System.err.println("for: " + position);
+            return null;
         }
 
         return new ImmutablePair<>(names.get(i), position);
