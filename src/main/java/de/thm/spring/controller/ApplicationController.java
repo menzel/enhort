@@ -40,5 +40,10 @@ public class ApplicationController {
         return "error";
     }
 
+    @RequestMapping("/usage")
+    public String usage(){
+
+        return "faq";
+    }
 
 }
