@@ -64,10 +64,10 @@ html {
     font-weight:500;
 }
 
-/*
-* -- Misc --
-*/
 
+/*
+* -- Navbar and logos --
+*/
 
 #navbar{
     float:left;
@@ -85,8 +85,17 @@ html {
     margin-top: -17px;
 }
 
+
+/*
+* -- Misc --
+*/
+
 .h3{
     padding-top: 10px;
+}
+
+br {
+    margin-top: 0px;
 }
 
 
