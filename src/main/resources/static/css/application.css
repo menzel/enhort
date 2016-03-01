@@ -30,6 +30,12 @@ a:hover{
     background-color: rgba(0, 153, 255, 0.26);
 }
 
+a:active{
+    text-decoration: none;
+    color: #333;
+    background-color: rgba(0, 153, 255, 0.26);
+}
+
 .container{
     padding-left:0px !important;
 }
@@ -64,6 +70,11 @@ html {
     font-weight:500;
 }
 
+#upload_btn{
+    margin-left: 13px;
+}
+
+
 
 /*
 * -- Navbar and logos --
@@ -94,8 +105,8 @@ html {
     padding-top: 10px;
 }
 
-br {
-    margin-top: 0px;
+hr {
+    margin-top: 5px;
 }
 
 
