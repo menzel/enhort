@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public final class BackgroundModelFactory {
 
     private static final int maxCovariants = 2;
-    private static final int maxCovariantsInOutOnly = 7;
+    private static final int maxCovariantsInOutOnly = 10;
 
     /**
      * Creates a random backgroundmodel of given size.
@@ -94,8 +94,10 @@ public final class BackgroundModelFactory {
         else if (trackList.size() == 1)
             return createBackgroundModel(trackList.get(0), sites,minSites);
 
-        else if (trackList.stream().allMatch(i -> i instanceof InOutTrack)) //check for maxCovariantsInOut
-            return new MultiTrackBackgroundModel(trackList, sites,minSites);
+        else if (trackList.stream().allMatch(i -> i instanceof InOutTrack))
+            if(trackList.size() < maxCovariantsInOutOnly) {
+                return new MultiTrackBackgroundModel(trackList, sites, minSites);
+            } else throw new CovariantsException("Too many covariants. Only " + maxCovariantsInOutOnly + " are allowed");
 
         else if (trackList.size() <= maxCovariants) {
             if (trackList.stream().allMatch(i -> i instanceof ScoredTrack)) {
