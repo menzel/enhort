@@ -12,10 +12,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * <p>
  * Factory for Background models. Start here to generate a background model based on a count of sites or a list or a single
  * covariant.
- * <p>
- * <p>
+ * </p>
  * Created by Michael Menzel on 23/2/16.
  */
 public final class BackgroundModelFactory {
@@ -24,9 +24,10 @@ public final class BackgroundModelFactory {
     private static final int maxCovariantsInOutOnly = 7;
 
     /**
+     * Creates a random backgroundmodel of given size.
      *
-     * @param positionCount
-     * @return
+     * @param positionCount - count of random positions to create.
+     * @return background model as sites object.
      */
     public static Sites createBackgroundModel(int positionCount) {
         return new RandomBackgroundModel(positionCount);
@@ -34,11 +35,13 @@ public final class BackgroundModelFactory {
     }
 
     /**
+     * Creates a background model based on one track as covariant, the given sites and a minimum of sites to create.
      *
-     * @param track
-     * @param sites
-     * @param minSites
-     * @return
+     * @param track - covariant track
+     * @param sites - sites to set the probabilities for the background positions
+     * @param minSites - minimum expected sites count
+     *
+     * @return background model as sites object.
      */
     public static Sites createBackgroundModel(Track track, Sites sites, int minSites) {
          if (track instanceof InOutTrack)
@@ -51,10 +54,11 @@ public final class BackgroundModelFactory {
     }
 
     /**
+     * Creates a background model based on one track as covariant and the given sites.
      *
-     * @param track
-     * @param sites
-     * @return
+     * @param track covariant track
+     * @param sites - sites to set the probabilities for the background positions
+     * @return background model as sites object.
      */
     public static Sites createBackgroundModel(Track track, Sites sites) {
         return  createBackgroundModel(track, sites, sites.getPositionCount());
@@ -62,10 +66,11 @@ public final class BackgroundModelFactory {
 
 
     /**
+     * Creates a background model with a list of tracks as covariants.
      *
-     * @param trackList
-     * @param sites
-     * @return
+     * @param trackList - list of covariant tracks
+     * @param sites - sites to set the probabilities for the background positions
+     * @return background model as sites object.
      * @throws CovariantsException
      */
     public static Sites createBackgroundModel(List<Track> trackList, Sites sites) throws CovariantsException {
@@ -74,11 +79,12 @@ public final class BackgroundModelFactory {
     }
 
     /**
+     * Creates a background model with a given list of covariants and sites and a minimum of sites to create.
      *
-     * @param trackList
-     * @param sites
-     * @param minSites
-     * @return
+     * @param trackList - list of covariants. If the list is of size one createBackgroundModel(trackList.get(0), sites,minSites) is called
+     * @param sites - sites to set the probabilities for the background positions
+     * @param minSites - minimum expected sites count
+     * @return background model as sites object.
      * @throws CovariantsException
      */
     public static Sites createBackgroundModel(List<Track> trackList, Sites sites, int minSites) throws CovariantsException {
