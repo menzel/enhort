@@ -23,15 +23,22 @@ public final class ResultCollector {
     }
 
     public List<TestResult> getScoredResults() {
-        List<TestResult> r = results.stream()
-                .filter(testResult -> testResult.getType() == TestResult.Type.score)
-                .filter(testResult -> testResult.getpValue() < 0.05)
-                .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
-                .collect(Collectors.toList());
 
-        if (r == null)
+        try {
+            List<TestResult> r = results.stream()
+                    .filter(testResult -> testResult.getType() == TestResult.Type.score)
+                    .filter(testResult -> testResult.getpValue() < 0.05)
+                    .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
+                    .collect(Collectors.toList());
+
+            if (r == null)
+                return new ArrayList<>();
+            return r;
+
+        } catch (NullPointerException e){
+            System.err.println("Null Pointer Exp in getScoredResults");
             return new ArrayList<>();
-        return r;
+        }
     }
 
     public List<TestResult> getInOutResults() {
@@ -54,15 +61,22 @@ public final class ResultCollector {
     }
 
     public List<TestResult> getNamedResults() {
-        List<TestResult> r = results.stream()
-                .filter(testResult -> testResult.getType() == TestResult.Type.name)
-                .filter(testResult -> testResult.getpValue() < 0.05)
-                .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
-                .collect(Collectors.toList());
 
-        if (r == null)
+        try {
+            List<TestResult> r = results.stream()
+                    .filter(testResult -> testResult.getType() == TestResult.Type.name)
+                    .filter(testResult -> testResult.getpValue() < 0.05)
+                    .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
+                    .collect(Collectors.toList());
+
+            if (r == null)
+                return new ArrayList<>();
+            return r;
+
+        } catch (NullPointerException e){
+            System.err.println("Null Pointer Exp in getNamedResults");
             return new ArrayList<>();
-        return r;
+        }
 
     }
 
