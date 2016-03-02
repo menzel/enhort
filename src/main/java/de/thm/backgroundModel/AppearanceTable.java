@@ -7,8 +7,6 @@ import de.thm.positionData.Sites;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static java.util.stream.Collectors.toMap;
-
 /**
  * This class holds the appearances for the different combinations of points in intervals
  * <p>
@@ -90,7 +88,10 @@ class AppearanceTable {
 
         if(sum < minSites){
             int factor = minSites/ sum;
-            appearance = appearance.entrySet().stream().collect(toMap(Map.Entry::getKey, e -> Math.round(e.getValue() * factor)));
+
+            for(Map.Entry<String, Integer> set:appearance.entrySet()){
+                appearance.put(set.getKey(), set.getValue() * factor);
+            }
         }
     }
 
