@@ -15,8 +15,7 @@ class ScoreMultiTrackBackgroundModel implements Sites {
 
     private List<Long> positions = new ArrayList<>();
 
-    ScoreMultiTrackBackgroundModel() {
-    }
+    ScoreMultiTrackBackgroundModel() {}
 
     /**
      * Consturcotr
@@ -24,10 +23,10 @@ class ScoreMultiTrackBackgroundModel implements Sites {
      * @param sites      - sites to build model against.
      * @param covariants - list of intervals to build model against.
      */
-    ScoreMultiTrackBackgroundModel(List<ScoredTrack> covariants, Sites sites) {
+    ScoreMultiTrackBackgroundModel(List<ScoredTrack> covariants, Sites sites, int minSites) {
         ScoredTrack interval = generateProbabilityInterval(sites, covariants);
 
-        int count = (sites.getPositionCount() > 10000) ? sites.getPositionCount() : 12000;
+        int count = (sites.getPositionCount() > minSites) ? sites.getPositionCount() : minSites;
         Collection<Long> pos = generatePositionsByProbability(interval, count);
 
         positions.addAll(pos);

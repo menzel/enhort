@@ -127,7 +127,7 @@ public class CalculationController {
 
         ResultCollector collector;
         try {
-            collector = AnalysisHelper.runAnalysis(data, command.getCovariants());
+            collector = AnalysisHelper.runAnalysis(data, command);
 
         } catch (CovariantsException e) {
             model.addAttribute("errorMessage", "Too many covariants, a max of 7 covariants is allowed.");
@@ -165,10 +165,11 @@ public class CalculationController {
         CovariantCommand command = new CovariantCommand();
         command.setPositionCount(data.getPositionCount());
         command.setOriginalFilename(name);
-        command.setUserData(data);
 
         model.addAttribute("covariantCommand", command);
-        model.addAttribute("bgCount", collector.getResults().get(0).getExpectedIn() + collector.getResults().get(0).getExpectedOut());
+        //model.addAttribute("bgCount", collector.getResults().get(0).getExpectedIn() + collector.getResults().get(0).getExpectedOut());
+        System.out.println(collector.getBgCount());
+        model.addAttribute("bgCount", collector.getBgCount());
         model.addAttribute("sigTrackCount", collector.getSignificantTrackCount());
         model.addAttribute("trackCount", collector.getTrackCount());
     }

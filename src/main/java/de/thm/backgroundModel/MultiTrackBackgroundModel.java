@@ -26,9 +26,9 @@ class MultiTrackBackgroundModel implements Sites {
      * @param tracks         - covariants
      * @param inputPositions - positions to match against
      */
-    MultiTrackBackgroundModel(List<Track> tracks, Sites inputPositions) {
+    MultiTrackBackgroundModel(List<Track> tracks, Sites inputPositions, int minSites) {
 
-        appearanceTable = new AppearanceTable();
+        appearanceTable = new AppearanceTable(minSites);
         appearanceTable.fillTable(tracks, inputPositions);
         positions.addAll(randPositions(appearanceTable, tracks));
     }

@@ -33,12 +33,12 @@ class SingleTrackBackgroundModel implements Sites {
      * @param interval - interval to search against
      * @param sites    - sites to search
      */
-    SingleTrackBackgroundModel(InOutTrack interval, Sites sites) {
+    SingleTrackBackgroundModel(InOutTrack interval, Sites sites, int minSites) {
 
         IntersectCalculate calc = new IntersectCalculate();
         IntersectResult result = calc.searchSingleInterval(interval, sites);
 
-        int factor = (sites.getPositionCount() < 10000)? 10000 / sites.getPositionCount(): 1;
+        int factor = (sites.getPositionCount() < minSites)? minSites/ sites.getPositionCount(): 1;
 
         positions.addAll(randPositions(result.getIn() * factor, interval, "in"));
         positions.addAll(randPositions(result.getOut() * factor, interval, "out"));

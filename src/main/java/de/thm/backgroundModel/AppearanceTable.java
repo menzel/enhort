@@ -17,6 +17,11 @@ import static java.util.stream.Collectors.toMap;
 class AppearanceTable {
 
     private Map<String, Integer> appearance;
+    private int minSites;
+
+    public AppearanceTable(int minSites) {
+        this.minSites = minSites;
+    }
 
 
     /**
@@ -83,8 +88,8 @@ class AppearanceTable {
 
         int sum = appearance.values().stream().mapToInt(i->i).sum();
 
-        if(sum < 10000){
-            int factor = 10000 / sum;
+        if(sum < minSites){
+            int factor = minSites/ sum;
             appearance = appearance.entrySet().stream().collect(toMap(Map.Entry::getKey, e -> Math.round(e.getValue() * factor)));
         }
     }

@@ -7,6 +7,7 @@ import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
 import de.thm.positionData.Sites;
 import de.thm.run.Server;
+import de.thm.spring.command.CovariantCommand;
 import de.thm.stat.ResultCollector;
 
 import java.util.ArrayList;
@@ -37,15 +38,16 @@ public class AnalysisHelper {
      * Run analysis with covariants.
      *
      * @param sites          - sites to match background model against.
-     * @param covariantNames - covariants as list of names
+     * @param cmd - covariant command object
      * @return Collection of Results inside a ResultCollector object
      * @throws CovariantsException - if too many covariants are supplied or an impossible combination
      */
-    public static ResultCollector runAnalysis(Sites sites, List<String> covariantNames) throws CovariantsException {
-
+    public static ResultCollector runAnalysis(Sites sites, CovariantCommand cmd) throws CovariantsException {
+        List<String> covariantNames = cmd.getCovariants();
         List<Track> covariants = getCovariants(covariantNames);
+        int minSites = cmd.getPositionCount();
 
-        Sites bg = BackgroundModelFactory.createBackgroundModel(covariants, sites);
+        Sites bg = BackgroundModelFactory.createBackgroundModel(covariants, sites, minSites);
 
         IntersectMultithread multi = new IntersectMultithread();
         return multi.execute(Server.getIntervals(), sites, bg);
