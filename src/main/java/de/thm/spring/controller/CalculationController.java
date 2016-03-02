@@ -42,7 +42,6 @@ public class CalculationController {
     @RequestMapping(value = "/upload", method = RequestMethod.GET)
     public String plainView(Model model, HttpSession httpSession) {
 
-        CovariantCommand command = new CovariantCommand();
 
         Sessions sessionsControll = Sessions.getInstance();
         Session currentSession = sessionsControll.getSession(httpSession.getId());
@@ -58,9 +57,20 @@ public class CalculationController {
             setModel(model, collector, data, currentSession.getOriginalFilename());
             model.addAttribute("covariants", covariants);
             model.addAttribute("covariantCount", covariants.size());
+
+        } else {
+
+            CovariantCommand command = new CovariantCommand();
+            command.setOriginalFilename("");
+            command.setMinBg(10000);
+
+            model.addAttribute("covariantCommand", command);
+            model.addAttribute("bgCount", 10000);
+            model.addAttribute("sigTrackCount", null);
+            model.addAttribute("trackCount", null);
+
         }
 
-        model.addAttribute("covariantCommand", command);
         return "result";
     }
 
