@@ -87,7 +87,8 @@ class AppearanceTable {
         int sum = appearance.values().stream().mapToInt(i->i).sum();
 
         if(sum < minSites){
-            int factor = minSites/ sum;
+            int factor = (minSites/ sum);
+            factor *= 1.2;
 
             for(Map.Entry<String, Integer> set:appearance.entrySet()){
                 appearance.put(set.getKey(), set.getValue() * factor);
