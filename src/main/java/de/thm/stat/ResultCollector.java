@@ -140,4 +140,7 @@ public final class ResultCollector {
         return results.size();
     }
 
+    public int getBgCount() {
+        return backgroundSites.getPositionCount();
+    }
 }
