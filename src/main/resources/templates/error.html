@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
     <link rel="stylesheet" media="screen" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
-    <link rel="stylesheet" media="screen" href="../static/css/result.css" th:href="@{/css/result.css}" />
+    <link rel="stylesheet" media="screen" href="../static/css/application.css" th:href="@{/css/application.css}" />
 
 
 </head>
@@ -28,7 +28,7 @@
         <div class="bg-danger">
             <h4>Error message</h4>
             <p th:text="${errorCode}">500</p>
-            <p th:text="${errorMessage}">Foo</p>
+            <p th:text="${errorMessage}"></p>
             <p th:text="${error}"></p>
             <p th:text="${message}"></p>
         </div>

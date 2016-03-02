@@ -61,7 +61,6 @@ html {
   overflow-y: auto;
   background-color: #fbfbfb;
   border-right: 1px solid #d1d1d1;
-  min-width: 200px;
 }
 
 .sidebar h4{
@@ -69,6 +68,11 @@ html {
     padding-top: 5px;
     font-weight:500;
 }
+
+.box form{
+    margin-left: -13px;
+}
+
 
 #upload_btn{
     margin-left: 13px;
@@ -80,9 +84,14 @@ html {
 * -- Navbar and logos --
 */
 
-#navbar{
-    float:left;
+.navbar-header{
+    margin-left: 200px;
 }
+
+.navbar-right{
+    margin-left:10px;
+}
+
 
 #logo{
     float:right;

@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
+ * Application Controller for default routing
+ *
  * Created by Michael Menzel on 22/2/16.
  */
 @Controller
