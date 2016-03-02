@@ -40,8 +40,8 @@ public class ApplicationController {
         return "error";
     }
 
-    @RequestMapping("/usage")
-    public String usage(){
+    @RequestMapping("/faq")
+    public String faq(){
 
         return "faq";
     }
