@@ -35,15 +35,21 @@ public final class ResultCollector {
     }
 
     public List<TestResult> getInOutResults() {
-        List<TestResult> r = results.stream()
-                .filter(testResult -> testResult.getType() == TestResult.Type.inout)
-                .filter(testResult -> testResult.getpValue() < 0.05)
-                .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
-                .collect(Collectors.toList());
+        try {
+            List<TestResult> r = results.stream()
+                    .filter(testResult -> testResult.getType() == TestResult.Type.inout)
+                    .filter(testResult -> testResult.getpValue() < 0.05)
+                    .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
+                    .collect(Collectors.toList());
 
-        if (r == null)
+            if (r == null)
+                return new ArrayList<>();
+            return r;
+
+        } catch (NullPointerException e){
+            System.err.println("Null Pointer Exp in getInOutResults");
             return new ArrayList<>();
-        return r;
+        }
 
     }
 
