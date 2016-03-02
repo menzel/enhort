@@ -29,7 +29,7 @@ public final class TestResult {
     private final Map<String, Integer> namesMea;
     private final Map<String, Integer> namesExp;
     private final int id;
-    private Type type;
+    private final Type type;
 
     public TestResult(double pValue, IntersectResult measured, IntersectResult expected, double effectSize, Track usedInterval, Type type) {
 
