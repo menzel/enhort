@@ -58,7 +58,7 @@ public class ExportController {
         //TODO check null pointer exp where there is no bg
         for (Long pos : currentSession.getCollector().getBackgroundSites().getPositions()) {
             Pair<String, Long> p = chromosomSizes.mapToChr(pos);
-            positions.add(p.getLeft() + "\t" + p.getRight() + "\t" + p.getRight() + 1 + "\n");
+            positions.add(p.getLeft() + "&emsp;" + p.getRight() + "&emsp;" + (p.getRight()+1) + "<br>");
         }
 
         //create file
