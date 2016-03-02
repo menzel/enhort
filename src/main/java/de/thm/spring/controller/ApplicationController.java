@@ -23,7 +23,7 @@ public class ApplicationController {
         Sessions sessionsControl = Sessions.getInstance();
         sessionsControl.clear(session.getId());
 
-        return "result";
+        return "upload";
     }
 
 
