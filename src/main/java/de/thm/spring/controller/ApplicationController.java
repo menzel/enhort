@@ -47,5 +47,10 @@ public class ApplicationController {
 
         return "faq";
     }
+    @RequestMapping("/contact")
+    public String contact(){
+
+        return "contact";
+    }
 
 }
