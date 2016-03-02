@@ -9,6 +9,7 @@ import java.util.List;
 public class CovariantCommand {
     private List<String> covariants;
     private int positionCount;
+    private int minBg;
     private String originalFilename;
 
     public CovariantCommand() {
@@ -55,4 +56,11 @@ public class CovariantCommand {
         this.originalFilename = originalFilename;
     }
 
+    public int getMinBg() {
+        return minBg;
+    }
+
+    public void setMinBg(int minBg) {
+        this.minBg = minBg;
+    }
 }

@@ -165,12 +165,12 @@ public class CalculationController {
         CovariantCommand command = new CovariantCommand();
         command.setPositionCount(data.getPositionCount());
         command.setOriginalFilename(name);
+        command.setMinBg(collector.getBgCount());
 
         model.addAttribute("covariantCommand", command);
-        //model.addAttribute("bgCount", collector.getResults().get(0).getExpectedIn() + collector.getResults().get(0).getExpectedOut());
         model.addAttribute("bgCount", collector.getBgCount());
         model.addAttribute("sigTrackCount", collector.getSignificantTrackCount());
         model.addAttribute("trackCount", collector.getTrackCount());
-    }
 
+    }
 }
