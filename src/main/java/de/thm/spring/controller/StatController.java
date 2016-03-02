@@ -1,12 +1,10 @@
 package de.thm.spring.controller;
 
+import de.thm.spring.backend.Sessions;
 import de.thm.spring.backend.StatisticsCollector;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Michael Menzel on 10/2/16.
@@ -19,7 +17,7 @@ public class StatController {
 
         StatisticsCollector stats = StatisticsCollector.getInstance();
 
-        model.addAttribute("version", "0.0.2");
+        model.addAttribute("version", "0.0.3");
 
         model.addAttribute("fileCount", stats.getFileCount());
         model.addAttribute("analyseCount", stats.getAnalyseCount());
@@ -28,15 +26,8 @@ public class StatController {
         model.addAttribute("downloadCount", stats.getDownloadCount());
 
 
-        model.addAttribute("memory_map", getMemoryUsage());
+        model.addAttribute("session_count", Sessions.getInstance().count());
 
         return "stat";
     }
-
-    private List<String> getMemoryUsage() {
-        List<String> stats = new ArrayList<>();
-        return stats;
-    }
-
-
 }

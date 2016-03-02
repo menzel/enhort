@@ -91,4 +91,7 @@ public final class Sessions {
     }
 
 
+    public int count() {
+        return this.sessions.size();
+    }
 }
