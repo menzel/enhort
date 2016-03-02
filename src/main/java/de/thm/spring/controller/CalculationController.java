@@ -50,18 +50,14 @@ public class CalculationController {
         ResultCollector collector = currentSession.getCollector();
 
         if (collector != null) {
-
             Path file = currentSession.getFile();
             UserData data = new UserData(file);
 
-            setModel(model, collector, data, currentSession.getOriginalFilename());
             List<TestResult> covariants = currentSession.getCovariants();
+
+            setModel(model, collector, data, currentSession.getOriginalFilename());
             model.addAttribute("covariants", covariants);
-
             model.addAttribute("covariantCount", covariants.size());
-
-            command.setPositionCount(data.getPositionCount());
-            command.setOriginalFilename(currentSession.getOriginalFilename());
         }
 
         model.addAttribute("covariantCommand", command);
@@ -155,7 +151,15 @@ public class CalculationController {
     }
 
 
-    private void setModel(Model model, ResultCollector collector, UserData data, String name) {
+    /**
+     * Set params for model
+     *
+     * @param model - model to set params to
+     * @param collector - colletor to get results from
+     * @param data - user data to get size from
+     * @param filename - name of uploaded file
+     */
+    private void setModel(Model model, ResultCollector collector, UserData data, String filename) {
 
         model.addAttribute("results_inout", collector.getInOutResults());
         model.addAttribute("results_score", collector.getScoredResults());
@@ -164,7 +168,7 @@ public class CalculationController {
 
         CovariantCommand command = new CovariantCommand();
         command.setPositionCount(data.getPositionCount());
-        command.setOriginalFilename(name);
+        command.setOriginalFilename(filename);
         command.setMinBg(collector.getBgCount());
 
         model.addAttribute("covariantCommand", command);
