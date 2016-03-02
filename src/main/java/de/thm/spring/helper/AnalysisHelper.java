@@ -45,7 +45,7 @@ public class AnalysisHelper {
     public static ResultCollector runAnalysis(Sites sites, CovariantCommand cmd) throws CovariantsException {
         List<String> covariantNames = cmd.getCovariants();
         List<Track> covariants = getCovariants(covariantNames);
-        int minSites = cmd.getPositionCount();
+        int minSites = cmd.getMinBg();
 
         Sites bg = BackgroundModelFactory.createBackgroundModel(covariants, sites, minSites);
 
