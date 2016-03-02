@@ -51,9 +51,6 @@ public final class IndependenceTest<T extends Track> {
             double[] measuredScore = intersectResultA.getResultScores().stream().mapToDouble(i -> i).toArray();
             double[] expectedScore = intersectResultB.getResultScores().stream().mapToDouble(i -> i).toArray();
 
-            intersectResultA.add("in", measuredScore.length);
-            intersectResultB.add("in", expectedScore.length);
-
             if (measuredScore.length < 2 || expectedScore.length < 2) {
                 System.err.println(Arrays.toString(measuredScore));
                 System.err.println(Arrays.toString(expectedScore));
