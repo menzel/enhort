@@ -61,7 +61,8 @@
     </div>
 
     <div class="fileinfo">
-            <a href="export/bg"><span>Background Positions:</span></a><input type="number" step="200" th:value="${bgCount}">
+        <a href="export/bg"><span>Background Positions:</span></a>
+        <input type="number" step="200" th:value="${bgCount}" form="covariant_form" th:field="*{covariantCommand.minBg}" >
     </div>
 
     <th:block th:if="${#lists.isEmpty(results_inout)}">
@@ -246,6 +247,8 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="3" th:id="${cov.id}"></td>
+                                            </tr>
+                                            <tr>
                                                 <td colspan="3" th:id="${'plot_'+cov.id}"></td>
                                             </tr>
                                         </table>
@@ -367,10 +370,14 @@
         var buttons_s = {};
 
         for(var j = 0; j < results.length; j++ ){
-            //if(results[j].resultMeasured.type != "score"){ break; }
+
 
             var x0 = results[j].scoresMea;
             var x1 = results[j].scoresExp;
+
+            if(x0.length < 3 || x1.length < 3){
+                break;
+            }
 
             var measured = {
               x: x0,
@@ -383,7 +390,7 @@
             var expected = {
               x: x1,
               opacity: 0.75,
-              marker: {color: 'rgb(85,85,85)'},
+              marker: {color: 'rgb(140,140,140)'},
               type: 'histogram',
               name: "expected"
             };
