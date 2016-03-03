@@ -251,6 +251,9 @@
                                             <tr>
                                                 <td colspan="3" th:id="${'plot_'+cov.id}"></td>
                                             </tr>
+                                            <tr>
+                                                <td colspan="3" th:id="${'nameplot_'+cov.id}"></td>
+                                            </tr>
                                         </table>
 
                                     </div>
@@ -295,11 +298,14 @@
 
 
     plotNames([[${results_named}]]);
+    plotNames([[${covariants}]]);
 
     function plotNames(results) {
 
         for(var j = 0; j < results.length; j++ ){
             var result = results[j];
+
+
 
             var x1= [];
             for(var key in result.namesExp) {
@@ -311,8 +317,9 @@
                 x2.push(result.namesMea[key2]/[[${covariantCommand.positionCount}]]);
             }
 
-
-
+            if(x1.length < 3 || x1.length > 1000){
+                break;
+            }
 
             var trace1 = {
               x: Object.keys(result.namesExp),
