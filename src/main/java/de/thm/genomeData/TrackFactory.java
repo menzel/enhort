@@ -86,7 +86,7 @@ public class TrackFactory {
         exe.shutdown();
 
         try {
-            exe.awaitTermination(30, TimeUnit.SECONDS);
+            exe.awaitTermination(300, TimeUnit.SECONDS);
 
         } catch (InterruptedException e) {
             e.printStackTrace();

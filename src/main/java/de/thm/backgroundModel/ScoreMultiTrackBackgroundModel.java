@@ -1,6 +1,8 @@
 package de.thm.backgroundModel;
 
-import de.thm.genomeData.*;
+import de.thm.genomeData.ScoredTrack;
+import de.thm.genomeData.Track;
+import de.thm.genomeData.TrackFactory;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
 
@@ -257,30 +259,17 @@ class ScoreMultiTrackBackgroundModel implements Sites {
 
     private ScoredTrack combine(ScoredTrack inputInterval, Map<String, Double> score_map) {
 
-        InOutTrack tmp = Tracks.invert(inputInterval.clone());
-
-        //convert outsider interval to scored interval with specific score value
-        List<Double> outsideProb = new ArrayList<>(Collections.nCopies(tmp.getIntervalsStart().size(), score_map.get("|")));
-        List<String> outsideNames = new ArrayList<>(Collections.nCopies(tmp.getIntervalsStart().size(), ""));
-
-        ScoredTrack outsideInterval = TrackFactory.getInstance().createScoredTrack(tmp.getIntervalsStart(),
-                tmp.getIntervalsEnd(),
-                outsideNames, outsideProb,
-                "outside_" + inputInterval.getName(),
-                "outside_of_" + inputInterval.getDescription());
-
         Map<String, Double> newMap = new HashMap<>(score_map.size());
 
         //convert score map to have values for dual interval list
-        score_map.keySet().stream().filter(key -> !key.equals("|")).forEach(key -> {
+        score_map.keySet().stream().forEach(key -> {
             double value = score_map.get(key);
             newMap.put(key.concat("|"), value);
         });
 
-        newMap.put("||" + outsideProb.get(0), outsideProb.get(0));
-
         //do default combine
-        return combine(inputInterval, outsideInterval, newMap);
+        ScoredTrack emptyTrack = TrackFactory.getInstance().createScoredTrack(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "", "");
+        return combine(inputInterval, emptyTrack, newMap);
     }
 
     /**
@@ -310,14 +299,13 @@ class ScoreMultiTrackBackgroundModel implements Sites {
         List<Double> result_score = new ArrayList<>();
         List<String> result_names = new ArrayList<>();
 
-        long genomeSize = ChromosomSizes.getInstance().getGenomeSize();
+       long genomeSize = ChromosomSizes.getInstance().getGenomeSize();
 
 
         int i2 = 0;
         int i1 = 0;
 
-        if (intv1.getIntervalsStart().get(0) != 0L && intv2.getIntervalsStart().get(0) != 0L)
-            result_start.add(0L);
+        //if (intv1.getIntervalsStart().get(0) != 0L && intv2.getIntervalsStart().get(0) != 0L) result_start.add(0L);
 
         while (i1 < starts1.size()) {
 
@@ -452,6 +440,10 @@ class ScoreMultiTrackBackgroundModel implements Sites {
             result_score.add(score_map.get("||"));
             result_names.add("||");
             result_end.add(genomeSize);
+        }
+
+        if(result_start.get(0) != 0L){
+            result_start.add(0, 0L);
         }
 
         //set null values to 0.0
