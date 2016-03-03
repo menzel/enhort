@@ -6,9 +6,10 @@ import de.thm.misc.ChromosomSizes;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * Collection of utils for interval objects.
+ * Collection of utils for track objects.
  * <p>
  * Created by Michael Menzel on 13/1/16.
  */
@@ -20,11 +21,11 @@ public class Tracks {
 
 
     /**
-     * Intersect a list of intervals. Resulting interval has only starts/stop where all input interval were marked.
+     * Intersect a list of intervals. Resulting track has only starts/stop where all input track were marked.
      * *
      *
      * @param tracks - list of Interval Objects
-     * @return interval object. Can be empty
+     * @return track object. Can be empty
      */
     public static Track intersect(List<Track> tracks) {
         if (tracks.size() == 0) {
@@ -47,11 +48,11 @@ public class Tracks {
     }
 
     /**
-     * Intersect two intervals. Resulting interval has only starts/stop where both input interval were marked.
+     * Intersect two intervals. Resulting track has only starts/stop where both input track were marked.
      *
-     * @param intv1 - first input  interval object
-     * @param intv2 - second input interval object
-     * @return interval with marked intervals were both input intervals were marked. Type is set to inout, names and scores get lost in intersect
+     * @param intv1 - first input  track object
+     * @param intv2 - second input track object
+     * @return track with marked intervals were both input intervals were marked. Type is set to inout, names and scores get lost in intersect
      */
     public static InOutTrack intersect(Track intv1, Track intv2) {
 
@@ -73,7 +74,7 @@ public class Tracks {
             ends1 = intv2.getIntervalsEnd();
         }
 
-        // iterator through one of the intervals, check if a interval in the other track is overlapping with the current. if not proceed if yes create new interval
+        // iterator through one of the intervals, check if a track in the other track is overlapping with the current. if not proceed if yes create new track
         int i2 = 0;
 
         for (int i1 = 0; i1 < starts1.size(); i1++) {
@@ -103,10 +104,10 @@ public class Tracks {
 
 
     /**
-     * Sums up a list of intervals. The result has a interval were any of the input intervals were marked
+     * Sums up a list of intervals. The result has a track were any of the input intervals were marked
      *
      * @param tracks - list of intervals
-     * @return interval with the sum of positions
+     * @return track with the sum of positions
      */
     public static Track sum(List<Track> tracks) throws IntervalTypeNotAllowedExcpetion {
 
@@ -129,10 +130,10 @@ public class Tracks {
     }
 
     /**
-     * Sums up two intervals. The result has a interval were any of the input intervals were marked
+     * Sums up two intervals. The result has a track were any of the input intervals were marked
      *
-     * @param intv1 - first interval for sum
-     * @param intv2 - second interval for sum
+     * @param intv1 - first track for sum
+     * @param intv2 - second track for sum
      * @return sum of intv1 and intv2
      */
     public static Track sum(Track intv1, Track intv2) throws IntervalTypeNotAllowedExcpetion {
@@ -140,10 +141,10 @@ public class Tracks {
     }
 
     /**
-     * Xor a list of intervals. The result has a interval were one of each was marked
+     * Xor a list of intervals. The result has a track were one of each was marked
      *
      * @param tracks - list of intervals
-     * @return interval with the xor of positions
+     * @return track with the xor of positions
      */
     public static Track xor(List<Track> tracks) {
         if (tracks.size() == 0) {
@@ -167,8 +168,8 @@ public class Tracks {
     /**
      * Xor of two intervals
      *
-     * @param intv1 - first interval
-     * @param intv2 - second interval
+     * @param intv1 - first track
+     * @param intv2 - second track
      * @return xor(interval1, interval2)
      */
     public static InOutTrack xor(Track intv1, Track intv2) {
@@ -237,7 +238,7 @@ public class Tracks {
      *
      * @param track - intervals to sum up
      * @param mode  - either "in" or "out".
-     * @return sum of interval length inside or outside the intervals
+     * @return sum of track length inside or outside the intervals
      */
     public static long sumOfIntervals(Track track, String mode) {
 
@@ -282,10 +283,10 @@ public class Tracks {
 
 
     /**
-     * Inverts interval. Scored and named intervals loose their Type because scores and names cannot be kept.
+     * Inverts track. Scored and named intervals loose their Type because scores and names cannot be kept.
      *
-     * @param track - interval to invert
-     * @return inverted interval
+     * @param track - track to invert
+     * @return inverted track
      */
     public static InOutTrack invert(Track track) {
 
@@ -316,9 +317,9 @@ public class Tracks {
 
 
     /**
-     * Converts a non score interval to a scored interval with score 1.0 for each interval.
+     * Converts a non score track to a scored track with score 1.0 for each track.
      *
-     * @param interval input interval
+     * @param interval input track
      * @return intervals of type score with score values
      */
     public static ScoredTrack cast(InOutTrack interval) {
@@ -327,5 +328,13 @@ public class Tracks {
         List<String> names = new ArrayList<>(Collections.nCopies(interval.getIntervalsStart().size(), ""));
 
         return new ScoredTrack(interval.getIntervalsStart(), interval.getIntervalsEnd(), names, scores, interval.getName(), interval.getDescription());
+    }
+
+    public static ScoredTrack cast(NamedTrack track) {
+
+        List<Double> scores = track.getIntervalName().stream().map(name -> (double) name.hashCode()).collect(Collectors.toList());
+
+        return new ScoredTrack(track.getIntervalsStart(), track.getIntervalsEnd(), track.getIntervalName(), scores, track.getName(), track.getDescription());
+
     }
 }
