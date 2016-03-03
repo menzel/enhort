@@ -316,7 +316,7 @@ class ScoreMultiTrackBackgroundModel implements Sites {
         int i2 = 0;
         int i1 = 0;
 
-        if (intv1.getIntervalsStart().get(0) != 0L)
+        if (intv1.getIntervalsStart().get(0) != 0L && intv2.getIntervalsStart().get(0) != 0L)
             result_start.add(0L);
 
         while (i1 < starts1.size()) {
