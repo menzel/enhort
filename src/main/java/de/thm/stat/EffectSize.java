@@ -28,11 +28,14 @@ public final class EffectSize {
         double fc1 = in / (double) out;
         double fc2 = in1 / (double) out1;
 
-        if(Double.isNaN(fc1) || Double.isNaN(fc2))
+        if (in == 0 ^ in1 == 0)
+            return Double.POSITIVE_INFINITY;
+
+        if(Double.isNaN(fc1)
+                || Double.isNaN(fc2)
+                || (in < 3 && in1 < 3))
             return 0.0;
 
-        if (fc1 == 0 || fc2 == 0)
-            return Double.POSITIVE_INFINITY;
 
         return Math.abs(Math.log(fc1 / fc2));
     }
