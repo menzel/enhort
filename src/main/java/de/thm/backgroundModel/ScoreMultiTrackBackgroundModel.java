@@ -17,8 +17,22 @@ class ScoreMultiTrackBackgroundModel implements Sites {
 
     ScoreMultiTrackBackgroundModel() {}
 
+
+     /**
+     * Constructor
+     *
+     * @param sites      - sites to build model against.
+     * @param covariant - single covariant
+     */
+    ScoreMultiTrackBackgroundModel(ScoredTrack covariant, Sites sites, int minSites) {
+
+        this(Collections.singletonList(covariant),sites, minSites);
+    }
+
+
     /**
      * Consturcotr
+     *
      *
      * @param sites      - sites to build model against.
      * @param covariants - list of intervals to build model against.
@@ -258,13 +272,15 @@ class ScoreMultiTrackBackgroundModel implements Sites {
         Map<String, Double> newMap = new HashMap<>(score_map.size());
 
         //convert score map to have values for dual interval list
-        for (String key : score_map.keySet()) {
+        score_map.keySet().stream().filter(key -> !key.equals("|")).forEach(key -> {
             double value = score_map.get(key);
             newMap.put(key.concat("|"), value);
-        }
+        });
+
+        newMap.put("||" + outsideProb.get(0), outsideProb.get(0));
 
         //do default combine
-        return combine(outsideInterval, inputInterval, newMap);
+        return combine(inputInterval, outsideInterval, newMap);
     }
 
     /**

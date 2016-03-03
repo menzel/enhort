@@ -1,13 +1,9 @@
 package de.thm.backgroundModel;
 
 import de.thm.exception.CovariantsException;
-import de.thm.genomeData.InOutTrack;
-import de.thm.genomeData.ScoredTrack;
-import de.thm.genomeData.Track;
-import de.thm.genomeData.Tracks;
+import de.thm.genomeData.*;
 import de.thm.positionData.Sites;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,8 +43,11 @@ public final class BackgroundModelFactory {
          if (track instanceof InOutTrack)
             return new SingleTrackBackgroundModel((InOutTrack) track, sites,minSites);
 
-        else if (track instanceof ScoredTrack)
-            return new ScoreMultiTrackBackgroundModel(Collections.singletonList((ScoredTrack) track), sites, minSites);
+        else if (track instanceof ScoredTrack) // put single track in a list of size one
+            return new ScoreMultiTrackBackgroundModel((ScoredTrack) track, sites, minSites);
+
+        else if (track instanceof NamedTrack) //convert the single track to a scored track and put in a list of size one
+             return new ScoreMultiTrackBackgroundModel(Tracks.cast((NamedTrack) track), sites, minSites);
 
         return null;
     }
@@ -92,7 +91,7 @@ public final class BackgroundModelFactory {
             return createBackgroundModel(sites.getPositionCount());
 
         else if (trackList.size() == 1)
-            return createBackgroundModel(trackList.get(0), sites,minSites);
+            return createBackgroundModel(trackList.get(0), sites, minSites);
 
         else if (trackList.stream().allMatch(i -> i instanceof InOutTrack))
             if(trackList.size() < maxCovariantsInOutOnly) {
@@ -100,6 +99,7 @@ public final class BackgroundModelFactory {
             } else throw new CovariantsException("Too many covariants. Only " + maxCovariantsInOutOnly + " are allowed");
 
         else if (trackList.size() <= maxCovariants) {
+
             if (trackList.stream().allMatch(i -> i instanceof ScoredTrack)) {
                 List<ScoredTrack> newList = trackList.stream().map(i -> (ScoredTrack) i).collect(Collectors.toList());
 
@@ -113,10 +113,16 @@ public final class BackgroundModelFactory {
 
                 //convert all non score intervals to score interval
                 scoredIntervals.addAll(trackList.stream()
-                        .filter(i -> i instanceof InOutTrack)
-                        .map(i -> (InOutTrack) i)
-                        .map(Tracks::cast)
-                        .collect(Collectors.toList()));
+                    .filter(i -> i instanceof InOutTrack)
+                    .map(i -> (InOutTrack) i)
+                    .map(Tracks::cast)
+                    .collect(Collectors.toList()));
+
+                scoredIntervals.addAll(trackList.stream()
+                    .filter(i -> i instanceof NamedTrack)
+                    .map(i -> (NamedTrack) i)
+                    .map(Tracks::cast)
+                    .collect(Collectors.toList()));
 
 
                 return new ScoreMultiTrackBackgroundModel(scoredIntervals, sites, minSites);
