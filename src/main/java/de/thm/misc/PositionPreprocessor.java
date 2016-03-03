@@ -41,7 +41,7 @@ public final class PositionPreprocessor {
 
         for (int i = 0; i < intervalsStart.size(); i++) {
 
-            if (i < intervalsStart.size() - 1 && end >= intervalsStart.get(i + 1)) { // overlap
+            if (i < intervalsStart.size() - 1 && end > intervalsStart.get(i + 1)) { // overlap
 
                 if (end < intervalsEnd.get(i + 1))
                     end = intervalsEnd.get(i + 1);
