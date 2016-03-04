@@ -20,6 +20,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -32,6 +33,7 @@ public class TrackFactory {
     private static TrackFactory instance;
     private final Path basePath = new File("/home/menzel/Desktop/THM/lfba/projekphase/dat/").toPath();
     private final List<TrackPackage> packageList;
+    private final List<TrackPackage> trackPackages;
     private List<Track> intervals;
 
     /**
@@ -41,7 +43,11 @@ public class TrackFactory {
     private TrackFactory() {
         intervals = new ArrayList<>();
         packageList = new ArrayList<>();
+        trackPackages = new ArrayList<>();
+
     }
+
+
 
     public static TrackFactory getInstance() {
         if (instance == null)
@@ -50,11 +56,33 @@ public class TrackFactory {
     }
 
     public void loadIntervals() {
+
+        List<Track> tmp;
+
         try {
-            getIntervals(basePath.resolve("inout"), Type.inout);
+            tmp = getIntervals(basePath.resolve("inout"), Type.inout);
+
+            tmp.addAll(getIntervals(basePath.resolve("named"), Type.named));
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks."));
+            this.intervals.addAll(tmp);
+
+            /*
+            tmp = getIntervals(basePath.resolve("repeats_by_name"), Type.inout);
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name."));
+            this.intervals.addAll(tmp);
+            */
+
+
+            tmp = getIntervals(basePath.resolve("score"), Type.scored);
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Expression, "Expression scores"));
+            this.intervals.addAll(tmp);
+
+
+            //TODO:
             //getIntervals(basePath.resolve("broadHistone"), Type.inout);
-            getIntervals(basePath.resolve("named"), Type.named);
-            getIntervals(basePath.resolve("score"), Type.scored);
+            //getIntervals(basePath.resolve("awgSegmentation"), Type.named);
+            //getIntervals(basePath.resolve("tfbs_composite"), Type.inout);
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -69,7 +97,7 @@ public class TrackFactory {
      * @param type - Interval.Type. Type based upon dir name
      * @throws IOException on file problems
      */
-    private void getIntervals(Path path, Type type) throws IOException {
+    private List<Track> getIntervals(Path path, Type type) throws IOException {
 
         List<Path> files = new ArrayList<>();
         final List<Track> intervals = Collections.synchronizedList(new ArrayList<>());
@@ -92,7 +120,7 @@ public class TrackFactory {
             e.printStackTrace();
         }
 
-        this.intervals.addAll(intervals);
+        return intervals;
     }
 
     public List<Track> getAllIntervals() {
@@ -106,6 +134,11 @@ public class TrackFactory {
         }
         return null;
     }
+
+    public List<String> getTrackPackageNames(){
+        return this.trackPackages.stream().map(TrackPackage::getName).map(Enum::toString).collect(Collectors.toList());
+    }
+
 
     public Track getIntervalById(int id) {
 
@@ -245,7 +278,7 @@ public class TrackFactory {
                 lines.close();
 
                 if (name.equals(""))
-                    name = file.getName().substring(0,file.getName().indexOf("."));
+                    name = file.getName().substring(0,file.getName().indexOf(".")); //TODO check if a . is present in name
 
                 switch (type) {
                     case inout:

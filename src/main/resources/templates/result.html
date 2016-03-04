@@ -42,15 +42,12 @@
   <div class="box">
     <h4> Track packages </h4>
 
-    <div class="checkbox">
-      <label><input type="checkbox" value="basic" form="covariant_form" checked>Basic</label>
-    </div>
-    <div class="checkbox">
-      <label><input type="checkbox" value="expression" form="covariant_form" checked>Expression</label>
-    </div>
-    <div class="checkbox">
-      <label><input type="checkbox" value="histone" form="covariant_form" >Histone modifications</label>
-    </div>
+      <th:block th:each="packName: ${trackPackages}">
+        <div class="checkbox">
+          <label><input type="checkbox" th:value="${packName}" form="covariant_form" checked th:text="${packName}"></label>
+        </div>
+      </th:block>
+
   </div>
 
     <h4>Information</h4>

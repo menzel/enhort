@@ -2,6 +2,7 @@ package de.thm.spring.controller;
 
 
 import de.thm.exception.CovariantsException;
+import de.thm.genomeData.TrackFactory;
 import de.thm.positionData.UserData;
 import de.thm.spring.backend.Session;
 import de.thm.spring.backend.Sessions;
@@ -185,6 +186,8 @@ public class CalculationController {
         model.addAttribute("bgCount", collector.getBgCount());
         model.addAttribute("sigTrackCount", collector.getSignificantTrackCount());
         model.addAttribute("trackCount", collector.getTrackCount());
+
+        model.addAttribute("trackPackages", TrackFactory.getInstance().getTrackPackageNames());
 
     }
 }
