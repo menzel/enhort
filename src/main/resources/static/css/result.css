@@ -89,3 +89,16 @@ th{
 #rerun{
     margin-top:10px;
 }
+
+/*
+* -- Misc --
+*/
+
+
+#new{
+    width: 500px;
+    height: 120px;
+    margin-top: 170px;
+    margin-left: inherit;
+    padding: 5px
+}
