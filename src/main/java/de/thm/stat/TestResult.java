@@ -38,10 +38,9 @@ public final class TestResult {
 
         if (pValue != Double.NaN && NumberUtils.isNumber(v)) {
             this.pValue = Double.parseDouble(format.format(pValue));
-        } else {
-            System.err.println(measured);
-            System.err.println(expected);
-            this.pValue = 1; //TODO check
+
+        } else {  // pValue is NaN because no point was inside an interval
+            this.pValue = 1;
         }
 
         this.effectSize = Precision.round(effectSize, 2);
