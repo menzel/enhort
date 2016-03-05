@@ -81,10 +81,14 @@ public class AnalysisHelper {
 
         List<Track> knownTracks = loader.getAllIntervals();
 
-        for (Track track : knownTracks) {
-            if (covariantNames.contains(Integer.toString(track.getUid()))) {
-                selectedTracks.add(track);
+        try {
+            for (Track track : knownTracks) {
+                if (covariantNames.contains(Integer.toString(track.getUid()))) {
+                    selectedTracks.add(track);
+                }
             }
+        } catch (NullPointerException e){//TODO check in what case this is happening
+            e.printStackTrace();
         }
 
         return selectedTracks;
