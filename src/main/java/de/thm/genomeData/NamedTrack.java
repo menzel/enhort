@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Track object that defines interval with are identified by a name.
+ *
  * Created by Michael Menzel on 26/2/16.
  */
 public class NamedTrack extends Track {

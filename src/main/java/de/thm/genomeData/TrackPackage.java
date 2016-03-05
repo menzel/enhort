@@ -3,6 +3,8 @@ package de.thm.genomeData;
 import java.util.List;
 
 /**
+ * A track package has a list of tracks. The packages are identified by the enum PackageName
+ *
  * Created by Michael Menzel on 12/2/16.
  */
 public final class TrackPackage {

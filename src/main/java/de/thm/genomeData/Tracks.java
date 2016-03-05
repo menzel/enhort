@@ -146,6 +146,7 @@ public class Tracks {
      * @param tracks - list of intervals
      * @return track with the xor of positions
      */
+    @SuppressWarnings("unused")
     public static Track xor(List<Track> tracks) {
         if (tracks.size() == 0) {
             return null;

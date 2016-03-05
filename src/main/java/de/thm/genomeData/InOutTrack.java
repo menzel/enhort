@@ -3,6 +3,8 @@ package de.thm.genomeData;
 import java.util.List;
 
 /**
+ * Track for intervals that define inside and outside of intervals.
+ *
  * Created by Michael Menzel on 25/2/16.
  */
 public class InOutTrack extends Track {

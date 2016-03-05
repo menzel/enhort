@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Track with scored values for each interval.
+ *
  * Created by Michael Menzel on 25/2/16.
  */
 public class ScoredTrack extends Track {
