@@ -133,31 +133,32 @@ public class CalculationController {
         UserData data = new UserData(file);
 
         ResultCollector collector;
+        List<TestResult> covariants;
+
         try {
             collector = AnalysisHelper.runAnalysis(data, command);
 
+            covariants = collector.getCovariants(command.getCovariants());
+            currentSession.setCovariants(covariants);
+
+            model.addAttribute("covariants", covariants);
+            model.addAttribute("covariantCount", covariants.size());
+
         } catch (CovariantsException e) {
-            model.addAttribute("errorMessage", "Too many covariants, a max of 7 covariants is allowed.");
+            model.addAttribute("errorMessage", "Too many covariants, a max of " + "10 covariants is allowed.");
             collector = currentSession.getCollector();
 
             if (collector == null) //if there is no collector known to the session run with no covariants
                 collector = AnalysisHelper.runAnalysis(data);
-
-            return "result";
+            //TODO reset last known state: set command object and put to runAnalysis
+            //covariants = currentSession.getCovariants();
         }
 
-        currentSession.setCollector(collector);
 
+        currentSession.setCollector(collector);
         setModel(model, collector, data, currentSession.getOriginalFilename());
 
-        List<TestResult> covariants = collector.getCovariants(command.getCovariants());
-
-        currentSession.setCovariants(covariants);
-        model.addAttribute("covariants", covariants);
-        model.addAttribute("covariantCount", covariants.size());
-
         command.setPositionCount(data.getPositionCount());
-
         return "result";
     }
 

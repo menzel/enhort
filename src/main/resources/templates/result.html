@@ -44,7 +44,7 @@
 
       <th:block th:each="packName: ${trackPackages}">
         <div class="checkbox">
-          <label><input type="checkbox" th:value="${packName}" form="covariant_form" checked th:text="${packName}"></label>
+          <label><input type="checkbox" th:field="*{covariantCommand.packageNames}" th:value="${packName}" form="covariant_form" checked th:text="${packName}"></label>
         </div>
       </th:block>
 

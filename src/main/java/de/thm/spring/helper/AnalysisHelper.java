@@ -5,6 +5,7 @@ import de.thm.calc.IntersectMultithread;
 import de.thm.exception.CovariantsException;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
+import de.thm.genomeData.TrackPackage;
 import de.thm.positionData.Sites;
 import de.thm.run.Server;
 import de.thm.spring.command.CovariantCommand;
@@ -45,12 +46,28 @@ public class AnalysisHelper {
     public static ResultCollector runAnalysis(Sites sites, CovariantCommand cmd) throws CovariantsException {
         List<String> covariantNames = cmd.getCovariants();
         List<Track> covariants = getCovariants(covariantNames);
+        List<Track> runTracks;
+        TrackFactory trackFactory = TrackFactory.getInstance();
+
         int minSites = cmd.getMinBg();
 
         Sites bg = BackgroundModelFactory.createBackgroundModel(covariants, sites, minSites);
 
+        //Server.getIntervals();
+
+        if(cmd.getPackageNames().isEmpty()) {
+            runTracks = trackFactory.getIntervalsByPackage(TrackPackage.PackageName.Basic);
+        } else {
+            runTracks =  new ArrayList<>();
+
+            for(String packName: cmd.getPackageNames()){
+                runTracks.addAll(trackFactory.getIntervalsByPackage(packName));
+            }
+        }
+
+
         IntersectMultithread multi = new IntersectMultithread();
-        return multi.execute(Server.getIntervals(), sites, bg);
+        return multi.execute(runTracks, sites, bg);
 
     }
 

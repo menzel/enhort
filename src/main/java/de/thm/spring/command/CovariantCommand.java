@@ -1,5 +1,7 @@
 package de.thm.spring.command;
 
+import de.thm.genomeData.TrackPackage;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,12 +10,15 @@ import java.util.List;
  */
 public class CovariantCommand {
     private List<String> covariants;
+    private List<String> packageNames;
     private int positionCount;
     private int minBg;
     private String originalFilename;
 
     public CovariantCommand() {
         covariants = new ArrayList<>();
+        packageNames = new ArrayList<>();
+        packageNames.add(TrackPackage.PackageName.Basic.toString());
     }
 
     public List<String> getCovariants() {
@@ -63,4 +68,8 @@ public class CovariantCommand {
     public void setMinBg(int minBg) {
         this.minBg = minBg;
     }
+
+    public List<String> getPackageNames() { return packageNames; }
+
+    public void setPackageNames(List<String> packageNames) { this.packageNames = packageNames; }
 }
