@@ -8,12 +8,12 @@ import java.util.List;
 /**
  * Created by Michael Menzel on 4/2/16.
  */
-public class CovariantCommand {
-    private List<String> covariants;
-    private List<String> packageNames;
-    private int positionCount;
-    private int minBg;
-    private String originalFilename;
+public final class CovariantCommand {
+    private List<String> covariants; //list of ids of tracks that are used as covariant
+    private List<String> packageNames; // list of packages that will be used in the intersect run
+    private int positionCount; //count of user data positons
+    private int minBg; //minimum of expected background positions
+    private String originalFilename; // filename of the file the user uploaded
 
     public CovariantCommand() {
         covariants = new ArrayList<>();
@@ -21,13 +21,6 @@ public class CovariantCommand {
         packageNames.add(TrackPackage.PackageName.Basic.toString());
     }
 
-    public List<String> getCovariants() {
-        return covariants;
-    }
-
-    public void setCovariants(List<String> covariants) {
-        this.covariants = covariants;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -71,5 +64,15 @@ public class CovariantCommand {
 
     public List<String> getPackageNames() { return packageNames; }
 
+
     public void setPackageNames(List<String> packageNames) { this.packageNames = packageNames; }
+
+
+    public List<String> getCovariants() {
+        return covariants;
+    }
+
+    public void setCovariants(List<String> covariants) {
+        this.covariants = covariants;
+    }
 }
