@@ -181,6 +181,7 @@ public class CalculationController {
         model.addAttribute("trackCount", collector.getTrackCount());
 
         model.addAttribute("trackPackages", TrackFactory.getInstance().getTrackPackageNames());
+        model.addAttribute("ran", true);
 
     }
 
@@ -194,21 +195,12 @@ public class CalculationController {
      */
     private void setModel(Model model, ResultCollector collector, UserData data, String filename) {
 
-        model.addAttribute("results_inout", collector.getInOutResults());
-        model.addAttribute("results_score", collector.getScoredResults());
-        model.addAttribute("results_named", collector.getNamedResults());
-
         CovariantCommand command = new CovariantCommand();
         command.setPositionCount(data.getPositionCount());
         command.setOriginalFilename(filename);
         command.setMinBg(collector.getBgCount());
 
-        model.addAttribute("covariantCommand", command);
-        model.addAttribute("bgCount", collector.getBgCount());
-        model.addAttribute("sigTrackCount", collector.getSignificantTrackCount());
-        model.addAttribute("trackCount", collector.getTrackCount());
-
-        model.addAttribute("trackPackages", TrackFactory.getInstance().getTrackPackageNames());
+        setModel(model, collector, command);
 
     }
 }

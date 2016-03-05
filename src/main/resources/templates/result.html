@@ -62,10 +62,10 @@
         <input type="number" step="200" th:value="${bgCount}" form="covariant_form" th:field="*{covariantCommand.minBg}" >
     </div>
 
-    <th:block th:if="${#lists.isEmpty(results_inout)}">
-        <button id="rerun" type="submit" class="btn btn-default" form="covariant_form">Run again</button>
+    <th:block th:if="${ran == null}">
+        <button id="rerun" type="submit" class="btn btn-default" form="covariant_form" disabled>Run again</button>
     </th:block>
-    <th:block th:if="${not #lists.isEmpty(results_inout)}">
+    <th:block th:if="${ran}">
         <button id="rerun" type="submit" class="btn btn-primary" form="covariant_form">Run again</button>
     </th:block>
 
@@ -279,7 +279,7 @@
 
 
 
-    <th:block th:if="${#lists.isEmpty(results_inout)}">
+    <th:block th:if="${ran == null}">
         <div id="new"  class="bg-info">
             <h3> New to Enhort? </h3>
             <p>Go to <a href="/faq">FAQ</a> and find out what this is all about.</p>
