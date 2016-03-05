@@ -43,6 +43,7 @@ public class TrackFactory {
         intervals = new ArrayList<>();
         trackPackages = new ArrayList<>();
 
+        loadIntervals();
     }
 
 
