@@ -157,7 +157,7 @@ public class CalculationController {
         currentSession.setCollector(collector);
         setModel(model, collector, command);
 
-        //command.setPositionCount(data.getPositionCount());
+        command.setPositionCount(data.getPositionCount());
         return "result";
     }
 
