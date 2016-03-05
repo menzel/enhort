@@ -154,20 +154,41 @@ public class CalculationController {
             //covariants = currentSession.getCovariants();
         }
 
-
         currentSession.setCollector(collector);
-        setModel(model, collector, data, currentSession.getOriginalFilename());
+        setModel(model, collector, command);
 
-        command.setPositionCount(data.getPositionCount());
+        //command.setPositionCount(data.getPositionCount());
         return "result";
     }
 
 
     /**
+     * Set params for model with known covariantCommand
+     *
+     * @param model - model to set params to
+     * @param collector - result collector to get results from
+     * @param cmd - covariantCommand for user set params
+     */
+    private void setModel(Model model, ResultCollector collector, CovariantCommand cmd) {
+        model.addAttribute("results_inout", collector.getInOutResults());
+        model.addAttribute("results_score", collector.getScoredResults());
+        model.addAttribute("results_named", collector.getNamedResults());
+
+        model.addAttribute("covariantCommand", cmd);
+
+        model.addAttribute("bgCount", collector.getBgCount());
+        model.addAttribute("sigTrackCount", collector.getSignificantTrackCount());
+        model.addAttribute("trackCount", collector.getTrackCount());
+
+        model.addAttribute("trackPackages", TrackFactory.getInstance().getTrackPackageNames());
+
+    }
+
+    /**
      * Set params for model
      *
      * @param model - model to set params to
-     * @param collector - colletor to get results from
+     * @param collector - collector to get results from
      * @param data - user data to get size from
      * @param filename - name of uploaded file
      */
@@ -176,7 +197,6 @@ public class CalculationController {
         model.addAttribute("results_inout", collector.getInOutResults());
         model.addAttribute("results_score", collector.getScoredResults());
         model.addAttribute("results_named", collector.getNamedResults());
-
 
         CovariantCommand command = new CovariantCommand();
         command.setPositionCount(data.getPositionCount());
