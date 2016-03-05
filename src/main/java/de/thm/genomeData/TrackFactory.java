@@ -32,7 +32,6 @@ public class TrackFactory {
 
     private static TrackFactory instance;
     private final Path basePath = new File("/home/menzel/Desktop/THM/lfba/projekphase/dat/").toPath();
-    private final List<TrackPackage> packageList;
     private final List<TrackPackage> trackPackages;
     private List<Track> intervals;
 
@@ -42,7 +41,6 @@ public class TrackFactory {
      */
     private TrackFactory() {
         intervals = new ArrayList<>();
-        packageList = new ArrayList<>();
         trackPackages = new ArrayList<>();
 
     }
@@ -62,7 +60,7 @@ public class TrackFactory {
         try {
             tmp = getIntervals(basePath.resolve("inout"), Type.inout);
 
-            tmp.addAll(getIntervals(basePath.resolve("named"), Type.named));
+            //tmp.addAll(getIntervals(basePath.resolve("named"), Type.named));
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks."));
             this.intervals.addAll(tmp);
 
@@ -128,7 +126,7 @@ public class TrackFactory {
     }
 
     public List<Track> getIntervalsByPackage(TrackPackage.PackageName name) {
-        for (TrackPackage pack : packageList) {
+        for (TrackPackage pack : trackPackages) {
             if (pack.getName() == name)
                 return pack.getTrackList();
         }
@@ -157,6 +155,10 @@ public class TrackFactory {
 
     public InOutTrack createInOutTrack(List<Long> starts, List<Long> ends, String name, String description) {
         return new InOutTrack(starts, ends, name, description);
+    }
+
+    public List<Track> getIntervalsByPackage(String packName) throws IllegalArgumentException{
+        return getIntervalsByPackage(TrackPackage.PackageName.valueOf(packName));
     }
 
 
