@@ -9,6 +9,7 @@ import java.util.List;
  * <p>
  * Created by Michael Menzel on 23/2/16.
  */
+@SuppressWarnings("unused")
 public abstract class AbstractSites implements Sites {
 
     private List<Long> positions = new ArrayList<>();
