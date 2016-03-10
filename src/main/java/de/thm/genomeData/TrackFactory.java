@@ -54,7 +54,7 @@ public class TrackFactory {
         return instance;
     }
 
-    public void loadIntervals() {
+    private void loadIntervals() {
 
         List<Track> tmp;
 
@@ -70,6 +70,7 @@ public class TrackFactory {
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name."));
             this.intervals.addAll(tmp);
             */
+
 
 
             tmp = getIntervals(basePath.resolve("score"), Type.scored);
