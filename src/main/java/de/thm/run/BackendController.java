@@ -3,7 +3,6 @@ package de.thm.run;
 import de.thm.exception.CovariantsException;
 import de.thm.genomeData.TrackFactory;
 import de.thm.spring.command.RunCommand;
-import de.thm.spring.serverStatistics.StatisticsCollector;
 import de.thm.stat.ResultCollector;
 
 import java.io.EOFException;
@@ -24,7 +23,7 @@ public final class BackendController {
     public static void main(String[] args) {
 
         TrackFactory.getInstance();
-        System.out.println("tracks read");
+        System.out.println("[Enhort Backend]: Track files loaded");
 
         BackendServer server = new BackendServer(port);
 
@@ -48,14 +47,12 @@ public final class BackendController {
                 serverSocket = new ServerSocket(port);
 
             } catch (BindException b){
-                System.err.println("Port already in use: " + port);
+                System.err.println("[Enhort Backend]: Port already in use: " + port);
                 System.exit(1);
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            attachShutDownHook();
 
         }
 
@@ -68,7 +65,7 @@ public final class BackendController {
 
                 try {
                     socket = serverSocket.accept();
-                    System.out.println("Interface connected");
+                    System.out.println("[Enhort Backend]: Webinterface connected");
 
                     inStream = new ObjectInputStream(socket.getInputStream());
                     outStream = new ObjectOutputStream(socket.getOutputStream());
@@ -84,10 +81,11 @@ public final class BackendController {
                         RunCommand command;
                         command = (RunCommand) inStream.readObject();
 
-                        System.out.println("got a command");
+                        System.out.println("[Enhort Backend]: recieved a command " + command.hashCode());
 
                         ResultCollector collector = AnalysisHelper.runAnalysis(command);
-                        //send collector back to interface
+
+                        System.out.println("[Enhort Backend]: answered request " + command.hashCode());
 
                         outStream.writeObject(collector);
 
@@ -106,17 +104,5 @@ public final class BackendController {
 
     }
 
-    /**
-     * Shutdown hook to save the stats before exit
-     */
-    static void attachShutDownHook() {
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                StatisticsCollector.getInstance().saveStats();
-                System.out.println("server exiting");
-            }
-        });
-    }
 }
 

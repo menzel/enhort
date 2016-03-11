@@ -7,8 +7,8 @@ import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
 import de.thm.genomeData.TrackPackage;
 import de.thm.positionData.Sites;
+import de.thm.spring.backend.StatisticsCollector;
 import de.thm.spring.command.RunCommand;
-import de.thm.spring.serverStatistics.StatisticsCollector;
 import de.thm.stat.ResultCollector;
 
 import java.util.ArrayList;
