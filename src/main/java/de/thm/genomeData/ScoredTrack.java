@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class ScoredTrack extends Track {
 
-    private final int uid = getUid();
+    private final int uid = UID.incrementAndGet();
     private final List<Long> intervalsStart;
     private final List<Long> intervalsEnd;
     private final List<String> intervalName;

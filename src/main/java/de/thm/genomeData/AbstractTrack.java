@@ -11,8 +11,7 @@ import java.util.List;
 public abstract class AbstractTrack extends Track {
 
     private static final long serialVersionUID = 30624951L;
-    private static int UID = 1;
-    private final int uid = ++UID;
+    private final int uid = UID.incrementAndGet();
 
     private final List<Long> intervalsStart;
     private final List<Long> intervalsEnd;
