@@ -136,7 +136,7 @@ public final class ResultCollector implements Serializable{
      *
      * @param result - test result to add
      */
-    public void addResult(TestResult result) {
+    public synchronized void addResult(TestResult result) {
         this.results.add(result);
     }
 
