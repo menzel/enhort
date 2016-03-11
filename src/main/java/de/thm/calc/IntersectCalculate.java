@@ -7,10 +7,7 @@ import de.thm.genomeData.ScoredTrack;
 import de.thm.genomeData.Track;
 import de.thm.positionData.Sites;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Simple version of intersect, going list by list.
@@ -62,7 +59,7 @@ public final class IntersectCalculate<T extends Track> implements Intersect<T> {
             if (i == 0) {
                 out++;
 
-            } else if (i == intervalCount && p > intervalEnd.get(i - 1)) { //last Interval and p not in previous
+            } else if (i == intervalCount && p >= intervalEnd.get(i - 1)) { //last Interval and p not in previous
                 if (p < intervalEnd.get(i) && p >= intervalStart.get(i)) {
 
                     in++;
@@ -177,6 +174,48 @@ public final class IntersectCalculate<T extends Track> implements Intersect<T> {
         return new IntersectResult(intv, in, out, resultsScores);
     }
 
+    public Set<Map.Entry<Integer, Integer>> getAverageDistance(InOutTrack intv, Sites pos) {
+        int i = 0;
+        int last_i = i;
+
+        DistanceCounter distances = new DistanceCounter();
+
+
+        List<Long> intervalStart = intv.getIntervalsStart();
+        List<Long> intervalEnd = intv.getIntervalsEnd();
+
+        int intervalCount = intervalStart.size() - 1;
+
+
+        for (Long p : pos.getPositions()) {
+
+            while (i < intervalCount && intervalStart.get(i) <= p) {
+                i++;
+            }
+
+            if (i == 0) {
+                distances.add(0);
+
+            } else if (i == intervalCount && p > intervalEnd.get(i - 1)) { //last Interval and p not in previous
+                if (p < intervalEnd.get(i) && p >= intervalStart.get(i)) {
+                    distances.add(i - last_i);
+                    last_i = i;
+                }
+            } else {
+                if (p >= intervalEnd.get(i - 1)) {
+                    distances.add(i - last_i);
+                    last_i = i;
+                }
+            }
+        }
+
+        for(Integer key: (distances.distances.keySet())){
+            System.out.println(key + "\t" + distances.distances.get(key));
+        }
+
+        return distances.distances.entrySet();
+    }
+
     /**
      *  Inner class to keep results names hash
      */
@@ -200,4 +239,16 @@ public final class IntersectCalculate<T extends Track> implements Intersect<T> {
         }
     }
 
+    private class DistanceCounter {
+        Map<Integer, Integer> distances = new HashMap<>();
+
+        public void add(int d){
+
+            if(distances.containsKey(d)){
+                distances.put(d, distances.get(d) + 1 );
+            } else{
+                distances.put(d, 1);
+            }
+        }
+    }
 }
