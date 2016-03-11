@@ -26,6 +26,7 @@ public class AnalysisHelper {
      * @param input - sites to get count from
      * @return ResultCollection of the run
      */
+    @Deprecated
     public static ResultCollector runAnalysis(Sites input) {
         Sites bg = BackgroundModelFactory.createBackgroundModel(input.getPositionCount());
 
@@ -37,20 +38,23 @@ public class AnalysisHelper {
     /**
      * Run analysis with covariants.
      *
-     * @param sites          - sites to match background model against.
+     * @param sites - sites to match background model against.
      * @param cmd - covariant command object
      * @return Collection of Results inside a ResultCollector object
      * @throws CovariantsException - if too many covariants are supplied or an impossible combination
      */
     public static ResultCollector runAnalysis(Sites sites, RunCommand cmd) throws CovariantsException {
-        List<String> covariantNames = cmd.getCovariants();
-        List<Track> covariants = getCovariants(covariantNames);
+        List<Track> covariants = getCovariants(cmd.getCovariants());
         List<Track> runTracks;
         TrackFactory trackFactory = TrackFactory.getInstance();
-
         int minSites = cmd.getMinBg();
+        Sites bg = null;
 
-        Sites bg = BackgroundModelFactory.createBackgroundModel(covariants, sites, minSites);
+        if(covariants.isEmpty()){
+            bg = BackgroundModelFactory.createBackgroundModel(sites.getPositionCount()); //check if minSites is larger
+        } else {
+            bg = BackgroundModelFactory.createBackgroundModel(covariants, sites, minSites);
+        }
 
         if(cmd.getPackageNames().isEmpty()) {
             runTracks = trackFactory.getIntervalsByPackage(TrackPackage.PackageName.Basic);
@@ -94,10 +98,7 @@ public class AnalysisHelper {
     }
 
     public static ResultCollector runAnalysis(RunCommand command) throws CovariantsException {
-        if(command.getCovariants().isEmpty())
-            return runAnalysis(command.getSites());
-        else
-            return runAnalysis(command.getSites(), command);
+        return runAnalysis(command.getSites(), command);
     }
 
 }
