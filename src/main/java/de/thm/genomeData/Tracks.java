@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  * <p>
  * Created by Michael Menzel on 13/1/16.
  */
-public class Tracks {
+public final class Tracks {
 
     //prevent init of Intervals object with private constructor
     private Tracks() {

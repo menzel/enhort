@@ -28,7 +28,7 @@ import java.util.stream.Stream;
  * <p>
  * Created by Michael Menzel on 18/12/15.
  */
-public class TrackFactory {
+public final class TrackFactory {
 
     private static TrackFactory instance;
     private final Path basePath = new File("/home/menzel/Desktop/THM/lfba/projekphase/dat/").toPath();
