@@ -1,4 +1,4 @@
-package de.thm.spring.serverStatistics;
+package de.thm.spring.backend;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -25,6 +25,7 @@ public final class StatisticsCollector {
     private AtomicInteger sessionCount;
     private AtomicInteger errorCount;
     private AtomicInteger downloadCount;
+
 
     /**
      * Creates the collector. The known log file is parsed for values

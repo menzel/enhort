@@ -1,7 +1,7 @@
 package de.thm.spring.run;
 
-import de.thm.spring.serverStatistics.StatisticsCollector;
 import de.thm.spring.backend.BackendConnector;
+import de.thm.spring.backend.StatisticsCollector;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -32,11 +32,15 @@ public final class Session {
         this.file = file;
         this.key = key;
         this.date = date;
+
+        StatisticsCollector.getInstance().addSessionC();
     }
 
     Session(String key, Date date) {
         this.key = key;
         this.date = date;
+
+        StatisticsCollector.getInstance().addSessionC();
     }
 
     public Path getFile() {

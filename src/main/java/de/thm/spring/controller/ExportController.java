@@ -3,6 +3,7 @@ package de.thm.spring.controller;
 import de.thm.misc.ChromosomSizes;
 import de.thm.spring.backend.Session;
 import de.thm.spring.backend.Sessions;
+import de.thm.spring.backend.StatisticsCollector;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
@@ -40,6 +41,7 @@ public class ExportController {
             e.printStackTrace();
         }
 
+        StatisticsCollector.getInstance().addDownloadC();
         return new FileSystemResource(output);
     }
 
@@ -71,6 +73,7 @@ public class ExportController {
             e.printStackTrace();
         }
 
+        StatisticsCollector.getInstance().addDownloadC();
         return new FileSystemResource(output);
     }
 }

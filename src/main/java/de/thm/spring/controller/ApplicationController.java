@@ -1,6 +1,7 @@
 package de.thm.spring.controller;
 
 import de.thm.spring.backend.Sessions;
+import de.thm.spring.backend.StatisticsCollector;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +34,8 @@ public class ApplicationController {
         model.addAttribute("errorCode", request.getAttribute("javax.servlet.error.status_code"));
         Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
         String errorMessage = null;
+
+        StatisticsCollector.getInstance().addErrorC();
 
         if (throwable != null) {
             errorMessage = throwable.getMessage();

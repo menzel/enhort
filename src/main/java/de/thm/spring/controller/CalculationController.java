@@ -6,6 +6,7 @@ import de.thm.positionData.UserData;
 import de.thm.spring.backend.BackendConnector;
 import de.thm.spring.backend.Session;
 import de.thm.spring.backend.Sessions;
+import de.thm.spring.backend.StatisticsCollector;
 import de.thm.spring.command.CovariantCommand;
 import de.thm.spring.command.RunCommand;
 import de.thm.stat.ResultCollector;
@@ -58,6 +59,8 @@ public class CalculationController {
             model.addAttribute("covariants", covariants);
             model.addAttribute("covariantCount", covariants.size());
 
+            StatisticsCollector.getInstance().addAnaylseC();
+
         } else {
 
             CovariantCommand command = new CovariantCommand();
@@ -82,6 +85,7 @@ public class CalculationController {
 
         Sessions sessionControll = Sessions.getInstance();
 
+        StatisticsCollector stats = StatisticsCollector.getInstance();
 
         if (!file.isEmpty()) {
             try {
@@ -98,13 +102,18 @@ public class CalculationController {
                 RunCommand command = new RunCommand();
                 command.setSites(data);
 
+                //run analysis:
                 ResultCollector collector = BackendConnector.getInstance().runAnalysis(command);
+
                 currentSession.setCollector(collector);
                 currentSession.setOriginalFilename(name);
 
                 setModel(model, collector, data, name);
                 model.addAttribute("covariants", new ArrayList<>());
                 model.addAttribute("covariantCount", 0);
+
+                stats.addAnaylseC();
+                stats.addFileC();
 
                 return "result";
 
@@ -131,6 +140,7 @@ public class CalculationController {
 
         ResultCollector collector;
         List<TestResult> covariants;
+        StatisticsCollector stats = StatisticsCollector.getInstance();
 
         //try {
 
@@ -159,6 +169,8 @@ public class CalculationController {
         setModel(model, collector, command);
 
         command.setPositionCount(data.getPositionCount());
+
+        stats.addAnaylseC();
         return "result";
     }
 
