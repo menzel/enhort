@@ -13,21 +13,21 @@ import java.net.UnknownHostException;
  * Created by Michael Menzel on 11/3/16.
  */
 public class BackendConnector implements Runnable{
+    private static BackendConnector instance = new BackendConnector(42412, "127.0.0.1");
+    private final int port;
+    private final String ip;
     private Socket socket;
     private boolean isConnected = false;
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
-    private final int port;
-    private final String ip;
-    private static BackendConnector instance = new BackendConnector(42412, "127.0.0.1");
-
-    public static BackendConnector getInstance(){
-        return instance;
-    }
 
     private BackendConnector(int port, String ip) {
         this.port = port;
         this.ip = ip;
+    }
+
+    public static BackendConnector getInstance(){
+        return instance;
     }
 
     @Override
@@ -35,8 +35,8 @@ public class BackendConnector implements Runnable{
         while (!isConnected){
             try {
                 socket = new Socket(ip, port);
-                System.out.println("connected to backend");
-                isConnected = true;
+
+                isConnected = socket.isConnected();
 
                 outputStream = new ObjectOutputStream(socket.getOutputStream());
                 inputStream = new ObjectInputStream(socket.getInputStream());
@@ -46,7 +46,11 @@ public class BackendConnector implements Runnable{
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            // TODO: Maybe sleep a while here
         }
+        System.out.println("[Enhort Webinterface]: connected to backend");
+
     }
 
 
@@ -54,8 +58,16 @@ public class BackendConnector implements Runnable{
         if(isConnected){
             try {
 
+                System.out.println("[Enhort Webinterface]: writing command");
                 outputStream.writeObject(command);
-                return (ResultCollector) inputStream.readObject();
+
+                System.out.println("[Enhort Webinterface]: getting result");
+                ResultCollector collector = (ResultCollector) inputStream.readObject();
+
+
+                System.out.println("[Enhort Webinterface]: got result: " + collector.getResults().size());
+                return collector;
+
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -63,7 +75,7 @@ public class BackendConnector implements Runnable{
                 e.printStackTrace();
             }
         } else{
-            System.err.println("Not connected to backend");
+            System.out.println("[Enhort Webinterface]: got result");
         }
 
         return null;

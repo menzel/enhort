@@ -21,10 +21,10 @@ public final class BackendController {
     private static final int port = 42412;
 
     public static void main(String[] args) {
-        System.out.println("[Enhort Backend]: Starting Enhort backend server");
+        System.out.println("[Enhort Backend]: Starting Enhort backend server ::-");
 
-        TrackFactory.getInstance();
-        System.out.println("[Enhort Backend]: Track files loaded");
+        TrackFactory tf = TrackFactory.getInstance();
+        System.out.println("[Enhort Backend]: " + tf.getAllIntervals().size()  + " Track files loaded");
 
         BackendServer server = new BackendServer(port);
 
@@ -86,10 +86,10 @@ public final class BackendController {
 
                         ResultCollector collector = AnalysisHelper.runAnalysis(command);
 
-                        System.out.println("[Enhort Backend]: answered request " + command.hashCode());
-
+                        System.out.println("[Enhort Backend]: writing answer " + command.hashCode());
                         outStream.writeObject(collector);
 
+                        System.out.println("[Enhort Backend]: answered request " + command.hashCode());
 
                     } catch (EOFException e) {
                         isConnected = false;
@@ -99,6 +99,8 @@ public final class BackendController {
                     }
 
                 }
+
+                System.out.println("[Enhort Backend]: Webinterface lost");
             }
 
         }
