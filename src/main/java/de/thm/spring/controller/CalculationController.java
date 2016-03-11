@@ -1,7 +1,6 @@
 package de.thm.spring.controller;
 
 
-import de.thm.genomeData.TrackFactory;
 import de.thm.positionData.UserData;
 import de.thm.spring.backend.BackendConnector;
 import de.thm.spring.backend.Session;
@@ -194,7 +193,8 @@ public class CalculationController {
         model.addAttribute("sigTrackCount", collector.getSignificantTrackCount());
         model.addAttribute("trackCount", collector.getTrackCount());
 
-        model.addAttribute("trackPackages", TrackFactory.getInstance().getTrackPackageNames());
+        //TODO AAAAARG:
+        //model.addAttribute("trackPackages", TrackFactory.getInstance().getTrackPackageNames());
         model.addAttribute("ran", true);
 
     }
