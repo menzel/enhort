@@ -7,7 +7,6 @@ import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
 import de.thm.genomeData.TrackPackage;
 import de.thm.positionData.Sites;
-import de.thm.spring.backend.StatisticsCollector;
 import de.thm.spring.command.RunCommand;
 import de.thm.stat.ResultCollector;
 
@@ -29,7 +28,6 @@ public class AnalysisHelper {
      */
     public static ResultCollector runAnalysis(Sites input) {
         Sites bg = BackgroundModelFactory.createBackgroundModel(input.getPositionCount());
-        StatisticsCollector.getInstance().addAnaylseC();
 
         IntersectMultithread multi = new IntersectMultithread();
 
@@ -49,8 +47,6 @@ public class AnalysisHelper {
         List<Track> covariants = getCovariants(covariantNames);
         List<Track> runTracks;
         TrackFactory trackFactory = TrackFactory.getInstance();
-
-        StatisticsCollector.getInstance().addAnaylseC();
 
         int minSites = cmd.getMinBg();
 
