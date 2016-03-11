@@ -3,7 +3,6 @@ package de.thm.spring.controller;
 import de.thm.misc.ChromosomSizes;
 import de.thm.spring.backend.Session;
 import de.thm.spring.backend.Sessions;
-import de.thm.spring.backend.StatisticsCollector;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
@@ -29,7 +28,6 @@ public class ExportController {
     @ResponseBody
     public FileSystemResource downloadCSV(HttpSession httpSession) {
         Session currentSession = Sessions.getInstance().getSession(httpSession.getId());
-        StatisticsCollector.getInstance().addDownloadC();
 
         //create file
         File output = new File("/tmp/csv_output_" + httpSession.getId());
@@ -50,7 +48,6 @@ public class ExportController {
     @ResponseBody
     public FileSystemResource exportBgSites(HttpSession httpSession) {
         Session currentSession = Sessions.getInstance().getSession(httpSession.getId());
-        StatisticsCollector.getInstance().addDownloadC();
         ChromosomSizes chromosomSizes = ChromosomSizes.getInstance();
 
         List<String> positions = new ArrayList<>();

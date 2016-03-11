@@ -1,4 +1,4 @@
-package de.thm.spring.backend;
+package de.thm.serverStatistics;
 
 import java.io.BufferedWriter;
 import java.io.File;

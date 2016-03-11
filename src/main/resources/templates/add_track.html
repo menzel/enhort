@@ -1,7 +1,8 @@
-<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns="http://www.w3.org/1999/xhtml">
+
 
   <body>
       <div th:fragment="add_track">
@@ -17,12 +18,12 @@
               <div class="modal-body">
                 <div>
                   <h3>Upload track</h3>
-                  <input type="file">
+                  <input type="file"/>
                   <button class="btn btn-default">Upload</button>
 
                   <h3>Create custom track</h3>
-                  <input type="text" placeholder="Expression">
-                  <input type="text" placeholder="Name">
+                  <input type="text" placeholder="Expression"/>
+                  <input type="text" placeholder="Name"/>
                   <button class="btn btn-default">Create</button>
 
                 </div>

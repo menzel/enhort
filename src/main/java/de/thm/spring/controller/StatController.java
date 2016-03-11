@@ -1,7 +1,7 @@
 package de.thm.spring.controller;
 
 import de.thm.spring.backend.Sessions;
-import de.thm.spring.backend.StatisticsCollector;
+import de.thm.serverStatistics.StatisticsCollector;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;

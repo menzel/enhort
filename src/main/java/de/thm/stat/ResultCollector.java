@@ -2,6 +2,7 @@ package de.thm.stat;
 
 import de.thm.positionData.Sites;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
  * <p>
  * Created by Michael Menzel on 26/1/16.
  */
-public final class ResultCollector {
+public final class ResultCollector implements Serializable{
 
     private final List<TestResult> results;
     private final Sites backgroundSites;

@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="MultiGenBrowser:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/MultiGenBrowser_jar</output-path>
-    <root id="archive" name="MultiGenBrowser.jar">
-      <element id="module-output" name="MultiGenBrowser" />
-    </root>
-  </artifact>
-</component>

@@ -1,4 +1,4 @@
-package de.thm.spring.helper;
+package de.thm.bootstrap;
 
 import de.thm.backgroundModel.BackgroundModelFactory;
 import de.thm.calc.IntersectMultithread;
@@ -7,7 +7,8 @@ import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
 import de.thm.genomeData.TrackPackage;
 import de.thm.positionData.Sites;
-import de.thm.spring.command.CovariantCommand;
+import de.thm.serverStatistics.StatisticsCollector;
+import de.thm.spring.command.RunCommand;
 import de.thm.stat.ResultCollector;
 
 import java.util.ArrayList;
@@ -28,9 +29,9 @@ public class AnalysisHelper {
      */
     public static ResultCollector runAnalysis(Sites input) {
         Sites bg = BackgroundModelFactory.createBackgroundModel(input.getPositionCount());
+        StatisticsCollector.getInstance().addAnaylseC();
 
-        IntersectMultithread multi;
-        multi = new IntersectMultithread();
+        IntersectMultithread multi = new IntersectMultithread();
 
         return multi.execute(TrackFactory.getInstance().getIntervalsByPackage(TrackPackage.PackageName.Basic), input, bg);
     }
@@ -43,11 +44,13 @@ public class AnalysisHelper {
      * @return Collection of Results inside a ResultCollector object
      * @throws CovariantsException - if too many covariants are supplied or an impossible combination
      */
-    public static ResultCollector runAnalysis(Sites sites, CovariantCommand cmd) throws CovariantsException {
+    public static ResultCollector runAnalysis(Sites sites, RunCommand cmd) throws CovariantsException {
         List<String> covariantNames = cmd.getCovariants();
         List<Track> covariants = getCovariants(covariantNames);
         List<Track> runTracks;
         TrackFactory trackFactory = TrackFactory.getInstance();
+
+        StatisticsCollector.getInstance().addAnaylseC();
 
         int minSites = cmd.getMinBg();
 
@@ -92,6 +95,13 @@ public class AnalysisHelper {
         }
 
         return selectedTracks;
+    }
+
+    public static ResultCollector runAnalysis(RunCommand command) throws CovariantsException {
+        if(command.getCovariants().isEmpty())
+            return runAnalysis(command.getSites());
+        else
+            return runAnalysis(command.getSites(), command);
     }
 
 }

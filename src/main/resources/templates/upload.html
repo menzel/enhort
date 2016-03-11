@@ -1,7 +1,6 @@
-<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
-
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 
   <body>
       <div th:fragment="upload">
@@ -9,8 +8,8 @@
         <h4> Upload new file </h4>
         <form method="POST" enctype="multipart/form-data" action="/upload">
           <div>
-            <input type="file" name="file" id="file" class="btn">
-            <input type="hidden" name="name" value="foo">
+            <input type="file" name="file" id="file" class="btn"/>
+            <input type="hidden" name="name" value="foo"/>
           </div>
             <th:block th:if="${ran == null}">
                 <button type="submit" class="btn btn-primary" id="upload_btn">Upload</button>

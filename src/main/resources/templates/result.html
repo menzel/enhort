@@ -1,5 +1,7 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
 <head lang="en">
 
     <title>Enhort</title>
@@ -24,7 +26,7 @@
 
   <div class="box">
       <h4>Assembly</h4>
-      <select class="form-control" disabled>
+      <select class="form-control" disabled="disabled">
           <option>hg19</option>
           <option>hg38</option>
       </select>
@@ -32,7 +34,7 @@
 
   <div class="box">
       <h4>Cell Line</h4>
-      <select id="cellline" class="form-control" name="assembly" form="covariant_form" disabled>
+      <select id="cellline" class="form-control" name="assembly" form="covariant_form" disabled="disabled">
           <option value="none">None</option>
           <option value="hela">HeLa</option>
           <option value="hesc">hESC</option>
@@ -44,7 +46,7 @@
 
       <th:block th:each="packName: ${trackPackages}">
         <div class="checkbox">
-          <label><input type="checkbox" th:field="*{covariantCommand.packageNames}" th:value="${packName}" form="covariant_form" checked th:text="${packName}"></label>
+          <label><input type="checkbox" th:field="*{covariantCommand.packageNames}" th:value="${packName}" form="covariant_form" checked="checked" th:text="${packName}"/></label>
         </div>
       </th:block>
 
@@ -59,11 +61,11 @@
 
     <div class="fileinfo">
         <a href="export/bg"><span>Background Positions:</span></a>
-        <input type="number" step="200" th:value="${bgCount}" form="covariant_form" th:field="*{covariantCommand.minBg}" >
+        <input type="number" step="200" th:value="${bgCount}" form="covariant_form" th:field="*{covariantCommand.minBg}" />
     </div>
 
     <th:block th:if="${ran == null}">
-        <button id="rerun" type="submit" class="btn btn-default" form="covariant_form" disabled>Run again</button>
+        <button id="rerun" type="submit" class="btn btn-default" form="covariant_form" disabled="disabled">Run again</button>
     </th:block>
     <th:block th:if="${ran}">
         <button id="rerun" type="submit" class="btn btn-primary" form="covariant_form">Run again</button>
@@ -72,7 +74,7 @@
     <div>
         <a class="btn btn-default extra-margin" href="export/pdf">Export pdf</a>
         <a class="btn btn-default extra-margin" href="export/csv">Export csv</a>
-        <br>
+        <br/>
         <a class="btn btn-default extra-margin" href="clear_session">Clear session</a>
     </div>
 
@@ -89,7 +91,7 @@
 
         <form method="POST" action="#" th:action="@{/covariant}" th:object="${covariantCommand}" id="covariant_form"></form>
 
-            <input type="hidden" th:value="${covariantCommand.originalFilename}" th:field="${covariantCommand.originalFilename}" form="covariant_form">
+            <input type="hidden" th:value="${covariantCommand.originalFilename}" th:field="${covariantCommand.originalFilename}" form="covariant_form"/>
             <table class="table table-hover fixed">
 
                 <col width="160px" />
@@ -119,7 +121,7 @@
                             <div class="bar measured" th:style="'width: ' + ${result.percentInM} + '%;'"></div>
                             <div class="bar expected" th:style="'width: ' + ${result.percentInE} + '%;'"></div>
                         </td>
-                        <td><input th:field="*{covariantCommand.covariants}" th:value="${result.id}" type="checkbox" form="covariant_form"></td>
+                        <td><input th:field="*{covariantCommand.covariants}" th:value="${result.id}" type="checkbox" form="covariant_form"/></td>
                     </tr>
                     <tr>
                         <td colspan="5" class="hiddenRow">
@@ -163,7 +165,7 @@
                         <td th:text="${result.pValue}"></td>
                         <td th:text="${result.effectSize}"></td>
                         <td th:id="${'plot_'+result.id}"></td>
-                        <td><input th:field="*{covariantCommand.covariants}" th:value="${result.id}" type="checkbox" form="covariant_form"></td>
+                        <td><input th:field="*{covariantCommand.covariants}" th:value="${result.id}" type="checkbox" form="covariant_form"/></td>
                     </tr>
                     <tr>
                         <td colspan="5" class="hiddenRow">
@@ -179,7 +181,7 @@
                         <td th:text="${result.pValue}"></td>
                         <td th:text="${result.effectSize}"></td>
                         <td th:id="${result.id}"></td>
-                        <td><input th:field="*{covariantCommand.covariants}" th:value="${result.id}" type="checkbox" form="covariant_form"></td>
+                        <td><input th:field="*{covariantCommand.covariants}" th:value="${result.id}" type="checkbox" form="covariant_form"/></td>
                     </tr>
                     <tr>
                         <td colspan="5" class="hiddenRow">
@@ -211,7 +213,7 @@
                     <th:block th:each="cov: ${covariants}">
                         <tr>
                            <td th:text="${cov.name}" th:attr="data-target=${#strings.replace('#accordion_cov_' + cov.id,'.','_')}" data-toggle="collapse" class="accordion-toggle" ></td>
-                           <td><input th:field="*{covariantCommand.covariants}" th:value="${cov.id}" type="checkbox" form="covariant_form" class="checked" checked></td>
+                           <td><input th:field="*{covariantCommand.covariants}" th:value="${cov.id}" type="checkbox" form="covariant_form" class="checked" checked="checked"/></td>
                         </tr>
                         <tr>
                           <td colspan="2" class="hiddenRow">
@@ -302,7 +304,7 @@
 
     </script>
 
-<script th:inline="javascript" async>
+<script th:inline="javascript" async="async">
 /*<![CDATA[*/
     'use strict';
 

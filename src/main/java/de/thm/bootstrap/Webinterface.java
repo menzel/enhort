@@ -1,7 +1,7 @@
-package de.thm.run;
+package de.thm.bootstrap;
 
-import de.thm.genomeData.TrackFactory;
-import de.thm.spring.backend.StatisticsCollector;
+import de.thm.serverStatistics.StatisticsCollector;
+import de.thm.spring.backend.BackendConnector;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,15 +15,16 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @ComponentScan(basePackages = "de.thm.spring")
 @EnableAutoConfiguration
-public class Server {
+public class Webinterface {
 
     public static void main(String[] args) {
 
-        TrackFactory.getInstance();
-        attachShutDownHook();
 
         try {
-            SpringApplication.run(Server.class, args);
+            BackendConnector connector = BackendConnector.getInstance();
+            new Thread(connector).run();
+
+            SpringApplication.run(Webinterface.class, args);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -31,17 +32,4 @@ public class Server {
         }
     }
 
-    /**
-     * Shutdown hook to save the stats before exit
-     */
-    static void attachShutDownHook() {
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                StatisticsCollector.getInstance().saveStats();
-            }
-        });
-    }
 }
-
-

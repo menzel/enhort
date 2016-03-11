@@ -510,4 +510,10 @@ public class TracksTest {
         assertEquals(expectedScores, result.getIntervalScore());
 
     }
+
+    @Test
+    public void testCast() throws Exception {
+        //TOOD
+
+    }
 }

@@ -38,7 +38,6 @@ public final class Sessions {
         } else {
 
             Session session = new Session(file, key, new Date());
-            StatisticsCollector.getInstance().addSessionC();
             sessions.put(key, session);
         }
 

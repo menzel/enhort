@@ -19,6 +19,7 @@ import java.util.List;
  * <p>
  * Created by Michael Menzel on 11/12/15.
  */
+@Deprecated
 public class Analyse {
 
     private List<Track> intervals;

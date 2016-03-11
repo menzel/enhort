@@ -1,6 +1,7 @@
 package de.thm.spring.command;
 
 import de.thm.genomeData.TrackPackage;
+import de.thm.positionData.Sites;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ public final class CovariantCommand {
     private int positionCount; //count of user data positons
     private int minBg; //minimum of expected background positions
     private String originalFilename; // filename of the file the user uploaded
+    private Sites sites;
 
     public CovariantCommand() {
         covariants = new ArrayList<>();
@@ -74,5 +76,13 @@ public final class CovariantCommand {
 
     public void setCovariants(List<String> covariants) {
         this.covariants = covariants;
+    }
+
+    public Sites getSites() {
+        return sites;
+    }
+
+    public void setSites(Sites sites) {
+        this.sites = sites;
     }
 }

@@ -1,14 +1,13 @@
 package de.thm.spring.controller;
 
 
-import de.thm.exception.CovariantsException;
 import de.thm.genomeData.TrackFactory;
 import de.thm.positionData.UserData;
+import de.thm.spring.backend.BackendConnector;
 import de.thm.spring.backend.Session;
 import de.thm.spring.backend.Sessions;
-import de.thm.spring.backend.StatisticsCollector;
 import de.thm.spring.command.CovariantCommand;
-import de.thm.spring.helper.AnalysisHelper;
+import de.thm.spring.command.RunCommand;
 import de.thm.stat.ResultCollector;
 import de.thm.stat.TestResult;
 import org.springframework.stereotype.Controller;
@@ -82,8 +81,6 @@ public class CalculationController {
         String uuid = name + "-" + UUID.randomUUID();
 
         Sessions sessionControll = Sessions.getInstance();
-        StatisticsCollector.getInstance().addFileC();
-        StatisticsCollector.getInstance().addAnaylseC();
 
 
         if (!file.isEmpty()) {
@@ -98,7 +95,10 @@ public class CalculationController {
                 Session currentSession = sessionControll.addSession(httpSession.getId(), inputFilepath);
 
                 UserData data = new UserData(inputFilepath);
-                ResultCollector collector = AnalysisHelper.runAnalysis(data);
+                RunCommand command = new RunCommand();
+                command.setSites(data);
+
+                ResultCollector collector = BackendConnector.getInstance().runAnalysis(command);
                 currentSession.setCollector(collector);
                 currentSession.setOriginalFilename(name);
 
@@ -109,13 +109,11 @@ public class CalculationController {
                 return "result";
 
             } catch (Exception e) {
-                StatisticsCollector.getInstance().addErrorC();
                 System.err.println("You failed to upload " + name + " => " + e.getMessage());
                 return null;
             }
 
         } else {
-            StatisticsCollector.getInstance().addErrorC();
             System.err.println("You failed to upload " + name + " because the file was empty.");
             return null;
         }
@@ -126,7 +124,6 @@ public class CalculationController {
     public String covariant(@ModelAttribute CovariantCommand command, Model model, HttpSession httpSession) {
 
         Sessions sessionsControll = Sessions.getInstance();
-        StatisticsCollector.getInstance().addAnaylseC();
 
         Session currentSession = sessionsControll.getSession(httpSession.getId());
         Path file = currentSession.getFile();
@@ -135,8 +132,9 @@ public class CalculationController {
         ResultCollector collector;
         List<TestResult> covariants;
 
-        try {
-            collector = AnalysisHelper.runAnalysis(data, command);
+        //try {
+
+            collector = BackendConnector.getInstance().runAnalysis(new RunCommand(command));
 
             covariants = collector.getCovariants(command.getCovariants());
             currentSession.setCovariants(covariants);
@@ -144,15 +142,18 @@ public class CalculationController {
             model.addAttribute("covariants", covariants);
             model.addAttribute("covariantCount", covariants.size());
 
+            /*
         } catch (CovariantsException e) {
             model.addAttribute("errorMessage", "Too many covariants, a max of " + "10 covariants is allowed.");
             collector = currentSession.getCollector();
 
             if (collector == null) //if there is no collector known to the session run with no covariants
                 collector = AnalysisHelper.runAnalysis(data);
+            collector = BackendConnector.getInstance().runAnalysis(new RunCommand(command));
             //TODO reset last known state: set command object and put to runAnalysis
             //covariants = currentSession.getCovariants();
         }
+        */
 
         currentSession.setCollector(collector);
         setModel(model, collector, command);

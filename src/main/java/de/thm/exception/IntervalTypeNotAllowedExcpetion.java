@@ -1,6 +1,6 @@
 package de.thm.exception;
 
-import de.thm.spring.backend.StatisticsCollector;
+import de.thm.serverStatistics.StatisticsCollector;
 
 /**
  * Created by Michael Menzel on 15/2/16.

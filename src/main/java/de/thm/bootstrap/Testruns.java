@@ -1,13 +1,12 @@
-package de.thm.run;
+package de.thm.bootstrap;
 
-import de.thm.bootstrap.Analyse;
 import de.thm.genomeData.TrackFactory;
 import de.thm.positionData.Sites;
 import de.thm.positionData.UserData;
 
 import java.io.File;
 
-public class Main {
+public class Testruns {
 
     public static void main(String[] args) {
 
