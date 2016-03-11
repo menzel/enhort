@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 /**
@@ -19,11 +20,11 @@ public final class StatisticsCollector {
     /**
      * Statistic countings:
      */
-    private int fileCount;
-    private int analyseCount;
-    private int sessionCount;
-    private int errorCount;
-    private int downloadCount;
+    private AtomicInteger fileCount;
+    private AtomicInteger analyseCount;
+    private AtomicInteger sessionCount;
+    private AtomicInteger errorCount;
+    private AtomicInteger downloadCount;
 
     /**
      * Creates the collector. The known log file is parsed for values
@@ -42,11 +43,11 @@ public final class StatisticsCollector {
 
                 String[] values = lines.toArray(String[]::new);
 
-                fileCount = Integer.parseInt(values[0]);
-                analyseCount = Integer.parseInt(values[1]);
-                sessionCount = Integer.parseInt(values[2]);
-                errorCount = Integer.parseInt(values[3]);
-                errorCount = Integer.parseInt(values[4]);
+                fileCount = new AtomicInteger(Integer.parseInt(values[0]));
+                analyseCount = new AtomicInteger(Integer.parseInt(values[1]));
+                sessionCount = new AtomicInteger(Integer.parseInt(values[2]));
+                errorCount = new AtomicInteger(Integer.parseInt(values[3]));
+                errorCount = new AtomicInteger(Integer.parseInt(values[4]));
 
                 lines.close();
 
@@ -62,23 +63,23 @@ public final class StatisticsCollector {
     }
 
     public void addFileC() {
-        fileCount++;
+        fileCount.getAndIncrement();
     }
 
     public void addAnaylseC() {
-        analyseCount++;
+        analyseCount.getAndIncrement();
     }
 
     public void addSessionC() {
-        sessionCount++;
+        sessionCount.getAndDecrement();
     }
 
     public void addErrorC() {
-        errorCount++;
+        errorCount.getAndDecrement();
     }
 
     public void addDownloadC() {
-        downloadCount++;
+        downloadCount.getAndIncrement();
     }
 
 
@@ -112,22 +113,22 @@ public final class StatisticsCollector {
 
 
     public int getFileCount() {
-        return fileCount;
+        return fileCount.intValue();
     }
 
     public int getAnalyseCount() {
-        return analyseCount;
+        return analyseCount.intValue();
     }
 
     public int getSessionCount() {
-        return sessionCount;
+        return sessionCount.intValue();
     }
 
     public int getErrorCount() {
-        return errorCount;
+        return errorCount.intValue();
     }
 
     public int getDownloadCount() {
-        return downloadCount;
+        return downloadCount.intValue();
     }
 }
