@@ -87,6 +87,7 @@ public final class BackgroundModelFactory {
      * @throws CovariantsException
      */
     public static Sites createBackgroundModel(List<Track> trackList, Sites sites, int minSites) throws CovariantsException {
+
         if (trackList.isEmpty())
             return createBackgroundModel(sites.getPositionCount());
 
@@ -96,7 +97,7 @@ public final class BackgroundModelFactory {
         else if (trackList.stream().allMatch(i -> i instanceof InOutTrack))
             if(trackList.size() < maxCovariantsInOutOnly) {
                 return new MultiTrackBackgroundModel(trackList, sites, minSites);
-            } else throw new CovariantsException("Too many covariants. Only " + maxCovariantsInOutOnly + " are allowed");
+            } else throw new CovariantsException("Too many covariants: " + trackList.size() + ". Max " + maxCovariantsInOutOnly + " are allowed");
 
         else if (trackList.size() <= maxCovariants) {
 
@@ -129,7 +130,7 @@ public final class BackgroundModelFactory {
             }
 
         } else {
-            throw new CovariantsException("Too many covariants");
+            throw new CovariantsException("Too many covariants. " + trackList.size() + ". Only " + maxCovariantsInOutOnly + " are allowed");
         }
     }
 }
