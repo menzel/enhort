@@ -21,6 +21,7 @@ public final class BackendController {
     private static final int port = 42412;
 
     public static void main(String[] args) {
+        System.out.println("[Enhort Backend]: Starting Enhort backend server");
 
         TrackFactory.getInstance();
         System.out.println("[Enhort Backend]: Track files loaded");
