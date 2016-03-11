@@ -1,9 +1,9 @@
-package de.thm.bootstrap;
+package de.thm.run;
 
 import de.thm.exception.CovariantsException;
 import de.thm.genomeData.TrackFactory;
-import de.thm.serverStatistics.StatisticsCollector;
 import de.thm.spring.command.RunCommand;
+import de.thm.spring.serverStatistics.StatisticsCollector;
 import de.thm.stat.ResultCollector;
 
 import java.io.EOFException;
@@ -62,45 +62,44 @@ public final class BackendController {
         @Override
         public void run() {
 
-            try {
-                socket = serverSocket.accept();
-                System.out.println("Interface connected");
-                inStream = new ObjectInputStream(socket.getInputStream());
-                outStream = new ObjectOutputStream(socket.getOutputStream());
+            boolean isConnected = false;
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            while(true) {
 
-            //if interface is connected
-            while(true){
                 try {
-                    RunCommand command;
-                    command = (RunCommand) inStream.readObject();
-                    System.out.println("got a command");
+                    socket = serverSocket.accept();
+                    System.out.println("Interface connected");
 
-                    ResultCollector collector = AnalysisHelper.runAnalysis(command);
-                    //send collector back to interface
+                    inStream = new ObjectInputStream(socket.getInputStream());
+                    outStream = new ObjectOutputStream(socket.getOutputStream());
+                    isConnected = true;
 
-                    outStream.writeObject(collector);
-
-
-                } catch (EOFException e){
-                    //do nothing here
-                    continue;
-                } catch (IOException e){
-                    e.printStackTrace();
-
-                } catch (ClassCastException e){
-                    e.printStackTrace();
-
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-
-                } catch (CovariantsException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
 
+                //if interface is connected
+                while (isConnected) {
+                    try {
+                        RunCommand command;
+                        command = (RunCommand) inStream.readObject();
+
+                        System.out.println("got a command");
+
+                        ResultCollector collector = AnalysisHelper.runAnalysis(command);
+                        //send collector back to interface
+
+                        outStream.writeObject(collector);
+
+
+                    } catch (EOFException e) {
+                        isConnected = false;
+                    } catch (IOException | ClassCastException | ClassNotFoundException | CovariantsException e) {
+                        isConnected = false;
+                        e.printStackTrace();
+                    }
+
+                }
             }
 
         }

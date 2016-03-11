@@ -1,4 +1,4 @@
-package de.thm.bootstrap;
+package de.thm.run;
 
 import de.thm.genomeData.TrackFactory;
 import de.thm.positionData.Sites;
@@ -6,6 +6,7 @@ import de.thm.positionData.UserData;
 
 import java.io.File;
 
+@Deprecated
 public class Testruns {
 
     public static void main(String[] args) {

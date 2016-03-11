@@ -1,4 +1,4 @@
-package de.thm.bootstrap;
+package de.thm.run;
 
 import de.thm.backgroundModel.BackgroundModelFactory;
 import de.thm.calc.Intersect;
