@@ -26,10 +26,24 @@ public class Webinterface {
 
             SpringApplication.run(Webinterface.class, args);
 
+            attachShutDownHook();
+
         } catch (Exception e) {
             e.printStackTrace();
             StatisticsCollector.getInstance().addErrorC();
         }
+    }
+
+    /**
+     * Shutdown hook to save the stats before exit
+     */
+    static void attachShutDownHook() {
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                StatisticsCollector.getInstance().saveStats();
+            }
+        });
     }
 
 }
