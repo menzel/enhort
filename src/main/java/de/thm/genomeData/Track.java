@@ -19,7 +19,7 @@ public abstract class Track implements Serializable, Cloneable {
     public static long serialVersionUID = 606249588L;
     private static AtomicInteger UID = new AtomicInteger(1);
 
-    public synchronized static int getUID(){
+    public static int getUID(){
         return UID.getAndIncrement();
     }
 
