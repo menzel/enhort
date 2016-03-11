@@ -48,7 +48,7 @@ public final class StatisticsCollector {
                 analyseCount = new AtomicInteger(Integer.parseInt(values[1]));
                 sessionCount = new AtomicInteger(Integer.parseInt(values[2]));
                 errorCount = new AtomicInteger(Integer.parseInt(values[3]));
-                errorCount = new AtomicInteger(Integer.parseInt(values[4]));
+                downloadCount = new AtomicInteger(Integer.parseInt(values[4]));
 
                 lines.close();
 
@@ -72,11 +72,11 @@ public final class StatisticsCollector {
     }
 
     public void addSessionC() {
-        sessionCount.getAndDecrement();
+        sessionCount.getAndIncrement();
     }
 
     public void addErrorC() {
-        errorCount.getAndDecrement();
+        errorCount.getAndIncrement();
     }
 
     public void addDownloadC() {
