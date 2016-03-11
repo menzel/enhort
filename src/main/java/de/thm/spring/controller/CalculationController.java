@@ -141,6 +141,7 @@ public class CalculationController {
         ResultCollector collector;
         List<TestResult> covariants;
         StatisticsCollector stats = StatisticsCollector.getInstance();
+        command.setSites(data);
 
         //try {
 
