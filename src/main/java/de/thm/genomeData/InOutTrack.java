@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class InOutTrack extends Track {
 
-    private final int uid = ++UID;
+    private final int uid = getUid();
     private final List<Long> intervalsStart;
     private final List<Long> intervalsEnd;
     private final String name;

@@ -2,6 +2,7 @@ package de.thm.genomeData;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Interface for interval data. Holds lists of start and stop positions of intervals as well as their names and scores.
@@ -16,7 +17,11 @@ import java.util.List;
 public abstract class Track implements Serializable, Cloneable {
 
     public static long serialVersionUID = 606249588L;
-    public static int UID = 1;
+    private static AtomicInteger UID = new AtomicInteger(1);
+
+    public synchronized static int getUID(){
+        return UID.getAndIncrement();
+    }
 
     public abstract String getDescription();
 
