@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  */
 class MultiTrackBackgroundModel implements Sites {
 
-    private AppearanceTable appearanceTable;
+    private transient AppearanceTable appearanceTable; // is transient so it won't be serialized and sent to webinterface
     private List<Long> positions = new ArrayList<>();
 
     /**

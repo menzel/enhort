@@ -17,7 +17,7 @@ import java.util.*;
  */
 class SingleTrackBackgroundModel implements Sites {
 
-    private Random rand;
+    private transient Random rand;
     private List<Long> positions = new ArrayList<>();
 
     /**
