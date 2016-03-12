@@ -14,6 +14,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
+ * Controlls requests from the Webinterface.
+ *
+ * Sets up a ServerSocket and listens on a hard coded port for input.
+ *
+ * Input is a backendCommand.
+ *
  * Created by Michael Menzel on 11/3/16.
  */
 public final class BackendController {
@@ -65,6 +71,7 @@ public final class BackendController {
 
             boolean isConnected = false;
 
+            //noinspection InfiniteLoopStatement
             while(true) {
 
                 try {
@@ -87,7 +94,7 @@ public final class BackendController {
 
                         BackgroundRunner runner = new BackgroundRunner(command);
 
-                        new Thread(runner).run(); //TODO maybe use a thread pool here to prevent unlimited threads running and prevent one thread running forever
+                        new Thread(runner).run(); //maybe use a thread pool here to prevent unlimited threads running and prevent one thread running forever
 
 
                     }catch (EOFException e){
