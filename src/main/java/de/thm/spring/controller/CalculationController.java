@@ -98,8 +98,7 @@ public class CalculationController {
                 Session currentSession = sessionControll.addSession(httpSession.getId(), inputFilepath);
 
                 UserData data = new UserData(inputFilepath);
-                backendCommand command = new backendCommand();
-                command.setSites(data);
+                backendCommand command = new backendCommand(data);
 
                 //run analysis:
                 ResultCollector collector = BackendConnector.getInstance().runAnalysis(command);

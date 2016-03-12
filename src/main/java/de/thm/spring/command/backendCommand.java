@@ -8,19 +8,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Backend command object to send data from interface to backend. Is immutable.
+ *
  * Created by Michael Menzel on 11/3/16.
  */
 public final class backendCommand implements Serializable{
-    private List<String> covariants; //list of ids of tracks that are used as covariant
-    private List<String> packageNames; // list of packages that will be used in the intersect run
-    private int minBg; //minimum of expected background positions
-    private Sites sites;
+    private final List<String> covariants; //list of ids of tracks that are used as covariant
+    private final List<String> packageNames; // list of packages that will be used in the intersect run
+    private final int minBg; //minimum of expected background positions
+    private final Sites sites;
 
 
-    public backendCommand() {
+    public backendCommand(Sites sites) {
         covariants = new ArrayList<>();
         packageNames = new ArrayList<>();
         packageNames.add(TrackPackage.PackageName.Basic.toString());
+        this.sites = sites;
+        this.minBg = sites.getPositionCount();
     }
 
     public backendCommand(CovariantCommand command) {
@@ -31,36 +35,12 @@ public final class backendCommand implements Serializable{
 
     }
 
-    public List<String> getCovariants() {
-        return covariants;
-    }
+    public List<String> getCovariants() { return covariants; }
 
-    public void setCovariants(List<String> covariants) {
-        this.covariants = covariants;
-    }
+    public List<String> getPackageNames() { return packageNames; }
 
-    public List<String> getPackageNames() {
-        return packageNames;
-    }
+    public Sites getSites() { return sites; }
 
-    public void setPackageNames(List<String> packageNames) {
-        this.packageNames = packageNames;
-    }
-
-    public Sites getSites() {
-        return sites;
-    }
-
-    public void setSites(Sites sites) {
-        this.sites = sites;
-    }
-
-    public int getMinBg() {
-        return minBg;
-    }
-
-    public void setMinBg(int minBg) {
-        this.minBg = minBg;
-    }
+    public int getMinBg() { return minBg; }
 
 }
