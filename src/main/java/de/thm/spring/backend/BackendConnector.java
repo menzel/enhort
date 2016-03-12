@@ -7,12 +7,15 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
+import java.net.SocketException;
 
 /**
+ * Connects the interface to a backend server. Sends backendCommands and recives resultCollectors.
+ *
+ *
  * Created by Michael Menzel on 11/3/16.
  */
-public class BackendConnector implements Runnable{
+public final class BackendConnector implements Runnable{
     private static BackendConnector instance = new BackendConnector(42412, "127.0.0.1");
     private final int port;
     private final String ip;
@@ -32,6 +35,11 @@ public class BackendConnector implements Runnable{
 
     @Override
     public void run() {
+
+        System.out.println("[Enhort Webinterface]: Starting backend connection");
+        int connectionTimeout = 40; //max tries timeout
+        int tries = 0;
+
         while (!isConnected){
             try {
                 socket = new Socket(ip, port);
@@ -41,20 +49,26 @@ public class BackendConnector implements Runnable{
                 outputStream = new ObjectOutputStream(socket.getOutputStream());
                 inputStream = new ObjectInputStream(socket.getInputStream());
 
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
             } catch (IOException e) {
+                System.err.println("[Enhort Webinterface]: Cannot connect to backend: " + e.getMessage());
+            }
+            try {
+                tries++;
+                if(tries >= connectionTimeout)
+                    return;
+
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-            // TODO: Maybe sleep a while here
         }
-        System.out.println("[Enhort Webinterface]: connected to backend");
+        System.out.println("[Enhort Webinterface]: Connected to backend");
 
     }
 
 
     public ResultCollector runAnalysis(BackendCommand command){
+
         if(isConnected){
             try {
 
@@ -68,16 +82,22 @@ public class BackendConnector implements Runnable{
                 System.out.println("[Enhort Webinterface]: got result: " + collector.getResults().size());
                 return collector;
 
-
+            } catch(SocketException e){
+                isConnected = false;
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-        } else{
-            System.out.println("[Enhort Webinterface]: got result");
         }
 
-        return null;
+        System.out.println("[Enhort Webinterface]: No connection to backend");
+
+        this.run(); //try to connect to backend again
+
+        if(isConnected)
+            return runAnalysis(command); //only call run again if backend is connected.
+        else
+            return null;
     }
 }

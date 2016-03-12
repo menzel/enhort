@@ -103,27 +103,33 @@ public class CalculationController {
                 //run analysis:
                 ResultCollector collector = BackendConnector.getInstance().runAnalysis(command);
 
-                currentSession.setCollector(collector);
-                currentSession.setOriginalFilename(name);
+                if(collector != null) {
 
-                setModel(model, collector, data, name);
-                model.addAttribute("covariants", new ArrayList<>());
-                model.addAttribute("covariantCount", 0);
+                    currentSession.setCollector(collector);
+                    currentSession.setOriginalFilename(name);
 
-                stats.addAnaylseC();
-                stats.addFileC();
+                    setModel(model, collector, data, name);
+                    model.addAttribute("covariants", new ArrayList<>());
+                    model.addAttribute("covariantCount", 0);
 
-                return "result";
+                    stats.addAnaylseC();
+                    stats.addFileC();
+
+                    return "result";
+                }
 
             } catch (Exception e) {
-                System.err.println("You failed to upload " + name + " => " + e.getMessage());
-                return null;
+                model.addAttribute("errorMessage", e.getMessage());
+                return "error";
             }
 
         } else {
-            System.err.println("You failed to upload " + name + " because the file was empty.");
-            return null;
+            model.addAttribute("errorMessage", "You failed to upload " + name + " because the file was empty.");
+            return "error";
         }
+
+        model.addAttribute("errorMessage", "No results from backend server. Maybe the server is down right now. Try again in a few minutes or contact an admin.");
+        return "error";
     }
 
 

@@ -30,8 +30,11 @@ public final class BackendController {
     public static void main(String[] args) {
         System.out.println(prefix + "Starting Enhort backend server");
 
-        TrackFactory tf = TrackFactory.getInstance();
-        System.out.println(prefix + tf.getAllIntervals().size()  + " Track files loaded");
+
+        new Thread(() -> {
+            TrackFactory tf = TrackFactory.getInstance();
+            System.out.println(prefix + tf.getAllIntervals().size()  + " Track files loaded");
+        }).run();
 
         BackendServer server = new BackendServer(port);
 
