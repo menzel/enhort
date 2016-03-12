@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Michael Menzel on 4/2/16.
  */
-public final class CovariantCommand {
+public final class InterfaceCommand {
     private List<String> covariants; //list of ids of tracks that are used as covariant
     private List<String> packageNames; // list of packages that will be used in the intersect run
     private int positionCount; //count of user data positons
@@ -17,7 +17,7 @@ public final class CovariantCommand {
     private String originalFilename; // filename of the file the user uploaded
     private Sites sites;
 
-    public CovariantCommand() {
+    public InterfaceCommand() {
         covariants = new ArrayList<>();
         packageNames = new ArrayList<>();
         packageNames.add(TrackPackage.PackageName.Basic.toString());
@@ -29,7 +29,7 @@ public final class CovariantCommand {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        CovariantCommand that = (CovariantCommand) o;
+        InterfaceCommand that = (InterfaceCommand) o;
 
         return covariants == that.covariants;
 

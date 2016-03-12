@@ -1,6 +1,6 @@
 package de.thm.spring.backend;
 
-import de.thm.spring.command.backendCommand;
+import de.thm.spring.command.BackendCommand;
 import de.thm.stat.ResultCollector;
 
 import java.io.IOException;
@@ -54,7 +54,7 @@ public class BackendConnector implements Runnable{
     }
 
 
-    public ResultCollector runAnalysis(backendCommand command){
+    public ResultCollector runAnalysis(BackendCommand command){
         if(isConnected){
             try {
 

@@ -1,6 +1,6 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
 
 <head lang="en">
 
@@ -46,7 +46,7 @@
 
       <th:block th:each="packName: ${trackPackages}">
         <div class="checkbox">
-          <label><input type="checkbox" th:field="*{covariantCommand.packageNames}" th:value="${packName}" form="covariant_form" checked="checked" th:text="${packName}"/></label>
+          <label><input type="checkbox" th:field="*{interfaceCommand.packageNames}" th:value="${packName}" form="covariant_form" checked="checked" th:text="${packName}"/></label>
         </div>
       </th:block>
 
@@ -55,13 +55,13 @@
     <h4>Information</h4>
 
     <div class="fileinfo">
-            <p th:text="${'Current File: ' + covariantCommand.originalFilename}"></p>
-            <span>Positions</span><span class="file_positions" th:text="${covariantCommand.positionCount}"></span>
+            <p th:text="${'Current File: ' + interfaceCommand.originalFilename}"></p>
+            <span>Positions</span><span class="file_positions" th:text="${interfaceCommand.positionCount}"></span>
     </div>
 
     <div class="fileinfo">
         <a href="export/bg"><span>Background Positions:</span></a>
-        <input type="number" step="200" th:value="${bgCount}" form="covariant_form" th:field="*{covariantCommand.minBg}" />
+        <input type="number" step="200" th:value="${bgCount}" form="covariant_form" th:field="*{interfaceCommand.minBg}" />
     </div>
 
     <th:block th:if="${ran == null}">
@@ -89,9 +89,9 @@
 
         <div class="col-md-8 ">
 
-        <form method="POST" action="#" th:action="@{/covariant}" th:object="${covariantCommand}" id="covariant_form"></form>
+        <form method="POST" action="#" th:action="@{/covariant}" th:object="${interfaceCommand}" id="covariant_form"></form>
 
-            <input type="hidden" th:value="${covariantCommand.originalFilename}" th:field="${covariantCommand.originalFilename}" form="covariant_form"/>
+            <input type="hidden" th:value="${interfaceCommand.originalFilename}" th:field="${interfaceCommand.originalFilename}" form="covariant_form"/>
             <table class="table table-hover fixed">
 
                 <col width="160px" />
@@ -121,7 +121,7 @@
                             <div class="bar measured" th:style="'width: ' + ${result.percentInM} + '%;'"></div>
                             <div class="bar expected" th:style="'width: ' + ${result.percentInE} + '%;'"></div>
                         </td>
-                        <td><input th:field="*{covariantCommand.covariants}" th:value="${result.id}" type="checkbox" form="covariant_form"/></td>
+                        <td><input th:field="*{interfaceCommand.covariants}" th:value="${result.id}" type="checkbox" form="covariant_form"/></td>
                     </tr>
                     <tr>
                         <td colspan="5" class="hiddenRow">
@@ -134,7 +134,7 @@
                                             <th class="bold">Out</th>
                                         </thead>
                                         <tr class="">
-                                            <td class="bold" th:text="${covariantCommand.originalFilename}"></td>
+                                            <td class="bold" th:text="${interfaceCommand.originalFilename}"></td>
                                             <td th:text="${result.measuredIn + ' (' + result.percentInM + '%)'}"></td>
                                             <td th:text="${result.measuredOut+ ' (' + result.percentOutM+ '%)'}"></td>
                                         </tr>
@@ -165,7 +165,7 @@
                         <td th:text="${result.pValue}"></td>
                         <td th:text="${result.effectSize}"></td>
                         <td th:id="${'plot_'+result.id}"></td>
-                        <td><input th:field="*{covariantCommand.covariants}" th:value="${result.id}" type="checkbox" form="covariant_form"/></td>
+                        <td><input th:field="*{interfaceCommand.covariants}" th:value="${result.id}" type="checkbox" form="covariant_form"/></td>
                     </tr>
                     <tr>
                         <td colspan="5" class="hiddenRow">
@@ -181,7 +181,7 @@
                         <td th:text="${result.pValue}"></td>
                         <td th:text="${result.effectSize}"></td>
                         <td th:id="${result.id}"></td>
-                        <td><input th:field="*{covariantCommand.covariants}" th:value="${result.id}" type="checkbox" form="covariant_form"/></td>
+                        <td><input th:field="*{interfaceCommand.covariants}" th:value="${result.id}" type="checkbox" form="covariant_form"/></td>
                     </tr>
                     <tr>
                         <td colspan="5" class="hiddenRow">
@@ -213,7 +213,7 @@
                     <th:block th:each="cov: ${covariants}">
                         <tr>
                            <td th:text="${cov.name}" th:attr="data-target=${#strings.replace('#accordion_cov_' + cov.id,'.','_')}" data-toggle="collapse" class="accordion-toggle" ></td>
-                           <td><input th:field="*{covariantCommand.covariants}" th:value="${cov.id}" type="checkbox" form="covariant_form" class="checked" checked="checked"/></td>
+                           <td><input th:field="*{interfaceCommand.covariants}" th:value="${cov.id}" type="checkbox" form="covariant_form" class="checked" checked="checked"/></td>
                         </tr>
                         <tr>
                           <td colspan="2" class="hiddenRow">
@@ -229,7 +229,7 @@
                                                 <th class="bold">Out</th>
                                             </thead>
                                             <tr class="">
-                                                <td class="bold" th:text="${covariantCommand.originalFilename}"></td>
+                                                <td class="bold" th:text="${interfaceCommand.originalFilename}"></td>
                                                 <td th:text="${cov.measuredIn + ' (' + cov.percentInM + '%)'}"></td>
                                                 <td th:text="${cov.measuredOut+ ' (' + cov.percentOutM+ '%)'}"></td>
                                             </tr>
@@ -326,7 +326,7 @@
 
             var x2= [];
             for(var key2 in result.namesMea) {
-                x2.push(result.namesMea[key2]/[[${covariantCommand.positionCount}]]);
+                x2.push(result.namesMea[key2]/[[${interfaceCommand.positionCount}]]);
             }
 
             if(x1.length < 3 || x1.length > 1000){

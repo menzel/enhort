@@ -6,8 +6,8 @@ import de.thm.spring.backend.BackendConnector;
 import de.thm.spring.backend.Session;
 import de.thm.spring.backend.Sessions;
 import de.thm.spring.backend.StatisticsCollector;
-import de.thm.spring.command.CovariantCommand;
-import de.thm.spring.command.backendCommand;
+import de.thm.spring.command.BackendCommand;
+import de.thm.spring.command.InterfaceCommand;
 import de.thm.stat.ResultCollector;
 import de.thm.stat.TestResult;
 import org.springframework.stereotype.Controller;
@@ -62,7 +62,7 @@ public class CalculationController {
 
         } else {
 
-            CovariantCommand command = new CovariantCommand();
+            InterfaceCommand command = new InterfaceCommand();
             command.setOriginalFilename("");
             command.setMinBg(10000);
 
@@ -98,7 +98,7 @@ public class CalculationController {
                 Session currentSession = sessionControll.addSession(httpSession.getId(), inputFilepath);
 
                 UserData data = new UserData(inputFilepath);
-                backendCommand command = new backendCommand(data);
+                BackendCommand command = new BackendCommand(data);
 
                 //run analysis:
                 ResultCollector collector = BackendConnector.getInstance().runAnalysis(command);
@@ -128,7 +128,7 @@ public class CalculationController {
 
 
     @RequestMapping(value = "/covariant", method = RequestMethod.POST)
-    public String covariant(@ModelAttribute CovariantCommand command, Model model, HttpSession httpSession) {
+    public String covariant(@ModelAttribute InterfaceCommand command, Model model, HttpSession httpSession) {
 
         Sessions sessionsControll = Sessions.getInstance();
 
@@ -143,7 +143,7 @@ public class CalculationController {
 
         //try {
 
-            collector = BackendConnector.getInstance().runAnalysis(new backendCommand(command));
+            collector = BackendConnector.getInstance().runAnalysis(new BackendCommand(command));
 
             covariants = collector.getCovariants(command.getCovariants());
             currentSession.setCovariants(covariants);
@@ -158,7 +158,7 @@ public class CalculationController {
 
             if (collector == null) //if there is no collector known to the session run with no covariants
                 collector = AnalysisHelper.runAnalysis(data);
-            collector = BackendConnector.getInstance().runAnalysis(new backendCommand(command));
+            collector = BackendConnector.getInstance().runAnalysis(new BackendCommand(command));
             //TODO reset last known state: set command object and put to runAnalysis
             //covariants = currentSession.getCovariants();
         }
@@ -181,7 +181,7 @@ public class CalculationController {
      * @param collector - result collector to get results from
      * @param cmd - covariantCommand for user set params
      */
-    private void setModel(Model model, ResultCollector collector, CovariantCommand cmd) {
+    private void setModel(Model model, ResultCollector collector, InterfaceCommand cmd) {
         model.addAttribute("results_inout", collector.getInOutResults());
         model.addAttribute("results_score", collector.getScoredResults());
         model.addAttribute("results_named", collector.getNamedResults());
@@ -208,7 +208,7 @@ public class CalculationController {
      */
     private void setModel(Model model, ResultCollector collector, UserData data, String filename) {
 
-        CovariantCommand command = new CovariantCommand();
+        InterfaceCommand command = new InterfaceCommand();
         command.setPositionCount(data.getPositionCount());
         command.setOriginalFilename(filename);
         command.setMinBg(collector.getBgCount());

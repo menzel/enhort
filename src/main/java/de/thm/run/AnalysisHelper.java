@@ -7,7 +7,7 @@ import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
 import de.thm.genomeData.TrackPackage;
 import de.thm.positionData.Sites;
-import de.thm.spring.command.backendCommand;
+import de.thm.spring.command.BackendCommand;
 import de.thm.stat.ResultCollector;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class AnalysisHelper {
      * @return Collection of Results inside a ResultCollector object
      * @throws CovariantsException - if too many covariants are supplied or an impossible combination
      */
-    public static ResultCollector runAnalysis(Sites sites, backendCommand cmd) throws CovariantsException {
+    public static ResultCollector runAnalysis(Sites sites, BackendCommand cmd) throws CovariantsException {
         List<Track> covariants = getCovariants(cmd.getCovariants());
         List<Track> runTracks;
         TrackFactory trackFactory = TrackFactory.getInstance();
@@ -97,7 +97,7 @@ public class AnalysisHelper {
         return selectedTracks;
     }
 
-    public static ResultCollector runAnalysis(backendCommand command) throws CovariantsException {
+    public static ResultCollector runAnalysis(BackendCommand command) throws CovariantsException {
         return runAnalysis(command.getSites(), command);
     }
 

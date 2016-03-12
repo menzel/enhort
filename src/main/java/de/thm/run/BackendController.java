@@ -2,7 +2,7 @@ package de.thm.run;
 
 import de.thm.exception.CovariantsException;
 import de.thm.genomeData.TrackFactory;
-import de.thm.spring.command.backendCommand;
+import de.thm.spring.command.BackendCommand;
 import de.thm.stat.ResultCollector;
 
 import java.io.EOFException;
@@ -18,7 +18,7 @@ import java.net.Socket;
  *
  * Sets up a ServerSocket and listens on a hard coded port for input.
  *
- * Input is a backendCommand.
+ * Input is a BackendCommand.
  *
  * Created by Michael Menzel on 11/3/16.
  */
@@ -88,9 +88,9 @@ public final class BackendController {
 
                 //after interface is connected
                 while (isConnected) {
-                        backendCommand command;
+                        BackendCommand command;
                     try {
-                        command = (backendCommand) inStream.readObject(); //wait for some input
+                        command = (BackendCommand) inStream.readObject(); //wait for some input
 
                         BackgroundRunner runner = new BackgroundRunner(command);
 
@@ -116,9 +116,9 @@ public final class BackendController {
          */
         private class BackgroundRunner implements Runnable{
 
-            private final backendCommand command;
+            private final BackendCommand command;
 
-            public BackgroundRunner(backendCommand command) {
+            public BackgroundRunner(BackendCommand command) {
                 this.command = command;
             }
 
