@@ -2,7 +2,7 @@ package de.thm.run;
 
 import de.thm.exception.CovariantsException;
 import de.thm.genomeData.TrackFactory;
-import de.thm.spring.command.RunCommand;
+import de.thm.spring.command.backendCommand;
 import de.thm.stat.ResultCollector;
 
 import java.io.EOFException;
@@ -88,9 +88,9 @@ public final class BackendController {
 
                 //after interface is connected
                 while (isConnected) {
-                        RunCommand command;
+                        backendCommand command;
                     try {
-                        command = (RunCommand) inStream.readObject(); //wait for some input
+                        command = (backendCommand) inStream.readObject(); //wait for some input
 
                         BackgroundRunner runner = new BackgroundRunner(command);
 
@@ -116,9 +116,9 @@ public final class BackendController {
          */
         private class BackgroundRunner implements Runnable{
 
-            private final RunCommand command;
+            private final backendCommand command;
 
-            public BackgroundRunner(RunCommand command) {
+            public BackgroundRunner(backendCommand command) {
                 this.command = command;
             }
 
