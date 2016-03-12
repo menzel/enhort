@@ -194,7 +194,7 @@ public class CalculationController {
         model.addAttribute("trackCount", collector.getTrackCount());
 
         //TODO AAAAARG:
-        //model.addAttribute("trackPackages", TrackFactory.getInstance().getTrackPackageNames());
+        model.addAttribute("trackPackages", collector.getKnownPackages());
         model.addAttribute("ran", true);
 
     }
