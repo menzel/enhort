@@ -66,7 +66,7 @@ public class CalculationController {
             command.setOriginalFilename("");
             command.setMinBg(10000);
 
-            model.addAttribute("covariantCommand", command);
+            model.addAttribute("interfaceCommand", command);
             model.addAttribute("bgCount", 10000);
             model.addAttribute("sigTrackCount", null);
             model.addAttribute("trackCount", null);
@@ -175,18 +175,18 @@ public class CalculationController {
 
 
     /**
-     * Set params for model with known covariantCommand
+     * Set params for model with known interfaceCommand
      *
      * @param model - model to set params to
      * @param collector - result collector to get results from
-     * @param cmd - covariantCommand for user set params
+     * @param cmd - interfaceCommand for user set params
      */
     private void setModel(Model model, ResultCollector collector, InterfaceCommand cmd) {
         model.addAttribute("results_inout", collector.getInOutResults());
         model.addAttribute("results_score", collector.getScoredResults());
         model.addAttribute("results_named", collector.getNamedResults());
 
-        model.addAttribute("covariantCommand", cmd);
+        model.addAttribute("interfaceCommand", cmd);
 
         model.addAttribute("bgCount", collector.getBgCount());
         model.addAttribute("sigTrackCount", collector.getSignificantTrackCount());

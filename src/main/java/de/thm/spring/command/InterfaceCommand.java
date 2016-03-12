@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Command object to send from controller to view.
+ *
  * Created by Michael Menzel on 4/2/16.
  */
 public final class InterfaceCommand {
