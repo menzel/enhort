@@ -61,7 +61,7 @@ public final class TrackFactory {
         try {
             tmp = getIntervals(basePath.resolve("inout"), Type.inout);
 
-            tmp.addAll(getIntervals(basePath.resolve("named"), Type.named));
+            //tmp.addAll(getIntervals(basePath.resolve("named"), Type.named));
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks."));
             this.intervals.addAll(tmp);
 
@@ -82,6 +82,7 @@ public final class TrackFactory {
             //getIntervals(basePath.resolve("broadHistone"), Type.inout);
             //getIntervals(basePath.resolve("awgSegmentation"), Type.named);
             //getIntervals(basePath.resolve("tfbs_composite"), Type.inout);
+
 
 
         } catch (IOException e) {
@@ -160,7 +161,11 @@ public final class TrackFactory {
     }
 
     public List<Track> getIntervalsByPackage(String packName) throws IllegalArgumentException{
-        return getIntervalsByPackage(TrackPackage.PackageName.valueOf(packName));
+        List <Track> tracks = getIntervalsByPackage(TrackPackage.PackageName.valueOf(packName));
+
+        if(tracks != null)
+            return tracks;
+        return new ArrayList<>();
     }
 
 

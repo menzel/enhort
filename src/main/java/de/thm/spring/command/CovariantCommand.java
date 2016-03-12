@@ -82,7 +82,5 @@ public final class CovariantCommand {
         return sites;
     }
 
-    public void setSites(Sites sites) {
-        this.sites = sites;
-    }
+    public void setSites(Sites sites) { this.sites = sites; }
 }
