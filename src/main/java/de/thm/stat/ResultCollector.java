@@ -1,5 +1,6 @@
 package de.thm.stat;
 
+import de.thm.genomeData.TrackFactory;
 import de.thm.positionData.Sites;
 
 import java.io.Serializable;
@@ -11,16 +12,20 @@ import java.util.stream.Collectors;
 /**
  * Collects results from a single intersect run.
  * <p>
+ * Is serialized and sent to interface for result display
+ * <p>
  * Created by Michael Menzel on 26/1/16.
  */
 public final class ResultCollector implements Serializable{
 
     private final List<TestResult> results;
     private final Sites backgroundSites;
+    private List<String> knownPackages; //keeps a list of all known packages for the gui to display
 
     public ResultCollector(Sites bgModel) {
         results = Collections.synchronizedList(new ArrayList<>());
         backgroundSites = bgModel;
+        knownPackages = TrackFactory.getInstance().getTrackPackageNames();
     }
 
     public List<TestResult> getScoredResults() {
@@ -136,7 +141,7 @@ public final class ResultCollector implements Serializable{
      *
      * @param result - test result to add
      */
-    public synchronized void addResult(TestResult result) {
+    public void addResult(TestResult result) {
         this.results.add(result);
     }
 
@@ -163,5 +168,13 @@ public final class ResultCollector implements Serializable{
 
     public int getBgCount() {
         return backgroundSites.getPositionCount();
+    }
+
+    public List<String> getKnownPackages() {
+        return knownPackages;
+    }
+
+    public void setKnownPackages(List<String> packages){
+        this.knownPackages = packages;
     }
 }
