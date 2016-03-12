@@ -19,21 +19,24 @@ import java.net.Socket;
 public final class BackendController {
 
     private static final int port = 42412;
+    private static final String prefix = "[Enhort Backend ::=]: ";
 
     public static void main(String[] args) {
-        System.out.println("[Enhort Backend]: Starting Enhort backend server ::-");
+        System.out.println(prefix + "Starting Enhort backend server");
 
         TrackFactory tf = TrackFactory.getInstance();
-        System.out.println("[Enhort Backend]: " + tf.getAllIntervals().size()  + " Track files loaded");
+        System.out.println(prefix + tf.getAllIntervals().size()  + " Track files loaded");
 
         BackendServer server = new BackendServer(port);
 
         Thread thread = new Thread(server);
-
         thread.run();
     }
 
 
+    /**
+     * Impl. for backend listener
+     */
     private static class BackendServer implements Runnable{
 
         private ServerSocket serverSocket;
@@ -48,7 +51,7 @@ public final class BackendController {
                 serverSocket = new ServerSocket(port);
 
             } catch (BindException b){
-                System.err.println("[Enhort Backend]: Port already in use: " + port);
+                System.err.println(prefix + "Port already in use: " + port);
                 System.exit(1);
 
             } catch (IOException e) {
@@ -66,7 +69,7 @@ public final class BackendController {
 
                 try {
                     socket = serverSocket.accept();
-                    System.out.println("[Enhort Backend]: Webinterface connected");
+                    System.out.println(prefix + "Webinterface connected");
 
                     inStream = new ObjectInputStream(socket.getInputStream());
                     outStream = new ObjectOutputStream(socket.getOutputStream());
@@ -76,35 +79,58 @@ public final class BackendController {
                     e.printStackTrace();
                 }
 
-                //if interface is connected
+                //after interface is connected
                 while (isConnected) {
-                    try {
                         RunCommand command;
-                        command = (RunCommand) inStream.readObject();
+                    try {
+                        command = (RunCommand) inStream.readObject(); //wait for some input
 
-                        System.out.println("[Enhort Backend]: recieved a command " + command.hashCode());
+                        BackgroundRunner runner = new BackgroundRunner(command);
 
-                        ResultCollector collector = AnalysisHelper.runAnalysis(command);
+                        new Thread(runner).run(); //TODO maybe use a thread pool here to prevent unlimited threads running and prevent one thread running forever
 
-                        System.out.println("[Enhort Backend]: writing answer " + command.hashCode());
-                        outStream.writeObject(collector);
 
-                        System.out.println("[Enhort Backend]: answered request " + command.hashCode());
-
-                    } catch (EOFException e) {
+                    }catch (EOFException e){
+                        //do nothing here. client is disconected.
                         isConnected = false;
-                    } catch (IOException | ClassCastException | ClassNotFoundException | CovariantsException e) {
-                        isConnected = false;
+
+                    } catch (IOException | ClassNotFoundException e) {
                         e.printStackTrace();
                     }
+                } //close while(isConnected) loop
 
-                }
-
-                System.out.println("[Enhort Backend]: Webinterface lost");
+                System.out.println(prefix + "Webinterface lost");
             }
 
         }
 
+        /**
+         * Background runner class for a new command object
+         */
+        private class BackgroundRunner implements Runnable{
+
+            private final RunCommand command;
+
+            public BackgroundRunner(RunCommand command) {
+                this.command = command;
+            }
+
+            @Override
+            public void run() { //put stuff into background thread once data is recived
+                try {
+                    System.out.println(prefix + "recieved a command " + command.hashCode());
+
+                    ResultCollector collector = AnalysisHelper.runAnalysis(command);
+                    System.out.println(prefix + "writing answer " + command.hashCode());
+
+                    outStream.writeObject(collector);
+                    System.out.println(prefix + "answered request " + command.hashCode());
+
+                } catch (IOException | ClassCastException | CovariantsException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
 }
