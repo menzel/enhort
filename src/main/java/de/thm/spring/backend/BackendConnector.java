@@ -92,6 +92,7 @@ public final class BackendConnector implements Runnable{
         }
 
         System.out.println("[Enhort Webinterface]: No connection to backend");
+        StatisticsCollector.getInstance().addErrorC();
 
         this.run(); //try to connect to backend again
 
