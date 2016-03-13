@@ -17,7 +17,9 @@ public final class StatisticsCollector {
 
     private static final StatisticsCollector instance = new StatisticsCollector(new File("/tmp/log").toPath());
     private final Path logPath;
+
     /**
+     * TODO use hashmap with enum as key for generic stats
      * Statistic countings:
      */
     private AtomicInteger fileCount;

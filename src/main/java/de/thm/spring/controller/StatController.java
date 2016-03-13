@@ -7,6 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
+ * Controller for statistics page.
+ *
+ *
  * Created by Michael Menzel on 10/2/16.
  */
 @Controller
@@ -17,7 +20,7 @@ public class StatController {
 
         StatisticsCollector stats = StatisticsCollector.getInstance();
 
-        model.addAttribute("version", "0.0.3");
+        model.addAttribute("version", "0.0.4");
 
         model.addAttribute("fileCount", stats.getFileCount());
         model.addAttribute("analyseCount", stats.getAnalyseCount());
