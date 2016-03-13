@@ -8,6 +8,7 @@ import de.thm.positionData.Sites;
 import de.thm.stat.EffectSize;
 import de.thm.stat.IndependenceTest;
 import de.thm.stat.ResultCollector;
+import de.thm.stat.TestResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,10 +112,10 @@ public final class IntersectMultithread {
             TestTrackResult result1 = intersec1.searchSingleInterval((T) track, measuredPos);
             TestTrackResult result2 = intersec2.searchSingleInterval((T) track, randomPos);
 
-            IndependenceTest<T> tester = new IndependenceTest<>();
+            IndependenceTest tester = new IndependenceTest();
             EffectSize effectSize = new EffectSize();
 
-            de.thm.stat.TestResult statTestResult = tester.test(result1, result2, track);
+            TestResult statTestResult = tester.test(result1, result2, track);
             effectSize.test(result1, result2);
 
             collector.addResult(statTestResult);
