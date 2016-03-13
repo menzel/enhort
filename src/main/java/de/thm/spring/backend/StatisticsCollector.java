@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
@@ -15,7 +18,7 @@ import java.util.stream.Stream;
  */
 public final class StatisticsCollector {
 
-    private static final StatisticsCollector instance = new StatisticsCollector(new File("/tmp/log").toPath());
+    private static final StatisticsCollector instance = new StatisticsCollector(new File("log").toPath());
     private final Path logPath;
 
     /**
@@ -27,6 +30,7 @@ public final class StatisticsCollector {
     private AtomicInteger sessionCount;
     private AtomicInteger errorCount;
     private AtomicInteger downloadCount;
+    private Date date;
 
 
     /**
@@ -38,7 +42,26 @@ public final class StatisticsCollector {
         this.logPath = logPath;
 
         if (!logPath.toFile().exists()) {
-            System.err.println("Log File does not exists");
+            System.err.println("Log File does not exists: " + logPath.toAbsolutePath());
+            System.err.println("Creating new file");
+
+            fileCount = new AtomicInteger(0);
+            analyseCount = new AtomicInteger(0);
+            sessionCount = new AtomicInteger(0);
+            errorCount = new AtomicInteger(0);
+            downloadCount = new AtomicInteger(0);
+            date = new Date();
+
+            saveStats();
+
+
+            try {
+                logPath.toFile().createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            System.err.println("New log file created and saved");
 
         } else {
 
@@ -51,10 +74,11 @@ public final class StatisticsCollector {
                 sessionCount = new AtomicInteger(Integer.parseInt(values[2]));
                 errorCount = new AtomicInteger(Integer.parseInt(values[3]));
                 downloadCount = new AtomicInteger(Integer.parseInt(values[4]));
+                date = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").parse(values[5]);
 
                 lines.close();
 
-            } catch (IOException e) {
+            } catch (IOException | ParseException e) {
                 e.printStackTrace();
             }
 
@@ -108,6 +132,7 @@ public final class StatisticsCollector {
             writer.write(sessionCount + "\n");
             writer.write(errorCount + "\n");
             writer.write(downloadCount + "\n");
+            writer.write(date + "\n");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -134,4 +159,6 @@ public final class StatisticsCollector {
     public int getDownloadCount() {
         return downloadCount.intValue();
     }
+
+    public Date getCreationDate(){return this.date;}
 }

@@ -1,6 +1,6 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
     <title>Enhort - Stats</title>
@@ -70,6 +70,10 @@
                             <td th:text="${session_count}"></td>
                         </tr>
 
+                        <tr>
+                            <td>Start of log</td>
+                            <td th:text="${creationDate}"></td>
+                        </tr>
                     </tbody>
                 </table>
 

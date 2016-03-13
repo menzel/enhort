@@ -27,6 +27,7 @@ public class StatController {
         model.addAttribute("sessionCount", stats.getSessionCount());
         model.addAttribute("errorCount", stats.getErrorCount());
         model.addAttribute("downloadCount", stats.getDownloadCount());
+        model.addAttribute("creationDate", stats.getCreationDate().toString());
 
 
         model.addAttribute("session_count", Sessions.getInstance().count());
