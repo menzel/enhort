@@ -21,7 +21,7 @@ public final class Tracks {
 
 
     /**
-     * Intersect a list of intervals. Resulting track has only starts/stop where all input track were marked.
+     * TestTrack a list of intervals. Resulting track has only starts/stop where all input track were marked.
      * *
      *
      * @param tracks - list of Interval Objects
@@ -48,7 +48,7 @@ public final class Tracks {
     }
 
     /**
-     * Intersect two intervals. Resulting track has only starts/stop where both input track were marked.
+     * TestTrack two intervals. Resulting track has only starts/stop where both input track were marked.
      *
      * @param intv1 - first input  track object
      * @param intv2 - second input track object

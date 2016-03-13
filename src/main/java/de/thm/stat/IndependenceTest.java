@@ -1,6 +1,6 @@
 package de.thm.stat;
 
-import de.thm.calc.IntersectResult;
+import de.thm.calc.TestResult;
 import de.thm.genomeData.InOutTrack;
 import de.thm.genomeData.NamedTrack;
 import de.thm.genomeData.ScoredTrack;
@@ -32,24 +32,24 @@ public final class IndependenceTest<T extends Track> {
     /**
      * Tests two Result objects upon independence
      *
-     * @param intersectResultA measured results
-     * @param intersectResultB expected (random) results
+     * @param testResultA measured results
+     * @param testResultB expected (random) results
      * @param track            - used interval for reference
      * @return p value of independence test
      */
-    public TestResult test(IntersectResult intersectResultA, IntersectResult intersectResultB, Track track) {
+    public de.thm.stat.TestResult test(TestResult testResultA, TestResult testResultB, Track track) {
 
         long[][] counts = new long[2][2];
-        counts[0] = new long[]{intersectResultA.getIn(), intersectResultA.getOut()};
-        counts[1] = new long[]{intersectResultB.getIn(), intersectResultB.getOut()};
+        counts[0] = new long[]{testResultA.getIn(), testResultA.getOut()};
+        counts[1] = new long[]{testResultB.getIn(), testResultB.getOut()};
 
-        double effectSize = effectSizeTester.test(intersectResultA, intersectResultB);
+        double effectSize = effectSizeTester.test(testResultA, testResultB);
 
 
         if (track instanceof ScoredTrack) {
 
-            double[] measuredScore = intersectResultA.getResultScores().stream().mapToDouble(i -> i).toArray();
-            double[] expectedScore = intersectResultB.getResultScores().stream().mapToDouble(i -> i).toArray();
+            double[] measuredScore = testResultA.getResultScores().stream().mapToDouble(i -> i).toArray();
+            double[] expectedScore = testResultB.getResultScores().stream().mapToDouble(i -> i).toArray();
 
             if (measuredScore.length < 2 || expectedScore.length < 2) {
                 System.err.println("In Independence test");
@@ -58,21 +58,21 @@ public final class IndependenceTest<T extends Track> {
                 return null;
 
             } else {
-                return new TestResult(kolmoTester.kolmogorovSmirnovTest(measuredScore, expectedScore), intersectResultA, intersectResultB, effectSize, track, TestResult.Type.score);
+                return new de.thm.stat.TestResult(kolmoTester.kolmogorovSmirnovTest(measuredScore, expectedScore), testResultA, testResultB, effectSize, track, de.thm.stat.TestResult.Type.score);
             }
 
         } else if (track instanceof NamedTrack) {
 
 
-            Map<String, Integer> measured = intersectResultA.getResultNames();
-            Map<String, Integer> expected = intersectResultB.getResultNames();
+            Map<String, Integer> measured = testResultA.getResultNames();
+            Map<String, Integer> expected = testResultB.getResultNames();
 
-            return new TestResult(tester.chiSquareTest(prepareLists(measured, expected)), intersectResultA, intersectResultB, effectSize, track, TestResult.Type.name);
+            return new de.thm.stat.TestResult(tester.chiSquareTest(prepareLists(measured, expected)), testResultA, testResultB, effectSize, track, de.thm.stat.TestResult.Type.name);
 
 
         } else if (track instanceof InOutTrack) {
 
-            return new TestResult(tester.chiSquareTest(counts), intersectResultA, intersectResultB, effectSize, track, TestResult.Type.inout);
+            return new de.thm.stat.TestResult(tester.chiSquareTest(counts), testResultA, testResultB, effectSize, track, de.thm.stat.TestResult.Type.inout);
 
         } else {
             return null;

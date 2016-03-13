@@ -5,6 +5,8 @@ import de.thm.genomeData.NamedTrack;
 import de.thm.genomeData.ScoredTrack;
 import de.thm.genomeData.Track;
 import de.thm.positionData.Sites;
+import de.thm.stat.EffectSize;
+import de.thm.stat.IndependenceTest;
 import de.thm.stat.ResultCollector;
 
 import java.util.ArrayList;
@@ -76,4 +78,49 @@ public final class IntersectMultithread {
 
         return collector;
     }
+
+    final class IntersectWrapper<T extends Track> implements Runnable {
+
+
+        private final Sites randomPos;
+        private final Sites measuredPos;
+        private final Track track;
+        private final ResultCollector collector;
+
+        /**
+         * Constructor for the wrapper object
+         *
+         * @param measuredPos - positions from the outside of the program
+         * @param randomPos   - positions to match against made up by a background model
+         * @param track       - interval to match against
+         * @param collector   - collector to collect results in
+         */
+        private IntersectWrapper(Sites measuredPos, Sites randomPos, Track track, ResultCollector collector) {
+
+            this.randomPos = randomPos;
+            this.measuredPos = measuredPos;
+            this.track = track;
+            this.collector = collector;
+        }
+
+        @Override
+        public void run() {
+            TestTrack<T> intersec1 = new Intersect<>();
+            TestTrack<T> intersec2 = new Intersect<>();
+
+            TestResult result1 = intersec1.searchSingleInterval((T) track, measuredPos);
+            TestResult result2 = intersec2.searchSingleInterval((T) track, randomPos);
+
+            IndependenceTest<T> tester = new IndependenceTest<>();
+            EffectSize effectSize = new EffectSize();
+
+            de.thm.stat.TestResult testResult = tester.test(result1, result2, track);
+            effectSize.test(result1, result2);
+
+            collector.addResult(testResult);
+
+        }
+    }
+
+
 }

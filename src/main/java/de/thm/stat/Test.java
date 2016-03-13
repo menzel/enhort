@@ -1,6 +1,6 @@
 package de.thm.stat;
 
-import de.thm.calc.IntersectResult;
+import de.thm.calc.TestResult;
 import de.thm.genomeData.Track;
 
 /**
@@ -8,5 +8,5 @@ import de.thm.genomeData.Track;
  */
 public interface Test<T extends Track>{
 
-    TestResult test(IntersectResult intersectResultA, IntersectResult intersectResultB, Track track);
+    de.thm.stat.TestResult test(TestResult testResultA, TestResult testResultB, Track track);
 }

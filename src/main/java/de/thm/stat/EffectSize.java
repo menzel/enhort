@@ -1,6 +1,6 @@
 package de.thm.stat;
 
-import de.thm.calc.IntersectResult;
+import de.thm.calc.TestResult;
 
 /**
  * Can compute the the fold change
@@ -12,14 +12,14 @@ public final class EffectSize {
     /**
      * Computes the fold change of two intersect results.
      *
-     * @param intersectResultA - first result
-     * @param intersectResultB - second result
+     * @param testResultA - first result
+     * @param testResultB - second result
      * @return fold change of both result
      */
-    public double test(IntersectResult intersectResultA, IntersectResult intersectResultB) {
+    public double test(de.thm.calc.TestResult testResultA, TestResult testResultB) {
 
 
-        return foldChange(intersectResultA.getIn(), intersectResultA.getOut(), intersectResultB.getIn(), intersectResultB.getOut());
+        return foldChange(testResultA.getIn(), testResultA.getOut(), testResultB.getIn(), testResultB.getOut());
 
     }
 

@@ -10,7 +10,7 @@ import java.util.Map;
  * <p>
  * Created by Michael Menzel on 8/12/15.
  */
-public final class IntersectResult {
+public final class TestResult {
 
 
     private final Map<String, Integer> resultNames;
@@ -23,7 +23,7 @@ public final class IntersectResult {
     /**
      * Constructor
      */
-    IntersectResult(Track usedInterval, int in, int out) {
+    TestResult(Track usedInterval, int in, int out) {
         this.usedInterval = usedInterval;
         this.in = in;
         this.out = out;
@@ -34,7 +34,7 @@ public final class IntersectResult {
     /**
      * Constructor
      */
-    IntersectResult(Track usedInterval, int in, int out, Map<String, Integer> names) {
+    TestResult(Track usedInterval, int in, int out, Map<String, Integer> names) {
         this.usedInterval = usedInterval;
         this.in = in;
         this.out = out;
@@ -45,7 +45,7 @@ public final class IntersectResult {
     /**
      * Constructor
      */
-    IntersectResult(Track usedInterval, int in, int out, List<Double> scores) {
+    TestResult(Track usedInterval, int in, int out, List<Double> scores) {
         this.usedInterval = usedInterval;
         this.in = in;
         this.out = out;
