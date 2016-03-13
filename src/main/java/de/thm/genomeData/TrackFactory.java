@@ -271,8 +271,14 @@ public final class TrackFactory {
 
                         long offset = chrSizes.offset(parts[0]); //handle null pointer exc if chromosome name is not in list
 
-                        starts.add(Long.parseLong(parts[1]) + offset);
-                        ends.add(Long.parseLong(parts[2]) + offset);
+                        long start = Long.parseLong(parts[1]) + offset;
+                        long end  = Long.parseLong(parts[2]) + offset;
+
+                        if(!(start < end)) //check if interval length is positive
+                            continue;
+
+                        starts.add(start);
+                        ends.add(end);
 
                         if(type == Type.named || type == Type.scored)
                             names.add(parts[3].intern());
