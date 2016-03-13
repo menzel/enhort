@@ -338,4 +338,38 @@ public final class Tracks {
         return new ScoredTrack(track.getIntervalsStart(), track.getIntervalsEnd(), track.getIntervalName(), scores, track.getName(), track.getDescription());
 
     }
+
+
+    /**
+     * Test if the intervals of a track are correct.
+     * Correct means in order. not overlapping and the start and end list are of same size.
+     *
+     * @param track - track to test
+     * @return true if track is good. false if not.
+     *
+     */
+    public static boolean checkTrack(Track track){
+
+        List<Long> intervalStart = track.getIntervalsStart();
+        List<Long> intervalEnd = track.getIntervalsEnd();
+
+        if(intervalEnd.size() != intervalStart.size()) return false;
+
+        Long lastStart = 0L;
+        Long lastEnd = 0L;
+
+        for(int i = 0; i < intervalEnd.size(); i++){
+            Long start = intervalStart.get(i);
+            Long end = intervalEnd.get(i);
+
+            if(start > end) return false;
+            if(start < lastEnd) return false;
+            if(lastStart > start) return false;
+
+            lastEnd = end;
+            lastStart = start;
+        }
+
+        return true;
+    }
 }
