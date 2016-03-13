@@ -1,6 +1,7 @@
 package de.thm.spring.controller;
 
 
+import de.thm.exception.CovariantsException;
 import de.thm.positionData.UserData;
 import de.thm.spring.backend.BackendConnector;
 import de.thm.spring.backend.Session;
@@ -147,7 +148,7 @@ public class CalculationController {
         StatisticsCollector stats = StatisticsCollector.getInstance();
         command.setSites(data);
 
-        //try {
+        try {
 
             collector = BackendConnector.getInstance().runAnalysis(new BackendCommand(command));
 
@@ -157,18 +158,13 @@ public class CalculationController {
             model.addAttribute("covariants", covariants);
             model.addAttribute("covariantCount", covariants.size());
 
-            /*
         } catch (CovariantsException e) {
             model.addAttribute("errorMessage", "Too many covariants, a max of " + "10 covariants is allowed.");
             collector = currentSession.getCollector();
 
-            if (collector == null) //if there is no collector known to the session run with no covariants
-                collector = AnalysisHelper.runAnalysis(data);
-            collector = BackendConnector.getInstance().runAnalysis(new BackendCommand(command));
             //TODO reset last known state: set command object and put to runAnalysis
             //covariants = currentSession.getCovariants();
         }
-        */
 
         currentSession.setCollector(collector);
         setModel(model, collector, command);

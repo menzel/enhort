@@ -1,5 +1,6 @@
 package de.thm.spring.backend;
 
+import de.thm.exception.CovariantsException;
 import de.thm.spring.command.BackendCommand;
 import de.thm.stat.ResultCollector;
 
@@ -67,7 +68,7 @@ public final class BackendConnector implements Runnable{
     }
 
 
-    public ResultCollector runAnalysis(BackendCommand command){
+    public ResultCollector runAnalysis(BackendCommand command) throws CovariantsException{
 
         if(isConnected){
             try {
@@ -76,7 +77,17 @@ public final class BackendConnector implements Runnable{
                 outputStream.writeObject(command);
 
                 System.out.println("[Enhort Webinterface]: getting result");
-                ResultCollector collector = (ResultCollector) inputStream.readObject();
+                Object answer = inputStream.readObject();
+                ResultCollector collector = null;
+
+                if(answer instanceof Exception){
+
+                    System.out.println("[Enhort Webinterface]: got exception: " + ((Exception) answer).getMessage());
+                    throw (CovariantsException) answer;
+                }
+                else{
+                    collector = (ResultCollector) answer;
+                }
 
 
                 System.out.println("[Enhort Webinterface]: got result: " + collector.getResults().size());
@@ -84,9 +95,7 @@ public final class BackendConnector implements Runnable{
 
             } catch(SocketException e){
                 isConnected = false;
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }

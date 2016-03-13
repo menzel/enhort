@@ -135,7 +135,14 @@ public final class BackendController {
 
                     System.out.println(prefix + "answered request " + command.hashCode());
 
-                } catch (IOException | ClassCastException | CovariantsException e) {
+                }catch (CovariantsException e){ //if a covariant exception is thrown return it as answer
+                    try {
+                        outStream.writeObject(e);
+
+                    } catch (IOException e1) {
+                        System.err.println(prefix + " connection problem " + e1.getMessage());
+                    }
+                } catch (IOException | ClassCastException e) {
                     System.err.println(prefix + " connection problem " + e.getMessage());
                 }
             }
