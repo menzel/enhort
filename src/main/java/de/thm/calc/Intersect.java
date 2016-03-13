@@ -16,7 +16,7 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
 
 
     @Override
-    public TestResult searchSingleInterval(T intv, Sites pos) {
+    public TestTrackResult searchSingleInterval(T intv, Sites pos) {
         if (intv instanceof InOutTrack)
             return searchSingleInterval((InOutTrack) intv, pos);
         if (intv instanceof ScoredTrack)
@@ -33,7 +33,7 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
 
     }
 
-    private TestResult searchSingleInterval(NamedTrack intv, Sites pos) {
+    private TestTrackResult searchSingleInterval(NamedTrack intv, Sites pos) {
 
         int out = 0;
         int in = 0;
@@ -79,10 +79,10 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
             }
         }
 
-        return new TestResult(intv, in, out, resultNames.resultNames);
+        return new TestTrackResult(intv, in, out, resultNames.resultNames);
     }
 
-    public TestResult searchSingleInterval(InOutTrack intv, Sites pos) {
+    public TestTrackResult searchSingleInterval(InOutTrack intv, Sites pos) {
         int out = 0;
         int in = 0;
         int i = 0;
@@ -122,10 +122,10 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
         }
 
 
-        return new TestResult(intv, in, out);
+        return new TestTrackResult(intv, in, out);
     }
 
-    public TestResult searchSingleInterval(ScoredTrack intv, Sites pos) {
+    public TestTrackResult searchSingleInterval(ScoredTrack intv, Sites pos) {
 
         int out = 0;
         int in = 0;
@@ -171,7 +171,7 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
             }
         }
 
-        return new TestResult(intv, in, out, resultsScores);
+        return new TestTrackResult(intv, in, out, resultsScores);
     }
 
     public Set<Map.Entry<Integer, Integer>> getAverageDistance(InOutTrack intv, Sites pos) {

@@ -56,14 +56,14 @@ public class TracksTest {
         interval2.setIntervalName(names);
 
 
-        // sum(a,b) == -Intersect(-a, -b)
+        // sum(a,b) == -TestTrack(-a, -b)
         try {
             assertEquals(Tracks.sum(interval1,interval2).getIntervalsStart(), Tracks.invert(Tracks.intersect(Tracks.invert(interval1), Tracks.invert(interval2))).getIntervalsStart());
 
-            // sum(-a, -b) == -Intersect(a, b)
+            // sum(-a, -b) == -TestTrack(a, b)
             assertEquals(Tracks.sum(Tracks.invert(interval1), Tracks.invert(interval2)).getIntervalsStart(), Tracks.invert(Tracks.intersect(interval1, interval2)).getIntervalsStart());
 
-            // sum(a, -b) == Intersect(-a, b)
+            // sum(a, -b) == TestTrack(-a, b)
             assertEquals(Tracks.sum(interval1, Tracks.invert(interval2)).getIntervalsStart(), Tracks.intersect(Tracks.invert(interval1), interval2).getIntervalsStart());
 
         }  catch (IntervalTypeNotAllowedExcpetion intervalTypeNotAllowedExcpetion) {

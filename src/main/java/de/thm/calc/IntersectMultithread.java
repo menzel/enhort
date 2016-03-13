@@ -108,16 +108,16 @@ public final class IntersectMultithread {
             TestTrack<T> intersec1 = new Intersect<>();
             TestTrack<T> intersec2 = new Intersect<>();
 
-            TestResult result1 = intersec1.searchSingleInterval((T) track, measuredPos);
-            TestResult result2 = intersec2.searchSingleInterval((T) track, randomPos);
+            TestTrackResult result1 = intersec1.searchSingleInterval((T) track, measuredPos);
+            TestTrackResult result2 = intersec2.searchSingleInterval((T) track, randomPos);
 
             IndependenceTest<T> tester = new IndependenceTest<>();
             EffectSize effectSize = new EffectSize();
 
-            de.thm.stat.TestResult testResult = tester.test(result1, result2, track);
+            de.thm.stat.TestResult statTestResult = tester.test(result1, result2, track);
             effectSize.test(result1, result2);
 
-            collector.addResult(testResult);
+            collector.addResult(statTestResult);
 
         }
     }

@@ -1,8 +1,8 @@
 package de.thm.backgroundModel;
 
+import de.thm.calc.TestTrack;
 import de.thm.calc.Intersect;
-import de.thm.calc.IntersectCalculate;
-import de.thm.calc.IntersectResult;
+import de.thm.calc.TestTrackResult;
 import de.thm.genomeData.GenomeInterval;
 import de.thm.genomeData.Track;
 import de.thm.positionData.Sites;
@@ -313,15 +313,15 @@ public class MultiTrackBackgroundModelTest {
 
         bg.addPositions(bg.randPositions(app, trackList));
 
-        Intersect calc = new IntersectCalculate();
+        TestTrack calc = new Intersect();
 
         //check in first:
-        IntersectResult result1 = calc.searchSingleInterval(interval1, bg);
+        TestTrackResult result1 = calc.searchSingleInterval(interval1, bg);
         assertEquals(inFirst + inBoth, result1.getIn());
 
 
         //check in second:
-        IntersectResult result2 = calc.searchSingleInterval(interval2, bg);
+        TestTrackResult result2 = calc.searchSingleInterval(interval2, bg);
         assertEquals(inSecond + inBoth, result2.getIn());
 
         //check outsiders first:

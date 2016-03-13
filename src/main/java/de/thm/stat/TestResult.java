@@ -1,5 +1,6 @@
 package de.thm.stat;
 
+import de.thm.calc.TestTrackResult;
 import de.thm.genomeData.Track;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.math3.util.Precision;
@@ -31,7 +32,7 @@ public final class TestResult implements Serializable{
     private final int id;
     private final Type type;
 
-    public TestResult(double pValue, de.thm.calc.TestResult measured, de.thm.calc.TestResult expected, double effectSize, Track usedInterval, Type type) {
+    public TestResult(double pValue, TestTrackResult measured, TestTrackResult expected, double effectSize, Track usedInterval, Type type) {
 
         DecimalFormat format = new DecimalFormat("0.00E00");
         String v = format.format(pValue);

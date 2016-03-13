@@ -131,13 +131,12 @@ public final class BackendController {
                     System.out.println(prefix + "recieved a command " + command.hashCode());
 
                     ResultCollector collector = AnalysisHelper.runAnalysis(command);
-                    System.out.println(prefix + "writing answer " + command.hashCode());
-
                     outStream.writeObject(collector);
+
                     System.out.println(prefix + "answered request " + command.hashCode());
 
                 } catch (IOException | ClassCastException | CovariantsException e) {
-                    e.printStackTrace();
+                    System.err.println(prefix + " connection problem " + e.getMessage());
                 }
             }
         }

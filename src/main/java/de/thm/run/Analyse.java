@@ -1,8 +1,8 @@
 package de.thm.run;
 
 import de.thm.backgroundModel.BackgroundModelFactory;
+import de.thm.calc.TestTrack;
 import de.thm.calc.Intersect;
-import de.thm.calc.IntersectCalculate;
 import de.thm.exception.CovariantsException;
 import de.thm.genomeData.InOutTrack;
 import de.thm.genomeData.Track;
@@ -27,7 +27,7 @@ public class Analyse {
     public Analyse() {
         TrackFactory loader = TrackFactory.getInstance();
         intervals = loader.getAllIntervals();
-        Intersect simple = new IntersectCalculate();
+        TestTrack simple = new Intersect();
     }
 
     /**
@@ -38,8 +38,8 @@ public class Analyse {
     public void analyse(Sites userSites) throws Exception {
 
 
-        //IntersectResult resultUserSites;
-        //IntersectResult resultBg;
+        //TestTrackResult resultUserSites;
+        //TestTrackResult resultBg;
 
         //Interval genes = intervals.get("knownGenes");
         //resultUserSites = simple.searchSingleInterval(genes, userSites);
@@ -68,7 +68,7 @@ public class Analyse {
         //IntersectMultithread multi = new IntersectMultithread();
         //ResultCollector collector = multi.execute(intervals, userSites, bg);
 
-        IntersectCalculate calc  = new IntersectCalculate();
+        Intersect calc  = new Intersect();
 
         calc.getAverageDistance((InOutTrack) covariants.get(1), userSites);
 

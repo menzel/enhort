@@ -17,6 +17,6 @@ public interface TestTrack<T extends Track> {
      * @param pos  - positions to find
      * @return Result which contains the in/out count, names or scores
      */
-    TestResult searchSingleInterval(T intv, Sites pos);
+    TestTrackResult searchSingleInterval(T intv, Sites pos);
 
 }

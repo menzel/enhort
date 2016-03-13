@@ -16,9 +16,9 @@ import static junit.framework.TestCase.assertEquals;
 /**
  * Created by Michael Menzel on 15/12/15.
  */
-public class IntersectSimpleTest {
+public class TestTrackSimpleTest {
 
-    Intersect<InOutTrack> intersect = new IntersectCalculate<>();
+    TestTrack<InOutTrack> testTrack = new Intersect<>();
     InOutTrack intv;
 
     @Before
@@ -94,10 +94,10 @@ public class IntersectSimpleTest {
             }
         };
 
-        IntersectResult intersectResult = intersect.searchSingleInterval(intv,sites);
-        assertEquals(5, intersectResult.getIn());
+        TestTrackResult testTrackResult = testTrack.searchSingleInterval(intv,sites);
+        assertEquals(5, testTrackResult.getIn());
 
-        assertEquals(5, intersectResult.getOut());
+        assertEquals(5, testTrackResult.getOut());
     }
 
 
@@ -143,10 +143,10 @@ public class IntersectSimpleTest {
             }
         };
 
-        IntersectResult intersectResult = intersect.searchSingleInterval(intv,sites);
-        assertEquals(4, intersectResult.getIn());
+        TestTrackResult testTrackResult = testTrack.searchSingleInterval(intv,sites);
+        assertEquals(4, testTrackResult.getIn());
 
-        assertEquals(4, intersectResult.getOut());
+        assertEquals(4, testTrackResult.getOut());
     }
 
 
@@ -197,11 +197,11 @@ public class IntersectSimpleTest {
             }
         };
 
-        IntersectResult intersectResult = intersect.searchSingleInterval(intv,sites);
+        TestTrackResult testTrackResult = testTrack.searchSingleInterval(intv,sites);
 
-        assertEquals(10, intersectResult.getOut());
+        assertEquals(10, testTrackResult.getOut());
 
-        assertEquals(3, intersectResult.getIn());
+        assertEquals(3, testTrackResult.getIn());
 
     }
 }

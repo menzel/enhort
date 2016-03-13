@@ -1,7 +1,7 @@
 package de.thm.backgroundModel;
 
 import de.thm.calc.Intersect;
-import de.thm.calc.TestResult;
+import de.thm.calc.TestTrackResult;
 import de.thm.genomeData.InOutTrack;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.Tracks;
@@ -36,7 +36,7 @@ class SingleTrackBackgroundModel implements Sites {
     SingleTrackBackgroundModel(InOutTrack interval, Sites sites, int minSites) {
 
         Intersect calc = new Intersect();
-        TestResult result = calc.searchSingleInterval(interval, sites);
+        TestTrackResult result = calc.searchSingleInterval(interval, sites);
 
         int factor = (sites.getPositionCount() < minSites)? minSites/ sites.getPositionCount(): 1;
 

@@ -10,7 +10,7 @@ import java.util.Map;
  * <p>
  * Created by Michael Menzel on 8/12/15.
  */
-public final class TestResult {
+public final class TestTrackResult {
 
 
     private final Map<String, Integer> resultNames;
@@ -23,7 +23,7 @@ public final class TestResult {
     /**
      * Constructor
      */
-    TestResult(Track usedInterval, int in, int out) {
+    TestTrackResult(Track usedInterval, int in, int out) {
         this.usedInterval = usedInterval;
         this.in = in;
         this.out = out;
@@ -34,7 +34,7 @@ public final class TestResult {
     /**
      * Constructor
      */
-    TestResult(Track usedInterval, int in, int out, Map<String, Integer> names) {
+    TestTrackResult(Track usedInterval, int in, int out, Map<String, Integer> names) {
         this.usedInterval = usedInterval;
         this.in = in;
         this.out = out;
@@ -45,7 +45,7 @@ public final class TestResult {
     /**
      * Constructor
      */
-    TestResult(Track usedInterval, int in, int out, List<Double> scores) {
+    TestTrackResult(Track usedInterval, int in, int out, List<Double> scores) {
         this.usedInterval = usedInterval;
         this.in = in;
         this.out = out;
