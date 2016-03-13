@@ -8,5 +8,5 @@ import de.thm.genomeData.Track;
  */
 public interface Test<T extends Track>{
 
-    de.thm.stat.TestResult test(TestTrackResult testTrackResultA, TestTrackResult testTrackResultB, Track track);
+    TestResult test(TestTrackResult testTrackResultA, TestTrackResult testTrackResultB, Track track);
 }

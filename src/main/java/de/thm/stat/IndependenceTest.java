@@ -16,7 +16,7 @@ import java.util.*;
  * <p>
  * Created by Michael Menzel on 10/12/15.
  */
-public final class IndependenceTest<T extends Track> {
+public final class IndependenceTest implements Test{
 
     private final ChiSquareTest tester;
     private final KolmogorovSmirnovTest kolmoTester;
