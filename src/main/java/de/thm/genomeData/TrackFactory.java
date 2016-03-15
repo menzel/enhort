@@ -31,7 +31,8 @@ import java.util.stream.Stream;
 public final class TrackFactory {
 
     private static TrackFactory instance;
-    private final Path basePath = new File("/home/menzel/Desktop/THM/lfba/projekphase/dat/").toPath();
+    private final Path basePath = new File("/home/mmnz21/dat/").toPath();
+    //private final Path basePath = new File("/home/menzel/Desktop/THM/lfba/projekphase/dat/").toPath();
     private final List<TrackPackage> trackPackages;
     private List<Track> intervals;
 
@@ -65,11 +66,9 @@ public final class TrackFactory {
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks."));
             this.intervals.addAll(tmp);
 
-            /*
             tmp = getIntervals(basePath.resolve("repeats_by_name"), Type.inout);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name."));
             this.intervals.addAll(tmp);
-            */
 
 
 
@@ -280,13 +279,17 @@ public final class TrackFactory {
                         starts.add(start);
                         ends.add(end);
 
-                        if(type == Type.named || type == Type.scored)
+                        if(type == Type.named)
                             names.add(parts[3].intern());
 
-                        if (parts.length > 4 && parts[4] != null)
-                            scores.add(Double.parseDouble(parts[4]));
-                        else
-                            scores.add(.0);
+                        if(type == Type.scored) {
+                            names.add(parts[3].intern());
+
+                            if (parts.length > 4 && parts[4] != null)
+                                scores.add(Double.parseDouble(parts[4]));
+                            else
+                                scores.add(.0);
+                        }
                     }
                 }
 
