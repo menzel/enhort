@@ -52,7 +52,7 @@ public final class BackendConnector implements Runnable{
                 inputStream = new ObjectInputStream(socket.getInputStream());
 
             } catch (IOException e) {
-                System.err.println("[Enhort Webinterface]: Cannot connect to backend: " + e.getMessage());
+                System.err.println("[Enhort Webinterface]: Cannot connect to backend: " + ip + " reason: " + e.getMessage());
             }
             try {
                 tries++;
