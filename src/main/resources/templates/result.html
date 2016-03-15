@@ -195,6 +195,14 @@
                         </td>
                     </tr>
                 </th:block>
+
+
+                <tr>
+                    <td colspan="5">
+                        <h5>Insignificant tracks:</h5>
+                    </td>
+                </tr>
+
                 <th:block th:each="result: ${insig_results}">
                     <tr th:attr="data-target=${#strings.replace('#accordion_'+result.id,'.','_')}" data-toggle="collapse" class="accordion-toggle">
                         <td th:text="${result.name}"></td>
@@ -228,6 +236,8 @@
                         </td>
                     </tr>
                 </th:block>
+
+
                 </tbody>
             </table>
 
