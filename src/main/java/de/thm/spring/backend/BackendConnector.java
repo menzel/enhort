@@ -17,7 +17,8 @@ import java.net.SocketException;
  * Created by Michael Menzel on 11/3/16.
  */
 public final class BackendConnector implements Runnable{
-    private static BackendConnector instance = new BackendConnector(42412, "127.0.0.1");
+    //private static BackendConnector instance = new BackendConnector(42412, "127.0.0.1");
+    private static BackendConnector instance = new BackendConnector(42412, "bioinf-ladon.mni.thm.de");
     private final int port;
     private final String ip;
     private Socket socket;
@@ -76,7 +77,7 @@ public final class BackendConnector implements Runnable{
                 System.out.println("[Enhort Webinterface]: writing command");
                 outputStream.writeObject(command);
 
-                System.out.println("[Enhort Webinterface]: getting result");
+                System.out.println("[Enhort Webinterface]: waiting for result");
                 Object answer = inputStream.readObject();
                 ResultCollector collector = null;
 
