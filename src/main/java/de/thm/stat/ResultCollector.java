@@ -87,6 +87,25 @@ public final class ResultCollector implements Serializable{
     }
 
 
+    public List<TestResult> getInsignificantResults() {
+        try {
+            List<TestResult> r = results.stream()
+                    .filter(testResult -> testResult.getpValue() >= 0.05)
+                    .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
+                    .collect(Collectors.toList());
+
+            if (r == null)
+                return new ArrayList<>();
+            return r;
+
+        } catch (NullPointerException e){
+            System.err.println("Null Pointer Exp in getInsignificantResults");
+            return new ArrayList<>();
+        }
+
+
+    }
+
     public List<TestResult> getCovariants(List<String> covariants) {
         return results.stream().filter(tr -> covariants.contains(Integer.toString(tr.getId()))).collect(Collectors.toList());
     }

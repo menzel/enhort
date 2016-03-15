@@ -187,6 +187,7 @@ public class CalculationController {
         model.addAttribute("results_inout", collector.getInOutResults());
         model.addAttribute("results_score", collector.getScoredResults());
         model.addAttribute("results_named", collector.getNamedResults());
+        model.addAttribute("insig_results", collector.getInsignificantResults());
 
         model.addAttribute("interfaceCommand", cmd);
 
