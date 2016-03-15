@@ -12,9 +12,7 @@ import de.thm.stat.TestResult;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * Implements multithreading of the intersect call.
@@ -27,9 +25,10 @@ public final class IntersectMultithread {
     private static final int threadCount = 8;
     private final ExecutorService exe;
     private final List<IntersectWrapper> wrappers;
+    private BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(64);
 
     public IntersectMultithread() {
-        exe = Executors.newFixedThreadPool(threadCount);
+        exe = new ThreadPoolExecutor(4, 64, 5L, TimeUnit.SECONDS, queue);
         wrappers = new ArrayList<>();
     }
 

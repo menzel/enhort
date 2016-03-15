@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
  * <p>
  * Created by Michael Menzel on 11/1/16.
  */
-public abstract class GenericMultithreadTest<T extends Track> {
+public final class GenericMultithread<T extends Track> {
 
 
     private static final int threadCount = 8;
@@ -31,7 +31,7 @@ public abstract class GenericMultithreadTest<T extends Track> {
     private final TestTrack<T> testToDo;
     private final Test statTest;
 
-    public GenericMultithreadTest(TestTrack<T> testToDo, Test statTest) {
+    public GenericMultithread(TestTrack<T> testToDo, Test statTest) {
         this.testToDo = testToDo;
         this.statTest = statTest;
         exe = Executors.newFixedThreadPool(threadCount);
