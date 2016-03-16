@@ -74,6 +74,11 @@ public final class IntersectMultithread {
 
         } catch (InterruptedException e) {
             e.printStackTrace();
+            exe.shutdownNow();
+        } finally {
+            if(!exe.isTerminated())
+                System.err.println("Killing all tasks now");
+            exe.shutdownNow();
         }
 
         return collector;

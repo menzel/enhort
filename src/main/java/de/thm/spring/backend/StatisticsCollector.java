@@ -18,7 +18,7 @@ import java.util.stream.Stream;
  */
 public final class StatisticsCollector {
 
-    private static final StatisticsCollector instance = new StatisticsCollector(new File("log").toPath());
+    private static final StatisticsCollector instance = new StatisticsCollector(new File("/home/mmnz21/enhort.log").toPath());
     private final Path logPath;
 
     /**
