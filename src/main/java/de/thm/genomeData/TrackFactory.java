@@ -31,8 +31,8 @@ import java.util.stream.Stream;
 public final class TrackFactory {
 
     private static TrackFactory instance;
-    private final Path basePath = new File("/home/mmnz21/dat/").toPath();
-    //private final Path basePath = new File("/home/menzel/Desktop/THM/lfba/projekphase/dat/").toPath();
+    //private final Path basePath = new File("/home/mmnz21/dat/").toPath();
+    private final Path basePath = new File("/home/menzel/Desktop/THM/lfba/projekphase/dat/").toPath();
     private final List<TrackPackage> trackPackages;
     private List<Track> intervals;
 
@@ -60,15 +60,17 @@ public final class TrackFactory {
         List<Track> tmp;
 
         try {
+            /*
             tmp = getIntervals(basePath.resolve("inout"), Type.inout);
 
-            //tmp.addAll(getIntervals(basePath.resolve("named"), Type.named));
+            tmp.addAll(getIntervals(basePath.resolve("named"), Type.named));
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks."));
             this.intervals.addAll(tmp);
 
             tmp = getIntervals(basePath.resolve("repeats_by_name"), Type.inout);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name."));
             this.intervals.addAll(tmp);
+            */
 
 
 
@@ -104,7 +106,7 @@ public final class TrackFactory {
 
         Files.walk(Paths.get(path.toString())).filter(Files::isRegularFile).forEach(files::add);
 
-        ExecutorService exe = Executors.newFixedThreadPool(8);
+        ExecutorService exe = Executors.newFixedThreadPool(4);
 
         for (Path file : files) {
             FileLoader loader = new FileLoader(file, intervals, type);
