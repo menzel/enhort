@@ -6,6 +6,7 @@ import de.thm.genomeData.TrackFactory;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -67,19 +68,29 @@ class ScoreMultiTrackBackgroundModel implements Sites {
 
         ScoredTrack interval = combine(intervals, sitesOccurence);
 
-        Map<String, Integer> genomeOccurence = new HashMap<>();
+        // Fill occurences maps over whole genome
+
+        List<Long> starts = interval.getIntervalsStart();
+        List<Long> ends = interval.getIntervalsEnd();
+
+        //Map<String, Integer> genomeOccurence = new HashMap<>();
+        Map<String, Long> lengths = new HashMap<>();
+
 
         //count occurences:
         assert interval != null;
-        for (String key : interval.getIntervalName()) {
-            if (genomeOccurence.containsKey(key)) {
-                genomeOccurence.put(key, genomeOccurence.get(key) + 1);
-            } else {
-                genomeOccurence.put(key, 1);
-            }
-        }
 
-        //TODO create hash for lengths per key
+        int j = 0;
+        for (String key : interval.getIntervalName()) {
+            if (lengths.containsKey(key)) {
+                //genomeOccurence.put(key, genomeOccurence.get(key) + 1);
+                lengths.put(key, lengths.get(key) + ends.get(j) - starts.get(j));
+            } else {
+                //genomeOccurence.put(key, 1);
+                lengths.put(key, ends.get(j) - starts.get(j));
+            }
+            j++;
+        }
 
         List<String> keys = interval.getIntervalName();
         List<Double> intervalScore = interval.getIntervalScore();
@@ -87,18 +98,24 @@ class ScoreMultiTrackBackgroundModel implements Sites {
 
         for (int i = 0; i < intervalScore.size(); i++) {
             Double p = intervalScore.get(i);
-            int o = genomeOccurence.get(keys.get(i));
 
             if (p == null) {
                 newScores.add(0d);
 
             } else {
-                p = p / o;
-                newScores.add(p);
+                BigDecimal length = new BigDecimal(ends.get(i) - starts.get(i));
+                BigDecimal genomeLength = new BigDecimal(lengths.get(keys.get(i)));
+                BigDecimal number = (length.divide(genomeLength, 18, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(p)));
+
+                newScores.add(number.doubleValue());
             }
         }
 
-        //if(newScores.stream().mapToDouble(i->i).sum() < 0.99){ //TODO eval check }
+        if(newScores.stream().mapToDouble(i->i).sum() < 0.99){
+            //TODO eval check
+            System.out.println(newScores.stream().mapToDouble(i->i).sum());
+            System.err.println("fooooooooooo");
+        }
 
         return TrackFactory.getInstance().createScoredTrack(
                 interval.getIntervalsStart(),
