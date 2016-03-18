@@ -105,7 +105,11 @@ class ScoreMultiTrackBackgroundModel implements Sites {
             } else {
                 BigDecimal length = new BigDecimal(ends.get(i) - starts.get(i));
                 BigDecimal genomeLength = new BigDecimal(lengths.get(keys.get(i)));
-                BigDecimal number = (length.divide(genomeLength, 18, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(p)));
+                BigDecimal number = new BigDecimal(0);
+
+                if(genomeLength.intValue() != 0){ //this can happen with multiple scored tracks
+                    number = (length.divide(genomeLength, 15, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(p)));
+                }
 
                 newScores.add(number.doubleValue());
             }
