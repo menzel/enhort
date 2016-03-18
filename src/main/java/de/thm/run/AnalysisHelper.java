@@ -21,13 +21,38 @@ import java.util.List;
 public class AnalysisHelper {
 
     /**
+     * Converts a list of covariant names from the webinterface to a list of intervals for analysis.
+     *
+     * @param covariantNames - list of interval names
+     * @return list of intervals with the same as given by input names
+     */
+    private static List<Track> getCovariants(List<String> covariantNames) {
+        List<Track> selectedTracks = new ArrayList<>();
+        TrackFactory loader = TrackFactory.getInstance();
+
+        List<Track> knownTracks = loader.getAllIntervals();
+
+        try {
+            for (Track track : knownTracks) {
+                if (covariantNames.contains(Integer.toString(track.getUid()))) {
+                    selectedTracks.add(track);
+                }
+            }
+        } catch (NullPointerException e){//TODO check in what case this is happening
+            e.printStackTrace();
+        }
+
+        return selectedTracks;
+    }
+
+    /**
      * Run analysis with a random distributed background with the same size as given sites
      *
      * @param input - sites to get count from
      * @return ResultCollection of the run
      */
     @Deprecated
-    public static ResultCollector runAnalysis(Sites input) {
+    public ResultCollector runAnalysis(Sites input) {
         Sites bg = BackgroundModelFactory.createBackgroundModel(input.getPositionCount());
 
         IntersectMultithread multi = new IntersectMultithread();
@@ -43,7 +68,7 @@ public class AnalysisHelper {
      * @return Collection of Results inside a ResultCollector object
      * @throws CovariantsException - if too many covariants are supplied or an impossible combination
      */
-    public static ResultCollector runAnalysis(Sites sites, BackendCommand cmd) throws CovariantsException {
+    public ResultCollector runAnalysis(Sites sites, BackendCommand cmd) throws CovariantsException {
         List<Track> covariants = getCovariants(cmd.getCovariants());
         List<Track> runTracks;
         TrackFactory trackFactory = TrackFactory.getInstance();
@@ -72,32 +97,7 @@ public class AnalysisHelper {
 
     }
 
-    /**
-     * Converts a list of covariant names from the webinterface to a list of intervals for analysis.
-     *
-     * @param covariantNames - list of interval names
-     * @return list of intervals with the same as given by input names
-     */
-    private static List<Track> getCovariants(List<String> covariantNames) {
-        List<Track> selectedTracks = new ArrayList<>();
-        TrackFactory loader = TrackFactory.getInstance();
-
-        List<Track> knownTracks = loader.getAllIntervals();
-
-        try {
-            for (Track track : knownTracks) {
-                if (covariantNames.contains(Integer.toString(track.getUid()))) {
-                    selectedTracks.add(track);
-                }
-            }
-        } catch (NullPointerException e){//TODO check in what case this is happening
-            e.printStackTrace();
-        }
-
-        return selectedTracks;
-    }
-
-    public static ResultCollector runAnalysis(BackendCommand command) throws CovariantsException {
+    public ResultCollector runAnalysis(BackendCommand command) throws CovariantsException {
         return runAnalysis(command.getSites(), command);
     }
 
