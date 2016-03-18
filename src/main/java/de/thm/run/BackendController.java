@@ -130,7 +130,7 @@ public final class BackendController {
                 try {
                     System.out.println(prefix + "recieved a command " + command.hashCode());
 
-                    ResultCollector collector = AnalysisHelper.runAnalysis(command);
+                    ResultCollector collector = new AnalysisHelper().runAnalysis(command);
                     outStream.writeObject(collector);
 
                     System.out.println(prefix + "answered request " + command.hashCode());
