@@ -71,12 +71,12 @@
         <button id="rerun" type="submit" class="btn btn-primary" form="covariant_form">Run again</button>
     </th:block>
 
-    <div>
-        <a class="btn btn-default extra-margin" href="export/pdf">Export pdf</a>
-        <a class="btn btn-default extra-margin" href="export/csv">Export csv</a>
-        <br/>
-        <a class="btn btn-default extra-margin" href="clear_session">Clear session</a>
-    </div>
+
+    <a class="btn btn-default extra-margin" href="export/csv" id="save">
+      <span class="glyphicon glyphicon-save-file" aria-hidden="true"></span>
+    </a>
+
+    <a class="btn btn-default bottom" href="clear_session" id="clear">Clear session</a>
 
 </div>
 
