@@ -67,6 +67,8 @@ class ScoreMultiTrackBackgroundModel implements Sites {
             sitesOccurence.put(k, sitesOccurence.get(k) / sum);
 
         ScoredTrack interval = combine(intervals, sitesOccurence);
+        assert interval != null;
+
 
         // Fill occurences maps over whole genome
 
@@ -78,7 +80,6 @@ class ScoreMultiTrackBackgroundModel implements Sites {
 
 
         //count occurences:
-        assert interval != null;
 
         int j = 0;
         for (String key : interval.getIntervalName()) {
