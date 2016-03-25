@@ -69,6 +69,13 @@ public final class BackendConnector implements Runnable{
     }
 
 
+    /**
+     * Implements the command pattern. Accepts a command object with data and directives to execute.
+     *
+     * @param command - data and directives
+     * @return Results of the executed commnads
+     * @throws CovariantsException - if too many or impossible combination of covariants is given
+     */
     public ResultCollector runAnalysis(BackendCommand command) throws CovariantsException{
 
         if(isConnected){
