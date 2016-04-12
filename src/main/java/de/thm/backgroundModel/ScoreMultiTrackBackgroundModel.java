@@ -6,8 +6,8 @@ import de.thm.genomeData.TrackFactory;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
 
-import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Background model for multiple tracks which have scored values.
@@ -104,6 +104,7 @@ class ScoreMultiTrackBackgroundModel implements Sites {
                 newScores.add(0d);
 
             } else {
+                /*
                 BigDecimal length = new BigDecimal(ends.get(i) - starts.get(i));
                 BigDecimal genomeLength = new BigDecimal(lengths.get(keys.get(i)));
                 BigDecimal number = new BigDecimal(0);
@@ -111,16 +112,26 @@ class ScoreMultiTrackBackgroundModel implements Sites {
                 if(genomeLength.intValue() != 0){ //this can happen with multiple scored tracks
                     number = (length.divide(genomeLength, 15, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(p)));
                 }
+                */
 
-                newScores.add(number.doubleValue());
+                double genomeLength = lengths.get(keys.get(i));
+                double number = 0;
+                double length = ends.get(i) - starts.get(i);
+
+                if(genomeLength != 0) { //this can happen with multiple scored tracks
+                    number = length/genomeLength * p;
+                }
+
+                newScores.add(number);
             }
         }
 
-        if(newScores.stream().mapToDouble(i->i).sum() < 0.99){
-            //TODO eval check
-            System.out.println(newScores.stream().mapToDouble(i->i).sum());
-            System.err.println("fooooooooooo");
+        double exp = newScores.stream().mapToDouble(i->i).sum();
+        if(exp < (1 - 0.000000001)){ //if the combined probability is below 1.0 increase each value:
+            double inc = 1 / exp;
+            newScores = newScores.stream().map(i -> i * inc).collect(Collectors.toList());
         }
+
 
         return TrackFactory.getInstance().createScoredTrack(
                 interval.getIntervalsStart(),
