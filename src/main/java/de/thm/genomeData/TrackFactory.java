@@ -31,8 +31,8 @@ import java.util.stream.Stream;
 public final class TrackFactory {
 
     private static TrackFactory instance;
-    //private final Path basePath = new File("/home/mmnz21/dat/").toPath();
-    private final Path basePath = new File("/home/menzel/Desktop/THM/lfba/projekphase/dat/").toPath();
+    private final Path basePath = new File("/home/mmnz21/dat/").toPath();
+    //private final Path basePath = new File("/home/menzel/Desktop/THM/lfba/projektphase/dat/").toPath();
     private final List<TrackPackage> trackPackages;
     private List<Track> intervals;
 
@@ -60,7 +60,6 @@ public final class TrackFactory {
         List<Track> tmp;
 
         try {
-            /*
             tmp = getIntervals(basePath.resolve("inout"), Type.inout);
 
             tmp.addAll(getIntervals(basePath.resolve("named"), Type.named));
@@ -70,8 +69,6 @@ public final class TrackFactory {
             tmp = getIntervals(basePath.resolve("repeats_by_name"), Type.inout);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name."));
             this.intervals.addAll(tmp);
-            */
-
 
 
             tmp = getIntervals(basePath.resolve("score"), Type.scored);
@@ -79,9 +76,13 @@ public final class TrackFactory {
             this.intervals.addAll(tmp);
 
 
+            tmp = getIntervals(basePath.resolve("broadHistone"), Type.inout);
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Histone, "Histone modifications"));
+            this.intervals.addAll(tmp);
+
+
+
             //TODO:
-            //getIntervals(basePath.resolve("broadHistone"), Type.inout);
-            //getIntervals(basePath.resolve("awgSegmentation"), Type.named);
             //getIntervals(basePath.resolve("tfbs_composite"), Type.inout);
 
 
@@ -313,6 +314,7 @@ public final class TrackFactory {
                 }
 
             } catch (Exception e) {
+
                 e.printStackTrace();
                 return null;
             }
