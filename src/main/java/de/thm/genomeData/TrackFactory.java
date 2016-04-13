@@ -31,8 +31,8 @@ import java.util.stream.Stream;
 public final class TrackFactory {
 
     private static TrackFactory instance;
-    private final Path basePath = new File("/home/mmnz21/dat/").toPath();
-    //private final Path basePath = new File("/home/menzel/Desktop/THM/lfba/projektphase/dat/").toPath();
+    //private final Path basePath = new File("/home/mmnz21/dat/").toPath();
+    private final Path basePath = new File("/home/menzel/Desktop/THM/lfba/projektphase/dat/").toPath();
     private final List<TrackPackage> trackPackages;
     private List<Track> intervals;
 
@@ -66,6 +66,7 @@ public final class TrackFactory {
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks."));
             this.intervals.addAll(tmp);
 
+            /*
             tmp = getIntervals(basePath.resolve("repeats_by_name"), Type.inout);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name"));
             this.intervals.addAll(tmp);
@@ -79,6 +80,7 @@ public final class TrackFactory {
             tmp = getIntervals(basePath.resolve("broadHistone"), Type.inout);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Histone, "Histone modifications"));
             this.intervals.addAll(tmp);
+            */
 
 
 
@@ -271,10 +273,19 @@ public final class TrackFactory {
                     } else if (line_matcher.matches()) {
                         String[] parts = line.split("\t");
 
-                        long offset = chrSizes.offset(parts[0]); //handle null pointer exc if chromosome name is not in list
+                        long start = -1;
+                        long end = -2;
 
-                        long start = Long.parseLong(parts[1]) + offset;
-                        long end  = Long.parseLong(parts[2]) + offset;
+                        try { //handle null pointer exc if chromosome name is not in list
+
+                            long offset = chrSizes.offset(parts[0]);
+
+                            start = Long.parseLong(parts[1]) + offset;
+                            end = Long.parseLong(parts[2]) + offset;
+                        } catch (NullPointerException e){
+                            System.err.println("File loader chrname "  + parts[0] + " not found in file " + file.getName());
+                        }
+
 
                         if(!(start < end)) //check if interval length is positive
                             continue;
@@ -293,6 +304,8 @@ public final class TrackFactory {
                             else
                                 scores.add(.0);
                         }
+                    } else {
+                        System.err.println("error: " + line);
                     }
                 }
 
