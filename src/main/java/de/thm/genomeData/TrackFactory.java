@@ -67,7 +67,7 @@ public final class TrackFactory {
             this.intervals.addAll(tmp);
 
             tmp = getIntervals(basePath.resolve("repeats_by_name"), Type.inout);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name."));
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name"));
             this.intervals.addAll(tmp);
 
 
@@ -299,9 +299,12 @@ public final class TrackFactory {
                 lines.close();
 
                 if (name.equals("")) {
-                    name = file.getName().substring(0, file.getName().indexOf(".")); //TODO check if a . is present in name
+                    if(file.getName().contains("."))
+                        name = file.getName().substring(0, file.getName().indexOf("."));
+                    else
+                        name = file.getName();
 
-                    if(name.startsWith("wgEncode")){
+                    if(name.startsWith("wgEncodeBroadHistone")){
                         name = name.substring("wgEncodeBroadHistone".length());
                     }
                 }
