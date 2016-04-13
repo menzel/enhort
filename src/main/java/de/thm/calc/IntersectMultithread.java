@@ -22,13 +22,13 @@ import java.util.concurrent.*;
  */
 public final class IntersectMultithread {
 
-    private static final int threadCount = 8;
+    private static final int threadCount = 32;
     private final ExecutorService exe;
     private final List<IntersectWrapper> wrappers;
-    private BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(64);
+    private BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(threadCount);
 
     public IntersectMultithread() {
-        exe = new ThreadPoolExecutor(4, 64, 5L, TimeUnit.SECONDS, queue);
+        exe = new ThreadPoolExecutor(4, threadCount, 5L, TimeUnit.SECONDS, queue);
         wrappers = new ArrayList<>();
     }
 
