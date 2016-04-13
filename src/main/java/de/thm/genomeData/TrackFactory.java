@@ -298,8 +298,13 @@ public final class TrackFactory {
 
                 lines.close();
 
-                if (name.equals(""))
-                    name = file.getName().substring(0,file.getName().indexOf(".")); //TODO check if a . is present in name
+                if (name.equals("")) {
+                    name = file.getName().substring(0, file.getName().indexOf(".")); //TODO check if a . is present in name
+
+                    if(name.startsWith("wgEncode")){
+                        name = name.substring("wgEncodeBroadHistone".length());
+                    }
+                }
 
                 switch (type) {
                     case inout:
