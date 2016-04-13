@@ -102,6 +102,7 @@ public final class BackendController {
 
                     }catch (EOFException e){
                         //do nothing here. client is disconected.
+                        System.out.println(prefix + "Webinterface lost");
                         isConnected = false;
 
                     } catch (IOException | ClassNotFoundException e) {
