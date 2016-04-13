@@ -155,7 +155,7 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
                 if (p < intervalEnd.get(i) && p >= intervalStart.get(i)) {
 
                     in++;
-                    resultsScores.add(intervalScore.get(i - 1));
+                    resultsScores.add(intervalScore.get(i));
 
                 } else {
                     out++;
