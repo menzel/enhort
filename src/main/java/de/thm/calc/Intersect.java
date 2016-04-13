@@ -63,7 +63,7 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
                 if (p < intervalEnd.get(i) && p >= intervalStart.get(i)) {
 
                     in++;
-                    resultNames.add(names.get(i - 1));
+                    resultNames.add(names.get(i));
 
                 } else {
                     out++;
