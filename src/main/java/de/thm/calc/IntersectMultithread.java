@@ -25,7 +25,7 @@ public final class IntersectMultithread {
     private static final int threadCount = 32;
     private final ExecutorService exe;
     private final List<IntersectWrapper> wrappers;
-    private BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(threadCount);
+    private BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(1024);
 
     public IntersectMultithread() {
         exe = new ThreadPoolExecutor(4, threadCount, 5L, TimeUnit.SECONDS, queue);
