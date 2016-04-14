@@ -24,15 +24,15 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Handles the loading of all intervals
+ * Handles the loading of all intervals. Implements factory methods for all three track types.
  * <p>
  * Created by Michael Menzel on 18/12/15.
  */
 public final class TrackFactory {
 
     private static TrackFactory instance;
-    //private final Path basePath = new File("/home/mmnz21/dat/").toPath();
-    private final Path basePath = new File("/home/menzel/Desktop/THM/lfba/projektphase/dat/").toPath();
+    private final Path basePath = new File("/home/mmnz21/dat/").toPath();
+    //private final Path basePath = new File("/home/menzel/Desktop/THM/lfba/projektphase/dat/").toPath();
     private final List<TrackPackage> trackPackages;
     private List<Track> intervals;
 
@@ -55,6 +55,11 @@ public final class TrackFactory {
         return instance;
     }
 
+    /**
+     * Loads intervals from basePath dir.
+     * Call once at start. Fills this.intervals with all intervals from the dirs.
+     *
+     */
     private void loadIntervals() {
 
         List<Track> tmp;
@@ -66,7 +71,6 @@ public final class TrackFactory {
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks."));
             this.intervals.addAll(tmp);
 
-            /*
             tmp = getIntervals(basePath.resolve("repeats_by_name"), Type.inout);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name"));
             this.intervals.addAll(tmp);
@@ -80,14 +84,6 @@ public final class TrackFactory {
             tmp = getIntervals(basePath.resolve("broadHistone"), Type.inout);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Histone, "Histone modifications"));
             this.intervals.addAll(tmp);
-            */
-
-
-
-            //TODO:
-            //getIntervals(basePath.resolve("tfbs_composite"), Type.inout);
-
-
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -132,6 +128,12 @@ public final class TrackFactory {
         return intervals;
     }
 
+    /**
+     * Returns a list of tracks that belong to the given package.
+     *
+     * @param name - name of the package
+     * @return list of tracks with package name
+     */
     public List<Track> getIntervalsByPackage(TrackPackage.PackageName name) {
         for (TrackPackage pack : trackPackages) {
             if (pack.getName() == name)
@@ -140,11 +142,39 @@ public final class TrackFactory {
         return null;
     }
 
+
+    /**
+     * Returns tracks by package name as String
+     *
+     * @param packName - name as String
+     * @return list of tracks within the package
+     * @throws IllegalArgumentException - if name is not known as package name
+     */
+    public List<Track> getIntervalsByPackage(String packName) throws IllegalArgumentException{
+        List <Track> tracks = getIntervalsByPackage(TrackPackage.PackageName.valueOf(packName));
+
+        if(tracks != null)
+            return tracks;
+        return new ArrayList<>();
+    }
+
+
+    /**
+     * Returns all known track packages.
+     *
+     * @return list of all packages names
+     */
     public List<String> getTrackPackageNames(){
         return this.trackPackages.stream().map(TrackPackage::getName).map(Enum::toString).collect(Collectors.toList());
     }
 
 
+    /**
+     * Returns track by given id
+     *
+     * @param id - id of track to return
+     * @return track with id
+     */
     public Track getIntervalById(int id) {
 
         for (Track track : intervals) {
@@ -156,21 +186,38 @@ public final class TrackFactory {
         return null;
     }
 
+    /**
+     * Factory method for scored tracks. Creates a new track based on input.
+     *
+     * @param starts - list of start positions
+     * @param ends - list of end positions
+     * @param names - list of names
+     * @param scores - list of scores
+     * @param name - name of track
+     * @param description - description of track
+     *
+     * @return new track with all given parameters
+     */
     public ScoredTrack createScoredTrack(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String description) {
         return new ScoredTrack(starts, ends, names, scores, name, description);
     }
 
+    /**
+     * Factory method for inout tracks. Creates a new track based on input.
+     *
+     * @param starts - list of start positions
+     * @param ends - list of end positions
+     * @param names - list of names
+     * @param scores - list of scores
+     * @param name - name of track
+     * @param description - description of track
+     *
+     * @return new track with all given parameters
+     */
     public InOutTrack createInOutTrack(List<Long> starts, List<Long> ends, String name, String description) {
         return new InOutTrack(starts, ends, name, description);
     }
 
-    public List<Track> getIntervalsByPackage(String packName) throws IllegalArgumentException{
-        List <Track> tracks = getIntervalsByPackage(TrackPackage.PackageName.valueOf(packName));
-
-        if(tracks != null)
-            return tracks;
-        return new ArrayList<>();
-    }
 
 
     private enum Type {inout, named, scored}
@@ -196,6 +243,13 @@ public final class TrackFactory {
         }
 
 
+        /**
+         * Overwrites the bed file with new (preprocessed) positions
+         *
+         * @param track - track to write
+         * @param path - path to file to overwrite
+         * @param type - type of track, does not work for scored or named tracks.
+         */
         public void saveTrack(Track track, Path path, Type type) {
             String header = "";
             ChromosomSizes chr = ChromosomSizes.getInstance();
@@ -258,7 +312,7 @@ public final class TrackFactory {
             try (Stream<String> lines = Files.lines(file.toPath(), StandardCharsets.UTF_8)) {
                 Iterator<String> it = lines.iterator();
 
-                Pattern header = Pattern.compile("track fullname=.(.*). description=.(.*).."); //TODO . are "
+                Pattern header = Pattern.compile("track fullname=.(.*). description=.(.*)..?"); //TODO . are "
                 Pattern entry = Pattern.compile("chr(\\d{1,2}|X|Y)\\s(\\d*)\\s(\\d*).*");
 
                 while (it.hasNext()) {
@@ -304,8 +358,6 @@ public final class TrackFactory {
                             else
                                 scores.add(.0);
                         }
-                    } else {
-                        System.err.println("error: " + line);
                     }
                 }
 
