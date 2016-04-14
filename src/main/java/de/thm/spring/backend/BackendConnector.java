@@ -17,8 +17,8 @@ import java.net.SocketException;
  * Created by Michael Menzel on 11/3/16.
  */
 public final class BackendConnector implements Runnable{
-    //private static BackendConnector instance = new BackendConnector(42412, "127.0.0.1");
-    private static BackendConnector instance = new BackendConnector(42412, "bioinf-ladon.mni.thm.de");
+    private static BackendConnector instance = new BackendConnector(42412, "127.0.0.1");
+    //private static BackendConnector instance = new BackendConnector(42412, "bioinf-ladon.mni.thm.de");
     private final int port;
     private final String ip;
     private Socket socket;
@@ -38,7 +38,7 @@ public final class BackendConnector implements Runnable{
     @Override
     public void run() {
 
-        System.out.println("[Enhort Webinterface]: Starting backend connection");
+        System.out.println("[Enhort Webinterface]: Starting backend connection to " + this.ip);
         int connectionTimeout = 40; //max tries timeout
         int tries = 0;
 
