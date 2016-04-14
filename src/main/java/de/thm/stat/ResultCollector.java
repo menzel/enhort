@@ -116,7 +116,7 @@ public final class ResultCollector implements Serializable{
      * @return results in csv format.
      */
     public String getCsv() {
-        String output = "Track name, p value, effect size";
+        String output = "Track name, p value, effect size, measured, expected \\\\";
 
         //filter by p value and sort by effect size:
         List<TestResult> filtered_results = results.stream()
@@ -126,11 +126,15 @@ public final class ResultCollector implements Serializable{
 
         for (TestResult result : filtered_results) {
             output += result.getName();
-            output += ",";
+            output += " & ";
             output += result.getpValue();
-            output += ",";
+            output += " & ";
             output += result.getEffectSize();
-            output += "<br>";
+            output += " & ";
+            output += result.getMeasuredIn();
+            output += " & ";
+            output += result.getExpectedIn();
+            output += " \\\\ ";
         }
 
         return output;
