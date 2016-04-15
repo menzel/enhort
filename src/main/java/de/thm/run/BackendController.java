@@ -12,6 +12,10 @@ import java.io.ObjectOutputStream;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Controlls requests from the Webinterface.
@@ -73,6 +77,8 @@ public final class BackendController {
         public void run() {
 
             boolean isConnected = false;
+            BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(16);
+            ThreadPoolExecutor exe = new ThreadPoolExecutor(1, 4, 5L, TimeUnit.SECONDS, queue);
 
             //noinspection InfiniteLoopStatement
             while(true) {
@@ -96,9 +102,7 @@ public final class BackendController {
                         command = (BackendCommand) inStream.readObject(); //wait for some input
 
                         BackgroundRunner runner = new BackgroundRunner(command);
-
-                        new Thread(runner).run(); //maybe use a thread pool here to prevent unlimited threads running and prevent one thread running forever
-
+                        exe.execute(runner);
 
                     }catch (EOFException e){
                         //do nothing here. client is disconected.
