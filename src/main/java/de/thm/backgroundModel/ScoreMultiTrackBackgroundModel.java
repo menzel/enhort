@@ -341,6 +341,7 @@ class ScoreMultiTrackBackgroundModel implements Sites {
         //if (intv1.getIntervalsStart().get(0) != 0L && intv2.getIntervalsStart().get(0) != 0L) result_start.add(0L);
 
         while (i1 < starts1.size()) {
+            /* Abandon hope all ye who enter here */
 
             while (true) {
                 long s1 = genomeSize;
@@ -486,7 +487,6 @@ class ScoreMultiTrackBackgroundModel implements Sites {
 
         //set null values to 0.0
         result_score.stream().filter(val -> val == null).forEach(val -> val = 0.0);
-
 
         String name = intv1.getName() + "_" + intv2.getName();
         String desc = intv1.getDescription() + "_" + intv2.getDescription();
