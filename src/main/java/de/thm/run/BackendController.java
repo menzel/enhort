@@ -12,10 +12,7 @@ import java.io.ObjectOutputStream;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * Controlls requests from the Webinterface.
@@ -58,7 +55,7 @@ public final class BackendController {
         private ObjectOutputStream outStream;
 
 
-        public BackendServer(int port) {
+        BackendServer(int port) {
             try {
 
                 serverSocket = new ServerSocket(port);
@@ -78,7 +75,7 @@ public final class BackendController {
 
             boolean isConnected = false;
             BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(16);
-            ThreadPoolExecutor exe = new ThreadPoolExecutor(1, 4, 5L, TimeUnit.SECONDS, queue);
+            ThreadPoolExecutor exe = new ThreadPoolExecutor(1, 4, 5L, TimeUnit.MILLISECONDS, queue);
 
             //noinspection InfiniteLoopStatement
             while(true) {
@@ -102,14 +99,18 @@ public final class BackendController {
                         command = (BackendCommand) inStream.readObject(); //wait for some input
 
                         BackgroundRunner runner = new BackgroundRunner(command);
-                        exe.execute(runner);
+
+                        Future f = exe.submit(runner);
+
+                        f.get(10, TimeUnit.SECONDS);
 
                     }catch (EOFException e){
+
                         //do nothing here. client is disconected.
                         System.out.println(prefix + "Webinterface lost");
                         isConnected = false;
 
-                    } catch (IOException | ClassNotFoundException e) {
+                    } catch (IOException | ClassNotFoundException | InterruptedException | TimeoutException | ExecutionException e) {
                         e.printStackTrace();
                     }
                 } //close while(isConnected) loop
@@ -126,7 +127,7 @@ public final class BackendController {
 
             private final BackendCommand command;
 
-            public BackgroundRunner(BackendCommand command) {
+            BackgroundRunner(BackendCommand command) {
                 this.command = command;
             }
 
@@ -153,6 +154,5 @@ public final class BackendController {
             }
         }
     }
-
 }
 
