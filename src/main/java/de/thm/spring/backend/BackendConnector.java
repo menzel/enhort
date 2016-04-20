@@ -76,7 +76,7 @@ public final class BackendConnector implements Runnable{
      * @return Results of the executed commnads
      * @throws CovariantsException - if too many or impossible combination of covariants is given
      */
-    public ResultCollector runAnalysis(BackendCommand command) throws CovariantsException{
+    public ResultCollector runAnalysis(BackendCommand command) throws Exception {
 
         if(isConnected){
             try {
@@ -84,6 +84,7 @@ public final class BackendConnector implements Runnable{
                 System.out.println("[Enhort Webinterface]: writing command");
                 outputStream.writeObject(command);
 
+                //TODO only wait for fixed time. apply timeout
                 System.out.println("[Enhort Webinterface]: waiting for result");
                 Object answer = inputStream.readObject();
                 ResultCollector collector = null;
@@ -91,12 +92,13 @@ public final class BackendConnector implements Runnable{
                 if(answer instanceof Exception){
 
                     System.out.println("[Enhort Webinterface]: got exception: " + ((Exception) answer).getMessage());
-                    throw (CovariantsException) answer;
-                }
-                else{
+                    throw (Exception) answer;
+                } else if( answer instanceof  ResultCollector){
                     collector = (ResultCollector) answer;
+                } else {
+                    System.err.println("answer is not a result: " + answer.getClass());
+                    return null;
                 }
-
 
                 System.out.println("[Enhort Webinterface]: got result: " + collector.getResults().size());
                 return collector;
