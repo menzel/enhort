@@ -371,6 +371,7 @@ class ScoreMultiTrackBackgroundModel implements Sites {
                 result_names.add("||");
 
                 if (s1 < s2 && e1 <= s2) {// no overlap, interval from 1 is next
+
                     result_end.add(s1);
 
                     result_start.add(s1);
@@ -477,6 +478,10 @@ class ScoreMultiTrackBackgroundModel implements Sites {
 
         if(result_start.get(0) != 0L){
             result_start.add(0, 0L);
+        } else {
+            result_end.remove(0);
+            result_score.remove(0);
+            result_names.remove(0);
         }
 
         //set null values to 0.0
