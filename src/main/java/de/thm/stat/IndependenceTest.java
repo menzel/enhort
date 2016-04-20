@@ -8,7 +8,10 @@ import de.thm.genomeData.Track;
 import org.apache.commons.math3.stat.inference.ChiSquareTest;
 import org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -52,9 +55,7 @@ public final class IndependenceTest implements Test{
             double[] expectedScore = testTrackResultB.getResultScores().stream().mapToDouble(i -> i).toArray();
 
             if (measuredScore.length < 2 || expectedScore.length < 2) {
-                System.err.println("In Independence test");
-                System.err.println(Arrays.toString(measuredScore));
-                System.err.println(Arrays.toString(expectedScore));
+                System.err.println("Not enough data to compute independence test");
                 return null;
 
             } else {
