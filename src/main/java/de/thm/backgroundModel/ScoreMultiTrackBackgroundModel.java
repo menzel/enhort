@@ -4,6 +4,7 @@ import de.thm.genomeData.ScoredTrack;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
 import de.thm.misc.ChromosomSizes;
+import de.thm.positionData.AbstractSites;
 import de.thm.positionData.Sites;
 
 import java.util.*;
@@ -59,6 +60,8 @@ class ScoreMultiTrackBackgroundModel implements Sites {
      * @return new interval with probability scores.
      */
     ScoredTrack generateProbabilityInterval(Sites sites, List<ScoredTrack> intervals) {
+
+        //sites = draw_random(sites, 6000);
 
         Map<String, Double> sitesOccurence = fillOccurenceMap(intervals, sites);
 
@@ -127,7 +130,7 @@ class ScoreMultiTrackBackgroundModel implements Sites {
         }
 
         double exp = newScores.stream().mapToDouble(i->i).sum();
-        if(exp < (1 - 0.000000001)){ //if the combined probability is below 1.0 increase each value:
+        if(exp < (1 - 0.00000000001)){ //if the combined probability is below 1.0 increase each value:
             double inc = 1 / exp;
             newScores = newScores.stream().map(i -> i * inc).collect(Collectors.toList());
         }
@@ -140,6 +143,36 @@ class ScoreMultiTrackBackgroundModel implements Sites {
                 newScores,
                 interval.getName(),
                 interval.getDescription());
+    }
+
+    /**
+     * Returns a sites object with n sites. Sites are drawn randomly from the given.
+     * @param sites -site object
+     * @param n - number of sites to keep
+     *
+     * @return sites object with n sites
+     */
+    private Sites draw_random(Sites sites, int n) {
+
+        if(sites.getPositions().size() <= n)
+            return sites;
+
+        List<Long> newPos = new ArrayList<>(sites.getPositions());
+
+        Collections.shuffle(newPos);
+        newPos = newPos.subList(0,n);
+        Collections.sort(newPos);
+
+        AbstractSites newSites = new AbstractSites() {
+            @Override
+            public void addPositions(Collection<Long> values) {
+                super.addPositions(values);
+            }
+        };
+
+
+        newSites.setPositions(newPos);
+        return newSites;
     }
 
     /**
@@ -513,4 +546,6 @@ class ScoreMultiTrackBackgroundModel implements Sites {
     public int getPositionCount() {
         return this.positions.size();
     }
+
+
 }
