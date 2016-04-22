@@ -24,9 +24,7 @@ public class Webinterface {
             BackendConnector connector = BackendConnector.getInstance();
             new Thread(connector).run();
 
-            //ConfigurableApplicationContext foo =
             SpringApplication.run(Webinterface.class, args);
-            //System.out.println("foobar" + Arrays.toString(foo.getEnvironment().getSystemProperties().keySet().toArray()));
 
             attachShutDownHook();
 

@@ -6,6 +6,9 @@
       <item index="0" class="java.lang.String" itemvalue="org.springframework.stereotype.Controller" />
     </list>
   </component>
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <type id="Spring" />
+  </component>
   <component name="JavadocGenerationManager">
     <option name="OUTPUT_DIRECTORY" value="/tmp/javadoc" />
     <option name="OPTION_SCOPE" value="public" />

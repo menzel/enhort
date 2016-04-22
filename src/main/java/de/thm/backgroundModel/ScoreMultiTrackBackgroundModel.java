@@ -1,5 +1,6 @@
 package de.thm.backgroundModel;
 
+import de.thm.calc.Intersect;
 import de.thm.genomeData.ScoredTrack;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
@@ -7,7 +8,9 @@ import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.AbstractSites;
 import de.thm.positionData.Sites;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -47,7 +50,15 @@ class ScoreMultiTrackBackgroundModel implements Sites {
         int count = (sites.getPositionCount() > minSites) ? sites.getPositionCount() : minSites;
         Collection<Long> pos = generatePositionsByProbability(interval, count);
 
+        Intersect<Track> foo = new Intersect<>();
+
+
         positions.addAll(pos);
+
+        int a = foo.searchSingleInterval(covariants.get(0), this).getOut();
+        int b = foo.searchSingleInterval(covariants.get(0), sites).getOut();
+
+        System.out.println("should: " + b + " is: " + a);
     }
 
 
@@ -61,7 +72,6 @@ class ScoreMultiTrackBackgroundModel implements Sites {
      */
     ScoredTrack generateProbabilityInterval(Sites sites, List<ScoredTrack> intervals) {
 
-        //sites = draw_random(sites, 6000);
 
         Map<String, Double> sitesOccurence = fillOccurenceMap(intervals, sites);
 
@@ -118,14 +128,14 @@ class ScoreMultiTrackBackgroundModel implements Sites {
                 */
 
                 double genomeLength = lengths.get(keys.get(i));
-                double number = 0;
+                double prob = 0;
                 double length = ends.get(i) - starts.get(i);
 
                 if(genomeLength != 0) { //this can happen with multiple scored tracks
-                    number = length/genomeLength * p;
-                }
+                    prob = p * (length/genomeLength);
 
-                newScores.add(number);
+                    newScores.add(prob);
+                }
             }
         }
 
@@ -143,36 +153,6 @@ class ScoreMultiTrackBackgroundModel implements Sites {
                 newScores,
                 interval.getName(),
                 interval.getDescription());
-    }
-
-    /**
-     * Returns a sites object with n sites. Sites are drawn randomly from the given.
-     * @param sites -site object
-     * @param n - number of sites to keep
-     *
-     * @return sites object with n sites
-     */
-    private Sites draw_random(Sites sites, int n) {
-
-        if(sites.getPositions().size() <= n)
-            return sites;
-
-        List<Long> newPos = new ArrayList<>(sites.getPositions());
-
-        Collections.shuffle(newPos);
-        newPos = newPos.subList(0,n);
-        Collections.sort(newPos);
-
-        AbstractSites newSites = new AbstractSites() {
-            @Override
-            public void addPositions(Collection<Long> values) {
-                super.addPositions(values);
-            }
-        };
-
-
-        newSites.setPositions(newPos);
-        return newSites;
     }
 
     /**
@@ -248,7 +228,7 @@ class ScoreMultiTrackBackgroundModel implements Sites {
      * @param siteCount           - count of sites to be generated inside
      * @return collection of positions inside the interval
      */
-    private Collection<Long> generatePositionsByProbability(ScoredTrack probabilityInterval, int siteCount) {
+    Collection<Long> generatePositionsByProbability(ScoredTrack probabilityInterval, int siteCount) {
 
         List<Long> sites = new ArrayList<>();
         List<Long> starts = probabilityInterval.getIntervalsStart();

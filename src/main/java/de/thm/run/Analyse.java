@@ -1,15 +1,16 @@
 package de.thm.run;
 
 import de.thm.backgroundModel.BackgroundModelFactory;
-import de.thm.calc.TestTrack;
 import de.thm.calc.Intersect;
+import de.thm.calc.IntersectMultithread;
+import de.thm.calc.TestTrack;
 import de.thm.exception.CovariantsException;
-import de.thm.genomeData.InOutTrack;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.AbstractSites;
 import de.thm.positionData.Sites;
+import de.thm.stat.ResultCollector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,27 +57,18 @@ public class Analyse {
         //covariants.add(intervals.get("cpg"));
         //covariants.add(intervals.get("expression_blood.bed"));
         for (Track track : TrackFactory.getInstance().getAllIntervals()) {
-            if (track.getName().contains("genes"))
-                covariants.add(track);
-            if(track.getName().contains("exons"))
+            if(track.getName().contains("blood"))
                 covariants.add(track);
         }
         System.out.println("covariant: " + covariants.get(0).getName());
 
-        Sites bg = BackgroundModelFactory.createBackgroundModel(100000);
+        Sites bg = BackgroundModelFactory.createBackgroundModel(covariants, userSites);
 
-        //IntersectMultithread multi = new IntersectMultithread();
-        //ResultCollector collector = multi.execute(intervals, userSites, bg);
+        IntersectMultithread multi = new IntersectMultithread();
+        ResultCollector collector = multi.execute(intervals, userSites, bg);
 
-        Intersect calc  = new Intersect();
+        System.out.println(collector);
 
-        calc.getAverageDistance((InOutTrack) covariants.get(1), userSites);
-
-        System.out.printf("+++++++++++++++++++++");
-
-        calc.getAverageDistance((InOutTrack) covariants.get(1), bg);
-
-        System.out.printf("+++++++++++++++++++++");
 
     }
 

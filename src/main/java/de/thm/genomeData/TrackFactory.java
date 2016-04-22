@@ -65,7 +65,7 @@ public final class TrackFactory {
         try {
             tmp = getIntervals(basePath.resolve("inout"), Type.inout);
 
-            tmp.addAll(getIntervals(basePath.resolve("named"), Type.named));
+            //tmp.addAll(getIntervals(basePath.resolve("named"), Type.named));
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks."));
             this.intervals.addAll(tmp);
 

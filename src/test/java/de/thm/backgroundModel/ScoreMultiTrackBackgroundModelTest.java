@@ -1,7 +1,8 @@
 package de.thm.backgroundModel;
 
-import de.thm.genomeData.GenomeInterval;
-import de.thm.genomeData.Track;
+import de.thm.calc.Intersect;
+import de.thm.genomeData.ScoredTrack;
+import de.thm.genomeData.TrackFactory;
 import de.thm.positionData.Sites;
 import org.junit.Test;
 
@@ -14,6 +15,11 @@ import static org.junit.Assert.assertEquals;
  * Created by Michael Menzel on 19/2/16.
  */
 public class ScoreMultiTrackBackgroundModelTest {
+
+    @Test
+    public void testFoo() throws Exception {
+        assert true;
+    }
 
     @Test
     public void testCombine() throws Exception {
@@ -50,13 +56,11 @@ public class ScoreMultiTrackBackgroundModelTest {
         scores2.add(0.6);
         scores2.add(0.8);
 
-        GenomeInterval interval1 = mockInterval(start1, end1);
-        GenomeInterval interval2 = mockInterval(start2, end2);
+        ScoredTrack interval1 = mockInterval(start1, end1, null, scores1);
+        ScoredTrack interval2 = mockInterval(start2, end2, null, scores2);
 
-        interval1.setIntervalScore(scores1);
-        interval2.setIntervalScore(scores2);
 
-        List<Track> tracks = new ArrayList<>();
+        List<ScoredTrack> tracks = new ArrayList<>();
         tracks.add(interval1);
         tracks.add(interval2);
 
@@ -104,22 +108,20 @@ public class ScoreMultiTrackBackgroundModelTest {
 
         /* Test prob interval */
 
-        Track probTrack = m.generateProbabilityInterval(sites, tracks);
+        ScoredTrack probTrack = m.generateProbabilityInterval(sites, tracks);
+        //assertEquals(probTrack.getIntervalScore().stream().mapToDouble(i -> i).sum(), 1.0, 0.01);
 
-        assertEquals(probTrack.getIntervalScore().stream().mapToDouble(i -> i).sum(), 1.0, 0.01);
+
+        Collection<Long> randomPos = m.generatePositionsByProbability(probTrack, 20);
+
+        Intersect<ScoredTrack> sec = new Intersect<>();
+
 
     }
 
-    private GenomeInterval mockInterval(List<Long> start, List<Long> end) {
-        GenomeInterval interval = new GenomeInterval();
+    private ScoredTrack mockInterval(List<Long> start, List<Long> end, List<String> names, List<Double> scores) {
 
-        interval.setIntervalsStart(start);
-        interval.setIntervalsEnd(end);
-
-
-        interval.setType(Track.Type.inout);
-
-        return interval;
+        return  TrackFactory.getInstance().createScoredTrack(start, end, names, scores,"name", "desc");
     }
 
 }
