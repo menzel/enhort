@@ -1,6 +1,7 @@
 package de.thm.backgroundModel;
 
 import de.thm.calc.Intersect;
+import de.thm.calc.TestTrackResult;
 import de.thm.genomeData.ScoredTrack;
 import de.thm.genomeData.TrackFactory;
 import de.thm.positionData.Sites;
@@ -16,13 +17,12 @@ import static org.junit.Assert.assertEquals;
  */
 public class ScoreMultiTrackBackgroundModelTest {
 
-    @Test
-    public void testFoo() throws Exception {
-        assert true;
-    }
 
     @Test
-    public void testCombine() throws Exception {
+    public void testBackgroundModel() throws Exception {
+
+        int n = 50000;
+
         List<Long> start1 = new ArrayList<>();
         List<Long> start2 = new ArrayList<>();
 
@@ -112,9 +112,76 @@ public class ScoreMultiTrackBackgroundModelTest {
         //assertEquals(probTrack.getIntervalScore().stream().mapToDouble(i -> i).sum(), 1.0, 0.01);
 
 
-        Collection<Long> randomPos = m.generatePositionsByProbability(probTrack, 20);
+        final List<Long> randomPos = new ArrayList<>(m.generatePositionsByProbability(probTrack, n));
 
-        Intersect<ScoredTrack> sec = new Intersect<>();
+
+
+        List<Long> start = new ArrayList<>();
+        List<Long> end = new ArrayList<>();
+
+        start.add(1L);
+        end.add(5L);
+
+        start.add(5L);
+        end.add(10L);
+
+        start.add(10L);
+        end.add(15L);
+
+        start.add(20L);
+        end.add(30L);
+
+        start.add(35L);
+        end.add(40L);
+
+        start.add(50L);
+        end.add(60L);
+
+        List<Double> scores = new ArrayList<>();
+
+        scores.add(0.5);
+        scores.add(0.2);
+        scores.add(0.7);
+
+        scores.add(0.4);
+        scores.add(0.6);
+        scores.add(0.8);
+
+
+        Sites newSites = new Sites() {
+            @Override
+            public void addPositions(Collection<Long> values) {
+
+            }
+
+            @Override
+            public List<Long> getPositions() {
+                return randomPos;
+            }
+
+            @Override
+            public void setPositions(List<Long> positions) {
+
+            }
+
+            @Override
+            public int getPositionCount() {
+                return randomPos.size();
+            }
+        };
+
+
+        ScoredTrack testTrack = mockInterval(start, end, null, scores);
+        Intersect sec = new Intersect<>();
+
+        TestTrackResult result = sec.searchSingleInterval(testTrack, newSites);
+
+
+        System.out.println("In Out");
+        System.out.println("me " + result.getIn() + " " + result.getOut());
+        System.out.println("ex " + n*(1-.28) + " " + n*.28);
+
+        assertEquals(n*(1-.28), result.getIn(), (n*.03));
 
 
     }
