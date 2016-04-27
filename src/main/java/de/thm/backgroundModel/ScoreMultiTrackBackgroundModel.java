@@ -5,12 +5,9 @@ import de.thm.genomeData.ScoredTrack;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
 import de.thm.misc.ChromosomSizes;
-import de.thm.positionData.AbstractSites;
 import de.thm.positionData.Sites;
 
-import java.awt.*;
 import java.util.*;
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -38,7 +35,7 @@ class ScoreMultiTrackBackgroundModel implements Sites {
 
 
     /**
-     * Consturcotr
+     * Constructor
      *
      *
      * @param sites      - sites to build model against.
@@ -58,7 +55,7 @@ class ScoreMultiTrackBackgroundModel implements Sites {
         int a = foo.searchSingleInterval(covariants.get(0), this).getOut();
         int b = foo.searchSingleInterval(covariants.get(0), sites).getOut();
 
-        System.out.println("should: " + b + " is: " + a);
+        //System.out.println("should: " + b + " is: " + a);
     }
 
 
@@ -88,23 +85,22 @@ class ScoreMultiTrackBackgroundModel implements Sites {
         List<Long> starts = interval.getIntervalsStart();
         List<Long> ends = interval.getIntervalsEnd();
 
-        //Map<String, Integer> genomeOccurence = new HashMap<>();
         Map<String, Long> lengths = new HashMap<>();
 
 
-        //count occurences:
+        //count occurences over whole genome:
 
         int j = 0;
         for (String key : interval.getIntervalName()) {
             if (lengths.containsKey(key)) {
-                //genomeOccurence.put(key, genomeOccurence.get(key) + 1);
                 lengths.put(key, lengths.get(key) + ends.get(j) - starts.get(j));
             } else {
-                //genomeOccurence.put(key, 1);
                 lengths.put(key, ends.get(j) - starts.get(j));
             }
             j++;
         }
+
+        //generate prob list for each interval
 
         List<String> keys = interval.getIntervalName();
         List<Double> intervalScore = interval.getIntervalScore();
@@ -117,15 +113,6 @@ class ScoreMultiTrackBackgroundModel implements Sites {
                 newScores.add(0d);
 
             } else {
-                /*
-                BigDecimal length = new BigDecimal(ends.get(i) - starts.get(i));
-                BigDecimal genomeLength = new BigDecimal(lengths.get(keys.get(i)));
-                BigDecimal number = new BigDecimal(0);
-
-                if(genomeLength.intValue() != 0){ //this can happen with multiple scored tracks
-                    number = (length.divide(genomeLength, 15, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(p)));
-                }
-                */
 
                 double genomeLength = lengths.get(keys.get(i));
                 double prob = 0;
@@ -139,11 +126,17 @@ class ScoreMultiTrackBackgroundModel implements Sites {
             }
         }
 
+
+        //strech values to sum up to 1.0 if inaccuracy caused smaller prob values
+
         double exp = newScores.stream().mapToDouble(i->i).sum();
         if(exp < (1 - 0.00000000001)){ //if the combined probability is below 1.0 increase each value:
             double inc = 1 / exp;
             newScores = newScores.stream().map(i -> i * inc).collect(Collectors.toList());
         }
+
+
+        // create scored track from the generated prob values
 
 
         return TrackFactory.getInstance().createScoredTrack(
@@ -237,32 +230,35 @@ class ScoreMultiTrackBackgroundModel implements Sites {
         List<Double> random = new ArrayList<>();
         Random rand = new Random(System.currentTimeMillis());
 
+        //generate random numbers
         for (int i = 0; i < siteCount; i++) {
             random.add(rand.nextDouble());
         }
 
         Collections.sort(random);
 
-
+        //set random values across the track
         double prev = 0;
         int j = 0;
 
         for (Double aRandom : random) {
-            double value = aRandom - prev;
+            double currentRandom = aRandom - prev;
 
             for (; j < starts.size(); j++) {
 
-                Double prob = probabilities.get(j);
+                double prob = probabilities.get(j);
 
-                if (value >= prob) {
-                    value -= prob;
+                if (currentRandom >= prob) { // current random value does not fit inside interval
+                    currentRandom -= prob;
                     prev += prob;
 
-                } else {
-                    Long intervalLength = (ends.get(j) - starts.get(j)) - 1;
-                    sites.add(starts.get(j) + Math.round(intervalLength * value));
+                } else { // current random value fits inside interval
+                    Long intervalLength = (ends.get(j) - starts.get(j));
 
-                    break;
+                    Long position = starts.get(j) + Math.round(Math.floor(intervalLength * currentRandom / prob));
+                    sites.add(position);
+
+                    break; //  break for loop and get next random value
                 }
             }
         }
