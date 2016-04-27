@@ -1,6 +1,7 @@
 package de.thm.misc;
 
 import de.thm.genomeData.InOutTrack;
+import de.thm.genomeData.ScoredTrack;
 import de.thm.genomeData.TrackFactory;
 
 import java.util.ArrayList;
@@ -64,4 +65,54 @@ public final class PositionPreprocessor {
         return TrackFactory.getInstance().createInOutTrack(newStart, newEnd, interval.getName(), interval.getDescription());
     }
 
+    public static ScoredTrack preprocessData(ScoredTrack track) {
+        List<Long> newStart = new ArrayList<>();
+        List<Long> newEnd = new ArrayList<>();
+        List<Double> newScore = new ArrayList<>();
+
+        List<Long> intervalsStart = track.getIntervalsStart();
+        List<Long> intervalsEnd = track.getIntervalsEnd();
+        List<Double> scores = track.getIntervalScore();
+
+        if (intervalsStart.isEmpty()) return track;
+
+        long start = intervalsStart.get(0);
+        long end = intervalsEnd.get(0);
+        double score = scores.get(0);
+
+        double tmpScore = score;
+        int iCount = 1;
+
+
+        for (int i = 0; i < intervalsStart.size(); i++) {
+
+            if (i < intervalsStart.size() - 1 && end > intervalsStart.get(i + 1)) { // overlap
+
+                if (end < intervalsEnd.get(i + 1))
+                    end = intervalsEnd.get(i + 1);
+
+                tmpScore += scores.get(i + 1);
+                iCount++;
+
+            } else {  //do not overlap
+                newStart.add(start);
+                newEnd.add(end);
+                newScore.add(tmpScore / iCount);
+
+                if (i >= intervalsStart.size() - 1) break; // do not get next points if this was the last
+
+                start = intervalsStart.get(i + 1);
+                end = intervalsEnd.get(i + 1);
+                tmpScore = scores.get(i + 1);
+                iCount = 1;
+
+            }
+        }
+
+        intervalsStart.clear();
+        intervalsEnd.clear();
+
+
+        return TrackFactory.getInstance().createScoredTrack(newStart, newEnd, track.getIntervalName().subList(0,newStart.size()), newScore ,track.getName(), track.getDescription());
+    }
 }
