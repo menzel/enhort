@@ -21,7 +21,7 @@ public class ScoreMultiTrackBackgroundModelTest {
     @Test
     public void testBackgroundModel() throws Exception {
 
-        int n = 50000;
+        int n = 10000;
 
         List<Long> start1 = new ArrayList<>();
         List<Long> start2 = new ArrayList<>();
@@ -30,10 +30,12 @@ public class ScoreMultiTrackBackgroundModelTest {
         List<Long> end2 = new ArrayList<>();
 
         start1.add(1L);
+        start1.add(2L);
         start1.add(20L);
         start1.add(50L);
 
         end1.add(10L);
+        end1.add(4L);
         end1.add(30L);
         end1.add(60L);
 
@@ -112,7 +114,6 @@ public class ScoreMultiTrackBackgroundModelTest {
         //assertEquals(probTrack.getIntervalScore().stream().mapToDouble(i -> i).sum(), 1.0, 0.01);
 
 
-        final List<Long> randomPos = new ArrayList<>(m.generatePositionsByProbability(probTrack, n));
 
 
 
@@ -147,42 +148,56 @@ public class ScoreMultiTrackBackgroundModelTest {
         scores.add(0.6);
         scores.add(0.8);
 
+        double me = 0;
 
-        Sites newSites = new Sites() {
-            @Override
-            public void addPositions(Collection<Long> values) {
+        for(int i = 0; i < 10000; i++) {
 
-            }
+            final List<Long> randomPos = new ArrayList<>(m.generatePositionsByProbability(probTrack, n));
 
-            @Override
-            public List<Long> getPositions() {
-                return randomPos;
-            }
+            Sites newSites = new Sites() {
+                @Override
+                public void addPositions(Collection<Long> values) {
 
-            @Override
-            public void setPositions(List<Long> positions) {
+                }
 
-            }
+                @Override
+                public List<Long> getPositions() {
+                    return randomPos;
+                }
 
-            @Override
-            public int getPositionCount() {
-                return randomPos.size();
-            }
-        };
+                @Override
+                public void setPositions(List<Long> positions) {
 
+                }
 
-        ScoredTrack testTrack = mockInterval(start, end, null, scores);
-        Intersect sec = new Intersect<>();
-
-        TestTrackResult result = sec.searchSingleInterval(testTrack, newSites);
+                @Override
+                public int getPositionCount() {
+                    return randomPos.size();
+                }
+            };
 
 
-        System.out.println("In Out");
-        System.out.println("me " + result.getIn() + " " + result.getOut());
-        System.out.println("ex " + n*(1-.28) + " " + n*.28);
+            ScoredTrack testTrack = mockInterval(start, end, null, scores);
+            Intersect sec = new Intersect<>();
 
-        assertEquals(n*(1-.28), result.getIn(), (n*.03));
+            TestTrackResult result = sec.searchSingleInterval(testTrack, newSites);
 
+
+            /*
+            System.out.println("In Out");
+            System.out.println("me " + result.getIn() + " " + result.getOut());
+            System.out.println("ex " + n * (1 - .28) + " " + n * .28);
+            */
+
+            me += result.getIn();
+
+        }
+
+
+        System.out.println(me / 10000.0);
+        System.out.println(n  * (5/7.0));
+
+        assertEquals(n * (5/7.0), me/10000.0, (n * .05));
 
     }
 
