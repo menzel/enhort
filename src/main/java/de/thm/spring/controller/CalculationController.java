@@ -144,7 +144,7 @@ public class CalculationController {
         UserData data = new UserData(file);
 
         ResultCollector collector;
-        List<TestResult> covariants;
+        List<TestResult> covariants = new ArrayList<>();
         StatisticsCollector stats = StatisticsCollector.getInstance();
         command.setSites(data);
 
@@ -170,7 +170,7 @@ public class CalculationController {
         }
 
         currentSession.setCollector(collector);
-        setModel(model, collector, command);
+        setModel(model, collector, command, covariants);
 
         command.setPositionCount(data.getPositionCount());
 
@@ -186,10 +186,20 @@ public class CalculationController {
      * @param collector - result collector to get results from
      * @param cmd - interfaceCommand for user set params
      */
-    private void setModel(Model model, ResultCollector collector, InterfaceCommand cmd) {
-        model.addAttribute("results_inout", collector.getInOutResults());
-        model.addAttribute("results_score", collector.getScoredResults());
-        model.addAttribute("results_named", collector.getNamedResults());
+    private void setModel(Model model, ResultCollector collector, InterfaceCommand cmd, List<TestResult> covariants) {
+
+        List<TestResult> inout = collector.getInOutResults();
+        inout.removeAll(covariants);
+        model.addAttribute("results_inout", inout);
+
+        List<TestResult> score = collector.getScoredResults();
+        score.removeAll(covariants);
+        model.addAttribute("results_score", score);
+
+        List<TestResult> name = collector.getNamedResults();
+        name.removeAll(covariants);
+        model.addAttribute("results_named", name);
+
         model.addAttribute("insig_results", collector.getInsignificantResults());
 
         model.addAttribute("interfaceCommand", cmd);
@@ -219,7 +229,7 @@ public class CalculationController {
         command.setOriginalFilename(filename);
         command.setMinBg(collector.getBgCount());
 
-        setModel(model, collector, command);
+        setModel(model, collector, command, new ArrayList<>());
 
     }
 }
