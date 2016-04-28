@@ -226,7 +226,10 @@ public class CalculationController {
 
         InterfaceCommand command = new InterfaceCommand();
         command.setPositionCount(data.getPositionCount());
+
+        filename = filename.length() > 12 ? filename.substring(0,12) +  ".." : filename;
         command.setOriginalFilename(filename);
+
         command.setMinBg(collector.getBgCount());
 
         setModel(model, collector, command, new ArrayList<>());
