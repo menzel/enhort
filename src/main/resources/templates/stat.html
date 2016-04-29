@@ -77,6 +77,22 @@
                     </tbody>
                 </table>
 
+
+                <hr/>
+                <h4>Sessions:</h4>
+
+                <table class="table table-hover table-condensed table-striped">
+
+                    <th:block th:each="session: ${sessions}">
+
+                        <tr>
+                            <td th:text="${session.date}"></td>
+                        </tr>
+
+                    </th:block>
+
+                </table>
+
             </div>
 
         </div>
