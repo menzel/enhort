@@ -227,6 +227,7 @@ public class CalculationController {
         InterfaceCommand command = new InterfaceCommand();
         command.setPositionCount(data.getPositionCount());
 
+        //cut off filenames longer than 12 chars:
         filename = filename.length() > 12 ? filename.substring(0,12) +  ".." : filename;
         command.setOriginalFilename(filename);
 
