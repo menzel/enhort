@@ -1,10 +1,7 @@
 package de.thm.spring.backend;
 
 import java.nio.file.Path;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Holds the list of known session objects
@@ -21,6 +18,7 @@ public final class Sessions {
     }
 
     public static Sessions getInstance() {
+        instance.cleanUp();
         return instance;
     }
 
@@ -76,13 +74,13 @@ public final class Sessions {
      * Old means older than one day
      */
     private void cleanUp() {
-        Calendar tomorrow = Calendar.getInstance();
-        tomorrow.add(Calendar.DATE, 1);
+        Calendar yesterday = Calendar.getInstance();
+        yesterday.add(Calendar.DATE, -1);
 
         for (String key : sessions.keySet()) {
             Session session = sessions.get(key);
 
-            if (session.getDate().compareTo(tomorrow.getTime()) < 1) { //TODO check
+            if (session.getDate().compareTo(yesterday.getTime()) < 0) { //TODO check
                 sessions.remove(key);
                 session.delete();
             }
@@ -92,5 +90,9 @@ public final class Sessions {
 
     public int count() {
         return this.sessions.size();
+    }
+
+    public Collection<Session> getSessions() {
+        return this.sessions.values();
     }
 }
