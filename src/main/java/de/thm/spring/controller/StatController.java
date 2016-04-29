@@ -30,7 +30,7 @@ public class StatController {
         model.addAttribute("creationDate", stats.getCreationDate().toString());
 
 
-        model.addAttribute("session_count", Sessions.getInstance().count());
+        model.addAttribute("current_session_count", Sessions.getInstance().count());
         model.addAttribute("sessions", Sessions.getInstance().getSessions());
 
 
