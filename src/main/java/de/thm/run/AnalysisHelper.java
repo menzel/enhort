@@ -74,11 +74,12 @@ public class AnalysisHelper {
         TrackFactory trackFactory = TrackFactory.getInstance();
         int minSites = cmd.getMinBg();
         Sites bg = null;
+        Double influence = cmd.getInfluence();
 
         if(covariants.isEmpty()){
             bg = BackgroundModelFactory.createBackgroundModel(sites.getPositionCount()); //check if minSites is larger
         } else {
-            bg = BackgroundModelFactory.createBackgroundModel(covariants, sites, minSites);
+            bg = BackgroundModelFactory.createBackgroundModel(covariants, sites, minSites, influence);
         }
 
         if(cmd.getPackageNames().isEmpty()) {

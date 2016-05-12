@@ -50,16 +50,16 @@ public final class IntersectMultithread {
         for (Track track : intervals) {
 
             if (track instanceof InOutTrack) {
-                IntersectWrapper<InOutTrack> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, track, collector);
+                IntersectWrapper<InOutTrack> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, (InOutTrack) track, collector);
                 wrappers.add(wrapper);
                 exe.execute(wrapper);
 
             } else if (track instanceof ScoredTrack) {
-                IntersectWrapper<ScoredTrack> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, track, collector);
+                IntersectWrapper<ScoredTrack> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, (ScoredTrack) track, collector);
                 wrappers.add(wrapper);
                 exe.execute(wrapper);
             } else if (track instanceof NamedTrack) {
-                IntersectWrapper<NamedTrack> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, track, collector);
+                IntersectWrapper<NamedTrack> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, (NamedTrack) track, collector);
                 wrappers.add(wrapper);
                 exe.execute(wrapper);
             }
@@ -84,7 +84,7 @@ public final class IntersectMultithread {
         return collector;
     }
 
-    final class IntersectWrapper<T extends Track> implements Runnable {
+    private final class IntersectWrapper<T extends Track> implements Runnable {
 
 
         private final Sites randomPos;
@@ -100,7 +100,7 @@ public final class IntersectMultithread {
          * @param track       - interval to match against
          * @param collector   - collector to collect results in
          */
-        private IntersectWrapper(Sites measuredPos, Sites randomPos, Track track, ResultCollector collector) {
+        private IntersectWrapper(Sites measuredPos, Sites randomPos, T track, ResultCollector collector) {
 
             this.randomPos = randomPos;
             this.measuredPos = measuredPos;

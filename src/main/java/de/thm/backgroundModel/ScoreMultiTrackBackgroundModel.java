@@ -27,9 +27,9 @@ class ScoreMultiTrackBackgroundModel implements Sites {
      * @param sites      - sites to build model against.
      * @param covariant - single covariant
      */
-    ScoreMultiTrackBackgroundModel(ScoredTrack covariant, Sites sites, int minSites) {
+    ScoreMultiTrackBackgroundModel(ScoredTrack covariant, Sites sites, int minSites, double influence) {
 
-        this(Collections.singletonList(covariant),sites, minSites);
+        this(Collections.singletonList(covariant),sites, minSites, influence);
     }
 
 
@@ -40,8 +40,8 @@ class ScoreMultiTrackBackgroundModel implements Sites {
      * @param sites      - sites to build model against.
      * @param covariants - list of intervals to build model against.
      */
-    ScoreMultiTrackBackgroundModel(List<ScoredTrack> covariants, Sites sites, int minSites) {
-        ScoredTrack interval = generateProbabilityInterval(sites, covariants);
+    ScoreMultiTrackBackgroundModel(List<ScoredTrack> covariants, Sites sites, int minSites, double influence) {
+        ScoredTrack interval = generateProbabilityInterval(sites, covariants, influence);
 
         int count = (sites.getPositionCount() > minSites) ? sites.getPositionCount() : minSites;
         Collection<Long> pos = generatePositionsByProbability(interval, count);
@@ -58,7 +58,7 @@ class ScoreMultiTrackBackgroundModel implements Sites {
      * @param intervals - list of intervals as covariants.
      * @return new interval with probability scores.
      */
-    ScoredTrack generateProbabilityInterval(Sites sites, List<ScoredTrack> intervals) {
+    ScoredTrack generateProbabilityInterval(Sites sites, List<ScoredTrack> intervals, double influence) {
 
 
         Map<String, Double> sitesOccurence = fillOccurenceMap(intervals, sites);
@@ -96,6 +96,7 @@ class ScoreMultiTrackBackgroundModel implements Sites {
         List<String> keys = interval.getIntervalName();
         List<Double> intervalScore = interval.getIntervalScore();
         List<Double> newScores = new ArrayList<>();
+        long genome = ChromosomSizes.getInstance().getGenomeSize();
 
         for (int i = 0; i < intervalScore.size(); i++) {
             Double p = intervalScore.get(i);
@@ -106,13 +107,17 @@ class ScoreMultiTrackBackgroundModel implements Sites {
             } else {
 
                 double genomeLength = lengths.get(keys.get(i));
-                double prob = 0;
                 double length = ends.get(i) - starts.get(i);
 
                 if(genomeLength != 0) { //this can happen with multiple scored tracks
-                    prob = p * (length/genomeLength);
 
+                    double prob = p * (length/genomeLength);
+                    prob = influence * prob + (1 - influence) * (length/genome);
+
+                    //add probability to score list
                     newScores.add(prob);
+                } else{
+                    // check if start stop positions are present
                 }
             }
         }

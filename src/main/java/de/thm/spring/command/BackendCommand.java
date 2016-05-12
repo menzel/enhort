@@ -17,6 +17,7 @@ public final class BackendCommand implements Serializable{
     private final List<String> packageNames; // list of packages that will be used in the intersect run
     private final int minBg; //minimum of expected background positions
     private final Sites sites;
+    private double influence;
 
 
     public BackendCommand(Sites sites) {
@@ -32,6 +33,7 @@ public final class BackendCommand implements Serializable{
         this.packageNames = command.getPackageNames();
         this.minBg = command.getMinBg();
         this.sites = command.getSites();
+        this.influence = command.getInfluence();
 
     }
 
@@ -43,4 +45,5 @@ public final class BackendCommand implements Serializable{
 
     public int getMinBg() { return minBg; }
 
+    public double getInfluence() { return influence; }
 }

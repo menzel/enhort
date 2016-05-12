@@ -66,7 +66,7 @@ public final class TrackFactory {
         try {
             tmp = getIntervals(basePath.resolve("inout"), Type.inout);
 
-            //tmp.addAll(getIntervals(basePath.resolve("named"), Type.named));
+            tmp.addAll(getIntervals(basePath.resolve("named"), Type.named));
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks."));
             this.intervals.addAll(tmp);
 
@@ -75,18 +75,17 @@ public final class TrackFactory {
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name"));
             this.intervals.addAll(tmp);
 
-    */
+            tmp = getIntervals(basePath.resolve("broadHistone"), Type.inout);
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Histone, "Histone modifications"));
+            this.intervals.addAll(tmp);
+            */
 
             tmp = getIntervals(basePath.resolve("score"), Type.scored);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Expression, "Expression scores"));
             this.intervals.addAll(tmp);
 
 
-            /*
-            tmp = getIntervals(basePath.resolve("broadHistone"), Type.inout);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Histone, "Histone modifications"));
-            this.intervals.addAll(tmp);
-            */
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -118,7 +117,7 @@ public final class TrackFactory {
         exe.shutdown();
 
         try {
-            exe.awaitTermination(300, TimeUnit.SECONDS);
+            exe.awaitTermination(30, TimeUnit.SECONDS);
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -241,7 +240,7 @@ public final class TrackFactory {
         public void run() {
 
             Track track = initIntervalfromFile(path.toFile(), type);
-            //saveTrack(track, path, type);
+            //if(path.toString().contains("conservation")) saveTrack(track, path, type);
             intervals.add(track);
         }
 

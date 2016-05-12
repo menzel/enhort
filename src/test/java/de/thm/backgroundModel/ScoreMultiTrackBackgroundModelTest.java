@@ -13,10 +13,11 @@ import static org.junit.Assert.assertEquals;
 
 
 /**
+ * Test for multi track scored bg model
+ *
  * Created by Michael Menzel on 19/2/16.
  */
 public class ScoreMultiTrackBackgroundModelTest {
-
 
     @Test
     public void testBackgroundModel() throws Exception {
@@ -110,7 +111,7 @@ public class ScoreMultiTrackBackgroundModelTest {
 
         /* Test prob interval */
 
-        ScoredTrack probTrack = m.generateProbabilityInterval(sites, tracks);
+        ScoredTrack probTrack = m.generateProbabilityInterval(sites, tracks, 1);
         //assertEquals(probTrack.getIntervalScore().stream().mapToDouble(i -> i).sum(), 1.0, 0.01);
 
 

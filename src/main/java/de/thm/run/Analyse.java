@@ -62,7 +62,7 @@ public class Analyse {
         }
         System.out.println("covariant: " + covariants.get(0).getName());
 
-        Sites bg = BackgroundModelFactory.createBackgroundModel(covariants, userSites);
+        Sites bg = BackgroundModelFactory.createBackgroundModel(covariants, userSites,1);
 
         IntersectMultithread multi = new IntersectMultithread();
         ResultCollector collector = multi.execute(intervals, userSites, bg);
@@ -92,7 +92,7 @@ public class Analyse {
 
 
         for(int i = 1 ; i <= 10 ; i++) {
-            BackgroundModelFactory.createBackgroundModel(covariants.get(0), random);
+            BackgroundModelFactory.createBackgroundModel(covariants.get(0), random, 10000, 1);
         }
 
         for(int i = 1 ; i <= 100 ; i++){

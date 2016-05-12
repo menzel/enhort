@@ -111,8 +111,16 @@ public final class BackendController {
                         System.out.println(prefix + "Webinterface lost");
                         isConnected = false;
 
-                    } catch (IOException | ClassNotFoundException | InterruptedException | TimeoutException | ExecutionException e) {
+                    } catch (IOException | ClassNotFoundException  | InterruptedException | TimeoutException | ExecutionException e) {
                         e.printStackTrace();
+
+                        try {
+
+                            outStream.writeObject(e);
+
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
                     }
                 } //close while(isConnected) loop
 

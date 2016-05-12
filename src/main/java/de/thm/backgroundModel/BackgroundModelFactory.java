@@ -39,29 +39,19 @@ public final class BackgroundModelFactory {
      *
      * @return background model as sites object.
      */
-    public static Sites createBackgroundModel(Track track, Sites sites, int minSites) {
+    public static Sites createBackgroundModel(Track track, Sites sites, int minSites, double influence) {
          if (track instanceof InOutTrack)
             return new SingleTrackBackgroundModel((InOutTrack) track, sites,minSites);
 
         else if (track instanceof ScoredTrack) // put single track in a list of size one
-            return new ScoreMultiTrackBackgroundModel((ScoredTrack) track, sites, minSites);
+            return new ScoreMultiTrackBackgroundModel((ScoredTrack) track, sites, minSites, influence);
 
         else if (track instanceof NamedTrack) //convert the single track to a scored track and put in a list of size one
-             return new ScoreMultiTrackBackgroundModel(Tracks.cast((NamedTrack) track), sites, minSites);
+             return new ScoreMultiTrackBackgroundModel(Tracks.cast((NamedTrack) track), sites, minSites, influence);
 
         return null;
     }
 
-    /**
-     * Creates a background model based on one track as covariant and the given sites.
-     *
-     * @param track covariant track
-     * @param sites - sites to set the probabilities for the background positions
-     * @return background model as sites object.
-     */
-    public static Sites createBackgroundModel(Track track, Sites sites) {
-        return  createBackgroundModel(track, sites, sites.getPositionCount());
-    }
 
 
     /**
@@ -72,8 +62,8 @@ public final class BackgroundModelFactory {
      * @return background model as sites object.
      * @throws CovariantsException
      */
-    public static Sites createBackgroundModel(List<Track> trackList, Sites sites) throws CovariantsException {
-        return createBackgroundModel(trackList, sites, sites.getPositionCount());
+    public static Sites createBackgroundModel(List<Track> trackList, Sites sites, double influence) throws CovariantsException {
+        return createBackgroundModel(trackList, sites, sites.getPositionCount(), influence);
 
     }
 
@@ -86,13 +76,13 @@ public final class BackgroundModelFactory {
      * @return background model as sites object.
      * @throws CovariantsException
      */
-    public static Sites createBackgroundModel(List<Track> trackList, Sites sites, int minSites) throws CovariantsException {
+    public static Sites createBackgroundModel(List<Track> trackList, Sites sites, int minSites, double influence) throws CovariantsException {
 
         if (trackList.isEmpty())
             return createBackgroundModel(sites.getPositionCount());
 
         else if (trackList.size() == 1)
-            return createBackgroundModel(trackList.get(0), sites, minSites);
+            return createBackgroundModel(trackList.get(0), sites, minSites, influence);
 
         else if (trackList.stream().allMatch(i -> i instanceof InOutTrack))
             if(trackList.size() < maxCovariantsInOutOnly) {
@@ -104,7 +94,7 @@ public final class BackgroundModelFactory {
             if (trackList.stream().allMatch(i -> i instanceof ScoredTrack)) {
                 List<ScoredTrack> newList = trackList.stream().map(i -> (ScoredTrack) i).collect(Collectors.toList());
 
-                return new ScoreMultiTrackBackgroundModel(newList, sites, minSites);
+                return new ScoreMultiTrackBackgroundModel(newList, sites, minSites, influence);
 
             } else {
                 List<ScoredTrack> scoredIntervals = trackList.stream()
@@ -126,7 +116,7 @@ public final class BackgroundModelFactory {
                     .collect(Collectors.toList()));
 
 
-                return new ScoreMultiTrackBackgroundModel(scoredIntervals, sites, minSites);
+                return new ScoreMultiTrackBackgroundModel(scoredIntervals, sites, minSites, influence);
             }
 
         } else {
