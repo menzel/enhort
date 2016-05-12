@@ -202,63 +202,9 @@ class ScoreMultiTrackBackgroundModel implements Sites {
             }
         }
         //TODO Apply smoothing over map here
-        double factor = 0.5;
-        return smooth(map, factor);
+        return map;
     }
 
-    /**
-     * Smoothes the given map (score to count) with a given factor.
-     *
-     * @param map to smooth
-     * @param factor defines how broad the smoothing is applied
-     * @return smoothed map with new counts
-     */
-    Map<String, Double> smooth(Map<String, Double> map, double factor) {
-
-        if(factor == 0)
-            return map;
-
-        Map<String, Double> newScores = new HashMap<>();
-
-        List<Double> scores = new ArrayList<>(map.keySet().stream().filter(i -> i.length() > 1).map(i -> Double.parseDouble(i.substring(1))).collect(Collectors.toSet()));
-        Collections.sort(scores);
-        int count = scores.size();
-
-        double low = scores.get(0);
-        double high = scores.get(scores.size()-1);
-
-        double stepSize = (high - low) / count;
-        factor *= stepSize;
-
-        for(double i = low ; i <= high; i += stepSize){
-
-            double sum = 0; // sum of scores
-            int o = 0; //count of scores to calc average
-
-            for(Double s: scores){
-                if(s >= i - factor && s <= i + factor){
-
-                    if(map.containsKey("|" +s )){
-                        sum +=  map.get("|" + s);
-                        o++;
-                    }
-
-                } else if(o != 0){
-                    break;
-                }
-            }
-
-            double val = sum/o;
-
-            if(!Double.isNaN(val)) {
-                newScores.put("|" + Double.toString(i), val);
-                System.out.println(i + "\t" + val);
-
-            }
-        }
-
-        return newScores;
-    }
 
 
     /**
