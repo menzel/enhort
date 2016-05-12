@@ -1,6 +1,5 @@
 package de.thm.backgroundModel;
 
-import de.thm.calc.Intersect;
 import de.thm.genomeData.ScoredTrack;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
@@ -47,15 +46,7 @@ class ScoreMultiTrackBackgroundModel implements Sites {
         int count = (sites.getPositionCount() > minSites) ? sites.getPositionCount() : minSites;
         Collection<Long> pos = generatePositionsByProbability(interval, count);
 
-        Intersect<Track> foo = new Intersect<>();
-
-
         positions.addAll(pos);
-
-        int a = foo.searchSingleInterval(covariants.get(0), this).getOut();
-        int b = foo.searchSingleInterval(covariants.get(0), sites).getOut();
-
-        //System.out.println("should: " + b + " is: " + a);
     }
 
 
@@ -150,11 +141,11 @@ class ScoreMultiTrackBackgroundModel implements Sites {
 
     /**
      * Computes an occurence map which holds information about how often a score combination from the given intervals is picked by one of the given sites.
-     * The returning map contains probablities. *
+     * The returning map contains the counts per score.
      *
      * @param intervals - scores to get from.
      * @param sites     - positions to look up.
-     * @return map to score combination to  probablity
+     * @return map<Score, Count> to score combination to  probablity
      */
     Map<String, Double> fillOccurenceMap(List<ScoredTrack> intervals, Sites sites) {
         Map<String, Double> map = new HashMap<>(); //holds the conversion between score and probability
@@ -210,7 +201,63 @@ class ScoreMultiTrackBackgroundModel implements Sites {
                 map.put(key, 1.);
             }
         }
-        return map;
+        //TODO Apply smoothing over map here
+        double factor = 0.5;
+        return smooth(map, factor);
+    }
+
+    /**
+     * Smoothes the given map (score to count) with a given factor.
+     *
+     * @param map to smooth
+     * @param factor defines how broad the smoothing is applied
+     * @return smoothed map with new counts
+     */
+    Map<String, Double> smooth(Map<String, Double> map, double factor) {
+
+        if(factor == 0)
+            return map;
+
+        Map<String, Double> newScores = new HashMap<>();
+
+        List<Double> scores = new ArrayList<>(map.keySet().stream().filter(i -> i.length() > 1).map(i -> Double.parseDouble(i.substring(1))).collect(Collectors.toSet()));
+        Collections.sort(scores);
+        int count = scores.size();
+
+        double low = scores.get(0);
+        double high = scores.get(scores.size()-1);
+
+        double stepSize = (high - low) / count;
+        factor *= stepSize;
+
+        for(double i = low ; i <= high; i += stepSize){
+
+            double sum = 0; // sum of scores
+            int o = 0; //count of scores to calc average
+
+            for(Double s: scores){
+                if(s >= i - factor && s <= i + factor){
+
+                    if(map.containsKey("|" +s )){
+                        sum +=  map.get("|" + s);
+                        o++;
+                    }
+
+                } else if(o != 0){
+                    break;
+                }
+            }
+
+            double val = sum/o;
+
+            if(!Double.isNaN(val)) {
+                newScores.put("|" + Double.toString(i), val);
+                System.out.println(i + "\t" + val);
+
+            }
+        }
+
+        return newScores;
     }
 
 
