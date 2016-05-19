@@ -118,6 +118,7 @@ public final class PositionPreprocessor {
     }
 
 
+
     public static NamedTrack preprocessData(NamedTrack track) {
         List<Long> newStart = new ArrayList<>();
         List<Long> newEnd = new ArrayList<>();
@@ -127,7 +128,8 @@ public final class PositionPreprocessor {
         List<Long> intervalsEnd = track.getIntervalsEnd();
         List<String> names = track.getIntervalName();
 
-        if (intervalsStart.isEmpty()) return track;
+        //if (intervalsStart.isEmpty()) return track;
+        if(true) return track;
 
         long start = intervalsStart.get(0);
         long end = intervalsEnd.get(0);
@@ -140,12 +142,12 @@ public final class PositionPreprocessor {
                 if (end < intervalsEnd.get(i + 1))
                     end = intervalsEnd.get(i + 1);
 
-                name += names.get(i + 1);
+                name = name.equals(names.get(i)) ? name : names.get(i) + "_" + name;
 
             } else {  //do not overlap
                 newStart.add(start);
                 newEnd.add(end);
-                newNames.add(name);
+                newNames.add(name.intern());
 
                 if (i >= intervalsStart.size() - 1) break; // do not get next points if this was the last
 
