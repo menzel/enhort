@@ -1,6 +1,7 @@
 package de.thm.misc;
 
 import de.thm.genomeData.InOutTrack;
+import de.thm.genomeData.NamedTrack;
 import de.thm.genomeData.ScoredTrack;
 import de.thm.genomeData.TrackFactory;
 
@@ -114,5 +115,51 @@ public final class PositionPreprocessor {
 
 
         return TrackFactory.getInstance().createScoredTrack(newStart, newEnd, track.getIntervalName().subList(0,newStart.size()), newScore ,track.getName(), track.getDescription());
+    }
+
+
+    public static NamedTrack preprocessData(NamedTrack track) {
+        List<Long> newStart = new ArrayList<>();
+        List<Long> newEnd = new ArrayList<>();
+        List<String> newNames = new ArrayList<>();
+
+        List<Long> intervalsStart = track.getIntervalsStart();
+        List<Long> intervalsEnd = track.getIntervalsEnd();
+        List<String> names = track.getIntervalName();
+
+        if (intervalsStart.isEmpty()) return track;
+
+        long start = intervalsStart.get(0);
+        long end = intervalsEnd.get(0);
+        String name = names.get(0);
+
+        for (int i = 0; i < intervalsStart.size(); i++) {
+
+            if (i < intervalsStart.size() - 1 && end > intervalsStart.get(i + 1)) { // overlap
+
+                if (end < intervalsEnd.get(i + 1))
+                    end = intervalsEnd.get(i + 1);
+
+                name += names.get(i + 1);
+
+            } else {  //do not overlap
+                newStart.add(start);
+                newEnd.add(end);
+                newNames.add(name);
+
+                if (i >= intervalsStart.size() - 1) break; // do not get next points if this was the last
+
+                start = intervalsStart.get(i + 1);
+                end = intervalsEnd.get(i + 1);
+                name = names.get(i + 1);
+
+            }
+        }
+
+        intervalsStart.clear();
+        intervalsEnd.clear();
+
+
+        return TrackFactory.getInstance().createNamedTrack(newStart, newEnd, newNames,track.getName(), track.getDescription());
     }
 }

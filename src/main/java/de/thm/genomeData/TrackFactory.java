@@ -220,6 +220,9 @@ public final class TrackFactory {
         return new InOutTrack(starts, ends, name, description);
     }
 
+    public NamedTrack createNamedTrack(List<Long> starts, List<Long> ends, List<String> names, String name, String description) {
+        return new NamedTrack(starts,ends, names, name, description);
+    }
 
 
     private enum Type {inout, named, scored}
