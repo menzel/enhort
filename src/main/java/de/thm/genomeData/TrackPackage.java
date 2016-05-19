@@ -30,5 +30,5 @@ public final class TrackPackage {
         return name;
     }
 
-    public enum PackageName {Basic, Expression, Histone, Repeats_by_name}
+    public enum PackageName {Basic, Expression, Histone, Repeats_by_name, Restriction_sites}
 }

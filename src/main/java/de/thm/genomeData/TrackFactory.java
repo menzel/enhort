@@ -70,6 +70,10 @@ public final class TrackFactory {
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks."));
             this.intervals.addAll(tmp);
 
+            tmp = getIntervals(basePath.resolve("restriction_sites"), Type.inout);
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Restriction_sites, "Restriction sites"));
+            this.intervals.addAll(tmp);
+
             /*
             tmp = getIntervals(basePath.resolve("repeats_by_name"), Type.inout);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name"));
@@ -78,12 +82,12 @@ public final class TrackFactory {
             tmp = getIntervals(basePath.resolve("broadHistone"), Type.inout);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Histone, "Histone modifications"));
             this.intervals.addAll(tmp);
-            */
 
             tmp = getIntervals(basePath.resolve("score"), Type.scored);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Expression, "Expression scores"));
             this.intervals.addAll(tmp);
 
+            */
 
 
 
@@ -386,7 +390,7 @@ public final class TrackFactory {
                     case scored:
                         return PositionPreprocessor.preprocessData(new ScoredTrack(starts, ends, names, scores, name, description));
                     case named:
-                        return new NamedTrack(starts, ends, names, name, description);
+                        return PositionPreprocessor.preprocessData(new NamedTrack(starts, ends, names, name, description));
                     default:
                         throw new Exception("Something is wrong with this track or file");
                 }
