@@ -501,6 +501,90 @@ class ScoreMultiTrackBackgroundModel implements Sites {
     }
 
 
+    ScoredTrack combine(List<ScoredTrack> tracks){
+        List<Integer> pointers = new ArrayList<>(Collections.nCopies(tracks.size(), 0));
+
+        List<Long> newStart = new ArrayList<>();
+        List<Long> newEnd = new ArrayList<>();
+        List<String> newNames = new ArrayList<>();
+        List<Double> newScores = new ArrayList<>();
+
+        List<List<Long>> marks = new ArrayList<>();
+
+        long genomeSize = ChromosomSizes.getInstance().getGenomeSize();
+
+
+        for(Track track: tracks){
+            List<Long> tmp = new ArrayList<>(track.getIntervalsStart());
+            tmp.addAll(track.getIntervalsEnd());
+            Collections.sort(tmp);
+            marks.add(tmp);
+        }
+
+        Long last = Long.MAX_VALUE;
+
+        while(true){
+            int i = 0;
+            int ref = 0;
+
+            Long next = genomeSize;
+
+
+            for(List<Long> mark: marks){ //iterate over all tracks to find the next start
+
+                if(pointers.get(i) >= mark.size()){
+                    i++;
+                    continue; //go to next track if the current has no items left
+                }
+
+                Long t = mark.get(pointers.get(i)); //get the value from the current track
+
+                if(t < next){
+                    next = t;
+                    ref = i;
+                }
+
+                i++;
+            }
+
+            pointers.set(ref, pointers.get(ref)+1); //increase pointer of the track from which the next value is taken
+
+            if(!last.equals(next)){
+                newEnd.add(next);
+                newStart.add(next);
+                last = next;
+            }
+
+
+            //check if there is any start left in any track. Otherwise break
+
+            boolean stop = true;
+            int j = 0;
+
+            for(List<Long> mark: marks){
+                if (pointers.get(j) < mark.size()) {
+                    stop = false;
+                }
+            }
+
+            if(stop)
+                break;
+        }
+
+        if (newEnd.get(newEnd.size() - 1) != genomeSize) {
+            newEnd.add(genomeSize);
+
+        }
+
+        if(newStart.get(0) != 0L){
+            newStart.add(0, 0L);
+        } else {
+            newEnd.remove(0);
+        }
+
+        return TrackFactory.getInstance().createScoredTrack(newStart, newEnd,newNames, newScores, "combined", "combined");
+    }
+
     @Override
     public void addPositions(Collection<Long> values) {
         this.positions.addAll(values);
