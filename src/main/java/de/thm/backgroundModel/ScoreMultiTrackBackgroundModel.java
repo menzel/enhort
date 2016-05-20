@@ -509,11 +509,12 @@ class ScoreMultiTrackBackgroundModel implements Sites {
         List<String> newNames = new ArrayList<>();
         List<Double> newScores = new ArrayList<>();
 
-        List<List<Long>> marks = new ArrayList<>();
+        List<List<Long>> marks = new ArrayList<>(); //stores a list for each track which has all start and stop positions
 
         long genomeSize = ChromosomSizes.getInstance().getGenomeSize();
 
-
+        // copy start and end lists together for each track
+        // lists are stored in the marks list
         for(Track track: tracks){
             List<Long> tmp = new ArrayList<>(track.getIntervalsStart());
             tmp.addAll(track.getIntervalsEnd());
@@ -521,7 +522,7 @@ class ScoreMultiTrackBackgroundModel implements Sites {
             marks.add(tmp);
         }
 
-        Long last = Long.MAX_VALUE;
+        Long last = Long.MAX_VALUE; //stores the last start value of each adding step
 
         while(true){
             int i = 0;
@@ -551,6 +552,7 @@ class ScoreMultiTrackBackgroundModel implements Sites {
 
             if(!last.equals(next)){
                 newEnd.add(next);
+                //TODO add newScore and newNames
                 newStart.add(next);
                 last = next;
             }
@@ -567,15 +569,16 @@ class ScoreMultiTrackBackgroundModel implements Sites {
                 }
             }
 
-            if(stop)
+            if(stop) //end loop if no track has a position left
                 break;
         }
 
+        //add genome size as last end if not present
         if (newEnd.get(newEnd.size() - 1) != genomeSize) {
             newEnd.add(genomeSize);
-
         }
 
+        //add 0 as start if not present
         if(newStart.get(0) != 0L){
             newStart.add(0, 0L);
         } else {
