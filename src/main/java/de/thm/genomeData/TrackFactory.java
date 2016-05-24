@@ -70,6 +70,10 @@ public final class TrackFactory {
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks."));
             this.intervals.addAll(tmp);
 
+            tmp = getIntervals(basePath.resolve("tf"), Type.named);
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.TFBS, "Transcription factor binding sites"));
+            this.intervals.addAll(tmp);
+
             /*
             tmp = getIntervals(basePath.resolve("restriction_sites"), Type.inout);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Restriction_sites, "Restriction sites"));
