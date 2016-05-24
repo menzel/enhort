@@ -70,11 +70,11 @@ public final class TrackFactory {
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks."));
             this.intervals.addAll(tmp);
 
+            /*
             tmp = getIntervals(basePath.resolve("restriction_sites"), Type.inout);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Restriction_sites, "Restriction sites"));
             this.intervals.addAll(tmp);
 
-            /*
             tmp = getIntervals(basePath.resolve("repeats_by_name"), Type.inout);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name"));
             this.intervals.addAll(tmp);
@@ -83,11 +83,11 @@ public final class TrackFactory {
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Histone, "Histone modifications"));
             this.intervals.addAll(tmp);
 
+            */
             tmp = getIntervals(basePath.resolve("score"), Type.scored);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Expression, "Expression scores"));
             this.intervals.addAll(tmp);
 
-            */
 
 
 
@@ -121,10 +121,13 @@ public final class TrackFactory {
         exe.shutdown();
 
         try {
-            exe.awaitTermination(30, TimeUnit.SECONDS);
+            if(!exe.awaitTermination(30, TimeUnit.SECONDS)){
+                System.err.println("Still loading track files. Stopping now");
+                exe.shutdownNow();
+            }
 
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.err.println("Some threads were interrupted");
         }
 
         return intervals;
