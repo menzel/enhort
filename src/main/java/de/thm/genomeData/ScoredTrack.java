@@ -1,9 +1,6 @@
 package de.thm.genomeData;
 
-import org.apache.commons.math3.stat.descriptive.rank.Percentile;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -33,17 +30,6 @@ public class ScoredTrack extends Track {
     }
 
 
-    private void bin(int count){
-        Percentile percentile = new Percentile();
-        double[] values = intervalScore.stream().mapToDouble(d -> d).toArray();
-        Arrays.sort(values);
-
-        for(double i = 0.; i <= 1.0; i+= 1.0/count){
-            double p = percentile.evaluate(values, i);
-        }
-
-
-    }
 
     @Override
     public int getUid() {

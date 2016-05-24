@@ -2,8 +2,10 @@ package de.thm.genomeData;
 
 import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.misc.ChromosomSizes;
+import org.apache.commons.math3.stat.descriptive.rank.Percentile;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,6 +20,45 @@ public final class Tracks {
     //prevent init of Intervals object with private constructor
     private Tracks() {
     }
+
+
+    /**
+     * Bins the scores of a given track.
+     * The count value defines the number of bins where values are put into.
+     * Bin-borders and values are set by the 100/count percent percentiles.
+     *
+     * @param track - scored track to bin
+     * @param count - counts of bins
+     *
+     * @return scored track with binned scores
+     */
+    public static void bin(ScoredTrack track, int count){
+
+        Percentile percentile = new Percentile();
+        //use method R 3 to set real values as bin bounds
+        percentile = percentile.withEstimationType(Percentile.EstimationType.R_3);
+
+        List<Double> scores = track.getIntervalScore();
+        double[] values = scores.stream().mapToDouble(d -> d).toArray();
+        Arrays.sort(values);
+
+        double lowerBound = 0.0;
+
+        for(int i = 100/count; i <= 100; i+= 100/count){
+            double upperBound = percentile.evaluate(values, i);
+
+            for (int j = 0; j < scores.size(); j++) {
+                Double score = scores.get(j);
+
+                if (score > lowerBound && score <= upperBound) {
+                    scores.set(j, upperBound);
+                }
+            }
+
+            lowerBound = upperBound;
+        }
+    }
+
 
 
     /**
