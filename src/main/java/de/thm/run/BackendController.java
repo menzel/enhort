@@ -103,7 +103,7 @@ public final class BackendController {
 
                         Future f = exe.submit(runner);
 
-                        f.get(10, TimeUnit.SECONDS);
+                        f.get(20, TimeUnit.SECONDS);
 
                     }catch (EOFException e){
 
@@ -113,6 +113,7 @@ public final class BackendController {
 
                     } catch (IOException | ClassNotFoundException  | InterruptedException | TimeoutException | ExecutionException e) {
                         e.printStackTrace();
+                        exe.shutdownNow();
 
                         try {
 
