@@ -70,22 +70,29 @@ public final class TrackFactory {
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks."));
             this.intervals.addAll(tmp);
 
-            tmp = getIntervals(basePath.resolve("tf"), Type.named);
+            tmp = getIntervals(basePath.resolve("tf"), Type.inout);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.TFBS, "Transcription factor binding sites"));
             this.intervals.addAll(tmp);
 
-            /*
             tmp = getIntervals(basePath.resolve("restriction_sites"), Type.inout);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Restriction_sites, "Restriction sites"));
-            this.intervals.addAll(tmp);
-
-            tmp = getIntervals(basePath.resolve("repeats_by_name"), Type.inout);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name"));
             this.intervals.addAll(tmp);
 
             tmp = getIntervals(basePath.resolve("broadHistone"), Type.inout);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Histone, "Histone modifications"));
             this.intervals.addAll(tmp);
+
+            tmp = getIntervals(basePath.resolve("OpenChrom"), Type.inout);
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.OpenChrom, "Open Chromatin"));
+            this.intervals.addAll(tmp);
+
+
+            /*
+
+            tmp = getIntervals(basePath.resolve("repeats_by_name"), Type.inout);
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name"));
+            this.intervals.addAll(tmp);
+
 
             */
             tmp = getIntervals(basePath.resolve("score"), Type.scored);
@@ -125,12 +132,12 @@ public final class TrackFactory {
         exe.shutdown();
 
         try {
-            if(!exe.awaitTermination(30, TimeUnit.SECONDS)){
+            if(!exe.awaitTermination(120, TimeUnit.SECONDS)){
                 System.err.println("Still loading track files. Stopping now");
                 exe.shutdownNow();
             }
 
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             System.err.println("Some threads were interrupted");
         }
 
