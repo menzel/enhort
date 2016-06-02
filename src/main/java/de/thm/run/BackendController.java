@@ -115,8 +115,10 @@ public final class BackendController {
                         e.printStackTrace();
                         exe.shutdownNow();
 
-                        try {
+                        queue = new ArrayBlockingQueue<>(16);
+                        exe = new ThreadPoolExecutor(1, 4, 5L, TimeUnit.MILLISECONDS, queue);
 
+                        try {
                             outStream.writeObject(e);
 
                         } catch (IOException e1) {
