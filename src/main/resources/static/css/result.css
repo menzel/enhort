@@ -91,17 +91,14 @@ th{
 }
 
 .bottom{
-    position: fixed;
     bottom: 5px;
+    margin-top: 5px;
 }
 
 #save{
     color: rgba(51,51,51,0.8);
 }
 
-#clear{
-    margin-left: -132px;
-}
 
 /*
 * -- Misc --
