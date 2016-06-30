@@ -36,9 +36,6 @@ a:active{
     background-color: rgba(0, 153, 255, 0.26);
 }
 
-.container{
-    padding-left:0px !important;
-}
 
 html {
     overflow: -moz-scrollbars-vertical;
