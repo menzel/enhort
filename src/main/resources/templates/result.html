@@ -20,7 +20,7 @@
 
     <div th:include="header:: bar"></div>
 
-<div class="col-sm-3 col-md-2 sidebar">
+<div class="col-xs-2 col-sm-3 col-md-2 sidebar">
 
   <div th:include="upload:: upload"></div>
 
@@ -60,12 +60,12 @@
     </div>
 
     <div class="fileinfo">
-        <a href="export/bg"><span>Background Positions:</span></a>
+        <a href="export/bg"><span>Bg Positions:</span></a>
         <input type="number" step="200" th:value="${bgCount}" form="covariant_form" th:field="*{interfaceCommand.minBg}" />
 
 
-        <span>Scored Bg Influence factor</span>
-        <input type="number" step="0.1" value="1" form="covariant_form" th:field="*{interfaceCommand.influence}" />
+        <span>Influence:</span>
+        <input type="number" step="0.1" th:value="${interfaceCommand.influence}" form="covariant_form" th:field="*{interfaceCommand.influence}" />
     </div>
 
     <th:block th:if="${ran == null}">
@@ -85,7 +85,7 @@
 </div>
 
 
-<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+<div class="col-xs-10 col-xs-offset-2 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
     <div class="container row col-md-12">
 
@@ -111,7 +111,6 @@
                     <th data-toggle="tooltip" data-placement="right" title="P-value computed by chi-square-test">P Value</th>
                     <th>Effect Size</th>
                     <th>Plot<span style="font-size: 10px;"> <span style="color: #337ab7; font-size: 13px;">Data</span> vs. <span style="color: #555; font-size: 13px;"> Background</span></span></th>
-                    <th>Covariant</th>
                 </thead>
                 <tbody>
 
@@ -213,7 +212,6 @@
                 <col width="30px" />
                 <thead>
                     <th th:text="${'Covariants' + ' (' + covariantCount + ')'}">Covariants</th>
-                    <th>Mark</th>
                 </thead>
                 <tbody>
                     <th:block th:each="cov: ${covariants}">
