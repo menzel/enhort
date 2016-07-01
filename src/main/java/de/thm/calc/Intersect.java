@@ -174,6 +174,13 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
         return new TestTrackResult(intv, in, out, resultsScores);
     }
 
+    /**
+     * Counts distances between positions
+     *
+     * @param intv
+     * @param pos
+     * @return
+     */
     public Set<Map.Entry<Integer, Integer>> getAverageDistance(InOutTrack intv, Sites pos) {
         int i = 0;
         int last_i = i;
@@ -237,6 +244,21 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
             }
 
         }
+
+        @Override
+        public String toString(){
+            String result = "";
+
+            for(String key: resultNames.keySet()){
+
+                for(int i = 0; i < resultNames.get(key) ; i++)
+                    result += key + ",";
+
+            }
+            return result;
+        }
+
+
     }
 
     private class DistanceCounter {
@@ -250,5 +272,6 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
                 distances.put(d, 1);
             }
         }
+
     }
 }
