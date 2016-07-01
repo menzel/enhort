@@ -32,14 +32,17 @@
 
             <div class="container row col-md-12">
 
-                <h3>What is this</h3>
+                <h3>What is this for</h3>
                 <hr/>
                 <p> An analyzing tool for genomic positions. </p>
 
-                <h3>How to use</h3>
+                <h3>How to use this tool</h3>
                 <hr/>
-                <p>Nam eu aliquam libero. Aliquam odio lectus, ultrices ac nibh at, pretium faucibus mi. Phasellus hendrerit luctus lectus. Suspendisse et diam rhoncus, ullamcorper nibh id, ullamcorper lectus. Aliquam fringilla dapibus ullamcorper. Donec vitae velit at diam sagittis vehicula vel ut nisi. Sed id placerat mi, et viverra augue. Nam commodo tincidunt lorem, sit amet bibendum eros mattis eu. Maecenas et tellus rhoncus, posuere libero et, malesuada lorem. Maecenas eget tempor elit, non tempor nibh. Sed porttitor efficitur neque, nec porttitor lorem rhoncus at. Phasellus malesuada massa purus, vel varius lectus vulputate vitae. Nunc aliquam mauris eu ante suscipit, vitae malesuada neque commodo. Mauris egestas aliquam est, a venenatis neque elementum sit amet.
-                </p>
+                <p> Select a file in BED-format in the upload form in the right panel and start the upload. The middle table shows all tracks on which the uploaded data deviates from random.</p>
+                <p> The tracks are sorted by their effect size. Each table can be expanded by clicking the row to view more detailed information.</p>
+                <p> The checkbox on the right is used to mark a track as covariant. After selecting one or more covariants the model has to be created and run again. This is done by using the blue 'Run again' button on the left.</p>
+                <p> Tracks selected as covariant now appear in the table on the right with a high p-value. Which means that the background positions are now fitted to the uploaded data on this track</p>
+                <p> For a more detailed explanation see the publication: (not published yet) </p>
 
                 <h3>How is the Fold Change calculated</h3>
                 <hr/>
@@ -47,29 +50,10 @@
                 <p> If one of the counts is 0 the value is set to POSITIVE_INFINITY</p>
                 <p> In all other cases the inside and outside counts of data and background are divided and the absolute log2 is returned. </p>
 
-
-                <h3>How to cite</h3>
-                <hr/>
-                <p>There is no published paper yet.</p>
-
-
-                <h3>Where does the name/ logo come from</h3>
-                <hr/>
-                <p> The name is an alteration of Eihort. A monster created by the author H.P. Lovecraft. </p>
-                <p> Eihort (The Pale Beast) is a huge, pale, gelatinous, oval-shaped monstrosity covered in myriads of eyes and supported by thousands of bony, fleshless legs.</p>
-                <p> Whenever Eihort encounters a human, it makes a bargain with them. If the human declines, Eihort kills the human. If the human accepts, Eihort implants a undeveloped brood into their body. When the brood hatches it will kill the human host. According to the Revelations of Glaaki, after the fall of humanity, Eihort's brood will be born into light and replace humanity.</p>
-                <p>From <a href="http://lovecraft.wikia.com/wiki/Eihort">http://lovecraft.wikia.com/wiki/Eihort</a></p>
-
-                <br/>
-                <p>The base image is taken from <a href="http://draguunthor.deviantart.com/art/Mythos-Minis-143564593">here</a>.</p>
-
-                <p>Credit goes to Draguunthor.</p>
-
-
-                <h3>If a scored track is set as covariant the P-value is not 1</h3>
+                <h3>If a scored track is set as covariant, the P-value is not always exact 1</h3>
                 <hr/>
                 <p>In contrast to basic inside/outside tracks the background model creation for scored tracks works with an expectancy value. Thus the counts to do excacly match.</p>
-                <p>Still the track is above the 5% significant level in most cases.</p>
+                <p>However, the p-value is above the 5% significant level in most cases.</p>
 
                 <h3>Why is contigs the most significant track?</h3>
                 <hr/>
@@ -81,11 +65,25 @@
                 <p> Close to 0 the background positions are normaly distributed as if there were no covariants.</p>
 
 
-                <h3>How can I download the background positions?</h3>
+                <h3>How to download background positions?</h3>
                 <hr/>
-                <p>After a run 'Background positions' under 'Information' in the left bar is a link leading to the file.</p>
+                <p>After a run 'Background positions' under 'Information' in the left bar is a link leading to the data.</p>
+
+                <h3>Where does the name/ logo come from</h3>
+                <hr/>
+                <p> The name is an alteration of Eihort. A monster created by the author H.P. Lovecraft. </p>
+                <p> Eihort (The Pale Beast) is a huge, pale, gelatinous, oval-shaped monstrosity covered in myriads of eyes and supported by thousands of bony, fleshless legs.</p>
+                <p> Whenever Eihort encounters a human, it makes a bargain with them. If the human declines, Eihort kills the human. If the human accepts, Eihort implants a undeveloped brood into their body. When the brood hatches it will kill the human host. According to the Revelations of Glaaki, after the fall of humanity, Eihort's brood will be born into light and replace humanity.</p>
+                <p>From <a href="http://lovecraft.wikia.com/wiki/Eihort">http://lovecraft.wikia.com/wiki/Eihort</a></p>
 
 
+                <h3>How to cite</h3>
+                <hr/>
+                <p>There is no published paper yet.</p>
+
+                <p>The base image is taken from <a href="http://draguunthor.deviantart.com/art/Mythos-Minis-143564593">here</a>.</p>
+
+                <p>Credit goes to Draguunthor.</p>
 
             </div>
         </div>
