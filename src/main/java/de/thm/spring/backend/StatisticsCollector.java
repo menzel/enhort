@@ -52,13 +52,14 @@ public final class StatisticsCollector {
             downloadCount = new AtomicInteger(0);
             date = new Date();
 
-            saveStats();
 
+            saveStats();
 
             try {
                 logPath.toFile().createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException e){
+                System.err.println("Could not create new log file");
+                return;
             }
 
             System.err.println("New log file created and saved");
@@ -135,7 +136,7 @@ public final class StatisticsCollector {
             writer.write(date + "\n");
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Could not write log file");
         }
     }
 
