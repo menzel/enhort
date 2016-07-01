@@ -18,7 +18,7 @@ public final class InterfaceCommand {
     private int minBg; //minimum of expected background positions
     private String originalFilename; // filename of the file the user uploaded
     private Sites sites;
-    private double influence; //influence of positions on prob interval
+    private Double influence; //influence of positions on prob interval
 
     public InterfaceCommand() {
         covariants = new ArrayList<>();
@@ -88,6 +88,8 @@ public final class InterfaceCommand {
     public void setSites(Sites sites) { this.sites = sites; }
 
     public double getInfluence() {
+        if(influence == null)
+            influence = 1d;
         return influence;
     }
 
