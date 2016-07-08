@@ -35,7 +35,7 @@ class RandomBackgroundModel implements Sites {
      */
     private void createSites(int sites) {
 
-        long genomeSize = ChromosomSizes.getInstance().getGenomeSize();
+        long genomeSize = ChromosomSizes.getInstance().getGenomeSize()-1;
 
         for (long i = 0; i < sites; i++) {
             long r = Math.round(rand.nextDouble() * ((double) genomeSize));
