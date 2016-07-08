@@ -11,6 +11,7 @@ import de.thm.spring.command.BackendCommand;
 import de.thm.stat.ResultCollector;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -90,6 +91,9 @@ public class AnalysisHelper {
             for(String packName: cmd.getPackageNames()){
                 runTracks.addAll(trackFactory.getIntervalsByPackage(packName));
             }
+
+            if(runTracks.isEmpty())
+                System.err.println("TrackFactory did not provide any tracks for given packages (" + Arrays.toString(cmd.getPackageNames().toArray()) + ") in AnalysisHelper");
         }
 
 
