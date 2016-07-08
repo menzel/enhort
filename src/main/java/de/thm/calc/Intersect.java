@@ -49,35 +49,21 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
 
         int intervalCount = intervalStart.size() - 1;
 
-
         for (Long p : pos.getPositions()) {
 
-            while (i < intervalCount && intervalStart.get(i) <= p) {
+            while (i < intervalCount && intervalEnd.get(i) <= p)
                 i++;
-            }
 
-            if (i == 0) {
-                out++;
+            if (p >= intervalStart.get(i)) {
 
-            } else if (i == intervalCount && p >= intervalEnd.get(i - 1)) { //last Interval and p not in previous
-                if (p < intervalEnd.get(i) && p >= intervalStart.get(i)) {
+                resultNames.add(names.get(i));
+                in++;
 
-                    in++;
-                    resultNames.add(names.get(i));
-
-                } else {
-                    out++;
-                }
             } else {
-                if (p >= intervalEnd.get(i - 1)) {
-                    out++;
-
-                } else {
-                    in++;
-                    resultNames.add(names.get(i - 1));
-                }
+                out++;
             }
         }
+
 
         return new TestTrackResult(intv, in, out, resultNames.resultNames);
     }
@@ -96,29 +82,11 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
 
         for (Long p : pos.getPositions()) {
 
-            while (i < intervalCount && intervalStart.get(i) <= p) {
+            while (i < intervalCount && intervalEnd.get(i) <= p)
                 i++;
-            }
 
-            if (i == 0) {
-                out++;
-
-            } else if (i == intervalCount && p > intervalEnd.get(i - 1)) { //last Interval and p not in previous
-                if (p < intervalEnd.get(i) && p >= intervalStart.get(i)) {
-
-                    in++;
-
-                } else {
-                    out++;
-                }
-            } else {
-                if (p >= intervalEnd.get(i - 1)) {
-                    out++;
-
-                } else {
-                    in++;
-                }
-            }
+            if (p >= intervalStart.get(i)) in++;
+            else out++;
         }
 
 
@@ -131,8 +99,6 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
         int in = 0;
         int i = 0;
 
-
-
         List<Long> intervalStart = intv.getIntervalsStart();
         List<Long> intervalEnd = intv.getIntervalsEnd();
         List<Double> intervalScore = intv.getIntervalScore();
@@ -141,34 +107,16 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
 
         int intervalCount = intervalStart.size() - 1;
 
-
         for (Long p : pos.getPositions()) {
 
-            while (i < intervalCount && intervalStart.get(i) <= p) {
+            while (i < intervalCount && intervalEnd.get(i) <= p)
                 i++;
+
+            if (p >= intervalStart.get(i)){
+                resultsScores.add(intervalScore.get(i));
+                in++;
             }
-
-            if (i == 0) {
-                out++;
-
-            } else if (i == intervalCount && p > intervalEnd.get(i - 1)) { //last Interval and p not in previous
-                if (p < intervalEnd.get(i) && p >= intervalStart.get(i)) {
-
-                    in++;
-                    resultsScores.add(intervalScore.get(i));
-
-                } else {
-                    out++;
-                }
-            } else {
-                if (p >= intervalEnd.get(i - 1)) {
-                    out++;
-
-                } else {
-                    in++;
-                    resultsScores.add(intervalScore.get(i - 1));
-                }
-            }
+            else out++;
         }
 
         return new TestTrackResult(intv, in, out, resultsScores);
@@ -180,6 +128,7 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
      * @param intv
      * @param pos
      * @return
+     * @deprecated
      */
     public Set<Map.Entry<Integer, Integer>> getAverageDistance(InOutTrack intv, Sites pos) {
         int i = 0;
@@ -261,6 +210,9 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
 
     }
 
+    /**
+     * Class to count the occurrences of numbers in a Map
+     */
     private class DistanceCounter {
         Map<Integer, Integer> distances = new HashMap<>();
 
