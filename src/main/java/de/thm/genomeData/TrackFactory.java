@@ -32,8 +32,8 @@ import java.util.stream.Stream;
 public final class TrackFactory {
 
     private static TrackFactory instance;
-    //private final Path basePath = new File("/home/mmnz21/dat/").toPath();
-    private final Path basePath = new File("/home/menzel/Desktop/THM/lfba/projektphase/dat/").toPath();
+    private final Path basePath;
+
     private final List<TrackPackage> trackPackages;
     private List<Track> intervals;
 
@@ -42,6 +42,14 @@ public final class TrackFactory {
      * Expects three dirs with the names 'inout', 'named' and 'score' for types.
      */
     private TrackFactory() {
+
+        if(System.getenv("HOME").contains("menzel")){
+            basePath = new File("/home/menzel/Desktop/THM/lfba/projektphase/dat/").toPath();
+        } else {
+            basePath = new File("/home/mmnz21/dat/").toPath();
+        }
+
+
         intervals = new ArrayList<>();
         trackPackages = new ArrayList<>();
     }
@@ -87,19 +95,14 @@ public final class TrackFactory {
             this.intervals.addAll(tmp);
 
 
-            /*
-
             tmp = getIntervals(basePath.resolve("repeats_by_name"), Type.inout);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name"));
             this.intervals.addAll(tmp);
 
 
-            */
             tmp = getIntervals(basePath.resolve("score"), Type.scored);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Expression, "Expression scores"));
             this.intervals.addAll(tmp);
-
-
 
 
         } catch (IOException e) {

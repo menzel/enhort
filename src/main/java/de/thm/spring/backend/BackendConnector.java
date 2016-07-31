@@ -17,8 +17,18 @@ import java.net.SocketException;
  * Created by Michael Menzel on 11/3/16.
  */
 public final class BackendConnector implements Runnable{
-    private static BackendConnector instance = new BackendConnector(42412, "127.0.0.1");
-    //private static BackendConnector instance = new BackendConnector(42412, "bioinf-ladon.mni.thm.de");
+    private static BackendConnector instance;
+
+    static {
+        // check if the instance is running on a local machine or ladon
+
+        if(System.getenv("HOME").contains("menzel")){
+            instance = new BackendConnector(42412, "127.0.0.1");
+        } else {
+            instance = new BackendConnector(42412, "bioinf-ladon.mni.thm.de");
+        }
+    }
+
     private final int port;
     private final String ip;
     private Socket socket;
