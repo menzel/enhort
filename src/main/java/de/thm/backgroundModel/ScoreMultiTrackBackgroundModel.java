@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
  * <p>
  * Created by Michael Menzel on 17/2/16.
  */
+@Deprecated
 class ScoreMultiTrackBackgroundModel implements Sites {
 
     private List<Long> positions = new ArrayList<>();
