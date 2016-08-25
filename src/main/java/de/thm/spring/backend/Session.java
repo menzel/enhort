@@ -1,5 +1,6 @@
 package de.thm.spring.backend;
 
+import de.thm.genomeData.Track;
 import de.thm.stat.ResultCollector;
 import de.thm.stat.TestResult;
 
@@ -27,11 +28,13 @@ public final class Session {
     private ResultCollector collector;
     private String originalFilename;
     private List<TestResult> covariants;
+    private List<Track> customTracks = new ArrayList<>();
 
-    Session(Path file, String key, Date date) {
+    Session(Path file, String key, Date date, List<Track> customTracks) {
         this.file = file;
         this.key = key;
         this.date = date;
+        this.customTracks = customTracks;
 
         StatisticsCollector.getInstance().addSessionC();
     }
@@ -75,6 +78,14 @@ public final class Session {
             //System.err.println("File is not there. Could not delete");
             // do nothing here. File seems to be unreacheable
         }
+    }
+
+    public void addCustomTrack(Track track){
+        customTracks.add(track);
+    }
+
+    public List<Track> getCustomTracks(){
+        return this.customTracks;
     }
 
     public ResultCollector getCollector() {

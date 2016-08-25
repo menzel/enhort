@@ -77,6 +77,7 @@ public final class TrackFactory {
             tmp.addAll(getIntervals(basePath.resolve("named"), Type.named));
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks."));
             this.intervals.addAll(tmp);
+            /*
 
             tmp = getIntervals(basePath.resolve("tf"), Type.inout);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.TFBS, "Transcription factor binding sites"));
@@ -99,11 +100,11 @@ public final class TrackFactory {
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name"));
             this.intervals.addAll(tmp);
 
+            */
 
             tmp = getIntervals(basePath.resolve("score"), Type.scored);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Expression, "Expression scores"));
             this.intervals.addAll(tmp);
-
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -50,6 +50,14 @@
         </div>
       </th:block>
 
+     <h4> Custom tracks </h4>
+
+      <th:block th:each="track: ${customTracks}">
+        <div class="checkbox">
+          <span th:text="${track.name}"></span>
+        </div>
+      </th:block>
+
   </div>
 
     <h4>Information</h4>

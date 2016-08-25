@@ -31,11 +31,14 @@ public final class Sessions {
      */
     public Session addSession(String key, Path file) {
         if (sessions.containsKey(key)) { //only renew the file and keep the rest:
-            sessions.put(key, new Session(file, key, sessions.get(key).getDate()));
+
+            Session renew = new Session(file, key, sessions.get(key).getDate(), sessions.get(key).getCustomTracks());
+            sessions.put(key, renew);
+
 
         } else {
 
-            Session session = new Session(file, key, new Date());
+            Session session = new Session(file, key, new Date(), new ArrayList<>());
             sessions.put(key, session);
         }
 

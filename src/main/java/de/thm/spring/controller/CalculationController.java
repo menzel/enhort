@@ -2,6 +2,9 @@ package de.thm.spring.controller;
 
 
 import de.thm.exception.CovariantsException;
+import de.thm.genomeData.Track;
+import de.thm.genomeData.TrackFactory;
+import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.UserData;
 import de.thm.spring.backend.BackendConnector;
 import de.thm.spring.backend.Session;
@@ -23,10 +26,16 @@ import javax.servlet.http.HttpSession;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * Controller for main page. Relies heavily on the model and session/command objects:
@@ -39,6 +48,87 @@ import java.util.UUID;
 public class CalculationController {
 
     private static final Path basePath = new File("/tmp").toPath();
+
+
+    /**
+     * Handle the upload of a custom track
+     *
+     * @param model
+     * @param file - custom bed file
+     * @param httpSession
+     * @return
+     */
+    @RequestMapping(value = "/upload_track", method = RequestMethod.POST)
+    public String uploadTrack(Model model, @RequestParam("file") MultipartFile file, HttpSession httpSession) {
+
+        Sessions sessionsControll = Sessions.getInstance();
+        Session currentSession = sessionsControll.getSession(httpSession.getId());
+
+        String name = file.getOriginalFilename();
+        String uuid = name + "-" + UUID.randomUUID();
+
+        Pattern interval = Pattern.compile("(chr(\\d{1,2}|X|Y))\\s(\\d*)\\s(\\d*)");
+        ChromosomSizes chrSizes = ChromosomSizes.getInstance();
+
+         if (!file.isEmpty()) {
+             try {
+                 byte[] bytes = file.getBytes();
+                 BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(basePath.resolve(uuid).toFile()));
+                 stream.write(bytes);
+                 stream.close();
+
+                 Path path = basePath.resolve(uuid);
+
+                 List<Long> start = new ArrayList<>();
+                 List<Long> end = new ArrayList<>();
+
+
+                try (Stream<String> lines = Files.lines(path)) {
+
+                    Iterator it = lines.iterator();
+
+                    while (it.hasNext()) {
+
+                        String line = (String) it.next();
+                        Matcher line_matcher = interval.matcher(line);
+
+                        if (line_matcher.matches()) {
+                            start.add(Long.parseLong(line_matcher.group(3)) + chrSizes.offset(line_matcher.group(1)));
+                            end.add(Long.parseLong(line_matcher.group(4)) + chrSizes.offset(line_matcher.group(1)));
+                        }
+                    }
+
+                    lines.close();
+
+                    Track track = TrackFactory.getInstance().createInOutTrack(start,end,name,name);
+
+                    currentSession.addCustomTrack(track);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+             } catch (Exception e){
+                 e.printStackTrace();
+                 return "error";
+             }
+         }
+
+
+
+        InterfaceCommand command = new InterfaceCommand();
+        command.setOriginalFilename("");
+        command.setMinBg(10000);
+
+        model.addAttribute("interfaceCommand", command);
+        model.addAttribute("bgCount", 10000);
+        model.addAttribute("sigTrackCount", null);
+        model.addAttribute("trackCount", null);
+        model.addAttribute("customTracks", currentSession.getCustomTracks());
+
+        return "result"; //TODO plain view
+    }
 
     @RequestMapping(value = "/upload", method = RequestMethod.GET)
     public String plainView(Model model, HttpSession httpSession) {
@@ -101,6 +191,8 @@ public class CalculationController {
                 UserData data = new UserData(inputFilepath);
                 BackendCommand command = new BackendCommand(data);
 
+                command.addCustomTrack(currentSession.getCustomTracks());
+
                 //run analysis:
                 ResultCollector collector = BackendConnector.getInstance().runAnalysis(command);
 
@@ -112,6 +204,7 @@ public class CalculationController {
                     setModel(model, collector, data, name);
                     model.addAttribute("covariants", new ArrayList<>());
                     model.addAttribute("covariantCount", 0);
+                    model.addAttribute("customTracks", currentSession.getCustomTracks());
 
                     stats.addAnaylseC();
                     stats.addFileC();
@@ -150,7 +243,10 @@ public class CalculationController {
 
         try {
 
-            collector = BackendConnector.getInstance().runAnalysis(new BackendCommand(command));
+            BackendCommand backendCommand = new BackendCommand(command);
+            backendCommand.addCustomTrack(currentSession.getCustomTracks());
+
+            collector = BackendConnector.getInstance().runAnalysis(backendCommand);
 
             covariants = collector.getCovariants(command.getCovariants());
             currentSession.setCovariants(covariants);

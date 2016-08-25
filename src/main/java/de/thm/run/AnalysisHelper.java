@@ -88,9 +88,13 @@ public class AnalysisHelper {
         } else {
             runTracks =  new ArrayList<>();
 
+            //check and apply custom tracks
+
             for(String packName: cmd.getPackageNames()){
                 runTracks.addAll(trackFactory.getIntervalsByPackage(packName));
             }
+
+            runTracks.addAll(cmd.getCustomTracks());
 
             if(runTracks.isEmpty())
                 System.err.println("TrackFactory did not provide any tracks for given packages (" + Arrays.toString(cmd.getPackageNames().toArray()) + ") in AnalysisHelper");

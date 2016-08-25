@@ -136,6 +136,7 @@ public class ScoreMultiTrackBackgroundModelTest {
         scores1.add(0.5);
         scores1.add(0.2);
         scores1.add(0.7);
+        //scores1.add(0.1);
 
         scores2.add(0.4);
         scores2.add(0.6);
