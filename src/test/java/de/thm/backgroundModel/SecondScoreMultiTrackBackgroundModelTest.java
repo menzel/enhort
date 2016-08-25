@@ -10,13 +10,10 @@ import java.util.*;
 import static org.junit.Assert.assertEquals;
 
 /**
+ * Test for bg model occurenceMap
  * Created by menzel on 8/25/16.
  */
 public class SecondScoreMultiTrackBackgroundModelTest {
-    @Test
-    public void generateProbabilityInterval() throws Exception {
-
-    }
 
     @Test
     public void fillOccurenceMap() throws Exception {
