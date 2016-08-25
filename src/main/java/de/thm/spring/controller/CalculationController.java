@@ -115,17 +115,31 @@ public class CalculationController {
              }
          }
 
+        ResultCollector collector = currentSession.getCollector();
+
+        if (collector != null) {
+            Path position_file= currentSession.getFile();
+            UserData data = new UserData(position_file);
+
+            List<TestResult> covariants = currentSession.getCovariants();
+
+            setModel(model, collector, data, currentSession.getOriginalFilename());
+            model.addAttribute("covariants", covariants);
+            model.addAttribute("covariantCount", covariants.size());
+            model.addAttribute("customTracks", currentSession.getCustomTracks());
 
 
-        InterfaceCommand command = new InterfaceCommand();
-        command.setOriginalFilename("");
-        command.setMinBg(10000);
+        } else {
+            InterfaceCommand command = new InterfaceCommand();
+            command.setOriginalFilename("");
+            command.setMinBg(10000);
 
-        model.addAttribute("interfaceCommand", command);
-        model.addAttribute("bgCount", 10000);
-        model.addAttribute("sigTrackCount", null);
-        model.addAttribute("trackCount", null);
-        model.addAttribute("customTracks", currentSession.getCustomTracks());
+            model.addAttribute("interfaceCommand", command);
+            model.addAttribute("bgCount", 10000);
+            model.addAttribute("sigTrackCount", null);
+            model.addAttribute("trackCount", null);
+            model.addAttribute("customTracks", currentSession.getCustomTracks());
+        }
 
         return "result"; //TODO plain view
     }
@@ -148,8 +162,6 @@ public class CalculationController {
             setModel(model, collector, data, currentSession.getOriginalFilename());
             model.addAttribute("covariants", covariants);
             model.addAttribute("covariantCount", covariants.size());
-
-            StatisticsCollector.getInstance().addAnaylseC();
 
         } else {
 
@@ -193,8 +205,9 @@ public class CalculationController {
 
                 command.addCustomTrack(currentSession.getCustomTracks());
 
-                //run analysis:
+                /////////// Run analysis ////////////
                 ResultCollector collector = BackendConnector.getInstance().runAnalysis(command);
+                /////////////////////////////////////
 
                 if(collector != null) {
 
@@ -246,13 +259,16 @@ public class CalculationController {
             BackendCommand backendCommand = new BackendCommand(command);
             backendCommand.addCustomTrack(currentSession.getCustomTracks());
 
+            /////////// Run analysis ////////////
             collector = BackendConnector.getInstance().runAnalysis(backendCommand);
+            /////////////////////////////////////
 
             covariants = collector.getCovariants(command.getCovariants());
             currentSession.setCovariants(covariants);
 
             model.addAttribute("covariants", covariants);
             model.addAttribute("covariantCount", covariants.size());
+            model.addAttribute("customTracks", currentSession.getCustomTracks());
 
         } catch (CovariantsException e) {
             model.addAttribute("errorMessage", "Too many covariants, a max of " + "10 covariants is allowed.");
