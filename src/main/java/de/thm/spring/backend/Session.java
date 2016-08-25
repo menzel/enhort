@@ -69,7 +69,8 @@ public final class Session {
      */
     void delete() {
         try {
-            Files.deleteIfExists(file);
+            if(file != null)
+                Files.deleteIfExists(file);
         } catch (IOException e) {
             //System.err.println("File is not there. Could not delete");
             // do nothing here. File seems to be unreacheable
