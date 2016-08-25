@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /**
+ * Holds a set of scores to reference to the intermediate interval in scored bg models
  * Created by menzel on 8/23/16.
  */
 class ScoreSet {
