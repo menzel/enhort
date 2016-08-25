@@ -6,25 +6,33 @@ import java.util.Objects;
 /**
  * Created by menzel on 8/23/16.
  */
-public class ScoreSet {
+class ScoreSet {
 
     private Double[] scoreList;
     private int i;
 
-    public ScoreSet(int size){
+    /**
+     * Constructor for testing
+     */
+    ScoreSet(Double[] values){
+        scoreList = values;
+        i = values.length;
+    }
+
+    ScoreSet(int size){
 
         scoreList = new Double[size];
         i = 0;
     }
 
-    public void add(Double score){
+    void add(Double score){
         if(i < scoreList.length)
             scoreList[i++] = score;
         else
             System.err.println("ScoreSet cannot accept another score " + Arrays.toString(scoreList));
     }
 
-    public Double[] getScores() {
+    Double[] getScores() {
         return scoreList;
     }
 
