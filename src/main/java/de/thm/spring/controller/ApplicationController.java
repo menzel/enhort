@@ -2,6 +2,7 @@ package de.thm.spring.controller;
 
 import de.thm.spring.backend.Sessions;
 import de.thm.spring.backend.StatisticsCollector;
+import de.thm.spring.command.InterfaceCommand;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,10 +20,16 @@ import javax.servlet.http.HttpSession;
 public class ApplicationController {
 
     @RequestMapping(value = "/clear_session", method = RequestMethod.GET)
-    public String deleteSession(HttpSession session) {
+    public String deleteSession(Model model, HttpSession session) {
 
         Sessions sessionsControl = Sessions.getInstance();
         sessionsControl.clear(session.getId());
+
+        InterfaceCommand command = new InterfaceCommand();
+        command.setOriginalFilename("");
+        command.setMinBg(10000);
+
+        model.addAttribute("interfaceCommand", command);
 
         return "result";
     }
