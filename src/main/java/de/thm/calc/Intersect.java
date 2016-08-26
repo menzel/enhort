@@ -10,7 +10,10 @@ import de.thm.positionData.Sites;
 import java.util.*;
 
 /**
- * Simple version of intersect, going list by list.
+ * The class implements the intersect algorithm to compare a list of positions to a set of intervals from a track.
+ * The algorithm sequentially looks through the lists of start and end while iteration over the positions.
+ *
+ * Positions and interval lists have to be sorted prior to usage here
  */
 public final class Intersect<T extends Track> implements TestTrack<T> {
 
