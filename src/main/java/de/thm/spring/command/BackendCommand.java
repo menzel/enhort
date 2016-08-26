@@ -19,7 +19,7 @@ public final class BackendCommand implements Serializable{
     private final int minBg; //minimum of expected background positions
     private final List<Track> customTracks;
     private final Sites sites;
-    private double influence;
+    private final double influence;
 
 
     public BackendCommand(Sites sites) {
@@ -29,6 +29,7 @@ public final class BackendCommand implements Serializable{
         this.sites = sites;
         this.minBg = sites.getPositionCount();
         customTracks = new ArrayList<>();
+        this.influence = 1;
     }
 
     public BackendCommand(InterfaceCommand command) {
