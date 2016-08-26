@@ -29,9 +29,12 @@ public abstract class Track implements Serializable, Cloneable {
 
     public abstract int getUid();
 
+    @Override
     public abstract Track clone();
 
+    @Override
     public abstract int hashCode();
 
+    @Override
     public abstract boolean equals(Object o);
 }
