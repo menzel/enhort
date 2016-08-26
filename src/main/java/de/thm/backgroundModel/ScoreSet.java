@@ -9,8 +9,8 @@ import java.util.Objects;
  */
 class ScoreSet {
 
-    private Double[] scoreList;
-    private int i;
+    private Double[] scoreList; // list of scores
+    private int i; // counter for scoreList
 
     /**
      * Constructor for testing
@@ -26,6 +26,11 @@ class ScoreSet {
         i = 0;
     }
 
+    /**
+     * Adds a score to the set
+     *
+     * @param score to set
+     */
     void add(Double score){
         if(i < scoreList.length)
             scoreList[i++] = score;
