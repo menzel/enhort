@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public abstract class Track implements Serializable, Cloneable {
 
     public static long serialVersionUID = 606249588L;
-    public static AtomicInteger UID = new AtomicInteger(1);
+    static AtomicInteger UID = new AtomicInteger(1);
 
     public abstract String getDescription();
 
