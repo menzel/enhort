@@ -7,14 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Class to create random tracks for testing run times
+ *
  * Created by menzel on 7/14/16.
  */
-public class RandomTrack extends Track {
+class RandomTrack extends Track {
 
     private final List<Long> intervalsStart = new ArrayList<>();
     private final List<Long> intervalsEnd = new ArrayList<>();
 
-    public RandomTrack(int intervals){
+    RandomTrack(int intervals){
         long genomeSize = ChromosomSizes.getInstance().getGenomeSize();
 
         int length = Math.round(genomeSize / intervals);
