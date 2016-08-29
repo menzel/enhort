@@ -67,13 +67,14 @@
             <span>Positions</span><span class="file_positions" th:text="${interfaceCommand.positionCount}"></span>
     </div>
 
+
     <div class="fileinfo">
-        <a href="export/bg"><span>Bg Positions:</span></a>
-        <input type="number" step="200" th:value="${bgCount}" form="covariant_form" th:field="*{interfaceCommand.minBg}" />
-
-
-        <span>Influence:</span>
-        <input type="number" step="0.1" th:value="${interfaceCommand.influence}" form="covariant_form" th:field="*{interfaceCommand.influence}" />
+        <p>
+        <a href="export/bg"><span>Bg Positions:</span></a> <input type="number" step="200" th:value="${bgCount}" form="covariant_form" th:field="*{interfaceCommand.minBg}" />
+        </p>
+        <p>
+        <span>Influence:</span> <input type="number" step="0.1" th:value="${interfaceCommand.influence}" form="covariant_form" style="margin-left: 28px" th:field="*{interfaceCommand.influence}" />
+        </p>
     </div>
 
     <th:block th:if="${ran == null}">
