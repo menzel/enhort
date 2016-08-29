@@ -100,6 +100,9 @@ public class CalculationController {
 
                     lines.close();
 
+                    Files.delete(path);
+                    //TODO do not write file which needs to be deleted after anyway
+
                     Track track = TrackFactory.getInstance().createInOutTrack(start,end,name,name);
 
                     currentSession.addCustomTrack(track);
