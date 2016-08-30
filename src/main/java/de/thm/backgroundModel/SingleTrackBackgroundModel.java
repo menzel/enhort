@@ -30,36 +30,34 @@ class SingleTrackBackgroundModel implements Sites {
     /**
      * Constructor for running sites against one interval
      *
-     * @param interval - interval to search against
+     * @param track - interval to search against
      * @param sites    - sites to search
      */
-    SingleTrackBackgroundModel(InOutTrack interval, Sites sites, int minSites) {
+    SingleTrackBackgroundModel(InOutTrack track, Sites sites, int minSites) {
 
         Intersect calc = new Intersect();
-        TestTrackResult result = calc.searchSingleInterval(interval, sites);
+        TestTrackResult result = calc.searchSingleInterval(track, sites);
 
         int factor = (sites.getPositionCount() < minSites)? minSites/ sites.getPositionCount(): 1;
 
-        positions.addAll(randPositions(result.getIn() * factor, interval, "in"));
-        positions.addAll(randPositions(result.getOut() * factor, interval, "out"));
+        positions.addAll(randPositions(result.getIn() * factor, track));
+        positions.addAll(randPositions(result.getOut() * factor, Tracks.invert(track)));
+
+        //positions.addAll(randPositions(result.getIn() * factor, interval, "in"));
+        //positions.addAll(randPositions(result.getOut() * factor, interval, "out"));
 
     }
-
 
     /**
      * Generates random positions which are either all inside or outside of the given intervals
      *
      * @param siteCount - count of random positions to be made up
      * @param track     - interval by which the in/out check is made
-     * @param mode      - either the string "in" or "out". Controls the behavior of setting the rand positions in or outside of the intervals
      * @return Collection of random positions
      */
-    Collection<Long> randPositions(int siteCount, Track track, String mode) {
-
-        int io = (mode.equals("in")) ? 0 : 1; //remember if rand positions should be in or outside of an interval
-
+    Collection<Long> randPositions(int siteCount, Track track) {
         rand = new Random(System.currentTimeMillis());
-        long maxValue = Tracks.sumOfIntervals(track, mode);
+        long maxValue = Tracks.sumOfIntervals(track);
 
         List<Long> randomValues = new ArrayList<>();
         List<Long> sites = new ArrayList<>();
@@ -67,10 +65,8 @@ class SingleTrackBackgroundModel implements Sites {
         List<Long> intervalEnd = track.getIntervalsEnd();
 
         //get some random numbers
-        for (int i = 0; i < siteCount; i++) {
-            Long r = Math.round(Math.floor(rand.nextDouble() * (maxValue)));
-            randomValues.add(r);
-        }
+        for (int i = 0; i < siteCount; i++)
+            randomValues.add(Math.round(Math.floor(rand.nextDouble() * maxValue)));
 
         Collections.sort(randomValues); // very important!
 
@@ -78,30 +74,27 @@ class SingleTrackBackgroundModel implements Sites {
         int j = 0;
         long sumOfPrevious = 0; // remember sum of previous intervals.
 
-        for (int i = 0; i < siteCount; i++) {
-            long iStart = intervalStart.get(j + io); // io is 0 when the rand position should be inside an interval, 1 otherwise
-            long iEnd = intervalEnd.get(j);
-            long randV = randomValues.get(i) - sumOfPrevious; // substract sum of previous intervals. Since random values are in order this works.
 
-            while (iEnd - 1 < iStart + randV && j < intervalStart.size() - (1 + io)) { // if it does not fit in go to next interval and substract interval length from rand value
+        for (int i = 0; i < siteCount; i++) {
+            Long r = randomValues.get(i) - sumOfPrevious;
+
+            Long intervalSize = intervalEnd.get(j) - 1  - intervalStart.get(j);
+
+            while(r >= intervalSize){
+                r -= intervalSize;
+                sumOfPrevious += intervalSize;
                 j++;
-                randV = randV - (iEnd - iStart);
-                sumOfPrevious += (iEnd - iStart);
-                iStart = intervalStart.get(j + io);
-                iEnd = intervalEnd.get(j);
+                intervalSize = intervalEnd.get(j) - intervalStart.get(j);
             }
 
-            if (io == 0) //if position should be inside the interval
-                sites.add(iStart + randV);
-            else //otherwise
-                sites.add(iEnd + randV);
+            sites.add(r + intervalStart.get(j));
         }
 
-        Collections.sort(sites); //don't forget this
+
 
         return sites;
-
     }
+
 
     @Override
     public void addPositions(Collection<Long> values) {
