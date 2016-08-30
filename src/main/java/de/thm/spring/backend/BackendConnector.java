@@ -57,6 +57,7 @@ public final class BackendConnector implements Runnable{
                 socket = new Socket(ip, port);
 
                 isConnected = socket.isConnected();
+                System.out.println("[Enhort Webinterface]: created " + isConnected +  " socket on port: " + port);
 
                 outputStream = new ObjectOutputStream(socket.getOutputStream());
                 inputStream = new ObjectInputStream(socket.getInputStream());
