@@ -65,17 +65,17 @@ class MultiTrackBackgroundModel implements Sites {
             currentTracks.addAll(negativeTracks.stream().map(Tracks::invert).collect(Collectors.toList()));
 
             Track track = Tracks.intersect(currentTracks);
-            if(Tracks.sumOfIntervals(track, "in") < 1000){
+            if(Tracks.sumOfIntervals(track) < 1000){
                 //TODO add some pseudocount
             } else {
-                sites.addAll(better.randPositions(count, track, "in"));
+                sites.addAll(better.randPositions(count, track));
             }
         }
 
         int count = appearanceTable.getAppearance("[]");
         //Interval outs = Intervals.sum(intervals).invert();
         Track outs = Tracks.intersect(tracks.stream().map(Tracks::invert).collect(Collectors.toList()));
-        sites.addAll(better.randPositions(count, outs, "in"));
+        sites.addAll(better.randPositions(count, outs));
 
         Collections.sort(sites);
 

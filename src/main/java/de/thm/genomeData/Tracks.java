@@ -276,26 +276,20 @@ public final class Tracks {
 
 
     /**
-     * Sums up the size of all intervals. Either all intervals or the space between them
+     * Sums up the size of all intervals of a given track
      *
-     * @param track - intervals to sum up
-     * @param mode  - either "in" or "out".
-     * @return sum of track length inside or outside the intervals
+     * @param track - track with the intervals to sum up
+     * @return sum of track length inside the intervals
      */
-    public static long sumOfIntervals(Track track, String mode) {
+    public static long sumOfIntervals(Track track) {
 
         long size = 0;
-        int io = (mode.equals("in")) ? 0 : 1;
 
         List<Long> intervalStart = track.getIntervalsStart();
         List<Long> intervalEnd = track.getIntervalsEnd();
 
-        for (int i = 0; i < intervalStart.size() - io; i++) {
-            if (mode.equals("in"))
-                size += intervalEnd.get(i) - intervalStart.get(i);
-            else
-                size += intervalStart.get(i + 1) - intervalEnd.get(i);
-        }
+        for (int i = 0; i < intervalStart.size(); i++)
+                size += intervalEnd.get(i) - 1 - intervalStart.get(i);
 
         return size;
     }
