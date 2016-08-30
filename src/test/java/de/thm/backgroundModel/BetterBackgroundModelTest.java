@@ -1,13 +1,17 @@
 package de.thm.backgroundModel;
 
-import de.thm.genomeData.GenomeInterval;
-import de.thm.genomeData.Track;
+import de.thm.calc.Intersect;
+import de.thm.calc.TestTrackResult;
+import de.thm.genomeData.InOutTrack;
+import de.thm.genomeData.TrackFactory;
 import de.thm.positionData.Sites;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import static junit.framework.TestCase.assertEquals;
 
 /**
  * Created by Michael Menzel on 1/2/16.
@@ -18,10 +22,6 @@ public class BetterBackgroundModelTest {
     public void testRandPositionsScored() throws Exception {
         ArrayList<Long> startList = new ArrayList<>();
         ArrayList<Long> endList = new ArrayList<>();
-        ArrayList<Double> scoreList= new ArrayList<>();
-        ArrayList<String> namesList = new ArrayList<>();
-        GenomeInterval intv = new GenomeInterval();
-        intv.setType(Track.Type.score);
 
         startList.add(5L);
         startList.add(20L);
@@ -33,26 +33,14 @@ public class BetterBackgroundModelTest {
         endList.add(80L);
         endList.add(90L);
 
-        scoreList.add(100.0);
-        scoreList.add(500.0);
-        scoreList.add(50.0);
-        scoreList.add(90.0);
+        InOutTrack track = mockInterval(startList,endList);
 
-        namesList.add("first");
-        namesList.add("second");
-        namesList.add("third");
-        namesList.add("fourth");
-
-
-        intv.setIntervalsStart(startList);
-        intv.setIntervalsEnd(endList);
-        intv.setIntervalScore(scoreList);
-        intv.setIntervalName(namesList);
 
 
 
         Sites sites = new Sites() {
             List<Long> positions = new ArrayList<>();
+
             @Override
             public void addPositions(Collection<Long> values) {
                 this.positions.addAll(values);
@@ -65,6 +53,7 @@ public class BetterBackgroundModelTest {
 
             @Override
             public void setPositions(List<Long> positions) {
+                this.positions = positions;
 
             }
 
@@ -77,14 +66,34 @@ public class BetterBackgroundModelTest {
 
         List<Long> positions = new ArrayList<>();
 
+        positions.add(1L);
         positions.add(10L);
         positions.add(12L);
         positions.add(22L);
+        positions.add(35L);
         positions.add(60L);
         positions.add(70L);
+        positions.add(100L);
 
         sites.setPositions(positions);
 
-        SingleTrackBackgroundModel better = new SingleTrackBackgroundModel(intv, sites);
+        SingleTrackBackgroundModel better = new SingleTrackBackgroundModel(track , sites, positions.size());
+
+        Intersect sect = new Intersect<>();
+
+        TestTrackResult set = sect.searchSingleInterval(track,sites);
+        TestTrackResult gen = sect.searchSingleInterval(track,better);
+
+
+        assertEquals(set.getOut(),gen.getOut());
+        assertEquals(set.getIn(),gen.getIn());
+
     }
+
+        private InOutTrack mockInterval(List<Long> start, List<Long> end) {
+
+            return TrackFactory.getInstance().createInOutTrack(start,end,"test", "test track");
+    }
+
+
 }
