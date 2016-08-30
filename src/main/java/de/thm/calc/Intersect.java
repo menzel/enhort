@@ -57,6 +57,11 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
             while (i < intervalCount && intervalEnd.get(i) <= p)
                 i++;
 
+            if(i == intervalCount && p >= intervalEnd.get(i)) { //not inside last interval
+                out += pos.getPositions().size() - pos.getPositions().indexOf(p); //add remaining positions to out
+                break; //and end the loop
+            }
+
             if (p >= intervalStart.get(i)) {
 
                 resultNames.add(names.get(i));
@@ -88,6 +93,11 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
             while (i < intervalCount && intervalEnd.get(i) <= p)
                 i++;
 
+            if(i == intervalCount && p >= intervalEnd.get(i)) { //not inside last interval
+                out += pos.getPositions().size() - pos.getPositions().indexOf(p); //add remaining positions to out
+                break; //and end the loop
+            }
+
             if (p >= intervalStart.get(i)) in++;
             else out++;
         }
@@ -114,6 +124,12 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
 
             while (i < intervalCount && intervalEnd.get(i) <= p)
                 i++;
+
+            if(i == intervalCount && p >= intervalEnd.get(i)) { //not inside last interval
+                out += pos.getPositions().size() - pos.getPositions().indexOf(p); //add remaining positions to out
+                break; //and end the loop
+            }
+
 
             if (p >= intervalStart.get(i)){
                 resultsScores.add(intervalScore.get(i));
