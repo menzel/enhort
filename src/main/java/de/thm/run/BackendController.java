@@ -31,7 +31,6 @@ public final class BackendController {
     public static void main(String[] args) {
         System.out.println(prefix + "Starting Enhort backend server");
 
-
         new Thread(() -> {
             TrackFactory tf = TrackFactory.getInstance();
             tf.loadIntervals();
@@ -40,8 +39,14 @@ public final class BackendController {
 
         BackendServer server = new BackendServer(port);
 
-        Thread thread = new Thread(server);
-        thread.run();
+        try{
+
+            Thread thread = new Thread(server);
+            thread.run();
+
+        } catch (Exception e){
+            System.exit(1);
+        }
     }
 
 
