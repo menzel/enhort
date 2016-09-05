@@ -85,7 +85,7 @@ public final class GenericMultithread<T extends Track> {
         return collector;
     }
 
-    final class Wrapper implements Runnable {
+    private final class Wrapper implements Runnable {
 
 
         private final Sites randomPos;
