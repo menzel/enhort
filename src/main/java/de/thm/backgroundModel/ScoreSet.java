@@ -10,20 +10,17 @@ import java.util.Objects;
 class ScoreSet {
 
     private Double[] scoreList; // list of scores
-    private int i; // counter for scoreList
 
     /**
      * Constructor for testing
      */
     ScoreSet(Double[] values){
         scoreList = values;
-        i = values.length;
     }
 
     ScoreSet(int size){
 
         scoreList = new Double[size];
-        i = 0;
     }
 
     /**
@@ -31,9 +28,9 @@ class ScoreSet {
      *
      * @param score to set
      */
-    void add(Double score){
+    void add(Double score, int i){
         if(i < scoreList.length)
-            scoreList[i++] = score;
+            scoreList[i] = score;
         else
             System.err.println("ScoreSet cannot accept another score " + Arrays.toString(scoreList));
     }

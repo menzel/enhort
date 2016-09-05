@@ -147,28 +147,28 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
      * Computes an occurence map which holds information about how often a score combination from the given intervals is picked by one of the given sites.
      * The returning map contains the counts per score.
      *
-     * @param intervals - scores to get from.
+     * @param tracks - scores to get from.
      * @param sites     - positions to look up.
      * @return map<Score, Count> to score combination to  probablity
      */
-    Map<ScoreSet, Double> fillOccurenceMap(List<ScoredTrack> intervals, Sites sites) {
+    Map<ScoreSet, Double> fillOccurenceMap(List<ScoredTrack> tracks, Sites sites) {
         Map<ScoreSet, Double> map = new HashMap<>(); //holds the conversion between score and probability
         Map<Track, Integer> indices = new HashMap<>(); //indices of the tracks during calc
 
         //init indices map:
-        for (Track track : intervals) {
+        for (Track track : tracks) {
             indices.put(track, 0);
         }
 
         for (Long p : sites.getPositions()) {
-            ScoreSet key = new ScoreSet(intervals.size());
+            ScoreSet key = new ScoreSet(tracks.size());
 
-            for (ScoredTrack interval : intervals) {
+            for (ScoredTrack track : tracks) {
 
-                List<Long> intervalStart = interval.getIntervalsStart();
-                List<Long> intervalEnd = interval.getIntervalsEnd();
+                List<Long> intervalStart = track.getIntervalsStart();
+                List<Long> intervalEnd = track.getIntervalsEnd();
 
-                int i = indices.get(interval);
+                int i = indices.get(track);
                 int intervalCount = intervalStart.size() - 1;
 
 
@@ -177,14 +177,14 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
 
                     if (p >= intervalStart.get(i)) {
 
-                        key.add(interval.getIntervalScore().get(i));
+                        key.add(track.getIntervalScore().get(i), tracks.indexOf(track));
 
                     } else {
-                        key.add(null);
+                        key.add(null, tracks.indexOf(track));
                     }
 
 
-                indices.put(interval, i);
+                indices.put(track, i);
 
             }
 
@@ -232,6 +232,7 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
 
             for (; j < starts.size(); j++) {
 
+                // TODO FIX: IndexOutOfBoundsException  Index: 0, Size: 0
                 double prob = probabilities.get(j);
 
                 if (currentRandom >= prob) { // current random value does not fit inside interval
@@ -271,13 +272,6 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
         List<Long> new_end = new ArrayList<>();
         List<Double> new_score = new ArrayList<>();
         List<String> new_names = new ArrayList<>();
-
-        Map<Track, Integer> indices = new HashMap<>(); //indices of the tracks during calc
-
-        //init indices map:
-        for (Track track: tracks) {
-            indices.put(track, 0);
-        }
 
 
         // take all start and ends, combine in lists and sort
@@ -323,47 +317,33 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
             }
         }
 
+        // add enough scoreSets:
+        List<ScoreSet> scoredSet = Collections.synchronizedList(new ArrayList<>());
 
-        // get scores from the map
-        for(int i = 0 ; i < new_start.size(); i ++){ // for each interval from the new track
-            Long start = new_start.get(i);
-            Long end = new_end.get(i);
+        for(int i = 0 ; i < new_start.size(); i++) {
+            scoredSet.add(new ScoreSet(tracks.size()));
+        }
 
-            //get ScoreSet from all tracks
-            ScoreSet current = new ScoreSet(tracks.size());
+        // fill scores sets in a thread for each track
+        for(ScoredTrack track: tracks){
+            Runnable runner = new Foo(tracks.indexOf(track), track, scoredSet, new_start, new_end);
+            Thread one = new Thread(runner);
+            one.run();
+        }
 
-            for(ScoredTrack track: tracks){
+        // set scoreSets to scores and add hash codes to names list
+        for(ScoreSet set: scoredSet){
 
-                if(track.getIntervalsStart().contains(start)){
-                    //if the start is exacly in the track get score
-                    current.add(track.getIntervalScore().get(track.getIntervalsStart().indexOf(start)));
-                    continue;
-                }
-
-                //for(int j = indices.get(track); j < track.getIntervalsEnd().size(); j++){
-                int j = indices.get(track);
-
-                while(j < track.getIntervalsStart().size()-1 && track.getIntervalsEnd().get(j) <= end)
-                    j++;
-
-                if(start >= track.getIntervalsStart().get(j)){
-                    current.add(track.getIntervalScore().get(j)); //intervals overlap
-
-                } else {
-                    current.add(null);  //outside for this track
-                }
-            }
-
-            if(score_map.containsKey(current)){
-                new_score.add(score_map.get(current));
-                new_names.add(String.valueOf(current.hashCode()));
+            if(score_map.containsKey(set)){
+                new_score.add(score_map.get(set));
+                new_names.add(String.valueOf(set.hashCode()));
             }
             else {
                 new_score.add(0.);
                 new_names.add("0");
             }
-
         }
+
 
         return TrackFactory.getInstance().createScoredTrack(new_start, new_end, new_names, new_score, "combined", "combined");
 
@@ -390,5 +370,53 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
     }
 
 
+    private class Foo implements Runnable {
 
+
+        private final ScoredTrack track;
+        private final List<ScoreSet> scoredSet;
+        private final List<Long> new_start;
+        private final List<Long> new_end;
+        private int position;
+
+        Foo(int position, ScoredTrack track, List<ScoreSet> scoredSet, List<Long> new_start, List<Long> new_end) {
+            this.position = position;
+
+            this.track = track;
+            this.scoredSet = scoredSet;
+            this.new_start = new_start;
+            this.new_end = new_end;
+        }
+
+        @Override
+        public void run() {
+
+            int j = 0;
+
+            // get scores from the map
+            for(int i = 0 ; i < new_start.size(); i ++) { // for each interval from the new track
+                Long start = new_start.get(i);
+                Long end = new_end.get(i);
+
+                //get ScoreSet from all tracks
+                ScoreSet current = scoredSet.get(i);
+
+                if (track.getIntervalsStart().contains(start)) {
+                    //if the start is exacly in the track get score
+                    current.add(track.getIntervalScore().get(track.getIntervalsStart().indexOf(start)), position);
+                    continue;
+                }
+
+                while (j < track.getIntervalsStart().size() - 1 && track.getIntervalsEnd().get(j) <= end)
+                    j++;
+
+                if (start >= track.getIntervalsStart().get(j)) {
+                    current.add(track.getIntervalScore().get(j), position); //intervals overlap
+
+                } else {
+                    current.add(null, position);  //outside for this track
+                }
+            }
+        }
+    }
 }
