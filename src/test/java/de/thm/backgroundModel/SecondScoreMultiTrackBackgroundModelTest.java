@@ -3,6 +3,7 @@ package de.thm.backgroundModel;
 import de.thm.genomeData.ScoredTrack;
 import de.thm.genomeData.TrackFactory;
 import de.thm.positionData.Sites;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.*;
@@ -15,9 +16,13 @@ import static org.junit.Assert.assertEquals;
  */
 public class SecondScoreMultiTrackBackgroundModelTest {
 
-    @Test
-    public void fillOccurenceMap() throws Exception {
 
+    private List<ScoredTrack> tracks;
+    private Sites sites;
+    private Map<ScoreSet, Double> expected;
+
+    @Before
+    public void setUp() {
 
         ///// Create Tracks /////////
 
@@ -66,19 +71,19 @@ public class SecondScoreMultiTrackBackgroundModelTest {
 
         scores3.add(1.);
 
-        ScoredTrack interval1 = mockInterval(start1, end1, null, scores1);
-        ScoredTrack interval2 = mockInterval(start2, end2, null, scores2);
-        ScoredTrack interval3 = mockInterval(start3, end3, null, scores3);
+        ScoredTrack interval1 = mockTrack(start1, end1, null, scores1);
+        ScoredTrack interval2 = mockTrack(start2, end2, null, scores2);
+        ScoredTrack interval3 = mockTrack(start3, end3, null, scores3);
 
 
-        List<ScoredTrack> tracks = new ArrayList<>();
+        tracks = new ArrayList<>();
         tracks.add(interval1);
         tracks.add(interval2);
         tracks.add(interval3);
 
         //////// create positions ////////
 
-        Sites sites = new Sites() {
+        sites = new Sites() {
 
             @Override
             public void addPositions(Collection<Long> values) {}
@@ -106,9 +111,142 @@ public class SecondScoreMultiTrackBackgroundModelTest {
             public int getPositionCount() {
                 return 7;
             }
+
         };
 
 
+        ///////// expected occurence map //////////////
+
+        expected = new HashMap<>();
+        expected.put(new ScoreSet(new Double[]{0.5, 0.4, 1.0}), 3.0);
+
+        expected.put(new ScoreSet(new Double[]{null,null, 1.0}), 1.0);
+
+        expected.put(new ScoreSet(new Double[]{null,0.6, 1.0}), 1.0);
+
+        expected.put(new ScoreSet(new Double[]{0.1,0.8, 1.0}), 2.0);
+
+
+    }
+
+    @Test
+    public void generateProbabilityInterval() throws Exception {
+
+        /////// call bg model ////////
+
+        SecondScoreMultiTrackBackgroundModel model = new SecondScoreMultiTrackBackgroundModel();
+
+        ScoredTrack probTrack = model.generateProbabilityInterval(sites, tracks, 1);
+
+
+        ///////// Create expected probabilites /////////
+
+        List<Double> expectedScores= new ArrayList<>();
+
+        expectedScores.add(0.0);
+        expectedScores.add(0.0);
+        expectedScores.add(0.0);
+        expectedScores.add(0.0);
+        expectedScores.add(0.0);
+        expectedScores.add(0.049);
+        expectedScores.add(0.049);
+        expectedScores.add(0.0);
+        expectedScores.add(0.049);
+        expectedScores.add(0.25);
+        expectedScores.add(0.02);
+        expectedScores.add(0.08);
+        expectedScores.add(1.6151E-9);
+        expectedScores.add(0.499);
+
+
+        /////// check result //////////
+
+        assertEquals(expectedScores.size(), probTrack.getIntervalScore().size());
+
+        for(int i = 0 ; i < expectedScores.size()-1 ; i++){
+            //check each value with a small deviation allowed
+            assertEquals(expectedScores.get(i), probTrack.getIntervalScore().get(i), 0.01);
+        }
+
+    }
+
+
+
+    @Test
+    public void combine() throws Exception {
+
+
+        /////// call bg model ////////
+
+        SecondScoreMultiTrackBackgroundModel model = new SecondScoreMultiTrackBackgroundModel();
+
+        ScoredTrack result = model.combine(tracks, expected);
+
+
+        ///////// Create expected Track /////////
+
+        List<Long> start = new ArrayList<>();
+        List<Long> end = new ArrayList<>();
+
+        start.add(0L);
+        end.add(1L);
+
+        start.add(1L);
+        end.add(2L);
+
+        start.add(2L);
+        end.add(4L);
+
+        start.add(4L);
+        end.add(5L);
+
+        start.add(5L);
+        end.add(10L);
+
+        start.add(10L);
+        end.add(15L);
+
+        start.add(15L);
+        end.add(20L);
+
+        start.add(20L);
+        end.add(30L);
+
+        start.add(30L);
+        end.add(35L);
+
+        start.add(35L);
+        end.add(40L);
+
+        start.add(40L);
+        end.add(42L);
+
+        start.add(42L);
+        end.add(50L);
+
+        start.add(50L);
+        end.add(60L);
+
+        start.add(60L);
+        end.add(3095677412L);
+
+
+
+
+        //expectedTrack = TrackFactory.getInstance().createScoredTrack(start, end, null, null);
+
+
+
+        /////// check result //////////
+
+        assertEquals(start, result.getIntervalsStart());
+        assertEquals(end, result.getIntervalsEnd());
+        //TODO Check scores (probs)
+
+    }
+
+    @Test
+    public void fillOccurenceMap() throws Exception {
 
         /////// call bg model ////////
 
@@ -118,20 +256,12 @@ public class SecondScoreMultiTrackBackgroundModelTest {
 
         /////// check result //////////
 
-        Map<ScoreSet, Double> expected = new HashMap<>();
-        expected.put(new ScoreSet(new Double[]{0.5, 0.4, 1.0}), 3.0);
-
-        expected.put(new ScoreSet(new Double[]{null,null, 1.0}), 1.0);
-
-        expected.put(new ScoreSet(new Double[]{null,0.6, 1.0}), 1.0);
-
-        expected.put(new ScoreSet(new Double[]{0.1,0.8, 1.0}), 2.0);
 
         assertEquals(expected, result);
     }
 
 
-    private ScoredTrack mockInterval(List<Long> start, List<Long> end, List<String> names, List<Double> scores) {
+    private ScoredTrack mockTrack(List<Long> start, List<Long> end, List<String> names, List<Double> scores) {
 
         return  TrackFactory.getInstance().createScoredTrack(start, end, names, scores,"name", "desc");
     }
