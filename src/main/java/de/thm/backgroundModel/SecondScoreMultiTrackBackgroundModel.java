@@ -68,7 +68,6 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
             sitesOccurence.put(k, sitesOccurence.get(k) / sum);
 
         ScoredTrack interval = combine(intervals, sitesOccurence);
-        assert interval != null;
 
 
         // Fill occurences maps over whole genome
@@ -266,7 +265,7 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
      *
      * @return Interval of type GenomeInterval
      */
-    private ScoredTrack combine(List<ScoredTrack> tracks, Map<ScoreSet, Double> score_map) {
+    ScoredTrack combine(List<ScoredTrack> tracks, Map<ScoreSet, Double> score_map) {
 
         List<Long> new_start = new ArrayList<>();
         List<Long> new_end = new ArrayList<>();
@@ -293,18 +292,28 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
         }
 
 
+
         //check if 0 and genome size is present
         if(new_start.get(0) != 0L){
-            new_end.add(new_start.get(0)); //add first start as first end
             new_start.add(0,0L); // and add 0 as first start
         } else {
             // TODO
         }
 
         if(new_end.get(new_end.size()-1) != ChromosomSizes.getInstance().getGenomeSize()){
-            new_start.add(new_start.size(), new_end.get(new_end.size()-1)); // add last end as start
+            //new_start.add(new_start.size(), new_end.get(new_end.size()-1)); // add last end as start
             new_end.add(new_end.size(), ChromosomSizes.getInstance().getGenomeSize()); // and genome size as end
         }
+
+        //delete intervals with length 0
+        for(int i = 0;i < new_start.size()-1; i++){
+
+            if(new_start.get(i).equals(new_end.get(i))){
+                new_start.remove(i);
+                new_end.remove(i);
+            }
+        }
+
 
         if(new_start.size() != new_end.size()){
             try {
@@ -345,8 +354,15 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
                 }
             }
 
-            new_score.add(score_map.get(current));
-            new_names.add(String.valueOf(current.hashCode()));
+            if(score_map.containsKey(current)){
+                new_score.add(score_map.get(current));
+                new_names.add(String.valueOf(current.hashCode()));
+            }
+            else {
+                new_score.add(0.);
+                new_names.add("0");
+            }
+
         }
 
         return TrackFactory.getInstance().createScoredTrack(new_start, new_end, new_names, new_score, "combined", "combined");
