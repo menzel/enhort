@@ -20,9 +20,13 @@ public class SecondScoreMultiTrackBackgroundModelTest {
     private List<ScoredTrack> tracks;
     private Sites sites;
     private Map<ScoreSet, Double> expected;
+    private  SecondScoreMultiTrackBackgroundModel model;
+
 
     @Before
     public void setUp() {
+
+        model = new SecondScoreMultiTrackBackgroundModel();
 
         ///// Create Tracks /////////
 
@@ -134,8 +138,6 @@ public class SecondScoreMultiTrackBackgroundModelTest {
 
         /////// call bg model ////////
 
-        SecondScoreMultiTrackBackgroundModel model = new SecondScoreMultiTrackBackgroundModel();
-
         ScoredTrack probTrack = model.generateProbabilityInterval(sites, tracks, 1);
 
 
@@ -171,6 +173,18 @@ public class SecondScoreMultiTrackBackgroundModelTest {
     }
 
 
+    @Test
+    public void generatePositionsByProbability() throws Exception {
+
+        ScoredTrack probTrack = model.generateProbabilityInterval(sites, tracks, 1);
+        Collection<Long> pos = model.generatePositionsByProbability(probTrack, 10);
+
+        // TODO  check if rand pos generated are good
+    }
+
+
+
+
 
     @Test
     public void combine() throws Exception {
@@ -178,7 +192,6 @@ public class SecondScoreMultiTrackBackgroundModelTest {
 
         /////// call bg model ////////
 
-        SecondScoreMultiTrackBackgroundModel model = new SecondScoreMultiTrackBackgroundModel();
 
         ScoredTrack result = model.combine(tracks, expected);
 
@@ -249,8 +262,6 @@ public class SecondScoreMultiTrackBackgroundModelTest {
     public void fillOccurenceMap() throws Exception {
 
         /////// call bg model ////////
-
-        SecondScoreMultiTrackBackgroundModel model = new SecondScoreMultiTrackBackgroundModel();
 
         Map<ScoreSet, Double> result = model.fillOccurenceMap(tracks, sites);
 
