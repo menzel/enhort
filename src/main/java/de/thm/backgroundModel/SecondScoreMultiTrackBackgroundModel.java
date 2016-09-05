@@ -334,7 +334,7 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
                 //for(int j = indices.get(track); j < track.getIntervalsEnd().size(); j++){
                 int j = indices.get(track);
 
-                while(j < track.getIntervalsStart().size() && track.getIntervalsEnd().get(j) <= end)
+                while(j < track.getIntervalsStart().size()-1 && track.getIntervalsEnd().get(j) <= end)
                     j++;
 
                 if(start >= track.getIntervalsStart().get(j)){
