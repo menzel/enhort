@@ -31,7 +31,6 @@ public final class BackendConnector implements Runnable{
 
     private final int port;
     private final String ip;
-    private Socket socket;
     private boolean isConnected = false;
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
@@ -54,7 +53,7 @@ public final class BackendConnector implements Runnable{
 
         while (!isConnected){
             try {
-                socket = new Socket(ip, port);
+                Socket socket = new Socket(ip, port);
 
                 isConnected = socket.isConnected();
                 System.out.println("[Enhort Webinterface]: Created " + isConnected +  " socket on port: " + port);
@@ -98,7 +97,7 @@ public final class BackendConnector implements Runnable{
                 //TODO only wait for fixed time. apply timeout
                 System.out.println("[Enhort Webinterface]: waiting for result");
                 Object answer = inputStream.readObject();
-                ResultCollector collector = null;
+                ResultCollector collector;
 
                 if(answer instanceof Exception){
 
@@ -126,8 +125,12 @@ public final class BackendConnector implements Runnable{
 
         this.run(); //try to connect to backend again
 
-        if(isConnected)
+        if(isConnected){
+            //TODO check for endless recursion
+
+            Thread.sleep(5000);
             return runAnalysis(command); //only call run again if backend is connected.
+        }
         else
             return null;
     }
