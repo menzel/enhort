@@ -34,10 +34,9 @@ class MultiTrackBackgroundModel implements Sites {
     }
 
     /**
-     * Empty constructor
+     * Empty constructor for testing
      */
-    MultiTrackBackgroundModel() {
-    }
+    MultiTrackBackgroundModel() {}
 
 
     /**
@@ -53,10 +52,11 @@ class MultiTrackBackgroundModel implements Sites {
         List<Long> sites = new ArrayList<>();
         SingleTrackBackgroundModel better = new SingleTrackBackgroundModel();
 
+        // set the positions for each combination of tracks
         for (String app : appearanceTable.getKeySet()) {
-            if (app.compareTo("[]") == 0) {
+
+            if (app.compareTo("[]") == 0) //skip outside positions
                 continue;
-            }
 
             int count = appearanceTable.getAppearance(app);
             List<Track> currentTracks = appearanceTable.translate(app, tracks);
@@ -65,15 +65,13 @@ class MultiTrackBackgroundModel implements Sites {
             currentTracks.addAll(negativeTracks.stream().map(Tracks::invert).collect(Collectors.toList()));
 
             Track track = Tracks.intersect(currentTracks);
-            if(Tracks.sumOfIntervals(track) < 1000){
-                //TODO add some pseudocount
-            } else {
-                sites.addAll(better.randPositions(count, track));
-            }
+
+            //TODO check if sum of intervals is too small and add some pseudocount
+            sites.addAll(better.randPositions(count, track));
         }
 
+        // set outside positions
         int count = appearanceTable.getAppearance("[]");
-        //Interval outs = Intervals.sum(intervals).invert();
         Track outs = Tracks.intersect(tracks.stream().map(Tracks::invert).collect(Collectors.toList()));
         sites.addAll(better.randPositions(count, outs));
 
