@@ -17,7 +17,7 @@ class AppearanceTable {
     private Map<String, Integer> appearance;
     private int minSites;
 
-    public AppearanceTable(int minSites) {
+    AppearanceTable(int minSites) {
         this.minSites = minSites;
     }
 
@@ -49,28 +49,15 @@ class AppearanceTable {
                 int i = indices.get(track);
                 int intervalCount = intervalStart.size() - 1;
 
-                while (i < intervalCount && intervalStart.get(i) <= p) {
+                while (i < intervalCount && intervalEnd.get(i) <= p)
                     i++;
+
+                if(i == intervalCount && p >= intervalEnd.get(i)) { //not inside last interval
+                    break; //end the loop over all positions
                 }
 
-                if (i == 0) {
+                if (p >= intervalStart.get(i)){
                     containing.add(track.getUid());
-
-                } else if (i == intervalCount && p > intervalEnd.get(i - 1)) { //last Interval and p not in previous
-                    if (p < intervalEnd.get(i) && p >= intervalStart.get(i)) {
-
-                        containing.add(track.getUid());
-
-                    } else {
-                        continue;
-                    }
-                } else {
-                    if (p >= intervalEnd.get(i - 1)) {
-                        continue; // not inside the last interval
-
-                    } else {
-                        containing.add(track.getUid());
-                    }
                 }
 
                 indices.put(track, i);
@@ -155,7 +142,7 @@ class AppearanceTable {
      * @param app - Hash map key
      * @return appearance count
      */
-    public int getAppearance(String app) {
+    int getAppearance(String app) {
         if (!appearance.containsKey(app))
             return 0;
         return appearance.get(app);
@@ -225,7 +212,7 @@ class AppearanceTable {
      * @param app   - string from Arrays.toString() [1,2,3,..] as key
      * @return list of all intervals exepect the ones on app list of interval ids.
      */
-    public List<Track> translateNegative(List<Track> outer, String app) {
+    List<Track> translateNegative(List<Track> outer, String app) {
 
         List<Track> tracks = new CopyOnWriteArrayList<>(outer);
 
@@ -249,7 +236,7 @@ class AppearanceTable {
         return appearance;
     }
 
-    public void setAppearance(Map<String, Integer> appearance) {
+    void setAppearance(Map<String, Integer> appearance) {
         this.appearance = appearance;
     }
 }
