@@ -10,7 +10,7 @@ import static junit.framework.TestCase.assertEquals;
 /**
  * Created by Michael Menzel on 14/1/16.
  */
-public class TrackTestTrackTest {
+public class IntersectTest {
         @Test
     public void testIntersectRecursion() throws Exception {
 
