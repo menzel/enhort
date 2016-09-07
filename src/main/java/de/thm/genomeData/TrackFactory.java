@@ -72,39 +72,44 @@ public final class TrackFactory {
         List<Track> tmp;
 
         try {
+
             tmp = getIntervals(basePath.resolve("inout"), Type.inout);
 
             tmp.addAll(getIntervals(basePath.resolve("named"), Type.named));
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks."));
             this.intervals.addAll(tmp);
-            /*
-
-            tmp = getIntervals(basePath.resolve("tf"), Type.inout);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.TFBS, "Transcription factor binding sites"));
-            this.intervals.addAll(tmp);
-
-            tmp = getIntervals(basePath.resolve("restriction_sites"), Type.inout);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Restriction_sites, "Restriction sites"));
-            this.intervals.addAll(tmp);
-
-            tmp = getIntervals(basePath.resolve("broadHistone"), Type.inout);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Histone, "Histone modifications"));
-            this.intervals.addAll(tmp);
-
-            tmp = getIntervals(basePath.resolve("OpenChrom"), Type.inout);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.OpenChrom, "Open Chromatin"));
-            this.intervals.addAll(tmp);
-
-
-            tmp = getIntervals(basePath.resolve("repeats_by_name"), Type.inout);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name"));
-            this.intervals.addAll(tmp);
-
-            */
 
             tmp = getIntervals(basePath.resolve("score"), Type.scored);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Expression, "Expression scores"));
             this.intervals.addAll(tmp);
+
+
+            //only load all tracks when running on the big server
+            if(!System.getenv("HOME").contains("menzel")) {
+
+                tmp = getIntervals(basePath.resolve("tf"), Type.inout);
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.TFBS, "Transcription factor binding sites"));
+                this.intervals.addAll(tmp);
+
+                tmp = getIntervals(basePath.resolve("restriction_sites"), Type.inout);
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Restriction_sites, "Restriction sites"));
+                this.intervals.addAll(tmp);
+
+                tmp = getIntervals(basePath.resolve("broadHistone"), Type.inout);
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Histone, "Histone modifications"));
+                this.intervals.addAll(tmp);
+
+                tmp = getIntervals(basePath.resolve("OpenChrom"), Type.inout);
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.OpenChrom, "Open Chromatin"));
+                this.intervals.addAll(tmp);
+
+
+                tmp = getIntervals(basePath.resolve("repeats_by_name"), Type.inout);
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name"));
+                this.intervals.addAll(tmp);
+
+            }
+
 
         } catch (IOException e) {
             e.printStackTrace();
