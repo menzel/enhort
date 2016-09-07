@@ -1,7 +1,6 @@
 package de.thm.backgroundModel;
 
 import de.thm.genomeData.Track;
-import de.thm.genomeData.TrackFactory;
 import de.thm.positionData.Sites;
 
 import java.util.*;
@@ -104,12 +103,11 @@ class AppearanceTable {
      * @param tracks - list of intervals
      * @return HashMap key as String
      */
-    String hash(List<Track> tracks) {
+    private String hash(List<Track> tracks) {
         List<Integer> containing = new ArrayList<>();
 
-        for (Track track : tracks) {
+        for (Track track : tracks)
             containing.add(track.getUid());
-        }
 
         Collections.sort(containing);
 
@@ -178,32 +176,6 @@ class AppearanceTable {
         return tracks;
     }
 
-    /**
-     * Translates a String of Interval Ids to a list of intervals.
-     *
-     * @param app - appearance hash key as string
-     * @return List of Intervals
-     */
-    public List<Track> translate(String app) {
-
-        if (app.compareTo("[]") == 0) { //empty array
-            return null;
-        }
-
-        List<Track> tracks = new ArrayList<>();
-        TrackFactory loader = TrackFactory.getInstance();
-
-        app = app.substring(1, app.length() - 1);
-
-        int[] digits = Arrays.stream(app.split(",")).map(String::trim).mapToInt(Integer::parseInt).toArray();
-
-        for (int id : digits) {
-            tracks.add(loader.getIntervalById(id));
-        }
-
-
-        return tracks;
-    }
 
     /**
      * Returns all intervals exepct the ones given by param
@@ -230,10 +202,6 @@ class AppearanceTable {
         }
 
         return tracks;
-    }
-
-    public Map<String, Integer> getAppearance() {
-        return appearance;
     }
 
     void setAppearance(Map<String, Integer> appearance) {
