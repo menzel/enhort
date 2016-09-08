@@ -5,13 +5,11 @@ import de.thm.genomeData.TrackFactory;
 import de.thm.spring.command.BackendCommand;
 import de.thm.stat.ResultCollector;
 
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.concurrent.*;
 
 /**
@@ -110,26 +108,29 @@ public final class BackendController {
 
                         f.get(20, TimeUnit.SECONDS);
 
-                    }catch (EOFException e){
+                    }catch (EOFException | StreamCorruptedException | SocketException e){
 
                         //do nothing here. client is disconected.
                         System.out.println(prefix + "Webinterface lost");
                         isConnected = false;
 
                     } catch (IOException | ClassNotFoundException  | InterruptedException | TimeoutException | ExecutionException e) {
-                        e.printStackTrace();
+                        System.err.println(e.getCause().toString());
                         exe.shutdownNow();
 
                         queue = new ArrayBlockingQueue<>(16);
                         exe = new ThreadPoolExecutor(1, 4, 5L, TimeUnit.MILLISECONDS, queue);
 
                         try {
-                            outStream.writeObject(e);
+                            outStream.writeObject(new Exception(e.getMessage()));
 
                         } catch (IOException e1) {
                             e1.printStackTrace();
                         }
+                    } catch (Exception e){
+                        e.printStackTrace();
                     }
+
                 } //close while(isConnected) loop
 
                 System.out.println(prefix + "Webinterface lost");

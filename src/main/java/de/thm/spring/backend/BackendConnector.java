@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.SocketException;
 
 /**
  * Connects the interface to a backend server. Sends backendCommands and recives resultCollectors.
@@ -86,7 +85,7 @@ public final class BackendConnector implements Runnable{
      * @return Results of the executed commnads
      * @throws CovariantsException - if too many or impossible combination of covariants is given
      */
-    public ResultCollector runAnalysis(BackendCommand command) throws Exception {
+    public ResultCollector runAnalysis(BackendCommand command) throws CovariantsException {
 
         if(isConnected){
             try {
@@ -94,29 +93,35 @@ public final class BackendConnector implements Runnable{
                 System.out.println("[Enhort Webinterface]: writing command");
                 outputStream.writeObject(command);
 
-                //TODO only wait for fixed time. apply timeout
                 System.out.println("[Enhort Webinterface]: waiting for result");
+
+                //TODO only wait for fixed time. apply timeout
                 Object answer = inputStream.readObject();
+
                 ResultCollector collector;
 
                 if(answer instanceof Exception){
 
                     System.out.println("[Enhort Webinterface]: got exception: " + ((Exception) answer).getMessage());
-                    throw (Exception) answer;
+
+                    if(answer instanceof CovariantsException)
+                        throw (CovariantsException) answer;
+
                 } else if( answer instanceof  ResultCollector){
+
                     collector = (ResultCollector) answer;
+                    System.out.println("[Enhort Webinterface]: got result: " + collector.getResults().size());
+                    return collector;
+
                 } else {
                     System.err.println("answer is not a result: " + answer.getClass());
                     return null;
                 }
 
-                System.out.println("[Enhort Webinterface]: got result: " + collector.getResults().size());
-                return collector;
 
-            } catch(SocketException e){
+            } catch(IOException | ClassNotFoundException e){
                 isConnected = false;
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
+                System.err.println("Something went wrong in the BackendConnector. Trying to start all over again");
             }
         }
 
@@ -128,7 +133,12 @@ public final class BackendConnector implements Runnable{
         if(isConnected){
             //TODO check for endless recursion
 
-            Thread.sleep(5000);
+            try {
+                Thread.sleep(5000);
+
+            } catch (InterruptedException e) {
+                System.err.println("Sleep interrupted after error state. Should not be a problem.");
+            }
             return runAnalysis(command); //only call run again if backend is connected.
         }
         else
