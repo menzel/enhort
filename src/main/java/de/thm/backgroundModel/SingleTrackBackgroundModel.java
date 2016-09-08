@@ -6,6 +6,9 @@ import de.thm.genomeData.InOutTrack;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.Tracks;
 import de.thm.positionData.Sites;
+import org.uncommons.maths.random.DevRandomSeedGenerator;
+import org.uncommons.maths.random.MersenneTwisterRNG;
+import org.uncommons.maths.random.SeedException;
 
 import java.util.*;
 
@@ -56,7 +59,12 @@ class SingleTrackBackgroundModel implements Sites {
      * @return Collection of random positions
      */
     Collection<Long> randPositions(int siteCount, Track track) {
-        rand = new Random(System.currentTimeMillis());
+        try {
+            rand = new MersenneTwisterRNG(new DevRandomSeedGenerator());
+        } catch (SeedException e) {
+            e.printStackTrace();
+        }
+
         long maxValue = Tracks.sumOfIntervals(track);
 
         List<Long> randomValues = new ArrayList<>();
