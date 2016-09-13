@@ -80,13 +80,24 @@ public final class Sessions {
         Calendar yesterday = Calendar.getInstance();
         yesterday.add(Calendar.DATE, -1);
 
+        List<String> removes = new ArrayList<>(); // stores the keys of sessions to remove later
+
+        //check each session
         for (String key : sessions.keySet()) {
             Session session = sessions.get(key);
 
+            //check the age of each session
             if (session.getDate().compareTo(yesterday.getTime()) < 0) { //TODO check
-                sessions.remove(key);
+                //sessions.remove(key);
+                removes.add(key);
                 session.delete();
             }
+        }
+
+
+        // remove from listof keys
+        for(String key: removes){
+            sessions.remove(key);
         }
     }
 
