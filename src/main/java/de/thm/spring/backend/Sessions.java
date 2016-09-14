@@ -87,8 +87,7 @@ public final class Sessions {
             Session session = sessions.get(key);
 
             //check the age of each session
-            if (session.getDate().compareTo(yesterday.getTime()) < 0) { //TODO check
-                //sessions.remove(key);
+            if (session.getDate().compareTo(yesterday.getTime()) < 0) {
                 removes.add(key);
                 session.delete();
             }
@@ -96,9 +95,7 @@ public final class Sessions {
 
 
         // remove from listof keys
-        for(String key: removes){
-            sessions.remove(key);
-        }
+        removes.forEach(sessions::remove);
     }
 
 
