@@ -34,6 +34,8 @@ public class Analyse {
         TestTrack simple = new Intersect();
     }
 
+
+
     /**
      * Analysis of the user sites with all intervals and one background model
      *
@@ -46,7 +48,7 @@ public class Analyse {
         //TestTrackResult resultBg;
 
         //Interval genes = intervals.get("knownGenes");
-        //resultUserSites = simple.searchSingleInterval(genes, userSites);
+        //resultUserSites = simple.searchTrack(genes, userSites);
         //Sites bg = new BetterBackgroundModel(resultUserSites.getIn(),resultUserSites.getOut() , genes);
 
         List<Track> covariants = new ArrayList<>();

@@ -22,11 +22,12 @@ lib/*
 out/*
 .idea/*
 
-.idea/workspace.xml
+target
 
 *.svg
-
-target
 *.gif
+*.pdf
+log
 
-*.png
+out/
+src/main/resources/static/fonts/

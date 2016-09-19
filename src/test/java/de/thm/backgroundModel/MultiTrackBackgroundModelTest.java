@@ -199,7 +199,7 @@ public class MultiTrackBackgroundModelTest {
 
         // evaluate with intersect
         TestTrack<InOutTrack> calc = new Intersect<>();
-        TestTrackResult result1 = calc.searchSingleInterval((InOutTrack) track1, bg);
+        TestTrackResult result1 = calc.searchTrack((InOutTrack) track1, bg);
 
         // test results
 
@@ -207,7 +207,7 @@ public class MultiTrackBackgroundModelTest {
         assertEquals(inFirst + inBoth, result1.getIn());
 
         //check in second:
-        TestTrackResult result2 = calc.searchSingleInterval((InOutTrack) track2, bg);
+        TestTrackResult result2 = calc.searchTrack((InOutTrack) track2, bg);
         assertEquals(inSecond + inBoth, result2.getIn());
 
         //check outsiders first:

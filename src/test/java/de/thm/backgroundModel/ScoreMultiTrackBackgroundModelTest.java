@@ -18,6 +18,7 @@ import static org.junit.Assert.assertEquals;
  *
  * Created by Michael Menzel on 19/2/16.
  */
+@Deprecated
 public class ScoreMultiTrackBackgroundModelTest {
 
     @Test
@@ -50,13 +51,14 @@ public class ScoreMultiTrackBackgroundModelTest {
         scores1.add(0.5);
         scores1.add(0.2);
         scores1.add(0.7);
+        scores1.add(0.1);
 
         scores2.add(0.4);
         scores2.add(0.6);
         scores2.add(0.8);
 
-        ScoredTrack interval1 = mockInterval(start1, end1, null, scores1);
-        ScoredTrack interval2 = mockInterval(start2, end2, null, scores2);
+        ScoredTrack interval1 = mockTrack(start1, end1, null, scores1);
+        ScoredTrack interval2 = mockTrack(start2, end2, null, scores2);
 
 
         List<ScoredTrack> tracks = new ArrayList<>();
@@ -136,14 +138,14 @@ public class ScoreMultiTrackBackgroundModelTest {
         scores1.add(0.5);
         scores1.add(0.2);
         scores1.add(0.7);
-        //scores1.add(0.1);
+        scores1.add(0.1);
 
         scores2.add(0.4);
         scores2.add(0.6);
         scores2.add(0.8);
 
-        ScoredTrack interval1 = mockInterval(start1, end1, null, scores1);
-        ScoredTrack interval2 = mockInterval(start2, end2, null, scores2);
+        ScoredTrack interval1 = mockTrack(start1, end1, null, scores1);
+        ScoredTrack interval2 = mockTrack(start2, end2, null, scores2);
 
 
         List<ScoredTrack> tracks = new ArrayList<>();
@@ -261,7 +263,7 @@ public class ScoreMultiTrackBackgroundModelTest {
             };
 
 
-            ScoredTrack testTrack = mockInterval(start, end, null, scores);
+            ScoredTrack testTrack = mockTrack(start, end, null, scores);
             Intersect sec = new Intersect<>();
 
             TestTrackResult result = sec.searchSingleInterval(testTrack, newSites);
@@ -285,7 +287,7 @@ public class ScoreMultiTrackBackgroundModelTest {
 
     }
 
-    private ScoredTrack mockInterval(List<Long> start, List<Long> end, List<String> names, List<Double> scores) {
+    private ScoredTrack mockTrack(List<Long> start, List<Long> end, List<String> names, List<Double> scores) {
 
         return  TrackFactory.getInstance().createScoredTrack(start, end, names, scores,"name", "desc");
     }

@@ -22,7 +22,7 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
 
 
     @Override
-    public TestTrackResult searchSingleInterval(T intv, Sites pos) {
+    public TestTrackResult searchTrack(T intv, Sites pos) {
         if (intv instanceof InOutTrack)
             return searchSingleInterval((InOutTrack) intv, pos);
         if (intv instanceof ScoredTrack)

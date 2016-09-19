@@ -2,9 +2,8 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <excludeFromCompile>
-      <directory url="file://$PROJECT_DIR$/src/test/java/de/thm/genomeData" includeSubdirectories="true" />
-      <file url="file://$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/MultiTrackBackgroundModelTest.java" />
-      <file url="file://$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/BetterBackgroundModelTest.java" />
+      <file url="file://$PROJECT_DIR$/src/test/java/de/thm/genomeData/IntersectTest.java" />
+      <file url="file://$PROJECT_DIR$/src/test/java/de/thm/genomeData/TrackTest.java" />
     </excludeFromCompile>
     <resourceExtensions />
     <wildcardResourcePatterns>

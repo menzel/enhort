@@ -112,8 +112,8 @@ public final class GenericMultithread<T extends Track> {
         @Override
         public void run() {
 
-            TestTrackResult result1 = testToDo.searchSingleInterval((T) track, measuredPos);
-            TestTrackResult result2 = testToDo.searchSingleInterval((T) track, randomPos);
+            TestTrackResult result1 = testToDo.searchTrack((T) track, measuredPos);
+            TestTrackResult result2 = testToDo.searchTrack((T) track, randomPos);
 
             EffectSize effectSize = new EffectSize();
 

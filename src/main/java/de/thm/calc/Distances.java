@@ -1,85 +1,76 @@
 package de.thm.calc;
 
 import de.thm.genomeData.InOutTrack;
+import de.thm.genomeData.Track;
 import de.thm.positionData.Sites;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
+ * Calculates a list of distances to intervals from positions
+ *
  * Created by menzel on 9/7/16.
  */
-public class Distances {
+public class Distances implements TestTrack<InOutTrack>{
+
+
     /**
-     * Counts distances between positions
+     * Calculates the intersect between an interval and some points. Handles in/out count, names and scores.
      *
-     * @param intv
-     * @param pos
-     * @return
-     * @deprecated
+     * @param track - interval to find positions
+     * @param sites - positions to find
+     * @return Result which contains the in/out count, names or scores
      */
-    @Deprecated
-    public Set<Map.Entry<Integer, Integer>> getAverageDistance(InOutTrack intv, Sites pos) {
+    @Override
+    public TestTrackResult searchTrack(InOutTrack track, Sites sites) {
+        List<Double> distances = distancesToNext(track, sites).stream().map(Integer::doubleValue).collect(Collectors.toList());
+
+        return new TestTrackResult(track, sites.getPositionCount(), 0, distances);
+    }
+
+
+
+    /**
+     * Computes a map of distances for a set of positions from a track of interval
+     *
+     * @param track - track start sites
+     * @param sites - sites to measure
+     *
+     * @return map of distances observed
+     */
+    private List<Integer> distancesToNext(Track track, Sites sites){
+
+        //DistanceCounter distances = new DistanceCounter();
+        List<Integer> distances = new ArrayList<>();
+
+        List<Long> intervalStart = track.getIntervalsStart();
+
         int i = 0;
-        int last_i = i;
-
-        DistanceCounter distances = new DistanceCounter();
-
-
-        List<Long> intervalStart = intv.getIntervalsStart();
-        List<Long> intervalEnd = intv.getIntervalsEnd();
-
         int intervalCount = intervalStart.size() - 1;
 
 
-        for (Long p : pos.getPositions()) {
+        for (Long p : sites.getPositions()) {
 
-            while (i < intervalCount && intervalStart.get(i) <= p) {
+            while (i < intervalCount && intervalStart.get(i) < p)
                 i++;
+
+            if(i == 0) { // if the position is before than the first start
+                distances.add((int) (intervalStart.get(0) - p));
+                continue;
             }
 
-            if (i == 0) {
-                distances.add(0);
+            // calc distance to last and next site from position
 
-            } else if (i == intervalCount && p > intervalEnd.get(i - 1)) { //last Interval and p not in previous
-                if (p < intervalEnd.get(i) && p >= intervalStart.get(i)) {
-                    distances.add(i - last_i);
-                    last_i = i;
-                }
-            } else {
-                if (p >= intervalEnd.get(i - 1)) {
-                    distances.add(i - last_i);
-                    last_i = i;
-                }
-            }
+            int upstream = (int) (p - intervalStart.get(i-1));
+            int downstream = (int) (p - intervalStart.get(i));
+
+            // add smaller distance to map
+            distances.add(Math.min(upstream,Math.abs(downstream)));
         }
 
-        for(Integer key: (distances.distances.keySet())){
-            System.out.println(key + "\t" + distances.distances.get(key));
-        }
-
-        return distances.distances.entrySet();
+        return distances;
     }
-
-
-    /**
-     * Class to count the occurrences of numbers in a Map
-     */
-    private class DistanceCounter {
-        Map<Integer, Integer> distances = new HashMap<>();
-
-        public void add(int d){
-
-            if(distances.containsKey(d)){
-                distances.put(d, distances.get(d) + 1 );
-            } else{
-                distances.put(d, 1);
-            }
-        }
-
-    }
-
 
 }

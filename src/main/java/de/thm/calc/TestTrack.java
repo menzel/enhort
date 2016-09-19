@@ -13,10 +13,11 @@ public interface TestTrack<T extends Track> {
     /**
      * Calculates the intersect between an interval and some points. Handles in/out count, names and scores.
      *
-     * @param intv - interval to find positions
-     * @param pos  - positions to find
+     * @param track - interval to find positions
+     * @param sites - positions to find
+     *
      * @return Result which contains the in/out count, names or scores
      */
-    TestTrackResult searchSingleInterval(T intv, Sites pos);
+    TestTrackResult searchTrack(T track, Sites sites);
 
 }

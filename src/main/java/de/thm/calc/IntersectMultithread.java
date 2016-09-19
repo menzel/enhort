@@ -113,8 +113,8 @@ public final class IntersectMultithread {
             TestTrack<T> intersec1 = new Intersect<>();
             TestTrack<T> intersec2 = new Intersect<>();
 
-            TestTrackResult result1 = intersec1.searchSingleInterval((T) track, measuredPos);
-            TestTrackResult result2 = intersec2.searchSingleInterval((T) track, randomPos);
+            TestTrackResult result1 = intersec1.searchTrack((T) track, measuredPos);
+            TestTrackResult result2 = intersec2.searchTrack((T) track, randomPos);
 
             IndependenceTest tester = new IndependenceTest();
             EffectSize effectSize = new EffectSize();

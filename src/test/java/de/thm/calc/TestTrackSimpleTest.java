@@ -94,7 +94,7 @@ public class TestTrackSimpleTest {
             }
         };
 
-        TestTrackResult testTrackResult = testTrack.searchSingleInterval(intv,sites);
+        TestTrackResult testTrackResult = testTrack.searchTrack(intv,sites);
         assertEquals(5, testTrackResult.getIn());
 
         assertEquals(5, testTrackResult.getOut());
@@ -143,7 +143,7 @@ public class TestTrackSimpleTest {
             }
         };
 
-        TestTrackResult testTrackResult = testTrack.searchSingleInterval(intv,sites);
+        TestTrackResult testTrackResult = testTrack.searchTrack(intv,sites);
         assertEquals(4, testTrackResult.getIn());
 
         assertEquals(4, testTrackResult.getOut());
@@ -197,7 +197,7 @@ public class TestTrackSimpleTest {
             }
         };
 
-        TestTrackResult testTrackResult = testTrack.searchSingleInterval(intv,sites);
+        TestTrackResult testTrackResult = testTrack.searchTrack(intv,sites);
 
         assertEquals(10, testTrackResult.getOut());
 
