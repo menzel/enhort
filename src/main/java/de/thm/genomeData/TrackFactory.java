@@ -435,6 +435,8 @@ public final class TrackFactory {
                         return PositionPreprocessor.preprocessData(new ScoredTrack(starts, ends, names, scores, name, description));
                     case named:
                         return PositionPreprocessor.preprocessData(new NamedTrack(starts, ends, names, name, description));
+                    case distance:
+                        return new DistanceTrack(starts, "Distance from " + name, description);
                     default:
                         throw new Exception("Something is wrong with this track or file");
                 }
