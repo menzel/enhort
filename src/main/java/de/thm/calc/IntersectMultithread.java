@@ -53,7 +53,7 @@ public final class IntersectMultithread {
                 IntersectWrapper<NamedTrack> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, (NamedTrack) track, collector);
                 exe.execute(wrapper);
             } else if (track instanceof DistanceTrack){
-                DistanceWrapper dWrapper = new DistanceWrapper(measuredPositions, randomPositions, (InOutTrack) track, collector);
+                DistanceWrapper dWrapper = new DistanceWrapper(measuredPositions, randomPositions, (DistanceTrack) track, collector);
                 exe.execute(dWrapper);
 
             }
@@ -128,7 +128,7 @@ public final class IntersectMultithread {
 
         private final Sites randomPos;
         private final Sites measuredPos;
-        private final InOutTrack track;
+        private final DistanceTrack track;
         private final ResultCollector collector;
 
         /**
@@ -139,21 +139,21 @@ public final class IntersectMultithread {
          * @param track       - interval to match against
          * @param collector   - collector to collect results in
          */
-        private DistanceWrapper(Sites measuredPos, Sites randomPos, InOutTrack track, ResultCollector collector) {
+        private DistanceWrapper(Sites measuredPos, Sites randomPos, DistanceTrack track, ResultCollector collector) {
 
             this.randomPos = randomPos;
             this.measuredPos = measuredPos;
 
             // create a copy of the track for the results, so that the names do not interfere later:
-            this.track = TrackFactory.getInstance().createInOutTrack(track.getIntervalsStart(), track.getIntervalsEnd(), "Distance to " +track.getName(), track.getDescription());
+            this.track = track;
 
             this.collector = collector;
         }
 
         @Override
         public void run() {
-            TestTrack<InOutTrack> dist1 = new Distances();
-            TestTrack<InOutTrack> dist2 = new Distances();
+            TestTrack<DistanceTrack> dist1 = new Distances();
+            TestTrack<DistanceTrack> dist2 = new Distances();
 
             TestTrackResult result1 = dist1.searchTrack(track, measuredPos);
             TestTrackResult result2 = dist2.searchTrack(track, randomPos);
