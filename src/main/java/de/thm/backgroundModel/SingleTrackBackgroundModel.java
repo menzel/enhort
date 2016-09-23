@@ -6,11 +6,12 @@ import de.thm.genomeData.InOutTrack;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.Tracks;
 import de.thm.positionData.Sites;
-import org.uncommons.maths.random.DevRandomSeedGenerator;
-import org.uncommons.maths.random.MersenneTwisterRNG;
-import org.uncommons.maths.random.SeedException;
+import org.apache.commons.math3.random.MersenneTwister;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Implements the background model sites generation for a single track as covariance.
@@ -20,7 +21,7 @@ import java.util.*;
  */
 class SingleTrackBackgroundModel implements Sites {
 
-    private transient Random rand;
+    private transient MersenneTwister rand;
     private List<Long> positions = new ArrayList<>();
 
     /**
@@ -41,6 +42,7 @@ class SingleTrackBackgroundModel implements Sites {
         Intersect calc = new Intersect();
         TestTrackResult result = calc.searchSingleInterval(track, sites);
 
+        // TODO: factor is wrong, seems to be always 1
         int factor = (sites.getPositionCount() < minSites)? minSites/ sites.getPositionCount(): 1;
 
         positions.addAll(randPositions(result.getIn() * factor, track));
@@ -59,11 +61,8 @@ class SingleTrackBackgroundModel implements Sites {
      * @return Collection of random positions
      */
     Collection<Long> randPositions(int siteCount, Track track) {
-        try {
-            rand = new MersenneTwisterRNG(new DevRandomSeedGenerator());
-        } catch (SeedException e) {
-            e.printStackTrace();
-        }
+
+        rand  = new MersenneTwister();
 
         long maxValue = Tracks.sumOfIntervals(track);
 

@@ -5,9 +5,7 @@ import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
-import org.uncommons.maths.random.DevRandomSeedGenerator;
-import org.uncommons.maths.random.MersenneTwisterRNG;
-import org.uncommons.maths.random.SeedException;
+import org.apache.commons.math3.random.MersenneTwister;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -217,12 +215,9 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
         List<Long> ends = probabilityInterval.getIntervalsEnd();
         List<Double> probabilities = probabilityInterval.getIntervalScore();
         List<Double> random = new ArrayList<>();
-        Random rand = null;
-        try {
-            rand = new MersenneTwisterRNG(new DevRandomSeedGenerator());
-        } catch (SeedException e) {
-            e.printStackTrace();
-        }
+        MersenneTwister rand;
+
+        rand  = new MersenneTwister();
 
         //generate random numbers
         for (int i = 0; i < siteCount; i++) {

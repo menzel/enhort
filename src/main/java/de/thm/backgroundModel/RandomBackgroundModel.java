@@ -2,8 +2,12 @@ package de.thm.backgroundModel;
 
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
+import org.apache.commons.math3.random.MersenneTwister;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Background model to create random distributed sites without covariants.
@@ -12,7 +16,7 @@ import java.util.*;
  */
 class RandomBackgroundModel implements Sites {
 
-    private transient final Random rand;
+    private transient MersenneTwister rand;
     private List<Long> positions = new ArrayList<>();
 
     /**
@@ -22,7 +26,8 @@ class RandomBackgroundModel implements Sites {
      */
     RandomBackgroundModel(int sites) {
 
-        rand = new Random(System.currentTimeMillis());
+        rand  = new MersenneTwister();
+
         sites = (sites > 10000) ? sites : 10000;
         createSites(sites);
 
