@@ -84,6 +84,11 @@ public final class TrackFactory {
             this.intervals.addAll(tmp);
 
 
+            tmp = getIntervals(basePath.resolve("distanced"), Type.distance);
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Distance, "Distances"));
+            this.intervals.addAll(tmp);
+
+
             //only load all tracks when running on the big server
             if(!System.getenv("HOME").contains("menzel")) {
 
@@ -149,6 +154,9 @@ public final class TrackFactory {
         } catch (Exception e) {
             System.err.println("Some threads were interrupted");
         }
+
+        //TODO Test:
+        exe.shutdownNow();
 
         return intervals;
     }
@@ -236,8 +244,6 @@ public final class TrackFactory {
      *
      * @param starts - list of start positions
      * @param ends - list of end positions
-     * @param names - list of names
-     * @param scores - list of scores
      * @param name - name of track
      * @param description - description of track
      *
@@ -247,12 +253,27 @@ public final class TrackFactory {
         return new InOutTrack(starts, ends, name, description);
     }
 
+     /**
+     * Factory method for distance tracks. Creates a new track based on input.
+     *
+     * @param starts - list of start positions
+     * @param name - name of track
+     * @param description - description of track
+     *
+     * @return new track with all given parameters
+     */
+    public DistanceTrack createDistanceTrack(List<Long> starts, String name, String description) {
+        return new DistanceTrack(starts, name, description);
+    }
+
+
+
     public NamedTrack createNamedTrack(List<Long> starts, List<Long> ends, List<String> names, String name, String description) {
         return new NamedTrack(starts,ends, names, name, description);
     }
 
 
-    private enum Type {inout, named, scored}
+    private enum Type {inout, named, distance, scored}
 
     private final class FileLoader implements Runnable {
         private final Path path;
