@@ -1,6 +1,6 @@
 package de.thm.calc;
 
-import de.thm.genomeData.InOutTrack;
+import de.thm.genomeData.DistanceTrack;
 import de.thm.genomeData.Track;
 import de.thm.positionData.Sites;
 
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  *
  * Created by menzel on 9/7/16.
  */
-public class Distances implements TestTrack<InOutTrack>{
+public class Distances implements TestTrack<DistanceTrack>{
 
 
     /**
@@ -24,7 +24,7 @@ public class Distances implements TestTrack<InOutTrack>{
      * @return Result which contains the in/out count, names or scores
      */
     @Override
-    public TestTrackResult searchTrack(InOutTrack track, Sites sites) {
+    public TestTrackResult searchTrack(DistanceTrack track, Sites sites) {
         List<Double> distances = distancesToNext(track, sites).stream().map(Integer::doubleValue).collect(Collectors.toList());
 
         return new TestTrackResult(track, sites.getPositionCount(), 0, distances);
@@ -67,7 +67,7 @@ public class Distances implements TestTrack<InOutTrack>{
             int downstream = (int) (p - intervalStart.get(i));
 
             // add smaller distance to map
-            distances.add(Math.min(upstream,Math.abs(downstream)));
+            distances.add(Math.min(Math.abs(upstream),Math.abs(downstream)));
         }
 
         return distances;
