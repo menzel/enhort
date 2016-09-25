@@ -1,7 +1,6 @@
 package de.thm.calc;
 
-import de.thm.genomeData.InOutTrack;
-import de.thm.genomeData.Track;
+import de.thm.genomeData.DistanceTrack;
 import de.thm.genomeData.TrackFactory;
 import de.thm.positionData.Sites;
 import org.junit.Test;
@@ -13,6 +12,8 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 /**
+ * Test Distance calc
+ *
  * Created by menzel on 9/19/16.
  */
 public class DistancesTest {
@@ -26,7 +27,7 @@ public class DistancesTest {
         startList.add(10L);
         startList.add(20L);
 
-        Track track = TrackFactory.getInstance().createInOutTrack(startList, null, "testtrack", "no desc");
+        DistanceTrack track = TrackFactory.getInstance().createDistanceTrack(startList, "testtrack", "no desc");
 
         Sites sites =  new Sites() {
 
@@ -38,6 +39,7 @@ public class DistancesTest {
 
                 List<Long> sites = new ArrayList<>();
 
+                sites.add(1L);
                 sites.add(7L);
                 sites.add(10L);
                 sites.add(12L);
@@ -60,12 +62,13 @@ public class DistancesTest {
 
         // run distances
         Distances distances = new Distances();
-        TestTrackResult result = distances.searchTrack((InOutTrack) track, sites);
+        TestTrackResult result = distances.searchTrack(track, sites);
 
         // create expected data
 
         ArrayList<Double> expected = new ArrayList<>();
 
+        expected.add(4.);
         expected.add(2.);
         expected.add(0.);
         expected.add(2.);
