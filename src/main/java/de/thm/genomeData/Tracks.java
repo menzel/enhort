@@ -327,15 +327,15 @@ public final class Tracks {
     public static InOutTrack invert(Track track) {
 
         if (track.getIntervalsStart().size() == 0)
-            return cast(track.clone());
+            return (InOutTrack) track.clone();
 
+        // copy start to end and end to start list
         List<Long> starts = new ArrayList<>(track.getIntervalsEnd());
         List<Long> ends = new ArrayList<>(track.getIntervalsStart());
 
         if (track.getIntervalsStart().get(0) != 0L)
             starts.add(0, 0L);
-        else
-            ends.remove(0);
+        else ends.remove(0);
 
 
         if (track.getIntervalsEnd().get(track.getIntervalsEnd().size() - 1) == ChromosomSizes.getInstance().getGenomeSize())
@@ -343,14 +343,8 @@ public final class Tracks {
         else
             ends.add(ChromosomSizes.getInstance().getGenomeSize());
 
-
         return new InOutTrack(starts, ends, track.getName(), track.getDescription());
     }
-
-    private static InOutTrack cast(Track track) {
-        return new InOutTrack(track.getIntervalsStart(), track.getIntervalsEnd(), track.getName(), track.getDescription());
-    }
-
 
     /**
      * Converts a non score track to a scored track with score 1.0 for each track.
