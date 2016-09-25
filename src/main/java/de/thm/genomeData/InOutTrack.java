@@ -31,7 +31,7 @@ public class InOutTrack extends Track {
 
     @Override
     public Track clone() {
-        return null;
+        return new InOutTrack(this.getIntervalsStart(), this.getIntervalsEnd(), this.getName(), this.getDescription());
     }
 
     @Override
