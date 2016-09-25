@@ -51,6 +51,8 @@ class SingleTrackBackgroundModel implements Sites {
         //positions.addAll(randPositions(result.getIn() * factor, interval, "in"));
         //positions.addAll(randPositions(result.getOut() * factor, interval, "out"));
 
+        Collections.sort(positions); //sort again here after merging outside and inside positions
+
     }
 
     /**
@@ -75,7 +77,7 @@ class SingleTrackBackgroundModel implements Sites {
         for (int i = 0; i < siteCount; i++)
             randomValues.add(Math.round(Math.floor(rand.nextDouble() * maxValue)));
 
-        Collections.sort(randomValues); // very important!
+        Collections.sort(randomValues); // very important before streching to the genome!
 
         //strech random values to whole genome:
         int j = 0;
