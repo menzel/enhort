@@ -177,7 +177,9 @@
                         <td th:text="${result.pValue}"></td>
                         <td th:text="${result.effectSize}"></td>
                         <td th:id="${'plot_'+result.id}"></td>
-                        <td><input th:field="*{interfaceCommand.covariants}" th:value="${result.id}" type="checkbox" form="covariant_form"/></td>
+                        <th:block th:if="${not #strings.startsWith(result.name,'Distance from')}"> <!-- only display a checkbox for covariates if it is not a _distance_ track -->:w
+                            <td><input th:field="*{interfaceCommand.covariants}" th:value="${result.id}" type="checkbox" form="covariant_form"/></td>
+                        </th:block>
                     </tr>
                     <tr>
                         <td colspan="5" class="hiddenRow">
@@ -452,6 +454,11 @@
               },
               margin: { l: 0, r: 0, b: 15, t: 0, pad: 0 }
             };
+
+
+            if(results[j].name.startsWith("Distance from")){ //if is 'distance to' track
+                layout_s.yaxis.type = 'log'
+            }
             Plotly.newPlot("plot_" + results[j].id, data_s, layout_s, buttons_s);
 
         }
