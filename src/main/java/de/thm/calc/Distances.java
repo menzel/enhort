@@ -79,6 +79,13 @@ class Distances implements TestTrack<DistanceTrack>{
         return distances;
     }
 
+    /**
+     * Returns the absolute minimum of two numbers. However, the sign is kept.
+     * @param a - first number
+     * @param b - second number
+     *
+     * @return a if absolute(a) < absolute(b). else: b
+     */
     private Long min(long a, long b) {
         if(Math.abs(a) < Math.abs(b))
             return a;
