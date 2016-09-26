@@ -26,7 +26,8 @@ class ScoreSet {
     /**
      * Adds a score to the set
      *
-     * @param score to set
+     * @param score - score taken from one of the tracks
+     * @param i  - for which position the score is added. Each track for a set of scoresSets has a number from 0 to the 'count of tracks' - 1
      */
     void add(Double score, int i){
         if(i < scoreList.length)
