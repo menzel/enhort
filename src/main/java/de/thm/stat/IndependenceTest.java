@@ -32,6 +32,47 @@ public final class IndependenceTest implements Test{
         effectSizeTester = new EffectSize();
     }
 
+
+    /**
+     *
+     * @param testTrackResultA
+     * @param testTrackResultB
+     * @param track
+     * @return
+     */
+    public TestResult testScoredTrack(TestTrackResult testTrackResultA, TestTrackResult testTrackResultB, Track track){
+
+        double[] measuredScore = testTrackResultA.getResultScores().stream().mapToDouble(i -> i).toArray();
+        double[] expectedScore = testTrackResultB.getResultScores().stream().mapToDouble(i -> i).toArray();
+
+        if (measuredScore.length < 2 || expectedScore.length < 2) {
+            System.err.println("Not enough data to compute independence test");
+            return null;
+        }
+
+        double effectSize = effectSizeTester.test(testTrackResultA, testTrackResultB);
+
+        return new TestResult(kolmoTester.kolmogorovSmirnovTest(measuredScore, expectedScore), testTrackResultA, testTrackResultB, effectSize, track, TestResult.Type.score);
+    }
+
+
+    /**
+     *
+     * @param testTrackResultA
+     * @param testTrackResultB
+     * @param track
+     * @return
+     */
+    public TestResult testNamedTrack(TestTrackResult testTrackResultA, TestTrackResult testTrackResultB, Track track) {
+
+        Map<String, Integer> measured = testTrackResultA.getResultNames();
+        Map<String, Integer> expected = testTrackResultB.getResultNames();
+
+        double effectSize = effectSizeTester.test(testTrackResultA, testTrackResultB);
+
+        return new TestResult(tester.chiSquareTest(prepareLists(measured, expected)), testTrackResultA, testTrackResultB, effectSize, track, TestResult.Type.name);
+    }
+
     /**
      * Tests two Result objects upon independence
      *
@@ -46,38 +87,20 @@ public final class IndependenceTest implements Test{
         counts[0] = new long[]{testTrackResultA.getIn(), testTrackResultA.getOut()};
         counts[1] = new long[]{testTrackResultB.getIn(), testTrackResultB.getOut()};
 
-        double effectSize = effectSizeTester.test(testTrackResultA, testTrackResultB);
 
+        if (track instanceof ScoredTrack)
+            return testScoredTrack(testTrackResultA,testTrackResultB, track);
 
-        if (track instanceof ScoredTrack) {
+        else if (track instanceof NamedTrack)
+            return testNamedTrack(testTrackResultA, testTrackResultB, track);
 
-            double[] measuredScore = testTrackResultA.getResultScores().stream().mapToDouble(i -> i).toArray();
-            double[] expectedScore = testTrackResultB.getResultScores().stream().mapToDouble(i -> i).toArray();
+        else if (track instanceof InOutTrack){
 
-            if (measuredScore.length < 2 || expectedScore.length < 2) {
-                System.err.println("Not enough data to compute independence test");
-                return null;
-
-            } else {
-                return new TestResult(kolmoTester.kolmogorovSmirnovTest(measuredScore, expectedScore), testTrackResultA, testTrackResultB, effectSize, track, TestResult.Type.score);
-            }
-
-        } else if (track instanceof NamedTrack) {
-
-
-            Map<String, Integer> measured = testTrackResultA.getResultNames();
-            Map<String, Integer> expected = testTrackResultB.getResultNames();
-
-            return new TestResult(tester.chiSquareTest(prepareLists(measured, expected)), testTrackResultA, testTrackResultB, effectSize, track, TestResult.Type.name);
-
-
-        } else if (track instanceof InOutTrack) {
-
+            double effectSize = effectSizeTester.test(testTrackResultA, testTrackResultB);
             return new TestResult(tester.chiSquareTest(counts), testTrackResultA, testTrackResultB, effectSize, track, TestResult.Type.inout);
 
-        } else {
+        } else
             return null;
-        }
     }
 
     /**
