@@ -91,19 +91,19 @@ public final class TestResult implements Serializable{
     }
 
     public double getPercentInM() {
-        return Precision.round(new Double(measuredIn) / (new Double(measuredOut + measuredIn)) * 100, 2);
+        return Precision.round((double) measuredIn / ((double) (measuredOut + measuredIn)) * 100, 2);
     }
 
     public double getPercentOutM() {
-        return Precision.round(new Double(measuredOut) / (new Double(measuredOut + measuredIn)) * 100, 2);
+        return Precision.round((double) measuredOut / ((double) (measuredOut + measuredIn)) * 100, 2);
     }
 
     public double getPercentInE() {
-        return Precision.round(new Double(expectedIn) / (new Double(expectedOut + expectedIn)) * 100, 2);
+        return Precision.round((double) expectedIn / ((double) (expectedOut + expectedIn)) * 100, 2);
     }
 
     public double getPercentOutE() {
-        return Precision.round(new Double(expectedOut) / (new Double(expectedOut + expectedIn)) * 100, 2);
+        return Precision.round((double) expectedOut / ((double) (expectedOut + expectedIn)) * 100, 2);
     }
 
     public String toString() {
