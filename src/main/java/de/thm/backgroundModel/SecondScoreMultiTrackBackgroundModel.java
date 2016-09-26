@@ -64,6 +64,8 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
 
         Map<ScoreSet, Double> sitesOccurence = fillOccurenceMap(intervals, sites);
 
+        smooth(sitesOccurence, 1);
+
         double sum = sites.getPositionCount();
         for (ScoreSet k : sitesOccurence.keySet())
             sitesOccurence.put(k, sitesOccurence.get(k) / sum);
@@ -144,6 +146,7 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
                 interval.getDescription());
     }
 
+
     /**
      * Computes an occurence map which holds information about how often a score combination from the given intervals is picked by one of the given sites.
      * The returning map contains the counts per score.
@@ -195,7 +198,7 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
                 map.put(key, 1.);
             }
         }
-        //TODO Apply smoothing over map here
+
         return map;
     }
 
@@ -330,7 +333,7 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
 
         // fill scores sets in a thread for each track
         for(ScoredTrack track: tracks){
-            Runnable runner = new Foo(tracks.indexOf(track), track, scoredSet, new_start, new_end);
+            Runnable runner = new createScoreSet(tracks.indexOf(track), track, scoredSet, new_start, new_end);
             Thread one = new Thread(runner);
             one.run();
         }
@@ -353,6 +356,22 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
 
     }
 
+
+    /**
+     * Smoothes occurence counts over the scores map
+     *
+     * @param sitesOccurence map to smooth
+     * @param factor  - factor by which the smoothing is applied
+     */
+    private void smooth(Map<ScoreSet, Double> sitesOccurence, double factor) {
+
+        if(factor == 0.)
+            return;
+
+        //TODO. do multidimensional smoothing or decrease dimensions
+    }
+
+
     @Override
     public void addPositions(Collection<Long> values) {
         this.positions.addAll(values);
@@ -374,8 +393,10 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
     }
 
 
-    private class Foo implements Runnable {
-
+    /**
+     *  Inner runner class to generate a list of scores (scoreSet) for each interval in the combined track
+     */
+    private class createScoreSet implements Runnable {
 
         private final ScoredTrack track;
         private final List<ScoreSet> scoredSet;
@@ -383,7 +404,7 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
         private final List<Long> new_end;
         private int position;
 
-        Foo(int position, ScoredTrack track, List<ScoreSet> scoredSet, List<Long> new_start, List<Long> new_end) {
+        createScoreSet(int position, ScoredTrack track, List<ScoreSet> scoredSet, List<Long> new_start, List<Long> new_end) {
             this.position = position;
 
             this.track = track;
