@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  *
  * Created by menzel on 9/7/16.
  */
-public class Distances implements TestTrack<DistanceTrack>{
+class Distances implements TestTrack<DistanceTrack>{
 
 
     /**
@@ -25,7 +25,7 @@ public class Distances implements TestTrack<DistanceTrack>{
      */
     @Override
     public TestTrackResult searchTrack(DistanceTrack track, Sites sites) {
-        List<Double> distances = distancesToNext(track, sites).stream().map(Integer::doubleValue).collect(Collectors.toList());
+        List<Double> distances = distancesToNext(track, sites).stream().map(Long::doubleValue).collect(Collectors.toList());
 
         return new TestTrackResult(track, sites.getPositionCount(), 0, distances);
     }
@@ -40,16 +40,15 @@ public class Distances implements TestTrack<DistanceTrack>{
      *
      * @return map of distances observed
      */
-    private List<Integer> distancesToNext(Track track, Sites sites){
+    private List<Long> distancesToNext(Track track, Sites sites){
 
         //DistanceCounter distances = new DistanceCounter();
-        List<Integer> distances = new ArrayList<>();
+        List<Long> distances = new ArrayList<>();
 
         List<Long> intervalStart = track.getIntervalsStart();
 
         int i = 0;
         int intervalCount = intervalStart.size() - 1;
-
 
         for (Long p : sites.getPositions()) {
 
@@ -57,20 +56,34 @@ public class Distances implements TestTrack<DistanceTrack>{
                 i++;
 
             if(i == 0) { // if the position is before than the first start
-                distances.add((int) (intervalStart.get(0) - p));
+                distances.add(intervalStart.get(0) - p);
+                continue;
+            }
+
+            if(i == intervalCount && intervalStart.get(i) < p){
+                distances.add(p - intervalStart.get(intervalCount));
                 continue;
             }
 
             // calc distance to last and next site from position
 
-            int upstream = (int) (p - intervalStart.get(i-1));
-            int downstream = (int) (p - intervalStart.get(i));
+            long upstream = p - intervalStart.get(i-1);
+            long downstream = p - intervalStart.get(i);
+            //TODO use min or absolute min?
 
             // add smaller distance to map
-            distances.add(Math.min(Math.abs(upstream),Math.abs(downstream)));
+
+            distances.add(min(upstream,downstream));
         }
 
         return distances;
+    }
+
+    private Long min(long a, long b) {
+        if(Math.abs(a) < Math.abs(b))
+            return a;
+        else
+            return b;
     }
 
 }
