@@ -83,12 +83,12 @@ public class NamedTrack extends Track {
 
 
     @Override
-    public List<Long> getIntervalsStart() {
+    public List<Long> getStarts() {
         return intervalsStart;
     }
 
     @Override
-    public List<Long> getIntervalsEnd() {
+    public List<Long> getEnds() {
         return intervalsEnd;
     }
 

@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Handles the loading of all intervals. Implements factory methods for all three track types.
+ * Handles the loading of all tracks. Implements factory methods for all three track types.
  * <p>
  * Created by Michael Menzel on 18/12/15.
  */
@@ -35,10 +35,10 @@ public final class TrackFactory {
     private final Path basePath;
 
     private final List<TrackPackage> trackPackages;
-    private List<Track> intervals;
+    private List<Track> tracks;
 
     /**
-     * Constructor. Parses the base dir and gets all intervals from files.
+     * Constructor. Parses the base dir and gets all tracks from files.
      * Expects three dirs with the names 'inout', 'named' and 'score' for types.
      */
     private TrackFactory() {
@@ -50,7 +50,7 @@ public final class TrackFactory {
         }
 
 
-        intervals = new ArrayList<>();
+        tracks = new ArrayList<>();
         trackPackages = new ArrayList<>();
     }
 
@@ -63,11 +63,11 @@ public final class TrackFactory {
     }
 
     /**
-     * Loads intervals from basePath dir.
-     * Call once at start. Fills this.intervals with all intervals from the dirs.
+     * Loads tracks from basePath dir.
+     * Call once at start. Fills this.tracks with all tracks from the dirs.
      *
      */
-    public void loadIntervals() {
+    public void loadTracks() {
 
         List<Track> tmp;
 
@@ -77,17 +77,17 @@ public final class TrackFactory {
             //////////// hg19  ///////////////
             Path basePath = this.basePath.resolve("hg19"); //convert basePath to a local variable and set to hg19 dir
 
-            tmp = getIntervals(basePath.resolve("inout"), Type.inout, Track.Assembly.hg19);
+            tmp = getTracks(basePath.resolve("inout"), Type.inout, Track.Assembly.hg19);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks.", Track.Assembly.hg19));
-            this.intervals.addAll(tmp);
+            this.tracks.addAll(tmp);
 
 
             //////////// hg38  ///////////////
-            basePath = this.basePath.resolve("hg19"); //convert basePath to a local variable and set to hg38 dir
+            basePath = this.basePath.resolve("hg38"); //convert basePath to a local variable and set to hg38 dir
 
-            tmp = getIntervals(basePath.resolve("inout"), Type.inout, Track.Assembly.hg38);
+            tmp = getTracks(basePath.resolve("inout"), Type.inout, Track.Assembly.hg38);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks.", Track.Assembly.hg38));
-            this.intervals.addAll(tmp);
+            this.tracks.addAll(tmp);
 
 
 
@@ -95,41 +95,41 @@ public final class TrackFactory {
             if(!System.getenv("HOME").contains("menzel")) {
 
 
-                tmp = getIntervals(basePath.resolve("named"), Type.named, Track.Assembly.hg19);
+                tmp = getTracks(basePath.resolve("named"), Type.named, Track.Assembly.hg19);
                 this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks.", Track.Assembly.hg19));
-                this.intervals.addAll(tmp);
+                this.tracks.addAll(tmp);
 
-                tmp = getIntervals(basePath.resolve("score"), Type.scored, Track.Assembly.hg19);
+                tmp = getTracks(basePath.resolve("score"), Type.scored, Track.Assembly.hg19);
                 this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Expression, "Expression scores", Track.Assembly.hg19));
-                this.intervals.addAll(tmp);
+                this.tracks.addAll(tmp);
 
 
-                tmp = getIntervals(basePath.resolve("distanced"), Type.distance, Track.Assembly.hg19);
+                tmp = getTracks(basePath.resolve("distanced"), Type.distance, Track.Assembly.hg19);
                 this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Distance, "Distances", Track.Assembly.hg19));
-                this.intervals.addAll(tmp);
+                this.tracks.addAll(tmp);
 
 
 
-                tmp = getIntervals(basePath.resolve("tf"), Type.inout, Track.Assembly.hg19);
+                tmp = getTracks(basePath.resolve("tf"), Type.inout, Track.Assembly.hg19);
                 this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.TFBS, "Transcription factor binding sites", Track.Assembly.hg19));
-                this.intervals.addAll(tmp);
+                this.tracks.addAll(tmp);
 
-                tmp = getIntervals(basePath.resolve("restriction_sites"), Type.inout, Track.Assembly.hg19);
+                tmp = getTracks(basePath.resolve("restriction_sites"), Type.inout, Track.Assembly.hg19);
                 this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Restriction_sites, "Restriction sites", Track.Assembly.hg19));
-                this.intervals.addAll(tmp);
+                this.tracks.addAll(tmp);
 
-                tmp = getIntervals(basePath.resolve("broadHistone"), Type.inout, Track.Assembly.hg19);
+                tmp = getTracks(basePath.resolve("broadHistone"), Type.inout, Track.Assembly.hg19);
                 this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Histone, "Histone modifications", Track.Assembly.hg19));
-                this.intervals.addAll(tmp);
+                this.tracks.addAll(tmp);
 
-                tmp = getIntervals(basePath.resolve("OpenChrom"), Type.inout, Track.Assembly.hg19);
+                tmp = getTracks(basePath.resolve("OpenChrom"), Type.inout, Track.Assembly.hg19);
                 this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.OpenChrom, "Open Chromatin", Track.Assembly.hg19));
-                this.intervals.addAll(tmp);
+                this.tracks.addAll(tmp);
 
 
-                tmp = getIntervals(basePath.resolve("repeats_by_name"), Type.inout, Track.Assembly.hg19);
+                tmp = getTracks(basePath.resolve("repeats_by_name"), Type.inout, Track.Assembly.hg19);
                 this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name", Track.Assembly.hg19));
-                this.intervals.addAll(tmp);
+                this.tracks.addAll(tmp);
 
 
 
@@ -143,14 +143,14 @@ public final class TrackFactory {
     }
 
     /**
-     * Gets all intervals from a single type
+     * Gets all tracks from a single type
      *
+     * @param hg19
      * @param path - path to the dir with files
      * @param type - Interval.Type. Type based upon dir name
-     * @param hg19
      * @throws IOException on file problems
      */
-    private List<Track> getIntervals(Path path, Type type, Track.Assembly assembly) throws IOException {
+    private List<Track> getTracks(Path path, Type type, Track.Assembly assembly) throws IOException {
 
         List<Path> files = new ArrayList<>();
         final List<Track> tracks = Collections.synchronizedList(new ArrayList<>());
@@ -182,12 +182,17 @@ public final class TrackFactory {
         return tracks;
     }
 
-    public List<Track> getIntervals(Track.Assembly assembly) {
-        //return intervals.stream().filter(i -> i.getAssembly().equals(assembly)).collect(Collectors.toList());
+    /**
+     * Returns all tracks by assembly
+     *
+     * @param assembly - number of assembly (hg19, hg38)
+     * @return all tracks with this assembly number
+     */
+    public List<Track> getTracks(Track.Assembly assembly) {
 
         List<Track> tracks = new ArrayList<>();
 
-        for(Track track:intervals){
+        for(Track track: this.tracks){
             if(track.getAssembly().equals(assembly)){
                 tracks.add(track);
             }
@@ -203,13 +208,15 @@ public final class TrackFactory {
      * @param name - name of the package
      * @return list of tracks with package name
      */
-    public List<Track> getIntervalsByPackage(TrackPackage.PackageName name, Track.Assembly assembly) {
+    public List<Track> getTracksByPackage(TrackPackage.PackageName name, Track.Assembly assembly) {
         for (TrackPackage pack : trackPackages) {
             if (pack.getName() == name && pack.getAssembly() == assembly)
                 return pack.getTrackList();
         }
         return null;
     }
+
+
 
 
     /**
@@ -219,8 +226,8 @@ public final class TrackFactory {
      * @return list of tracks within the package
      * @throws IllegalArgumentException - if name is not known as package name
      */
-    public List<Track> getIntervalsByPackage(String packName, Track.Assembly assembly) throws IllegalArgumentException{
-        List<Track> tracks = getIntervalsByPackage(TrackPackage.PackageName.valueOf(packName), assembly);
+    public List<Track> getTracksByPackage(String packName, Track.Assembly assembly) throws IllegalArgumentException{
+        List<Track> tracks = getTracksByPackage(TrackPackage.PackageName.valueOf(packName), assembly);
 
         if(tracks != null)
             return tracks;
@@ -244,9 +251,9 @@ public final class TrackFactory {
      * @param id - id of track to return
      * @return track with id
      */
-    public Track getIntervalById(int id) {
+    public Track getTrackById(int id) {
 
-        for (Track track : intervals) {
+        for (Track track : tracks) {
             if (track.getUid() == id) {
                 return track;
             }
@@ -313,21 +320,21 @@ public final class TrackFactory {
     }
 
     public int getTrackCount() {
-        return intervals.size();
+        return tracks.size();
     }
 
     private enum Type {inout, named, distance, scored}
 
     private final class FileLoader implements Runnable {
         private final Path path;
-        private final List<Track> intervals;
+        private final List<Track> tracks;
         private Type type;
         private Track.Assembly assembly;
 
-        public FileLoader(Path path, List<Track> intervals, Type type, Track.Assembly assembly) {
+        public FileLoader(Path path, List<Track> tracks, Type type, Track.Assembly assembly) {
 
             this.path = path;
-            this.intervals = intervals;
+            this.tracks = tracks;
             this.type = type;
             this.assembly = assembly;
         }
@@ -335,9 +342,9 @@ public final class TrackFactory {
         @Override
         public void run() {
 
-            Track track = initIntervalfromFile(path.toFile(), type);
+            Track track = initTrackfromFile(path.toFile(), type);
             //if(path.toString().contains("conservation")) saveTrack(track, path, type);
-            intervals.add(track);
+            tracks.add(track);
         }
 
 
@@ -353,8 +360,8 @@ public final class TrackFactory {
             ChromosomSizes chr = ChromosomSizes.getInstance();
 
             if(type == Type.inout){
-                List<Long> starts = track.getIntervalsStart();
-                List<Long> ends = track.getIntervalsEnd();
+                List<Long> starts = track.getStarts();
+                List<Long> ends = track.getEnds();
 
                 try (BufferedReader reader= Files.newBufferedReader(path)) {
                     header = reader.readLine();
@@ -384,12 +391,11 @@ public final class TrackFactory {
 
 
         /**
-         * Loads interval data from a bed file. Calls handleParts to handle each line
-         *
-         * @param file - file to parse
+         * Loads track data from a bed file. Calls handleParts to handle each line
+         *  @param file - file to parse
          * @param type - type of interval
          */
-        private Track initIntervalfromFile(File file, Type type) {
+        private Track initTrackfromFile(File file, Type type) {
 
             String name = "";
             String description = "";

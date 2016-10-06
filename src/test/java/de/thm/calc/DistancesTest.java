@@ -72,7 +72,7 @@ public class DistancesTest {
         expected.add(2.);
         expected.add(0.);
         expected.add(2.);
-        expected.add(1.);
+        expected.add(-1.);
         expected.add(5.);
 
         assertEquals(expected, result.getResultScores());

@@ -50,13 +50,13 @@ public class TracksTest {
 
         try {
             // sum(a,b) == -TestTrack(-a, -b)
-            assertEquals(Tracks.sum(interval1,interval2).getIntervalsStart(), Tracks.invert(Tracks.intersect(Tracks.invert(interval1), Tracks.invert(interval2))).getIntervalsStart());
+            assertEquals(Tracks.sum(interval1,interval2).getStarts(), Tracks.invert(Tracks.intersect(Tracks.invert(interval1), Tracks.invert(interval2))).getStarts());
 
             // sum(-a, -b) == -TestTrack(a, b)
-            assertEquals(Tracks.sum(Tracks.invert(interval1), Tracks.invert(interval2)).getIntervalsStart(), Tracks.invert(Tracks.intersect(interval1, interval2)).getIntervalsStart());
+            assertEquals(Tracks.sum(Tracks.invert(interval1), Tracks.invert(interval2)).getStarts(), Tracks.invert(Tracks.intersect(interval1, interval2)).getStarts());
 
             // sum(a, -b) == TestTrack(-a, b)
-            assertEquals(Tracks.sum(interval1, Tracks.invert(interval2)).getIntervalsStart(), Tracks.intersect(Tracks.invert(interval1), interval2).getIntervalsStart());
+            assertEquals(Tracks.sum(interval1, Tracks.invert(interval2)).getStarts(), Tracks.intersect(Tracks.invert(interval1), interval2).getStarts());
 
         }  catch (IntervalTypeNotAllowedExcpetion intervalTypeNotAllowedExcpetion) {
             intervalTypeNotAllowedExcpetion.printStackTrace();
@@ -113,8 +113,8 @@ public class TracksTest {
 
         Track result = Tracks.intersect(track1, track2);
 
-        assertEquals(expectedStarts, result.getIntervalsStart());
-        assertEquals(expectedEnds, result.getIntervalsEnd());
+        assertEquals(expectedStarts, result.getStarts());
+        assertEquals(expectedEnds, result.getEnds());
 
     }
 
@@ -178,8 +178,8 @@ public class TracksTest {
         expectedEnds.add(80L);
         expectedEnds.add(110L);
 
-        assertEquals(expectedStarts, result.getIntervalsStart());
-        assertEquals(expectedEnds, result.getIntervalsEnd());
+        assertEquals(expectedStarts, result.getStarts());
+        assertEquals(expectedEnds, result.getEnds());
 
 
     }
@@ -226,8 +226,8 @@ public class TracksTest {
         expectedEnds.add(30L);
         expectedEnds.add(40L);
 
-        assertEquals(expectedStarts, result.getIntervalsStart());
-        assertEquals(expectedEnds, result.getIntervalsEnd());
+        assertEquals(expectedStarts, result.getStarts());
+        assertEquals(expectedEnds, result.getEnds());
 
     }
 
@@ -279,8 +279,8 @@ public class TracksTest {
 
         ScoredTrack track = (ScoredTrack) Tracks.subsetScore(interval1, 0.5);
         assertEquals(track.getIntervalScore(), result);
-        assertEquals(track.getIntervalsStart().size(), 3);
-        assertEquals(track.getIntervalsEnd().size(), 3);
+        assertEquals(track.getStarts().size(), 3);
+        assertEquals(track.getEnds().size(), 3);
 
 
     }
@@ -315,16 +315,16 @@ public class TracksTest {
         expectedEnds.add(25L);
         expectedEnds.add(ChromosomSizes.getInstance().getGenomeSize());
 
-        assertEquals(expectedStarts, invert.getIntervalsStart());
-        assertEquals(expectedEnds, invert.getIntervalsEnd());
+        assertEquals(expectedStarts, invert.getStarts());
+        assertEquals(expectedEnds, invert.getEnds());
 
-        assertEquals(starts, base.getIntervalsStart());
-        assertEquals(ends, base.getIntervalsEnd());
+        assertEquals(starts, base.getStarts());
+        assertEquals(ends, base.getEnds());
 
         Track doubleInvert = Tracks.invert(Tracks.invert(base));
 
-        assertEquals(starts, doubleInvert.getIntervalsStart());
-        assertEquals(ends, doubleInvert.getIntervalsEnd());
+        assertEquals(starts, doubleInvert.getStarts());
+        assertEquals(ends, doubleInvert.getEnds());
     }
 
     @Test

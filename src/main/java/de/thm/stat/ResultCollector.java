@@ -1,5 +1,6 @@
 package de.thm.stat;
 
+import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
 import de.thm.positionData.Sites;
 
@@ -22,10 +23,10 @@ public final class ResultCollector implements Serializable{
     private final Sites backgroundSites;
     private List<String> knownPackages; //keeps a list of all known packages for the gui to display
 
-    public ResultCollector(Sites bgModel) {
+    public ResultCollector(Sites bgModel, Track.Assembly assembly) {
         results = Collections.synchronizedList(new ArrayList<>());
         backgroundSites = bgModel;
-        knownPackages = TrackFactory.getInstance().getTrackPackageNames();
+        knownPackages = TrackFactory.getInstance().getTrackPackageNames(assembly);
     }
 
     public List<TestResult> getScoredResults() {

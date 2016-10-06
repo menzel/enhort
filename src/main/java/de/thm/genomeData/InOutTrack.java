@@ -36,16 +36,16 @@ public class InOutTrack extends Track {
 
     @Override
     public Track clone() {
-        return new InOutTrack(this.getIntervalsStart(), this.getIntervalsEnd(), this.getName(), this.getDescription(), this.assembly, this.cellLine);
+        return new InOutTrack(this.getStarts(), this.getEnds(), this.getName(), this.getDescription(), this.assembly, this.cellLine);
     }
 
     @Override
-    public List<Long> getIntervalsStart() {
+    public List<Long> getStarts() {
         return intervalsStart;
     }
 
     @Override
-    public List<Long> getIntervalsEnd() {
+    public List<Long> getEnds() {
         return intervalsEnd;
     }
 
@@ -82,11 +82,11 @@ public class InOutTrack extends Track {
         if (this == o) return true;
         if (!(o instanceof InOutTrack)) return false;
 
-        InOutTrack interval = (InOutTrack) o;
+        InOutTrack track = (InOutTrack) o;
 
-        if (!intervalsStart.equals(interval.intervalsStart)) return false;
-        if (!intervalsEnd.equals(interval.intervalsEnd)) return false;
-        return !(description != null ? !description.equals(interval.description) : interval.description != null);
+        if (!intervalsStart.equals(track.intervalsStart)) return false;
+        if (!intervalsEnd.equals(track.intervalsEnd)) return false;
+        return !(description != null ? !description.equals(track.description) : track.description != null);
     }
 
 

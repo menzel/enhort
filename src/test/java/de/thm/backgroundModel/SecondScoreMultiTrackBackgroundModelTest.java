@@ -252,8 +252,8 @@ public class SecondScoreMultiTrackBackgroundModelTest {
 
         /////// check result //////////
 
-        assertEquals(start, result.getIntervalsStart());
-        assertEquals(end, result.getIntervalsEnd());
+        assertEquals(start, result.getStarts());
+        assertEquals(end, result.getEnds());
         //TODO Check scores (probs)
 
     }

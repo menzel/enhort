@@ -75,8 +75,8 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
 
         // Fill occurences maps over whole genome
 
-        List<Long> starts = interval.getIntervalsStart();
-        List<Long> ends = interval.getIntervalsEnd();
+        List<Long> starts = interval.getStarts();
+        List<Long> ends = interval.getEnds();
 
         Map<String, Long> lengths = new HashMap<>();
 
@@ -138,8 +138,8 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
 
 
         return TrackFactory.getInstance().createScoredTrack(
-                interval.getIntervalsStart(),
-                interval.getIntervalsEnd(),
+                interval.getStarts(),
+                interval.getEnds(),
                 interval.getIntervalName(),
                 newScores,
                 interval.getName(),
@@ -169,8 +169,8 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
 
             for (ScoredTrack track : tracks) {
 
-                List<Long> intervalStart = track.getIntervalsStart();
-                List<Long> intervalEnd = track.getIntervalsEnd();
+                List<Long> intervalStart = track.getStarts();
+                List<Long> intervalEnd = track.getEnds();
 
                 int i = indices.get(track);
                 int intervalCount = intervalStart.size() - 1;
@@ -214,8 +214,8 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
     Collection<Long> generatePositionsByProbability(ScoredTrack probabilityInterval, int siteCount) {
 
         List<Long> sites = new ArrayList<>();
-        List<Long> starts = probabilityInterval.getIntervalsStart();
-        List<Long> ends = probabilityInterval.getIntervalsEnd();
+        List<Long> starts = probabilityInterval.getStarts();
+        List<Long> ends = probabilityInterval.getEnds();
         List<Double> probabilities = probabilityInterval.getIntervalScore();
         List<Double> random = new ArrayList<>();
         MersenneTwister rand;
@@ -282,12 +282,12 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
 
         // take all start and ends, combine in lists and sort
         for(ScoredTrack track: tracks){
-            new_start.addAll(track.getIntervalsStart());
-            new_start.addAll(track.getIntervalsEnd());
+            new_start.addAll(track.getStarts());
+            new_start.addAll(track.getEnds());
             Collections.sort(new_start);
 
-            new_end.addAll(track.getIntervalsStart());
-            new_end.addAll(track.getIntervalsEnd());
+            new_end.addAll(track.getStarts());
+            new_end.addAll(track.getEnds());
             Collections.sort(new_end);
         }
 
@@ -426,16 +426,16 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
                 //get ScoreSet from all tracks
                 ScoreSet current = scoredSet.get(i);
 
-                if (track.getIntervalsStart().contains(start)) {
+                if (track.getStarts().contains(start)) {
                     //if the start is exacly in the track get score
-                    current.add(track.getIntervalScore().get(track.getIntervalsStart().indexOf(start)), position);
+                    current.add(track.getIntervalScore().get(track.getStarts().indexOf(start)), position);
                     continue;
                 }
 
-                while (j < track.getIntervalsStart().size() - 1 && track.getIntervalsEnd().get(j) <= end)
+                while (j < track.getStarts().size() - 1 && track.getEnds().get(j) <= end)
                     j++;
 
-                if (start >= track.getIntervalsStart().get(j)) {
+                if (start >= track.getStarts().get(j)) {
                     current.add(track.getIntervalScore().get(j), position); //intervals overlap
 
                 } else {

@@ -77,8 +77,8 @@ public class IntersectTest {
         expected_end.add(5L);
         expected_end.add(44L);
 
-        assertEquals(expected_start, newTrack.getIntervalsStart());
-        assertEquals(expected_end, newTrack.getIntervalsEnd());
+        assertEquals(expected_start, newTrack.getStarts());
+        assertEquals(expected_end, newTrack.getEnds());
 
     }
 
@@ -126,8 +126,8 @@ public class IntersectTest {
         Track newTrack = Tracks.intersect(track1, track2);
 
         /**
-        for(int i = 0; i < newInterval.getIntervalsStart().size(); i++){
-            System.out.print(newInterval.getIntervalsStart().get(i) + " - ");
+        for(int i = 0; i < newInterval.getStarts().size(); i++){
+            System.out.print(newInterval.getStarts().get(i) + " - ");
             System.out.println(newInterval.getIntervalsEnd().get(i));
         }
          **/
@@ -144,8 +144,8 @@ public class IntersectTest {
         expected_end.add(16L);
         expected_end.add(44L);
 
-        assertEquals(expected_start, newTrack.getIntervalsStart());
-        assertEquals(expected_end, newTrack.getIntervalsEnd());
+        assertEquals(expected_start, newTrack.getStarts());
+        assertEquals(expected_end, newTrack.getEnds());
 
     }
 

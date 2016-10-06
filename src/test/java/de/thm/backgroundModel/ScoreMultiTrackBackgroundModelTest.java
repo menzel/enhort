@@ -98,8 +98,8 @@ public class ScoreMultiTrackBackgroundModelTest {
         end.add(ChromosomSizes.getInstance().getGenomeSize());
 
 
-        assertEquals(start,result.getIntervalsStart());
-        assertEquals(end,result.getIntervalsEnd());
+        assertEquals(start,result.getStarts());
+        assertEquals(end,result.getEnds());
 
     }
 

@@ -32,7 +32,7 @@ class AnalysisHelper {
         List<Track> selectedTracks = new ArrayList<>();
         TrackFactory loader = TrackFactory.getInstance();
 
-        List<Track> knownTracks = loader.getIntervals(assembly);
+        List<Track> knownTracks = loader.getTracks(assembly);
 
         try {
             for (Track track : knownTracks) {
@@ -70,12 +70,12 @@ class AnalysisHelper {
         }
 
         if(cmd.getPackageNames().isEmpty()) {
-            runTracks = trackFactory.getIntervalsByPackage(TrackPackage.PackageName.Basic, Track.Assembly.valueOf(cmd.getAssembly()));
+            runTracks = trackFactory.getTracksByPackage(TrackPackage.PackageName.Basic, Track.Assembly.valueOf(cmd.getAssembly()));
         } else {
             runTracks =  new ArrayList<>();
 
             for(String packName: cmd.getPackageNames()){
-                runTracks.addAll(trackFactory.getIntervalsByPackage(packName, Track.Assembly.valueOf(cmd.getAssembly())));
+                runTracks.addAll(trackFactory.getTracksByPackage(packName, Track.Assembly.valueOf(cmd.getAssembly())));
             }
 
             //check and apply custom tracks
@@ -84,7 +84,6 @@ class AnalysisHelper {
             if(runTracks.isEmpty())
                 System.err.println("TrackFactory did not provide any tracks for given packages (" + Arrays.toString(cmd.getPackageNames().toArray()) + ") in AnalysisHelper");
         }
-
 
         IntersectMultithread multi = new IntersectMultithread();
         return multi.execute(runTracks, sites, bg);

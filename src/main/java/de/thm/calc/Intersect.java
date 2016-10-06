@@ -46,8 +46,8 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
         int i = 0;
 
 
-        List<Long> intervalStart = intv.getIntervalsStart();
-        List<Long> intervalEnd = intv.getIntervalsEnd();
+        List<Long> intervalStart = intv.getStarts();
+        List<Long> intervalEnd = intv.getEnds();
         List<String> names = intv.getIntervalName();
 
         ResultNames resultNames = new ResultNames();
@@ -85,8 +85,8 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
         int i = 0;
 
 
-        List<Long> intervalStart = intv.getIntervalsStart();
-        List<Long> intervalEnd = intv.getIntervalsEnd();
+        List<Long> intervalStart = intv.getStarts();
+        List<Long> intervalEnd = intv.getEnds();
 
         int intervalCount = intervalStart.size() - 1;
 
@@ -115,8 +115,8 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
         int in = 0;
         int i = 0;
 
-        List<Long> intervalStart = intv.getIntervalsStart();
-        List<Long> intervalEnd = intv.getIntervalsEnd();
+        List<Long> intervalStart = intv.getStarts();
+        List<Long> intervalEnd = intv.getEnds();
         List<Double> intervalScore = intv.getIntervalScore();
 
         List<Double> resultsScores = new ArrayList<>();

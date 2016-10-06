@@ -30,7 +30,7 @@ public class Analyse {
 
     public Analyse() {
         TrackFactory loader = TrackFactory.getInstance();
-        intervals = loader.getIntervals(Track.Assembly.hg19);
+        intervals = loader.getTracks(Track.Assembly.hg19);
         TestTrack simple = new Intersect();
     }
 
@@ -61,7 +61,7 @@ public class Analyse {
         //covariants.add(intervals.get("knownGenes.bed"));
         //covariants.add(intervals.get("cpg"));
         //covariants.add(intervals.get("expression_blood.bed"));
-        for (Track track : TrackFactory.getInstance().getIntervals(Track.Assembly.hg19)) {
+        for (Track track : TrackFactory.getInstance().getTracks(Track.Assembly.hg19)) {
             if(track.getName().contains("blood"))
                 covariants.add(track);
         }
@@ -81,11 +81,11 @@ public class Analyse {
 
     public void timing(){
 
-        TrackFactory.getInstance().loadIntervals();
+        TrackFactory.getInstance().loadTracks();
 
 
         List<Track> covariants = new ArrayList<>();
-         for (Track track : TrackFactory.getInstance().getIntervals(Track.Assembly.hg19)) {
+         for (Track track : TrackFactory.getInstance().getTracks(Track.Assembly.hg19)) {
             if(track.getName().contains("lood")) covariants.add(track);
             if(track.getName().contains("node")) covariants.add(track);
         }
@@ -152,7 +152,7 @@ public class Analyse {
                 searchSingleInterval(foo1, foo);
             }
 
-            System.out.println(foo1.getIntervalsStart().size());
+            System.out.println(foo1.getStarts().size());
 
 
             for(int k  = 1 ; k <= 20; k++) {
@@ -200,8 +200,8 @@ public class Analyse {
         int i = 0;
 
 
-        List<Long> intervalStart = intv.getIntervalsStart();
-        List<Long> intervalEnd = intv.getIntervalsEnd();
+        List<Long> intervalStart = intv.getStarts();
+        List<Long> intervalEnd = intv.getEnds();
 
         int intervalCount = intervalStart.size() - 1;
 

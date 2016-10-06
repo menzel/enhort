@@ -30,12 +30,12 @@ public abstract class AbstractTrack extends Track {
     public abstract Track clone();
 
     @Override
-    public List<Long> getIntervalsStart() {
+    public List<Long> getStarts() {
         return intervalsStart;
     }
 
     @Override
-    public List<Long> getIntervalsEnd() {
+    public List<Long> getEnds() {
         return intervalsEnd;
     }
 
@@ -62,8 +62,8 @@ public abstract class AbstractTrack extends Track {
 
         Track track = (Track) o;
 
-        if (!intervalsStart.equals(track.getIntervalsStart())) return false;
-        if (!intervalsEnd.equals(track.getIntervalsEnd())) return false;
+        if (!intervalsStart.equals(track.getStarts())) return false;
+        if (!intervalsEnd.equals(track.getEnds())) return false;
         return !(description != null ? !description.equals(track.getDescription()) : track.getDescription() != null);
 
     }

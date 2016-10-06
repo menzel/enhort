@@ -45,7 +45,7 @@ class Distances implements TestTrack<DistanceTrack>{
         //DistanceCounter distances = new DistanceCounter();
         List<Long> distances = new ArrayList<>();
 
-        List<Long> intervalStart = track.getIntervalsStart();
+        List<Long> intervalStart = track.getStarts();
 
         int i = 0;
         int intervalCount = intervalStart.size() - 1;

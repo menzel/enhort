@@ -26,15 +26,15 @@
 
   <div class="box">
       <h4>Assembly</h4>
-      <select class="form-control">
-          <option>hg19</option>
-          <!-- <option>hg38</option> -->
+      <select class="form-control" th:field="*{interfaceCommand.assembly}" th:value="${assembly}"  form="covariant_form">
+          <option value="hg19">hg19</option>
+          <option value="hg38">hg38</option>
       </select>
   </div>
 
   <div class="box">
       <h4>Cell Line</h4>
-      <select id="cellline" class="form-control" name="assembly" form="covariant_form">
+      <select id="cellline" class="form-control" name="cellline" form="covariant_form">
           <option value="none">None</option>
           <option value="hela">HeLa</option>
           <option value="hesc">hESC</option>

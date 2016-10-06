@@ -97,22 +97,22 @@ public final class Tracks {
      */
     public static InOutTrack intersect(Track intv1, Track intv2) {
 
-        List<Long> starts1 = intv1.getIntervalsStart();
-        List<Long> starts2 = intv2.getIntervalsStart();
+        List<Long> starts1 = intv1.getStarts();
+        List<Long> starts2 = intv2.getStarts();
 
-        List<Long> ends1 = intv1.getIntervalsEnd();
-        List<Long> ends2 = intv2.getIntervalsEnd();
+        List<Long> ends1 = intv1.getEnds();
+        List<Long> ends2 = intv2.getEnds();
 
         List<Long> result_start = new ArrayList<>();
         List<Long> result_end = new ArrayList<>();
 
         if (starts1.size() > starts2.size()) { //if start2 is smaller swap lists
 
-            starts2 = intv1.getIntervalsStart();
-            starts1 = intv2.getIntervalsStart();
+            starts2 = intv1.getStarts();
+            starts1 = intv2.getStarts();
 
-            ends2 = intv1.getIntervalsEnd();
-            ends1 = intv2.getIntervalsEnd();
+            ends2 = intv1.getEnds();
+            ends1 = intv2.getEnds();
         }
 
         // iterator through one of the intervals, check if a track in the other track is overlapping with the current. if not proceed if yes create new track
@@ -216,11 +216,11 @@ public final class Tracks {
      */
     public static InOutTrack xor(Track intv1, Track intv2) {
 
-        List<Long> starts1 = intv1.getIntervalsStart();
-        List<Long> starts2 = intv2.getIntervalsStart();
+        List<Long> starts1 = intv1.getStarts();
+        List<Long> starts2 = intv2.getStarts();
 
-        List<Long> ends1 = intv1.getIntervalsEnd();
-        List<Long> ends2 = intv2.getIntervalsEnd();
+        List<Long> ends1 = intv1.getEnds();
+        List<Long> ends2 = intv2.getEnds();
 
         List<Long> result_start = new ArrayList<>();
         List<Long> result_end = new ArrayList<>();
@@ -285,8 +285,8 @@ public final class Tracks {
 
         long size = 0;
 
-        List<Long> intervalStart = track.getIntervalsStart();
-        List<Long> intervalEnd = track.getIntervalsEnd();
+        List<Long> intervalStart = track.getStarts();
+        List<Long> intervalEnd = track.getEnds();
 
         for (int i = 0; i < intervalStart.size(); i++)
                 size += intervalEnd.get(i) - 1 - intervalStart.get(i);
@@ -307,8 +307,8 @@ public final class Tracks {
         for (int i = 0; i < intervalScore.size(); i++) {
 
             if (intervalScore.get(i) == score) {
-                intervalStart.add(interval.getIntervalsStart().get(i));
-                intervalEnd.add(interval.getIntervalsEnd().get(i));
+                intervalStart.add(interval.getStarts().get(i));
+                intervalEnd.add(interval.getEnds().get(i));
                 intervalScore_n.add(score);
                 names.add(interval.getIntervalName().get(i));
             }
@@ -326,19 +326,19 @@ public final class Tracks {
      */
     public static InOutTrack invert(Track track) {
 
-        if (track.getIntervalsStart().size() == 0)
+        if (track.getStarts().size() == 0)
             return (InOutTrack) track.clone();
 
         // copy start to end and end to start list
-        List<Long> starts = new ArrayList<>(track.getIntervalsEnd());
-        List<Long> ends = new ArrayList<>(track.getIntervalsStart());
+        List<Long> starts = new ArrayList<>(track.getEnds());
+        List<Long> ends = new ArrayList<>(track.getStarts());
 
-        if (track.getIntervalsStart().get(0) != 0L)
+        if (track.getStarts().get(0) != 0L)
             starts.add(0, 0L);
         else ends.remove(0);
 
 
-        if (track.getIntervalsEnd().get(track.getIntervalsEnd().size() - 1) == ChromosomSizes.getInstance().getGenomeSize())
+        if (track.getEnds().get(track.getEnds().size() - 1) == ChromosomSizes.getInstance().getGenomeSize())
             starts.remove(starts.size() - 1);
         else
             ends.add(ChromosomSizes.getInstance().getGenomeSize());
@@ -349,22 +349,22 @@ public final class Tracks {
     /**
      * Converts a non score track to a scored track with score 1.0 for each track.
      *
-     * @param interval input track
+     * @param track input track
      * @return intervals of type score with score values
      */
-    public static ScoredTrack cast(InOutTrack interval) {
+    public static ScoredTrack cast(InOutTrack track) {
 
-        List<Double> scores = new ArrayList<>(Collections.nCopies(interval.getIntervalsStart().size(), 1.0));
-        List<String> names = new ArrayList<>(Collections.nCopies(interval.getIntervalsStart().size(), ""));
+        List<Double> scores = new ArrayList<>(Collections.nCopies(track.getStarts().size(), 1.0));
+        List<String> names = new ArrayList<>(Collections.nCopies(track.getStarts().size(), ""));
 
-        return new ScoredTrack(interval.getIntervalsStart(), interval.getIntervalsEnd(), names, scores, interval.getName(), interval.getDescription(), interval.getAssembly(), interval.getCellLine());
+        return new ScoredTrack(track.getStarts(), track.getEnds(), names, scores, track.getName(), track.getDescription(), track.getAssembly(), track.getCellLine());
     }
 
     public static ScoredTrack cast(NamedTrack track) {
 
         List<Double> scores = track.getIntervalName().stream().map(name -> (double) name.hashCode()).collect(Collectors.toList());
 
-        return new ScoredTrack(track.getIntervalsStart(), track.getIntervalsEnd(), track.getIntervalName(), scores, track.getName(), track.getDescription(), track.getAssembly(), track.getCellLine());
+        return new ScoredTrack(track.getStarts(), track.getEnds(), track.getIntervalName(), scores, track.getName(), track.getDescription(), track.getAssembly(), track.getCellLine());
 
     }
 
@@ -379,8 +379,8 @@ public final class Tracks {
      */
     public static boolean checkTrack(Track track){
 
-        List<Long> intervalStart = track.getIntervalsStart();
-        List<Long> intervalEnd = track.getIntervalsEnd();
+        List<Long> intervalStart = track.getStarts();
+        List<Long> intervalEnd = track.getEnds();
 
         if(intervalEnd.size() != intervalStart.size()) return false;
 

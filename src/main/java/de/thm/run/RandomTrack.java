@@ -49,12 +49,12 @@ class RandomTrack extends Track {
     }
 
     @Override
-    public List<Long> getIntervalsStart() {
+    public List<Long> getStarts() {
         return this.intervalsStart;
     }
 
     @Override
-    public List<Long> getIntervalsEnd() {
+    public List<Long> getEnds() {
         return this.intervalsEnd;
     }
 

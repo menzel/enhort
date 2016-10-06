@@ -27,9 +27,9 @@ public abstract class Track implements Serializable, Cloneable {
 
     public abstract String getName();
 
-    public abstract List<Long> getIntervalsStart();
+    public abstract List<Long> getStarts();
 
-    public abstract List<Long> getIntervalsEnd();
+    public abstract List<Long> getEnds();
 
     public abstract int getUid();
 

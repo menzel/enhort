@@ -74,8 +74,8 @@ class ScoreMultiTrackBackgroundModel implements Sites {
 
         // Fill occurences maps over whole genome
 
-        List<Long> starts = interval.getIntervalsStart();
-        List<Long> ends = interval.getIntervalsEnd();
+        List<Long> starts = interval.getStarts();
+        List<Long> ends = interval.getEnds();
 
         Map<String, Long> lengths = new HashMap<>();
 
@@ -137,8 +137,8 @@ class ScoreMultiTrackBackgroundModel implements Sites {
 
 
         return TrackFactory.getInstance().createScoredTrack(
-                interval.getIntervalsStart(),
-                interval.getIntervalsEnd(),
+                interval.getStarts(),
+                interval.getEnds(),
                 interval.getIntervalName(),
                 newScores,
                 interval.getName(),
@@ -167,8 +167,8 @@ class ScoreMultiTrackBackgroundModel implements Sites {
 
             for (ScoredTrack interval : intervals) {
 
-                List<Long> intervalStart = interval.getIntervalsStart();
-                List<Long> intervalEnd = interval.getIntervalsEnd();
+                List<Long> intervalStart = interval.getStarts();
+                List<Long> intervalEnd = interval.getEnds();
 
                 int i = indices.get(interval);
                 int intervalCount = intervalStart.size() - 1;
@@ -223,8 +223,8 @@ class ScoreMultiTrackBackgroundModel implements Sites {
     Collection<Long> generatePositionsByProbability(ScoredTrack probabilityInterval, int siteCount) {
 
         List<Long> sites = new ArrayList<>();
-        List<Long> starts = probabilityInterval.getIntervalsStart();
-        List<Long> ends = probabilityInterval.getIntervalsEnd();
+        List<Long> starts = probabilityInterval.getStarts();
+        List<Long> ends = probabilityInterval.getEnds();
         List<Double> probabilities = probabilityInterval.getIntervalScore();
         List<Double> random = new ArrayList<>();
         Random rand = new Random(System.currentTimeMillis());
@@ -326,11 +326,11 @@ class ScoreMultiTrackBackgroundModel implements Sites {
      */
     private ScoredTrack combine(ScoredTrack intv1, ScoredTrack intv2, Map<String, Double> score_map) {
 
-        List<Long> starts1 = intv1.getIntervalsStart();
-        List<Long> starts2 = intv2.getIntervalsStart();
+        List<Long> starts1 = intv1.getStarts();
+        List<Long> starts2 = intv2.getStarts();
 
-        List<Long> ends1 = intv1.getIntervalsEnd();
-        List<Long> ends2 = intv2.getIntervalsEnd();
+        List<Long> ends1 = intv1.getEnds();
+        List<Long> ends2 = intv2.getEnds();
 
         List<Double> scores1 = intv1.getIntervalScore();
         List<Double> scores2 = intv2.getIntervalScore();
@@ -346,7 +346,7 @@ class ScoreMultiTrackBackgroundModel implements Sites {
         int i2 = 0;
         int i1 = 0;
 
-        //if (intv1.getIntervalsStart().get(0) != 0L && intv2.getIntervalsStart().get(0) != 0L) result_start.add(0L);
+        //if (intv1.getStarts().get(0) != 0L && intv2.getStarts().get(0) != 0L) result_start.add(0L);
 
         while (i1 < starts1.size()) {
             /* Abandon hope all ye who enter here */
@@ -517,8 +517,8 @@ class ScoreMultiTrackBackgroundModel implements Sites {
         // copy start and end lists together for each track
         // lists are stored in the marks list
         for(Track track: tracks){
-            List<Long> tmp = new ArrayList<>(track.getIntervalsStart());
-            tmp.addAll(track.getIntervalsEnd());
+            List<Long> tmp = new ArrayList<>(track.getStarts());
+            tmp.addAll(track.getEnds());
             Collections.sort(tmp);
             marks.add(tmp);
         }

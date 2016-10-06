@@ -26,8 +26,8 @@ public final class PositionPreprocessor {
         List<Long> newStart = new ArrayList<>();
         List<Long> newEnd = new ArrayList<>();
 
-        List<Long> intervalsStart = interval.getIntervalsStart();
-        List<Long> intervalsEnd = interval.getIntervalsEnd();
+        List<Long> intervalsStart = interval.getStarts();
+        List<Long> intervalsEnd = interval.getEnds();
 
         if (intervalsStart.isEmpty()) return interval;
 
@@ -71,8 +71,8 @@ public final class PositionPreprocessor {
         List<Long> newEnd = new ArrayList<>();
         List<Double> newScore = new ArrayList<>();
 
-        List<Long> intervalsStart = track.getIntervalsStart();
-        List<Long> intervalsEnd = track.getIntervalsEnd();
+        List<Long> intervalsStart = track.getStarts();
+        List<Long> intervalsEnd = track.getEnds();
         List<Double> scores = track.getIntervalScore();
 
         if (intervalsStart.isEmpty()) return track;
@@ -124,8 +124,8 @@ public final class PositionPreprocessor {
         List<Long> newEnd = new ArrayList<>();
         List<String> newNames = new ArrayList<>();
 
-        List<Long> intervalsStart = track.getIntervalsStart();
-        List<Long> intervalsEnd = track.getIntervalsEnd();
+        List<Long> intervalsStart = track.getStarts();
+        List<Long> intervalsEnd = track.getEnds();
         List<String> names = track.getIntervalName();
 
         //if (intervalsStart.isEmpty()) return track;

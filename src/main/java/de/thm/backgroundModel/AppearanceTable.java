@@ -42,8 +42,8 @@ class AppearanceTable {
 
             for (Track track : tracks) {
 
-                List<Long> intervalStart = track.getIntervalsStart();
-                List<Long> intervalEnd = track.getIntervalsEnd();
+                List<Long> intervalStart = track.getStarts();
+                List<Long> intervalEnd = track.getEnds();
 
                 int i = indices.get(track);
                 int intervalCount = intervalStart.size() - 1;
