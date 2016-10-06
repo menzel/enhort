@@ -11,11 +11,13 @@ public final class TrackPackage {
     private final List<Track> trackList;
     private final String description;
     private final PackageName name;
+    private final Track.Assembly assembly;
 
-    TrackPackage(List<Track> trackList, PackageName name, String description) {
+    TrackPackage(List<Track> trackList, PackageName name, String description, Track.Assembly assembly) {
         this.trackList = trackList;
         this.name = name;
         this.description = description;
+        this.assembly = assembly;
     }
 
     public List<Track> getTrackList() {
@@ -28,6 +30,10 @@ public final class TrackPackage {
 
     public PackageName getName() {
         return name;
+    }
+
+    public Track.Assembly getAssembly() {
+        return assembly;
     }
 
     public enum PackageName {Basic, Expression, Histone, Repeats_by_name, TFBS, OpenChrom, Distance, Restriction_sites}

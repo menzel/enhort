@@ -32,7 +32,7 @@ public final class BackendController {
         new Thread(() -> {
             TrackFactory tf = TrackFactory.getInstance();
             tf.loadIntervals();
-            System.out.println(prefix + tf.getAllIntervals().size()  + " Track files loaded");
+            System.out.println(prefix + tf.getTrackCount()  + " Track files loaded");
         }).run();
 
         BackendServer server = new BackendServer(port);

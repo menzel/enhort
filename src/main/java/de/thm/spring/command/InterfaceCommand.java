@@ -19,6 +19,7 @@ public final class InterfaceCommand {
     private String originalFilename; // filename of the file the user uploaded
     private Sites sites;
     private Double influence; //influence of positions on prob interval
+    private String assembly;
 
     public InterfaceCommand() {
         covariants = new ArrayList<>();
@@ -95,5 +96,13 @@ public final class InterfaceCommand {
 
     public void setInfluence(double influence) {
         this.influence = influence;
+    }
+
+    public String getAssembly() {
+        return assembly;
+    }
+
+    public void setAssembly(String assembly) {
+        this.assembly = assembly;
     }
 }

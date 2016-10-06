@@ -44,5 +44,5 @@ public abstract class Track implements Serializable, Cloneable {
 
     public enum Assembly {hg19, hg38}
 
-    enum CellLine {HeLa, hESC}
+    public enum CellLine {HeLa, hESC, none}
 }

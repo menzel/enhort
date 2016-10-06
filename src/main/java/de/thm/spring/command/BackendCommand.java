@@ -20,6 +20,7 @@ public final class BackendCommand implements Serializable{
     private final List<Track> customTracks;
     private final Sites sites;
     private final double influence;
+    private final String assembly;
 
 
     public BackendCommand(Sites sites) {
@@ -30,6 +31,7 @@ public final class BackendCommand implements Serializable{
         this.minBg = sites.getPositionCount();
         customTracks = new ArrayList<>();
         this.influence = 1;
+        assembly = "hg19";
     }
 
     public BackendCommand(InterfaceCommand command) {
@@ -39,6 +41,7 @@ public final class BackendCommand implements Serializable{
         this.sites = command.getSites();
         this.influence = command.getInfluence();
         this.customTracks = new ArrayList<>();
+        this.assembly = command.getAssembly();
     }
 
     public void addCustomTrack(List<Track> track){
@@ -56,4 +59,6 @@ public final class BackendCommand implements Serializable{
     public int getMinBg() { return minBg; }
 
     public double getInfluence() { return influence; }
+
+    public String getAssembly() { return assembly; }
 }

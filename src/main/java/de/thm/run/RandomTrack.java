@@ -29,6 +29,16 @@ class RandomTrack extends Track {
 
 
     @Override
+    public Assembly getAssembly() {
+        return null;
+    }
+
+    @Override
+    public Track.CellLine getCellLine() {
+        return null;
+    }
+
+    @Override
     public String getDescription() {
         return "rand";
     }

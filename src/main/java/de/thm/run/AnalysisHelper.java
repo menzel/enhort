@@ -19,13 +19,13 @@ import java.util.List;
  * <p>
  * Created by Michael Menzel on 4/2/16.
  */
-public class AnalysisHelper {
+class AnalysisHelper {
 
     /**
      * Converts a list of covariant names from the webinterface to a list of intervals for analysis.
      *
      * @param covariantNames - list of interval names
-     * @param assembly
+     * @param assembly - assembly name
      * @return list of intervals with the same as given by input names
      */
     private static List<Track> getCovariants(List<String> covariantNames, Track.Assembly assembly) {
@@ -48,21 +48,6 @@ public class AnalysisHelper {
     }
 
     /**
-     * Run analysis with a random distributed background with the same size as given sites
-     *
-     * @param input - sites to get count from
-     * @return ResultCollection of the run
-     */
-    @Deprecated
-    public ResultCollector runAnalysis(Sites input) {
-        Sites bg = BackgroundModelFactory.createBackgroundModel(input.getPositionCount());
-
-        IntersectMultithread multi = new IntersectMultithread();
-
-        return multi.execute(TrackFactory.getInstance().getIntervalsByPackage(TrackPackage.PackageName.Basic), input, bg);
-    }
-
-    /**
      * Run analysis with covariants.
      *
      * @param sites - sites to match background model against.
@@ -70,13 +55,13 @@ public class AnalysisHelper {
      * @return Collection of Results inside a ResultCollector object
      * @throws CovariantsException - if too many covariants are supplied or an impossible combination
      */
-    public ResultCollector runAnalysis(Sites sites, BackendCommand cmd) throws CovariantsException {
+    private ResultCollector runAnalysis(Sites sites, BackendCommand cmd) throws CovariantsException {
         List<Track> covariants = getCovariants(cmd.getCovariants(), Track.Assembly.valueOf(cmd.getAssembly()));
         List<Track> runTracks;
         TrackFactory trackFactory = TrackFactory.getInstance();
-        int minSites = cmd.getMinBg();
-        Sites bg = null;
+        Sites bg;
         Double influence = cmd.getInfluence();
+        int minSites = cmd.getMinBg();
 
         if(covariants.isEmpty()){
             bg = BackgroundModelFactory.createBackgroundModel(sites.getPositionCount()); //check if minSites is larger
@@ -85,16 +70,15 @@ public class AnalysisHelper {
         }
 
         if(cmd.getPackageNames().isEmpty()) {
-            runTracks = trackFactory.getIntervalsByPackage(TrackPackage.PackageName.Basic);
+            runTracks = trackFactory.getIntervalsByPackage(TrackPackage.PackageName.Basic, Track.Assembly.valueOf(cmd.getAssembly()));
         } else {
             runTracks =  new ArrayList<>();
 
-            //check and apply custom tracks
-
             for(String packName: cmd.getPackageNames()){
-                runTracks.addAll(trackFactory.getIntervalsByPackage(packName));
+                runTracks.addAll(trackFactory.getIntervalsByPackage(packName, Track.Assembly.valueOf(cmd.getAssembly())));
             }
 
+            //check and apply custom tracks
             runTracks.addAll(cmd.getCustomTracks());
 
             if(runTracks.isEmpty())
@@ -107,7 +91,7 @@ public class AnalysisHelper {
 
     }
 
-    public ResultCollector runAnalysis(BackendCommand command) throws CovariantsException {
+    ResultCollector runAnalysis(BackendCommand command) throws CovariantsException {
         return runAnalysis(command.getSites(), command);
     }
 

@@ -44,7 +44,7 @@ public final class TrackFactory {
     private TrackFactory() {
 
         if(System.getenv("HOME").contains("menzel")){
-            basePath = new File("/home/menzel/Desktop/THM/lfba/projektphase/dat/").toPath();
+            basePath = new File("/home/menzel/Desktop/THM/lfba/enhort/dat/").toPath();
         } else {
             basePath = new File("/home/mmnz21/dat/").toPath();
         }
@@ -78,54 +78,60 @@ public final class TrackFactory {
             Path basePath = this.basePath.resolve("hg19"); //convert basePath to a local variable and set to hg19 dir
 
             tmp = getIntervals(basePath.resolve("inout"), Type.inout, Track.Assembly.hg19);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks."));
-            this.intervals.addAll(tmp);
-
-            tmp = getIntervals(basePath.resolve("named"), Type.named, Track.Assembly.hg19);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks."));
-            this.intervals.addAll(tmp);
-
-            tmp = getIntervals(basePath.resolve("score"), Type.scored, Track.Assembly.hg19);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Expression, "Expression scores"));
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks.", Track.Assembly.hg19));
             this.intervals.addAll(tmp);
 
 
-            tmp = getIntervals(basePath.resolve("distanced"), Type.distance, Track.Assembly.hg19);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Distance, "Distances"));
+            //////////// hg38  ///////////////
+            basePath = this.basePath.resolve("hg19"); //convert basePath to a local variable and set to hg38 dir
+
+            tmp = getIntervals(basePath.resolve("inout"), Type.inout, Track.Assembly.hg38);
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks.", Track.Assembly.hg38));
             this.intervals.addAll(tmp);
+
 
 
             //only load all tracks when running on the big server
             if(!System.getenv("HOME").contains("menzel")) {
 
+
+                tmp = getIntervals(basePath.resolve("named"), Type.named, Track.Assembly.hg19);
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks.", Track.Assembly.hg19));
+                this.intervals.addAll(tmp);
+
+                tmp = getIntervals(basePath.resolve("score"), Type.scored, Track.Assembly.hg19);
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Expression, "Expression scores", Track.Assembly.hg19));
+                this.intervals.addAll(tmp);
+
+
+                tmp = getIntervals(basePath.resolve("distanced"), Type.distance, Track.Assembly.hg19);
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Distance, "Distances", Track.Assembly.hg19));
+                this.intervals.addAll(tmp);
+
+
+
                 tmp = getIntervals(basePath.resolve("tf"), Type.inout, Track.Assembly.hg19);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.TFBS, "Transcription factor binding sites"));
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.TFBS, "Transcription factor binding sites", Track.Assembly.hg19));
                 this.intervals.addAll(tmp);
 
                 tmp = getIntervals(basePath.resolve("restriction_sites"), Type.inout, Track.Assembly.hg19);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Restriction_sites, "Restriction sites"));
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Restriction_sites, "Restriction sites", Track.Assembly.hg19));
                 this.intervals.addAll(tmp);
 
                 tmp = getIntervals(basePath.resolve("broadHistone"), Type.inout, Track.Assembly.hg19);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Histone, "Histone modifications"));
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Histone, "Histone modifications", Track.Assembly.hg19));
                 this.intervals.addAll(tmp);
 
                 tmp = getIntervals(basePath.resolve("OpenChrom"), Type.inout, Track.Assembly.hg19);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.OpenChrom, "Open Chromatin"));
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.OpenChrom, "Open Chromatin", Track.Assembly.hg19));
                 this.intervals.addAll(tmp);
 
 
                 tmp = getIntervals(basePath.resolve("repeats_by_name"), Type.inout, Track.Assembly.hg19);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name"));
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name", Track.Assembly.hg19));
                 this.intervals.addAll(tmp);
 
 
-                //////////// hg38  ///////////////
-                basePath = this.basePath.resolve("hg19"); //convert basePath to a local variable and set to hg38 dir
-
-                tmp = getIntervals(basePath.resolve("inout"), Type.inout, Track.Assembly.hg38);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks."));
-                this.intervals.addAll(tmp);
 
             }
 
@@ -177,13 +183,18 @@ public final class TrackFactory {
     }
 
     public List<Track> getIntervals(Track.Assembly assembly) {
-        return intervals.stream().filter(i -> i.getAssembly().equals(assembly)).collect(Collectors.toList());
-    }
+        //return intervals.stream().filter(i -> i.getAssembly().equals(assembly)).collect(Collectors.toList());
 
-    public List<Track> getAllIntervals() {
-        return intervals;
-    }
+        List<Track> tracks = new ArrayList<>();
 
+        for(Track track:intervals){
+            if(track.getAssembly().equals(assembly)){
+                tracks.add(track);
+            }
+        }
+
+        return tracks;
+    }
 
 
     /**
@@ -192,9 +203,9 @@ public final class TrackFactory {
      * @param name - name of the package
      * @return list of tracks with package name
      */
-    public List<Track> getIntervalsByPackage(TrackPackage.PackageName name) {
+    public List<Track> getIntervalsByPackage(TrackPackage.PackageName name, Track.Assembly assembly) {
         for (TrackPackage pack : trackPackages) {
-            if (pack.getName() == name)
+            if (pack.getName() == name && pack.getAssembly() == assembly)
                 return pack.getTrackList();
         }
         return null;
@@ -208,8 +219,8 @@ public final class TrackFactory {
      * @return list of tracks within the package
      * @throws IllegalArgumentException - if name is not known as package name
      */
-    public List<Track> getIntervalsByPackage(String packName) throws IllegalArgumentException{
-        List <Track> tracks = getIntervalsByPackage(TrackPackage.PackageName.valueOf(packName));
+    public List<Track> getIntervalsByPackage(String packName, Track.Assembly assembly) throws IllegalArgumentException{
+        List<Track> tracks = getIntervalsByPackage(TrackPackage.PackageName.valueOf(packName), assembly);
 
         if(tracks != null)
             return tracks;
@@ -222,8 +233,8 @@ public final class TrackFactory {
      *
      * @return list of all packages names
      */
-    public List<String> getTrackPackageNames(){
-        return this.trackPackages.stream().map(TrackPackage::getName).map(Enum::toString).collect(Collectors.toList());
+    public List<String> getTrackPackageNames(Track.Assembly assembly){
+        return this.trackPackages.stream().filter(i -> i.getAssembly() == assembly).map(TrackPackage::getName).map(Enum::toString).collect(Collectors.toList());
     }
 
 
@@ -299,6 +310,10 @@ public final class TrackFactory {
 
     public NamedTrack createNamedTrack(List<Long> starts, List<Long> ends, List<String> names, String name, String description, Track.Assembly assembly, Track.CellLine cellLine) {
         return new NamedTrack(starts,ends, names, name, description, assembly, cellLine);
+    }
+
+    public int getTrackCount() {
+        return intervals.size();
     }
 
     private enum Type {inout, named, distance, scored}
@@ -378,7 +393,7 @@ public final class TrackFactory {
 
             String name = "";
             String description = "";
-            String cellline = "";
+            String cellline = "none";
             int length = 0;
             ChromosomSizes chrSizes = ChromosomSizes.getInstance();
 
@@ -396,7 +411,7 @@ public final class TrackFactory {
             try (Stream<String> lines = Files.lines(file.toPath(), StandardCharsets.UTF_8)) {
                 Iterator<String> it = lines.iterator();
 
-                Pattern header = Pattern.compile("track fullname=.(.*). description=.(.*). (cellline=.(.*).)?"); //TODO dots (.) are "
+                Pattern header = Pattern.compile("track fullname=.(.*). description=.(.*).( cellline=.(.*).)?"); //TODO dots (.) are "
                 Pattern entry = Pattern.compile("chr(\\d{1,2}|X|Y)\\s(\\d*)\\s(\\d*).*");
 
                 while (it.hasNext()) {
@@ -407,8 +422,9 @@ public final class TrackFactory {
                     if (header_matcher.matches()) {
                         name = header_matcher.group(1);
                         description = header_matcher.group(2);
-                        cellline = header_matcher.group(3);
 
+                        if(header_matcher.group(3) != null)
+                            cellline = header_matcher.group(3);
 
                     } else if (line_matcher.matches()) {
                         String[] parts = line.split("\t");

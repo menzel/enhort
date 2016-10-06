@@ -23,7 +23,7 @@ public final class TestTrackResult {
     /**
      * Constructor
      */
-    TestTrackResult(Track usedInterval, int in, int out) {
+    public TestTrackResult(Track usedInterval, int in, int out) {
         this.usedInterval = usedInterval;
         this.in = in;
         this.out = out;
@@ -34,7 +34,7 @@ public final class TestTrackResult {
     /**
      * Constructor
      */
-    TestTrackResult(Track usedInterval, int in, int out, Map<String, Integer> names) {
+    public TestTrackResult(Track usedInterval, int in, int out, Map<String, Integer> names) {
         this.usedInterval = usedInterval;
         this.in = in;
         this.out = out;
@@ -45,7 +45,7 @@ public final class TestTrackResult {
     /**
      * Constructor
      */
-    TestTrackResult(Track usedInterval, int in, int out, List<Double> scores) {
+    public TestTrackResult(Track usedInterval, int in, int out, List<Double> scores) {
         this.usedInterval = usedInterval;
         this.in = in;
         this.out = out;

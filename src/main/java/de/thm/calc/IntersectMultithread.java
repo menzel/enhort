@@ -39,7 +39,7 @@ public final class IntersectMultithread {
     public ResultCollector execute(List<Track> intervals, Sites measuredPositions, Sites randomPositions) {
 
 
-        ResultCollector collector = new ResultCollector(randomPositions);
+        ResultCollector collector = new ResultCollector(randomPositions, intervals.get(0).getAssembly()); // get assembly from the first track
 
         for (Track track : intervals) {
 
