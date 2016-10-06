@@ -16,10 +16,11 @@ public class ScoredTrack extends Track {
     private final List<String> intervalName;
     private final List<Double> intervalScore;
     private final String name;
+    private final Assembly assembly;
+    private final CellLine cellLine;
     private final String description;
 
-
-    ScoredTrack(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String description) {
+    ScoredTrack(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String description, Assembly assembly, CellLine cellLine) {
 
         intervalsStart = starts;
         intervalsEnd = ends;
@@ -27,9 +28,9 @@ public class ScoredTrack extends Track {
         intervalScore = scores;
         this.description = description;
         this.name = name;
+        this.assembly = assembly;
+        this.cellLine = cellLine;
     }
-
-
 
     @Override
     public int getUid() {
@@ -46,7 +47,9 @@ public class ScoredTrack extends Track {
                 new ArrayList<>(intervalName),
                 new ArrayList<>(intervalScore),
                 name,
-                description
+                description,
+                assembly,
+                cellLine
         );
     }
 
@@ -94,6 +97,16 @@ public class ScoredTrack extends Track {
         return name;
     }
 
+
+    @Override
+    public Assembly getAssembly() {
+        return this.assembly;
+    }
+
+    @Override
+    public CellLine getCellLine() {
+        return this.cellLine;
+    }
 
     @Override
     public String getDescription() {

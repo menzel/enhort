@@ -12,22 +12,22 @@ public class NamedTrack extends Track {
 
     private final int uid = UID.incrementAndGet();
     private final String name;
+    private final Assembly assembly;
+    private final CellLine cellLine;
     private final String description;
     private List<Long> intervalsStart;
     private List<Long> intervalsEnd;
     private List<String> intervalName;
 
-
-    NamedTrack(List<Long> starts, List<Long> ends, List<String> names, String name, String description) {
+    NamedTrack(List<Long> starts, List<Long> ends, List<String> names, String name, String description, Assembly assembly, CellLine cellLine) {
 
         this.intervalsStart= starts;
         this.intervalsEnd= ends;
         this.intervalName= names;
-
-
         this.description = description;
         this.name = name;
-
+        this.assembly = assembly;
+        this.cellLine = cellLine;
     }
 
 
@@ -45,7 +45,9 @@ public class NamedTrack extends Track {
                 new ArrayList<>(intervalsEnd),
                 new ArrayList<>(intervalName),
                 name,
-                description
+                description,
+                assembly,
+                cellLine
         );
     }
 
@@ -58,8 +60,7 @@ public class NamedTrack extends Track {
         NamedTrack interval = (NamedTrack) o;
         if (!intervalsStart.equals(interval.intervalsStart)) return false;
         if (!intervalsEnd.equals(interval.intervalsEnd)) return false;
-        if (!intervalName.equals(interval.intervalName)) return false;
-        return !(description != null ? !description.equals(interval.description) : interval.description != null);
+        return intervalName.equals(interval.intervalName) && !(description != null ? !description.equals(interval.description) : interval.description != null);
     }
 
     @Override
@@ -68,6 +69,18 @@ public class NamedTrack extends Track {
         result = 31 * result + intervalsEnd.size();
         return result;
     }
+
+
+    @Override
+    public Assembly getAssembly() {
+        return assembly;
+    }
+
+    @Override
+    public CellLine getCellLine() {
+        return cellLine;
+    }
+
 
     @Override
     public List<Long> getIntervalsStart() {

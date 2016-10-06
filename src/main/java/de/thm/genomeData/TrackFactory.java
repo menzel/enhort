@@ -73,18 +73,24 @@ public final class TrackFactory {
 
         try {
 
-            tmp = getIntervals(basePath.resolve("inout"), Type.inout);
 
-            tmp.addAll(getIntervals(basePath.resolve("named"), Type.named));
+            //////////// hg19  ///////////////
+            Path basePath = this.basePath.resolve("hg19"); //convert basePath to a local variable and set to hg19 dir
+
+            tmp = getIntervals(basePath.resolve("inout"), Type.inout, Track.Assembly.hg19);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks."));
             this.intervals.addAll(tmp);
 
-            tmp = getIntervals(basePath.resolve("score"), Type.scored);
+            tmp = getIntervals(basePath.resolve("named"), Type.named, Track.Assembly.hg19);
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks."));
+            this.intervals.addAll(tmp);
+
+            tmp = getIntervals(basePath.resolve("score"), Type.scored, Track.Assembly.hg19);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Expression, "Expression scores"));
             this.intervals.addAll(tmp);
 
 
-            tmp = getIntervals(basePath.resolve("distanced"), Type.distance);
+            tmp = getIntervals(basePath.resolve("distanced"), Type.distance, Track.Assembly.hg19);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Distance, "Distances"));
             this.intervals.addAll(tmp);
 
@@ -92,25 +98,33 @@ public final class TrackFactory {
             //only load all tracks when running on the big server
             if(!System.getenv("HOME").contains("menzel")) {
 
-                tmp = getIntervals(basePath.resolve("tf"), Type.inout);
+                tmp = getIntervals(basePath.resolve("tf"), Type.inout, Track.Assembly.hg19);
                 this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.TFBS, "Transcription factor binding sites"));
                 this.intervals.addAll(tmp);
 
-                tmp = getIntervals(basePath.resolve("restriction_sites"), Type.inout);
+                tmp = getIntervals(basePath.resolve("restriction_sites"), Type.inout, Track.Assembly.hg19);
                 this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Restriction_sites, "Restriction sites"));
                 this.intervals.addAll(tmp);
 
-                tmp = getIntervals(basePath.resolve("broadHistone"), Type.inout);
+                tmp = getIntervals(basePath.resolve("broadHistone"), Type.inout, Track.Assembly.hg19);
                 this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Histone, "Histone modifications"));
                 this.intervals.addAll(tmp);
 
-                tmp = getIntervals(basePath.resolve("OpenChrom"), Type.inout);
+                tmp = getIntervals(basePath.resolve("OpenChrom"), Type.inout, Track.Assembly.hg19);
                 this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.OpenChrom, "Open Chromatin"));
                 this.intervals.addAll(tmp);
 
 
-                tmp = getIntervals(basePath.resolve("repeats_by_name"), Type.inout);
+                tmp = getIntervals(basePath.resolve("repeats_by_name"), Type.inout, Track.Assembly.hg19);
                 this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name"));
+                this.intervals.addAll(tmp);
+
+
+                //////////// hg38  ///////////////
+                basePath = this.basePath.resolve("hg19"); //convert basePath to a local variable and set to hg38 dir
+
+                tmp = getIntervals(basePath.resolve("inout"), Type.inout, Track.Assembly.hg38);
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks."));
                 this.intervals.addAll(tmp);
 
             }
@@ -127,19 +141,20 @@ public final class TrackFactory {
      *
      * @param path - path to the dir with files
      * @param type - Interval.Type. Type based upon dir name
+     * @param hg19
      * @throws IOException on file problems
      */
-    private List<Track> getIntervals(Path path, Type type) throws IOException {
+    private List<Track> getIntervals(Path path, Type type, Track.Assembly assembly) throws IOException {
 
         List<Path> files = new ArrayList<>();
-        final List<Track> intervals = Collections.synchronizedList(new ArrayList<>());
+        final List<Track> tracks = Collections.synchronizedList(new ArrayList<>());
 
         Files.walk(Paths.get(path.toString())).filter(Files::isRegularFile).forEach(files::add);
 
         ExecutorService exe = Executors.newFixedThreadPool(4);
 
         for (Path file : files) {
-            FileLoader loader = new FileLoader(file, intervals, type);
+            FileLoader loader = new FileLoader(file, tracks , type, assembly);
             exe.execute(loader);
         }
 
@@ -158,12 +173,18 @@ public final class TrackFactory {
         //TODO Test:
         exe.shutdownNow();
 
-        return intervals;
+        return tracks;
+    }
+
+    public List<Track> getIntervals(Track.Assembly assembly) {
+        return intervals.stream().filter(i -> i.getAssembly().equals(assembly)).collect(Collectors.toList());
     }
 
     public List<Track> getAllIntervals() {
         return intervals;
     }
+
+
 
     /**
      * Returns a list of tracks that belong to the given package.
@@ -236,7 +257,10 @@ public final class TrackFactory {
      * @return new track with all given parameters
      */
     public ScoredTrack createScoredTrack(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String description) {
-        return new ScoredTrack(starts, ends, names, scores, name, description);
+        return new ScoredTrack(starts, ends, names, scores, name, description, null, null);
+    }
+    public ScoredTrack createScoredTrack(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String description, Track.Assembly assembly, Track.CellLine cellLine) {
+        return new ScoredTrack(starts, ends, names, scores, name, description, assembly, cellLine);
     }
 
     /**
@@ -250,8 +274,12 @@ public final class TrackFactory {
      * @return new track with all given parameters
      */
     public InOutTrack createInOutTrack(List<Long> starts, List<Long> ends, String name, String description) {
-        return new InOutTrack(starts, ends, name, description);
+        return new InOutTrack(starts, ends, name, description, null, null);
     }
+    public InOutTrack createInOutTrack(List<Long> starts, List<Long> ends, String name, String description, Track.Assembly assembly, Track.CellLine cellLine) {
+        return new InOutTrack(starts, ends, name, description, assembly, cellLine);
+    }
+
 
      /**
      * Factory method for distance tracks. Creates a new track based on input.
@@ -263,15 +291,15 @@ public final class TrackFactory {
      * @return new track with all given parameters
      */
     public DistanceTrack createDistanceTrack(List<Long> starts, String name, String description) {
-        return new DistanceTrack(starts, name, description);
+        return new DistanceTrack(starts, name, description, null, null);
+    }
+    public DistanceTrack createDistanceTrack(List<Long> starts, String name, String description, Track.Assembly assembly, Track.CellLine cellLine) {
+        return new DistanceTrack(starts, name, description, assembly, cellLine);
     }
 
-
-
-    public NamedTrack createNamedTrack(List<Long> starts, List<Long> ends, List<String> names, String name, String description) {
-        return new NamedTrack(starts,ends, names, name, description);
+    public NamedTrack createNamedTrack(List<Long> starts, List<Long> ends, List<String> names, String name, String description, Track.Assembly assembly, Track.CellLine cellLine) {
+        return new NamedTrack(starts,ends, names, name, description, assembly, cellLine);
     }
-
 
     private enum Type {inout, named, distance, scored}
 
@@ -279,12 +307,14 @@ public final class TrackFactory {
         private final Path path;
         private final List<Track> intervals;
         private Type type;
+        private Track.Assembly assembly;
 
-        public FileLoader(Path path, List<Track> intervals, Type type) {
+        public FileLoader(Path path, List<Track> intervals, Type type, Track.Assembly assembly) {
 
             this.path = path;
             this.intervals = intervals;
             this.type = type;
+            this.assembly = assembly;
         }
 
         @Override
@@ -348,6 +378,7 @@ public final class TrackFactory {
 
             String name = "";
             String description = "";
+            String cellline = "";
             int length = 0;
             ChromosomSizes chrSizes = ChromosomSizes.getInstance();
 
@@ -365,7 +396,7 @@ public final class TrackFactory {
             try (Stream<String> lines = Files.lines(file.toPath(), StandardCharsets.UTF_8)) {
                 Iterator<String> it = lines.iterator();
 
-                Pattern header = Pattern.compile("track fullname=.(.*). description=.(.*)..?"); //TODO . are "
+                Pattern header = Pattern.compile("track fullname=.(.*). description=.(.*). (cellline=.(.*).)?"); //TODO dots (.) are "
                 Pattern entry = Pattern.compile("chr(\\d{1,2}|X|Y)\\s(\\d*)\\s(\\d*).*");
 
                 while (it.hasNext()) {
@@ -376,6 +407,8 @@ public final class TrackFactory {
                     if (header_matcher.matches()) {
                         name = header_matcher.group(1);
                         description = header_matcher.group(2);
+                        cellline = header_matcher.group(3);
+
 
                     } else if (line_matcher.matches()) {
                         String[] parts = line.split("\t");
@@ -427,16 +460,18 @@ public final class TrackFactory {
                     }
                 }
 
+
+
                 switch (type) {
                     case inout:
                         //return PositionPreprocessor.preprocessData(new InOutTrack(starts, ends, name, description));
-                        return new InOutTrack(starts, ends, name, description);
+                        return new InOutTrack(starts, ends, name, description, assembly, Track.CellLine.valueOf(cellline));
                     case scored:
-                        return PositionPreprocessor.preprocessData(new ScoredTrack(starts, ends, names, scores, name, description));
+                        return PositionPreprocessor.preprocessData(new ScoredTrack(starts, ends, names, scores, name, description, assembly, Track.CellLine.valueOf(cellline)));
                     case named:
-                        return PositionPreprocessor.preprocessData(new NamedTrack(starts, ends, names, name, description));
+                        return PositionPreprocessor.preprocessData(new NamedTrack(starts, ends, names, name, description, assembly, Track.CellLine.valueOf(cellline)));
                     case distance:
-                        return new DistanceTrack(starts, "Distance from " + name, description);
+                        return new DistanceTrack(starts, "Distance from " + name, description, assembly, Track.CellLine.valueOf(cellline));
                     default:
                         throw new Exception("Something is wrong with this track or file");
                 }

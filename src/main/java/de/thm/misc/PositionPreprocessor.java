@@ -63,7 +63,7 @@ public final class PositionPreprocessor {
         intervalsStart.clear();
         intervalsEnd.clear();
 
-        return TrackFactory.getInstance().createInOutTrack(newStart, newEnd, interval.getName(), interval.getDescription());
+        return TrackFactory.getInstance().createInOutTrack(newStart, newEnd, interval.getName(), interval.getDescription(), interval.getAssembly(), interval.getCellLine());
     }
 
     public static ScoredTrack preprocessData(ScoredTrack track) {
@@ -162,6 +162,6 @@ public final class PositionPreprocessor {
         intervalsEnd.clear();
 
 
-        return TrackFactory.getInstance().createNamedTrack(newStart, newEnd, newNames,track.getName(), track.getDescription());
+        return TrackFactory.getInstance().createNamedTrack(newStart, newEnd, newNames,track.getName(), track.getDescription(), track.getAssembly(), track.getCellLine());
     }
 }

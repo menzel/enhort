@@ -30,7 +30,7 @@ public class Analyse {
 
     public Analyse() {
         TrackFactory loader = TrackFactory.getInstance();
-        intervals = loader.getAllIntervals();
+        intervals = loader.getIntervals(Track.Assembly.hg19);
         TestTrack simple = new Intersect();
     }
 
@@ -61,7 +61,7 @@ public class Analyse {
         //covariants.add(intervals.get("knownGenes.bed"));
         //covariants.add(intervals.get("cpg"));
         //covariants.add(intervals.get("expression_blood.bed"));
-        for (Track track : TrackFactory.getInstance().getAllIntervals()) {
+        for (Track track : TrackFactory.getInstance().getIntervals(Track.Assembly.hg19)) {
             if(track.getName().contains("blood"))
                 covariants.add(track);
         }
@@ -85,7 +85,7 @@ public class Analyse {
 
 
         List<Track> covariants = new ArrayList<>();
-         for (Track track : TrackFactory.getInstance().getAllIntervals()) {
+         for (Track track : TrackFactory.getInstance().getIntervals(Track.Assembly.hg19)) {
             if(track.getName().contains("lood")) covariants.add(track);
             if(track.getName().contains("node")) covariants.add(track);
         }

@@ -25,13 +25,14 @@ public class AnalysisHelper {
      * Converts a list of covariant names from the webinterface to a list of intervals for analysis.
      *
      * @param covariantNames - list of interval names
+     * @param assembly
      * @return list of intervals with the same as given by input names
      */
-    private static List<Track> getCovariants(List<String> covariantNames) {
+    private static List<Track> getCovariants(List<String> covariantNames, Track.Assembly assembly) {
         List<Track> selectedTracks = new ArrayList<>();
         TrackFactory loader = TrackFactory.getInstance();
 
-        List<Track> knownTracks = loader.getAllIntervals();
+        List<Track> knownTracks = loader.getIntervals(assembly);
 
         try {
             for (Track track : knownTracks) {
@@ -70,7 +71,7 @@ public class AnalysisHelper {
      * @throws CovariantsException - if too many covariants are supplied or an impossible combination
      */
     public ResultCollector runAnalysis(Sites sites, BackendCommand cmd) throws CovariantsException {
-        List<Track> covariants = getCovariants(cmd.getCovariants());
+        List<Track> covariants = getCovariants(cmd.getCovariants(), Track.Assembly.valueOf(cmd.getAssembly()));
         List<Track> runTracks;
         TrackFactory trackFactory = TrackFactory.getInstance();
         int minSites = cmd.getMinBg();

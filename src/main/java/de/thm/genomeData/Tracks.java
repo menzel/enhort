@@ -140,7 +140,7 @@ public final class Tracks {
         String name = intv1.getName() + "_" + intv2.getName();
         String desc = intv1.getDescription() + "_" + intv2.getDescription();
 
-        return new InOutTrack(result_start, result_end, name, desc);
+        return new InOutTrack(result_start, result_end, name, desc, intv1.getAssembly(), intv1.getCellLine());
     }
 
 
@@ -271,7 +271,7 @@ public final class Tracks {
         String name = intv1.getName() + "_" + intv2.getName();
         String desc = intv1.getDescription() + "_" + intv2.getDescription();
 
-        return new InOutTrack(result_start, result_end, name, desc);
+        return new InOutTrack(result_start, result_end, name, desc, intv1.getAssembly(), intv2.getCellLine());
     }
 
 
@@ -314,7 +314,7 @@ public final class Tracks {
             }
         }
 
-        return new ScoredTrack(intervalStart, intervalEnd, names, intervalScore_n, interval.getName(), interval.getDescription());
+        return new ScoredTrack(intervalStart, intervalEnd, names, intervalScore_n, interval.getName(), interval.getDescription(), interval.getAssembly(), interval.getCellLine());
     }
 
 
@@ -343,7 +343,7 @@ public final class Tracks {
         else
             ends.add(ChromosomSizes.getInstance().getGenomeSize());
 
-        return new InOutTrack(starts, ends, track.getName(), track.getDescription());
+        return new InOutTrack(starts, ends, track.getName(), track.getDescription(), track.getAssembly(), track.getCellLine());
     }
 
     /**
@@ -357,14 +357,14 @@ public final class Tracks {
         List<Double> scores = new ArrayList<>(Collections.nCopies(interval.getIntervalsStart().size(), 1.0));
         List<String> names = new ArrayList<>(Collections.nCopies(interval.getIntervalsStart().size(), ""));
 
-        return new ScoredTrack(interval.getIntervalsStart(), interval.getIntervalsEnd(), names, scores, interval.getName(), interval.getDescription());
+        return new ScoredTrack(interval.getIntervalsStart(), interval.getIntervalsEnd(), names, scores, interval.getName(), interval.getDescription(), interval.getAssembly(), interval.getCellLine());
     }
 
     public static ScoredTrack cast(NamedTrack track) {
 
         List<Double> scores = track.getIntervalName().stream().map(name -> (double) name.hashCode()).collect(Collectors.toList());
 
-        return new ScoredTrack(track.getIntervalsStart(), track.getIntervalsEnd(), track.getIntervalName(), scores, track.getName(), track.getDescription());
+        return new ScoredTrack(track.getIntervalsStart(), track.getIntervalsEnd(), track.getIntervalName(), scores, track.getName(), track.getDescription(), track.getAssembly(), track.getCellLine());
 
     }
 

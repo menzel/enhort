@@ -15,12 +15,17 @@ public class InOutTrack extends Track {
     private final String name;
     private final String description;
 
-    InOutTrack(List<Long> starts, List<Long> ends, String name, String description) {
+    private Assembly assembly;
+    private CellLine cellLine;
+
+    InOutTrack(List<Long> starts, List<Long> ends, String name, String description, Assembly assembly, CellLine cellLine) {
 
         intervalsStart = starts;
         intervalsEnd = ends;
         this.description = description;
         this.name = name;
+        this.assembly = assembly;
+        this.cellLine = cellLine;
     }
 
 
@@ -31,7 +36,7 @@ public class InOutTrack extends Track {
 
     @Override
     public Track clone() {
-        return new InOutTrack(this.getIntervalsStart(), this.getIntervalsEnd(), this.getName(), this.getDescription());
+        return new InOutTrack(this.getIntervalsStart(), this.getIntervalsEnd(), this.getName(), this.getDescription(), this.assembly, this.cellLine);
     }
 
     @Override
@@ -47,6 +52,16 @@ public class InOutTrack extends Track {
     @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public Assembly getAssembly() {
+        return this.assembly;
+    }
+
+    @Override
+    public CellLine getCellLine() {
+        return this.cellLine;
     }
 
     @Override

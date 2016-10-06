@@ -13,14 +13,18 @@ public class DistanceTrack extends Track{
     private final List<Long> intervalsStart;
     private final List<Long> intervalsEnd;
     private final String name;
+    private final Assembly assembly;
+    private final CellLine cellLine;
     private final String description;
 
-    DistanceTrack(List<Long> starts, String name, String description) {
+    DistanceTrack(List<Long> starts, String name, String description, Assembly assembly, CellLine cellLine) {
 
         intervalsStart = starts;
         intervalsEnd = starts;
         this.description = description;
         this.name = name;
+        this.assembly = assembly;
+        this.cellLine = cellLine;
     }
 
 
@@ -74,4 +78,13 @@ public class DistanceTrack extends Track{
         return !(description != null ? !description.equals(interval.description) : interval.description != null);
     }
 
+    @Override
+    public Assembly getAssembly() {
+        return assembly;
+    }
+
+    @Override
+    public CellLine getCellLine() {
+        return cellLine;
+    }
 }
