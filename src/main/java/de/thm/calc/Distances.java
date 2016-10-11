@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  *
  * Created by menzel on 9/7/16.
  */
-class Distances implements TestTrack<DistanceTrack>{
+public class Distances implements TestTrack<DistanceTrack>{
 
 
     /**
@@ -40,7 +40,7 @@ class Distances implements TestTrack<DistanceTrack>{
      *
      * @return map of distances observed
      */
-    private List<Long> distancesToNext(Track track, Sites sites){
+    public List<Long> distancesToNext(Track track, Sites sites){
 
         //DistanceCounter distances = new DistanceCounter();
         List<Long> distances = new ArrayList<>();
