@@ -37,6 +37,8 @@ public final class TrackFactory {
     private final List<TrackPackage> trackPackages;
     private List<Track> tracks;
 
+
+
     /**
      * Constructor. Parses the base dir and gets all tracks from files.
      * Expects three dirs with the names 'inout', 'named' and 'score' for types.
@@ -322,6 +324,12 @@ public final class TrackFactory {
     public int getTrackCount() {
         return tracks.size();
     }
+
+
+    public void addTrack(Track track){
+        this.tracks.add(track);
+    }
+
 
     private enum Type {inout, named, distance, scored}
 
