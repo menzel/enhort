@@ -16,6 +16,14 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * Created by menzel on 10/11/16.
  */
 public class TrackBuilder {
+
+
+    /**
+     * Parses a command list and builds a track based on the command
+     *
+     * @param command - list of commands, a command is a track or a TrackBuilder.op (operator)
+     * @return a new Track build by the command
+     */
     public Track build(List<Object> command){
 
 
@@ -28,6 +36,14 @@ public class TrackBuilder {
         return null;
     }
 
+    /**
+     * Parses a command list and builds a track based on the command
+     *
+     * @param command - list of commands, a command is a track or a TrackBuilder.op (operator)
+     *
+     * @return a new Track build by the command
+     * @throws IntervalTypeNotAllowedExcpetion
+     */
     private Track parse(List<Object> command) throws IntervalTypeNotAllowedExcpetion {
 
         CopyOnWriteArrayList<Object> stack = new CopyOnWriteArrayList<>();
@@ -36,25 +52,29 @@ public class TrackBuilder {
 
         while(stack.size() != 1 || i < command.size()){
 
+            int top1 = stack.size()-1;
+            int top2 = stack.size()-2;
+            int top3 = stack.size()-3;
+
 
             //REDUCE (NOT)
-            if (stack.size() == 2 && stack.get(0).equals(op.not) && stack.get(1) instanceof Track) {
-                stack.set(0, Tracks.invert((Track) stack.get(1)));
-                stack.remove(1);
+            if (stack.size() >= 2 && stack.get(top1).equals(op.not) && stack.get(top2) instanceof Track) {
+                stack.set(top1, Tracks.invert((Track) stack.get(top2)));
+                stack.remove(top1);
 
                 continue;
             }
 
             //REDUCE (ELSE)
-            else if (stack.size() == 3 && stack.get(0) instanceof Track && stack.get(2) instanceof Track) {
-                if (stack.get(1).equals(op.and))
-                    stack.set(0, Tracks.sum((Track) stack.get(0), (Track) stack.get(2)));
-                else if (stack.get(1).equals(op.or))
-                    stack.set(0, Tracks.intersect((Track) stack.get(0), (Track) stack.get(2)));
-                else if (stack.get(1).equals(op.xor))
-                    stack.set(0, Tracks.xor((Track) stack.get(0), (Track) stack.get(2)));
-                stack.remove(1);
-                stack.remove(1);
+            else if (stack.size() >= 3 && stack.get(top1) instanceof Track && stack.get(top3) instanceof Track) {
+                if (stack.get(top2).equals(op.or))
+                    stack.set(top3, Tracks.sum((Track) stack.get(top1), (Track) stack.get(top3)));
+                else if (stack.get(top2).equals(op.and))
+                    stack.set(top3, Tracks.intersect((Track) stack.get(top1), (Track) stack.get(top3)));
+                else if (stack.get(top2).equals(op.xor))
+                    stack.set(top3, Tracks.xor((Track) stack.get(top1), (Track) stack.get(top3)));
+                stack.remove(top1);
+                stack.remove(top2);
 
                 continue;
             }
@@ -65,16 +85,15 @@ public class TrackBuilder {
 
             Object c = command.get(i++);
 
-            //SHIFT
+            //SHIFT (
             if (c.equals(op.lb)) {
-                // call parse with subcommand
 
                 List<Object> subcommand = command.subList(command.indexOf(c) + 1, command.size());
                 subcommand = subcommand.subList(0, subcommand.indexOf(op.rb));
 
-                stack.add(parse(subcommand));
+                stack.add(parse(subcommand)); // recursive call to parse()
 
-                i = command.indexOf(op.rb)+1;
+                i = command.indexOf(op.rb)+1; //set command pointer to the positions right after '('
             } else stack.add(c);
 
 
@@ -83,10 +102,15 @@ public class TrackBuilder {
         return (Track) stack.get(0);
     }
 
+    /**
+     * Translates a text command (e.g.: 1 and 2 or 3) in a list of operators
+     *
+     * @param command a command as a String with words for the operators
+     *
+     * @return  a list of commands, readable by the parse method
+     */
     public Track build(String command){
         List<Object> cmd = new ArrayList<>();
-
-        command = "(" + command + ")";
 
         command = command.replace("(", " ( ");
         command = command.replace(")", " ) " );
@@ -115,7 +139,6 @@ public class TrackBuilder {
         return build(cmd);
     }
 
-
-    enum op {and, or , xor, not, lb, rb, root}
+    private enum op {and, or , xor, not, lb, rb} //available operators
 
 }
