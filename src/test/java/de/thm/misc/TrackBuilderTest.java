@@ -22,11 +22,12 @@ public class TrackBuilderTest {
         // create expressions
         List<String> expressions = new ArrayList<>();
 
-        expressions.add("2 and 3");
-        expressions.add("3 and 2");
-        expressions.add("2 and (3 and 4)");
+        // ids are number+1, because TrackFactory starts counting at 1
         expressions.add("2 or 3");
-        expressions.add("2 and 3 or 4");
+        expressions.add("3 or 2");
+        expressions.add("2 or (3 or 4)");
+        expressions.add("3 and 2");
+        expressions.add("2 or 3 and 4");
 
         TrackBuilder builder = new TrackBuilder();
 
@@ -57,8 +58,9 @@ public class TrackBuilderTest {
         for(String expression: expressions){
 
             Track result = builder.build(expression);
-            assertEquals(results.get(i++).getStarts(), result.getStarts());
+            assertEquals(results.get(i).getStarts(), result.getStarts());
             assertEquals(results.get(i++).getEnds(), result.getEnds());
+            //System.err.println("done '" + expression + "' without error");
 
         }
     }
@@ -76,12 +78,10 @@ public class TrackBuilderTest {
         List<Long> end3 = new ArrayList<>();
 
         start1.add(1L);
-        start1.add(2L);
         start1.add(20L);
         start1.add(50L);
 
         end1.add(10L);
-        end1.add(4L);
         end1.add(30L);
         end1.add(60L);
 
