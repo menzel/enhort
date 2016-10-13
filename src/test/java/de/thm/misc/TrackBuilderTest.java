@@ -12,6 +12,8 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 /**
+ * Test cases for the build method of the track builder class
+ *
  * Created by menzel on 10/11/16.
  */
 public class TrackBuilderTest {
