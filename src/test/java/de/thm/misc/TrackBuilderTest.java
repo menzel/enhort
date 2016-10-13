@@ -24,23 +24,23 @@ public class TrackBuilderTest {
         // create expressions
         List<String> expressions = new ArrayList<>();
 
-        // ids are number+1, because TrackFactory starts counting at 1
-        expressions.add("2 or 3");
-        expressions.add("3 or 2");
-        expressions.add("2 or (3 or 4)");
-        expressions.add("3 and 2");
-        expressions.add("2 or 3 and 4");
+
+        //create tracks
+        List<Track> tracks = createTracks();
+
+
+        expressions.add(tracks.get(0).getUid() + " or " + tracks.get(1).getUid());
+        expressions.add(tracks.get(1).getUid() + " or "+ tracks.get(0).getUid());
+        expressions.add(tracks.get(0).getUid() + " or (" + tracks.get(1).getUid() + " or "+ tracks.get(2).getUid() + ")");
+        expressions.add(tracks.get(1).getUid() + " and " + tracks.get(0).getUid());
+        expressions.add(tracks.get(0).getUid() + " or " + tracks.get(1).getUid() + " + and "+ tracks.get(2).getUid());
 
         TrackBuilder builder = new TrackBuilder();
 
 
-        //create tracks
-
-        List<Track> tracks = createTracks();
 
 
         //create results
-
         List<Track> results = new ArrayList<>();
 
 

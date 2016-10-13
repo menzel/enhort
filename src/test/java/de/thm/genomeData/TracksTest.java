@@ -55,9 +55,6 @@ public class TracksTest {
             // sum(-a, -b) == -TestTrack(a, b)
             assertEquals(Tracks.sum(Tracks.invert(interval1), Tracks.invert(interval2)).getStarts(), Tracks.invert(Tracks.intersect(interval1, interval2)).getStarts());
 
-            // sum(a, -b) == TestTrack(-a, b)
-            assertEquals(Tracks.sum(interval1, Tracks.invert(interval2)).getStarts(), Tracks.intersect(Tracks.invert(interval1), interval2).getStarts());
-
         }  catch (IntervalTypeNotAllowedExcpetion intervalTypeNotAllowedExcpetion) {
             intervalTypeNotAllowedExcpetion.printStackTrace();
         }
