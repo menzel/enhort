@@ -136,7 +136,19 @@ public class TrackBuilder {
         }
 
 
-        return build(cmd);
+        String desc = "A custom track create by the following expression: ";
+        String ex = "";
+
+        for(Object o: cmd){
+            if(o instanceof Track)
+                ex += ((Track) o).getName();
+            else
+                ex += o.toString().toUpperCase();
+            ex += " ";
+        }
+
+        Track track = build(cmd);
+        return TrackFactory.getInstance().createInOutTrack(track.getStarts(), track.getEnds(), ex , desc + ex);
     }
 
     private enum op {and, or , xor, not, lb, rb} //available operators
