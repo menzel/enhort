@@ -1,8 +1,12 @@
 package de.thm.run;
 
 import de.thm.exception.CovariantsException;
+import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
+import de.thm.misc.TrackBuilder;
 import de.thm.spring.command.BackendCommand;
+import de.thm.spring.command.Command;
+import de.thm.spring.command.ExpressionCommand;
 import de.thm.stat.ResultCollector;
 
 import java.io.*;
@@ -98,15 +102,32 @@ public final class BackendController {
 
                 //after interface is connected
                 while (isConnected) {
-                        BackendCommand command;
+                        Command command;
                     try {
-                        command = (BackendCommand) inStream.readObject(); //wait for some input
+                        command = (Command) inStream.readObject(); //wait for some input
 
-                        BackgroundRunner runner = new BackgroundRunner(command);
+                        if(command instanceof BackendCommand) {
 
-                        Future f = exe.submit(runner);
+                            BackgroundRunner runner = new BackgroundRunner((BackendCommand) command);
 
-                        f.get(20, TimeUnit.SECONDS);
+                            /////// Run Analysis ///////////
+                            Future f = exe.submit(runner);
+                            ////////////////////////////////
+
+                            f.get(20, TimeUnit.SECONDS);
+
+                        } else if(command instanceof ExpressionCommand){
+                            TrackBuilder builder = new TrackBuilder();
+
+                            /////// Build new Track
+                            ExpressionCommand cmd = (ExpressionCommand) command;
+                            Track track = builder.build(cmd.getExpression());
+                            ///////////////////////
+
+                            //return new track:
+                            //TODO move to an extra thread
+                            outStream.writeObject(track);
+                        }
 
                     }catch (EOFException | StreamCorruptedException | SocketException e){
 
@@ -139,7 +160,7 @@ public final class BackendController {
         }
 
         /**
-         * Background runner class for a new command object
+         * Background runner class for a new analysis command object
          */
         private class BackgroundRunner implements Runnable{
 
