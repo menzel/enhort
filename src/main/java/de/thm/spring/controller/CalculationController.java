@@ -268,6 +268,9 @@ public class CalculationController {
         currentSession.setCollector(collector);
         setModel(model, collector, command, covariants);
 
+        ExpressionCommand exCommand = new ExpressionCommand();
+        model.addAttribute("expressionCommand", exCommand);
+
         command.setPositionCount(data.getPositionCount());
 
         stats.addAnaylseC();
@@ -277,9 +280,6 @@ public class CalculationController {
 
     @RequestMapping(value = "/trackbuilder", method = RequestMethod.POST)
     public String covariant(Model model, ExpressionCommand expressionCommand, HttpSession httpSession) {
-
-        System.out.println(expressionCommand.getExpression());
-
 
         Sessions sessionsControll = Sessions.getInstance();
         Session currentSession = sessionsControll.getSession(httpSession.getId());
@@ -305,6 +305,9 @@ public class CalculationController {
 
         ResultCollector collector = currentSession.getCollector();
 
+        ExpressionCommand exCommand = new ExpressionCommand();
+        model.addAttribute("expressionCommand", exCommand);
+
         if (collector != null) {
             Path position_file= currentSession.getFile();
             UserData data = new UserData(position_file);
@@ -327,10 +330,6 @@ public class CalculationController {
             model.addAttribute("sigTrackCount", null);
             model.addAttribute("trackCount", null);
             model.addAttribute("customTracks", currentSession.getCustomTracks());
-
-
-            ExpressionCommand exCommand = new ExpressionCommand();
-            model.addAttribute("expressionCommand", exCommand);
         }
 
         return "result"; //TODO plain view
