@@ -13,7 +13,7 @@ import java.util.List;
  *
  * Created by Michael Menzel on 11/3/16.
  */
-public final class BackendCommand implements Serializable{
+public final class BackendCommand implements Serializable, Command{
     private final List<String> covariants; //list of ids of tracks that are used as covariant
     private final List<String> packageNames; // list of packages that will be used in the intersect run
     private final int minBg; //minimum of expected background positions
