@@ -1,7 +1,9 @@
 package de.thm.spring.backend;
 
 import de.thm.exception.CovariantsException;
+import de.thm.genomeData.Track;
 import de.thm.spring.command.BackendCommand;
+import de.thm.spring.command.ExpressionCommand;
 import de.thm.stat.ResultCollector;
 
 import java.io.IOException;
@@ -107,7 +109,7 @@ public final class BackendConnector implements Runnable{
                     if(answer instanceof CovariantsException)
                         throw (CovariantsException) answer;
 
-                } else if( answer instanceof  ResultCollector){
+                } else if(answer instanceof  ResultCollector){
 
                     collector = (ResultCollector) answer;
                     System.out.println("[Enhort Webinterface]: got result: " + collector.getResults().size());
@@ -143,5 +145,45 @@ public final class BackendConnector implements Runnable{
         }
         else
             return null;
+    }
+
+    public Track createCustomTrack(ExpressionCommand expressionCommand) {
+
+      if(isConnected){
+            try {
+
+                System.out.println("[Enhort Webinterface]: writing command");
+                outputStream.writeObject(expressionCommand);
+
+                System.out.println("[Enhort Webinterface]: waiting for result");
+
+                //TODO only wait for fixed time. apply timeout
+                Object answer = inputStream.readObject();
+
+                Track track;
+
+                if(answer instanceof Exception){
+
+                    System.out.println("[Enhort Webinterface]: got exception: " + ((Exception) answer).getMessage());
+
+                } else if(answer instanceof Track){
+
+                    track = (Track) answer;
+
+                    return track;
+
+                } else {
+                    System.err.println("answer is not a result: " + answer.getClass());
+                    return null;
+                }
+
+
+            } catch(IOException | ClassNotFoundException e){
+                isConnected = false;
+                System.err.println("Something went wrong in the BackendConnector. Trying to start all over again" + e);
+            }
+        }
+
+        return null;
     }
 }
