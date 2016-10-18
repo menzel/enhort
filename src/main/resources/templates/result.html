@@ -62,6 +62,8 @@
 
     <h4>Information</h4>
 
+
+
     <div class="fileinfo">
             <p th:text="${'Current File: ' + interfaceCommand.originalFilename}"></p>
             <span>Positions</span><span class="file_positions" th:text="${interfaceCommand.positionCount}"></span>
@@ -163,13 +165,16 @@
                     </tr>
 
                 </th:block>
-                <tr>
-                    <td class="add" colspan="5" data-placement="right" title="Create or upload custom track" data-toggle="tooltip">
-                        <button type="button" class="btn btn-default" data-toggle="modal"  data-target="#add_track">
-                            &#43;
-                        </button>
-                    </td>
-                </tr>
+
+                <th:block th:if="${ran}">
+                    <tr> <!-- create or upload custom track button -->
+                        <td class="add" colspan="5" data-placement="right" title="Upload custom track" data-toggle="tooltip">
+                            <button type="button" class="btn btn-default" data-toggle="modal"  data-target="#add_track">
+                                &#43;
+                            </button>
+                        </td>
+                    </tr>
+                </th:block>
 
                 <th:block th:each="result: ${results_score}">
                     <tr th:attr="data-target=${#strings.replace('#accordion_'+result.id,'.','_')}" data-toggle="collapse" class="accordion-toggle">
