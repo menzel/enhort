@@ -11,6 +11,7 @@ import de.thm.spring.backend.Session;
 import de.thm.spring.backend.Sessions;
 import de.thm.spring.backend.StatisticsCollector;
 import de.thm.spring.command.BackendCommand;
+import de.thm.spring.command.ExpressionCommand;
 import de.thm.spring.command.InterfaceCommand;
 import de.thm.stat.ResultCollector;
 import de.thm.stat.TestResult;
@@ -118,36 +119,12 @@ public class CalculationController {
              }
          }
 
-        ResultCollector collector = currentSession.getCollector();
 
-        if (collector != null) {
-            Path position_file= currentSession.getFile();
-            UserData data = new UserData(position_file);
+        return withNewTrack(currentSession, model);
 
-            List<TestResult> covariants = currentSession.getCovariants();
-
-            setModel(model, collector, data, currentSession.getOriginalFilename());
-            model.addAttribute("covariants", covariants);
-            model.addAttribute("covariantCount", covariants.size());
-            model.addAttribute("customTracks", currentSession.getCustomTracks());
-
-
-        } else {
-            InterfaceCommand command = new InterfaceCommand();
-            command.setOriginalFilename("");
-            command.setMinBg(10000);
-
-            model.addAttribute("interfaceCommand", command);
-            model.addAttribute("bgCount", 10000);
-            model.addAttribute("sigTrackCount", null);
-            model.addAttribute("trackCount", null);
-            model.addAttribute("customTracks", currentSession.getCustomTracks());
-        }
-
-        return "result"; //TODO plain view
     }
 
-    @RequestMapping(value = "/upload", method = RequestMethod.GET)
+   @RequestMapping(value = "/upload", method = RequestMethod.GET)
     public String plainView(Model model, HttpSession httpSession) {
 
 
@@ -176,6 +153,10 @@ public class CalculationController {
             model.addAttribute("bgCount", 10000);
             model.addAttribute("sigTrackCount", null);
             model.addAttribute("trackCount", null);
+
+
+            ExpressionCommand exCommand = new ExpressionCommand();
+            model.addAttribute("expressionCommand", exCommand);
 
         }
 
@@ -294,6 +275,67 @@ public class CalculationController {
     }
 
 
+    @RequestMapping(value = "/trackbuilder", method = RequestMethod.POST)
+    public String covariant(Model model, ExpressionCommand expressionCommand, HttpSession httpSession) {
+
+        System.out.println(expressionCommand.getExpression());
+
+
+        Sessions sessionsControll = Sessions.getInstance();
+        Session currentSession = sessionsControll.getSession(httpSession.getId());
+
+        Track track = BackendConnector.getInstance().createCustomTrack(expressionCommand);
+
+        currentSession.addCustomTrack(track);
+
+        return withNewTrack(currentSession, model);
+    }
+
+
+    /**
+     * Resets the collector if there is one in the sessions. Sets new Model and InterfaceCommand if there is no old session.
+     * To be called after a new track is created (uploaded or created by an expression)
+     *
+     * @param currentSession - session of the user
+     * @param model - current model
+     *
+     * @return result page
+     */
+    private String withNewTrack(Session currentSession, Model model) {
+
+        ResultCollector collector = currentSession.getCollector();
+
+        if (collector != null) {
+            Path position_file= currentSession.getFile();
+            UserData data = new UserData(position_file);
+
+            List<TestResult> covariants = currentSession.getCovariants();
+
+            setModel(model, collector, data, currentSession.getOriginalFilename());
+            model.addAttribute("covariants", covariants);
+            model.addAttribute("covariantCount", covariants.size());
+            model.addAttribute("customTracks", currentSession.getCustomTracks());
+
+
+        } else {
+            InterfaceCommand command = new InterfaceCommand();
+            command.setOriginalFilename("");
+            command.setMinBg(10000);
+
+            model.addAttribute("interfaceCommand", command);
+            model.addAttribute("bgCount", 10000);
+            model.addAttribute("sigTrackCount", null);
+            model.addAttribute("trackCount", null);
+            model.addAttribute("customTracks", currentSession.getCustomTracks());
+
+
+            ExpressionCommand exCommand = new ExpressionCommand();
+            model.addAttribute("expressionCommand", exCommand);
+        }
+
+        return "result"; //TODO plain view
+    }
+
     /**
      * Set params for model with known interfaceCommand
      *
@@ -350,5 +392,8 @@ public class CalculationController {
 
         setModel(model, collector, command, new ArrayList<>());
 
+
+        ExpressionCommand exCommand = new ExpressionCommand();
+        model.addAttribute("expressionCommand", exCommand);
     }
 }
