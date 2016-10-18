@@ -24,7 +24,24 @@
                     <button class="btn btn-default">Upload</button>
                   </form>
                 </div>
+
+
+                <form action="#" th:action="@{/trackbuilder}" th:object="${expressionCommand}" method="post" id="create_track">
+                   <input title="Expression" type="text" id="expression" name="expression" th:field="*{expression}" form="create_track" />
+                   <input type="submit" form="create_track">
+                </form>
+
+
+                  <table>
+                      <th:block th:each="result: ${results_inout}">
+                          <td th:text="${result.id}"></td>
+                          <td th:text="${result.name}"></td>
+                      </th:block>
+                  </table>
+
+
               </div>
+
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               </div>
