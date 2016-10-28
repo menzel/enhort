@@ -73,10 +73,10 @@ public class Distances implements TestTrack<DistanceTrack>{
 
             // add smaller distance to map
 
-            distances.add(min(upstream,downstream));
+             distances.add(min(upstream,downstream));
         }
 
-        return distances;
+        return distances.stream().filter(l -> l < 5000 && l > -5000).collect(Collectors.toList());
     }
 
     /**
