@@ -401,4 +401,25 @@ public final class Tracks {
 
         return true;
     }
+
+    /**
+     * Converts a distance track to a inout track by a given range.
+     * Range is substraced for start and added to each position for the end
+     *
+     * @param track - track to convert
+     * @param range - range to set inout window
+     *
+     * @return inout track with the ranges as inside intervals
+     */
+    public static InOutTrack convertByRange(DistanceTrack track, int range) {
+        List<Long> start = new ArrayList<>();
+        List<Long> end = new ArrayList<>();
+
+        for(Long s: track.getStarts()){
+            start.add(s - range);
+            end.add(s + range);
+        }
+
+        return  TrackFactory.getInstance().createInOutTrack(start, end, track.getName() + " as inout ", track.getDescription());
+    }
 }
