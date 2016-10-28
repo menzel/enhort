@@ -12,9 +12,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * Calculates a distances background model for a single distance track
+ *
  * Created by menzel on 10/10/16.
  */
-public class DistanceBackgroundModel implements Sites {
+class DistanceBackgroundModel implements Sites {
 
     private transient MersenneTwister rand;
     private List<Long> positions;

@@ -30,6 +30,7 @@ public final class BackgroundModelFactory {
 
     }
 
+
     /**
      * Creates a background model based on one track as covariant, the given sites and a minimum of sites to create.
      *
@@ -39,16 +40,29 @@ public final class BackgroundModelFactory {
      *
      * @return background model as sites object.
      */
-    public static Sites createBackgroundModel(Track track, Sites sites, int minSites, double influence) {
-         if (track instanceof InOutTrack)
-            return new SingleTrackBackgroundModel((InOutTrack) track, sites,minSites);
+    public static Sites createBackgroundModel(Track track, Sites sites, int minSites) {
+        return  createBackgroundModel(track,sites,minSites,1);
+    }
 
+    /**
+     * Creates a background model based on one track as covariant, the given sites and a minimum of sites to create.
+     *
+     * @param track - covariant track
+     * @param sites - sites to set the probabilities for the background positions
+     * @param minSites - minimum expected sites count
+     * @param influence - influence of the model on positions (between 0 and 1)
+     *
+     * @return background model as sites object.
+     */
+    public static Sites createBackgroundModel(Track track, Sites sites, int minSites, double influence) {
+        if (track instanceof InOutTrack)
+            return new SingleTrackBackgroundModel((InOutTrack) track, sites,minSites);
         else if (track instanceof ScoredTrack) // put single track in a list of size one
             return new SecondScoreMultiTrackBackgroundModel((ScoredTrack) track, sites, minSites, influence);
-
         else if (track instanceof NamedTrack) //convert the single track to a scored track and put in a list of size one
              return new SecondScoreMultiTrackBackgroundModel(Tracks.cast((NamedTrack) track), sites, minSites, influence);
-
+        else if (track instanceof DistanceTrack)
+             return new DistanceBackgroundModel(track, sites);
         return null;
     }
 
