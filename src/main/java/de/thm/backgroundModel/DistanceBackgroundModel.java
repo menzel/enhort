@@ -7,7 +7,7 @@ import org.apache.commons.math3.random.MersenneTwister;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,37 +20,60 @@ public class DistanceBackgroundModel implements Sites {
     private List<Long> positions;
 
 
-    DistanceBackgroundModel(List<Track> tracks, Sites sites){
+    DistanceBackgroundModel(Track track, Sites sites){
 
         rand  = new MersenneTwister();
-
-        HashMap<Track, List<Long>> distances = new HashMap<>();
-
-        for(Track track: tracks)
-            distances.put(track, generateDistanceHist(track, sites));
-
         int count = sites.getPositionCount(); //(sites.getPositionCount() > 10000) ? sites.getPositionCount() : 10000;
 
-        positions = generatePositions(distances, count);
+        positions = generatePositions(generateDistanceHist(track, sites), track, count);
+        Collections.sort(positions);
 
     }
 
-    private List<Long> generatePositions(HashMap<Track, List<Long>> distances, int count) {
+    private List<Long> generatePositions(List<Long> distances, Track track, int count) {
+
         List<Long> positions = new ArrayList<>();
+        //Collections.sort(distances);
+        //Collections.reverse(distances);
 
-        for(Track track: distances.keySet()){
-            for(int i = 0 ; i < count/distances.size(); i++) {
+        List<Long> upsteam = distances.stream().filter(i -> i < 0).sorted().collect(Collectors.toList());
+        Collections.reverse(upsteam);
+        List<Long> downstream = distances.stream().filter(i -> i >= 0).sorted().collect(Collectors.toList());
+        Collections.reverse(downstream);
 
-                List<Long> dist = distances.get(track);
+        int i = 0;
 
-                //get random start:
-                long start = track.getStarts().get((int) Math.floor(rand.nextDouble() * track.getStarts().size()));
+        while(i <= count){
+            //get random start:
+            int id = 1 + (int) Math.floor(rand.nextDouble() * (track.getStarts().size()-2));
 
-                //get random distance
-                long offset = dist.get((int) Math.floor(rand.nextDouble() * dist.size()));
+            long start = track.getStarts().get(id);
+            long prev = track.getStarts().get(id-1);
+            long fol = track.getStarts().get(id+1);
 
-                positions.add(start + offset);
+            long dist_prev = (start - prev)/2;
+            long dist_fol = (fol - start)/2;
+
+            if(dist_fol < dist_prev){ // prev is bigger
+                for(Long dist: upsteam)
+                    if(dist < dist_prev){
+                        //set new pos:
+                        positions.add(start + dist);
+                        distances.remove(dist); // ?
+                        break;
+                    }
+
+            } else {
+                for(Long dist: downstream)
+                    if(dist < dist_fol){
+                        //set new pos:
+                        positions.add(start + dist);
+                        distances.remove(dist); // ?
+                        break;
+                    }
             }
+
+            i++;
         }
 
         return positions;
@@ -62,7 +85,7 @@ public class DistanceBackgroundModel implements Sites {
 
         distances.addAll(dist.distancesToNext(track, sites));
 
-        return  distances.stream().filter(i -> i < 15000).collect(Collectors.toList());
+        return  distances.stream().filter(i -> i < 5000).collect(Collectors.toList());
     }
 
 

@@ -2,7 +2,6 @@ package de.thm.backgroundModel;
 
 import de.thm.calc.Distances;
 import de.thm.genomeData.DistanceTrack;
-import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
 import de.thm.positionData.Sites;
 import org.junit.Test;
@@ -26,18 +25,16 @@ public class DistanceBackgroundModelTest {
         List<Long> start1 = new ArrayList<>();
 
 
+
+        start1.add(0L);
         start1.add(1L);
         start1.add(2L);
         start1.add(20L);
         start1.add(50L);
+        start1.add(100L);
 
 
         DistanceTrack track1 = mockTrack(start1);
-
-        List<Track> tracks;
-
-        tracks = new ArrayList<>();
-        tracks.add(track1);
 
         //////// create positions ////////
 
@@ -70,7 +67,7 @@ public class DistanceBackgroundModelTest {
 
         };
 
-        DistanceBackgroundModel model = new DistanceBackgroundModel(tracks,sites);
+        DistanceBackgroundModel model = new DistanceBackgroundModel(track1,sites);
         Distances dist = new Distances();
 
         ///////// compare with expected results //////////////
@@ -84,7 +81,7 @@ public class DistanceBackgroundModelTest {
 
             } catch (AssertionError e){ //catch and throw error again with extended error message
 
-                String message = expected.toString() + model.getPositions().toString() + e;
+                String message = "exp: " + expected.toString() + " got: " + d + " for " + model.getPositions().toString() + e ;
                 throw new AssertionError(message);
             }
         }
