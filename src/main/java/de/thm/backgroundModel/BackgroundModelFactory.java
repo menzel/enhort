@@ -62,7 +62,7 @@ public final class BackgroundModelFactory {
         else if (track instanceof NamedTrack) //convert the single track to a scored track and put in a list of size one
              return new SecondScoreMultiTrackBackgroundModel(Tracks.cast((NamedTrack) track), sites, minSites, influence);
         else if (track instanceof DistanceTrack)
-             return new DistanceBackgroundModel(track, sites);
+             return new DistanceBackgroundModel((DistanceTrack) track, sites);
         return null;
     }
 
