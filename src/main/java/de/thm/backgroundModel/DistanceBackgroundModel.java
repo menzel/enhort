@@ -1,7 +1,10 @@
 package de.thm.backgroundModel;
 
 import de.thm.calc.Distances;
+import de.thm.genomeData.DistanceTrack;
+import de.thm.genomeData.InOutTrack;
 import de.thm.genomeData.Track;
+import de.thm.genomeData.Tracks;
 import de.thm.positionData.Sites;
 import org.apache.commons.math3.random.MersenneTwister;
 
@@ -22,50 +25,55 @@ class DistanceBackgroundModel implements Sites {
     private List<Long> positions;
 
 
-    DistanceBackgroundModel(Track track, Sites sites){
+    DistanceBackgroundModel(DistanceTrack track, Sites sites){
 
         rand  = new MersenneTwister();
-        int count = sites.getPositionCount(); //(sites.getPositionCount() > 10000) ? sites.getPositionCount() : 10000;
 
-        positions = generatePositions(generateDistanceHist(track, sites), track, count);
+        //generate positions inside
+        List<Long> distHist  = generateDistanceHist(track, sites);
+        int count = distHist.size(); //(sites.getPositionCount() > 10000) ? sites.getPositionCount() : 10000;
+        positions = generatePositions(distHist, track, count);
+
+        //generate outside positions
+        SingleTrackBackgroundModel outsideModel = new SingleTrackBackgroundModel();
+        InOutTrack ousideTrack = Tracks.invert(Tracks.convertByRange(track, 5000));
+        positions.addAll(outsideModel.randPositions(sites.getPositionCount()- distHist.size(), ousideTrack));
+
         Collections.sort(positions);
-
     }
 
     private List<Long> generatePositions(List<Long> distances, Track track, int count) {
 
         List<Long> positions = new ArrayList<>();
-        //Collections.sort(distances);
-        //Collections.reverse(distances);
-
-        List<Long> upsteam = distances.stream().filter(i -> i < 0).sorted().collect(Collectors.toList());
-        Collections.reverse(upsteam);
+        List<Long> upstream = distances.stream().filter(i -> i < 0).sorted().collect(Collectors.toList());
         List<Long> downstream = distances.stream().filter(i -> i >= 0).sorted().collect(Collectors.toList());
-        Collections.reverse(downstream);
+        Collections.reverse(downstream); // reverse downstream list to begin with the farest distances to the postion. upstream is already in order
 
         int i = 0;
 
         while(i <= count){
+
             //get random start:
             int id = 1 + (int) Math.floor(rand.nextDouble() * (track.getStarts().size()-2));
-
             long start = track.getStarts().get(id);
-            long prev = track.getStarts().get(id-1);
-            long fol = track.getStarts().get(id+1);
 
-            long dist_prev = (start - prev)/2;
-            long dist_fol = (fol - start)/2;
+            if(rand.nextBoolean()){
+                long prev = track.getStarts().get(id-1);
+                long dist_prev = (prev - start)/2;
 
-            if(dist_fol < dist_prev){ // prev is bigger
-                for(Long dist: upsteam)
-                    if(dist < dist_prev){
+                for(Long dist: upstream)
+                    if(dist > dist_prev){
                         //set new pos:
-                        positions.add(start + dist);
+                        positions.add(start + dist); //dist is negative in this branch
                         distances.remove(dist); // ?
                         break;
                     }
 
             } else {
+
+                long fol = track.getStarts().get(id+1);
+                long dist_fol = (fol - start)/2;
+
                 for(Long dist: downstream)
                     if(dist < dist_fol){
                         //set new pos:
@@ -87,7 +95,7 @@ class DistanceBackgroundModel implements Sites {
 
         distances.addAll(dist.distancesToNext(track, sites));
 
-        return  distances.stream().filter(i -> i < 5000).collect(Collectors.toList());
+        return  distances.stream().filter(i -> i < 5000 && i > -5000).collect(Collectors.toList());
     }
 
 
