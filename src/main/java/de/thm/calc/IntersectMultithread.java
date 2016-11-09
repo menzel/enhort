@@ -1,6 +1,8 @@
 package de.thm.calc;
 
 import de.thm.genomeData.*;
+import de.thm.misc.Logo;
+import de.thm.misc.LogoCreator;
 import de.thm.positionData.Sites;
 import de.thm.stat.EffectSize;
 import de.thm.stat.IndependenceTest;
@@ -58,6 +60,9 @@ public final class IntersectMultithread {
 
             }
         }
+
+        LogoWrapper logoWrapper = new LogoWrapper(measuredPositions,collector);
+        exe.execute(logoWrapper);
 
 
         exe.shutdown();
@@ -169,4 +174,32 @@ public final class IntersectMultithread {
     }
 
 
+    private final class LogoWrapper implements Runnable {
+
+
+        private final Sites measuredPos;
+        private final ResultCollector collector;
+
+        /**
+         * Constructor for the wrapper object
+         *
+         * @param measuredPos - positions from the outside of the program
+         * @param collector   - collector to collect results in
+         */
+        private LogoWrapper(Sites measuredPos,  ResultCollector collector) {
+
+            this.measuredPos = measuredPos;
+            this.collector = collector;
+        }
+
+        @Override
+        public void run() {
+            Genome genome = Genome.getInstance();
+            int width = 8;//TODO use user set value
+
+            Logo logo = LogoCreator.createLogo(genome.getSequence(measuredPos, width));
+
+            collector.addLogo(logo);
+        }
+    }
 }
