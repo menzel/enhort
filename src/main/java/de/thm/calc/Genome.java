@@ -28,7 +28,10 @@ public class Genome {
 
     public List<String> getSequence(Sites sites, int width){
 
-        List<Long> sublist = sites.getPositions().subList(0, 500);
+        List<Long> sublist = sites.getPositions();
+
+        if(sites.getPositionCount() > 5000)
+            sublist = sites.getPositions().subList(0, 5000);
 
         List<String> sequences = new ArrayList<>();
         int counter = 0;
@@ -59,11 +62,10 @@ public class Genome {
 
 
                 int first = Math.toIntExact(start.getRight()) - width/2;
-                int last = Math.toIntExact(end.getRight()) + width/2;
 
-                if (first < last) {
+                if (first < Math.toIntExact(end.getRight())) {
 
-                    while (it.hasNext()) {
+                    while (it.hasNext() || counter > first) {
 
                         if (counter > first) {
                             int lineStart = first - (counter-50);
