@@ -2,7 +2,9 @@ package de.thm.stat;
 
 import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
+import de.thm.misc.Logo;
 import de.thm.positionData.Sites;
+import org.json.JSONArray;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ public final class ResultCollector implements Serializable{
     private final List<TestResult> results;
     private final Sites backgroundSites;
     private List<String> knownPackages; //keeps a list of all known packages for the gui to display
+    private Logo logo;
 
     public ResultCollector(Sites bgModel, Track.Assembly assembly) {
         results = Collections.synchronizedList(new ArrayList<>());
@@ -200,5 +203,13 @@ public final class ResultCollector implements Serializable{
 
     public void setKnownPackages(List<String> packages){
         this.knownPackages = packages;
+    }
+
+    public JSONArray getLogo() {
+        return logo.getHeights();
+    }
+
+    public void addLogo(Logo logo) {
+        this.logo = logo;
     }
 }
