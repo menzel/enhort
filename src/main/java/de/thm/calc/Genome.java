@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Stores the information for a genome.
+ *
+ * Gets sequences by positons
+ *
  * Created by menzel on 11/4/16.
  */
 public final class Genome {
@@ -33,7 +37,15 @@ public final class Genome {
     }
 
 
-    public List<String> getSequence(Sites sites, int width){
+    /**
+     * Return a list of sequences with a width of width that are selected by the given list of positions
+     *
+     * @param sites - positions to check
+     * @param width - width of the sequences
+     *
+     * @return list of sequences at sites
+     */
+    List<String> getSequence(Sites sites, int width){
 
         List<Long> sublist = sites.getPositions();
 
@@ -72,6 +84,7 @@ public final class Genome {
 
                 if (first < Math.toIntExact(end.getRight())) {
 
+                    assert it != null;
                     while (it.hasNext() || counter > first) {
 
                         if (counter > first) {
