@@ -97,7 +97,38 @@ th{
 #save{
     color: rgba(51,51,51,0.8);
 }
+/*
+* -- sequence logo
+*/
 
+#sequencelogo{
+    width: 600px;
+    height:170px;
+    font: 10px Arial;
+}
+
+.axis path, .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.letter-A {
+    fill: rgba(0, 128, 0, 0.58);
+    font-weight: bold;
+}
+.letter-C {
+    fill: rgba(0, 0, 255, 0.71);
+    font-weight: bold;
+}
+.letter-T {
+    fill: rgba(255, 0, 0, 0.74);
+    font-weight: bold;
+}
+.letter-G {
+    fill: rgba(255, 255, 0, 0.8);
+    font-weight: bold;
+}
 
 /*
 * -- Misc --
@@ -110,3 +141,4 @@ th{
     margin-left: inherit;
     padding: 5px
 }
+
