@@ -1,7 +1,12 @@
 package de.thm.misc;
 
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,18 +17,68 @@ import java.util.Map;
  */
 public final class Logo implements Serializable{
 
-    private final List<Map<String, Double>> heights = new ArrayList<>();
+    private final List<List<Map<String, String>>> heights = new ArrayList<>();
 
     public void add(Map<String, Double> height) {
-        heights.add(height);
+
+        List<Map<String, String>> positionlist = new ArrayList<>();
+
+        for(Map.Entry<String, Double> entry: height.entrySet()){
+
+            Map<String, String> letter = new HashMap<>();
+
+            letter.put("letter", entry.getKey());
+            letter.put("bits", String.valueOf(entry.getValue()));
+
+
+            positionlist.add(letter);
+
+        }
+
+        heights.add(positionlist);
     }
 
-    public List<Map<String, Double>> getHeights() {
-        return heights;
+
+    public JSONArray getHeights() {
+        JSONArray hg = new JSONArray();
+
+        for(List<Map<String, String>> position: heights) {
+            JSONArray pos = new JSONArray();
+
+            for (Map<String, String> base : position) {
+
+                if (Double.parseDouble(base.get("bits")) > 0.0) {
+                    JSONObject bs = new JSONObject();
+
+                    bs.put("letter", base.get("letter").toUpperCase());
+                    bs.put("bits", Double.parseDouble(base.get("bits")));
+
+                    pos.put(bs);
+                }
+            }
+
+            hg.put(pos);
+        }
+
+        return hg;
+
     }
 
     @Override
     public String toString() {
-        return heights.toString();
+        String output = "[";
+
+        for(List<Map<String, String>> position: heights){
+            output += "[";
+            for(Map<String, String> base: position){
+                if(Double.parseDouble(base.get("bits")) > 0.0)
+                    output += "{letter:'" + base.get("letter").toUpperCase() + "', bits:" + base.get("bits") + "},";
+            }
+
+            output += "],";
+        }
+        return output + "];";
+
     }
+
 }
