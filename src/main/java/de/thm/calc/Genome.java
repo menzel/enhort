@@ -6,6 +6,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -14,16 +15,22 @@ import java.util.List;
 /**
  * Created by menzel on 11/4/16.
  */
-public class Genome {
+public final class Genome {
 
+    private static Genome instance;
     private Path filepath;
 
 
-    public Genome(Path filepath){
+    private Genome(Path filepath){
         // write external tool which is called from java to get sequence logo
         this.filepath = filepath;
     }
 
+    public static Genome getInstance() {
+        if (instance == null)
+            instance = new Genome(new File("/home/menzel/Desktop/chromosomes").toPath());
+        return instance;
+    }
 
 
     public List<String> getSequence(Sites sites, int width){
@@ -68,7 +75,7 @@ public class Genome {
                     while (it.hasNext() || counter > first) {
 
                         if (counter > first) {
-                            int lineStart = first - (counter-50);
+                            int lineStart = first - (counter - line.length());
                             int lineEnd = lineStart + width;
 
                             if(lineEnd > 50){ //if end is on the next line
@@ -83,7 +90,8 @@ public class Genome {
 
                                 break;
                             } else {
-                                sequences.add(line.substring(lineStart,lineEnd));
+                                if(lineStart >= 0 && lineEnd > 0)
+                                    sequences.add(line.substring(lineStart,lineEnd));
                                 break;
                             }
                         }
