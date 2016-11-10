@@ -6,7 +6,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -19,21 +18,13 @@ import java.util.List;
  *
  * Created by menzel on 11/4/16.
  */
-public final class Genome {
+final class Genome {
 
-    private static Genome instance;
     private Path filepath;
 
-
-    private Genome(Path filepath){
+    Genome(Path filepath){
         // write external tool which is called from java to get sequence logo
         this.filepath = filepath;
-    }
-
-    public static Genome getInstance() {
-        if (instance == null)
-            instance = new Genome(new File("/home/menzel/Desktop/chromosomes").toPath());
-        return instance;
     }
 
 
