@@ -368,6 +368,8 @@ public class CalculationController {
         model.addAttribute("trackPackages", collector.getKnownPackages());
         model.addAttribute("ran", true);
 
+        model.addAttribute("sequencelogo", collector.getLogo().toString());
+
     }
 
     /**
