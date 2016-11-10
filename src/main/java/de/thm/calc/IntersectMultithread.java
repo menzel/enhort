@@ -61,7 +61,7 @@ public final class IntersectMultithread {
             }
         }
 
-        LogoWrapper logoWrapper = new LogoWrapper(measuredPositions,collector);
+        LogoWrapper logoWrapper = new LogoWrapper(measuredPositions,collector, intervals.get(0).getAssembly());
         exe.execute(logoWrapper);
 
 
@@ -179,6 +179,7 @@ public final class IntersectMultithread {
 
         private final Sites measuredPos;
         private final ResultCollector collector;
+        private final Track.Assembly assembly;
 
         /**
          * Constructor for the wrapper object
@@ -186,18 +187,19 @@ public final class IntersectMultithread {
          * @param measuredPos - positions from the outside of the program
          * @param collector   - collector to collect results in
          */
-        private LogoWrapper(Sites measuredPos,  ResultCollector collector) {
+        private LogoWrapper(Sites measuredPos, ResultCollector collector, Track.Assembly assembly) {
 
             this.measuredPos = measuredPos;
             this.collector = collector;
+            this.assembly = assembly;
         }
 
         @Override
         public void run() {
-            Genome genome = Genome.getInstance();
+            GenomeFactory genome = GenomeFactory.getInstance();
             int width = 8;//TODO use user set value
 
-            Logo logo = LogoCreator.createLogo(genome.getSequence(measuredPos, width));
+            Logo logo = LogoCreator.createLogo(genome.getSequence(assembly, measuredPos, width));
 
             collector.addLogo(logo);
         }
