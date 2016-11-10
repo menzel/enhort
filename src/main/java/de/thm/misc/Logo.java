@@ -19,6 +19,11 @@ public final class Logo implements Serializable{
 
     private final List<List<Map<String, String>>> heights = new ArrayList<>();
 
+    /**
+     * Add the data for one position for the sequencelogo
+     *
+     * @param height - the heights of one position of a sequencelogo
+     */
     public void add(Map<String, Double> height) {
 
         List<Map<String, String>> positionlist = new ArrayList<>();
@@ -39,6 +44,11 @@ public final class Logo implements Serializable{
     }
 
 
+    /**
+     * Returns the heights for letters of the sequencelogo as JSONArray
+     *
+     * @return - heights of letters for sequencelogo
+     */
     public JSONArray getHeights() {
         JSONArray hg = new JSONArray();
 
@@ -66,19 +76,7 @@ public final class Logo implements Serializable{
 
     @Override
     public String toString() {
-        String output = "[";
-
-        for(List<Map<String, String>> position: heights){
-            output += "[";
-            for(Map<String, String> base: position){
-                if(Double.parseDouble(base.get("bits")) > 0.0)
-                    output += "{letter:'" + base.get("letter").toUpperCase() + "', bits:" + base.get("bits") + "},";
-            }
-
-            output += "],";
-        }
-        return output + "];";
-
+        return heights.toString();
     }
 
 }
