@@ -39,10 +39,10 @@ class GenomeFactory {
      *
      * @return list of sequences at sites for given assembly. null if assembly is not known
      */
-    List<String> getSequence(Track.Assembly assembly, Sites sites, int width){
+    List<String> getSequence(Track.Assembly assembly, Sites sites, int width, int count){
 
         if(genomes.containsKey(assembly))
-            return genomes.get(assembly).getSequence(sites, width);
+            return genomes.get(assembly).getSequence(sites, width, count);
         return null;
     }
 

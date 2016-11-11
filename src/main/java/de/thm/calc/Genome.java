@@ -34,13 +34,12 @@ final class Genome {
      * @param sites - positions to check
      * @param width - width of the sequences
      *
+     *
      * @return list of sequences at sites
      */
-    List<String> getSequence(Sites sites, int width){
+    List<String> getSequence(Sites sites, int width, int count){
 
         List<Long> sublist = new ArrayList<>();
-
-        int count = 3000;
 
         if(sites.getPositionCount() > count){
             //add a block from the first postions
