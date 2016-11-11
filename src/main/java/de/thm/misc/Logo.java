@@ -79,4 +79,19 @@ public final class Logo implements Serializable{
         return heights.toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Logo logo = (Logo) o;
+
+        return heights.equals(logo.heights);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return heights.hashCode();
+    }
 }
