@@ -51,6 +51,8 @@ final class Genome {
 
             //add a block from the end
             sublist.addAll(sites.getPositions().subList(sites.getPositionCount()-(count/3), sites.getPositionCount()));
+        } else {
+            sublist.addAll(sites.getPositions());
         }
 
 
