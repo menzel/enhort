@@ -38,10 +38,22 @@ final class Genome {
      */
     List<String> getSequence(Sites sites, int width){
 
-        List<Long> sublist = sites.getPositions();
+        List<Long> sublist = new ArrayList<>();
 
-        if(sites.getPositionCount() > 5000)
-            sublist = sites.getPositions().subList(0, 5000);
+        int count = 3000;
+
+        if(sites.getPositionCount() > count){
+            //add a block from the first postions
+            sublist.addAll(sites.getPositions().subList(0, count/3));
+
+            //add a block from the middle
+            int start = count/3 + ((sites.getPositionCount() - (count/3 + count/3) - count/3)/ 2);
+            sublist.addAll(sites.getPositions().subList(start, start + count/3));
+
+            //add a block from the end
+            sublist.addAll(sites.getPositions().subList(sites.getPositionCount()-(count/3), sites.getPositionCount()));
+        }
+
 
         List<String> sequences = new ArrayList<>();
         int counter = 0;
