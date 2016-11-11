@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Created by menzel on 11/10/16.
  */
-class GenomeFactory {
+final class GenomeFactory {
 
     private static GenomeFactory instance;
     private Map<Track.Assembly, Genome> genomes = new HashMap<>();

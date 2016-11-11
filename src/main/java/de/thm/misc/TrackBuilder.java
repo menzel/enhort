@@ -15,7 +15,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  *
  * Created by menzel on 10/11/16.
  */
-public class TrackBuilder {
+public final class TrackBuilder {
 
 
     /**

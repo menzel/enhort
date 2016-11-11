@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  *
  * Created by menzel on 9/7/16.
  */
-public class Distances implements TestTrack<DistanceTrack>{
+public final class Distances implements TestTrack<DistanceTrack>{
 
 
     /**
