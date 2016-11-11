@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Factory class to provide access to different genome versions
+ *
  * Created by menzel on 11/10/16.
  */
 final class GenomeFactory {
