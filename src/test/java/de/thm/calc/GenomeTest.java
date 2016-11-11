@@ -1,7 +1,6 @@
 package de.thm.calc;
 
 import de.thm.genomeData.Track;
-import de.thm.misc.LogoCreator;
 import de.thm.positionData.Sites;
 import de.thm.positionData.UserData;
 import org.junit.Test;
@@ -14,6 +13,8 @@ import java.util.List;
 import static junit.framework.TestCase.assertTrue;
 
 /**
+ * Test Genome class to get sequences by positions
+ *
  * Created by menzel on 11/8/16.
  */
 public class GenomeTest {
@@ -24,12 +25,19 @@ public class GenomeTest {
 
         GenomeFactory genome = GenomeFactory.getInstance(); //new Genome(new File("/home/menzel/Desktop/chromosomes").toPath());
         //Sites userDat = new UserData(new File("/home/menzel/Desktop/THM/lfba/enhort/sleeping_beauty.hg19.bed").toPath());
-        Sites userDat = new UserData(new File("/home/menzel/Desktop/THM/lfba/enhort/HIV-hg19.bed").toPath());
+        Sites userDat = new UserData(new File("/home/menzel/Desktop/THM/lfba/enhort/sleeping_beauty.hg19.bed").toPath());
 
         List<String> seq = genome.getSequence(Track.Assembly.hg19, userDat, 8, Integer.MAX_VALUE);
 
-        //seq.forEach(System.out::println);
-        System.out.println(LogoCreator.createLogo(seq));
+        assert seq != null;
+
+        for(String s: seq){
+            s = s.toLowerCase();
+            if(!s.contains("ta")) //comparing sb with known TA motif
+                System.err.println("Sequence was " + s);
+            assertTrue(s.contains("ta"));
+
+        }
 
     }
 
