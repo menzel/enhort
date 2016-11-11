@@ -1,6 +1,5 @@
 package de.thm.calc;
 
-import de.thm.genomeData.Track;
 import de.thm.positionData.Sites;
 import de.thm.positionData.UserData;
 import org.junit.Test;
@@ -24,10 +23,9 @@ public class GenomeTest {
     public void getSequence_another() throws Exception {
 
         GenomeFactory genome = GenomeFactory.getInstance(); //new Genome(new File("/home/menzel/Desktop/chromosomes").toPath());
-        //Sites userDat = new UserData(new File("/home/menzel/Desktop/THM/lfba/enhort/sleeping_beauty.hg19.bed").toPath());
         Sites userDat = new UserData(new File("/home/menzel/Desktop/THM/lfba/enhort/sleeping_beauty.hg19.bed").toPath());
 
-        List<String> seq = genome.getSequence(Track.Assembly.hg19, userDat, 8, Integer.MAX_VALUE);
+        List<String> seq = genome.getSequence(GenomeFactory.Assembly.hg19, userDat, 8, Integer.MAX_VALUE);
 
         assert seq != null;
 
@@ -55,12 +53,7 @@ public class GenomeTest {
              @Override
             public List<Long> getPositions() {
 
-                 List<Long> sites = new ArrayList<>();
-                 /*
-                 sites.add(14L);
-                 sites.add(98L);
-                 sites.add(102L);
-                */
+                List<Long> sites = new ArrayList<>();
 
                 // https://genome.ucsc.edu/cgi-bin/das/hg19/dna?segment=chr1:817942,817946
                 sites.add(10002L); // nta|acc
@@ -85,10 +78,10 @@ public class GenomeTest {
              }
          };
 
-        List<String> seq = genome.getSequence(Track.Assembly.hg19, sites, 5, Integer.MAX_VALUE);
+        List<String> seq = genome.getSequence(GenomeFactory.Assembly.hg19, sites, 5, Integer.MAX_VALUE);
 
-        //seq.forEach(System.out::println);
 
+        assert seq != null;
         assertTrue(seq.get(0).contains("taac"));
         assertTrue(seq.get(1).contains("ATAA"));
         assertTrue(seq.get(2).contains("tta"));
