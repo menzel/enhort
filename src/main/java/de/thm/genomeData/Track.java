@@ -1,5 +1,7 @@
 package de.thm.genomeData;
 
+import de.thm.calc.GenomeFactory;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -19,7 +21,7 @@ public abstract class Track implements Serializable, Cloneable {
     public static long serialVersionUID = 606249588L;
     static AtomicInteger UID = new AtomicInteger(1);
 
-    public abstract Assembly getAssembly();
+    public abstract GenomeFactory.Assembly getAssembly();
 
     public abstract  CellLine getCellLine();
 
@@ -41,8 +43,6 @@ public abstract class Track implements Serializable, Cloneable {
 
     @Override
     public abstract boolean equals(Object o);
-
-    public enum Assembly {hg19, hg38}
 
     public enum CellLine {HeLa, hESC, none}
 }

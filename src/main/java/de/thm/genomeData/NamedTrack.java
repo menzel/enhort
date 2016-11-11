@@ -1,5 +1,7 @@
 package de.thm.genomeData;
 
+import de.thm.calc.GenomeFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,14 +14,14 @@ public class NamedTrack extends Track {
 
     private final int uid = UID.incrementAndGet();
     private final String name;
-    private final Assembly assembly;
+    private final GenomeFactory.Assembly assembly;
     private final CellLine cellLine;
     private final String description;
     private List<Long> intervalsStart;
     private List<Long> intervalsEnd;
     private List<String> intervalName;
 
-    NamedTrack(List<Long> starts, List<Long> ends, List<String> names, String name, String description, Assembly assembly, CellLine cellLine) {
+    NamedTrack(List<Long> starts, List<Long> ends, List<String> names, String name, String description, GenomeFactory.Assembly assembly, CellLine cellLine) {
 
         this.intervalsStart= starts;
         this.intervalsEnd= ends;
@@ -72,7 +74,7 @@ public class NamedTrack extends Track {
 
 
     @Override
-    public Assembly getAssembly() {
+    public GenomeFactory.Assembly getAssembly() {
         return assembly;
     }
 

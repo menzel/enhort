@@ -1,5 +1,6 @@
 package de.thm.run;
 
+import de.thm.calc.GenomeFactory;
 import de.thm.genomeData.Track;
 import de.thm.misc.ChromosomSizes;
 
@@ -29,7 +30,7 @@ class RandomTrack extends Track {
 
 
     @Override
-    public Assembly getAssembly() {
+    public GenomeFactory.Assembly getAssembly() {
         return null;
     }
 

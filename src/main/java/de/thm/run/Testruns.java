@@ -6,6 +6,10 @@ public class Testruns {
     public static void main(String[] args) {
 
 
+
+
+
+
         //Sites userDat = new UserData(new File("/home/menzel/Desktop/THM/lfba/projektphase/MLV.bed").toPath());
         //Sites userDat = new UserData(new File("/home/menzel/Desktop/THM/lfba/projekphase/genomic_sites.sleeping_beauty.hg19.txt"));
         //Sites userDat = new UserData(new File("/home/menzel/Downloads/sites_andreas/copy.tab").toPath());
@@ -28,7 +32,6 @@ public class Testruns {
         }
 
         System.out.println((Arrays.toString(intersect.getAverageDistance(track, userDat).toArray())));
-        */
 
         Analyse analyse = new Analyse();
         try {
@@ -36,6 +39,7 @@ public class Testruns {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        */
 
     }
 }

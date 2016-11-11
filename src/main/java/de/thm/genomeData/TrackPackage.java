@@ -1,5 +1,7 @@
 package de.thm.genomeData;
 
+import de.thm.calc.GenomeFactory;
+
 import java.util.List;
 
 /**
@@ -11,9 +13,9 @@ public final class TrackPackage {
     private final List<Track> trackList;
     private final String description;
     private final PackageName name;
-    private final Track.Assembly assembly;
+    private final GenomeFactory.Assembly assembly;
 
-    TrackPackage(List<Track> trackList, PackageName name, String description, Track.Assembly assembly) {
+    TrackPackage(List<Track> trackList, PackageName name, String description, GenomeFactory.Assembly assembly) {
         this.trackList = trackList;
         this.name = name;
         this.description = description;
@@ -32,7 +34,7 @@ public final class TrackPackage {
         return name;
     }
 
-    public Track.Assembly getAssembly() {
+    public GenomeFactory.Assembly getAssembly() {
         return assembly;
     }
 

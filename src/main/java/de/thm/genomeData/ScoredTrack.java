@@ -1,5 +1,7 @@
 package de.thm.genomeData;
 
+import de.thm.calc.GenomeFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,11 +18,11 @@ public class ScoredTrack extends Track {
     private final List<String> intervalName;
     private final List<Double> intervalScore;
     private final String name;
-    private final Assembly assembly;
+    private final GenomeFactory.Assembly assembly;
     private final CellLine cellLine;
     private final String description;
 
-    ScoredTrack(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String description, Assembly assembly, CellLine cellLine) {
+    ScoredTrack(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String description, GenomeFactory.Assembly assembly, CellLine cellLine) {
 
         intervalsStart = starts;
         intervalsEnd = ends;
@@ -99,7 +101,7 @@ public class ScoredTrack extends Track {
 
 
     @Override
-    public Assembly getAssembly() {
+    public GenomeFactory.Assembly getAssembly() {
         return this.assembly;
     }
 

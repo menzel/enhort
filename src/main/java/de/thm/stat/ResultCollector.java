@@ -1,6 +1,6 @@
 package de.thm.stat;
 
-import de.thm.genomeData.Track;
+import de.thm.calc.GenomeFactory;
 import de.thm.genomeData.TrackFactory;
 import de.thm.misc.Logo;
 import de.thm.positionData.Sites;
@@ -26,7 +26,7 @@ public final class ResultCollector implements Serializable{
     private List<String> knownPackages; //keeps a list of all known packages for the gui to display
     private Logo logo;
 
-    public ResultCollector(Sites bgModel, Track.Assembly assembly) {
+    public ResultCollector(Sites bgModel, GenomeFactory.Assembly assembly) {
         results = Collections.synchronizedList(new ArrayList<>());
         backgroundSites = bgModel;
         knownPackages = TrackFactory.getInstance().getTrackPackageNames(assembly);

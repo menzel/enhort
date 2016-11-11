@@ -179,7 +179,7 @@ public final class IntersectMultithread {
 
         private final Sites measuredPos;
         private final ResultCollector collector;
-        private final Track.Assembly assembly;
+        private final GenomeFactory.Assembly assembly;
 
         /**
          * Constructor for the wrapper object
@@ -187,7 +187,7 @@ public final class IntersectMultithread {
          * @param measuredPos - positions from the outside of the program
          * @param collector   - collector to collect results in
          */
-        private LogoWrapper(Sites measuredPos, ResultCollector collector, Track.Assembly assembly) {
+        private LogoWrapper(Sites measuredPos, ResultCollector collector, GenomeFactory.Assembly assembly) {
 
             this.measuredPos = measuredPos;
             this.collector = collector;

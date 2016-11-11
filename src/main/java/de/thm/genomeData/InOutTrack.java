@@ -1,5 +1,7 @@
 package de.thm.genomeData;
 
+import de.thm.calc.GenomeFactory;
+
 import java.util.List;
 
 /**
@@ -15,10 +17,10 @@ public class InOutTrack extends Track {
     private final String name;
     private final String description;
 
-    private Assembly assembly;
+    private GenomeFactory.Assembly assembly;
     private CellLine cellLine;
 
-    InOutTrack(List<Long> starts, List<Long> ends, String name, String description, Assembly assembly, CellLine cellLine) {
+    InOutTrack(List<Long> starts, List<Long> ends, String name, String description, GenomeFactory.Assembly assembly, CellLine cellLine) {
 
         intervalsStart = starts;
         intervalsEnd = ends;
@@ -55,7 +57,7 @@ public class InOutTrack extends Track {
     }
 
     @Override
-    public Assembly getAssembly() {
+    public GenomeFactory.Assembly getAssembly() {
         return this.assembly;
     }
 

@@ -1,6 +1,7 @@
 package de.thm.run;
 
 import de.thm.backgroundModel.BackgroundModelFactory;
+import de.thm.calc.GenomeFactory;
 import de.thm.calc.IntersectMultithread;
 import de.thm.exception.CovariantsException;
 import de.thm.genomeData.Track;
@@ -28,7 +29,7 @@ class AnalysisHelper {
      * @param assembly - assembly name
      * @return list of intervals with the same as given by input names
      */
-    private static List<Track> getCovariants(List<String> covariantNames, Track.Assembly assembly) {
+    private static List<Track> getCovariants(List<String> covariantNames, GenomeFactory.Assembly assembly) {
         List<Track> selectedTracks = new ArrayList<>();
         TrackFactory loader = TrackFactory.getInstance();
 
@@ -56,7 +57,7 @@ class AnalysisHelper {
      * @throws CovariantsException - if too many covariants are supplied or an impossible combination
      */
     private ResultCollector runAnalysis(Sites sites, BackendCommand cmd) throws CovariantsException {
-        List<Track> covariants = getCovariants(cmd.getCovariants(), Track.Assembly.valueOf(cmd.getAssembly()));
+        List<Track> covariants = getCovariants(cmd.getCovariants(), GenomeFactory.Assembly.valueOf(cmd.getAssembly()));
         List<Track> runTracks;
         TrackFactory trackFactory = TrackFactory.getInstance();
         Sites bg;
@@ -70,12 +71,12 @@ class AnalysisHelper {
         }
 
         if(cmd.getPackageNames().isEmpty()) {
-            runTracks = trackFactory.getTracksByPackage(TrackPackage.PackageName.Basic, Track.Assembly.valueOf(cmd.getAssembly()));
+            runTracks = trackFactory.getTracksByPackage(TrackPackage.PackageName.Basic, GenomeFactory.Assembly.valueOf(cmd.getAssembly()));
         } else {
             runTracks =  new ArrayList<>();
 
             for(String packName: cmd.getPackageNames()){
-                runTracks.addAll(trackFactory.getTracksByPackage(packName, Track.Assembly.valueOf(cmd.getAssembly())));
+                runTracks.addAll(trackFactory.getTracksByPackage(packName, GenomeFactory.Assembly.valueOf(cmd.getAssembly())));
             }
 
             //check and apply custom tracks

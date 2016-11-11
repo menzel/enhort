@@ -1,6 +1,5 @@
 package de.thm.calc;
 
-import de.thm.genomeData.Track;
 import de.thm.positionData.Sites;
 
 import java.io.File;
@@ -13,14 +12,13 @@ import java.util.Map;
  *
  * Created by menzel on 11/10/16.
  */
-final class GenomeFactory {
+public final class GenomeFactory {
 
     private static GenomeFactory instance;
-    private Map<Track.Assembly, Genome> genomes = new HashMap<>();
-
+    private Map<Assembly, Genome> genomes = new HashMap<>();
     private GenomeFactory(){
 
-        genomes.put(Track.Assembly.hg19, new Genome(new File("/home/menzel/Desktop/chromosomes").toPath()));
+        genomes.put(Assembly.hg19, new Genome(new File("/home/menzel/Desktop/chromosomes").toPath()));
         //genomes.put(Track.Assembly.hg38, new Genome(new File("/home/menzel/Desktop/").toPath()));  TODO
 
     }
@@ -31,7 +29,6 @@ final class GenomeFactory {
         return instance;
     }
 
-
     /**
      * Return a list of sequences with a width of width that are selected by the given list of positions
      *
@@ -41,11 +38,14 @@ final class GenomeFactory {
      *
      * @return list of sequences at sites for given assembly. null if assembly is not known
      */
-    List<String> getSequence(Track.Assembly assembly, Sites sites, int width, int count){
+    List<String> getSequence(Assembly assembly, Sites sites, int width, int count){
 
         if(genomes.containsKey(assembly))
             return genomes.get(assembly).getSequence(sites, width, count);
         return null;
     }
+
+
+    public enum Assembly {hg19, hg38}
 
 }

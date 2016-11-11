@@ -1,5 +1,6 @@
 package de.thm.genomeData;
 
+import de.thm.calc.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
 import de.thm.misc.PositionPreprocessor;
 import org.apache.commons.lang3.tuple.Pair;
@@ -27,9 +28,9 @@ final class FileLoader implements Runnable {
     private final Path path;
     private final List<Track> tracks;
     private TrackFactory.Type type;
-    private Track.Assembly assembly;
+    private GenomeFactory.Assembly assembly;
 
-    FileLoader(Path path, List<Track> tracks, TrackFactory.Type type, Track.Assembly assembly) {
+    FileLoader(Path path, List<Track> tracks, TrackFactory.Type type, GenomeFactory.Assembly assembly) {
 
         this.path = path;
         this.tracks = tracks;
