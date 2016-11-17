@@ -4,12 +4,14 @@ import de.thm.calc.GenomeFactory;
 import de.thm.genomeData.TrackFactory;
 import de.thm.misc.Logo;
 import de.thm.positionData.Sites;
+import org.apache.commons.math3.util.Precision;
 import org.json.JSONArray;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -211,5 +213,19 @@ public final class ResultCollector implements Serializable{
 
     public void addLogo(Logo logo) {
         this.logo = logo;
+    }
+
+    public double getEffectSize() {
+
+        double sum = 0;
+        List<List<Map<String, String>>> values = logo.getValues();
+
+        for(List<Map<String, String>> position: values){
+            for(Map<String, String> base: position){
+                sum += Double.parseDouble(base.get("bits"));
+            }
+        }
+
+        return Precision.round(sum/values.size()*10,2);
     }
 }

@@ -107,10 +107,6 @@
 
         <form method="POST" action="#" th:action="@{/covariant}" th:object="${interfaceCommand}" id="covariant_form"></form>
 
-            <th:block th:if="${ran}">
-                <div id="sequencelogo"></div>
-            </th:block>
-
             <input type="hidden" th:value="${interfaceCommand.originalFilename}" th:field="${interfaceCommand.originalFilename}" form="covariant_form"/>
             <table class="table table-hover fixed">
 
@@ -129,6 +125,27 @@
                     <th>Relative Integration<span style="font-size: 10px;"> <span style="color: #337ab7; font-size: 13px;">Data</span> vs. <span style="color: #555; font-size: 13px;"> Background</span></span></th>
                 </thead>
                 <tbody>
+
+               <!-- Sequencelogo Entry -->
+                <th:block th:if="${ran}">
+                    <tr data-target="#sequencelogodiv" data-toggle="collapse" class="accordion-toggle">
+                        <td> Sequence Logo</td>
+                        <td></td>
+                        <td th:text="${sl_effect}"></td>
+                        <td colspan="2"></td>
+                    </tr>
+                    <tr >
+                        <td colspan="5" class="hiddenRow">
+                            <div class="accordion-body collapse" id="sequencelogodiv">
+
+                                <div id="sequencelogo"></div>
+                                The Sequence or Weblogo with a width of 12 bases of 3000 sequences taken from the dataset.
+                            </div>
+                        </td>
+                    </tr>
+
+                </th:block>
+               <!-- Sequencelogo Entry END -->
 
 
                 <th:block th:each="result: ${results_inout}">
