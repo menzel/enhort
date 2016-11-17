@@ -94,4 +94,8 @@ public final class Logo implements Serializable{
     public int hashCode() {
         return heights.hashCode();
     }
+
+    public List<List<Map<String, String>>> getValues() {
+        return this.heights;
+    }
 }
