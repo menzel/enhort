@@ -144,6 +144,27 @@ final class Genome {
         return getSequence(sites.getPositions(), width,count);
     }
 
+
+    /**
+     *
+     * @param logo
+     * @param count
+     * @return
+     */
+    public List<Long> getPositions(Logo logo, int count) {
+        //TODO
+        return null;
+    }
+
+
+    /**
+     * Returns a list of 'count' sequence positions that show the exact representation of the given logo.
+     *
+     * @param logo - logo to search
+     * @param count - count of positions to get
+     *
+     * @return list of positions
+     */
     public List<Long> getPositions(String logo, int count) {
         List<Long> pos = new ArrayList<>();
         Stream<Path> paths;
@@ -178,7 +199,7 @@ final class Genome {
             while(it.hasNext()){
                 line = it.nextLine();
 
-                if(line.startsWith(">"))
+                if(line.startsWith(">")) //header line in fasta files
                     continue;
 
 
@@ -187,7 +208,7 @@ final class Genome {
                 if(matcher.matches()){
                     String chrName = path.getFileName().toString(); //get filename
                     String chr = chrName.substring(0, chrName.length()-3); //remove .fa file ending
-                    long offset = 0;
+                    long offset;
 
                     try {
                         offset = chrSizes.offset(chr);
@@ -203,11 +224,11 @@ final class Genome {
                 counter += line.length();
 
                 if(pos.size() >= count)
-                    break;
+                    break; // break from one chromosome file loop
             }
 
             if(pos.size() >= count)
-                break;
+                break; //break from loop over all files
         }
 
         return pos;
