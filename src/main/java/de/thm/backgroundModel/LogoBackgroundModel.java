@@ -7,12 +7,20 @@ import java.util.Collection;
 import java.util.List;
 
 /**
+ * Creates a background model based on a Sequencelogo @{Logo}
+ *
  * Created by menzel on 11/24/16.
  */
 public class LogoBackgroundModel implements Sites {
 
     private List<Long> positions;
 
+    /**
+     * Constructor for the background model
+     *
+     * @param logo - sequence logo to fit the positions to
+     * @param count - count of positions
+     */
     public LogoBackgroundModel(Logo logo, int count){
 
         positions = generatePositions(logo, count);
