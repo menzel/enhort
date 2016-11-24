@@ -146,10 +146,12 @@ final class Genome {
 
 
     /**
+     * Get positions by given Logo @see logo.Logo
      *
-     * @param logo
-     * @param count
-     * @return
+     * @param logo - given Logo
+     * @param count - count of positions to find
+     *
+     * @return positions found
      */
     public List<Long> getPositions(Logo logo, int count) {
         //TODO
