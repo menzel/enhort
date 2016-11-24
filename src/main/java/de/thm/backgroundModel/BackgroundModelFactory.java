@@ -2,6 +2,8 @@ package de.thm.backgroundModel;
 
 import de.thm.exception.CovariantsException;
 import de.thm.genomeData.*;
+import de.thm.logo.GenomeFactory;
+import de.thm.logo.Logo;
 import de.thm.positionData.Sites;
 
 import java.util.List;
@@ -27,8 +29,22 @@ public final class BackgroundModelFactory {
      */
     public static Sites createBackgroundModel(int positionCount) {
         return new RandomBackgroundModel(positionCount);
-
     }
+
+
+    /**
+     * Creates a background model based on a sequence logo through @see backgroundModel.LogoBackgroundModel
+     *
+     * @param logo  - sequencelogo @see logo.Logo
+     * @param positionCount - count of positions to set
+     *
+     * @return sites with the given logo
+     */
+    public static Sites createBackgroundModel(GenomeFactory.Assembly assembly, Logo logo, int positionCount) {
+
+        return new LogoBackgroundModel(assembly, logo, positionCount);
+    }
+
 
 
     /**

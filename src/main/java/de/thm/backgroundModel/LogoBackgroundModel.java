@@ -19,20 +19,20 @@ public class LogoBackgroundModel implements Sites {
     /**
      * Constructor for the background model
      *
+     * @param assembly
      * @param logo - sequence logo to fit the positions to
      * @param count - count of positions
      */
-    public LogoBackgroundModel(Logo logo, int count){
+    public LogoBackgroundModel(GenomeFactory.Assembly assembly, Logo logo, int count){
 
-        positions = generatePositions(logo, count);
-
+        positions = generatePositions(assembly, logo, count);
     }
 
-    private List<Long> generatePositions(Logo logo, int count) {
+    private List<Long> generatePositions(GenomeFactory.Assembly assembly, Logo logo, int count) {
         String motif = logo.getConsensus();
 
         //TODO take user set Assembly #
-        return GenomeFactory.getInstance().getPositions(GenomeFactory.Assembly.hg19, motif, count);
+        return GenomeFactory.getInstance().getPositions(assembly, motif, count);
     }
 
     @Override
