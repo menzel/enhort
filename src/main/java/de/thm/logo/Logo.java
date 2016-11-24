@@ -18,6 +18,7 @@ import java.util.Map;
 public final class Logo implements Serializable{
 
     private final List<List<Map<String, String>>> heights = new ArrayList<>();
+    private String consensus = "";
 
     /**
      * Add the data for one position for the sequencelogo
@@ -97,5 +98,29 @@ public final class Logo implements Serializable{
 
     public List<List<Map<String, String>>> getValues() {
         return this.heights;
+    }
+
+    public String getConsensus() {
+
+        if(consensus.equals("")){
+
+            for(List<Map<String, String>> position: heights) {
+                double max = 0;
+                String letter = "";
+
+                for (Map<String, String> base : position) {
+                    double bits = Double.parseDouble(base.get("bits"));
+
+                    if(bits > max){
+                        max = bits;
+                        letter = base.get("letter").toUpperCase();
+                    }
+                }
+
+                consensus += letter;
+            }
+        }
+
+        return consensus;
     }
 }
