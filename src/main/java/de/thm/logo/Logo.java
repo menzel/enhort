@@ -1,4 +1,4 @@
-package de.thm.misc;
+package de.thm.logo;
 
 
 import org.json.JSONArray;

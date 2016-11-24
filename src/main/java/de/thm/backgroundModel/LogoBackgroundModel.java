@@ -1,6 +1,6 @@
 package de.thm.backgroundModel;
 
-import de.thm.misc.Logo;
+import de.thm.logo.Logo;
 import de.thm.positionData.Sites;
 
 import java.util.Collection;

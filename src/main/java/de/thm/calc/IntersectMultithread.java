@@ -1,8 +1,8 @@
 package de.thm.calc;
 
 import de.thm.genomeData.*;
-import de.thm.misc.Logo;
-import de.thm.misc.LogoCreator;
+import de.thm.logo.Logo;
+import de.thm.logo.LogoCreator;
 import de.thm.positionData.Sites;
 import de.thm.stat.EffectSize;
 import de.thm.stat.IndependenceTest;
@@ -197,7 +197,7 @@ public final class IntersectMultithread {
         @Override
         public void run() {
             GenomeFactory genome = GenomeFactory.getInstance();
-            int width = 8;//TODO use user set value
+            int width = 12;//TODO use user set value
             int count = 3000;//TODO use user set value
 
             Logo logo = LogoCreator.createLogo(genome.getSequence(assembly, measuredPos, width, count));

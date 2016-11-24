@@ -1,5 +1,6 @@
 package de.thm.calc;
 
+import de.thm.logo.Genome;
 import de.thm.positionData.Sites;
 
 import java.io.File;

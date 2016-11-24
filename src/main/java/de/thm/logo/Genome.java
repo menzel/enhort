@@ -1,4 +1,4 @@
-package de.thm.calc;
+package de.thm.logo;
 
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
@@ -23,7 +23,6 @@ final class Genome {
     private Path filepath;
 
     Genome(Path filepath){
-        // write external tool which is called from java to get sequence logo
         this.filepath = filepath;
     }
 
@@ -105,12 +104,11 @@ final class Genome {
 
                                 sequences.add(part);
 
-                                break;
-                            } else {
-                                if(lineStart >= 0 && lineEnd > 0)
-                                    sequences.add(line.substring(lineStart,lineEnd));
-                                break;
+                            } else if(lineStart >= 0 && lineEnd > 0){
+                                sequences.add(line.substring(lineStart,lineEnd));
                             }
+
+                            break;
                         }
 
 

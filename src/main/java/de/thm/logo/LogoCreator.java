@@ -1,4 +1,4 @@
-package de.thm.misc;
+package de.thm.logo;
 
 import java.util.HashMap;
 import java.util.List;
