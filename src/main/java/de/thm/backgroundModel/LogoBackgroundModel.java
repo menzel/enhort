@@ -1,5 +1,6 @@
 package de.thm.backgroundModel;
 
+import de.thm.logo.GenomeFactory;
 import de.thm.logo.Logo;
 import de.thm.positionData.Sites;
 
@@ -28,7 +29,10 @@ public class LogoBackgroundModel implements Sites {
     }
 
     private List<Long> generatePositions(Logo logo, int count) {
-        return null;
+        String motif = logo.getConsensus();
+
+        //TODO take user set Assembly #
+        return GenomeFactory.getInstance().getPositions(GenomeFactory.Assembly.hg19, motif, count);
     }
 
     @Override
