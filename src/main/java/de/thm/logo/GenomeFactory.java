@@ -1,6 +1,5 @@
-package de.thm.calc;
+package de.thm.logo;
 
-import de.thm.logo.Genome;
 import de.thm.positionData.Sites;
 
 import java.io.File;
@@ -39,7 +38,7 @@ public final class GenomeFactory {
      *
      * @return list of sequences at sites for given assembly. null if assembly is not known
      */
-    List<String> getSequence(Assembly assembly, Sites sites, int width, int count){
+    public List<String> getSequence(Assembly assembly, Sites sites, int width, int count){
 
         if(genomes.containsKey(assembly))
             return genomes.get(assembly).getSequence(sites, width, count);

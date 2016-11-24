@@ -1,7 +1,6 @@
 package de.thm.run;
 
 import de.thm.backgroundModel.BackgroundModelFactory;
-import de.thm.calc.GenomeFactory;
 import de.thm.calc.Intersect;
 import de.thm.calc.IntersectMultithread;
 import de.thm.calc.TestTrack;
@@ -9,6 +8,7 @@ import de.thm.exception.CovariantsException;
 import de.thm.genomeData.InOutTrack;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
+import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.AbstractSites;
 import de.thm.positionData.Sites;

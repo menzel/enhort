@@ -1,12 +1,12 @@
 package de.thm.run;
 
 import de.thm.backgroundModel.BackgroundModelFactory;
-import de.thm.calc.GenomeFactory;
 import de.thm.calc.IntersectMultithread;
 import de.thm.exception.CovariantsException;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
 import de.thm.genomeData.TrackPackage;
+import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
 import de.thm.spring.command.BackendCommand;
 import de.thm.stat.ResultCollector;

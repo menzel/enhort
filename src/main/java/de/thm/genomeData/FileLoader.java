@@ -1,6 +1,6 @@
 package de.thm.genomeData;
 
-import de.thm.calc.GenomeFactory;
+import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
 import de.thm.misc.PositionPreprocessor;
 import org.apache.commons.lang3.tuple.Pair;

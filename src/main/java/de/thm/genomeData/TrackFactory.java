@@ -1,6 +1,6 @@
 package de.thm.genomeData;
 
-import de.thm.calc.GenomeFactory;
+import de.thm.logo.GenomeFactory;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,7 +1,7 @@
 package de.thm.run;
 
-import de.thm.calc.GenomeFactory;
 import de.thm.genomeData.Track;
+import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
 
 import java.util.ArrayList;

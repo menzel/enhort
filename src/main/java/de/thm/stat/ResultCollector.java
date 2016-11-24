@@ -1,7 +1,7 @@
 package de.thm.stat;
 
-import de.thm.calc.GenomeFactory;
 import de.thm.genomeData.TrackFactory;
+import de.thm.logo.GenomeFactory;
 import de.thm.logo.Logo;
 import de.thm.positionData.Sites;
 import org.apache.commons.math3.util.Precision;
