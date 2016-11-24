@@ -1,4 +1,4 @@
-package de.thm.calc;
+package de.thm.logo;
 
 import de.thm.positionData.Sites;
 import de.thm.positionData.UserData;
@@ -17,6 +17,17 @@ import static junit.framework.TestCase.assertTrue;
  * Created by menzel on 11/8/16.
  */
 public class GenomeTest {
+    @Test
+    public void getPositions() throws Exception {
+        GenomeFactory genome = GenomeFactory.getInstance();
+        String motif = "TATA";
+
+        List<Long> pos = genome.getPositions(GenomeFactory.Assembly.hg19, motif, 1000);
+        List<String> seq = genome.getSequence(GenomeFactory.Assembly.hg19, pos, 5, Integer.MAX_VALUE);
+
+        assert seq != null;
+        seq.forEach(s -> assertTrue(s.contains("TATA")));
+    }
 
 
     @Test

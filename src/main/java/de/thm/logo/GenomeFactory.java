@@ -30,7 +30,7 @@ public final class GenomeFactory {
     }
 
     /**
-     * Return a list of sequences with a width of width that are selected by the given list of positions
+     * Return a list of sequences with a width of width that are selected by the given sites object
      *
      * @param assembly - assembly number (from the enum found in track)
      * @param sites - positions to check
@@ -44,6 +44,31 @@ public final class GenomeFactory {
             return genomes.get(assembly).getSequence(sites, width, count);
         return null;
     }
+
+    /**
+     * Return a list of sequences with a width of width that are selected by the given list of positions
+     *
+     * @param assembly - assembly number (from the enum found in track)
+     * @param positions - positions to check
+     * @param width - width of the sequences
+     *
+     * @return list of sequences at sites for given assembly. null if assembly is not known
+     */
+    public List<String> getSequence(Assembly assembly, List<Long> positions, int width, int count){
+
+        if(genomes.containsKey(assembly))
+            return genomes.get(assembly).getSequence(positions, width, count);
+        return null;
+    }
+
+    public List<Long> getPositions(Assembly assembly, String logo, int count){
+        if(genomes.containsKey(assembly))
+            return genomes.get(assembly).getPositions(logo, count);
+         return null;
+
+    }
+
+
 
 
     public enum Assembly {hg19, hg38}

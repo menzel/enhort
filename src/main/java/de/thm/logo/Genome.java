@@ -7,9 +7,14 @@ import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Stores the information for a genome.
@@ -27,31 +32,31 @@ final class Genome {
     }
 
 
-    /**
+     /**
      * Return a list of sequences with a width of width that are selected by the given list of positions
      *
-     * @param sites - positions to check
+     * @param positions - positions to check
      * @param width - width of the sequences
      *
      *
      * @return list of sequences at sites
      */
-    List<String> getSequence(Sites sites, int width, int count){
+    List<String> getSequence(List<Long> positions, int width, int count){
 
         List<Long> sublist = new ArrayList<>();
 
-        if(sites.getPositionCount() > count){
+        if(positions.size() > count){
             //add a block from the first postions
-            sublist.addAll(sites.getPositions().subList(0, count/3));
+            sublist.addAll(positions.subList(0, count/3));
 
             //add a block from the middle
-            int start = count/3 + ((sites.getPositionCount() - (count/3 + count/3) - count/3)/ 2);
-            sublist.addAll(sites.getPositions().subList(start, start + count/3));
+            int start = count/3 + ((positions.size() - (count/3 + count/3) - count/3)/ 2);
+            sublist.addAll(positions.subList(start, start + count/3));
 
             //add a block from the end
-            sublist.addAll(sites.getPositions().subList(sites.getPositionCount()-(count/3), sites.getPositionCount()));
+            sublist.addAll(positions.subList(positions.size()-(count/3), positions.size()));
         } else {
-            sublist.addAll(sites.getPositions());
+            sublist.addAll(positions);
         }
 
 
@@ -125,4 +130,87 @@ final class Genome {
 
         return sequences;
     }
+
+    /**
+     * Return a list of sequences with a width of width that are selected by the given sites object
+     *
+     * @param sites - positions to check
+     * @param width - width of the sequences
+     *
+     *
+     * @return list of sequences at sites
+     */
+    List<String> getSequence(Sites sites, int width, int count){
+        return getSequence(sites.getPositions(), width,count);
+    }
+
+    public List<Long> getPositions(String logo, int count) {
+        List<Long> pos = new ArrayList<>();
+        Stream<Path> paths;
+        LineIterator it = null;
+        Pattern pattern = Pattern.compile("(\\w*)" + logo + "(\\w*)");
+        ChromosomSizes chrSizes = ChromosomSizes.getInstance();
+
+        try {
+            paths = Files.walk(filepath);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        List<Path> paths_list =  paths.collect(Collectors.toList());
+
+        for(Path path: paths_list){
+
+            if(!path.toFile().isFile())
+                continue; //if the file is not a chr file jump to next
+
+            try {
+                it = FileUtils.lineIterator(path.toFile(), "UTF-8");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            String line;
+            int counter = 0;
+
+
+            while(it.hasNext()){
+                line = it.nextLine();
+
+                if(line.startsWith(">"))
+                    continue;
+
+
+                Matcher matcher = pattern.matcher(line);
+
+                if(matcher.matches()){
+                    String chrName = path.getFileName().toString(); //get filename
+                    String chr = chrName.substring(0, chrName.length()-3); //remove .fa file ending
+                    long offset = 0;
+
+                    try {
+                        offset = chrSizes.offset(chr);
+                        pos.add(offset + (long) (counter + matcher.group(1).length()) + (logo.length()/2));
+
+                    } catch (NullPointerException e){
+                        //System.err.println("unknown chr " + chr + " " + chrName);
+                        break; //chr unknown, get next file
+                    }
+
+                }
+
+                counter += line.length();
+
+                if(pos.size() >= count)
+                    break;
+            }
+
+            if(pos.size() >= count)
+                break;
+        }
+
+        return pos;
+    }
+
 }
