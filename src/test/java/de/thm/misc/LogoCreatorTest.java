@@ -1,5 +1,7 @@
 package de.thm.misc;
 
+import de.thm.logo.Logo;
+import de.thm.logo.LogoCreator;
 import org.junit.Test;
 
 import java.util.ArrayList;
