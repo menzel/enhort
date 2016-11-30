@@ -280,8 +280,8 @@ public final class TrackFactory {
      *
      * @return new track with all given parameters
      */
-    public InOutTrack createInOutTrack(List<Long> starts, List<Long> ends, String name, String description) {
-        return new InOutTrack(starts, ends, name, description, null, null);
+    public InOutTrack createInOutTrack(List<Long> starts, List<Long> ends, String name, String description, GenomeFactory.Assembly assembly) {
+        return new InOutTrack(starts, ends, name, description, assembly, null);
     }
     public InOutTrack createInOutTrack(List<Long> starts, List<Long> ends, String name, String description, GenomeFactory.Assembly assembly, Track.CellLine cellLine) {
         return new InOutTrack(starts, ends, name, description, assembly, cellLine);
@@ -295,10 +295,11 @@ public final class TrackFactory {
      * @param name - name of track
      * @param description - description of track
      *
-     * @return new track with all given parameters
+     * @param hg19
+      * @return new track with all given parameters
      */
-    public DistanceTrack createDistanceTrack(List<Long> starts, String name, String description) {
-        return new DistanceTrack(starts, name, description, null, null);
+    public DistanceTrack createDistanceTrack(List<Long> starts, String name, String description, GenomeFactory.Assembly assembly) {
+        return new DistanceTrack(starts, name, description, assembly, null);
     }
     public DistanceTrack createDistanceTrack(List<Long> starts, String name, String description, GenomeFactory.Assembly assembly, Track.CellLine cellLine) {
         return new DistanceTrack(starts, name, description, assembly, cellLine);

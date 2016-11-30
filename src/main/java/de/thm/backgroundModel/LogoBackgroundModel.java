@@ -14,16 +14,18 @@ import java.util.List;
  */
 public class LogoBackgroundModel implements Sites {
 
+    private final GenomeFactory.Assembly assembly;
     private List<Long> positions;
 
     /**
      * Constructor for the background model
      *
-     * @param assembly
+     * @param assembly - assembly number
      * @param logo - sequence logo to fit the positions to
      * @param count - count of positions
      */
     public LogoBackgroundModel(GenomeFactory.Assembly assembly, Logo logo, int count){
+        this.assembly = assembly;
 
         positions = generatePositions(assembly, logo, count);
     }
@@ -54,5 +56,10 @@ public class LogoBackgroundModel implements Sites {
     @Override
     public int getPositionCount() {
         return this.positions.size();
+    }
+
+    @Override
+    public GenomeFactory.Assembly getAssembly() {
+        return this.assembly;
     }
 }

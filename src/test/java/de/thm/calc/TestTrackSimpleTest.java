@@ -2,6 +2,7 @@ package de.thm.calc;
 
 import de.thm.genomeData.InOutTrack;
 import de.thm.genomeData.TrackFactory;
+import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
 import org.junit.Before;
@@ -24,7 +25,7 @@ public class TestTrackSimpleTest {
     @Before
     public void setupIntv() throws Exception {
         ChromosomSizes chrSizes = ChromosomSizes.getInstance();
-        long offset = chrSizes.offset("chr4");
+        long offset = chrSizes.offset(GenomeFactory.Assembly.hg19, "chr4");
 
         ArrayList<Long> startList = new ArrayList<>();
         ArrayList<Long> endList = new ArrayList<>();
@@ -45,7 +46,7 @@ public class TestTrackSimpleTest {
         endList.add(15L + offset);
         endList.add(22L + offset);
 
-        intv = TrackFactory.getInstance().createInOutTrack(startList, endList, "testtrack", "no desc");
+        intv = TrackFactory.getInstance().createInOutTrack(startList, endList, "testtrack", "no desc", GenomeFactory.Assembly.hg19);
 
     }
 
@@ -65,7 +66,7 @@ public class TestTrackSimpleTest {
                 List<Long> sites = new ArrayList<>();
 
                 ChromosomSizes chrSizes = ChromosomSizes.getInstance();
-                long offset = chrSizes.offset("chr4");
+                long offset = chrSizes.offset(GenomeFactory.Assembly.hg19, "chr4");
 
                 sites.add(1L);
                 sites.add(4L);
@@ -92,6 +93,11 @@ public class TestTrackSimpleTest {
             public int getPositionCount() {
                 return 0;
             }
+
+            @Override
+            public GenomeFactory.Assembly getAssembly() {
+                return GenomeFactory.Assembly.hg19;
+            }
         };
 
         TestTrackResult testTrackResult = testTrack.searchTrack(intv,sites);
@@ -116,7 +122,7 @@ public class TestTrackSimpleTest {
                 List<Long> sites = new ArrayList<>();
 
                 ChromosomSizes chrSizes = ChromosomSizes.getInstance();
-                long offset = chrSizes.offset("chr4");
+                long offset = chrSizes.offset(GenomeFactory.Assembly.hg19, "chr4");
 
                 sites.add(1L);
                 sites.add(4L);
@@ -140,6 +146,11 @@ public class TestTrackSimpleTest {
             @Override
             public int getPositionCount() {
                 return 0;
+            }
+
+            @Override
+            public GenomeFactory.Assembly getAssembly() {
+                return GenomeFactory.Assembly.hg19;
             }
         };
 
@@ -194,6 +205,11 @@ public class TestTrackSimpleTest {
             @Override
             public int getPositionCount() {
                 return 0;
+            }
+
+            @Override
+            public GenomeFactory.Assembly getAssembly() {
+                return GenomeFactory.Assembly.hg19;
             }
         };
 

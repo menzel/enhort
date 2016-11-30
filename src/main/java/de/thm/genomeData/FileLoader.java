@@ -75,8 +75,8 @@ final class FileLoader implements Runnable {
                     writer.write(header + "\n");
 
                 for (int i = 0; i < starts.size(); i++) {
-                    Pair<String, Long> start = chr.mapToChr(starts.get(i));
-                    Pair<String, Long> end = chr.mapToChr(ends.get(i));
+                    Pair<String, Long> start = chr.mapToChr(assembly, starts.get(i));
+                    Pair<String, Long> end = chr.mapToChr(assembly, ends.get(i));
 
                     writer.write(start.getKey() + "\t" + start.getValue() + "\t" + end.getValue() + "\n");
                 }
@@ -139,7 +139,7 @@ final class FileLoader implements Runnable {
 
                     try { //handle null pointer exc if chromosome name is not in list
 
-                        long offset = chrSizes.offset(parts[0]);
+                        long offset = chrSizes.offset(assembly, parts[0]);
 
                         start = Long.parseLong(parts[1]) + offset;
                         end = Long.parseLong(parts[2]) + offset;

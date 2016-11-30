@@ -5,6 +5,7 @@ import de.thm.calc.TestTrackResult;
 import de.thm.genomeData.InOutTrack;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.Tracks;
+import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
 import org.apache.commons.math3.random.MersenneTwister;
 
@@ -23,11 +24,13 @@ class SingleTrackBackgroundModel implements Sites {
 
     private transient MersenneTwister rand;
     private List<Long> positions = new ArrayList<>();
+    private GenomeFactory.Assembly assembly;
 
     /**
      * Contstructor
      */
-    SingleTrackBackgroundModel() {
+    SingleTrackBackgroundModel(GenomeFactory.Assembly assembly) {
+        this.assembly = assembly;
     }
 
 
@@ -123,5 +126,10 @@ class SingleTrackBackgroundModel implements Sites {
     @Override
     public int getPositionCount() {
         return this.positions.size();
+    }
+
+    @Override
+    public GenomeFactory.Assembly getAssembly() {
+        return this.assembly;
     }
 }

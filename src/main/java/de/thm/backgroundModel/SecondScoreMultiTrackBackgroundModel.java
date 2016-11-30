@@ -3,6 +3,7 @@ package de.thm.backgroundModel;
 import de.thm.genomeData.ScoredTrack;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
+import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
 import org.apache.commons.math3.random.MersenneTwister;
@@ -17,9 +18,12 @@ import java.util.stream.Collectors;
  */
 class SecondScoreMultiTrackBackgroundModel implements Sites {
 
+    private final GenomeFactory.Assembly assembly;
     private List<Long> positions = new ArrayList<>();
 
-    SecondScoreMultiTrackBackgroundModel() {}
+    SecondScoreMultiTrackBackgroundModel(GenomeFactory.Assembly assembly) {
+        this.assembly = assembly;
+    }
 
 
      /**
@@ -28,9 +32,9 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
      * @param sites      - sites to build model against.
      * @param covariant - single covariant
      */
-    SecondScoreMultiTrackBackgroundModel(ScoredTrack covariant, Sites sites, int minSites, double influence) {
+    SecondScoreMultiTrackBackgroundModel(GenomeFactory.Assembly assembly, ScoredTrack covariant, Sites sites, int minSites, double influence) {
 
-        this(Collections.singletonList(covariant),sites, minSites, influence);
+        this(assembly, Collections.singletonList(covariant),sites, minSites, influence);
     }
 
 
@@ -41,7 +45,8 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
      * @param sites      - sites to build model against.
      * @param covariants - list of intervals to build model against.
      */
-    SecondScoreMultiTrackBackgroundModel(List<ScoredTrack> covariants, Sites sites, int minSites, double influence) {
+    SecondScoreMultiTrackBackgroundModel(GenomeFactory.Assembly assembly, List<ScoredTrack> covariants, Sites sites, int minSites, double influence) {
+        this.assembly = assembly;
         ScoredTrack interval = generateProbabilityInterval(sites, covariants, influence);
 
         int count = (sites.getPositionCount() > minSites) ? sites.getPositionCount() : minSites;
@@ -98,7 +103,7 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
         List<String> keys = interval.getIntervalName();
         List<Double> intervalScore = interval.getIntervalScore();
         List<Double> newScores = new ArrayList<>();
-        long genome = ChromosomSizes.getInstance().getGenomeSize();
+        long genome = ChromosomSizes.getInstance().getGenomeSize(assembly);
 
         for (int i = 0; i < intervalScore.size(); i++) {
             Double p = intervalScore.get(i);
@@ -301,9 +306,9 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
             //TODO check
         }
 
-        if(new_end.get(new_end.size()-1) != ChromosomSizes.getInstance().getGenomeSize()){
+        if(new_end.get(new_end.size()-1) != ChromosomSizes.getInstance().getGenomeSize(assembly)){
             //new_start.add(new_start.size(), new_end.get(new_end.size()-1)); // add last end as start
-            new_end.add(new_end.size(), ChromosomSizes.getInstance().getGenomeSize()); // and genome size as end
+            new_end.add(new_end.size(), ChromosomSizes.getInstance().getGenomeSize(assembly)); // and genome size as end
         }
 
         //delete intervals with length 0
@@ -392,6 +397,10 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
         return this.positions.size();
     }
 
+    @Override
+    public GenomeFactory.Assembly getAssembly() {
+        return this.assembly;
+    }
 
     /**
      *  Inner runner class to generate a list of scores (scoreSet) for each interval in the combined track
@@ -444,4 +453,5 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
             }
         }
     }
+
 }

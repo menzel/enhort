@@ -57,7 +57,7 @@ class AnalysisHelper {
      * @throws CovariantsException - if too many covariants are supplied or an impossible combination
      */
     private ResultCollector runAnalysis(Sites sites, BackendCommand cmd) throws CovariantsException {
-        List<Track> covariants = getCovariants(cmd.getCovariants(), GenomeFactory.Assembly.valueOf(cmd.getAssembly()));
+        List<Track> covariants = getCovariants(cmd.getCovariants(), cmd.getAssembly());
         List<Track> runTracks;
         TrackFactory trackFactory = TrackFactory.getInstance();
         Sites bg;
@@ -65,18 +65,18 @@ class AnalysisHelper {
         int minSites = cmd.getMinBg();
 
         if(covariants.isEmpty()){
-            bg = BackgroundModelFactory.createBackgroundModel(sites.getPositionCount()); //check if minSites is larger
+            bg = BackgroundModelFactory.createBackgroundModel(sites.getAssembly(), sites.getPositionCount()); //check if minSites is larger
         } else {
             bg = BackgroundModelFactory.createBackgroundModel(covariants, sites, minSites, influence);
         }
 
         if(cmd.getPackageNames().isEmpty()) {
-            runTracks = trackFactory.getTracksByPackage(TrackPackage.PackageName.Basic, GenomeFactory.Assembly.valueOf(cmd.getAssembly()));
+            runTracks = trackFactory.getTracksByPackage(TrackPackage.PackageName.Basic, cmd.getAssembly());
         } else {
             runTracks =  new ArrayList<>();
 
             for(String packName: cmd.getPackageNames()){
-                runTracks.addAll(trackFactory.getTracksByPackage(packName, GenomeFactory.Assembly.valueOf(cmd.getAssembly())));
+                runTracks.addAll(trackFactory.getTracksByPackage(packName, cmd.getAssembly()));
             }
 
             //check and apply custom tracks

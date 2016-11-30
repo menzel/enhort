@@ -4,6 +4,7 @@ import de.thm.calc.Intersect;
 import de.thm.calc.TestTrackResult;
 import de.thm.genomeData.ScoredTrack;
 import de.thm.genomeData.TrackFactory;
+import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
 import org.junit.Test;
@@ -67,7 +68,7 @@ public class ScoreMultiTrackBackgroundModelTest {
 
 
 
-        ScoreMultiTrackBackgroundModel m =  new ScoreMultiTrackBackgroundModel();
+        ScoreMultiTrackBackgroundModel m =  new ScoreMultiTrackBackgroundModel(GenomeFactory.Assembly.hg19);
 
         ScoredTrack result = m.combine(tracks);
         List<Long> start = new ArrayList<>();
@@ -95,7 +96,7 @@ public class ScoreMultiTrackBackgroundModelTest {
         end.add(40L);
         end.add(50L);
         end.add(60L);
-        end.add(ChromosomSizes.getInstance().getGenomeSize());
+        end.add(ChromosomSizes.getInstance().getGenomeSize(GenomeFactory.Assembly.hg19));
 
 
         assertEquals(start,result.getStarts());
@@ -179,10 +180,15 @@ public class ScoreMultiTrackBackgroundModelTest {
             public int getPositionCount() {
                 return 7;
             }
+
+            @Override
+            public GenomeFactory.Assembly getAssembly() {
+                return GenomeFactory.Assembly.hg19;
+            }
         };
 
 
-        ScoreMultiTrackBackgroundModel m =  new ScoreMultiTrackBackgroundModel();
+        ScoreMultiTrackBackgroundModel m =  new ScoreMultiTrackBackgroundModel(GenomeFactory.Assembly.hg19);
 
 
         Map<String, Double> result_map = new HashMap<>();
@@ -259,6 +265,11 @@ public class ScoreMultiTrackBackgroundModelTest {
                 @Override
                 public int getPositionCount() {
                     return randomPos.size();
+                }
+
+                @Override
+                public GenomeFactory.Assembly getAssembly() {
+                    return GenomeFactory.Assembly.hg19;
                 }
             };
 

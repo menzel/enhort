@@ -1,5 +1,6 @@
 package de.thm.positionData;
 
+import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
 
 import java.io.IOException;
@@ -17,6 +18,7 @@ import java.util.stream.Stream;
  */
 public final class UserData implements Sites {
 
+    private final GenomeFactory.Assembly assembly;
     private List<Long> positions = new ArrayList<>();
 
     /**
@@ -24,7 +26,8 @@ public final class UserData implements Sites {
      *
      * @param path - file to load positions from
      */
-    public UserData(Path path) {
+    public UserData(GenomeFactory.Assembly assembly, Path path) {
+        this.assembly = assembly;
         loadPositionsFromFile(path);
     }
 
@@ -49,7 +52,7 @@ public final class UserData implements Sites {
                 Matcher line_matcher = entry.matcher(line);
 
                 if (line_matcher.matches()) {
-                    positions.add(Long.parseLong(line_matcher.group(3)) + chrSizes.offset(line_matcher.group(1)));
+                    positions.add(Long.parseLong(line_matcher.group(3)) + chrSizes.offset(assembly, line_matcher.group(1)));
                 }
             }
 
@@ -81,5 +84,10 @@ public final class UserData implements Sites {
     @Override
     public int getPositionCount() {
         return this.positions.size();
+    }
+
+    @Override
+    public GenomeFactory.Assembly getAssembly() {
+        return this.assembly;
     }
 }

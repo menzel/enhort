@@ -4,6 +4,7 @@ import de.thm.calc.Intersect;
 import de.thm.calc.TestTrackResult;
 import de.thm.genomeData.InOutTrack;
 import de.thm.genomeData.TrackFactory;
+import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
 import org.junit.Test;
 
@@ -61,6 +62,11 @@ public class BetterBackgroundModelTest {
             public int getPositionCount() {
                 return this.positions.size();
             }
+
+            @Override
+            public GenomeFactory.Assembly getAssembly() {
+                return GenomeFactory.Assembly.hg19;
+            }
         };
 
 
@@ -92,7 +98,7 @@ public class BetterBackgroundModelTest {
 
         private InOutTrack mockInterval(List<Long> start, List<Long> end) {
 
-            return TrackFactory.getInstance().createInOutTrack(start,end,"test", "test track");
+            return TrackFactory.getInstance().createInOutTrack(start,end,"test", "test track", GenomeFactory.Assembly.hg19);
     }
 
 

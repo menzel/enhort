@@ -1,6 +1,7 @@
 package de.thm.genomeData;
 
 import de.thm.exception.IntervalTypeNotAllowedExcpetion;
+import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
 import org.junit.Test;
 
@@ -310,7 +311,7 @@ public class TracksTest {
         expectedEnds.add(5L);
         expectedEnds.add(15L);
         expectedEnds.add(25L);
-        expectedEnds.add(ChromosomSizes.getInstance().getGenomeSize());
+        expectedEnds.add(ChromosomSizes.getInstance().getGenomeSize(GenomeFactory.Assembly.hg19));
 
         assertEquals(expectedStarts, invert.getStarts());
         assertEquals(expectedEnds, invert.getEnds());
@@ -360,7 +361,7 @@ public class TracksTest {
 
     private InOutTrack mockTrack(List<Long> start, List<Long> end) {
 
-        return  TrackFactory.getInstance().createInOutTrack(start, end, "name", "desc");
+        return  TrackFactory.getInstance().createInOutTrack(start, end, "name", "desc", GenomeFactory.Assembly.hg19);
     }
 
 

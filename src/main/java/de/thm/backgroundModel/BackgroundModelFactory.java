@@ -27,14 +27,15 @@ public final class BackgroundModelFactory {
      * @param positionCount - count of random positions to create.
      * @return background model as sites object.
      */
-    public static Sites createBackgroundModel(int positionCount) {
-        return new RandomBackgroundModel(positionCount);
+    public static Sites createBackgroundModel(GenomeFactory.Assembly assembly, int positionCount) {
+        return new RandomBackgroundModel(assembly, positionCount);
     }
 
 
     /**
      * Creates a background model based on a sequence logo through @see backgroundModel.LogoBackgroundModel
      *
+     * @param assembly - assembly nr
      * @param logo  - sequencelogo @see logo.Logo
      * @param positionCount - count of positions to set
      *
@@ -74,11 +75,11 @@ public final class BackgroundModelFactory {
         if (track instanceof InOutTrack)
             return new SingleTrackBackgroundModel((InOutTrack) track, sites,minSites);
         else if (track instanceof ScoredTrack) // put single track in a list of size one
-            return new SecondScoreMultiTrackBackgroundModel((ScoredTrack) track, sites, minSites, influence);
+            return new SecondScoreMultiTrackBackgroundModel(sites.getAssembly(), (ScoredTrack) track, sites, minSites, influence);
         else if (track instanceof NamedTrack) //convert the single track to a scored track and put in a list of size one
-             return new SecondScoreMultiTrackBackgroundModel(Tracks.cast((NamedTrack) track), sites, minSites, influence);
+             return new SecondScoreMultiTrackBackgroundModel(sites.getAssembly(), Tracks.cast((NamedTrack) track), sites, minSites, influence);
         else if (track instanceof DistanceTrack)
-             return new DistanceBackgroundModel((DistanceTrack) track, sites);
+             return new DistanceBackgroundModel(sites.getAssembly(), (DistanceTrack) track, sites);
         return null;
     }
 
@@ -109,14 +110,14 @@ public final class BackgroundModelFactory {
     public static Sites createBackgroundModel(List<Track> trackList, Sites sites, int minSites, double influence) throws CovariantsException {
 
         if (trackList.isEmpty())
-            return createBackgroundModel(sites.getPositionCount());
+            return createBackgroundModel(sites.getAssembly(), sites.getPositionCount());
 
         else if (trackList.size() == 1)
             return createBackgroundModel(trackList.get(0), sites, minSites, influence);
 
         else if (trackList.stream().allMatch(i -> i instanceof InOutTrack))
             if(trackList.size() < maxCovariantsInOutOnly) {
-                return new MultiTrackBackgroundModel(trackList, sites, minSites);
+                return new MultiTrackBackgroundModel(sites.getAssembly(), trackList, sites, minSites);
             } else throw new CovariantsException("Too many covariants: " + trackList.size() + ". Max " + maxCovariantsInOutOnly + " are allowed");
 
         else if (trackList.size() <= maxCovariants) {
@@ -124,7 +125,7 @@ public final class BackgroundModelFactory {
             if (trackList.stream().allMatch(i -> i instanceof ScoredTrack)) {
                 List<ScoredTrack> newList = trackList.stream().map(i -> (ScoredTrack) i).collect(Collectors.toList());
 
-                return new SecondScoreMultiTrackBackgroundModel(newList, sites, minSites, influence);
+                return new SecondScoreMultiTrackBackgroundModel(sites.getAssembly(), newList, sites, minSites, influence);
 
             } else {
                 List<ScoredTrack> scoredIntervals = trackList.stream()
@@ -146,7 +147,7 @@ public final class BackgroundModelFactory {
                     .collect(Collectors.toList()));
 
 
-                return new SecondScoreMultiTrackBackgroundModel(scoredIntervals, sites, minSites, influence);
+                return new SecondScoreMultiTrackBackgroundModel(sites.getAssembly(), scoredIntervals, sites, minSites, influence);
             }
 
         } else {

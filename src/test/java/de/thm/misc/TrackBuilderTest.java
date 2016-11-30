@@ -4,6 +4,7 @@ import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
 import de.thm.genomeData.Tracks;
+import de.thm.logo.GenomeFactory;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -115,7 +116,7 @@ public class TrackBuilderTest {
 
     private Track mockTrack(List<Long> start, List<Long> end) {
 
-        Track track = TrackFactory.getInstance().createInOutTrack(start, end,"name", "desc");
+        Track track = TrackFactory.getInstance().createInOutTrack(start, end,"name", "desc", GenomeFactory.Assembly.hg19);
 
         TrackFactory.getInstance().addTrack(track);
 

@@ -3,6 +3,7 @@ package de.thm.backgroundModel;
 import de.thm.genomeData.ScoredTrack;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
+import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
 
@@ -17,9 +18,12 @@ import java.util.stream.Collectors;
 @Deprecated
 class ScoreMultiTrackBackgroundModel implements Sites {
 
+    private final GenomeFactory.Assembly assembly;
     private List<Long> positions = new ArrayList<>();
 
-    ScoreMultiTrackBackgroundModel() {}
+    ScoreMultiTrackBackgroundModel(GenomeFactory.Assembly assembly) {
+        this.assembly = assembly;
+    }
 
 
      /**
@@ -28,9 +32,9 @@ class ScoreMultiTrackBackgroundModel implements Sites {
      * @param sites      - sites to build model against.
      * @param covariant - single covariant
      */
-    ScoreMultiTrackBackgroundModel(ScoredTrack covariant, Sites sites, int minSites, double influence) {
+    ScoreMultiTrackBackgroundModel(GenomeFactory.Assembly assembly, ScoredTrack covariant, Sites sites, int minSites, double influence) {
 
-        this(Collections.singletonList(covariant),sites, minSites, influence);
+        this(assembly, Collections.singletonList(covariant),sites, minSites, influence);
     }
 
 
@@ -41,7 +45,9 @@ class ScoreMultiTrackBackgroundModel implements Sites {
      * @param sites      - sites to build model against.
      * @param covariants - list of intervals to build model against.
      */
-    ScoreMultiTrackBackgroundModel(List<ScoredTrack> covariants, Sites sites, int minSites, double influence) {
+    ScoreMultiTrackBackgroundModel(GenomeFactory.Assembly assembly, List<ScoredTrack> covariants, Sites sites, int minSites, double influence) {
+        this.assembly = assembly;
+
         ScoredTrack interval = generateProbabilityInterval(sites, covariants, influence);
 
         int count = (sites.getPositionCount() > minSites) ? sites.getPositionCount() : minSites;
@@ -97,7 +103,7 @@ class ScoreMultiTrackBackgroundModel implements Sites {
         List<String> keys = interval.getIntervalName();
         List<Double> intervalScore = interval.getIntervalScore();
         List<Double> newScores = new ArrayList<>();
-        long genome = ChromosomSizes.getInstance().getGenomeSize();
+        long genome = ChromosomSizes.getInstance().getGenomeSize(assembly);
 
         for (int i = 0; i < intervalScore.size(); i++) {
             Double p = intervalScore.get(i);
@@ -340,7 +346,7 @@ class ScoreMultiTrackBackgroundModel implements Sites {
         List<Double> result_score = new ArrayList<>();
         List<String> result_names = new ArrayList<>();
 
-       long genomeSize = ChromosomSizes.getInstance().getGenomeSize();
+       long genomeSize = ChromosomSizes.getInstance().getGenomeSize(assembly);
 
 
         int i2 = 0;
@@ -512,7 +518,7 @@ class ScoreMultiTrackBackgroundModel implements Sites {
 
         List<List<Long>> marks = new ArrayList<>(); //stores a list for each track which has all start and stop positions
 
-        long genomeSize = ChromosomSizes.getInstance().getGenomeSize();
+        long genomeSize = ChromosomSizes.getInstance().getGenomeSize(assembly);
 
         // copy start and end lists together for each track
         // lists are stored in the marks list
@@ -607,6 +613,11 @@ class ScoreMultiTrackBackgroundModel implements Sites {
     @Override
     public int getPositionCount() {
         return this.positions.size();
+    }
+
+    @Override
+    public GenomeFactory.Assembly getAssembly() {
+        return this.assembly;
     }
 
 

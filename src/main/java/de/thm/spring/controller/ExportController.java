@@ -1,6 +1,7 @@
 package de.thm.spring.controller;
 
 import de.thm.misc.ChromosomSizes;
+import de.thm.positionData.Sites;
 import de.thm.spring.backend.Session;
 import de.thm.spring.backend.Sessions;
 import de.thm.spring.backend.StatisticsCollector;
@@ -54,9 +55,11 @@ public class ExportController {
 
         List<String> positions = new ArrayList<>();
 
+        Sites sites = currentSession.getCollector().getBackgroundSites();
+
         //TODO check null pointer exp where there is no bg
-        for (Long pos : currentSession.getCollector().getBackgroundSites().getPositions()) {
-            Pair<String, Long> p = chromosomSizes.mapToChr(pos);
+        for (Long pos : sites.getPositions()) {
+            Pair<String, Long> p = chromosomSizes.mapToChr(sites.getAssembly(), pos);
             positions.add(p.getLeft() + " " + p.getRight() + " " + (p.getRight()+1) + "<br>");
         }
 

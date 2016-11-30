@@ -6,6 +6,7 @@ import de.thm.calc.TestTrackResult;
 import de.thm.genomeData.InOutTrack;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
+import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
 import org.junit.Test;
 
@@ -101,10 +102,15 @@ public class MultiTrackBackgroundModelTest {
              public int getPositionCount() {
                  return 0;
              }
+
+             @Override
+             public GenomeFactory.Assembly getAssembly() {
+                 return GenomeFactory.Assembly.hg19;
+             }
          };
 
 
-        MultiTrackBackgroundModel model = new MultiTrackBackgroundModel(trackList, sites, sites.getPositionCount());
+        MultiTrackBackgroundModel model = new MultiTrackBackgroundModel(GenomeFactory.Assembly.hg19, trackList, sites, sites.getPositionCount());
 
         //check list count of pos in list 1:
         assertEquals(1,model.getAppearanceTable().getAppearance(trackList.subList(0,1)));
@@ -221,7 +227,7 @@ public class MultiTrackBackgroundModelTest {
 
     private InOutTrack mockTrack(List<Long> start, List<Long> end) {
 
-        return  TrackFactory.getInstance().createInOutTrack(start, end, "name", "desc");
+        return  TrackFactory.getInstance().createInOutTrack(start, end, "name", "desc", GenomeFactory.Assembly.hg19);
     }
 
 

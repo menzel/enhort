@@ -19,7 +19,7 @@ public final class ChromosomSizes {
     private final Map<GenomeFactory.Assembly, Map<String, Integer>> chromosomeSizes = new HashMap<>();
     private final Map<GenomeFactory.Assembly, List<String>> names = new HashMap<> ();
     private final Map<String, Long> offsets = new HashMap<>();
-    private Map<String, Long> genomeSize = new HashMap<>();
+    private Map<GenomeFactory.Assembly, Long> genomeSize = new HashMap<>();
 
     /**
      * Private Constructor
@@ -64,7 +64,7 @@ public final class ChromosomSizes {
             gz += hg19.get(key);
         }
 
-        genomeSize.put("hg19", gz);
+        genomeSize.put(GenomeFactory.Assembly.hg19, gz);
     }
 
     /**
@@ -153,3 +153,4 @@ public final class ChromosomSizes {
     }
 
 }
+

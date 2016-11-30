@@ -2,6 +2,7 @@ package de.thm.spring.command;
 
 import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackPackage;
+import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
 
 import java.io.Serializable;
@@ -20,7 +21,7 @@ public final class BackendCommand implements Serializable, Command{
     private final List<Track> customTracks;
     private final Sites sites;
     private final double influence;
-    private final String assembly;
+    private final GenomeFactory.Assembly assembly;
 
 
     public BackendCommand(Sites sites) {
@@ -31,7 +32,7 @@ public final class BackendCommand implements Serializable, Command{
         this.minBg = sites.getPositionCount();
         customTracks = new ArrayList<>();
         this.influence = 1;
-        assembly = "hg19";
+        assembly = sites.getAssembly();
     }
 
     public BackendCommand(InterfaceCommand command) {
@@ -60,5 +61,5 @@ public final class BackendCommand implements Serializable, Command{
 
     public double getInfluence() { return influence; }
 
-    public String getAssembly() { return assembly; }
+    public GenomeFactory.Assembly getAssembly() { return assembly; }
 }

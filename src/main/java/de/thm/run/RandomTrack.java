@@ -18,7 +18,7 @@ class RandomTrack extends Track {
     private final List<Long> intervalsEnd = new ArrayList<>();
 
     RandomTrack(int intervals){
-        long genomeSize = ChromosomSizes.getInstance().getGenomeSize();
+        long genomeSize = ChromosomSizes.getInstance().getGenomeSize(GenomeFactory.Assembly.hg19);
 
         int length = Math.round(genomeSize / intervals);
 

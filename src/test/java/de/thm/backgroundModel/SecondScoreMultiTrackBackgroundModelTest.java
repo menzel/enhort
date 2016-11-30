@@ -2,6 +2,7 @@ package de.thm.backgroundModel;
 
 import de.thm.genomeData.ScoredTrack;
 import de.thm.genomeData.TrackFactory;
+import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +27,7 @@ public class SecondScoreMultiTrackBackgroundModelTest {
     @Before
     public void setUp() {
 
-        model = new SecondScoreMultiTrackBackgroundModel();
+        model = new SecondScoreMultiTrackBackgroundModel(GenomeFactory.Assembly.hg19);
 
         ///// Create Tracks /////////
 
@@ -114,6 +115,11 @@ public class SecondScoreMultiTrackBackgroundModelTest {
             @Override
             public int getPositionCount() {
                 return 7;
+            }
+
+            @Override
+            public GenomeFactory.Assembly getAssembly() {
+                return GenomeFactory.Assembly.hg19;
             }
 
         };

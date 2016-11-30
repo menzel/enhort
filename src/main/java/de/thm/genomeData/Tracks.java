@@ -1,6 +1,7 @@
 package de.thm.genomeData;
 
 import de.thm.exception.IntervalTypeNotAllowedExcpetion;
+import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
 import org.apache.commons.math3.stat.descriptive.rank.Percentile;
 
@@ -325,6 +326,7 @@ public final class Tracks {
      * @return inverted track
      */
     public static InOutTrack invert(Track track) {
+        GenomeFactory.Assembly assembly = track.getAssembly();
 
         if (track.getStarts().size() == 0)
             return (InOutTrack) track.clone();
@@ -338,10 +340,10 @@ public final class Tracks {
         else ends.remove(0);
 
 
-        if (track.getEnds().get(track.getEnds().size() - 1) == ChromosomSizes.getInstance().getGenomeSize())
+        if (track.getEnds().get(track.getEnds().size() - 1) == ChromosomSizes.getInstance().getGenomeSize(assembly))
             starts.remove(starts.size() - 1);
         else
-            ends.add(ChromosomSizes.getInstance().getGenomeSize());
+            ends.add(ChromosomSizes.getInstance().getGenomeSize(assembly));
 
         return new InOutTrack(starts, ends, track.getName(), track.getDescription(), track.getAssembly(), track.getCellLine());
     }
@@ -420,6 +422,6 @@ public final class Tracks {
             end.add(s + range);
         }
 
-        return  TrackFactory.getInstance().createInOutTrack(start, end, track.getName() + " as inout ", track.getDescription());
+        return  TrackFactory.getInstance().createInOutTrack(start, end, track.getName() + " as inout ", track.getDescription(), track.getAssembly());
     }
 }

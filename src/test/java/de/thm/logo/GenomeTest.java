@@ -34,7 +34,7 @@ public class GenomeTest {
     public void getSequence_another() throws Exception {
 
         GenomeFactory genome = GenomeFactory.getInstance(); //new Genome(new File("/home/menzel/Desktop/chromosomes").toPath());
-        Sites userDat = new UserData(new File("/home/menzel/Desktop/THM/lfba/enhort/sleeping_beauty.hg19.bed").toPath());
+        Sites userDat = new UserData(GenomeFactory.Assembly.hg19, new File("/home/menzel/Desktop/THM/lfba/enhort/sleeping_beauty.hg19.bed").toPath());
 
         List<String> seq = genome.getSequence(GenomeFactory.Assembly.hg19, userDat, 8, Integer.MAX_VALUE);
 
@@ -87,7 +87,12 @@ public class GenomeTest {
              public int getPositionCount() {
                  return 0;
              }
-         };
+
+              @Override
+              public GenomeFactory.Assembly getAssembly() {
+                  return GenomeFactory.Assembly.hg19;
+              }
+          };
 
         List<String> seq = genome.getSequence(GenomeFactory.Assembly.hg19, sites, 5, Integer.MAX_VALUE);
 

@@ -2,6 +2,7 @@ package de.thm.backgroundModel;
 
 import de.thm.genomeData.Track;
 import de.thm.genomeData.Tracks;
+import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
  */
 class MultiTrackBackgroundModel implements Sites {
 
+    private final GenomeFactory.Assembly assembly;
     private transient AppearanceTable appearanceTable; // is transient so it won't be serialized and sent to webinterface
     private List<Long> positions = new ArrayList<>();
 
@@ -26,8 +28,9 @@ class MultiTrackBackgroundModel implements Sites {
      * @param tracks         - covariants
      * @param inputPositions - positions to match against
      */
-    MultiTrackBackgroundModel(List<Track> tracks, Sites inputPositions, int minSites) {
+    MultiTrackBackgroundModel(GenomeFactory.Assembly assembly, List<Track> tracks, Sites inputPositions, int minSites) {
 
+        this.assembly = assembly;
         appearanceTable = new AppearanceTable(minSites);
         appearanceTable.fillTable(tracks, inputPositions);
         positions.addAll(randPositions(appearanceTable, tracks));
@@ -36,7 +39,9 @@ class MultiTrackBackgroundModel implements Sites {
     /**
      * Empty constructor for testing
      */
-    MultiTrackBackgroundModel() {}
+    MultiTrackBackgroundModel() {
+       assembly = GenomeFactory.Assembly.hg19;
+    }
 
 
     /**
@@ -50,7 +55,7 @@ class MultiTrackBackgroundModel implements Sites {
     Collection<Long> randPositions(AppearanceTable appearanceTable, List<Track> tracks) {
 
         List<Long> sites = new ArrayList<>();
-        SingleTrackBackgroundModel better = new SingleTrackBackgroundModel();
+        SingleTrackBackgroundModel better = new SingleTrackBackgroundModel(this.assembly);
 
         // set the positions for each combination of tracks
         for (String app : appearanceTable.getKeySet()) {
@@ -102,5 +107,10 @@ class MultiTrackBackgroundModel implements Sites {
     @Override
     public int getPositionCount() {
         return this.positions.size();
+    }
+
+    @Override
+    public GenomeFactory.Assembly getAssembly() {
+        return this.assembly;
     }
 }

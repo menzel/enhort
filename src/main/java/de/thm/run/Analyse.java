@@ -93,7 +93,7 @@ public class Analyse {
         System.out.println("covariant: " + covariants);
 
 
-        Sites random  = BackgroundModelFactory.createBackgroundModel(10000);
+        Sites random  = BackgroundModelFactory.createBackgroundModel(GenomeFactory.Assembly.hg19, 10000);
         Sites bg = null;
 
 
@@ -126,7 +126,7 @@ public class Analyse {
         AbstractSites sites = new AbstractSites() {
             @Override
             public List<Long> getPositions() {
-                Long v = ChromosomSizes.getInstance().getGenomeSize();
+                Long v = ChromosomSizes.getInstance().getGenomeSize(GenomeFactory.Assembly.hg19);
                 List<Long> list = new ArrayList<>();
                 list.add(v);
                 return list;
@@ -135,6 +135,11 @@ public class Analyse {
             @Override
             public int getPositionCount() {
                 return 1;
+            }
+
+            @Override
+            public GenomeFactory.Assembly getAssembly() {
+                return GenomeFactory.Assembly.hg19;
             }
         };
     }
@@ -148,7 +153,7 @@ public class Analyse {
 
             RandomTrack foo1 = new RandomTrack(5000);
 
-            Sites foo = BackgroundModelFactory.createBackgroundModel(50000);
+            Sites foo = BackgroundModelFactory.createBackgroundModel(GenomeFactory.Assembly.hg19, 50000);
             for(int i = 1 ; i <= 10 ; i++){
                 searchSingleInterval(foo1, foo);
             }
@@ -164,7 +169,7 @@ public class Analyse {
 
                     for (int j = 0; j < 10; j++) {
 
-                        Sites bg = BackgroundModelFactory.createBackgroundModel(i * 10000);
+                        Sites bg = BackgroundModelFactory.createBackgroundModel(GenomeFactory.Assembly.hg19,i * 10000);
 
                         final long startTime = System.currentTimeMillis();
 
@@ -181,7 +186,7 @@ public class Analyse {
             AbstractSites sites = new AbstractSites() {
                 @Override
                 public List<Long> getPositions() {
-                    Long v = ChromosomSizes.getInstance().getGenomeSize();
+                    Long v = ChromosomSizes.getInstance().getGenomeSize(GenomeFactory.Assembly.hg19);
                     List<Long> list = new ArrayList<>();
                     list.add(v);
                     return list;
@@ -191,7 +196,12 @@ public class Analyse {
             public int getPositionCount() {
                 return 1;
             }
-        };
+
+                @Override
+                public GenomeFactory.Assembly getAssembly() {
+                    return GenomeFactory.Assembly.hg19;
+                }
+            };
     }
 
 

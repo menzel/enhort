@@ -26,9 +26,11 @@ import java.util.stream.Stream;
 final class Genome {
 
     private Path filepath;
+    private GenomeFactory.Assembly assembly;
 
-    Genome(Path filepath){
+    Genome(GenomeFactory.Assembly assembly, Path filepath){
         this.filepath = filepath;
+        this.assembly = assembly;
     }
 
 
@@ -69,8 +71,8 @@ final class Genome {
         for(Long position: sublist) {
 
 
-            Pair<String, Long> start = ChromosomSizes.getInstance().mapToChr(position);
-            Pair<String, Long> end = ChromosomSizes.getInstance().mapToChr(position);
+            Pair<String, Long> start = ChromosomSizes.getInstance().mapToChr(assembly, position);
+            Pair<String, Long> end = ChromosomSizes.getInstance().mapToChr(assembly, position);
 
             if (start.getLeft().equals(end.getLeft())) { //if start and end are on the same chr
 
@@ -213,7 +215,7 @@ final class Genome {
                     long offset;
 
                     try {
-                        offset = chrSizes.offset(chr);
+                        offset = chrSizes.offset(assembly, chr);
                         pos.add(offset + (long) (counter + matcher.group(1).length()) + (logo.length()/2));
 
                     } catch (NullPointerException e){

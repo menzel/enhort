@@ -1,5 +1,6 @@
 package de.thm.backgroundModel;
 
+import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
 import org.apache.commons.math3.random.MersenneTwister;
@@ -16,6 +17,7 @@ import java.util.List;
  */
 class RandomBackgroundModel implements Sites {
 
+    private final GenomeFactory.Assembly assembly;
     private transient MersenneTwister rand;
     private List<Long> positions = new ArrayList<>();
 
@@ -24,12 +26,13 @@ class RandomBackgroundModel implements Sites {
      *
      * @param sites count of sites to be generated
      */
-    RandomBackgroundModel(int sites) {
+    RandomBackgroundModel(GenomeFactory.Assembly assembly, int sites) {
+        this.assembly = assembly;
 
         rand  = new MersenneTwister();
 
         sites = (sites > 10000) ? sites : 10000;
-        createSites(sites);
+        createSites(assembly, sites);
 
     }
 
@@ -38,9 +41,9 @@ class RandomBackgroundModel implements Sites {
      *
      * @param sites count of sites to be created.
      */
-    private void createSites(int sites) {
+    private void createSites(GenomeFactory.Assembly assembly, int sites) {
 
-        long genomeSize = ChromosomSizes.getInstance().getGenomeSize()-1;
+        long genomeSize = ChromosomSizes.getInstance().getGenomeSize(assembly)-1;
 
         for (long i = 0; i < sites; i++) {
             long r = Math.round(rand.nextDouble() * ((double) genomeSize));
@@ -70,5 +73,10 @@ class RandomBackgroundModel implements Sites {
     @Override
     public int getPositionCount() {
         return this.positions.size();
+    }
+
+    @Override
+    public GenomeFactory.Assembly getAssembly() {
+        return this.assembly;
     }
 }

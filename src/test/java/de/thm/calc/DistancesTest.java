@@ -2,6 +2,7 @@ package de.thm.calc;
 
 import de.thm.genomeData.DistanceTrack;
 import de.thm.genomeData.TrackFactory;
+import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
 import org.junit.Test;
 
@@ -27,7 +28,7 @@ public class DistancesTest {
         startList.add(10L);
         startList.add(20L);
 
-        DistanceTrack track = TrackFactory.getInstance().createDistanceTrack(startList, "testtrack", "no desc");
+        DistanceTrack track = TrackFactory.getInstance().createDistanceTrack(startList, "testtrack", "no desc", GenomeFactory.Assembly.hg19);
 
         Sites sites =  new Sites() {
 
@@ -56,6 +57,11 @@ public class DistancesTest {
             @Override
             public int getPositionCount() {
                 return 0;
+            }
+
+            @Override
+            public GenomeFactory.Assembly getAssembly() {
+                return GenomeFactory.Assembly.hg19;
             }
         };
 

@@ -1,5 +1,7 @@
 package de.thm.positionData;
 
+import de.thm.logo.GenomeFactory;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -19,4 +21,5 @@ public interface Sites extends Serializable {
 
     int getPositionCount();
 
+    GenomeFactory.Assembly getAssembly();
 }

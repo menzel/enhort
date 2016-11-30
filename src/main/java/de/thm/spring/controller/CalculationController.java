@@ -4,6 +4,7 @@ package de.thm.spring.controller;
 import de.thm.exception.CovariantsException;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
+import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.UserData;
 import de.thm.spring.backend.BackendConnector;
@@ -94,8 +95,8 @@ public class CalculationController {
                         Matcher line_matcher = interval.matcher(line);
 
                         if (line_matcher.matches()) {
-                            start.add(Long.parseLong(line_matcher.group(3)) + chrSizes.offset(line_matcher.group(1)));
-                            end.add(Long.parseLong(line_matcher.group(4)) + chrSizes.offset(line_matcher.group(1)));
+                            start.add(Long.parseLong(line_matcher.group(3)) + chrSizes.offset(GenomeFactory.Assembly.hg19, line_matcher.group(1)));
+                            end.add(Long.parseLong(line_matcher.group(4)) + chrSizes.offset(GenomeFactory.Assembly.hg19, line_matcher.group(1)));
                         }
                     }
 
@@ -104,7 +105,7 @@ public class CalculationController {
                     Files.delete(path);
                     //TODO do not write file which needs to be deleted after anyway
 
-                    Track track = TrackFactory.getInstance().createInOutTrack(start,end,name,name);
+                    Track track = TrackFactory.getInstance().createInOutTrack(start,end,name,name, GenomeFactory.Assembly.hg19);
 
                     currentSession.addCustomTrack(track);
 
@@ -125,7 +126,7 @@ public class CalculationController {
     }
 
    @RequestMapping(value = "/upload", method = RequestMethod.GET)
-    public String plainView(Model model, HttpSession httpSession) {
+    public String plainView(Model model, InterfaceCommand iCommand, HttpSession httpSession) {
 
 
         Sessions sessionsControll = Sessions.getInstance();
@@ -135,7 +136,7 @@ public class CalculationController {
 
         if (collector != null) {
             Path file = currentSession.getFile();
-            UserData data = new UserData(file);
+            UserData data = new UserData(iCommand.getAssembly(), file);
 
             List<TestResult> covariants = currentSession.getCovariants();
 
@@ -184,7 +185,7 @@ public class CalculationController {
 
                 Session currentSession = sessionControll.addSession(httpSession.getId(), inputFilepath);
 
-                UserData data = new UserData(inputFilepath);
+                UserData data = new UserData(GenomeFactory.Assembly.hg19, inputFilepath);
                 BackendCommand command = new BackendCommand(data);
 
                 command.addCustomTrack(currentSession.getCustomTracks());
@@ -231,7 +232,7 @@ public class CalculationController {
 
         Session currentSession = sessionsControll.getSession(httpSession.getId());
         Path file = currentSession.getFile();
-        UserData data = new UserData(file);
+        UserData data = new UserData(command.getAssembly(), file);
 
         ResultCollector collector;
         List<TestResult> covariants = new ArrayList<>();
@@ -310,7 +311,7 @@ public class CalculationController {
 
         if (collector != null) {
             Path position_file= currentSession.getFile();
-            UserData data = new UserData(position_file);
+            UserData data = new UserData(collector.getBackgroundSites().getAssembly(), position_file);
 
             List<TestResult> covariants = currentSession.getCovariants();
 

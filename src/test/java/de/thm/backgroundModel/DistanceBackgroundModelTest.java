@@ -3,6 +3,7 @@ package de.thm.backgroundModel;
 import de.thm.calc.Distances;
 import de.thm.genomeData.DistanceTrack;
 import de.thm.genomeData.TrackFactory;
+import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
 import org.junit.Test;
 
@@ -65,9 +66,14 @@ public class DistanceBackgroundModelTest {
                 return 5;
             }
 
+            @Override
+            public GenomeFactory.Assembly getAssembly() {
+                return GenomeFactory.Assembly.hg19;
+            }
+
         };
 
-        DistanceBackgroundModel model = new DistanceBackgroundModel(track1,sites);
+        DistanceBackgroundModel model = new DistanceBackgroundModel(GenomeFactory.Assembly.hg19, track1,sites);
         Distances dist = new Distances();
 
         ///////// compare with expected results //////////////
@@ -89,7 +95,7 @@ public class DistanceBackgroundModelTest {
     }
 
     private DistanceTrack mockTrack(List<Long> start) {
-        return TrackFactory.getInstance().createDistanceTrack(start, "Test track", "no desc");
+        return TrackFactory.getInstance().createDistanceTrack(start, "Test track", "no desc", GenomeFactory.Assembly.hg19);
     }
 
 }

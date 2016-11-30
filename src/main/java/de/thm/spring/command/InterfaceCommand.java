@@ -1,6 +1,7 @@
 package de.thm.spring.command;
 
 import de.thm.genomeData.TrackPackage;
+import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
 
 import java.util.ArrayList;
@@ -98,8 +99,11 @@ public final class InterfaceCommand {
         this.influence = influence;
     }
 
-    public String getAssembly() {
-        return assembly;
+    public GenomeFactory.Assembly getAssembly() {
+        if(assembly != null)
+            return GenomeFactory.Assembly.valueOf(this.assembly);
+        else
+            return null;
     }
 
     public void setAssembly(String assembly) {

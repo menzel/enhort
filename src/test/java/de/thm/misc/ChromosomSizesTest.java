@@ -1,5 +1,6 @@
 package de.thm.misc;
 
+import de.thm.logo.GenomeFactory;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.junit.Test;
 
@@ -16,7 +17,7 @@ public class ChromosomSizesTest {
 
         //System.out.println(chrSizes.getChrSize("chr1"));
 
-        assertEquals(chrSizes.getChrSize("chr1"), chrSizes.getChrSize("chr1"));
+        assertEquals(chrSizes.getChrSize(GenomeFactory.Assembly.hg19, "chr1"), chrSizes.getChrSize( GenomeFactory.Assembly.hg19, "chr1"));
 
     }
 
@@ -25,18 +26,18 @@ public class ChromosomSizesTest {
         ChromosomSizes chrSizes = ChromosomSizes.getInstance();
 
         Long p = 9980L;
-        Long pos = chrSizes.offset("chr1") + p;
-        assertEquals(new ImmutablePair<>("chr1", p),chrSizes.mapToChr(pos));
+        Long pos = chrSizes.offset(GenomeFactory.Assembly.hg19, "chr1") + p;
+        assertEquals(new ImmutablePair<>("chr1", p),chrSizes.mapToChr(GenomeFactory.Assembly.hg19, pos));
 
 
         p = 110179960L;
-        pos = chrSizes.offset("chr6") + p;
-        assertEquals(new ImmutablePair<>("chr6", p),chrSizes.mapToChr(pos));
+        pos = chrSizes.offset(GenomeFactory.Assembly.hg19, "chr6") + p;
+        assertEquals(new ImmutablePair<>("chr6", p),chrSizes.mapToChr(GenomeFactory.Assembly.hg19, pos));
 
 
         p = 37080600L;
-        pos = chrSizes.offset("chr15") + p;
-        assertEquals(new ImmutablePair<>("chr15", p),chrSizes.mapToChr(pos));
+        pos = chrSizes.offset(GenomeFactory.Assembly.hg19, "chr15") + p;
+        assertEquals(new ImmutablePair<>("chr15", p),chrSizes.mapToChr(GenomeFactory.Assembly.hg19, pos));
 
 
     }

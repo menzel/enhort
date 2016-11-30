@@ -5,6 +5,7 @@ import de.thm.genomeData.DistanceTrack;
 import de.thm.genomeData.InOutTrack;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.Tracks;
+import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
 import org.apache.commons.math3.random.MersenneTwister;
 
@@ -21,11 +22,13 @@ import java.util.stream.Collectors;
  */
 class DistanceBackgroundModel implements Sites {
 
+    private final GenomeFactory.Assembly assembly;
     private transient MersenneTwister rand;
     private List<Long> positions;
 
 
-    DistanceBackgroundModel(DistanceTrack track, Sites sites){
+    DistanceBackgroundModel(GenomeFactory.Assembly assembly, DistanceTrack track, Sites sites){
+        this.assembly = assembly;
 
         rand  = new MersenneTwister();
 
@@ -35,7 +38,7 @@ class DistanceBackgroundModel implements Sites {
         positions = generatePositions(distHist, track, count);
 
         //generate outside positions
-        SingleTrackBackgroundModel outsideModel = new SingleTrackBackgroundModel();
+        SingleTrackBackgroundModel outsideModel = new SingleTrackBackgroundModel(sites.getAssembly());
         InOutTrack ousideTrack = Tracks.invert(Tracks.convertByRange(track, 5000));
         positions.addAll(outsideModel.randPositions(sites.getPositionCount()- distHist.size(), ousideTrack));
 
@@ -117,5 +120,10 @@ class DistanceBackgroundModel implements Sites {
     @Override
     public int getPositionCount() {
         return positions.size();
+    }
+
+    @Override
+    public GenomeFactory.Assembly getAssembly() {
+        return this.assembly;
     }
 }
