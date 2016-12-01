@@ -22,9 +22,9 @@ import java.util.List;
  */
 class SingleTrackBackgroundModel implements Sites {
 
+    private final GenomeFactory.Assembly assembly;
     private transient MersenneTwister rand;
     private List<Long> positions = new ArrayList<>();
-    private GenomeFactory.Assembly assembly;
 
     /**
      * Contstructor
@@ -44,6 +44,7 @@ class SingleTrackBackgroundModel implements Sites {
 
         Intersect calc = new Intersect();
         TestTrackResult result = calc.searchSingleInterval(track, sites);
+        assembly = sites.getAssembly();
 
         // TODO: factor is wrong, seems to be always 1
         int factor = (sites.getPositionCount() < minSites)? minSites/ sites.getPositionCount(): 1;

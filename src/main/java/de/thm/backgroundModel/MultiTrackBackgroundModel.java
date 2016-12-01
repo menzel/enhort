@@ -28,9 +28,9 @@ class MultiTrackBackgroundModel implements Sites {
      * @param tracks         - covariants
      * @param inputPositions - positions to match against
      */
-    MultiTrackBackgroundModel(GenomeFactory.Assembly assembly, List<Track> tracks, Sites inputPositions, int minSites) {
+    MultiTrackBackgroundModel(List<Track> tracks, Sites inputPositions, int minSites) {
 
-        this.assembly = assembly;
+        this.assembly = inputPositions.getAssembly();
         appearanceTable = new AppearanceTable(minSites);
         appearanceTable.fillTable(tracks, inputPositions);
         positions.addAll(randPositions(appearanceTable, tracks));

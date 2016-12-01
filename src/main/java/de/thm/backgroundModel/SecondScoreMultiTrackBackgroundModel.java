@@ -32,9 +32,9 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
      * @param sites      - sites to build model against.
      * @param covariant - single covariant
      */
-    SecondScoreMultiTrackBackgroundModel(GenomeFactory.Assembly assembly, ScoredTrack covariant, Sites sites, int minSites, double influence) {
+    SecondScoreMultiTrackBackgroundModel(ScoredTrack covariant, Sites sites, int minSites, double influence) {
 
-        this(assembly, Collections.singletonList(covariant),sites, minSites, influence);
+        this(Collections.singletonList(covariant),sites, minSites, influence);
     }
 
 
@@ -45,8 +45,8 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
      * @param sites      - sites to build model against.
      * @param covariants - list of intervals to build model against.
      */
-    SecondScoreMultiTrackBackgroundModel(GenomeFactory.Assembly assembly, List<ScoredTrack> covariants, Sites sites, int minSites, double influence) {
-        this.assembly = assembly;
+    SecondScoreMultiTrackBackgroundModel(List<ScoredTrack> covariants, Sites sites, int minSites, double influence) {
+        this.assembly = sites.getAssembly();
         ScoredTrack interval = generateProbabilityInterval(sites, covariants, influence);
 
         int count = (sites.getPositionCount() > minSites) ? sites.getPositionCount() : minSites;

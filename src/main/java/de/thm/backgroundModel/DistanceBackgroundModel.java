@@ -27,8 +27,8 @@ class DistanceBackgroundModel implements Sites {
     private List<Long> positions;
 
 
-    DistanceBackgroundModel(GenomeFactory.Assembly assembly, DistanceTrack track, Sites sites){
-        this.assembly = assembly;
+    DistanceBackgroundModel(DistanceTrack track, Sites sites){
+        this.assembly = sites.getAssembly();
 
         rand  = new MersenneTwister();
 
