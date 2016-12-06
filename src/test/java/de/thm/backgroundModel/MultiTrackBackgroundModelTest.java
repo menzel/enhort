@@ -110,7 +110,7 @@ public class MultiTrackBackgroundModelTest {
          };
 
 
-        MultiTrackBackgroundModel model = new MultiTrackBackgroundModel(GenomeFactory.Assembly.hg19, trackList, sites, sites.getPositionCount());
+        MultiTrackBackgroundModel model = new MultiTrackBackgroundModel(trackList, sites, sites.getPositionCount());
 
         //check list count of pos in list 1:
         assertEquals(1,model.getAppearanceTable().getAppearance(trackList.subList(0,1)));
