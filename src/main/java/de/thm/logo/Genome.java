@@ -39,6 +39,7 @@ final class Genome {
      *
      * @param positions - positions to check
      * @param width - width of the sequences
+     * @param count -  count of positions to look up. One third of count is taken from each the beginning, the middle and the end.
      *
      *
      * @return list of sequences at sites
@@ -138,7 +139,7 @@ final class Genome {
      *
      * @param sites - positions to check
      * @param width - width of the sequences
-     *
+     * @param count -  count of positions to look up. One third of count is taken from each the beginning, the middle and the end.
      *
      * @return list of sequences at sites
      */
