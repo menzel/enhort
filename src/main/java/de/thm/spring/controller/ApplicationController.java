@@ -2,6 +2,7 @@ package de.thm.spring.controller;
 
 import de.thm.spring.backend.Sessions;
 import de.thm.spring.backend.StatisticsCollector;
+import de.thm.spring.command.ExpressionCommand;
 import de.thm.spring.command.InterfaceCommand;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +31,7 @@ public class ApplicationController {
         command.setMinBg(10000);
 
         model.addAttribute("interfaceCommand", command);
+        model.addAttribute("expressionCommand", new ExpressionCommand());
 
         return "result";
     }
