@@ -93,7 +93,6 @@ public class CalculationController {
 
                         String line = (String) it.next();
                         Matcher line_matcher = interval.matcher(line);
-
                         if (line_matcher.matches()) {
                             start.add(Long.parseLong(line_matcher.group(3)) + chrSizes.offset(GenomeFactory.Assembly.hg19, line_matcher.group(1)));
                             end.add(Long.parseLong(line_matcher.group(4)) + chrSizes.offset(GenomeFactory.Assembly.hg19, line_matcher.group(1)));
@@ -136,7 +135,7 @@ public class CalculationController {
 
         if (collector != null) {
             Path file = currentSession.getFile();
-            UserData data = new UserData(iCommand.getAssembly(), file);
+            UserData data = new UserData(GenomeFactory.Assembly.valueOf(iCommand.getAssembly()), file);
 
             List<TestResult> covariants = currentSession.getCovariants();
 
@@ -158,7 +157,6 @@ public class CalculationController {
 
             ExpressionCommand exCommand = new ExpressionCommand();
             model.addAttribute("expressionCommand", exCommand);
-
         }
 
         return "result";
@@ -174,6 +172,9 @@ public class CalculationController {
 
         StatisticsCollector stats = StatisticsCollector.getInstance();
 
+        //TODO guess genome Nr
+        GenomeFactory.Assembly assembly = GenomeFactory.Assembly.hg19;
+
         if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
@@ -185,7 +186,7 @@ public class CalculationController {
 
                 Session currentSession = sessionControll.addSession(httpSession.getId(), inputFilepath);
 
-                UserData data = new UserData(GenomeFactory.Assembly.hg19, inputFilepath);
+                UserData data = new UserData(assembly, inputFilepath);
                 BackendCommand command = new BackendCommand(data);
 
                 command.addCustomTrack(currentSession.getCustomTracks());
@@ -232,7 +233,7 @@ public class CalculationController {
 
         Session currentSession = sessionsControll.getSession(httpSession.getId());
         Path file = currentSession.getFile();
-        UserData data = new UserData(command.getAssembly(), file);
+        UserData data = new UserData(GenomeFactory.Assembly.valueOf(command.getAssembly()), file);
 
         ResultCollector collector;
         List<TestResult> covariants = new ArrayList<>();

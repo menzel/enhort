@@ -42,7 +42,7 @@ public final class BackendCommand implements Serializable, Command{
         this.sites = command.getSites();
         this.influence = command.getInfluence();
         this.customTracks = new ArrayList<>();
-        this.assembly = command.getAssembly();
+        this.assembly = GenomeFactory.Assembly.valueOf(command.getAssembly());
     }
 
     public void addCustomTrack(List<Track> track){
