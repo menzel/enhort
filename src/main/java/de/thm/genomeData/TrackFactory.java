@@ -251,6 +251,27 @@ public final class TrackFactory {
         return null;
     }
 
+
+    /**
+     *
+     * Gets a track by name
+     * @param name - name of the track
+     *
+     * @return  track with the give name or null if no such track exists
+     */
+    public Track getTrackByName(String name) {
+
+        for (Track track : tracks) {
+            if (track.getName().equals(name)) {
+                return track;
+            }
+        }
+
+        return null;
+    }
+
+
+
     /**
      * Factory method for scored tracks. Creates a new track based on input.
      *
@@ -317,6 +338,7 @@ public final class TrackFactory {
     public void addTrack(Track track){
         this.tracks.add(track);
     }
+
 
 
     enum Type {inout, named, distance, scored}
