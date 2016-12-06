@@ -28,6 +28,8 @@ public final class BackgroundModelFactory {
      * @return background model as sites object.
      */
     public static Sites createBackgroundModel(GenomeFactory.Assembly assembly, int positionCount) {
+        if(positionCount < 10000)
+            positionCount = 10000;
         return new RandomBackgroundModel(assembly, positionCount);
     }
 

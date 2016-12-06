@@ -24,16 +24,14 @@ class RandomBackgroundModel implements Sites {
     /**
      * Constructor
      *
-     * @param sites count of sites to be generated
+     * @param count - of sites to be generated
      */
-    RandomBackgroundModel(GenomeFactory.Assembly assembly, int sites) {
+    RandomBackgroundModel(GenomeFactory.Assembly assembly, int count) {
         this.assembly = assembly;
 
         rand  = new MersenneTwister();
 
-        sites = (sites > 10000) ? sites : 10000;
-        createSites(assembly, sites);
-
+        createSites(assembly, count);
     }
 
     /**
