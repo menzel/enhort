@@ -10,10 +10,10 @@ import de.thm.positionData.Sites;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertEquals;
 
@@ -72,14 +72,37 @@ public class PrecalcSiteFactoryTest {
         assert seq != null;
 
         assertEquals(seq.size(), 100);
-        String consensus = "ta";
-        String regex = "\\w*?" + consensus + "\\w*";
-        Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        char[] consensus = new char[seq.get(0).length()];
 
-        for(String s: seq){
-            if(!pattern.matcher(s).matches()){
-                throw new AssertionError(s + " does not match " + regex);
+        for(int i = 0; i < seq.get(0).length();i++){
+
+            Map<Character, Integer> counter = new HashMap<>();
+
+            counter.put('a', 0);
+            counter.put('t', 0);
+            counter.put('c', 0);
+            counter.put('g', 0);
+
+            for(String s: seq){
+                Character c = s.toLowerCase().charAt(i);
+                counter.put(c, counter.get(c)+1);
             }
+
+            int max = 0;
+            char max_char = '.';
+            for(Character c: counter.keySet()){
+                if(counter.get(c) > max){
+                    max = counter.get(c);
+                    max_char = c;
+                }
+            }
+
+            consensus[i] = max_char; //get the char with the max value TODO
+        }
+
+        //compare consensus of new positions with logo
+        if(!Arrays.toString(consensus).contains("ta")){
+            throw new AssertionError(Arrays.toString(consensus) + " does not contain  " +  "ta");
 
         }
     }
