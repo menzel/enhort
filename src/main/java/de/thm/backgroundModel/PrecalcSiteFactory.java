@@ -36,10 +36,8 @@ public class PrecalcSiteFactory {
         RandomBackgroundModel model = new RandomBackgroundModel(assembly, count);
         positions = model.getPositions();
 
-
-        for(Long pos: positions){
+        for(Long pos: positions)
             booleans.put(pos, new ArrayList<>(Collections.nCopies(3, false)));
-        }
 
         // fill maps for fast attributes access
         fill_boolean(positions, boolean_keys.GENE, TrackFactory.getInstance().getTrackByName("Known genes"));
@@ -48,10 +46,7 @@ public class PrecalcSiteFactory {
 
         fill_sequence(positions);
 
-
         fill_distances(positions,distance_keys.TSS, TrackFactory.getInstance().getTrackByName("Distance_to_TSS"));
-
-        //System.out.println(booleans);
     }
 
     /**
@@ -114,7 +109,11 @@ public class PrecalcSiteFactory {
      * @return count sites
      */
     public static Sites getSites(int count){
-        return mockSites(PrecalcSiteFactory.positions.subList(0, count));
+
+        List<Long> pos_copy = new ArrayList<>(positions);
+        Collections.shuffle(pos_copy);
+
+        return mockSites(pos_copy.subList(0, count));
     }
 
     /**
@@ -172,10 +171,9 @@ public class PrecalcSiteFactory {
     public static Sites getSites(Logo logo, int distance, int count){
 
         List<Long> pos = new ArrayList<>();
-        String consensus = logo.getConsensus().toLowerCase();
-        int c = (sequence.get(positions.get(0)).length() - consensus.length())/2; //get count of chars before sequence and after for regex
-        String regex = "\\w{" + (c-1) + "," + (c+1)  + "}" + consensus + "\\w{" + (c-1) + "," + (c+1) +"}";
+        String regex = generateLogoRegex(logo, distance);
 
+        System.out.println(regex);
         Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
 
         for (Long p : positions) {
@@ -186,6 +184,15 @@ public class PrecalcSiteFactory {
         }
 
         return mockSites(pos);
+    }
+
+    private static String generateLogoRegex(Logo logo, int distance) {
+
+        String consensus = logo.getConsensus().toLowerCase();
+        int c = (sequence.get(positions.get(0)).length() - consensus.length())/2; //get count of chars before sequence and after for regex
+
+        String logoRegex = logo.getRegex();
+        return "\\w{" + (c-1) + "," + (c+1)  + "}" + logoRegex + "\\w{" + (c-1) + "," + (c+1) +"}";
     }
 
     /**
@@ -223,12 +230,7 @@ public class PrecalcSiteFactory {
         };
     }
 
-
     enum boolean_keys {GENE, EXON, INTRON}
 
-
     enum distance_keys {TSS, CANCER_GENE}
-
-
-
 }
