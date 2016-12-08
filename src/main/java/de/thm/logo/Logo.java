@@ -126,4 +126,28 @@ public final class Logo implements Serializable{
 
         return consensus;
     }
+
+    public String getRegex() {
+        String regex = "[";
+
+        for(List<Map<String, String>> position: heights) {
+            String letter;
+
+            for (Map<String, String> base : position) {
+                double bits = Double.parseDouble(base.get("bits"));
+
+                if(bits > 0.0){
+                    letter = base.get("letter").toUpperCase();
+                    regex += letter;
+                }
+            }
+
+            regex += "][";
+
+        }
+
+        return regex.substring(0, regex.length()-1);
+
+
+    }
 }
