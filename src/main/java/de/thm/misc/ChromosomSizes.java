@@ -4,10 +4,15 @@ import de.thm.logo.GenomeFactory;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * Supplies chromosome sizes for HG19
@@ -26,32 +31,32 @@ public final class ChromosomSizes {
      */
     private ChromosomSizes() {
 
+        Path basePath;
+
+        if(System.getenv("HOME").contains("menzel")){
+            basePath = new File("/home/menzel/Desktop/THM/lfba/enhort/dat/").toPath();
+        } else {
+            basePath = new File("/home/mmnz21/dat/").toPath();
+        }
+
         Map<String, Integer> hg19 = new HashMap<>();
 
-        hg19.put("chr1", 249250621);
-        hg19.put("chr2", 243199373);
-        hg19.put("chr3", 198022430);
-        hg19.put("chr4", 191154276);
-        hg19.put("chr5", 180915260);
-        hg19.put("chr6", 171115067);
-        hg19.put("chr7", 159138663);
-        hg19.put("chrX", 155270560);
-        hg19.put("chr8", 146364022);
-        hg19.put("chr9", 141213431);
-        hg19.put("chr10", 135534747);
-        hg19.put("chr11", 135006516);
-        hg19.put("chr12", 133851895);
-        hg19.put("chr13", 115169878);
-        hg19.put("chr14", 107349540);
-        hg19.put("chr15", 102531392);
-        hg19.put("chr16", 90354753);
-        hg19.put("chr17", 81195210);
-        hg19.put("chr18", 78077248);
-        hg19.put("chr20", 63025520);
-        hg19.put("chrY", 59373566);
-        hg19.put("chr19", 59128983);
-        hg19.put("chr22", 51304566);
-        hg19.put("chr21", 48129895);
+        try (Stream<String> lines = Files.lines(basePath.resolve("hg19/chrSizes"), StandardCharsets.UTF_8)) {
+            Iterator<String> it = lines.iterator();
+            Pattern chrPattern = Pattern.compile("(chr(\\d{1,2}|X|Y))\\s(\\d+)");
+
+            while(it.hasNext()){
+                String line = it.next();
+                Matcher lineMatcher = chrPattern.matcher(line);
+
+                if(lineMatcher.matches())
+                    hg19.put(lineMatcher.group(1), Integer.valueOf(lineMatcher.group(3)));
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         chromosomeSizes.put(GenomeFactory.Assembly.hg19, hg19);
 
@@ -81,8 +86,15 @@ public final class ChromosomSizes {
     }
 
     public Long getChrSize(GenomeFactory.Assembly assembly, String chr) {
-        return new Long(chromosomeSizes.get(assembly).get(chr));
+        if(chromosomeSizes.containsKey(assembly))
+            if(chromosomeSizes.get(assembly).containsKey(chr))
+                return new Long(chromosomeSizes.get(assembly).get(chr));
+        else
+                System.out.println(assembly  + " " + chr);
+        else
+                System.out.println(assembly  + " " + chr);
 
+        return null;
     }
 
     public long getGenomeSize(GenomeFactory.Assembly assembly) {
