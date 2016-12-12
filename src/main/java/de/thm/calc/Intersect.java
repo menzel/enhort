@@ -55,7 +55,7 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
 
         int intervalCount = intervalStart.size() - 1;
 
-        for (Long p : pos.getPositions()) {
+        for (long p : pos.getPositions()) {
 
             while (i < intervalCount && intervalEnd.get(i) <= p)
                 i++;
@@ -91,7 +91,7 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
         int intervalCount = intervalStart.size() - 1;
 
 
-        for (Long p : pos.getPositions()) {
+        for (long p : pos.getPositions()) {
 
             while (i < intervalCount && intervalEnd.get(i) <= p)
                 i++;
@@ -123,7 +123,7 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
 
         int intervalCount = intervalStart.size() - 1;
 
-        for (Long p : pos.getPositions()) {
+        for (long p : pos.getPositions()) {
 
             while (i < intervalCount && intervalEnd.get(i) <= p)
                 i++;

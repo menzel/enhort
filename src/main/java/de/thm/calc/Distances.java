@@ -50,7 +50,7 @@ public final class Distances implements TestTrack<DistanceTrack>{
         int i = 0;
         int intervalCount = intervalStart.size() - 1;
 
-        for (Long p : sites.getPositions()) {
+        for (long p : sites.getPositions()) {
 
             while (i < intervalCount && intervalStart.get(i) < p)
                 i++;
