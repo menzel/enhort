@@ -2,7 +2,9 @@ package de.thm.genomeData;
 
 import de.thm.logo.GenomeFactory;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Track for intervals that define inside and outside of intervals.
@@ -12,18 +14,24 @@ import java.util.List;
 public class InOutTrack extends Track {
 
     private final int uid = UID.incrementAndGet();
-    private final List<Long> intervalsStart;
-    private final List<Long> intervalsEnd;
+    private final long[] intervalsStart;
+    private final long[] intervalsEnd;
     private final String name;
     private final String description;
 
-    private GenomeFactory.Assembly assembly;
-    private CellLine cellLine;
+    private final GenomeFactory.Assembly assembly;
+    private final CellLine cellLine;
 
     InOutTrack(List<Long> starts, List<Long> ends, String name, String description, GenomeFactory.Assembly assembly, CellLine cellLine) {
 
-        intervalsStart = starts;
-        intervalsEnd = ends;
+        intervalsStart =  new long[starts.size()];
+        intervalsEnd = new long[ends.size()];
+
+        for (int i = 0; i < starts.size(); i++)
+            intervalsStart[i] = starts.get(i);
+        for (int i = 0; i < ends.size(); i++)
+            intervalsEnd[i] = ends.get(i);
+
         this.description = description;
         this.name = name;
         this.assembly = assembly;
@@ -43,12 +51,12 @@ public class InOutTrack extends Track {
 
     @Override
     public List<Long> getStarts() {
-        return intervalsStart;
+        return Arrays.stream(intervalsStart).boxed().collect(Collectors.toList());
     }
 
     @Override
     public List<Long> getEnds() {
-        return intervalsEnd;
+        return Arrays.stream(intervalsEnd).boxed().collect(Collectors.toList());
     }
 
     @Override
@@ -74,8 +82,8 @@ public class InOutTrack extends Track {
     @Override
     public int hashCode() {
         int result = uid;
-        result = 31 * result + intervalsEnd.size();
-        result = 31 * result + intervalsStart.size();
+        result = 31 * result + intervalsEnd.length;
+        result = 31 * result + intervalsStart.length;
         return result;
     }
 
@@ -86,8 +94,8 @@ public class InOutTrack extends Track {
 
         InOutTrack track = (InOutTrack) o;
 
-        if (!intervalsStart.equals(track.intervalsStart)) return false;
-        if (!intervalsEnd.equals(track.intervalsEnd)) return false;
+        if (!Arrays.equals(intervalsStart, track.intervalsStart)) return false;
+        if (!Arrays.equals(intervalsEnd, track.intervalsEnd)) return false;
         return !(description != null ? !description.equals(track.description) : track.description != null);
     }
 
