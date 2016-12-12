@@ -85,16 +85,11 @@ public final class ChromosomSizes {
         return instance;
     }
 
-    public Long getChrSize(GenomeFactory.Assembly assembly, String chr) {
+    public Long getChrSize(GenomeFactory.Assembly assembly, String chr) throws NoSuchElementException{
         if(chromosomeSizes.containsKey(assembly))
             if(chromosomeSizes.get(assembly).containsKey(chr))
                 return new Long(chromosomeSizes.get(assembly).get(chr));
-        else
-                System.out.println(assembly  + " " + chr);
-        else
-                System.out.println(assembly  + " " + chr);
-
-        return null;
+        throw new NoSuchElementException("Either the assembly or chr number is unkown: " + assembly +  " " + chr);
     }
 
     public long getGenomeSize(GenomeFactory.Assembly assembly) {

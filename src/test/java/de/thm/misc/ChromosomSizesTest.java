@@ -10,6 +10,8 @@ import java.util.Map;
 import static junit.framework.TestCase.assertEquals;
 
 /**
+ * Test chrSizes class
+ *
  * Created by Michael Menzel on 7/1/16.
  */
 public class ChromosomSizesTest {
@@ -44,10 +46,15 @@ public class ChromosomSizesTest {
         hg19.put("chr22", 51304566L);
         hg19.put("chr21", 48129895L);
 
+        long sum = 0;
+
 
         for(String chr: hg19.keySet()){
             assertEquals(hg19.get(chr),chrSizes.getChrSize(GenomeFactory.Assembly.hg19, chr));
+            sum += hg19.get(chr);
         }
+
+        assertEquals(sum, chrSizes.getGenomeSize(GenomeFactory.Assembly.hg19));
 
     }
 
@@ -58,6 +65,7 @@ public class ChromosomSizesTest {
         //System.out.println(chrSizes.getChrSize("chr1"));
 
         assertEquals(chrSizes.getChrSize(GenomeFactory.Assembly.hg19, "chr1"), chrSizes.getChrSize( GenomeFactory.Assembly.hg19, "chr1"));
+
 
     }
 
