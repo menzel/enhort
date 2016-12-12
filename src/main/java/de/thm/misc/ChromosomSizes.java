@@ -39,37 +39,10 @@ public final class ChromosomSizes {
             basePath = new File("/home/mmnz21/dat/").toPath();
         }
 
-        Map<String, Integer> hg19 = new HashMap<>();
 
-        try (Stream<String> lines = Files.lines(basePath.resolve("hg19/chrSizes"), StandardCharsets.UTF_8)) {
-            Iterator<String> it = lines.iterator();
-            Pattern chrPattern = Pattern.compile("(chr(\\d{1,2}|X|Y))\\s(\\d+)");
+        readChrSizes(basePath, GenomeFactory.Assembly.hg19);
+        readChrSizes(basePath, GenomeFactory.Assembly.hg38);
 
-            while(it.hasNext()){
-                String line = it.next();
-                Matcher lineMatcher = chrPattern.matcher(line);
-
-                if(lineMatcher.matches())
-                    hg19.put(lineMatcher.group(1), Integer.valueOf(lineMatcher.group(3)));
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        chromosomeSizes.put(GenomeFactory.Assembly.hg19, hg19);
-
-        names.put(GenomeFactory.Assembly.hg19, new ArrayList<>(hg19.keySet()));
-        java.util.Collections.sort(names.get(GenomeFactory.Assembly.hg19));
-
-        // get whole genome length for hg19
-        long gz = 0;
-        for (String key : hg19.keySet()) {
-            gz += hg19.get(key);
-        }
-
-        genomeSize.put(GenomeFactory.Assembly.hg19, gz);
     }
 
     /**
@@ -83,6 +56,44 @@ public final class ChromosomSizes {
         }
 
         return instance;
+    }
+
+    /**
+     * Reads the chr sizes for the given path and assembly
+     *
+     * @param basePath - path to data directory
+     * @param assembly - assembly name from GenomeFactory.Assembly
+     */
+    private void readChrSizes(Path basePath, GenomeFactory.Assembly assembly) {
+        Map<String, Integer> hg = new HashMap<>();
+
+
+        try (Stream<String> lines = Files.lines(basePath.resolve(assembly.toString() + "/chrSizes"), StandardCharsets.UTF_8)) {
+            Iterator<String> it = lines.iterator();
+            Pattern chrPattern = Pattern.compile("(chr(\\d{1,2}|X|Y))\\s(\\d+)");
+
+            while(it.hasNext()){
+                String line = it.next();
+                Matcher lineMatcher = chrPattern.matcher(line);
+
+                if(lineMatcher.matches())
+                    hg.put(lineMatcher.group(1), Integer.valueOf(lineMatcher.group(3)));
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        chromosomeSizes.put(assembly, hg);
+
+        names.put(assembly, new ArrayList<>(hg.keySet()));
+        java.util.Collections.sort(names.get(assembly));
+
+        // get whole genome length for the genome
+        long gz = 0;
+        for (String key : hg.keySet()) gz += hg.get(key);
+        genomeSize.put(assembly, gz);
     }
 
     public Long getChrSize(GenomeFactory.Assembly assembly, String chr) throws NoSuchElementException{
