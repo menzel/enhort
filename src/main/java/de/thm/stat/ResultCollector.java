@@ -208,14 +208,18 @@ public final class ResultCollector implements Serializable{
     }
 
     public JSONArray getLogo() {
-        return logo.getHeights();
+        if(logo != null)
+            return logo.getHeights();
+        return new JSONArray();
     }
 
     public void addLogo(Logo logo) {
         this.logo = logo;
     }
 
-    public double getEffectSize() {
+    public double logoEffectSize() {
+        if(logo == null)
+            return 0;
 
         double sum = 0;
         List<List<Map<String, String>>> values = logo.getValues();
