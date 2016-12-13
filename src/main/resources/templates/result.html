@@ -32,6 +32,7 @@
             <div class="box">
                 <h4>Assembly</h4>
                 <select id="assembly" class="form-control" name="assembly" form="covariant_form">
+                    <option th:value="${interfaceCommand.assembly}" th:text="${interfaceCommand.assembly}"></option>
                     <option value="hg19">hg19</option>
                     <option value="hg38">hg38</option>
                 </select>
