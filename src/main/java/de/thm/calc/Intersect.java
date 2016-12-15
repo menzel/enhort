@@ -151,7 +151,7 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
      */
     private class ResultNames {
 
-        private Map<String, Integer> resultNames = new HashMap<>();
+        private final Map<String, Integer> resultNames = new HashMap<>();
 
         /**
          * Adds 1 to the given result name

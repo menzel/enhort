@@ -15,7 +15,7 @@ import java.util.Map;
 public final class GenomeFactory {
 
     private static GenomeFactory instance;
-    private Map<Assembly, Genome> genomes = new HashMap<>();
+    private final Map<Assembly, Genome> genomes = new HashMap<>();
     private GenomeFactory(){
 
         genomes.put(Assembly.hg19, new Genome(Assembly.hg19, new File("/home/menzel/Desktop/chromosomes").toPath()));

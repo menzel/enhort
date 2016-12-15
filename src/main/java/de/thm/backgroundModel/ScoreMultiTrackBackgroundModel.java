@@ -309,7 +309,7 @@ class ScoreMultiTrackBackgroundModel implements Sites {
         Map<String, Double> newMap = new HashMap<>(score_map.size());
 
         //convert score map to have values for dual interval list
-        score_map.keySet().stream().forEach(key -> {
+        score_map.keySet().forEach(key -> {
             double value = score_map.get(key);
             newMap.put(key.concat("|"), value);
         });

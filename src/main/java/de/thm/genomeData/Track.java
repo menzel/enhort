@@ -18,8 +18,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public abstract class Track implements Serializable, Cloneable {
 
+    static final AtomicInteger UID = new AtomicInteger(1);
     public static long serialVersionUID = 606249588L;
-    static AtomicInteger UID = new AtomicInteger(1);
 
     public abstract GenomeFactory.Assembly getAssembly();
 

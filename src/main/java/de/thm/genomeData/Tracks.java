@@ -178,7 +178,7 @@ public final class Tracks {
      * @param intv2 - second track for sum
      * @return sum of intv1 and intv2
      */
-    public static Track sum(Track intv1, Track intv2) throws IntervalTypeNotAllowedExcpetion {
+    public static Track sum(Track intv1, Track intv2) {
         return invert(intersect(invert(intv1), invert(intv2)));
     }
 

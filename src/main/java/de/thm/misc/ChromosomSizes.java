@@ -24,7 +24,7 @@ public final class ChromosomSizes {
     private final Map<GenomeFactory.Assembly, Map<String, Integer>> chromosomeSizes = new HashMap<>();
     private final Map<GenomeFactory.Assembly, List<String>> names = new HashMap<> ();
     private final Map<String, Long> offsets = new HashMap<>();
-    private Map<GenomeFactory.Assembly, Long> genomeSize = new HashMap<>();
+    private final Map<GenomeFactory.Assembly, Long> genomeSize = new HashMap<>();
 
     /**
      * Private Constructor

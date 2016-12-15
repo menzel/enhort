@@ -27,8 +27,8 @@ import java.util.stream.Stream;
 final class FileLoader implements Runnable {
     private final Path path;
     private final List<Track> tracks;
-    private TrackFactory.Type type;
-    private GenomeFactory.Assembly assembly;
+    private final TrackFactory.Type type;
+    private final GenomeFactory.Assembly assembly;
 
     FileLoader(Path path, List<Track> tracks, TrackFactory.Type type, GenomeFactory.Assembly assembly) {
 

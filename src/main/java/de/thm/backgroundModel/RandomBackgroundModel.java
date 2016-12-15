@@ -18,7 +18,7 @@ import java.util.List;
 class RandomBackgroundModel implements Sites {
 
     private final GenomeFactory.Assembly assembly;
-    private transient MersenneTwister rand;
+    private final transient MersenneTwister rand;
     private List<Long> positions = new ArrayList<>();
 
     /**

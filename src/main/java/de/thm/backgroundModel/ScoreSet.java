@@ -9,7 +9,7 @@ import java.util.Objects;
  */
 class ScoreSet {
 
-    private Double[] scoreList; // list of scores
+    private final Double[] scoreList; // list of scores
 
     /**
      * Constructor for testing

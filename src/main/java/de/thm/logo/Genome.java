@@ -25,7 +25,7 @@ import java.util.stream.Stream;
  */
 final class Genome {
 
-    private Path filepath;
+    private final Path filepath;
     private GenomeFactory.Assembly assembly;
 
     Genome(GenomeFactory.Assembly assembly, Path filepath){

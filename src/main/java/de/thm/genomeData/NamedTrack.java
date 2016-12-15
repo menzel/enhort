@@ -17,9 +17,9 @@ public class NamedTrack extends Track {
     private final GenomeFactory.Assembly assembly;
     private final CellLine cellLine;
     private final String description;
-    private List<Long> intervalsStart;
-    private List<Long> intervalsEnd;
-    private List<String> intervalName;
+    private final List<Long> intervalsStart;
+    private final List<Long> intervalsEnd;
+    private final List<String> intervalName;
 
     NamedTrack(List<Long> starts, List<Long> ends, List<String> names, String name, String description, GenomeFactory.Assembly assembly, CellLine cellLine) {
 

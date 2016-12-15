@@ -62,8 +62,10 @@ public final class IntersectMultithread {
             }
         }
 
-        LogoWrapper logoWrapper = new LogoWrapper(measuredPositions,collector, intervals.get(0).getAssembly());
-        exe.execute(logoWrapper);
+        if(measuredPositions.getAssembly().equals(GenomeFactory.Assembly.hg19) && false){
+            LogoWrapper logoWrapper = new LogoWrapper(measuredPositions,collector, intervals.get(0).getAssembly());
+            exe.execute(logoWrapper);
+        }
 
 
         exe.shutdown();

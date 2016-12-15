@@ -13,8 +13,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 class AppearanceTable {
 
+    private final int minSites;
     private Map<String, Integer> appearance;
-    private int minSites;
 
     AppearanceTable(int minSites) {
         this.minSites = minSites;
