@@ -20,6 +20,7 @@ public final class InterfaceCommand {
     private Sites sites;
     private Double influence; //influence of positions on prob interval
     private String assembly;
+    private boolean logoCovariate;
 
     public InterfaceCommand() {
         covariants = new ArrayList<>();
@@ -104,5 +105,13 @@ public final class InterfaceCommand {
 
     public void setAssembly(String assembly) {
         this.assembly = assembly;
+    }
+
+    public boolean getLogoCovariate() {
+        return logoCovariate;
+    }
+
+    public void setLogoCovariate(boolean logoCovariate) {
+        this.logoCovariate = logoCovariate;
     }
 }
