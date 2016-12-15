@@ -394,23 +394,29 @@
             var result = results[j];
 
 
-            var x1 = [];
+            var y1 = [];
+            var y2 = [];
+
             for (var key in result.namesExp) {
-                x1.push(result.namesExp[key] / [[${bgCount}]]);
+
+                if(result.namesMea.hasOwnProperty(key)) {
+                    var effectSize = result.namesExp[key] / result.namesMea[key];
+
+                    if(effectSize >=  1.2 || effectSize <= 0.7) {
+                        y1.push(result.namesExp[key] / [[${bgCount}]]);
+                        y2.push(result.namesMea[key] / [[${interfaceCommand.positionCount}]]);
+                    }
+                }
             }
 
-            var x2 = [];
-            for (var key2 in result.namesMea) {
-                x2.push(result.namesMea[key2] / [[${interfaceCommand.positionCount}]]);
-            }
 
-            if (x1.length < 3 || x1.length > 1000) {
+            if (y1.length < 2 || y1.length > 1000) {
                 continue;
             }
 
             var trace1 = {
                 x: Object.keys(result.namesExp),
-                y: x1,
+                y: y1,
                 name: 'Expected',
                 type: 'bar',
                 marker: {color: 'rgb(140,140,140)'},
@@ -418,7 +424,7 @@
 
             var trace2 = {
                 x: Object.keys(result.namesMea),
-                y: x2,
+                y: y2,
                 name: 'Measured',
                 type: 'bar',
                 marker: {color: 'rgb(51,122,183)'},
