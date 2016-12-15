@@ -37,12 +37,7 @@ public class Webinterface {
     /**
      * Shutdown hook to save the stats before exit
      */
-    static void attachShutDownHook() {
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                StatisticsCollector.getInstance().saveStats();
-            }
-        });
+    private static void attachShutDownHook() {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> StatisticsCollector.getInstance().saveStats()));
     }
 }
