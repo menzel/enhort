@@ -47,7 +47,7 @@ public final class BackendController {
             thread.run();
 
         } catch (Exception e){
-            System.err.println(e);
+            System.err.println(e.toString());
             System.exit(1);
         }
     }
