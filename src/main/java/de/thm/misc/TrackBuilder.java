@@ -24,16 +24,9 @@ public final class TrackBuilder {
      * @param command - list of commands, a command is a track or a TrackBuilder.op (operator)
      * @return a new Track build by the command
      */
-    public Track build(List<Object> command){
+    private Track build(List<Object> command){
 
-
-        try {
-            return parse(command);
-        } catch (IntervalTypeNotAllowedExcpetion intervalTypeNotAllowedExcpetion) {
-            intervalTypeNotAllowedExcpetion.printStackTrace();
-        }
-
-        return null;
+        return parse(command);
     }
 
     /**
@@ -44,7 +37,7 @@ public final class TrackBuilder {
      * @return a new Track build by the command
      * @throws IntervalTypeNotAllowedExcpetion
      */
-    private Track parse(List<Object> command) throws IntervalTypeNotAllowedExcpetion {
+    private Track parse(List<Object> command) {
 
         CopyOnWriteArrayList<Object> stack = new CopyOnWriteArrayList<>();
         int i = 0;

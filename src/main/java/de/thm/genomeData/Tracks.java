@@ -1,6 +1,5 @@
 package de.thm.genomeData;
 
-import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
 import org.apache.commons.math3.stat.descriptive.rank.Percentile;
@@ -151,9 +150,9 @@ public final class Tracks {
      * @param tracks - list of intervals
      * @return track with the sum of positions
      */
-    public static Track sum(List<Track> tracks) throws IntervalTypeNotAllowedExcpetion {
+    public static Track sum(List<Track> tracks) {
 
-        if (tracks.size() == 0) {
+            if (tracks.size() == 0) {
             return null;
 
         } else if (tracks.size() == 1) {
