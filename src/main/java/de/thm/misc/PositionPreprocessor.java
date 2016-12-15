@@ -79,9 +79,8 @@ public final class PositionPreprocessor {
 
         long start = intervalsStart.get(0);
         long end = intervalsEnd.get(0);
-        double score = scores.get(0);
 
-        double tmpScore = score;
+        double tmpScore = scores.get(0);
         int iCount = 1;
 
 
