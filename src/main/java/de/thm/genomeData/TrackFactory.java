@@ -79,6 +79,12 @@ public final class TrackFactory {
             this.tracks.addAll(tmp);
 
 
+            tmp = getTracks(basePath.resolve("named"), Type.named, GenomeFactory.Assembly.hg19);
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Named, "Basic tracks.", GenomeFactory.Assembly.hg19));
+            this.tracks.addAll(tmp);
+
+
+
             //////////// hg38  ///////////////
             basePath = this.basePath.resolve("hg38"); //convert basePath to a local variable and set to hg38 dir
 
@@ -91,10 +97,6 @@ public final class TrackFactory {
             //only load all tracks when running on the big server
             if(!System.getenv("HOME").contains("menzel")) {
 
-
-                tmp = getTracks(basePath.resolve("named"), Type.named, GenomeFactory.Assembly.hg19);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks.", GenomeFactory.Assembly.hg19));
-                this.tracks.addAll(tmp);
 
                 tmp = getTracks(basePath.resolve("score"), Type.scored, GenomeFactory.Assembly.hg19);
                 this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Expression, "Expression scores", GenomeFactory.Assembly.hg19));
