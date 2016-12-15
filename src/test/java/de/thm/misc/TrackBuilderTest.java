@@ -1,6 +1,5 @@
 package de.thm.misc;
 
-import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
 import de.thm.genomeData.Tracks;
@@ -38,23 +37,15 @@ public class TrackBuilderTest {
 
         TrackBuilder builder = new TrackBuilder();
 
-
-
-
         //create results
         List<Track> results = new ArrayList<>();
 
+        results.add(Tracks.sum(tracks.get(0), tracks.get(1)));
+        results.add(Tracks.sum(tracks.get(1), tracks.get(0)));
+        results.add(Tracks.sum(tracks.get(0), Tracks.sum(tracks.get(1), tracks.get(2))));
+        results.add(Tracks.intersect(tracks.get(1), tracks.get(0)));
+        results.add(Tracks.intersect(Tracks.sum(tracks.get(0), tracks.get(1)), tracks.get(2)));
 
-        try {
-            results.add(Tracks.sum(tracks.get(0), tracks.get(1)));
-            results.add(Tracks.sum(tracks.get(1), tracks.get(0)));
-            results.add(Tracks.sum(tracks.get(0), Tracks.sum(tracks.get(1), tracks.get(2))));
-            results.add(Tracks.intersect(tracks.get(1), tracks.get(0)));
-            results.add(Tracks.intersect(Tracks.sum(tracks.get(0), tracks.get(1)), tracks.get(2)));
-
-        } catch (IntervalTypeNotAllowedExcpetion intervalTypeNotAllowedExcpetion) {
-            intervalTypeNotAllowedExcpetion.printStackTrace();
-        }
 
         int i = 0;
 

@@ -1,6 +1,5 @@
 package de.thm.genomeData;
 
-import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
 import org.junit.Test;
@@ -49,16 +48,11 @@ public class TracksTest {
         Track interval2 = mockTrack(start2, end2);
 
 
-        try {
-            // sum(a,b) == -TestTrack(-a, -b)
-            assertEquals(Tracks.sum(interval1,interval2).getStarts(), Tracks.invert(Tracks.intersect(Tracks.invert(interval1), Tracks.invert(interval2))).getStarts());
+        // sum(a,b) == -TestTrack(-a, -b)
+        assertEquals(Tracks.sum(interval1,interval2).getStarts(), Tracks.invert(Tracks.intersect(Tracks.invert(interval1), Tracks.invert(interval2))).getStarts());
 
-            // sum(-a, -b) == -TestTrack(a, b)
-            assertEquals(Tracks.sum(Tracks.invert(interval1), Tracks.invert(interval2)).getStarts(), Tracks.invert(Tracks.intersect(interval1, interval2)).getStarts());
-
-        }  catch (IntervalTypeNotAllowedExcpetion intervalTypeNotAllowedExcpetion) {
-            intervalTypeNotAllowedExcpetion.printStackTrace();
-        }
+        // sum(-a, -b) == -TestTrack(a, b)
+        assertEquals(Tracks.sum(Tracks.invert(interval1), Tracks.invert(interval2)).getStarts(), Tracks.invert(Tracks.intersect(interval1, interval2)).getStarts());
 
     }
 
@@ -154,13 +148,7 @@ public class TracksTest {
         trackList.add(interval2);
 
 
-        Track result = null;
-        try {
-            result = Tracks.sum(trackList);
-        } catch (IntervalTypeNotAllowedExcpetion intervalTypeNotAllowedExcpetion) {
-            intervalTypeNotAllowedExcpetion.printStackTrace();
-        }
-
+        Track result = Tracks.sum(trackList);
         List<Long> expectedStarts = new ArrayList<>();
         List<Long> expectedEnds = new ArrayList<>();
 

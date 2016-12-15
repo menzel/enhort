@@ -18,6 +18,8 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 
 /**
+ * Test for precalculated sites factory
+ *
  * Created by menzel on 12/6/16.
  */
 public class PrecalcSiteFactoryTest {
