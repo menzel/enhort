@@ -240,6 +240,9 @@ public class CalculationController {
         StatisticsCollector stats = StatisticsCollector.getInstance();
         command.setSites(data);
 
+        // remove uuid from filename for display and set it to the old InterfaceCommand, because it will be sent to the View again:
+        command.setOriginalFilename(file.toFile().getName().substring(0, file.toFile().getName().length()-37));
+
         try {
 
             BackendCommand backendCommand = new BackendCommand(command);
