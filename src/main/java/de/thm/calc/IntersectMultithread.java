@@ -200,8 +200,8 @@ public final class IntersectMultithread {
         @Override
         public void run() {
             GenomeFactory genome = GenomeFactory.getInstance();
-            int width = 12;//TODO use user set value
-            int count = 3000;//TODO use user set value
+            int width = 8;//TODO use user set value
+            int count = 300;//TODO use user set value
 
             Logo logo = LogoCreator.createLogo(genome.getSequence(assembly, measuredPos, width, count));
 
