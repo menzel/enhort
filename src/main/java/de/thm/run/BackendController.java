@@ -115,7 +115,7 @@ public final class BackendController {
                             Future f = exe.submit(runner);
                             ////////////////////////////////
 
-                            f.get(20, TimeUnit.SECONDS);
+                            f.get(60, TimeUnit.SECONDS);
 
                         } else if(command instanceof ExpressionCommand){
                             TrackBuilder builder = new TrackBuilder();
@@ -137,7 +137,7 @@ public final class BackendController {
                         isConnected = false;
 
                     } catch (IOException | ClassNotFoundException  | InterruptedException | TimeoutException | ExecutionException e) {
-                        System.err.println(e.getCause().toString());
+                        System.err.println(e.getCause().toString() + " in BackendController Line 140");
                         exe.shutdownNow();
 
                         queue = new ArrayBlockingQueue<>(16);
