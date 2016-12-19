@@ -12,7 +12,7 @@ import java.util.List;
  *
  * Created by menzel on 11/24/16.
  */
-public class LogoBackgroundModel implements Sites {
+class LogoBackgroundModel implements Sites {
 
     private final GenomeFactory.Assembly assembly;
     private List<Long> positions;
@@ -24,8 +24,9 @@ public class LogoBackgroundModel implements Sites {
      * @param logo - sequence logo to fit the positions to
      * @param count - count of positions
      */
-    public LogoBackgroundModel(GenomeFactory.Assembly assembly, Logo logo, int count){
+    LogoBackgroundModel(GenomeFactory.Assembly assembly, Logo logo, int count){
         this.assembly = assembly;
+        count = 12000/logo.getConsensus().length();
 
         positions = generatePositions(assembly, logo, count);
     }
