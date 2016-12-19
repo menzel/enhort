@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -184,12 +185,15 @@ final class Genome {
             return null;
         }
 
-        List<Path> paths_list =  paths.collect(Collectors.toList());
+        //collect and remove nulls:
+        List<Path> paths_list =  paths.collect(Collectors.toList()).stream().filter(Objects::nonNull).collect(Collectors.toList());
 
-        for(Path path: paths_list){
+        for (Path path : paths_list) {
 
-            if(!path.toFile().isFile())
+            if (!path.toFile().isFile())
                 continue; //if the file is not a chr file jump to next
+
+            System.out.println(path.toString());
 
             try {
                 it = FileUtils.lineIterator(path.toFile(), "UTF-8");
@@ -200,39 +204,43 @@ final class Genome {
             String line;
             int counter = 0;
 
+            if(it == null)
+                System.err.println("it is null");
+            else while (it.hasNext()) {
 
-            while(it.hasNext()){
                 line = it.nextLine();
 
-                if(line.startsWith(">")) //header line in fasta files
+                if (line == null) //header line in fasta files
+                    continue;
+
+                if (line.startsWith(">")) //header line in fasta files
                     continue;
 
 
                 Matcher matcher = pattern.matcher(line);
 
-                if(matcher.matches()){
+                if (matcher.matches()) {
                     String chrName = path.getFileName().toString(); //get filename
-                    String chr = chrName.substring(0, chrName.length()-3); //remove .fa file ending
+                    String chr = chrName.substring(0, chrName.length() - 3); //remove .fa file ending
                     long offset;
 
                     try {
                         offset = chrSizes.offset(assembly, chr);
-                        pos.add(offset + (long) (counter + matcher.group(1).length()) + (logo.length()/2));
+                        pos.add(offset + (long) (counter + matcher.group(1).length()) + (logo.length() / 2));
 
-                    } catch (NullPointerException e){
-                        //System.err.println("unknown chr " + chr + " " + chrName);
+                    } catch (NullPointerException e) {
+                        System.err.println("unknown chr " + chr + " " + chrName);
                         break; //chr unknown, get next file
                     }
-
                 }
 
                 counter += line.length();
 
-                if(pos.size() >= count)
+                if (pos.size() >= count)
                     break; // break from one chromosome file loop
             }
 
-            if(pos.size() >= count)
+            if (pos.size() >= count)
                 break; //break from loop over all files
         }
 
