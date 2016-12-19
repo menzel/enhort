@@ -30,7 +30,7 @@
 
             <div class="box">
                 <h4>Assembly</h4>
-                <select id="assembly" class="form-control" name="assembly" form="covariant_form">
+                <select id="assembly" class="form-control" name="assembly" form="covariate_form">
                     <option th:value="${interfaceCommand.assembly}" th:text="${interfaceCommand.assembly}"></option>
                     <option value="hg19">hg19</option>
                     <option value="hg38">hg38</option>
@@ -40,7 +40,7 @@
 
             <div class="box">
                 <h4>Cell Line</h4>
-                <select id="cellline" class="form-control" name="cellline" form="covariant_form">
+                <select id="cellline" class="form-control" name="cellline" form="covariate_form">
                     <option value="none">None</option>
                     <option value="hela">HeLa</option>
                     <option value="hesc">hESC</option>
@@ -55,7 +55,7 @@
         <th:block th:each="packName: ${trackPackages}">
             <div class="checkbox">
                 <label><input type="checkbox" th:field="*{interfaceCommand.packageNames}" th:value="${packName}"
-                              form="covariant_form" checked="checked" th:text="${packName}"/></label>
+                              form="covariate_form" checked="checked" th:text="${packName}"/></label>
             </div>
         </th:block>
 
@@ -81,12 +81,12 @@
     <div class="fileinfo">
         <p>
             <a href="export/bg"><span>Bg Positions:</span></a> <input type="number" step="200" th:value="${bgCount}"
-                                                                      form="covariant_form"
+                                                                      form="covariate_form"
                                                                       th:field="*{interfaceCommand.minBg}"/>
         </p>
         <p>
             <span>Influence:</span> <input type="number" step="0.1" th:value="${interfaceCommand.influence}"
-                                           form="covariant_form" style="margin-left: 28px"
+                                           form="covariate_form" style="margin-left: 28px"
                                            th:field="*{interfaceCommand.influence}"/>
         </p>
     </div>
@@ -94,11 +94,11 @@
     </th:block>
 
     <th:block th:if="${ran == null}">
-        <button id="rerun" type="submit" class="btn btn-default" form="covariant_form" disabled="disabled">Run again
+        <button id="rerun" type="submit" class="btn btn-default" form="covariate_form" disabled="disabled">Run again
         </button>
     </th:block>
     <th:block th:if="${ran}">
-        <button id="rerun" type="submit" class="btn btn-primary" form="covariant_form">Run again</button>
+        <button id="rerun" type="submit" class="btn btn-primary" form="covariate_form">Run again</button>
     </th:block>
 
 
@@ -119,8 +119,8 @@
 
         <div class="col-md-8 ">
 
-            <form method="POST" action="#" th:action="@{/covariant}" th:object="${interfaceCommand}"
-                  id="covariant_form"></form>
+            <form method="POST" action="#" th:action="@{/covariate}" th:object="${interfaceCommand}"
+                  id="covariate_form"></form>
 
             <table class="table table-hover fixed">
 
@@ -152,7 +152,7 @@
                         <td></td>
                         <td th:text="${sl_effect}"></td>
                         <td colspan="1"></td>
-                        <td><input th:field="${interfaceCommand.logoCovariate}" type="checkbox" form="covariant_form"/></td>
+                        <td><input th:field="${interfaceCommand.logoCovariate}" type="checkbox" form="covariate_form"/></td>
                     </tr>
                     <tr>
                         <td colspan="5" class="hiddenRow">
@@ -181,7 +181,7 @@
                             <div class="bar expected" th:style="'width: ' + ${result.percentInE} + '%;'"></div>
                         </td>
                         <td><input th:field="*{interfaceCommand.covariants}" th:value="${result.id}" type="checkbox"
-                                   form="covariant_form"/></td>
+                                   form="covariate_form"/></td>
                     </tr>
                     <tr>
                         <td colspan="5" class="hiddenRow">
@@ -234,7 +234,7 @@
                         <th:block th:if="${not #strings.startsWith(result.name,'FOOBAR Distance from')}">
                             <!-- only display a checkbox for covariates if it is not a _distance_ track -->
                             <td><input th:field="*{interfaceCommand.covariants}" th:value="${result.id}" type="checkbox"
-                                       form="covariant_form"/></td>
+                                       form="covariate_form"/></td>
                         </th:block>
                     </tr>
                     <tr>
@@ -254,7 +254,7 @@
                         <td th:text="${result.effectSize}"></td>
                         <td th:id="${result.id}"></td>
                         <td><input th:field="*{interfaceCommand.covariants}" th:value="${result.id}" type="checkbox"
-                                   form="covariant_form"/></td>
+                                   form="covariate_form"/></td>
                     </tr>
                     <tr>
                         <td colspan="5" class="hiddenRow">
@@ -291,7 +291,7 @@
                             th:attr="data-target=${#strings.replace('#accordion_cov_' + cov.id,'.','_')}"
                             data-toggle="collapse" class="accordion-toggle"></td>
                         <td><input th:field="*{interfaceCommand.covariants}" th:value="${cov.id}" type="checkbox"
-                                   form="covariant_form" class="checked" checked="checked"/></td>
+                                   form="covariate_form" class="checked" checked="checked"/></td>
                     </tr>
                     <tr>
                         <td colspan="2" class="hiddenRow">

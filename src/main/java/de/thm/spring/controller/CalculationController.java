@@ -226,7 +226,7 @@ public class CalculationController {
     }
 
 
-    @RequestMapping(value = "/covariant", method = RequestMethod.POST)
+    @RequestMapping(value = "/covariate", method = RequestMethod.POST)
     public String covariant(@ModelAttribute InterfaceCommand command, Model model, HttpSession httpSession) {
 
         Sessions sessionsControll = Sessions.getInstance();
