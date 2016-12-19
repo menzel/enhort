@@ -120,8 +120,9 @@ public final class Logo implements Serializable{
                     letter = base.get("letter").toUpperCase();
                 }
             }
-
-            consensus += letter;
+            if(max > 0.01)
+                consensus += letter;
+            else consensus += ".";
         }
 
         return consensus;
