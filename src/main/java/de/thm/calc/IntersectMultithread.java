@@ -31,20 +31,20 @@ public final class IntersectMultithread {
 
 
     /**
-     * Executes the intersect algorithm with two sets of sites on a given map of intervals.
+     * Executes the intersect algorithm with two sets of sites on a given map of tracks.
      * *
      *
-     * @param intervals         map of intervals with <K,V> <Name, Interval reference>
+     * @param tracks         map of tracks with <K,V> <Name, Interval reference>
      * @param measuredPositions - positions supplied from outside
      * @param randomPositions   - positions created by a background model
      * @return Collector of all results computed by the differen threads
      */
-    public ResultCollector execute(List<Track> intervals, Sites measuredPositions, Sites randomPositions) {
+    public ResultCollector execute(List<Track> tracks, Sites measuredPositions, Sites randomPositions) {
 
 
-        ResultCollector collector = new ResultCollector(randomPositions, intervals.get(0).getAssembly()); // get assembly from the first track
+        ResultCollector collector = new ResultCollector(randomPositions, tracks.get(0).getAssembly()); // get assembly from the first track
 
-        for (Track track : intervals) {
+        for (Track track : tracks) {
 
             if (track instanceof InOutTrack) {
                 IntersectWrapper<InOutTrack> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, (InOutTrack) track, collector);
@@ -62,8 +62,8 @@ public final class IntersectMultithread {
             }
         }
 
-        if(measuredPositions.getAssembly().equals(GenomeFactory.Assembly.hg19) && false){
-            LogoWrapper logoWrapper = new LogoWrapper(measuredPositions,collector, intervals.get(0).getAssembly());
+        if(measuredPositions.getAssembly().equals(GenomeFactory.Assembly.hg19)){
+            LogoWrapper logoWrapper = new LogoWrapper(measuredPositions,collector, tracks.get(0).getAssembly());
             exe.execute(logoWrapper);
         }
 
@@ -99,7 +99,7 @@ public final class IntersectMultithread {
          *
          * @param measuredPos - positions from the outside of the program
          * @param randomPos   - positions to match against made up by a background model
-         * @param track       - interval to match against
+         * @param track       - track to match against
          * @param collector   - collector to collect results in
          */
         private IntersectWrapper(Sites measuredPos, Sites randomPos, T track, ResultCollector collector) {
@@ -144,7 +144,7 @@ public final class IntersectMultithread {
          *
          * @param measuredPos - positions from the outside of the program
          * @param randomPos   - positions to match against made up by a background model
-         * @param track       - interval to match against
+         * @param track       - track to match against
          * @param collector   - collector to collect results in
          */
         private DistanceWrapper(Sites measuredPos, Sites randomPos, DistanceTrack track, ResultCollector collector) {
