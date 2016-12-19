@@ -135,7 +135,11 @@ public class CalculationController {
 
         if (collector != null) {
             Path file = currentSession.getFile();
-            UserData data = new UserData(GenomeFactory.Assembly.valueOf(iCommand.getAssembly()), file);
+            String assembly = iCommand.getAssembly();
+
+            if(assembly == null) assembly = "hg19"; //TODO use last used assembly set by user
+
+            UserData data = new UserData(GenomeFactory.Assembly.valueOf(assembly), file);
 
             List<TestResult> covariants = currentSession.getCovariants();
 
