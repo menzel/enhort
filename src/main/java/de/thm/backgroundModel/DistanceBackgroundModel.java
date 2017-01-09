@@ -60,7 +60,7 @@ class DistanceBackgroundModel implements Sites {
             int id = 1 + (int) Math.floor(rand.nextDouble() * (track.getStarts().size()-2));
             long start = track.getStarts().get(id);
 
-            if(rand.nextBoolean()){
+            if(rand.nextBoolean()){ // set the new site up oder downstream of the random position by random
                 long prev = track.getStarts().get(id-1);
                 long dist_prev = (prev - start)/2;
 
@@ -68,7 +68,7 @@ class DistanceBackgroundModel implements Sites {
                     if(dist > dist_prev){
                         //set new pos:
                         positions.add(start + dist); //dist is negative in this branch
-                        distances.remove(dist); // ?
+                        upstream.remove(dist);
                         break;
                     }
 
@@ -81,7 +81,7 @@ class DistanceBackgroundModel implements Sites {
                     if(dist < dist_fol){
                         //set new pos:
                         positions.add(start + dist);
-                        distances.remove(dist); // ?
+                        downstream.remove(dist);
                         break;
                     }
             }
