@@ -92,7 +92,7 @@ final class Genome {
                 }
 
 
-                int first = Math.toIntExact(start.getRight()) - width/2;
+                long first = start.getRight() - width/2;
 
                 if (first < Math.toIntExact(end.getRight())) {
 
@@ -100,7 +100,7 @@ final class Genome {
                     while (it.hasNext() || counter > first) {
 
                         if (counter > first) {
-                            int lineStart = first - (counter - line.length());
+                            int lineStart = Math.toIntExact(first - (counter - line.length()));
                             int lineEnd = lineStart + width;
 
                             if(lineEnd > 50){ //if end is on the next line
