@@ -4,6 +4,7 @@ import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.IOException;
@@ -193,7 +194,7 @@ final class Genome {
             if (!path.toFile().isFile())
                 continue; //if the file is not a chr file jump to next
 
-            System.out.println(path.toString());
+            System.out.println("Genome.java (getPositions) current file: " + path.toString());
 
             try {
                 it = FileUtils.lineIterator(path.toFile(), "UTF-8");
@@ -226,7 +227,12 @@ final class Genome {
 
                     try {
                         offset = chrSizes.offset(assembly, chr);
-                        pos.add(offset + (long) (counter + matcher.group(1).length()) + (logo.length() / 2));
+
+                        int logo_length = StringUtils.countMatches(logo, "["); // count [.] blocks to get logo width. TODO: replace by better calc
+                        logo_length += StringUtils.countMatches(logo, "."); // count . to get logo width. TODO: replace by better calc
+
+                        pos.add(offset + (long) (counter + matcher.group(1).length()) + logo_length / 2);
+                        //String seq =  line.substring((matcher.group(1).length()), (matcher.group(1).length())  + logo_length);
 
                     } catch (NullPointerException e) {
                         System.err.println("unknown chr " + chr + " " + chrName);
