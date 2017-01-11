@@ -1,5 +1,7 @@
 package de.thm.logo;
 
+import de.thm.positionData.Sites;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +15,11 @@ import static org.apache.commons.math3.util.FastMath.log;
  * Created by menzel on 11/8/16.
  */
 public final class LogoCreator {
+
+
+    public static Logo createLogo(Sites sites){
+        return  createLogo(GenomeFactory.getInstance().getSequence(sites.getAssembly(),sites,8, 300));
+    }
 
     /**
      * Creates a List of Map of <String, Double> in which the String is a base (a,t,c,g) the Double is the height
