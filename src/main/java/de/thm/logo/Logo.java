@@ -137,16 +137,22 @@ public final class Logo implements Serializable{
             for (Map<String, String> base : position) {
                 double bits = Double.parseDouble(base.get("bits"));
 
-                if(bits > 0.0){
+                if(bits > 0.01){
                     letter = base.get("letter").toUpperCase();
                     regex += letter;
                 }
             }
 
-            regex += "][";
+            if(regex.substring(regex.length()-1).equals("[")) {
+                regex = regex.substring(0, regex.length() - 1);
+                regex += ".[";
 
+            } else {
+                regex += "][";
+            }
         }
 
+        System.out.println("In Logo.java: " + regex);
         return regex.substring(0, regex.length()-1);
 
 
