@@ -27,6 +27,7 @@ public final class ResultCollector implements Serializable{
     private final Sites backgroundSites;
     private List<String> knownPackages; //keeps a list of all known packages for the gui to display
     private Logo logo;
+    private Logo other_logo;
 
     public ResultCollector(Sites bgModel, GenomeFactory.Assembly assembly) {
         results = Collections.synchronizedList(new ArrayList<>());
@@ -213,8 +214,17 @@ public final class ResultCollector implements Serializable{
         return new JSONArray();
     }
 
+    public JSONArray getSecondLogo() {
+        if(other_logo!= null)
+            return other_logo.getHeights();
+        return new JSONArray();
+    }
+
     public void addLogo(Logo logo) {
-        this.logo = logo;
+        if(this.logo != null)
+            this.other_logo = logo;
+        else
+            this.logo = logo;
     }
 
     public double logoEffectSize() {

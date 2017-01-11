@@ -379,6 +379,8 @@ public class CalculationController {
         model.addAttribute("ran", true);
 
         model.addAttribute("sequencelogo", collector.getLogo().toString());
+        model.addAttribute("sequencelogo2", collector.getSecondLogo().toString());
+
         model.addAttribute("sl_effect", collector.logoEffectSize());
 
     }
