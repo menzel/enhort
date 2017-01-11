@@ -32,7 +32,9 @@ class LogoBackgroundModel implements Sites {
     }
 
     private List<Long> generatePositions(GenomeFactory.Assembly assembly, Logo logo, int count) {
-        String motif = logo.getConsensus();
+        String motif = logo.getRegex();
+
+        //TODO create regex from logo instead of using consensus
 
         //TODO take user set Assembly #
         return GenomeFactory.getInstance().getPositions(assembly, motif, count);
