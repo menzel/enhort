@@ -36,7 +36,7 @@
 
 
 table{
-    margin-bottom:50px;
+    margin-top: 10px;
 }
 
 table td .accordion-toggle{
@@ -73,7 +73,7 @@ th{
 }
 
 .fileinfo p{
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 .fileinfo input{
