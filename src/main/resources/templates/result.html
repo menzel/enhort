@@ -148,8 +148,10 @@
                 <!-- Sequencelogo Entry -->
                 <th:block th:if="${ran}">
                     <th:block th:if="${not interfaceCommand.logoCovariate}">
-                    <tr data-target="#sequencelogodiv" data-toggle="collapse" class="accordion-toggle">
-                        <td> Sequence Logo</td>
+                    <tr>
+                        <td data-target="#sequencelogodiv" data-toggle="collapse" class="accordion-toggle" >
+                            Sequence Logo
+                        </td>
                         <td></td>
                         <td th:text="${sl_effect}"></td>
                         <td colspan="1"></td>
@@ -292,8 +294,10 @@
 
 
                 <th:block th:if="${interfaceCommand.logoCovariate}">
-                    <tr data-target="#sequencelogodiv" data-toggle="collapse" class="accordion-toggle">
-                        <td> Sequence Logo</td>
+                    <tr>
+                        <td data-target="#sequencelogodiv" data-toggle="collapse" class="accordion-toggle" >
+                            Sequence Logo
+                        </td>
                         <td><input th:field="${interfaceCommand.logoCovariate}" type="checkbox" form="covariate_form"/></td>
                     </tr>
                     <tr>
