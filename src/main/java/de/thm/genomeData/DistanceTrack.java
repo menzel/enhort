@@ -2,7 +2,9 @@ package de.thm.genomeData;
 
 import de.thm.logo.GenomeFactory;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Track for genomic positions to which a distance will be calculated.
@@ -12,8 +14,7 @@ import java.util.List;
 public class DistanceTrack extends Track{
 
     private final int uid = UID.incrementAndGet();
-    private final List<Long> intervalsStart;
-    private final List<Long> intervalsEnd;
+    private final long[] intervalsStart;
     private final String name;
     private final GenomeFactory.Assembly assembly;
     private final CellLine cellLine;
@@ -21,8 +22,12 @@ public class DistanceTrack extends Track{
 
     DistanceTrack(List<Long> starts, String name, String description, GenomeFactory.Assembly assembly, CellLine cellLine) {
 
-        intervalsStart = starts;
-        intervalsEnd = starts;
+        if(starts != null) {
+            intervalsStart = new long[starts.size()];
+            for (int i = 0; i < starts.size(); i++)
+                intervalsStart[i] = starts.get(i);
+        } else intervalsStart = new long[0];
+
         this.description = description;
         this.name = name;
         this.assembly = assembly;
@@ -42,12 +47,12 @@ public class DistanceTrack extends Track{
 
     @Override
     public List<Long> getStarts() {
-        return intervalsStart;
+        return Arrays.stream(intervalsStart).boxed().collect(Collectors.toList());
     }
 
     @Override
     public List<Long> getEnds() {
-        return intervalsEnd;
+        return getStarts();
     }
 
     @Override
@@ -63,8 +68,7 @@ public class DistanceTrack extends Track{
     @Override
     public int hashCode() {
         int result = uid;
-        result = 31 * result + intervalsEnd.size();
-        result = 31 * result + intervalsStart.size();
+        result = 31 * result + intervalsStart.length;
         return result;
     }
 
@@ -75,8 +79,7 @@ public class DistanceTrack extends Track{
 
         DistanceTrack interval = (DistanceTrack) o;
 
-        if (!intervalsStart.equals(interval.intervalsStart)) return false;
-        if (!intervalsEnd.equals(interval.intervalsEnd)) return false;
+        if (!Arrays.equals(intervalsStart, interval.intervalsStart)) return false;
         return !(description != null ? !description.equals(interval.description) : interval.description != null);
     }
 
