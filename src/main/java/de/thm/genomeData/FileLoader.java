@@ -26,7 +26,7 @@ import java.util.stream.Stream;
  */
 final class FileLoader implements Runnable {
     private final Path path;
-    private final List<Track> tracks;
+    private final List<Track> tracks; //reference to the syncronized list created in the FileLoader
     private final TrackFactory.Type type;
     private final GenomeFactory.Assembly assembly;
 
