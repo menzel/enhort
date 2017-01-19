@@ -145,7 +145,7 @@ public class CalculationController {
 
             setModel(model, collector, data, currentSession.getOriginalFilename());
             model.addAttribute("covariants", covariants);
-            model.addAttribute("covariantCount", covariants.size());
+            model.addAttribute("covariantCount", covariants.size() + (iCommand.getLogoCovariate()? 1:0));
 
         } else {
 
@@ -260,7 +260,7 @@ public class CalculationController {
             currentSession.setCovariants(covariants);
 
             model.addAttribute("covariants", covariants);
-            model.addAttribute("covariantCount", covariants.size());
+            model.addAttribute("covariantCount", covariants.size() + (command.getLogoCovariate()? 1:0));
             model.addAttribute("customTracks", currentSession.getCustomTracks());
 
         } catch (CovariantsException e) {
