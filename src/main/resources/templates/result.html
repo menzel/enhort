@@ -501,11 +501,10 @@
 
         for (var j = 0; j < results.length; j++) {
 
-
             var x0 = results[j].scoresMea;
             var x1 = results[j].scoresExp;
 
-            if (x0.length < 3 || x1.length < 3) {
+            if (x0 == null || x0.length < 3 || x1.length < 3) {
                 break;
             }
 
