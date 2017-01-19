@@ -47,7 +47,7 @@ public class IndependenceTestTest {
         //test the specific method for scored tracks
         TestResult result = tester.testScoredTrack(a,b,track);
         assertEquals(expected,result.getpValue(), 0.001);
-        assertEquals(2.3,result.getEffectSize(), 0.001);
+        assertEquals(2.3,result.getEffectSize(), 0.1);
 
         //test the combined method which decied upon the track which method to call
         TestResult otherResult = tester.test(a,b,track);
