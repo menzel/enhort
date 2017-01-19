@@ -75,6 +75,21 @@ public final class TrackFactory {
             this.tracks.addAll(tmp);
 
 
+            tmp = getTracks(basePath.resolve("named"), Type.named, GenomeFactory.Assembly.hg19);
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Named, "Basic tracks.", GenomeFactory.Assembly.hg19));
+            this.tracks.addAll(tmp);
+
+
+            tmp = getTracks(basePath.resolve("distanced"), Type.distance, GenomeFactory.Assembly.hg19);
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Distance, "Distances", GenomeFactory.Assembly.hg19));
+            this.tracks.addAll(tmp);
+
+
+                tmp = getTracks(basePath.resolve("score"), Type.scored, GenomeFactory.Assembly.hg19);
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Expression, "Expression scores", GenomeFactory.Assembly.hg19));
+                this.tracks.addAll(tmp);
+
+
 
             //////////// hg38  ///////////////
             basePath = this.basePath.resolve("hg38"); //convert basePath to a local variable and set to hg38 dir
@@ -85,22 +100,12 @@ public final class TrackFactory {
 
 
 
+
             //only load all tracks when running on the big server
             if(!System.getenv("HOME").contains("menzel")) {
 
 
-                tmp = getTracks(basePath.resolve("score"), Type.scored, GenomeFactory.Assembly.hg19);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Expression, "Expression scores", GenomeFactory.Assembly.hg19));
-                this.tracks.addAll(tmp);
 
-                tmp = getTracks(basePath.resolve("distanced"), Type.distance, GenomeFactory.Assembly.hg19);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Distance, "Distances", GenomeFactory.Assembly.hg19));
-                this.tracks.addAll(tmp);
-
-
-                tmp = getTracks(basePath.resolve("named"), Type.named, GenomeFactory.Assembly.hg19);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Named, "Basic tracks.", GenomeFactory.Assembly.hg19));
-                this.tracks.addAll(tmp);
 
                 tmp = getTracks(basePath.resolve("tf"), Type.inout, GenomeFactory.Assembly.hg19);
                 this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.TFBS, "Transcription factor binding sites", GenomeFactory.Assembly.hg19));
@@ -164,7 +169,6 @@ public final class TrackFactory {
             System.err.println("Some threads were interrupted");
         }
 
-        //TODO Test:
         exe.shutdownNow();
 
         return tracks;
@@ -180,8 +184,8 @@ public final class TrackFactory {
 
         List<Track> tracks = new ArrayList<>();
 
-        for(Track track: this.tracks){
-            if(track.getAssembly().equals(assembly)){
+        for (Track track : this.tracks) {
+            if (track.getAssembly() != null && track.getAssembly().equals(assembly)) {
                 tracks.add(track);
             }
         }
