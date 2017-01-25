@@ -1,9 +1,6 @@
 package de.thm.misc;
 
-import de.thm.genomeData.InOutTrack;
-import de.thm.genomeData.NamedTrack;
-import de.thm.genomeData.ScoredTrack;
-import de.thm.genomeData.TrackFactory;
+import de.thm.genomeData.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -113,7 +110,10 @@ public final class PositionPreprocessor {
         intervalsEnd.clear();
 
 
-        return TrackFactory.getInstance().createScoredTrack(newStart, newEnd, track.getIntervalName().subList(0,newStart.size()), newScore ,track.getName(), track.getDescription());
+        ScoredTrack tmp = TrackFactory.getInstance().createScoredTrack(newStart, newEnd, track.getIntervalName().subList(0,newStart.size()), newScore ,track.getName(), track.getDescription());
+        Tracks.bin(tmp, 50);
+
+        return tmp;
     }
 
 
