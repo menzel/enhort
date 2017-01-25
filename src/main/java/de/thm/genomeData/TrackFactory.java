@@ -185,7 +185,7 @@ public final class TrackFactory {
         List<Track> tracks = new ArrayList<>();
 
         for (Track track : this.tracks) {
-            if (track.getAssembly() != null && track.getAssembly().equals(assembly)) {
+            if (track.getAssembly() == null || (track.getAssembly() != null && track.getAssembly().equals(assembly))) {
                 tracks.add(track);
             }
         }
