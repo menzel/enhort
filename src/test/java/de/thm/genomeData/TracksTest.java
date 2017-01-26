@@ -356,7 +356,47 @@ public class TracksTest {
 
     @Test
     public void testCast() throws Exception {
-        //TOOD
+        //TODO
+    }
+
+         @Test
+    public void bin() throws Exception {
+        List<Double> vals = new ArrayList<>();
+
+        vals.add(-0.25);
+        vals.add(-0.20);
+        vals.add(-0.19);
+        vals.add(-0.1);
+        vals.add(-0.09);
+
+        vals.add(0.11);
+        vals.add(0.19);
+        vals.add(0.22);
+        vals.add(0.23);
+
+        vals.add(0.41);
+        vals.add(0.42);
+        vals.add(0.431);
+
+        vals.add(0.51);
+        vals.add(0.52);
+        vals.add(0.53);
+
+        vals.add(0.89);
+        vals.add(0.91);
+        vals.add(0.934);
+        vals.add(0.95);
+
+        vals.add(0.999);
+
+
+        Tracks.bin(TrackFactory.getInstance().createScoredTrack(null,null,null,vals,null,null), 5);
+
+
+        List<Double> expected = new ArrayList<>();
+
+        //TODO set expected and compare
 
     }
+
 }

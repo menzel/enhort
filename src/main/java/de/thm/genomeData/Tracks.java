@@ -32,17 +32,22 @@ public final class Tracks {
      *
      * @return scored track with binned scores
      */
-    public static void bin(ScoredTrack track, int count){
+    public static ScoredTrack bin(ScoredTrack track, int count){
 
         Percentile percentile = new Percentile();
         //use method R 3 to set real values as bin bounds
         percentile = percentile.withEstimationType(Percentile.EstimationType.R_3);
 
         List<Double> scores = track.getIntervalScore();
-        double[] values = scores.stream().mapToDouble(d -> d).toArray();
+        double[] values = scores
+                            .stream()
+                            .collect(Collectors.toSet()) //create set to remove duplicates
+                            .stream()
+                            .mapToDouble(i -> i)
+                            .toArray();
         Arrays.sort(values);
 
-        double lowerBound = 0.0;
+        double lowerBound = Collections.min(scores);
 
         for(int i = 100/count; i <= 100; i+= 100/count){
             double upperBound = percentile.evaluate(values, i);
@@ -57,6 +62,8 @@ public final class Tracks {
 
             lowerBound = upperBound;
         }
+
+        return new ScoredTrack(track.getStarts(), track.getEnds(), track.getIntervalName(), scores, track.getName(), track.getDescription(), track.getAssembly(), track.getCellLine());
     }
 
 
