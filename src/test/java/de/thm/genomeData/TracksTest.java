@@ -5,7 +5,9 @@ import de.thm.misc.ChromosomSizes;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -387,16 +389,13 @@ public class TracksTest {
         vals.add(0.934);
         vals.add(0.95);
 
-        vals.add(0.999);
+        vals.add(4.);
 
+        double[] exp = new double[]{-0.25, -0.1, -0.1, -0.1, 0.22, 0.22, 0.22, 0.22, 0.431, 0.431, 0.431, 0.431, 0.89, 0.89, 0.89, 0.89, 4.0, 4.0, 4.0, 4.0};
 
-        Tracks.bin(TrackFactory.getInstance().createScoredTrack(null,null,null,vals,null,null), 5);
+        ScoredTrack track = Tracks.bin(TrackFactory.getInstance().createScoredTrack(null,null,null,vals,null,null), 5);
 
-
-        List<Double> expected = new ArrayList<>();
-
-        //TODO set expected and compare
-
+        assertEquals(Arrays.stream(exp).boxed().collect(Collectors.toList()), track.getIntervalScore());
     }
 
 }
