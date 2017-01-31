@@ -109,9 +109,8 @@ public final class PositionPreprocessor {
         intervalsStart.clear();
         intervalsEnd.clear();
 
-
         ScoredTrack tmp = TrackFactory.getInstance().createScoredTrack(newStart, newEnd, track.getIntervalName().subList(0,newStart.size()), newScore ,track.getName(), track.getDescription());
-        Tracks.bin(tmp, 50);
+        tmp = Tracks.bin(tmp, 50);
 
         return tmp;
     }
@@ -128,7 +127,7 @@ public final class PositionPreprocessor {
         List<String> names = track.getIntervalName();
 
         //if (intervalsStart.isEmpty()) return track;
-        if(true) return track;
+        if(true) return track; // do not preprocess Named Track for now. TODO Fix
 
         long start = intervalsStart.get(0);
         long end = intervalsEnd.get(0);
