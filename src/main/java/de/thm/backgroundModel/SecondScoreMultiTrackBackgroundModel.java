@@ -9,6 +9,10 @@ import de.thm.positionData.Sites;
 import org.apache.commons.math3.random.MersenneTwister;
 
 import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -69,7 +73,7 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
 
         Map<ScoreSet, Double> sitesOccurence = fillOccurenceMap(intervals, sites);
 
-        sitesOccurence = smooth(sitesOccurence, intervals,1);
+        sitesOccurence = smooth(sitesOccurence, intervals,0.9);
 
         double sum = sites.getPositionCount(); // TODO use real sum
         for (ScoreSet k : sitesOccurence.keySet())
@@ -375,10 +379,12 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
     Map<ScoreSet, Double> smooth(Map<ScoreSet, Double> sitesOccurence, List<ScoredTrack> tracks, double factor) {
 
         //TODO. do multidimensional smoothing or decrease dimensions
+        BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(sitesOccurence.size());
+        ThreadPoolExecutor exe = new ThreadPoolExecutor(4,32,50L, TimeUnit.SECONDS,queue);
 
         try {
             ScoredTrack track = tracks.get(0);
-            int broadening = 2;
+            int broadening = 10;
             Map<ScoreSet, Double> newOccurence = new HashMap<>();
 
             //get possible scores
@@ -386,35 +392,22 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
             Collections.sort(possibleScores);
 
             for(ScoreSet s : sitesOccurence.keySet()) {
-                Double[] scores = s.getScores();
+                SmoothWrapper smoothWrapper = new SmoothWrapper(possibleScores, sitesOccurence,newOccurence,s,broadening,factor);
+                exe.execute(smoothWrapper);
+            }
 
-                if (scores.length == 1) {
-                    int i = possibleScores.indexOf(scores[0]);
+            exe.shutdown();
 
-                    if(i == -1) { // if scores[0] == null, outside positions
-                        newOccurence.put(s, sitesOccurence.get(s));
-                        continue;
-                    }
+            try {
+                exe.awaitTermination(100, TimeUnit.SECONDS);
 
-                    ScoreSet middle = new ScoreSet(new Double[]{possibleScores.get(i)});
-
-                    for(int broad = -broadening; broad < broadening; broad++){
-                        if(i + broad >= 0 && i + broad < possibleScores.size()){
-                            ScoreSet set = new ScoreSet(new Double[]{possibleScores.get(i + broad)});
-
-                            if(Math.abs(broad) == 0)
-                                newOccurence.put(set, sitesOccurence.get(middle)*0.85);
-                            else {
-                                double f = Math.abs(broad) == 1 ? 0.05: 0.0025;
-
-                                if (sitesOccurence.containsKey(set))
-                                    newOccurence.put(set, sitesOccurence.get(set) + sitesOccurence.get(middle) * f);
-                                else
-                                    newOccurence.put(set, sitesOccurence.get(middle) * f);
-                            }
-                        }
-                    }
-                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                exe.shutdownNow();
+            } finally {
+                if(!exe.isTerminated())
+                    System.err.println("Killing all smoothing tasks now");
+                exe.shutdownNow();
             }
 
             return newOccurence;
@@ -425,7 +418,6 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
 
         return sitesOccurence;
     }
-
 
     @Override
     public void addPositions(Collection<Long> values) {
@@ -450,6 +442,58 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
     @Override
     public GenomeFactory.Assembly getAssembly() {
         return this.assembly;
+    }
+
+    private final class SmoothWrapper implements Runnable {
+
+        private final List<Double> possibleScores;
+        private final Map<ScoreSet, Double> sitesOccurence;
+        private final Map<ScoreSet, Double> newOccurence;
+        private final ScoreSet s;
+        private final int broadening;
+        private final double factor;
+
+
+        private SmoothWrapper(List<Double> possibleScores, Map<ScoreSet, Double> sitesOccurence, Map<ScoreSet, Double> newOccurence, ScoreSet s, int broadening, double factor){
+
+            this.possibleScores = possibleScores;
+            this.sitesOccurence = sitesOccurence;
+            this.newOccurence = newOccurence;
+            this.s = s;
+            this.broadening = broadening;
+            this.factor = factor;
+        }
+
+        public void run() {
+            Double[] scores = s.getScores();
+            if (scores.length == 1) {
+                int i = possibleScores.indexOf(scores[0]);
+
+                if (i == -1) { // if scores[0] == null, outside positions
+                    newOccurence.put(s, sitesOccurence.get(s));
+                    return;
+                }
+
+                ScoreSet middle = new ScoreSet(new Double[]{possibleScores.get(i)});
+
+                for (int broad = -broadening; broad < broadening; broad++) {
+                    if (i + broad >= 0 && i + broad < possibleScores.size()) {
+                        ScoreSet set = new ScoreSet(new Double[]{possibleScores.get(i + broad)});
+
+                        if (Math.abs(broad) == 0)
+                            newOccurence.put(set, sitesOccurence.get(middle) * factor);
+                        else {
+                            double f = (1 - factor) / Math.abs(broad) * 3;
+
+                            if (sitesOccurence.containsKey(set))
+                                newOccurence.put(set, sitesOccurence.get(set) + sitesOccurence.get(middle) * f);
+                            else
+                                newOccurence.put(set, sitesOccurence.get(middle) * f);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
