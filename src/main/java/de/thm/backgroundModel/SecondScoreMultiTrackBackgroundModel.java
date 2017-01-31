@@ -444,12 +444,15 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
         return this.assembly;
     }
 
+    /**
+     * Inner wrapper to multithread the smoothing over present scores
+     */
     private final class SmoothWrapper implements Runnable {
 
         private final List<Double> possibleScores;
         private final Map<ScoreSet, Double> sitesOccurence;
         private final Map<ScoreSet, Double> newOccurence;
-        private final ScoreSet s;
+        private final ScoreSet s; // score set to be smoothed
         private final int broadening;
         private final double factor;
 
