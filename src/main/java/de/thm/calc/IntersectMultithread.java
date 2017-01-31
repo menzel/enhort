@@ -62,7 +62,7 @@ public final class IntersectMultithread {
             }
         }
 
-        if(measuredPositions.getAssembly().equals(GenomeFactory.Assembly.hg19)){
+        /*if(measuredPositions.getAssembly().equals(GenomeFactory.Assembly.hg19)){
             LogoWrapper logoWrapper = new LogoWrapper(measuredPositions,collector, tracks.get(0).getAssembly());
             exe.execute(logoWrapper);
 
@@ -70,13 +70,14 @@ public final class IntersectMultithread {
             exe.execute(logoWrapper2);
 
         }
+        */
 
 
         exe.shutdown();
 
 
         try {
-            exe.awaitTermination(20, TimeUnit.SECONDS);
+            exe.awaitTermination(2, TimeUnit.MINUTES);
 
         } catch (InterruptedException e) {
             e.printStackTrace();
