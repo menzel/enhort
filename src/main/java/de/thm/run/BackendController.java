@@ -115,7 +115,7 @@ public final class BackendController {
                             Future f = exe.submit(runner);
                             ////////////////////////////////
 
-                            f.get(60, TimeUnit.SECONDS);
+                            f.get(2, TimeUnit.MINUTES);
 
                         } else if(command instanceof ExpressionCommand){
                             TrackBuilder builder = new TrackBuilder();
@@ -174,12 +174,14 @@ public final class BackendController {
             @Override
             public void run() { //put stuff into background thread once data is recived
                 try {
+                    long time = System.currentTimeMillis();
                     System.out.println(prefix + "recieved a command " + command.hashCode());
 
                     ResultCollector collector = new AnalysisHelper().runAnalysis(command);
                     outStream.writeObject(collector);
 
-                    System.out.println(prefix + "answered request " + command.hashCode());
+                    long diff = System.currentTimeMillis() - time;
+                    System.out.println(prefix + "answered request " + command.hashCode() + " in " +  diff + " mils");
 
                 }catch (CovariantsException e){ //if a covariant exception is thrown return it as answer
                     try {
@@ -190,6 +192,8 @@ public final class BackendController {
                     }
                 } catch (IOException | ClassCastException e) {
                     System.err.println(prefix + " connection problem " + e.getMessage());
+                } catch (Exception e){
+                    e.printStackTrace();
                 }
             }
         }
