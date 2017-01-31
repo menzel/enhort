@@ -69,9 +69,9 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
 
         Map<ScoreSet, Double> sitesOccurence = fillOccurenceMap(intervals, sites);
 
-        smooth(sitesOccurence, 1);
+        sitesOccurence = smooth(sitesOccurence, intervals,1);
 
-        double sum = sites.getPositionCount();
+        double sum = sites.getPositionCount(); // TODO use real sum
         for (ScoreSet k : sitesOccurence.keySet())
             sitesOccurence.put(k, sitesOccurence.get(k) / sum);
 
@@ -336,6 +336,10 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
             scoredSet.add(new ScoreSet(tracks.size()));
         }
 
+
+
+
+
         // fill scores sets in a thread for each track
         for(ScoredTrack track: tracks){
             Runnable runner = new createScoreSet(tracks.indexOf(track), track, scoredSet, new_start, new_end);
@@ -364,16 +368,62 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
 
     /**
      * Smoothes occurence counts over the scores map
-     *
      * @param sitesOccurence map to smooth
+     * @param tracks - tracks used to calc sitesOcc
      * @param factor  - factor by which the smoothing is applied
      */
-    private void smooth(Map<ScoreSet, Double> sitesOccurence, double factor) {
-
-        if(factor == 0.)
-            return;
+    Map<ScoreSet, Double> smooth(Map<ScoreSet, Double> sitesOccurence, List<ScoredTrack> tracks, double factor) {
 
         //TODO. do multidimensional smoothing or decrease dimensions
+
+        try {
+            ScoredTrack track = tracks.get(0);
+            int broadening = 2;
+            Map<ScoreSet, Double> newOccurence = new HashMap<>();
+
+            //get possible scores
+            List<Double> possibleScores = track.getIntervalScore().stream().distinct().collect(Collectors.toList());
+            Collections.sort(possibleScores);
+
+            for(ScoreSet s : sitesOccurence.keySet()) {
+                Double[] scores = s.getScores();
+
+                if (scores.length == 1) {
+                    int i = possibleScores.indexOf(scores[0]);
+
+                    if(i == -1) { // if scores[0] == null, outside positions
+                        newOccurence.put(s, sitesOccurence.get(s));
+                        continue;
+                    }
+
+                    ScoreSet middle = new ScoreSet(new Double[]{possibleScores.get(i)});
+
+                    for(int broad = -broadening; broad < broadening; broad++){
+                        if(i + broad >= 0 && i + broad < possibleScores.size()){
+                            ScoreSet set = new ScoreSet(new Double[]{possibleScores.get(i + broad)});
+
+                            if(Math.abs(broad) == 0)
+                                newOccurence.put(set, sitesOccurence.get(middle)*0.85);
+                            else {
+                                double f = Math.abs(broad) == 1 ? 0.05: 0.0025;
+
+                                if (sitesOccurence.containsKey(set))
+                                    newOccurence.put(set, sitesOccurence.get(set) + sitesOccurence.get(middle) * f);
+                                else
+                                    newOccurence.put(set, sitesOccurence.get(middle) * f);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return newOccurence;
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return sitesOccurence;
     }
 
 
@@ -420,6 +470,7 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
             this.scoredSet = scoredSet;
             this.new_start = new_start;
             this.new_end = new_end;
+
         }
 
         @Override
@@ -428,7 +479,7 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
             int j = 0;
 
             // get scores from the map
-            for(int i = 0 ; i < new_start.size(); i ++) { // for each interval from the new track
+            for (int i = 0; i < new_start.size(); i++) { // for each interval from the new track
                 Long start = new_start.get(i);
                 Long end = new_end.get(i);
 
