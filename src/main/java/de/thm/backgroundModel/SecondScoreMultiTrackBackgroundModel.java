@@ -6,6 +6,7 @@ import de.thm.genomeData.TrackFactory;
 import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
+import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.random.MersenneTwister;
 
 import java.util.*;
@@ -73,9 +74,11 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
 
         Map<ScoreSet, Double> sitesOccurence = fillOccurenceMap(intervals, sites);
 
-        sitesOccurence = smooth(sitesOccurence, intervals,0.9);
+        sitesOccurence = smooth(sitesOccurence, intervals,2.);
 
-        double sum = sites.getPositionCount(); // TODO use real sum
+
+        //double sum = sites.getPositionCount(); // TODO use real sum
+        double sum = sitesOccurence.values().stream().mapToDouble(Double::doubleValue).sum();
         for (ScoreSet k : sitesOccurence.keySet())
             sitesOccurence.put(k, sitesOccurence.get(k) / sum);
 
@@ -139,6 +142,7 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
         double exp = newScores.stream().mapToDouble(i->i).sum();
         if(exp < (1 - 0.00000000001)){ //if the combined probability is below 1.0 increase each value:
             double inc = 1 / exp;
+            System.out.println("genProb (SecondBG) Streching ");
             newScores = newScores.stream().map(i -> i * inc).collect(Collectors.toList());
         }
 
@@ -384,15 +388,16 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
 
         try {
             ScoredTrack track = tracks.get(0);
-            int broadening = 10;
+            int broadening = 4;
             Map<ScoreSet, Double> newOccurence = new HashMap<>();
 
             //get possible scores
             List<Double> possibleScores = track.getIntervalScore().stream().distinct().collect(Collectors.toList());
             Collections.sort(possibleScores);
+            NormalDistribution nd = new NormalDistribution(0,factor);
 
-            for(ScoreSet s : sitesOccurence.keySet()) {
-                SmoothWrapper smoothWrapper = new SmoothWrapper(possibleScores, sitesOccurence,newOccurence,s,broadening,factor);
+            for(Double score: possibleScores) {
+                SmoothWrapper smoothWrapper = new SmoothWrapper(possibleScores, sitesOccurence,newOccurence,score ,broadening,nd);
                 exe.execute(smoothWrapper);
             }
 
@@ -409,6 +414,10 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
                     System.err.println("Killing all smoothing tasks now");
                 exe.shutdownNow();
             }
+
+            ScoreSet set = new ScoreSet(new Double[]{null});
+            newOccurence.put(set, sitesOccurence.get(set)); //copy old value for outside values
+
 
             return newOccurence;
 
@@ -452,51 +461,39 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
         private final List<Double> possibleScores;
         private final Map<ScoreSet, Double> sitesOccurence;
         private final Map<ScoreSet, Double> newOccurence;
-        private final ScoreSet s; // score set to be smoothed
+        private final double score; // score set value to be smoothed
         private final int broadening;
-        private final double factor;
+        private final NormalDistribution nd;
 
 
-        private SmoothWrapper(List<Double> possibleScores, Map<ScoreSet, Double> sitesOccurence, Map<ScoreSet, Double> newOccurence, ScoreSet s, int broadening, double factor){
+        private SmoothWrapper(List<Double> possibleScores, Map<ScoreSet, Double> sitesOccurence, Map<ScoreSet, Double> newOccurence, double score, int broadening, NormalDistribution nd){
 
             this.possibleScores = possibleScores;
             this.sitesOccurence = sitesOccurence;
             this.newOccurence = newOccurence;
-            this.s = s;
+            this.score = score;
             this.broadening = broadening;
-            this.factor = factor;
+            this.nd = nd;
         }
 
         public void run() {
-            Double[] scores = s.getScores();
-            if (scores.length == 1) {
-                int i = possibleScores.indexOf(scores[0]);
 
-                if (i == -1) { // if scores[0] == null, outside positions
-                    newOccurence.put(s, sitesOccurence.get(s));
-                    return;
-                }
+            int i = possibleScores.indexOf(score);
 
-                ScoreSet middle = new ScoreSet(new Double[]{possibleScores.get(i)});
+            ScoreSet middle = new ScoreSet(new Double[]{possibleScores.get(i)});
+            double value = 0;
 
-                for (int broad = -broadening; broad < broadening; broad++) {
-                    if (i + broad >= 0 && i + broad < possibleScores.size()) {
-                        ScoreSet set = new ScoreSet(new Double[]{possibleScores.get(i + broad)});
+            for (int broad = -broadening; broad < broadening; broad++) {
+                if (i + broad >= 0 && i + broad < possibleScores.size()) {
+                    ScoreSet set = new ScoreSet(new Double[]{possibleScores.get(i + broad)});
 
-                        if (Math.abs(broad) == 0)
-                            newOccurence.put(set, sitesOccurence.get(middle) * factor);
-                        else {
-                            double f = (1 - factor) / Math.abs(broad) * 3;
-
-                            if (sitesOccurence.containsKey(set))
-                                newOccurence.put(set, sitesOccurence.get(set) + sitesOccurence.get(middle) * f);
-                            else
-                                newOccurence.put(set, sitesOccurence.get(middle) * f);
-                        }
-                    }
+                    if(sitesOccurence.containsKey(set))
+                        value += sitesOccurence.get(set) * nd.density(broad);
                 }
             }
-        }
+
+            newOccurence.put(middle, value);
+    }
     }
 
     /**
