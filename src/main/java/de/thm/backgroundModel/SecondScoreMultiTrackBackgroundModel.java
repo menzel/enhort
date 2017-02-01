@@ -62,19 +62,19 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
 
 
     /**
-     * Generates an interval with probabilities as scores based on the intervals given and the sites.
+     * Generates an interval with probabilities as scores based on the tracks given and the sites.
      * In the names of the interval is the original score combination based on the hashing.
      *
      * @param sites     - sites to set probability by.
-     * @param intervals - list of intervals as covariants.
+     * @param tracks - list of tracks as covariants.
      * @return new interval with probability scores.
      */
-    ScoredTrack generateProbabilityInterval(Sites sites, List<ScoredTrack> intervals, double influence) {
+    ScoredTrack generateProbabilityInterval(Sites sites, List<ScoredTrack> tracks, double influence) {
 
 
-        Map<ScoreSet, Double> sitesOccurence = fillOccurenceMap(intervals, sites);
+        Map<ScoreSet, Double> sitesOccurence = fillOccurenceMap(tracks, sites);
 
-        sitesOccurence = smooth(sitesOccurence, intervals,2.);
+        sitesOccurence = smooth(sitesOccurence, tracks,2.);
 
 
         //double sum = sites.getPositionCount(); // TODO use real sum
@@ -82,7 +82,7 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
         for (ScoreSet k : sitesOccurence.keySet())
             sitesOccurence.put(k, sitesOccurence.get(k) / sum);
 
-        ScoredTrack interval = combine(intervals, sitesOccurence);
+        ScoredTrack interval = combine(tracks, sitesOccurence);
 
 
         // Fill occurences maps over whole genome
@@ -465,7 +465,6 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
         private final int broadening;
         private final NormalDistribution nd;
 
-
         private SmoothWrapper(List<Double> possibleScores, Map<ScoreSet, Double> sitesOccurence, Map<ScoreSet, Double> newOccurence, double score, int broadening, NormalDistribution nd){
 
             this.possibleScores = possibleScores;
@@ -491,9 +490,8 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
                         value += sitesOccurence.get(set) * nd.density(broad);
                 }
             }
-
             newOccurence.put(middle, value);
-    }
+        }
     }
 
     /**
@@ -508,8 +506,8 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
         private int position;
 
         createScoreSet(int position, ScoredTrack track, List<ScoreSet> scoredSet, List<Long> new_start, List<Long> new_end) {
-            this.position = position;
 
+            this.position = position;
             this.track = track;
             this.scoredSet = scoredSet;
             this.new_start = new_start;
@@ -548,5 +546,7 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
             }
         }
     }
+
+
 
 }
