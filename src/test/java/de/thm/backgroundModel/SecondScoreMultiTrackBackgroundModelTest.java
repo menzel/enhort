@@ -10,6 +10,7 @@ import org.junit.Test;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test for bg model occurenceMap
@@ -17,11 +18,59 @@ import static org.junit.Assert.assertEquals;
  */
 public class SecondScoreMultiTrackBackgroundModelTest {
 
-
     private List<ScoredTrack> tracks;
     private Sites sites;
     private Map<ScoreSet, Double> expected;
-    private  SecondScoreMultiTrackBackgroundModel model;
+    private SecondScoreMultiTrackBackgroundModel model;
+
+
+    @Test
+    public void smooth() throws Exception {
+
+        Map<ScoreSet, Double> occ = new HashMap<>();
+        occ.put(new ScoreSet(new Double[]{-4.}), 1.0);
+        occ.put(new ScoreSet(new Double[]{-3.}), 1.0);
+        occ.put(new ScoreSet(new Double[]{-1.5}), 4.0);
+        occ.put(new ScoreSet(new Double[]{0.}), 1.0);
+        occ.put(new ScoreSet(new Double[]{2.0}), 2.0);
+        occ.put(new ScoreSet(new Double[]{null}), 20.0);
+
+        List<Double> scores = new ArrayList<>();
+
+        for(double d = -4.; d <= 2.5; d+=.5){
+            scores.add(d);
+        }
+
+        ScoredTrack track = mockTrack(null, null, null, scores);
+        List<ScoredTrack> tracks = new ArrayList<>();
+        tracks.add(track);
+
+        Map<ScoreSet, Double> newOcc =  model.smooth(occ, tracks, 2.);
+
+        //for(ScoreSet s: newOcc.keySet()) System.out.println(s.getScores()[0] + " old: " + occ.get(s) + " new: " +  newOcc.get(s));
+
+        double sum1 = occ.values().stream().mapToDouble(Double::doubleValue).sum();
+        double sum2 = newOcc.values().stream().mapToDouble(Double::doubleValue).sum();
+
+        assertEquals(sum1, sum2,5.);
+
+        Map<ScoreSet, Double> exp = new HashMap<>();
+        exp.put(new ScoreSet(new Double[]{-4.}), 0.320456502460288);
+        exp.put(new ScoreSet(new Double[]{-3.}), 0.5794916937920714);
+        exp.put(new ScoreSet(new Double[]{0.}), 0.45850633153249976);
+        exp.put(new ScoreSet(new Double[]{null}), 20.0);
+
+
+        for(ScoreSet s: exp.keySet()){
+            try {
+                assertEquals(exp.get(s), newOcc.get(s), 0.1);
+            } catch(AssertionError e ){
+                e.printStackTrace();
+                System.err.println("In ScoreSet" + Arrays.toString(s.getScores()));
+            }
+        }
+    }
+
 
 
     @Before
@@ -186,6 +235,7 @@ public class SecondScoreMultiTrackBackgroundModelTest {
         Collection<Long> pos = model.generatePositionsByProbability(probTrack, 10);
 
         // TODO  check if rand pos generated are good
+        assertTrue(false);
     }
 
 
