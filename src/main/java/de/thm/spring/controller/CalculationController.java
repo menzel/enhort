@@ -230,6 +230,14 @@ public class CalculationController {
     }
 
 
+    @RequestMapping(value = "/covariate", method = RequestMethod.GET)
+    public String covariant_get(@ModelAttribute InterfaceCommand command, Model model, HttpSession httpSession) {
+        //TODO: try to reset and show results
+
+        model.addAttribute("errorMessage", "The calculation could not be saved, please run it again");
+        return "error";
+    }
+
     @RequestMapping(value = "/covariate", method = RequestMethod.POST)
     public String covariant(@ModelAttribute InterfaceCommand command, Model model, HttpSession httpSession) {
 
