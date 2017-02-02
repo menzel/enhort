@@ -77,9 +77,9 @@ public final class BackgroundModelFactory {
         if (track instanceof InOutTrack)
             return new SingleTrackBackgroundModel((InOutTrack) track, sites,minSites);
         else if (track instanceof ScoredTrack) // put single track in a list of size one
-            return new SecondScoreMultiTrackBackgroundModel((ScoredTrack) track, sites, minSites, influence);
+            return new ScoreBackgroundModel((ScoredTrack) track, sites, minSites, influence);
         else if (track instanceof NamedTrack) //convert the single track to a scored track and put in a list of size one
-             return new SecondScoreMultiTrackBackgroundModel(Tracks.cast((NamedTrack) track), sites, minSites, influence);
+             return new ScoreBackgroundModel(Tracks.cast((NamedTrack) track), sites, minSites, influence);
         else if (track instanceof DistanceTrack)
              return new DistanceBackgroundModel((DistanceTrack) track, sites, 200);
         return null;
@@ -127,7 +127,7 @@ public final class BackgroundModelFactory {
             if (trackList.stream().allMatch(i -> i instanceof ScoredTrack)) {
                 List<ScoredTrack> newList = trackList.stream().map(i -> (ScoredTrack) i).collect(Collectors.toList());
 
-                return new SecondScoreMultiTrackBackgroundModel(newList, sites, minSites, influence);
+                return new ScoreBackgroundModel(newList, sites, minSites, influence);
 
             } else {
                 List<ScoredTrack> scoredIntervals = trackList.stream()
@@ -149,7 +149,7 @@ public final class BackgroundModelFactory {
                     .collect(Collectors.toList()));
 
 
-                return new SecondScoreMultiTrackBackgroundModel(scoredIntervals, sites, minSites, influence);
+                return new ScoreBackgroundModel(scoredIntervals, sites, minSites, influence);
             }
 
         } else {

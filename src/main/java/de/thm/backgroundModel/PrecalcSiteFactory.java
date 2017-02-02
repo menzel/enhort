@@ -16,11 +16,11 @@ import java.util.regex.Pattern;
  */
 public class PrecalcSiteFactory {
 
+    private final static Map<Long, List<Boolean>> booleans = new HashMap<>();
+    private final static Map<Long, List<Long>> distances = new HashMap<>();
+    private final static Map<Long, String> sequence = new HashMap<>();
     static List<Long> positions = new ArrayList<>();
-    private static GenomeFactory.Assembly assembly;
-    private static Map<Long, List<Boolean>> booleans = new HashMap<>();
-    private static Map<Long, List<Long>> distances = new HashMap<>();
-    private static Map<Long, String> sequence = new HashMap<>();
+    private  static GenomeFactory.Assembly assembly;
 
     /**
      *
@@ -29,7 +29,7 @@ public class PrecalcSiteFactory {
      * @param assembly - assembly number
      * @param count - count of positions to generate
      */
-    public static void generatePositions(GenomeFactory.Assembly assembly, int count){
+    static void generatePositions(GenomeFactory.Assembly assembly, int count){
         PrecalcSiteFactory.assembly = assembly;
 
         //get random positions
@@ -108,7 +108,7 @@ public class PrecalcSiteFactory {
      * @param count of the returned sites
      * @return count sites
      */
-    public static Sites getSites(int count){
+    static Sites getSites(int count){
 
         List<Long> pos_copy = new ArrayList<>(positions);
         Collections.shuffle(pos_copy);
@@ -124,7 +124,7 @@ public class PrecalcSiteFactory {
      *
      * @return list of positions that are true for the given key
      */
-    public static Sites getSites(boolean_keys key, int count){
+    static Sites getSites(boolean_keys key, int count){
         List<Long> pos = new ArrayList<>();
 
         for (Long p : positions) {
@@ -168,7 +168,7 @@ public class PrecalcSiteFactory {
      *
      * @return  Sites with a logo similar to given logo
      */
-    public static Sites getSites(Logo logo, int distance, int count){
+    static Sites getSites(Logo logo, int distance, int count){
 
         List<Long> pos = new ArrayList<>();
         String regex = generateLogoRegex(logo, distance);

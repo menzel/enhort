@@ -21,12 +21,12 @@ import java.util.stream.Collectors;
  * <p>
  * Created by Michael Menzel on 17/2/16.
  */
-class SecondScoreMultiTrackBackgroundModel implements Sites {
+class ScoreBackgroundModel implements Sites {
 
     private final GenomeFactory.Assembly assembly;
     private List<Long> positions = new ArrayList<>();
 
-    SecondScoreMultiTrackBackgroundModel(GenomeFactory.Assembly assembly) {
+    ScoreBackgroundModel(GenomeFactory.Assembly assembly) {
         this.assembly = assembly;
     }
 
@@ -37,7 +37,7 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
      * @param sites      - sites to build model against.
      * @param covariant - single covariant
      */
-    SecondScoreMultiTrackBackgroundModel(ScoredTrack covariant, Sites sites, int minSites, double influence) {
+    ScoreBackgroundModel(ScoredTrack covariant, Sites sites, int minSites, double influence) {
 
         this(Collections.singletonList(covariant),sites, minSites, influence);
     }
@@ -50,7 +50,7 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
      * @param sites      - sites to build model against.
      * @param covariants - list of intervals to build model against.
      */
-    SecondScoreMultiTrackBackgroundModel(List<ScoredTrack> covariants, Sites sites, int minSites, double influence) {
+    ScoreBackgroundModel(List<ScoredTrack> covariants, Sites sites, int minSites, double influence) {
         this.assembly = sites.getAssembly();
         ScoredTrack interval = generateProbabilityInterval(sites, covariants, influence);
 

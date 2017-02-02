@@ -16,12 +16,12 @@ import static org.junit.Assert.assertTrue;
  * Test for bg model occurenceMap
  * Created by menzel on 8/25/16.
  */
-public class SecondScoreMultiTrackBackgroundModelTest {
+public class ScoreBackgroundModelTest {
 
     private List<ScoredTrack> tracks;
     private Sites sites;
     private Map<ScoreSet, Double> expected;
-    private SecondScoreMultiTrackBackgroundModel model;
+    private ScoreBackgroundModel model;
 
 
     @Test
@@ -76,7 +76,7 @@ public class SecondScoreMultiTrackBackgroundModelTest {
     @Before
     public void setUp() {
 
-        model = new SecondScoreMultiTrackBackgroundModel(GenomeFactory.Assembly.hg19);
+        model = new ScoreBackgroundModel(GenomeFactory.Assembly.hg19);
 
         ///// Create Tracks /////////
 
