@@ -28,7 +28,7 @@ class DistanceBackgroundModel implements Sites {
     private List<Long> positions;
 
 
-    DistanceBackgroundModel(DistanceTrack track, Sites sites){
+    DistanceBackgroundModel(DistanceTrack track, Sites sites, int standardDeviation){
         this.assembly = sites.getAssembly();
 
         rand  = new MersenneTwister();
@@ -36,7 +36,7 @@ class DistanceBackgroundModel implements Sites {
         //generate positions inside
         List<Long> distHist  = generateDistanceHist(track, sites);
         int count = distHist.size(); //(sites.getPositionCount() > 10000) ? sites.getPositionCount() : 10000;
-        positions = generatePositions(distHist, track, count);
+        positions = generatePositions(distHist, track, count, standardDeviation);
 
         //generate outside positions
         SingleTrackBackgroundModel outsideModel = new SingleTrackBackgroundModel(sites.getAssembly());
@@ -46,13 +46,13 @@ class DistanceBackgroundModel implements Sites {
         Collections.sort(positions);
     }
 
-    private List<Long> generatePositions(List<Long> distances, Track track, int count) {
+    private List<Long> generatePositions(List<Long> distances, Track track, int count, int standardDeviation) {
 
         List<Long> positions = new ArrayList<>();
         List<Long> upstream = distances.stream().filter(i -> i < 0).sorted().collect(Collectors.toList());
         List<Long> downstream = distances.stream().filter(i -> i >= 0).sorted().collect(Collectors.toList());
         Collections.reverse(downstream); // reverse downstream list to begin with the farest distances to the postion. upstream is already in order
-        NormalDistribution nd = new NormalDistribution(0,200);
+        NormalDistribution nd = new NormalDistribution(0,standardDeviation);
 
         int i = 0;
 
