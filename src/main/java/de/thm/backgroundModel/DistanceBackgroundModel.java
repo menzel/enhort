@@ -7,6 +7,7 @@ import de.thm.genomeData.Track;
 import de.thm.genomeData.Tracks;
 import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
+import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.random.MersenneTwister;
 
 import java.util.ArrayList;
@@ -51,6 +52,7 @@ class DistanceBackgroundModel implements Sites {
         List<Long> upstream = distances.stream().filter(i -> i < 0).sorted().collect(Collectors.toList());
         List<Long> downstream = distances.stream().filter(i -> i >= 0).sorted().collect(Collectors.toList());
         Collections.reverse(downstream); // reverse downstream list to begin with the farest distances to the postion. upstream is already in order
+        NormalDistribution nd = new NormalDistribution(0,200);
 
         int i = 0;
 
@@ -67,7 +69,8 @@ class DistanceBackgroundModel implements Sites {
                 for(Long dist: upstream)
                     if(dist > dist_prev){
                         //set new pos:
-                        positions.add(start + dist); //dist is negative in this branch
+                        long f = (long) nd.sample();
+                        positions.add(start + dist + f); //dist is negative in this branch
                         upstream.remove(dist);
                         break;
                     }
@@ -80,7 +83,8 @@ class DistanceBackgroundModel implements Sites {
                 for(Long dist: downstream)
                     if(dist < dist_fol){
                         //set new pos:
-                        positions.add(start + dist);
+                        long f = (long) nd.sample();
+                        positions.add(start + dist + f); //dist is negative in this branch
                         downstream.remove(dist);
                         break;
                     }
