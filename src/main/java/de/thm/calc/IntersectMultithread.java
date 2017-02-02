@@ -39,7 +39,7 @@ public final class IntersectMultithread {
      * @param randomPositions   - positions created by a background model
      * @return Collector of all results computed by the differen threads
      */
-    public ResultCollector execute(List<Track> tracks, Sites measuredPositions, Sites randomPositions) {
+    public ResultCollector execute(List<Track> tracks, Sites measuredPositions, Sites randomPositions, boolean createLogo) {
 
 
         ResultCollector collector = new ResultCollector(randomPositions, tracks.get(0).getAssembly()); // get assembly from the first track
@@ -58,23 +58,18 @@ public final class IntersectMultithread {
             } else if (track instanceof DistanceTrack){
                 DistanceWrapper dWrapper = new DistanceWrapper(measuredPositions, randomPositions, (DistanceTrack) track, collector);
                 exe.execute(dWrapper);
-
             }
         }
 
-        /*if(measuredPositions.getAssembly().equals(GenomeFactory.Assembly.hg19)){
+        if(createLogo && measuredPositions.getAssembly().equals(GenomeFactory.Assembly.hg19)){
             LogoWrapper logoWrapper = new LogoWrapper(measuredPositions,collector, tracks.get(0).getAssembly());
             exe.execute(logoWrapper);
 
             LogoWrapper logoWrapper2 = new LogoWrapper(randomPositions, collector, tracks.get(0).getAssembly());
             exe.execute(logoWrapper2);
-
         }
-        */
-
 
         exe.shutdown();
-
 
         try {
             exe.awaitTermination(2, TimeUnit.MINUTES);

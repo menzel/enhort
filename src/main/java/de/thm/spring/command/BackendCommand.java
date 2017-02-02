@@ -23,6 +23,7 @@ public final class BackendCommand implements Serializable, Command{
     private final double influence;
     private final GenomeFactory.Assembly assembly;
     private final boolean logoCovariate;
+    private final boolean createLogo;
 
 
     public BackendCommand(Sites sites) {
@@ -35,6 +36,7 @@ public final class BackendCommand implements Serializable, Command{
         this.influence = 1;
         this.assembly = sites.getAssembly();
         this.logoCovariate = false;
+        this.createLogo = false;
     }
 
     public BackendCommand(InterfaceCommand command) {
@@ -46,6 +48,7 @@ public final class BackendCommand implements Serializable, Command{
         this.customTracks = new ArrayList<>();
         this.assembly = GenomeFactory.Assembly.valueOf(command.getAssembly());
         this.logoCovariate = command.getLogoCovariate();
+        this.createLogo  = command.getCreateLogo();
 
     }
 
@@ -69,5 +72,9 @@ public final class BackendCommand implements Serializable, Command{
 
     public boolean isLogoCovariate() {
         return logoCovariate;
+    }
+
+    public boolean isCreateLogo() {
+        return createLogo;
     }
 }

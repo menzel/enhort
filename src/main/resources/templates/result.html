@@ -52,10 +52,14 @@
     <div class="box">
         <h4> Track packages </h4>
 
+        <label><input type="checkbox" th:field="*{interfaceCommand.createLogo}" th:value="${interfaceCommand.createLogo}"
+                      form="covariate_form"/> Sequence Logo</label>
+
         <th:block th:each="packName: ${trackPackages}">
             <div class="checkbox">
                 <label><input type="checkbox" th:field="*{interfaceCommand.packageNames}" th:value="${packName}"
                               form="covariate_form" checked="checked" th:text="${packName}"/></label>
+
             </div>
         </th:block>
 
@@ -145,29 +149,30 @@
 
                 <!-- Sequencelogo Entry -->
                 <th:block th:if="${ran}">
-                    <th:block th:if="${not interfaceCommand.logoCovariate}">
-                    <tr>
-                        <td data-target="#sequencelogodiv" data-toggle="collapse" class="accordion-toggle" >
-                            Sequence Logo
-                        </td>
-                        <td></td>
-                        <td th:text="${sl_effect}"></td>
-                        <td colspan="1"></td>
-                        <td><input th:field="${interfaceCommand.logoCovariate}" type="checkbox" form="covariate_form"/></td>
-                    </tr>
-                    <tr>
-                        <td colspan="5" class="hiddenRow">
-                            <div class="accordion-body collapse" id="sequencelogodiv">
+                    <th:block th:if="${interfaceCommand.createLogo}">
+                        <th:block th:if="${not interfaceCommand.logoCovariate}">
+                            <tr>
+                                <td data-target="#sequencelogodiv" data-toggle="collapse" class="accordion-toggle" >
+                                    Sequence Logo
+                                </td>
+                                <td></td>
+                                <td th:text="${sl_effect}"></td>
+                                <td colspan="1"></td>
+                                <td><input th:field="${interfaceCommand.logoCovariate}" type="checkbox" form="covariate_form"/></td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="hiddenRow">
+                                    <div class="accordion-body collapse" id="sequencelogodiv">
 
-                                <div id="sequencelogo"></div>
+                                        <div id="sequencelogo"></div>
 
-                                <div id="sequencelogo2"></div>
-                                The Sequence or Weblogo with a width of 12 bases of 3000 sequences taken from the
-                                dataset.
-                            </div>
-                        </td>
-                    </tr>
-
+                                        <div id="sequencelogo2"></div>
+                                        The Sequence or Weblogo with a width of 12 bases of 3000 sequences taken from the
+                                        dataset.
+                                    </div>
+                                </td>
+                            </tr>
+                        </th:block>
                     </th:block>
                 </th:block>
                 <!-- Sequencelogo Entry END -->

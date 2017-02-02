@@ -252,6 +252,8 @@ public class CalculationController {
         StatisticsCollector stats = StatisticsCollector.getInstance();
         command.setSites(data);
 
+
+        //command.setCreateLogo(false);
         // remove uuid from filename for display and set it to the old InterfaceCommand, because it will be sent to the View again:
         command.setOriginalFilename(file.toFile().getName().substring(0, file.toFile().getName().length()-37));
 
@@ -382,7 +384,6 @@ public class CalculationController {
         model.addAttribute("sigTrackCount", collector.getSignificantTrackCount());
         model.addAttribute("trackCount", collector.getTrackCount());
 
-        //TODO AAAAARG:
         model.addAttribute("trackPackages", collector.getKnownPackages());
         model.addAttribute("ran", true);
 

@@ -101,6 +101,10 @@ th{
 #save{
     color: rgba(51,51,51,0.8);
 }
+
+label{
+    font-weight: 400;
+}
 /*
 * -- sequence logo
 */

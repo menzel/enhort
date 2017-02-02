@@ -91,7 +91,7 @@ class AnalysisHelper {
         }
 
         IntersectMultithread multi = new IntersectMultithread();
-        return multi.execute(runTracks, sites, bg);
+        return multi.execute(runTracks, sites, bg, cmd.isCreateLogo());
 
     }
 

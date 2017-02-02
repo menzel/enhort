@@ -71,7 +71,7 @@ public class Analyse {
         Sites bg = BackgroundModelFactory.createBackgroundModel(covariants, userSites,1);
 
         IntersectMultithread multi = new IntersectMultithread();
-        ResultCollector collector = multi.execute(intervals, userSites, bg);
+        ResultCollector collector = multi.execute(intervals, userSites, bg, false);
 
         System.out.println(collector);
 
