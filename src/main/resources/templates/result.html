@@ -63,7 +63,9 @@
             </div>
         </th:block>
 
-        <h4> Custom tracks </h4>
+        <th:block th:if="${not #lists.isEmpty(customTracks)}">
+            <h4> Custom tracks </h4>
+        </th:block>
 
         <th:block th:each="track: ${customTracks}">
             <div class="checkbox">
