@@ -77,6 +77,8 @@ final class Genome {
             Pair<String, Long> start = ChromosomSizes.getInstance().mapToChr(assembly, position);
             Pair<String, Long> end = ChromosomSizes.getInstance().mapToChr(assembly, position);
 
+            assert end != null;
+            assert start != null;
             if (start.getLeft().equals(end.getLeft())) { //if start and end are on the same chr
 
 
