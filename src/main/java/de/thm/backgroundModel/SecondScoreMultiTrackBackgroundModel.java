@@ -74,10 +74,8 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
 
         Map<ScoreSet, Double> sitesOccurence = fillOccurenceMap(tracks, sites);
 
-        sitesOccurence = smooth(sitesOccurence, tracks,2.);
+        sitesOccurence = smooth(sitesOccurence, tracks,10);
 
-
-        //double sum = sites.getPositionCount(); // TODO use real sum
         double sum = sitesOccurence.values().stream().mapToDouble(Double::doubleValue).sum();
         for (ScoreSet k : sitesOccurence.keySet())
             sitesOccurence.put(k, sitesOccurence.get(k) / sum);
@@ -131,7 +129,7 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
                     //add probability to score list
                     newScores.add(prob);
                 } else{
-                    // check if start stop positions are present
+                    // check if start stop positions are presen + expt
                 }
             }
         }
@@ -142,7 +140,7 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
         double exp = newScores.stream().mapToDouble(i->i).sum();
         if(exp < (1 - 0.00000000001)){ //if the combined probability is below 1.0 increase each value:
             double inc = 1 / exp;
-            System.out.println("genProb (SecondBG) Streching ");
+            System.out.println("genProb (SecondBG) Streching " + exp);
             newScores = newScores.stream().map(i -> i * inc).collect(Collectors.toList());
         }
 
@@ -388,7 +386,7 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
 
         try {
             ScoredTrack track = tracks.get(0);
-            int broadening = 4;
+            int broadening = (int) (factor*2);
             Map<ScoreSet, Double> newOccurence = new HashMap<>();
 
             //get possible scores
@@ -478,18 +476,18 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
         public void run() {
 
             int i = possibleScores.indexOf(score);
-
-            ScoreSet middle = new ScoreSet(new Double[]{possibleScores.get(i)});
             double value = 0;
 
-            for (int broad = -broadening; broad < broadening; broad++) {
-                if (i + broad >= 0 && i + broad < possibleScores.size()) {
-                    ScoreSet set = new ScoreSet(new Double[]{possibleScores.get(i + broad)});
+            for (int broad = -broadening; broad < broadening; broad++) { // iterate from previous to following scores
+                if (i + broad >= 0 && i + broad < possibleScores.size()) { // check if i+broad is in possible range (exclude scores on edges)
+                    ScoreSet set = new ScoreSet(new Double[]{possibleScores.get(i + broad)}); // get current score set reference
 
                     if(sitesOccurence.containsKey(set))
                         value += sitesOccurence.get(set) * nd.density(broad);
                 }
             }
+
+            ScoreSet middle = new ScoreSet(new Double[]{possibleScores.get(i)}); // middle position, the position to be changed by neighbours
             newOccurence.put(middle, value);
         }
     }
@@ -546,7 +544,4 @@ class SecondScoreMultiTrackBackgroundModel implements Sites {
             }
         }
     }
-
-
-
 }
