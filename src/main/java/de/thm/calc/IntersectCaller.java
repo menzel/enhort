@@ -19,12 +19,12 @@ import java.util.concurrent.*;
  * <p>
  * Created by Michael Menzel on 11/1/16.
  */
-public final class IntersectMultithread {
+public final class IntersectCaller {
 
     private static final int threadCount = 32;
     private final ExecutorService exe;
 
-    public IntersectMultithread() {
+    public IntersectCaller() {
         BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(1024);
         exe = new ThreadPoolExecutor(4, threadCount, 5L, TimeUnit.SECONDS, queue);
     }
@@ -91,7 +91,7 @@ public final class IntersectMultithread {
 
         private final Sites randomPos;
         private final Sites measuredPos;
-        private final Track track;
+        private final T track;
         private final ResultCollector collector;
 
         /**
@@ -115,8 +115,8 @@ public final class IntersectMultithread {
             TestTrack<T> intersec1 = new Intersect<>();
             TestTrack<T> intersec2 = new Intersect<>();
 
-            TestTrackResult result1 = intersec1.searchTrack((T) track, measuredPos);
-            TestTrackResult result2 = intersec2.searchTrack((T) track, randomPos);
+            TestTrackResult result1 = intersec1.searchTrack(track, measuredPos);
+            TestTrackResult result2 = intersec2.searchTrack(track, randomPos);
 
             IndependenceTest tester = new IndependenceTest();
             EffectSize effectSize = new EffectSize();
