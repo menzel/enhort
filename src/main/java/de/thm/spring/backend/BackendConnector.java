@@ -49,7 +49,7 @@ public final class BackendConnector implements Runnable{
     public void run() {
 
         System.out.println("[Enhort Webinterface]: Starting backend connection to " + this.ip);
-        int connectionTimeout = 40; //max tries timeout
+        int connectionTimeout = 20; //max tries timeout
         int tries = 0;
 
         while (!isConnected){
@@ -70,7 +70,7 @@ public final class BackendConnector implements Runnable{
                 if(tries >= connectionTimeout)
                     return;
 
-                Thread.sleep(500);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
