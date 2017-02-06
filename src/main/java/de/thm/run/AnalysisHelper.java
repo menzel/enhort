@@ -1,7 +1,7 @@
 package de.thm.run;
 
 import de.thm.backgroundModel.BackgroundModelFactory;
-import de.thm.calc.IntersectMultithread;
+import de.thm.calc.IntersectCaller;
 import de.thm.exception.CovariantsException;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
@@ -90,7 +90,7 @@ class AnalysisHelper {
                 System.err.println("TrackFactory did not provide any tracks for given packages (" + Arrays.toString(cmd.getPackageNames().toArray()) + ") in AnalysisHelper");
         }
 
-        IntersectMultithread multi = new IntersectMultithread();
+        IntersectCaller multi = new IntersectCaller();
         return multi.execute(runTracks, sites, bg, cmd.isCreateLogo());
 
     }
