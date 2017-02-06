@@ -18,7 +18,12 @@ public final class GenomeFactory {
     private final Map<Assembly, Genome> genomes = new HashMap<>();
     private GenomeFactory(){
 
-        genomes.put(Assembly.hg19, new Genome(Assembly.hg19, new File("/home/menzel/Desktop/chromosomes").toPath()));
+
+        if(System.getenv("HOME").contains("menzel")){
+            genomes.put(Assembly.hg19, new Genome(Assembly.hg19, new File("/home/menzel/Desktop/chromosomes").toPath()));
+        } else {
+            genomes.put(Assembly.hg19, new Genome(Assembly.hg19, new File("/home/mmnz21/chromosomes").toPath()));
+        }
         //genomes.put(Track.Assembly.hg38, new Genome(new File("/home/menzel/Desktop/").toPath()));  TODO
 
     }
