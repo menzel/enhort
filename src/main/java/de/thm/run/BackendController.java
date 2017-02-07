@@ -47,7 +47,7 @@ public final class BackendController {
             thread.run();
 
         } catch (Exception e){
-            System.err.println(e.toString());
+            e.printStackTrace();
             System.exit(1);
         }
     }
@@ -137,14 +137,14 @@ public final class BackendController {
                         isConnected = false;
 
                     } catch (IOException | ClassNotFoundException  | InterruptedException | TimeoutException | ExecutionException e) {
-                        System.err.println(e.getCause().toString() + " in BackendController Line 140");
+                        e.printStackTrace();
                         exe.shutdownNow();
 
                         queue = new ArrayBlockingQueue<>(16);
                         exe = new ThreadPoolExecutor(1, 4, 5L, TimeUnit.MILLISECONDS, queue);
 
                         try {
-                            outStream.writeObject(new Exception(e.getMessage()));
+                            outStream.writeObject(e);
 
                         } catch (IOException e1) {
                             e1.printStackTrace();
