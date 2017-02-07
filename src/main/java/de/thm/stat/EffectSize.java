@@ -3,6 +3,7 @@ package de.thm.stat;
 import de.thm.calc.TestTrackResult;
 
 import static java.lang.Math.max;
+import static java.lang.Math.min;
 
 
 /**
@@ -28,16 +29,10 @@ public final class EffectSize {
 
     double foldChange(double in, double out, double in1, double out1) {
 
-        double fc1 = in / out;
-        double fc2 = in1 / out1;
-
-        if(Double.isNaN(fc1) || Double.isNaN(fc2) || (in < ((in+out)/200) && in1 < ((in1+out1)/200)))
-            return 0.0;
-
-        if (in == 0 || in1 == 0)
+        if(in1 == 0 || out1 == 0 || out  == 0 || in == 0)
             return Double.POSITIVE_INFINITY;
 
-
-        return Math.abs(Math.log(fc1 / fc2)) * (max(in/max(out+in,1.), in1/max(out1+in1,1.)));
+        // the maximum of ( maximum inside / minimum inside and maximum outside / maximum outside) -- inverts
+        return max(max(in,in1) / min(in,in1), max(out,out1) / min(out,out1));
     }
 }
