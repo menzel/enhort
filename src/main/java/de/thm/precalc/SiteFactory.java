@@ -9,6 +9,7 @@ import org.apache.commons.math3.random.MersenneTwister;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by menzel on 2/8/17.
@@ -96,13 +97,22 @@ public class SiteFactory {
         return new_pos;
     }
 
-    private Double score(Logo logo, String s) {
+    Double score(Logo logo, String sequence) {
         double score = 0.0;
-        String l = logo.getConsensus();
+        sequence = sequence.toLowerCase();
 
-        for(int i = 0; i < s.length()-1; i++){ // sind unterschiedlich lang :(
-            if(l.charAt(i) == s.charAt(i)) score++;
+        List<List<Map<String, String>>> values =  logo.getValues();
+
+        for(List<Map<String, String>> position: values) { // for each position
+            int i = 0;
+
+            for (Map<String, String> letter : position) { //for each letter
+                if(letter.get("letter").equals(Character.toString(sequence.charAt(i++))))
+                    score += Double.parseDouble(letter.get("bits"))/2;
+            }
         }
+
+        score /= values.size();
 
         return score;
     }

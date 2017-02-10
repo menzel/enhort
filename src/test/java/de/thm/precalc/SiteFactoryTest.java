@@ -54,6 +54,24 @@ public class SiteFactoryTest {
     }
 
     @Test
+    public void score() throws Exception {
+        List<String> sequences = new ArrayList<>();
+
+        sequences.add("CCAT");
+        sequences.add("CTAT");
+        sequences.add("CTAA");
+        sequences.add("CCAT");
+
+        Logo logo = LogoCreator.createLogo(sequences);
+
+        assertEquals(1., factory.score(logo, "CCAT"), 0.2);
+
+        assertEquals(.5d, factory.score(logo, "GGGG"), 0.2);
+
+        assertEquals(.2, factory.score(logo, "GGAG"), 0.2);
+    }
+
+    @Test
     public void testAllSites() throws Exception {}
 
     @Test
