@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * Matrix-like table
@@ -29,12 +30,19 @@ class IndexTable {
         props.put(track, vals);
     }
 
+    List<String> getSequences(int l) {
+        int start = sequences.get(0).length()/2 - l/2;
+        int end = sequences.get(0).length()/2 + l/2;
+
+        return sequences.stream().map(i -> i.substring(start,end)).collect(Collectors.toList());
+    }
+
     List<String> getSequences() {
         return sequences;
     }
 
     void setSequences(List<String> sequences) {
-        this.sequences = sequences;
+        this.sequences = sequences.stream().map(String::toUpperCase).collect(Collectors.toList());
     }
 
     public List<Long> getPositions() {
