@@ -3,18 +3,17 @@ package de.thm.precalc;
 import de.thm.genomeData.Track;
 import de.thm.logo.GenomeFactory;
 import de.thm.logo.Logo;
+import de.thm.positionData.Sites;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.math3.random.MersenneTwister;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by menzel on 2/8/17.
  */
-public class SiteFactory {
+public final class SiteFactory {
 
     private GenomeFactory.Assembly assembly;
     private IndexTable indexTable = new IndexTable();
@@ -26,8 +25,7 @@ public class SiteFactory {
         indexTable = creator.create(assembly, count);
     }
 
-
-    public List<Long> getSites(Track track, int in, int out){
+    public Sites getSites(Track track, int in, int out){
 
         List<Long> positions = new ArrayList<>();
 
@@ -61,59 +59,94 @@ public class SiteFactory {
 
         }
 
-        return positions;
+        return new PrecalcBackgroundModel(assembly, positions);
     }
 
 
-    public List<Long> getByLogo(Logo logo, int count){
-        List<Double> scores = new ArrayList<>();
-        List<String> seq = indexTable.getSequences();
+    public Sites getByLogo(Logo logo, int count){
+        List<String> seq = indexTable.getSequences(logo.getConsensus().length());
         List<Long> pos = indexTable.getPositions();
         List<Long> new_pos = new ArrayList<>();
         MersenneTwister rand = new MersenneTwister();
 
+        Map<String, Double> scores = new HashMap<>();
+
         //create scores for each seq
-        for(String s: seq)
-            scores.add(score(logo, s));
+        // for(String s: seq.stream().collect(Collectors.toSet())) {
+        for(String s: seq.stream().collect(Collectors.toSet())) {
+            if(!scores.containsKey(s))
+                scores.put(s, score(logo,s));
+        }
 
         //select scores based on propability
-        double sum = scores.stream().mapToDouble(d -> d).sum();
+        double sum = scores.values().stream().mapToDouble(d -> d).sum();
+        if(sum <= 0.0) System.err.println("No fitting scores found");
+
+
         List<Double> rands = new ArrayList<>();
 
-        for(int i = 0; i <= count ; i++)
+        for(int i = 0; i <= count; i++)
             rands.add(rand.nextDouble()*sum); //get some random values
         Collections.sort(rands);
 
-        double c = 0;
-        for(int i = 0; i <= pos.size(); i++){
+        double cum = 0;
+        int i = 0; //counter over seq/scores
+        int j = 0; //counter over rands
 
-            if(c >= rands.get(i)) new_pos.add(pos.get(i));
-            c += rands.get(i);
+        while(j < rands.size()){
 
-            if(new_pos.size() >= count)
+            while(cum < rands.get(j)) {
+                double s = scores.get(seq.get(i++));
+                //System.out.println(seq.get(i-1) + " " + s);
+
+                cum += s;
+            }
+
+            j++;
+
+            new_pos.add(pos.get(i-1));
+            //System.out.println(pos.get(i) + " " + seq.get(i-1) +  " " + scores.get(seq.get(i-1)));
+
+            if(i >= pos.size() || new_pos.size() >= count)
                 break;
         }
 
-        return new_pos;
+        return new PrecalcBackgroundModel(assembly, new_pos);
     }
 
+    /**
+     * Scores a sequence against a logo. Returns a similarity values between 0.0 and 1.0 (inclusive)
+     *
+     * @param logo - logo to match against
+     * @param sequence - sequence to match
+     *
+     * @return similarity from 0.0 to 1.0
+     */
     Double score(Logo logo, String sequence) {
         double score = 0.0;
         sequence = sequence.toLowerCase();
 
         List<List<Map<String, String>>> values =  logo.getValues();
 
-        for(List<Map<String, String>> position: values) { // for each position
-            int i = 0;
+        int i = 0; // sequence position counter
 
-            for (Map<String, String> letter : position) { //for each letter
-                if(letter.get("letter").equals(Character.toString(sequence.charAt(i++))))
+        for(List<Map<String, String>> position: values) { // for each position
+
+            for (Map<String, String> letter : position) //for each letter
+                if(i < sequence.length() && letter.get("letter").equals(Character.toString(sequence.charAt(i))))
                     score += Double.parseDouble(letter.get("bits"))/2;
-            }
+                else
+                    score -= Double.parseDouble(letter.get("bits"))/4;
+
+            i++;
         }
 
         score /= values.size();
 
+        if(score < 0) score = 0.;
+
         return score;
     }
+
+
 }
