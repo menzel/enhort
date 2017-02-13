@@ -15,9 +15,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -39,7 +37,7 @@ public class SiteFactoryTest {
             e.printStackTrace();
         }
 
-        factory = new SiteFactory(GenomeFactory.Assembly.hg19, 2000);
+        factory = new SiteFactory(GenomeFactory.Assembly.hg19, 100000);
 
     }
 
@@ -64,11 +62,16 @@ public class SiteFactoryTest {
 
         Logo logo = LogoCreator.createLogo(sequences);
 
-        assertEquals(1., factory.score(logo, "CCAT"), 0.2);
+        assertEquals(0.65, factory.score(logo, "CCAT"), 0.1);
+        assertEquals(0.0, factory.score(logo, "GGGG"), 0.1);
+        assertEquals(.2, factory.score(logo, "GGAG"), 0.1);
 
-        assertEquals(.5d, factory.score(logo, "GGGG"), 0.2);
+        List<String> sequences2 = new ArrayList<>();
+        sequences2.add("TA");
+        sequences2.add("TA");
 
-        assertEquals(.2, factory.score(logo, "GGAG"), 0.2);
+        Logo logo2 = LogoCreator.createLogo(sequences2);
+        assertEquals(1., factory.score(logo2, "TA"), 0.1);
     }
 
     @Test
@@ -81,7 +84,7 @@ public class SiteFactoryTest {
         int in = 50;
         int out = 100;
 
-        List<Long> pos = factory.getSites(track, in, out);
+        List<Long> pos = factory.getSites(track, in, out).getPositions();
 
         Sites sites = new Sites() {
             @Override
@@ -128,9 +131,44 @@ public class SiteFactoryTest {
 
         Logo logo = LogoCreator.createLogo(sequences);
 
-        factory.getByLogo(logo, 100);
+        List<Long> sites = factory.getByLogo(logo, 100).getPositions();
+        List<String> seq = GenomeFactory.getInstance().getSequence(GenomeFactory.Assembly.hg19, sites,4, Integer.MAX_VALUE);
+        Logo newLogo = LogoCreator.createLogo(seq);
+
+
+        System.out.println(newLogo.getConsensus());
+
+        assertEquals(newLogo.getConsensus(), "AATT");
     }
 
 
+    @Test
+    public void getSitesByLogo() throws Exception {
 
+        //mock logo
+        Logo logo = new Logo();
+
+        Map<String, Double> a = new HashMap<>();
+        Map<String, Double> b = new HashMap<>();
+
+        a.put("T",1d);
+        a.put("A",0.5);
+        b.put("A",2d);
+
+        logo.add(a);
+        logo.add(b);
+
+        List<Long> sites = factory.getByLogo(logo, 10).getPositions();
+        List<String> seq = GenomeFactory.getInstance().getSequence(GenomeFactory.Assembly.hg19, sites,4, Integer.MAX_VALUE);
+
+        assert seq != null;
+        assertEquals(seq.size(), 10);
+
+        Logo newLogo = LogoCreator.createLogo(seq);
+
+        //compare newLogo and logo
+
+        //System.out.println(logo.getConsensus());
+        //System.out.println(newLogo.getConsensus());
+    }
 }
