@@ -55,6 +55,19 @@ public final class TrackFactory {
         return instance;
     }
 
+
+    /**
+     * Public method to load a single track by given path
+     *
+     * @param path to track
+     * @throws IOException if something goes wrong while loading the track
+     */
+    public void loadTrack(Path path) throws IOException {
+        Track track;
+        track = getTracks(path, Type.inout, GenomeFactory.Assembly.hg19).get(0);
+        this.tracks.add(track);
+    }
+
     /**
      * Loads tracks from basePath dir.
      * Call once at start. Fills this.tracks with all tracks from the dirs.
