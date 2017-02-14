@@ -62,9 +62,17 @@ public class SiteFactoryTest {
 
         Logo logo = LogoCreator.createLogo(sequences);
 
-        assertEquals(0.65, factory.score(logo, "CCAT"), 0.1);
-        assertEquals(0.0, factory.score(logo, "GGGG"), 0.1);
-        assertEquals(.2, factory.score(logo, "GGAG"), 0.1);
+
+        List<String> seq = new ArrayList<>();
+        seq.add("CCAT");
+        seq.add("GGGG");
+        seq.add("GGAG");
+
+        Map<String,Double> results =  factory.calculateScores(logo, seq);
+
+        assertEquals(1.0, results.get("CCAT"), 0.1);
+        assertEquals(0.0, results.get("GGGG"), 0.1);
+        assertEquals(.1, results.get("GGAG"), 0.1);
 
         List<String> sequences2 = new ArrayList<>();
         sequences2.add("TA");
