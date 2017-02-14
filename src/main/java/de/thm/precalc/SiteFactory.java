@@ -95,15 +95,10 @@ public final class SiteFactory {
         List<Long> pos = indexTable.getPositions();
         List<Long> new_pos = new ArrayList<>();
         MersenneTwister rand = new MersenneTwister();
-        Map<String, Double> scores = new HashMap<>();
-
-        //calc scores for each sequence and put in a map
-        seq.stream().collect(Collectors.toSet()).forEach(s -> scores.put(s, score(logo,s)));
+        Map<String, Double> scores = calculateScores(logo, seq);
 
         //select scores based on propability
         double sum = scores.values().stream().mapToDouble(d -> d).sum();
-
-        if(sum <= 0.0) System.err.println("No fitting scores found (sitefactory)"); //TODO handle somehow (pseudocount?)
 
         List<Double> rands = new ArrayList<>();
         IntStream.range(0, count).forEach(i -> rands.add(rand.nextDouble()*sum));
@@ -117,21 +112,42 @@ public final class SiteFactory {
 
             while(cum < rands.get(j)) {
                 double s = scores.get(seq.get(i++));
-                //System.out.println(seq.get(i-1) + " " + s);
-
                 cum += s;
             }
 
             j++;
 
             new_pos.add(pos.get(i-1));
-            //System.out.println(pos.get(i) + " " + seq.get(i-1) +  " " + scores.get(seq.get(i-1)));
 
             if(i >= pos.size() || new_pos.size() >= count)
                 break;
         }
 
         return new PrecalcBackgroundModel(assembly, new_pos);
+    }
+
+    /**
+     *
+     * Calculates the scores for a given list of sequences using the score function
+     * Result values are streched to by the factor 1/max to have the highest value to be 1.0
+     *
+     * @param logo - logo to match against
+     * @param seq - sequences to score
+     *
+     * @return scores as a map of sequences to scores
+     */
+    Map<String,Double> calculateScores(Logo logo, List<String> seq) {
+
+        Map<String, Double> scores = new HashMap<>();
+
+        //calc scores for each sequence and put in a map
+        seq.stream().collect(Collectors.toSet()).forEach(s -> scores.put(s, score(logo,s)));
+
+        //strech all scores by factor: 1/max_score to set highest score to 1.0
+        double factor = 1/Collections.max(scores.values());
+        scores.keySet().forEach(i -> scores.put(i, scores.get(i) * factor));
+
+        return scores;
     }
 
     /**
@@ -143,7 +159,7 @@ public final class SiteFactory {
      * @return similarity from 0.0 to 1.0
      */
     Double score(Logo logo, String sequence) {
-        double score = 0.0;
+        double score = 1.0;
         sequence = sequence.toLowerCase();
 
         List<List<Map<String, String>>> values =  logo.getValues();
@@ -154,19 +170,13 @@ public final class SiteFactory {
 
             for (Map<String, String> letter : position) //for each letter
                 if(i < sequence.length() && letter.get("letter").equals(Character.toString(sequence.charAt(i))))
-                    score += Double.parseDouble(letter.get("bits"))/2;
-                else
-                    score -= Double.parseDouble(letter.get("bits"))/4;
+                    score *= Double.parseDouble(letter.get("bits"))/2  + 0.001;
 
             i++;
         }
 
-        score /= values.size();
-
-        if(score < 0) score = 0.;
+        if(score == 1.0) return 0.0; // set score to 0 for sequence with no match (eg. nn...n)
 
         return score;
     }
-
-
 }
