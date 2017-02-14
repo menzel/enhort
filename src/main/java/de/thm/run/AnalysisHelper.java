@@ -9,6 +9,8 @@ import de.thm.genomeData.TrackPackage;
 import de.thm.logo.GenomeFactory;
 import de.thm.logo.LogoCreator;
 import de.thm.positionData.Sites;
+import de.thm.precalc.SiteFactory;
+import de.thm.precalc.SiteFactoryFactory;
 import de.thm.spring.command.BackendCommand;
 import de.thm.stat.ResultCollector;
 
@@ -65,8 +67,12 @@ class AnalysisHelper {
         Double influence = cmd.getInfluence();
         int minSites = cmd.getMinBg();
 
+
         if (cmd.isLogoCovariate()) {
-            bg = BackgroundModelFactory.createBackgroundModel(sites.getAssembly(), LogoCreator.createLogo(sites), minSites);
+            //bg = BackgroundModelFactory.createBackgroundModel(sites.getAssembly(), LogoCreator.createLogo(sites), minSites);
+
+            SiteFactory factory = SiteFactoryFactory.getInstance().get(sites.getAssembly());
+            bg = factory.getByLogo(LogoCreator.createLogo(sites), minSites);
         } else if (covariants.isEmpty()){
             bg = BackgroundModelFactory.createBackgroundModel(sites.getAssembly(), sites.getPositionCount()); //check if minSites is larger
         } else {
