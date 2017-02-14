@@ -109,9 +109,9 @@ class SiteCreator {
 
     private class PropWrapper implements Runnable{
 
-        private Track track;
-        private List<Long> positions;
-        private IndexTable indexTable;
+        private final Track track;
+        private final List<Long> positions;
+        private final IndexTable indexTable;
 
         PropWrapper(Track track, List<Long> positions, IndexTable indexTable) {
 

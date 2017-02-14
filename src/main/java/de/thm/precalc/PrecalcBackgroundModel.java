@@ -11,7 +11,7 @@ import java.util.List;
  *
  * Created by menzel on 2/13/17.
  */
-public class PrecalcBackgroundModel implements Sites {
+final class PrecalcBackgroundModel implements Sites {
 
     private final GenomeFactory.Assembly assembly;
     private List<Long> positions;

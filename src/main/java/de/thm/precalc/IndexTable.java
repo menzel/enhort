@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  */
 class IndexTable {
 
-    private Map<Track, List<Integer>> props = new ConcurrentHashMap<>();
+    private final Map<Track, List<Integer>> props = new ConcurrentHashMap<>();
     private List<Long> positions = new ArrayList<>();
     private List<String> sequences = new ArrayList<>();
 

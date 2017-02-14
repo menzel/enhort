@@ -10,9 +10,9 @@ import java.util.Map;
  *
  * Created by menzel on 2/13/17.
  */
-public class SiteFactoryFactory {
+public final class SiteFactoryFactory {
     private static SiteFactoryFactory instance;
-    private Map<GenomeFactory.Assembly, SiteFactory> factories;
+    private final Map<GenomeFactory.Assembly, SiteFactory> factories;
 
     private SiteFactoryFactory(){
         factories = new HashMap<>();

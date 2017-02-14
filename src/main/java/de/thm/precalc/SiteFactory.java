@@ -17,9 +17,9 @@ import java.util.stream.IntStream;
  *
  * Created by menzel on 2/8/17.
  */
-public final class SiteFactory {
+final class SiteFactory {
 
-    private GenomeFactory.Assembly assembly;
+    private final GenomeFactory.Assembly assembly;
     private IndexTable indexTable = new IndexTable();
 
     /**
