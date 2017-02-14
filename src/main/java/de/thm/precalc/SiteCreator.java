@@ -2,7 +2,6 @@ package de.thm.precalc;
 
 import de.thm.backgroundModel.BackgroundModelFactory;
 import de.thm.genomeData.Track;
-import de.thm.genomeData.TrackFactory;
 import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
 
@@ -16,7 +15,6 @@ import java.util.concurrent.*;
  * Created by menzel on 2/8/17.
  */
 class SiteCreator {
-    private ExecutorService exe;
 
     /**
      * Creates an indexTable for a given assembly and count of positions
@@ -28,35 +26,33 @@ class SiteCreator {
      */
     IndexTable create(GenomeFactory.Assembly assembly, int count) {
 
-        List<Track> tracks = TrackFactory.getInstance().getTracks(assembly).subList(0,1);
-        BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(tracks.size());
-        exe = new ThreadPoolExecutor(4, 32, 59L, TimeUnit.SECONDS, queue);
-
         IndexTable indexTable = new IndexTable();
-
         Sites model = BackgroundModelFactory.createBackgroundModel(assembly, count);
         List<Long> positions = model.getPositions();
         indexTable.setPositions(positions);
+        List<Track> tracks = new ArrayList<>(); //TrackFactory.getInstance().getTracks(assembly);
 
-        // fill for all basic tracks
-        for(Track track: tracks){
-            PropWrapper propWrapper = new PropWrapper(track, positions, indexTable);
-            exe.execute(propWrapper);
-        }
+        if(tracks.size() > 0) { //only call threads if there is work to do
 
+            BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(tracks.size());
+            ExecutorService exe = new ThreadPoolExecutor(4, 32, 59L, TimeUnit.SECONDS, queue);
 
-        exe.shutdown();
+            // fill for all basic tracks
+            for (Track track : tracks) exe.execute(new PropWrapper(track, positions, indexTable));
 
-        try {
-            exe.awaitTermination(2, TimeUnit.MINUTES);
+            exe.shutdown();
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            exe.shutdownNow();
-        } finally {
-            if(!exe.isTerminated())
-                System.err.println("Killing all precalc tasks now");
-            exe.shutdownNow();
+            try {
+                exe.awaitTermination(2, TimeUnit.MINUTES);
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                exe.shutdownNow();
+            } finally {
+                if (!exe.isTerminated())
+                    System.err.println("Killing all precalc tasks now");
+                exe.shutdownNow();
+            }
         }
 
         // fill sequences
