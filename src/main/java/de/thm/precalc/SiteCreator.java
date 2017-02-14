@@ -18,9 +18,17 @@ import java.util.concurrent.*;
 class SiteCreator {
     private ExecutorService exe;
 
+    /**
+     * Creates an indexTable for a given assembly and count of positions
+     *
+     * @param assembly - assembly number
+     * @param count - count of positions to create
+     *
+     * @return indextable with count positions
+     */
     IndexTable create(GenomeFactory.Assembly assembly, int count) {
 
-        List<Track> tracks = TrackFactory.getInstance().getTracks(assembly);
+        List<Track> tracks = TrackFactory.getInstance().getTracks(assembly).subList(0,1);
         BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(tracks.size());
         exe = new ThreadPoolExecutor(4, 32, 59L, TimeUnit.SECONDS, queue);
 
@@ -119,7 +127,7 @@ class SiteCreator {
         @Override
         public void run() {
             indexTable.setProperties(track,fill_inout(positions, track));
-            System.out.println("loaded " + track.getName());
+            //System.out.println("loaded " + track.getName());
         }
     }
 }
