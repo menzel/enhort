@@ -9,8 +9,12 @@ import org.apache.commons.math3.random.MersenneTwister;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
+ * Factory class to provide access to sites created by the site creator.
+ * Stores the sites for a given assembly
+ *
  * Created by menzel on 2/8/17.
  */
 public final class SiteFactory {
@@ -18,14 +22,29 @@ public final class SiteFactory {
     private GenomeFactory.Assembly assembly;
     private IndexTable indexTable = new IndexTable();
 
-    public SiteFactory(GenomeFactory.Assembly assembly, int count) {
+    /**
+     * Creates a site factory with given count for given assembly
+     *
+     * @param assembly - assembly number
+     * @param count - count of positions to precalculate
+     */
+    SiteFactory(GenomeFactory.Assembly assembly, int count) {
         this.assembly = assembly;
 
         SiteCreator creator = new SiteCreator();
         indexTable = creator.create(assembly, count);
     }
 
-    public Sites getSites(Track track, int in, int out){
+    /**
+     * Gets sites that have given inout count on the given track
+     *
+     * @param track - track to observe
+     * @param in - inside count
+     * @param out - outside count
+     *
+     * @return returns n (for n = in+out) positions
+     */
+    Sites getSites(Track track, int in, int out){
 
         List<Long> positions = new ArrayList<>();
 
@@ -63,30 +82,31 @@ public final class SiteFactory {
     }
 
 
+    /**
+     * Returns count positions that have a similar logo together as the given logo.
+     *
+     * @param logo - logo to fit sites to
+     * @param count - count of positions to return
+     *
+     * @return positions with a logo similar to logo
+     */
     public Sites getByLogo(Logo logo, int count){
         List<String> seq = indexTable.getSequences(logo.getConsensus().length());
         List<Long> pos = indexTable.getPositions();
         List<Long> new_pos = new ArrayList<>();
         MersenneTwister rand = new MersenneTwister();
-
         Map<String, Double> scores = new HashMap<>();
 
-        //create scores for each seq
-        // for(String s: seq.stream().collect(Collectors.toSet())) {
-        for(String s: seq.stream().collect(Collectors.toSet())) {
-            if(!scores.containsKey(s))
-                scores.put(s, score(logo,s));
-        }
+        //calc scores for each sequence and put in a map
+        seq.stream().collect(Collectors.toSet()).forEach(s -> scores.put(s, score(logo,s)));
 
         //select scores based on propability
         double sum = scores.values().stream().mapToDouble(d -> d).sum();
-        if(sum <= 0.0) System.err.println("No fitting scores found");
 
+        if(sum <= 0.0) System.err.println("No fitting scores found (sitefactory)"); //TODO handle somehow (pseudocount?)
 
         List<Double> rands = new ArrayList<>();
-
-        for(int i = 0; i <= count; i++)
-            rands.add(rand.nextDouble()*sum); //get some random values
+        IntStream.range(0, count).forEach(i -> rands.add(rand.nextDouble()*sum));
         Collections.sort(rands);
 
         double cum = 0;
