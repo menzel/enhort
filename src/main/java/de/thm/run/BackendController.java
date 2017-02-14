@@ -4,6 +4,7 @@ import de.thm.exception.CovariantsException;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
 import de.thm.misc.TrackBuilder;
+import de.thm.precalc.SiteFactoryFactory;
 import de.thm.spring.command.BackendCommand;
 import de.thm.spring.command.Command;
 import de.thm.spring.command.ExpressionCommand;
@@ -50,6 +51,8 @@ public final class BackendController {
             e.printStackTrace();
             System.exit(1);
         }
+
+        SiteFactoryFactory.getInstance();
     }
 
 
@@ -192,6 +195,7 @@ public final class BackendController {
                     }
                 } catch (IOException | ClassCastException e) {
                     System.err.println(prefix + " connection problem " + e.getMessage());
+                    e.printStackTrace();
                 } catch (Exception e){
                     e.printStackTrace();
                 }
