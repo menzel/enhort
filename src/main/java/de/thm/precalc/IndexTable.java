@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
- * Matrix-like table
+ * Matrix-like table to store precalculated site information
  *
  * Created by menzel on 2/8/17.
  */
@@ -21,11 +21,24 @@ class IndexTable {
     private List<Long> positions = new ArrayList<>();
     private List<String> sequences = new ArrayList<>();
 
+    /**
+     * Returns the list of position-specific inside and outside
+     *
+     * @param track - track from which the data is to be retrieved
+     *
+     * @return List of positions and their properties for the given track
+     */
     Pair<List<Long>, List<Integer>> getByTrack(Track track){
 
         return new ImmutablePair<>(positions, props.get(track));
     }
 
+    /**
+     * Sets a new property for the known positions for a track
+     *
+     * @param track - track from whicht the inout properties were calculatd
+     * @param vals - list of in (1) out (0) values
+     */
     void setProperties(Track track, List<Integer> vals){
         props.put(track, vals);
     }
