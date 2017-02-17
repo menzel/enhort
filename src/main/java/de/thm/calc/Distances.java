@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
  */
 public final class Distances implements TestTrack<DistanceTrack>{
 
+    private static final int distanceRadius = 5000; //radius to be observed around a position
+
 
     /**
      * Calculates the intersect between an interval and some points. Handles in/out count, names and scores.
@@ -76,7 +78,7 @@ public final class Distances implements TestTrack<DistanceTrack>{
              distances.add(min(upstream,downstream));
         }
 
-        return distances.stream().filter(l -> l < 5000 && l > -5000).collect(Collectors.toList());
+        return distances.stream().filter(l -> l < distanceRadius && l > -distanceRadius).collect(Collectors.toList());
     }
 
     /**
