@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
  *
  * Created by menzel on 2/8/17.
  */
-final class SiteFactory {
+public final class SiteFactory {
 
     private final GenomeFactory.Assembly assembly;
     private IndexTable indexTable = new IndexTable();
@@ -147,6 +147,25 @@ final class SiteFactory {
         double factor = 1/Collections.max(scores.values());
         scores.keySet().forEach(i -> scores.put(i, scores.get(i) * factor));
 
+
+        //print best scores
+        /*
+
+        List<Double> tmp = new ArrayList<>(scores.values());
+        Collections.sort(tmp);
+        Collections.reverse(tmp);
+
+        for(Double d: tmp.subList(0,min(10,tmp.size()-1))){
+            for(String key: scores.keySet()){
+                if(scores.get(key).equals(d)){
+                    System.out.println(key + " " + d);
+                }
+            }
+        }
+        */
+
+
+
         return scores;
     }
 
@@ -161,21 +180,26 @@ final class SiteFactory {
     Double score(Logo logo, String sequence) {
         double score = 1.0;
         sequence = sequence.toLowerCase();
+        double pseudocount = Double.MIN_VALUE;
+
+        //remove all seq that have 'n' positons, because those screw up the score calc. TODO multiply some really number for 'n' bases
+        if(sequence.contains("n")) return 0.0;
 
         List<List<Map<String, String>>> values =  logo.getValues();
 
         int i = 0; // sequence position counter
 
         for(List<Map<String, String>> position: values) { // for each position
+            String base = Character.toString(sequence.charAt(i));
 
-            for (Map<String, String> letter : position) //for each letter
-                if(i < sequence.length() && letter.get("letter").equals(Character.toString(sequence.charAt(i))))
-                    score *= Double.parseDouble(letter.get("bits"))/2  + 0.001;
-
+            for (Map<String, String> letter : position) { //for each letter
+                if (i < sequence.length() && letter.get("letter").equals(base)) {
+                    score *= Double.parseDouble(letter.get("bits")) / 2 + pseudocount;
+                }
+            }
             i++;
         }
 
-        if(score == 1.0) return 0.0; // set score to 0 for sequence with no match (eg. nn...n)
 
         return score;
     }
