@@ -77,7 +77,8 @@ public final class BackgroundModelFactory {
      * @param trackList - list of covariant tracks
      * @param sites - sites to set the probabilities for the background positions
      * @return background model as sites object.
-     * @throws CovariantsException
+     *
+     * @throws CovariantsException - if there are too many covariants
      */
     public static Sites createBackgroundModel(List<Track> trackList, Sites sites, double influence) throws CovariantsException {
         return createBackgroundModel(trackList, sites, sites.getPositionCount(), influence);
@@ -91,7 +92,7 @@ public final class BackgroundModelFactory {
      * @param sites - sites to set the probabilities for the background positions
      * @param minSites - minimum expected sites count
      * @return background model as sites object.
-     * @throws CovariantsException
+     * @throws CovariantsException - if there are too many covariants
      */
     public static Sites createBackgroundModel(List<Track> trackList, Sites sites, int minSites, double influence) throws CovariantsException {
 
