@@ -3,7 +3,6 @@ package de.thm.backgroundModel;
 import de.thm.exception.CovariantsException;
 import de.thm.genomeData.*;
 import de.thm.logo.GenomeFactory;
-import de.thm.logo.Logo;
 import de.thm.positionData.Sites;
 
 import java.util.List;
@@ -33,23 +32,6 @@ public final class BackgroundModelFactory {
         return new RandomBackgroundModel(assembly, positionCount);
     }
 
-
-    /**
-     * Creates a background model based on a sequence logo through @see backgroundModel.LogoBackgroundModel
-     *
-     * @param assembly - assembly nr
-     * @param logo  - sequencelogo @see logo.Logo
-     * @param positionCount - count of positions to set
-     *
-     * @return sites with the given logo
-     */
-    public static Sites createBackgroundModel(GenomeFactory.Assembly assembly, Logo logo, int positionCount) {
-
-        return new LogoBackgroundModel(assembly, logo, positionCount);
-    }
-
-
-
     /**
      * Creates a background model based on one track as covariant, the given sites and a minimum of sites to create.
      *
@@ -74,6 +56,8 @@ public final class BackgroundModelFactory {
      * @return background model as sites object.
      */
     public static Sites createBackgroundModel(Track track, Sites sites, int minSites, double influence) {
+        if(minSites < 10000) minSites = 10000;
+
         if (track instanceof InOutTrack)
             return new SingleTrackBackgroundModel((InOutTrack) track, sites,minSites);
         else if (track instanceof ScoredTrack) // put single track in a list of size one

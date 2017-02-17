@@ -12,6 +12,7 @@ import java.util.List;
  *
  * Created by menzel on 11/24/16.
  */
+@Deprecated
 class LogoBackgroundModel implements Sites {
 
     private final GenomeFactory.Assembly assembly;
