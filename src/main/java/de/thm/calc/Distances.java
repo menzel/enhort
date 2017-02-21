@@ -27,7 +27,9 @@ public final class Distances implements TestTrack<DistanceTrack>{
      */
     @Override
     public TestTrackResult searchTrack(DistanceTrack track, Sites sites) {
-        List<Double> distances = distancesToNext(track, sites).stream().map(Long::doubleValue).collect(Collectors.toList());
+        List<Double> distances = distancesToNext(track, sites).stream()
+                                                              .map(Long::doubleValue)
+                                                              .collect(Collectors.toList());
 
         return new TestTrackResult(track, sites.getPositionCount(), 0, distances);
     }
