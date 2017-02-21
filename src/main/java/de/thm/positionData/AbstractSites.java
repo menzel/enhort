@@ -1,5 +1,7 @@
 package de.thm.positionData;
 
+import de.thm.logo.GenomeFactory;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.List;
 public abstract class AbstractSites implements Sites {
 
     private List<Long> positions = new ArrayList<>();
+    private GenomeFactory.Assembly assembly;
 
     @Override
     public void addPositions(Collection<Long> values) {
@@ -33,4 +36,10 @@ public abstract class AbstractSites implements Sites {
     public int getPositionCount() {
         return positions.size();
     }
+
+    @Override
+    public GenomeFactory.Assembly getAssembly() {
+        return this.assembly;
+    }
 }
+
