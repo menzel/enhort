@@ -107,10 +107,17 @@ label{
 }
 
 #hotspots{
-    width: 900px;
     height:10px;
     transition:height 0.5s;
+    float: left;
 }
+
+#hotspot_info{
+    float: left;
+    font-size:10px;
+    color: #7493af;
+}
+
 #hotspots:hover{
     height:80px;
 }
