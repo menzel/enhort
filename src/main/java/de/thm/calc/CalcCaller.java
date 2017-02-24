@@ -4,6 +4,7 @@ import de.thm.genomeData.*;
 import de.thm.logo.GenomeFactory;
 import de.thm.logo.Logo;
 import de.thm.logo.LogoCreator;
+import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
 import de.thm.stat.EffectSize;
 import de.thm.stat.IndependenceTest;
@@ -78,7 +79,7 @@ public final class CalcCaller {
 
         //////////// Hotspots ////////////////
         Hotspot hotspot = new Hotspot(); // TODO create wrapper in put inside thread
-        ScoredTrack hotspots = hotspot.findHotspots(measuredPositions, 2500000); // windows size = genomize_size/1200 (1200 px image width)
+        ScoredTrack hotspots = hotspot.findHotspots(measuredPositions, (int) (ChromosomSizes.getInstance().getGenomeSize(measuredPositions.getAssembly())/60));
 
         collector.addHotspot(hotspots);
 
