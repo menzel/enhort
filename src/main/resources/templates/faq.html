@@ -46,9 +46,8 @@
 
                 <h3>How is the Fold Change calculated</h3>
                 <hr/>
-                <p> If data and background inside counts are below .5% the value is set to 0.0</p>
                 <p> If one of the counts is 0 the value is set to POSITIVE_INFINITY</p>
-                <p> In all other cases the inside and outside counts of data and background are divided and the absolute log2 is returned. </p>
+                <p> In all other cases the the maximum of ( maximum inside / minimum inside and maximum outside / maximum outside) is calculated.<p>
 
                 <h3>If a scored track is set as covariant, the P-value is not always exact 1</h3>
                 <hr/>
@@ -72,7 +71,7 @@
                 <h3>Hotspots bar</h3>
                 <hr/>
                 <p>The plot above the results table shows hotspots from integration across the genome with colors. The hotspots were calculated with a sliding window across the genome where the count of integration sites inside the window was countd</p>
-                <p>Colors in the plot repesent the integration frequency, rgb(0,0,255) shows the region with the highest integration count while black bars represent no or very few integration sites.</p>
+                <p>Colors in the plot repesent the integration frequency, blue bars show the region with the highest integration count while white bars represent no or very few integration sites.</p>
                 <p>High contrast shows there are hotspots, even distributed colors show the absence of hotspots.</p>
 
                 <h3>How to download background positions?</h3>

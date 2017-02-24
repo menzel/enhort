@@ -122,7 +122,7 @@
     <div class="container row col-md-12">
 
         <th:block th:if="${ran}">
-            <div id="hotspots" data-toggle="tooltip" data-placement="right" title="Hotspots across the genome. Darker bars represent less integration sites while the highest integration site is shown in blue. See FAQ for more information.">
+            <div id="hotspots" data-toggle="tooltip" data-placement="right" title="Hotspots across the genome. Lighter bars represent less integration sites while the highest integration site is shown in darker blue. See FAQ for more information.">
 
                 <th:block th:each="pixel: ${interfaceCommand.hotspots}">
                     <div class="hotspot" th:style="'background-color:hsl(231,100%,' + ${pixel} + '%);'"></div>
