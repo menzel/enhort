@@ -19,12 +19,12 @@ import java.util.concurrent.*;
  * <p>
  * Created by Michael Menzel on 11/1/16.
  */
-public final class IntersectCaller {
+public final class CalcCaller {
 
     private static final int threadCount = 32;
     private final ExecutorService exe;
 
-    public IntersectCaller() {
+    public CalcCaller() {
         BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(1024);
         exe = new ThreadPoolExecutor(4, threadCount, 5L, TimeUnit.SECONDS, queue);
     }
@@ -41,6 +41,7 @@ public final class IntersectCaller {
      */
     public ResultCollector execute(List<Track> tracks, Sites measuredPositions, Sites randomPositions, boolean createLogo) {
 
+        ////////////  Tracks intersect ////////////////
 
         ResultCollector collector = new ResultCollector(randomPositions, tracks.get(0).getAssembly()); // get assembly from the first track
 
@@ -61,6 +62,10 @@ public final class IntersectCaller {
             }
         }
 
+        ////////////  Tracks intersect ////////////////
+
+        //////////// Logo ////////////////
+
         if(createLogo && measuredPositions.getAssembly().equals(GenomeFactory.Assembly.hg19)){
             LogoWrapper logoWrapper = new LogoWrapper(measuredPositions,collector, tracks.get(0).getAssembly());
             exe.execute(logoWrapper);
@@ -68,6 +73,17 @@ public final class IntersectCaller {
             LogoWrapper logoWrapper2 = new LogoWrapper(randomPositions, collector, tracks.get(0).getAssembly());
             exe.execute(logoWrapper2);
         }
+
+        //////////// Logo ////////////////
+
+        //////////// Hotspots ////////////////
+        Hotspot hotspot = new Hotspot(); // TODO create wrapper in put inside thread
+        ScoredTrack hotspots = hotspot.findHotspots(measuredPositions, 2500000); // windows size = genomize_size/1200 (1200 px image width)
+
+        collector.addHotspot(hotspots);
+
+        //////////// Hotspots ////////////////
+
 
         exe.shutdown();
 
