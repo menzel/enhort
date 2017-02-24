@@ -1,5 +1,6 @@
 package de.thm.stat;
 
+import de.thm.genomeData.ScoredTrack;
 import de.thm.genomeData.TrackFactory;
 import de.thm.logo.GenomeFactory;
 import de.thm.logo.Logo;
@@ -28,6 +29,7 @@ public final class ResultCollector implements Serializable{
     private List<String> knownPackages; //keeps a list of all known packages for the gui to display
     private Logo logo;
     private Logo other_logo;
+    private ScoredTrack hotspots;
 
     public ResultCollector(Sites bgModel, GenomeFactory.Assembly assembly) {
         results = Collections.synchronizedList(new ArrayList<>());
@@ -241,5 +243,13 @@ public final class ResultCollector implements Serializable{
         }
 
         return Precision.round(sum/values.size()*10,2);
+    }
+
+    public void addHotspot(ScoredTrack hotspots) {
+        this.hotspots = hotspots;
+    }
+
+    public ScoredTrack getHotspots() {
+        return hotspots;
     }
 }
