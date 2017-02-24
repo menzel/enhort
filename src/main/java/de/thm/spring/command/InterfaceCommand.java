@@ -1,10 +1,13 @@
 package de.thm.spring.command;
 
+import de.thm.genomeData.ScoredTrack;
 import de.thm.genomeData.TrackPackage;
 import de.thm.positionData.Sites;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Command object to send from controller to view.
@@ -22,6 +25,7 @@ public final class InterfaceCommand {
     private String assembly;
     private boolean logoCovariate;
     private boolean createLogo;
+    private ScoredTrack hotspots;
 
     public InterfaceCommand() {
         covariants = new ArrayList<>();
@@ -122,5 +126,14 @@ public final class InterfaceCommand {
 
     public void setCreateLogo(boolean createLogo) {
         this.createLogo = createLogo;
+    }
+
+    public List<Integer> getHotspots() {
+        double factor = 255/Collections.max(hotspots.getIntervalScore());
+        return hotspots.getIntervalScore().stream().map(i -> i*factor).map(Double::intValue).collect(Collectors.toList());
+    }
+
+    public void setHotspots(ScoredTrack hotspots) {
+        this.hotspots = hotspots;
     }
 }

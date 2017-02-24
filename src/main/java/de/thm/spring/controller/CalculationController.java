@@ -377,6 +377,7 @@ public class CalculationController {
 
         model.addAttribute("insig_results", collector.getInsignificantResults());
 
+        cmd.setHotspots(collector.getHotspots());
         cmd.setAssembly(cmd.getAssembly() == null? "hg19": cmd.getAssembly()); //set assembly nr if there was none set in the previous run
         model.addAttribute("interfaceCommand", cmd);
 
