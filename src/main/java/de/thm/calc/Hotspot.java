@@ -9,16 +9,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Hotspot calculator across the genome. Returns a track with integration scores for sliding windows
+ *
  * Created by menzel on 2/21/17.
  */
-public class Hotspot {
+class Hotspot {
 
-    public ScoredTrack findHotspots(Sites sites, int windowSize){
+    /**
+     * Find hotspots with sliding window. Returns a track with found integration scores as count for the window
+     *
+     * @param sites - sites to measure
+     * @param windowSize - window size for sliding windows, should be large enough to reduce computation time
+     *
+     * @return track with integration count as scores
+     */
+    ScoredTrack findHotspots(Sites sites, int windowSize){
 
         long genomeSize = ChromosomSizes.getInstance().getGenomeSize(sites.getAssembly());
-        List<Long> starts = new ArrayList<>();
-        List<Long> ends = new ArrayList<>();
-        List<Double> score = new ArrayList<>();
+
+        int size = (int) (genomeSize/(windowSize/10));
+
+        List<Long> starts = new ArrayList<>(size);
+        List<Long> ends = new ArrayList<>(size);
+        List<Double> score = new ArrayList<>(size);
         List<Long> positions = sites.getPositions();
 
         //TODO smart algorithm for sliding window
