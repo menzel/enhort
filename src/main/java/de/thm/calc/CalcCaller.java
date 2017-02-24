@@ -78,10 +78,8 @@ public final class CalcCaller {
         //////////// Logo ////////////////
 
         //////////// Hotspots ////////////////
-        Hotspot hotspot = new Hotspot(); // TODO create wrapper in put inside thread
-        ScoredTrack hotspots = hotspot.findHotspots(measuredPositions, (int) (ChromosomSizes.getInstance().getGenomeSize(measuredPositions.getAssembly())/60));
-
-        collector.addHotspot(hotspots);
+        HotspotWrapper hotspotWrapper = new HotspotWrapper(measuredPositions, collector);
+        exe.execute(hotspotWrapper);
 
         //////////// Hotspots ////////////////
 
@@ -223,6 +221,24 @@ public final class CalcCaller {
             Logo logo = LogoCreator.createLogo(genome.getSequence(assembly, measuredPos, width, count));
 
             collector.addLogo(logo);
+        }
+    }
+
+    private class HotspotWrapper implements Runnable{
+        private Sites measuredPositions;
+        private ResultCollector collector;
+
+        private HotspotWrapper(Sites measuredPositions, ResultCollector collector) {
+
+            this.measuredPositions = measuredPositions;
+            this.collector = collector;
+        }
+
+        @Override
+        public void run() {
+            Hotspot hotspot = new Hotspot();
+            ScoredTrack hotspots = hotspot.findHotspots(measuredPositions, (int) (ChromosomSizes.getInstance().getGenomeSize(measuredPositions.getAssembly())/60));
+            collector.addHotspot(hotspots);
         }
     }
 }
