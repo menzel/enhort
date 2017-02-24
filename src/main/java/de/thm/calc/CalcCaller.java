@@ -21,8 +21,15 @@ import java.util.concurrent.*;
  * Created by Michael Menzel on 11/1/16.
  */
 public final class CalcCaller {
+    private static final int threadCount;
 
-    private static final int threadCount = 32;
+    static {
+        if(System.getenv("HOME").contains("menzel")) {
+            threadCount = 16; //local
+        } else {
+            threadCount = 64; //remote
+        }
+    }
     private final ExecutorService exe;
 
     public CalcCaller() {
