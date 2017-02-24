@@ -107,19 +107,18 @@ label{
 }
 
 #hotspots{
-    width: 1200px;
+    width: 900px;
     height:10px;
     transition:height 0.5s;
 }
 #hotspots:hover{
-    height:50px;
+    height:80px;
 }
 
 .hotspot{
     width:1.5px;
     height:inherit;
     float: left;
-    filter: inherit;
 }
 
 
