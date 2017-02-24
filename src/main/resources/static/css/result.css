@@ -105,6 +105,25 @@ th{
 label{
     font-weight: 400;
 }
+
+#hotspots{
+    width: 1200px;
+    height:10px;
+    transition:height 0.5s;
+}
+#hotspots:hover{
+    height:50px;
+}
+
+.hotspot{
+    width:1.5px;
+    height:inherit;
+    float: left;
+    filter: inherit;
+}
+
+
+
 /*
 * -- sequence logo
 */

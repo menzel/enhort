@@ -121,6 +121,15 @@
 
     <div class="container row col-md-12">
 
+        <th:block th:if="${ran}">
+            <div id="hotspots" data-toggle="tooltip" data-placement="right" title="Integration across the genome. Darker values represent less integration sites while the highest integration site is shown as blue rgb(0,0,255).">
+
+                <th:block th:each="pixel: ${interfaceCommand.hotspots}">
+                    <div class="hotspot" th:style="'background-color:rgba(0,0,' + ${pixel} + ',1);'"></div>
+                </th:block>
+            </div>
+        </th:block>
+
         <div class="col-md-8">
 
             <form method="POST" action="#" th:action="@{/covariate}" th:object="${interfaceCommand}"
