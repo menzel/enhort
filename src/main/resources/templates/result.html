@@ -20,7 +20,7 @@
 
 <div th:include="header:: bar"></div>
 
-<div class="col-xs-2 col-sm-3 col-md-2 sidebar">
+<div class="col-xs-2 col-sm-2 col-md-2 sidebar">
 
     <th:block th:if="${ran == null}">
         <div th:include="upload:: upload"></div>
@@ -90,11 +90,13 @@
                                                                       form="covariate_form"
                                                                       th:field="*{interfaceCommand.minBg}"/>
         </p>
+        <!--
         <p>
             <span>Influence:</span> <input type="number" step="0.1" th:value="${interfaceCommand.influence}"
                                            form="covariate_form" style="margin-left: 28px"
                                            th:field="*{interfaceCommand.influence}"/>
         </p>
+                                           -->
     </div>
 
     </th:block>
