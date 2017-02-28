@@ -34,7 +34,7 @@ public final class CalcCaller {
 
     public CalcCaller() {
         BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(1024);
-        exe = new ThreadPoolExecutor(4, threadCount, 5L, TimeUnit.SECONDS, queue);
+        exe = new ThreadPoolExecutor(4, threadCount, 30L, TimeUnit.SECONDS, queue);
     }
 
 

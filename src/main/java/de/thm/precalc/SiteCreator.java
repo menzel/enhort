@@ -35,7 +35,7 @@ class SiteCreator {
         if(tracks.size() > 0) { //only call threads if there is work to do
 
             BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(tracks.size());
-            ExecutorService exe = new ThreadPoolExecutor(4, 32, 59L, TimeUnit.SECONDS, queue);
+            ExecutorService exe = new ThreadPoolExecutor(4, 32, 3L, TimeUnit.MINUTES, queue);
 
             // fill for all basic tracks
             for (Track track : tracks) exe.execute(new PropWrapper(track, positions, indexTable));
