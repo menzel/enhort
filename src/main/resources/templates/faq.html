@@ -42,21 +42,20 @@
                 <p> The tracks are sorted by their effect size. Each table can be expanded by clicking the row to view more detailed information.</p>
                 <p> The checkbox on the right is used to mark a track as covariant. After selecting one or more covariants the model has to be created and run again. This is done by using the blue 'Run again' button on the left.</p>
                 <p> Tracks selected as covariant now appear in the table on the right with a high p-value. Which means that the background positions are now fitted to the uploaded data on this track</p>
-                <p> For a more detailed explanation see the publication: (not published yet) </p>
 
                 <h3>How is the Fold Change calculated</h3>
                 <hr/>
                 <p> If one of the counts is 0 the value is set to POSITIVE_INFINITY</p>
-                <p> In all other cases the the maximum of ( maximum inside / minimum inside and maximum outside / maximum outside) is calculated.<p>
+                <p> In all other cases the the maximum of (maximum inside / minimum inside and maximum outside / maximum outside) is calculated.<p>
 
                 <h3>If a scored track is set as covariant, the P-value is not always exact 1</h3>
                 <hr/>
                 <p>In contrast to basic inside/outside tracks the background model creation for scored tracks works with an expectancy value. Thus the counts to do excacly match.</p>
                 <p>However, the p-value is above the 5% significant level in most cases.</p>
 
-                <h3>Why is the P Value exact 0.0?</h3>
+                <h3>Why is the p-value exact 0.0?</h3>
                 <hr/>
-                <p>The P Value is calculated using the <a href="https://commons.apache.org/">Apache Commons API</a> as double values. Values smaller than the maximal precision is set to 0.</p>
+                <p>The p-value is calculated using the <a href="https://commons.apache.org/">Apache Commons API</a> as double values. Values smaller than the maximal precision is set to 0.</p>
 
 
                 <h3>Why is contigs the most significant track?</h3>
