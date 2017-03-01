@@ -123,11 +123,13 @@
 
     <div class="container row col-md-12">
 
+        <div class="col-md-8">
+
         <th:block th:if="${ran}">
             <div id="hotspots" >
 
                 <th:block th:each="pixel: ${interfaceCommand.hotspots}">
-                    <div class="hotspot" th:style="'background-color:hsl(231,100%,' + ${pixel} + '%);'"></div>
+                    <div class="hotspot" th:style="'background-color:hsl(231,100%,' + ${pixel} + '%); height: ' + ${100-pixel} + '%;'"></div>
                 </th:block>
 
             </div>
@@ -135,7 +137,6 @@
 
         </th:block>
 
-        <div class="col-md-8">
 
             <form method="POST" action="#" th:action="@{/covariate}" th:object="${interfaceCommand}"
                   id="covariate_form"></form>
@@ -589,9 +590,9 @@
 
     function setSequenceLogo(logo, div) {
 
-        var margin = {top: 10, right: 20, bottom: 30, left: 40},
-            width = 560 - margin.left - margin.right,
-            height = 170 - margin.top - margin.bottom;
+        var margin = {top: 10, right: 20, bottom: 30, left: 50},
+            width = 500 - margin.left - margin.right,
+            height = 150 - margin.top - margin.bottom;
 
         var x = d3.scale.ordinal()
             .rangeRoundBands([0, width], .1);
