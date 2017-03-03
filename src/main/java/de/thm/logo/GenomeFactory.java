@@ -76,6 +76,6 @@ public final class GenomeFactory {
 
 
 
-    public enum Assembly {hg19, hg38}
+    public enum Assembly {hg19, hg18, hg38}
 
 }
