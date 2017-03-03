@@ -169,7 +169,7 @@ final class FileLoader implements Runnable {
 
                     if (parts.length > 5 && parts[5] != null && parts[5].matches("[+-]")){
                         type = TrackFactory.Type.strand; //TODO set once, not every time
-                        strands.add(parts[4].charAt(0));
+                        strands.add(parts[5].charAt(0));
                     }
                 }
             }

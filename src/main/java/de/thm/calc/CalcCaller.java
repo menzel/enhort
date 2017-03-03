@@ -149,8 +149,8 @@ public final class CalcCaller {
             TestResult statTestResult = tester.test(result1, result2, track);
             effectSize.test(result1, result2);
 
-            collector.addResult(statTestResult);
-
+            if(statTestResult !=null)
+                collector.addResult(statTestResult);
         }
     }
 

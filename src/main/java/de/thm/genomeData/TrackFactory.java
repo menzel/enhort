@@ -87,7 +87,6 @@ public final class TrackFactory {
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks.", GenomeFactory.Assembly.hg19));
             this.tracks.addAll(tmp);
 
-
             tmp = getTracks(basePath.resolve("named"), Type.named, GenomeFactory.Assembly.hg19);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Named, "Basic tracks.", GenomeFactory.Assembly.hg19));
             this.tracks.addAll(tmp);
@@ -364,6 +363,6 @@ public final class TrackFactory {
 
 
 
-    enum Type {inout, named, distance, scored}
+    enum Type {inout, named, distance, strand, scored}
 
 }
