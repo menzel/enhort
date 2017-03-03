@@ -25,6 +25,7 @@ class SingleTrackBackgroundModel implements Sites {
     private final GenomeFactory.Assembly assembly;
     private transient MersenneTwister rand;
     private List<Long> positions = new ArrayList<>();
+    private List<Character> strands = new ArrayList<>();
 
     /**
      * Contstructor
@@ -122,6 +123,11 @@ class SingleTrackBackgroundModel implements Sites {
     @Override
     public void setPositions(List<Long> positions) {
         this.positions = positions;
+    }
+
+    @Override
+    public List<Character> getStrands() {
+        return strands;
     }
 
     @Override

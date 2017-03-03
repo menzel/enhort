@@ -26,6 +26,7 @@ class DistanceBackgroundModel implements Sites {
     private final GenomeFactory.Assembly assembly;
     private final transient MersenneTwister rand;
     private List<Long> positions;
+    private List<Character> strands = new ArrayList<>();
 
 
     DistanceBackgroundModel(DistanceTrack track, Sites sites, int standardDeviation){
@@ -119,6 +120,11 @@ class DistanceBackgroundModel implements Sites {
     @Override
     public void setPositions(List<Long> positions) {
         this.positions = positions;
+    }
+
+    @Override
+    public List<Character> getStrands() {
+        return strands;
     }
 
     @Override

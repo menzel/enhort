@@ -19,7 +19,10 @@ public interface Sites extends Serializable {
 
     void setPositions(List<Long> positions);
 
+    List<Character> getStrands();
+
     int getPositionCount();
 
     GenomeFactory.Assembly getAssembly();
+
 }

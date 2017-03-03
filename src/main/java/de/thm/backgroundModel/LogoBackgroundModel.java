@@ -58,6 +58,11 @@ class LogoBackgroundModel implements Sites {
     }
 
     @Override
+    public List<Character> getStrands() {
+        return null;
+    }
+
+    @Override
     public int getPositionCount() {
         return this.positions.size();
     }

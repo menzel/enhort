@@ -25,6 +25,7 @@ class ScoreBackgroundModel implements Sites {
 
     private final GenomeFactory.Assembly assembly;
     private List<Long> positions = new ArrayList<>();
+    private List<Character> strands = new ArrayList<>();
 
     ScoreBackgroundModel(GenomeFactory.Assembly assembly) {
         this.assembly = assembly;
@@ -432,6 +433,11 @@ class ScoreBackgroundModel implements Sites {
     @Override
     public void setPositions(List<Long> positions) {
         this.positions = positions;
+    }
+
+    @Override
+    public List<Character> getStrands() {
+        return strands;
     }
 
     @Override

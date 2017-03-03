@@ -20,6 +20,7 @@ class RandomBackgroundModel implements Sites {
     private final GenomeFactory.Assembly assembly;
     private final transient MersenneTwister rand;
     private List<Long> positions = new ArrayList<>();
+    private List<Character> strands;
 
     /**
      * Constructor
@@ -30,6 +31,7 @@ class RandomBackgroundModel implements Sites {
         this.assembly = assembly;
 
         rand  = new MersenneTwister();
+        strands = new ArrayList<>();
 
         createSites(assembly, count);
     }
@@ -45,8 +47,10 @@ class RandomBackgroundModel implements Sites {
 
         for (long i = 0; i < sites; i++) {
             long r = Math.round(rand.nextDouble() * ((double) genomeSize));
-
             positions.add(r);
+
+            if(rand.nextBoolean()) strands.add('+');
+            else strands.add('-');
         }
 
         Collections.sort(positions);
@@ -66,6 +70,11 @@ class RandomBackgroundModel implements Sites {
     @Override
     public void setPositions(List<Long> positions) {
         this.positions = positions;
+    }
+
+    @Override
+    public List<Character> getStrands() {
+        return strands;
     }
 
     @Override

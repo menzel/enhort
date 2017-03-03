@@ -21,6 +21,7 @@ class MultiTrackBackgroundModel implements Sites {
     private final GenomeFactory.Assembly assembly;
     private transient AppearanceTable appearanceTable; // is transient so it won't be serialized and sent to webinterface
     private List<Long> positions = new ArrayList<>();
+    private List<Character> strands = new ArrayList<>();
 
     /**
      * Constructor. Creates a Bg Model with covariants according the given intervals and positions.
@@ -102,6 +103,11 @@ class MultiTrackBackgroundModel implements Sites {
     @Override
     public void setPositions(List<Long> positions) {
         this.positions = positions;
+    }
+
+    @Override
+    public List<Character> getStrands() {
+        return strands;
     }
 
     @Override
