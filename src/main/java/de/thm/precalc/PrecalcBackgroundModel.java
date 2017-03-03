@@ -3,6 +3,7 @@ package de.thm.precalc;
 import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -15,6 +16,7 @@ final class PrecalcBackgroundModel implements Sites {
 
     private final GenomeFactory.Assembly assembly;
     private List<Long> positions;
+    private List<Character> strands = new ArrayList<>();
 
     PrecalcBackgroundModel(GenomeFactory.Assembly assembly, List<Long> positions) {
         this.assembly = assembly;
@@ -34,6 +36,11 @@ final class PrecalcBackgroundModel implements Sites {
     @Override
     public void setPositions(List<Long> positions) {
         this.positions = positions;
+    }
+
+    @Override
+    public List<Character> getStrands() {
+        return strands;
     }
 
     @Override
