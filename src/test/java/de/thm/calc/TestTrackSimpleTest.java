@@ -85,6 +85,11 @@ public class TestTrackSimpleTest {
             }
 
             @Override
+            public List<Character> getStrands() {
+                return null;
+            }
+
+            @Override
             public void setPositions(List<Long> positions) {
 
             }
@@ -136,6 +141,11 @@ public class TestTrackSimpleTest {
 
                 return sites;
 
+            }
+
+            @Override
+            public List<Character> getStrands() {
+                return null;
             }
 
             @Override
@@ -200,6 +210,11 @@ public class TestTrackSimpleTest {
             @Override
             public void setPositions(List<Long> positions) {
 
+            }
+
+            @Override
+            public List<Character> getStrands() {
+                return null;
             }
 
             @Override

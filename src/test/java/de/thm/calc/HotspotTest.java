@@ -43,6 +43,11 @@ public class HotspotTest {
             public void setPositions(List<Long> positions) {}
 
             @Override
+            public List<Character> getStrands() {
+                return null;
+            }
+
+            @Override
             public int getPositionCount() {
                 return 5;
             }
@@ -60,6 +65,7 @@ public class HotspotTest {
 
         ScoredTrack track = hotspot.findHotspots(sites, 10);
         System.out.println(track.getIntervalScore());
+        //TODO assert
 
 
 

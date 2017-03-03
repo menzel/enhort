@@ -99,6 +99,11 @@ public class MultiTrackBackgroundModelTest {
              }
 
              @Override
+             public List<Character> getStrands() {
+                 return null;
+             }
+
+             @Override
              public int getPositionCount() {
                  return 0;
              }

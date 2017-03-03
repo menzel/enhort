@@ -62,6 +62,11 @@ public class DistanceBackgroundModelTest {
             public void setPositions(List<Long> positions) {}
 
             @Override
+            public List<Character> getStrands() {
+                return null;
+            }
+
+            @Override
             public int getPositionCount() {
                 return 5;
             }

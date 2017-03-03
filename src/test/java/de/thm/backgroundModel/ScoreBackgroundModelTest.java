@@ -162,6 +162,11 @@ public class ScoreBackgroundModelTest {
             public void setPositions(List<Long> positions) {}
 
             @Override
+            public List<Character> getStrands() {
+                return null;
+            }
+
+            @Override
             public int getPositionCount() {
                 return 7;
             }
