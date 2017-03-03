@@ -23,87 +23,80 @@
         <div th:include="upload:: upload"></div>
     </div>
 
-
-
     <div class="col-xs-10 col-xs-offset-2 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-
         <div class="container row col-md-12">
             <img src="title_logo.png"/>
 
-            <div class="container row col-md-12">
+            <h3>What is this for</h3>
+            <hr/>
+            <p> An analyzing tool for genomic positions. </p>
 
-                <h3>What is this for</h3>
-                <hr/>
-                <p> An analyzing tool for genomic positions. </p>
+            <h3>How to use this tool</h3>
+            <hr/>
+            <p> Select a file in BED-format in the upload form in the right panel and start the upload. The middle table shows all tracks on which the uploaded data deviates from random.</p>
+            <p> The tracks are sorted by their effect size. Each table can be expanded by clicking the row to view more detailed information.</p>
+            <p> The checkbox on the right is used to mark a track as covariant. After selecting one or more covariants the model has to be created and run again. This is done by using the blue 'Run again' button on the left.</p>
+            <p> Tracks selected as covariant now appear in the table on the right with a high p-value. Which means that the background positions are now fitted to the uploaded data on this track</p>
 
-                <h3>How to use this tool</h3>
-                <hr/>
-                <p> Select a file in BED-format in the upload form in the right panel and start the upload. The middle table shows all tracks on which the uploaded data deviates from random.</p>
-                <p> The tracks are sorted by their effect size. Each table can be expanded by clicking the row to view more detailed information.</p>
-                <p> The checkbox on the right is used to mark a track as covariant. After selecting one or more covariants the model has to be created and run again. This is done by using the blue 'Run again' button on the left.</p>
-                <p> Tracks selected as covariant now appear in the table on the right with a high p-value. Which means that the background positions are now fitted to the uploaded data on this track</p>
+            <h3>How is the Fold Change calculated</h3>
+            <hr/>
+            <p> If one of the counts is 0 the value is set to POSITIVE_INFINITY</p>
+            <p> In all other cases the the maximum of (maximum inside / minimum inside and maximum outside / maximum outside) is calculated.</p>
 
-                <h3>How is the Fold Change calculated</h3>
-                <hr/>
-                <p> If one of the counts is 0 the value is set to POSITIVE_INFINITY</p>
-                <p> In all other cases the the maximum of (maximum inside / minimum inside and maximum outside / maximum outside) is calculated.<p>
+            <h3>If a scored track is set as covariant, the P-value is not always exact 1</h3>
+            <hr/>
+            <p>In contrast to basic inside/outside tracks the background model creation for scored tracks works with an expectancy value. Thus the counts to do excacly match.</p>
+            <p>However, the p-value is above the 5% significant level in most cases.</p>
 
-                <h3>If a scored track is set as covariant, the P-value is not always exact 1</h3>
-                <hr/>
-                <p>In contrast to basic inside/outside tracks the background model creation for scored tracks works with an expectancy value. Thus the counts to do excacly match.</p>
-                <p>However, the p-value is above the 5% significant level in most cases.</p>
-
-                <h3>Why is the p-value exact 0.0?</h3>
-                <hr/>
-                <p>The p-value is calculated using the <a href="https://commons.apache.org/">Apache Commons API</a> as double values. Values smaller than the maximal precision is set to 0.</p>
+            <h3>Why is the p-value exact 0.0?</h3>
+            <hr/>
+            <p>The p-value is calculated using the <a href="https://commons.apache.org/">Apache Commons API</a> as double values. Values smaller than the maximal precision is set to 0.</p>
 
 
-                <h3>Why is contigs the most significant track?</h3>
-                <hr/>
-                <p>Background positions are set random. Thus they tend be in parts of the genome were no virus can integrate or no integration can be sequenced. Set the 'contigs' track as covariant to adjust the background model.</p>
+            <h3>Why is contigs the most significant track?</h3>
+            <hr/>
+            <p>Background positions are set random. Thus they tend be in parts of the genome were no virus can integrate or no integration can be sequenced. Set the 'contigs' track as covariant to adjust the background model.</p>
 
-                <h3>What does the influence factor change?</h3>
-                <hr/>
-                <p>The influence factor changes the factor by which a background model with one or more covariants is influenced by the covariants. A value close to 1 sets the random position with the same expectancy value as the covariants have. </p>
-                <p> Close to 0 the background positions are normaly distributed as if there were no covariants.</p>
+            <h3>What does the influence factor change?</h3>
+            <hr/>
+            <p>The influence factor changes the factor by which a background model with one or more covariants is influenced by the covariants. A value close to 1 sets the random position with the same expectancy value as the covariants have. </p>
+            <p> Close to 0 the background positions are normaly distributed as if there were no covariants.</p>
 
-                <h3>Hotspots bar</h3>
-                <hr/>
-                <p>The plot above the results table shows hotspots from integration across the genome with colors. The hotspots were calculated with a sliding window across the genome where the count of integration sites inside the window was countd</p>
-                <p>Colors in the plot repesent the integration frequency, blue bars show the region with the highest integration count while white bars represent no or very few integration sites.</p>
-                <p>High contrast shows there are hotspots, even distributed colors show the absence of hotspots.</p>
+            <h3>Hotspots bar</h3>
+            <hr/>
+            <p>The plot above the results table shows hotspots from integration across the genome with colors. The hotspots were calculated with a sliding window across the genome where the count of integration sites inside the window was countd</p>
+            <p>Colors in the plot repesent the integration frequency, blue bars show the region with the highest integration count while white bars represent no or very few integration sites.</p>
+            <p>High contrast shows there are hotspots, even distributed colors show the absence of hotspots.</p>
 
-                <h3>How to download background positions?</h3>
-                <hr/>
-                <p>After a run 'Background positions' under 'Information' in the left bar is a link leading to the data.</p>
+            <h3>How to download background positions?</h3>
+            <hr/>
+            <p>After a run 'Background positions' under 'Information' in the left bar is a link leading to the data.</p>
 
-                <h3>How can there be more positions displayed in covariates in comparison to the Information on the left?</h3>
-                <hr/>
-                <p>The Information-Panel on the left shows the minimal positions count which is sent to the backend server. However, depending on the background model the count of positions needs to be increased to fit a certain distribution. The Information value remains unchanged by that.</p>
+            <h3>How can there be more positions displayed in covariates in comparison to the Information on the left?</h3>
+            <hr/>
+            <p>The Information-Panel on the left shows the minimal positions count which is sent to the backend server. However, depending on the background model the count of positions needs to be increased to fit a certain distribution. The Information value remains unchanged by that.</p>
 
-                <h3>Where does the name/ logo come from</h3>
-                <hr/>
-                <p> The name is an alteration of Eihort. A monster created by the author H.P. Lovecraft. </p>
-                <p> Eihort (The Pale Beast) is a huge, pale, gelatinous, oval-shaped monstrosity covered in myriads of eyes and supported by thousands of bony, fleshless legs.</p>
-                <p> Whenever Eihort encounters a human, it makes a bargain with them. If the human declines, Eihort kills the human. If the human accepts, Eihort implants a undeveloped brood into their body. When the brood hatches it will kill the human host. According to the Revelations of Glaaki, after the fall of humanity, Eihort's brood will be born into light and replace humanity.</p>
-                <p>From <a href="http://lovecraft.wikia.com/wiki/Eihort">http://lovecraft.wikia.com/wiki/Eihort</a></p>
+            <h3>Where does the name/ logo come from</h3>
+            <hr/>
+            <p> The name is an alteration of Eihort. A monster created by the author H.P. Lovecraft. </p>
+            <p> Eihort (The Pale Beast) is a huge, pale, gelatinous, oval-shaped monstrosity covered in myriads of eyes and supported by thousands of bony, fleshless legs.</p>
+            <p> Whenever Eihort encounters a human, it makes a bargain with them. If the human declines, Eihort kills the human. If the human accepts, Eihort implants a undeveloped brood into their body. When the brood hatches it will kill the human host. According to the Revelations of Glaaki, after the fall of humanity, Eihort's brood will be born into light and replace humanity.</p>
+            <p>From <a href="http://lovecraft.wikia.com/wiki/Eihort">http://lovecraft.wikia.com/wiki/Eihort</a></p>
 
-                <p>The base image is taken from <a href="http://draguunthor.deviantart.com/art/Mythos-Minis-143564593">here</a>.</p>
+            <p>The base image is taken from <a href="http://draguunthor.deviantart.com/art/Mythos-Minis-143564593">here</a>.</p>
 
-                <p>Credit goes to Draguunthor.</p>
+            <p>Credit goes to Draguunthor.</p>
 
-                <h3>How are the random numbers generated?</h3>
-                <p>The application uses the <a href="http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html"> Mersenne Twister Algorithm</a>.</p>
+            <h3>How are the random numbers generated?</h3>
+            <p>The application uses the <a href="http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html"> Mersenne Twister Algorithm</a>.</p>
 
-                <h3>How to cite</h3>
-                <hr/>
-                <p>There is no published paper yet.</p>
+            <h3>How to cite</h3>
+            <hr/>
+            <p>There is no published paper yet.</p>
 
-                <p>However, there was a poster presentation at <a href="https://www.gcb2016.de/home">GCB 2016</a>. A .pdf version of the poster can be found here: <a th:href="@{files/GCB_Enhort_Poster.pdf}">GCB 2016 Poster</a></p>
+            <p>However, there was a poster presentation at <a href="https://www.gcb2016.de/home">GCB 2016</a>. A .pdf version of the poster can be found here: <a th:href="@{files/GCB_Enhort_Poster.pdf}">GCB 2016 Poster</a></p>
 
-            </div>
         </div>
-
     </div>
 </body>
 </html>
