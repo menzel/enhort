@@ -5,6 +5,7 @@ import de.thm.exception.CovariantsException;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
 import de.thm.logo.GenomeFactory;
+import de.thm.logo.Logo;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.UserData;
 import de.thm.spring.backend.BackendConnector;
@@ -388,8 +389,16 @@ public class CalculationController {
         model.addAttribute("trackPackages", collector.getKnownPackages());
         model.addAttribute("ran", true);
 
-        model.addAttribute("sequencelogo", collector.getLogo().toString());
-        model.addAttribute("sequencelogo2", collector.getSecondLogo().toString());
+        Logo logo1 = collector.getLogo();
+        Logo logo2 = collector.getSecondLogo();
+
+        if(logo1 != null && logo2 != null) {
+            model.addAttribute("sequencelogo", logo1.getHeights().toString());
+            model.addAttribute("sequencelogo2", logo2.getHeights().toString());
+
+            model.addAttribute("sequencelogo_name", logo1.getName());
+            model.addAttribute("sequencelogo2_name", logo2.getName());
+        }
 
         model.addAttribute("sl_effect", collector.logoEffectSize());
 
