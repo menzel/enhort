@@ -27,7 +27,7 @@ class Hotspot {
 
         long genomeSize = ChromosomSizes.getInstance().getGenomeSize(sites.getAssembly());
 
-        int size = (int) (genomeSize/(windowSize/10));
+        int size = (int) (genomeSize/(windowSize/10)); //init size for interval lists
 
         List<Long> starts = new ArrayList<>(size);
         List<Long> ends = new ArrayList<>(size);
