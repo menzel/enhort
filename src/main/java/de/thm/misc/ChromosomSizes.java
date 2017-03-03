@@ -40,6 +40,7 @@ public final class ChromosomSizes {
         }
 
 
+        readChrSizes(basePath, GenomeFactory.Assembly.hg18);
         readChrSizes(basePath, GenomeFactory.Assembly.hg19);
         readChrSizes(basePath, GenomeFactory.Assembly.hg38);
 
