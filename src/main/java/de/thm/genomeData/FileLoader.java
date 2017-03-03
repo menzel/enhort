@@ -112,6 +112,7 @@ final class FileLoader implements Runnable {
         List<Long> ends = new ArrayList<>(length);
         List<String> names = new ArrayList<>(length);
         List<Double> scores = new ArrayList<>(length);
+        List<Character> strands = new ArrayList<>(length);
 
         try (Stream<String> lines = Files.lines(file.toPath(), StandardCharsets.UTF_8)) {
             Iterator<String> it = lines.iterator();
@@ -165,6 +166,11 @@ final class FileLoader implements Runnable {
                         else
                             scores.add(.0);
                     }
+
+                    if (parts.length > 5 && parts[5] != null && parts[5].matches("[+-]")){
+                        type = TrackFactory.Type.strand; //TODO set once, not every time
+                        strands.add(parts[4].charAt(0));
+                    }
                 }
             }
 
@@ -183,6 +189,8 @@ final class FileLoader implements Runnable {
 
 
             switch (type) {
+                case strand:
+                    return new StrandTrack(starts, ends, name, description, strands);
                 case inout:
                     //return PositionPreprocessor.preprocessData(new InOutTrack(starts, ends, name, description));
                     return new InOutTrack(starts, ends, name, description, assembly, Track.CellLine.valueOf(cellline));
