@@ -1,10 +1,7 @@
 package de.thm.calc;
 
 import de.thm.exception.IntervalTypeNotAllowedExcpetion;
-import de.thm.genomeData.InOutTrack;
-import de.thm.genomeData.NamedTrack;
-import de.thm.genomeData.ScoredTrack;
-import de.thm.genomeData.Track;
+import de.thm.genomeData.*;
 import de.thm.positionData.Sites;
 
 import java.util.ArrayList;
@@ -23,6 +20,8 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
 
     @Override
     public TestTrackResult searchTrack(T intv, Sites pos) {
+        if (intv instanceof StrandTrack)
+            return searchSingleInterval((StrandTrack) intv, pos);
         if (intv instanceof InOutTrack)
             return searchSingleInterval((InOutTrack) intv, pos);
         if (intv instanceof ScoredTrack)
@@ -38,6 +37,42 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
             }
 
     }
+
+    private TestTrackResult searchSingleInterval(StrandTrack track, Sites sites) {
+        System.out.println("searching strand track in intersect");
+
+        int out = 0;
+        int in = 0;
+        int i = 0;
+
+        List<Long> intervalStart = track.getStarts();
+        List<Long> intervalEnd = track.getEnds();
+        List<Character> strands = track.getStrands();
+
+        int intervalCount = intervalStart.size() - 1;
+
+        int p_counter = 0; //counter over positions from sites object
+        for (long p : sites.getPositions()) {
+
+            while (i < intervalCount && intervalEnd.get(i) <= p)
+                i++;
+
+            if(i == intervalCount && p >= intervalEnd.get(i)) { //not inside last interval
+                out += sites.getPositions().size() - sites.getPositions().indexOf(p); //add remaining positions to out
+                break; //and end the loop
+            }
+
+            if (p >= intervalStart.get(i) && sites.getStrands().get(p_counter) == strands.get(i)) in++;
+            else out++;
+
+            p_counter++;
+        }
+
+
+        return new TestTrackResult(track, in, out);
+    }
+
+
 
     private TestTrackResult searchSingleInterval(NamedTrack intv, Sites pos) {
 

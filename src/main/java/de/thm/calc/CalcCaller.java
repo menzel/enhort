@@ -58,6 +58,9 @@ public final class CalcCaller {
             if (track instanceof InOutTrack) {
                 IntersectWrapper<InOutTrack> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, (InOutTrack) track, collector);
                 exe.execute(wrapper);
+            } else if (track instanceof StrandTrack) {
+                IntersectWrapper<StrandTrack> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, (StrandTrack) track, collector);
+                exe.execute(wrapper);
             } else if (track instanceof ScoredTrack) {
                 IntersectWrapper<ScoredTrack> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, (ScoredTrack) track, collector);
                 exe.execute(wrapper);
