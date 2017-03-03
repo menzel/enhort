@@ -75,10 +75,10 @@ public final class CalcCaller {
         //////////// Logo ////////////////
 
         if(createLogo && measuredPositions.getAssembly().equals(GenomeFactory.Assembly.hg19)){
-            LogoWrapper logoWrapper = new LogoWrapper(measuredPositions,collector, tracks.get(0).getAssembly());
+            LogoWrapper logoWrapper = new LogoWrapper(measuredPositions,collector, tracks.get(0).getAssembly(), "user data");
             exe.execute(logoWrapper);
 
-            LogoWrapper logoWrapper2 = new LogoWrapper(randomPositions, collector, tracks.get(0).getAssembly());
+            LogoWrapper logoWrapper2 = new LogoWrapper(randomPositions, collector, tracks.get(0).getAssembly(), "random");
             exe.execute(logoWrapper2);
         }
 
@@ -205,18 +205,20 @@ public final class CalcCaller {
         private final Sites measuredPos;
         private final ResultCollector collector;
         private final GenomeFactory.Assembly assembly;
+        private String name;
 
         /**
          * Constructor for the wrapper object
-         *
-         * @param measuredPos - positions from the outside of the program
+         *  @param measuredPos - positions from the outside of the program
          * @param collector   - collector to collect results in
+         * @param name -  filename or random
          */
-        private LogoWrapper(Sites measuredPos, ResultCollector collector, GenomeFactory.Assembly assembly) {
+        private LogoWrapper(Sites measuredPos, ResultCollector collector, GenomeFactory.Assembly assembly, String name) {
 
             this.measuredPos = measuredPos;
             this.collector = collector;
             this.assembly = assembly;
+            this.name = name;
         }
 
         @Override
@@ -226,6 +228,7 @@ public final class CalcCaller {
             int count = 300;//TODO use user set value
 
             Logo logo = LogoCreator.createLogo(genome.getSequence(assembly, measuredPos, width, count));
+            logo.setName(name);
 
             collector.addLogo(logo);
         }
