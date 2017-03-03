@@ -18,6 +18,7 @@ import java.util.Map;
 public final class Logo implements Serializable{
 
     private final List<List<Map<String, String>>> heights = new ArrayList<>(); // list_(alle Pos)( list_(letters) ({letter: bits}))
+    private String name;
 
     /**
      * Add the data for one position for the sequencelogo
@@ -156,5 +157,13 @@ public final class Logo implements Serializable{
         return regex.substring(0, regex.length()-1);
 
 
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
