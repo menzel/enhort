@@ -128,8 +128,6 @@ class ScoreBackgroundModel implements Sites {
 
                     //add probability to score list
                     newScores.add(prob);
-                } else{
-                    // check if start stop positions are presen + expt
                 }
             }
         }
@@ -140,13 +138,10 @@ class ScoreBackgroundModel implements Sites {
         double exp = newScores.stream().mapToDouble(i->i).sum();
         if(exp < (1 - 0.00000000001)){ //if the combined probability is below 1.0 increase each value:
             double inc = 1 / exp;
-            System.out.println("genProb (SecondBG) Streching " + exp);
             newScores = newScores.stream().map(i -> i * inc).collect(Collectors.toList());
         }
 
-
         // create scored track from the generated prob values
-
 
         return TrackFactory.getInstance().createScoredTrack(
                 interval.getStarts(),
@@ -164,7 +159,7 @@ class ScoreBackgroundModel implements Sites {
      *
      * @param tracks - scores to get from.
      * @param sites     - positions to look up.
-     * @return map<Score, Count> to score combination to  probablity
+     * @return map(Score, Count) to score combination to  probablity
      */
     Map<ScoreSet, Double> fillOccurenceMap(List<ScoredTrack> tracks, Sites sites) {
         Map<ScoreSet, Double> map = new HashMap<>(); //holds the conversion between score and probability
@@ -301,8 +296,6 @@ class ScoreBackgroundModel implements Sites {
             new_end.addAll(track.getEnds());
             Collections.sort(new_end);
         }
-
-
 
         //check if 0 and genome size is present
         if(new_start.get(0) != 0L){
