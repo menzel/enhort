@@ -6,7 +6,6 @@ import de.thm.logo.GenomeFactory;
 import de.thm.logo.Logo;
 import de.thm.positionData.Sites;
 import org.apache.commons.math3.util.Precision;
-import org.json.JSONArray;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -210,16 +209,16 @@ public final class ResultCollector implements Serializable{
         this.knownPackages = packages;
     }
 
-    public JSONArray getLogo() {
+    public Logo getLogo() {
         if(logo != null)
-            return logo.getHeights();
-        return new JSONArray();
+            return logo;
+        return null;
     }
 
-    public JSONArray getSecondLogo() {
+    public Logo getSecondLogo() {
         if(other_logo!= null)
-            return other_logo.getHeights();
-        return new JSONArray();
+            return other_logo;
+        return null;
     }
 
     public void addLogo(Logo logo) {
