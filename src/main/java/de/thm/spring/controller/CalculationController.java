@@ -281,7 +281,7 @@ public class CalculationController {
             //TODO reset last known state: set command object and put to runAnalysis
             //covariants = currentSession.getCovariants();
         } catch (Exception e) {
-            model.addAttribute(e.getMessage());
+            model.addAttribute(e.toString());
             collector = currentSession.getCollector();
         }
 
