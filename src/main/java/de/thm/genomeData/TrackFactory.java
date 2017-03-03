@@ -127,16 +127,27 @@ public final class TrackFactory {
                 this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name", GenomeFactory.Assembly.hg19));
                 this.tracks.addAll(tmp);
 
-                //////////// hg38  ///////////////
-                basePath = this.basePath.resolve("hg38"); //convert basePath to a local variable and set to hg38 dir
-
-                tmp = getTracks(basePath.resolve("inout"), Type.inout, GenomeFactory.Assembly.hg38);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks.", GenomeFactory.Assembly.hg38));
-                this.tracks.addAll(tmp);
-
-
-
             }
+
+
+
+            //////////// hg38  ///////////////
+            basePath = this.basePath.resolve("hg38"); //convert basePath to a local variable and set to hg38 dir
+
+            tmp = getTracks(basePath.resolve("inout"), Type.inout, GenomeFactory.Assembly.hg38);
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks.", GenomeFactory.Assembly.hg38));
+            this.tracks.addAll(tmp);
+
+            tmp = getTracks(basePath.resolve("distanced"), Type.distance, GenomeFactory.Assembly.hg38);
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Distance, "Distances", GenomeFactory.Assembly.hg38));
+            this.tracks.addAll(tmp);
+
+            //////////// hg18  ///////////////
+            basePath = this.basePath.resolve("hg18"); //convert basePath to a local variable and set to hg38 dir
+
+            tmp = getTracks(basePath.resolve("inout"), Type.inout, GenomeFactory.Assembly.hg18);
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks.", GenomeFactory.Assembly.hg18));
+            this.tracks.addAll(tmp);
 
         } catch (IOException e) {
             e.printStackTrace();
