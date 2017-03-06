@@ -1,10 +1,7 @@
 package de.thm.stat;
 
 import de.thm.calc.TestTrackResult;
-import de.thm.genomeData.InOutTrack;
-import de.thm.genomeData.NamedTrack;
-import de.thm.genomeData.ScoredTrack;
-import de.thm.genomeData.Track;
+import de.thm.genomeData.*;
 import org.apache.commons.math3.stat.inference.ChiSquareTest;
 import org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest;
 
@@ -94,13 +91,15 @@ public final class IndependenceTest implements Test{
         else if (track instanceof NamedTrack)
             return testNamedTrack(testTrackResultA, testTrackResultB, track);
 
-        else if (track instanceof InOutTrack){
+        else if (track instanceof InOutTrack || track instanceof StrandTrack){
 
             double effectSize = effectSizeTester.test(testTrackResultA, testTrackResultB);
             return new TestResult(tester.chiSquareTest(counts), testTrackResultA, testTrackResultB, effectSize, track, TestResult.Type.inout);
 
-        } else
+        } else {
+            System.err.println("Unknown track type for test in IndependenceTest");
             return null;
+        }
     }
 
     /**
