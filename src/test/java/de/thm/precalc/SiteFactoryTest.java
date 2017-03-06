@@ -92,6 +92,9 @@ public class SiteFactoryTest {
         int in = 50;
         int out = 100;
 
+        if(track == null)
+            return;
+
         List<Long> pos = factory.getSites(track, in, out).getPositions();
 
         Sites sites = new Sites() {
@@ -121,8 +124,6 @@ public class SiteFactoryTest {
                 return GenomeFactory.Assembly.hg19;
             }
         };
-
-        assert track != null;
 
         Intersect<InOutTrack> intersect = new Intersect<>();
 

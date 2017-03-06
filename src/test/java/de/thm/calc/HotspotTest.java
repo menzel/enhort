@@ -63,7 +63,7 @@ public class HotspotTest {
         Hotspot hotspot = new Hotspot();
 
 
-        ScoredTrack track = hotspot.findHotspots(sites, 10);
+        ScoredTrack track = hotspot.findHotspots(sites, 100000);
         System.out.println(track.getIntervalScore());
         //TODO assert
 

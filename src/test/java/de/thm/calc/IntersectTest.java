@@ -51,12 +51,10 @@ public class IntersectTest {
         List<Long> end2 = new ArrayList<>();
 
         start1.add(1L);
-        start1.add(2L);
         start1.add(20L);
         start1.add(50L);
 
         end1.add(10L);
-        end1.add(4L);
         end1.add(30L);
         end1.add(60L);
 
@@ -81,7 +79,6 @@ public class IntersectTest {
         strands.add('-');
         strands.add('+');
         strands.add('+');
-        strands.add('-');
 
 
 
@@ -121,7 +118,7 @@ public class IntersectTest {
             public List<Character> getStrands() {
                 List<Character> strands = new ArrayList<>();
 
-                strands.add('+');
+                strands.add('-');
                 strands.add('+');
                 strands.add('+');
                 strands.add('+');
@@ -191,7 +188,7 @@ public class IntersectTest {
         scores.add(.5);
         scores.add(.5);
         scores.add(.5);
-        scores.add(.1);
+        scores.add(.7);
 
         assertEquals(5, result.getIn());
         assertEquals(5, result.getOut());
