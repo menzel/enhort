@@ -190,7 +190,7 @@ final class FileLoader implements Runnable {
 
             switch (type) {
                 case strand:
-                    return new StrandTrack(starts, ends, name, description, strands);
+                    return new StrandTrack(starts, ends, strands, name, description, assembly, Track.CellLine.valueOf(cellline));
                 case inout:
                     //return PositionPreprocessor.preprocessData(new InOutTrack(starts, ends, name, description));
                     return new InOutTrack(starts, ends, name, description, assembly, Track.CellLine.valueOf(cellline));
