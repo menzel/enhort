@@ -38,8 +38,10 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
 
     }
 
-    private TestTrackResult searchSingleInterval(StrandTrack track, Sites sites) {
-        System.out.println("searching strand track in intersect");
+    TestTrackResult searchSingleInterval(StrandTrack track, Sites sites) {
+
+        if(sites.getStrands().size() != sites.getPositions().size())
+            return new TestTrackResult(track, 0,0); //return 0s if there is no strand data in user data
 
         int out = 0;
         int in = 0;
