@@ -2,6 +2,7 @@ package de.thm.calc;
 
 import de.thm.genomeData.InOutTrack;
 import de.thm.genomeData.ScoredTrack;
+import de.thm.genomeData.StrandTrack;
 import de.thm.genomeData.TrackFactory;
 import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
@@ -20,10 +21,10 @@ import static org.junit.Assert.assertEquals;
  * Created by menzel on 2/6/17.
  */
 public class IntersectTest {
-
     private static Sites sites;
     private static InOutTrack iotrack;
     private static ScoredTrack sctrack;
+    private static StrandTrack sttrack;
 
     private static InOutTrack mockTrack(List<Long> start, List<Long> end) {
 
@@ -33,6 +34,11 @@ public class IntersectTest {
     private static ScoredTrack mockTrack(List<Long> start, List<Long> end, List<Double> scores) {
 
         return  TrackFactory.getInstance().createScoredTrack(start, end, null, scores,"name", "desc");
+    }
+
+    private static StrandTrack mockTrack(List<Long> start, List<Long> end, List<Character> strands, String foo) {
+        return  TrackFactory.getInstance().createStrandTrack(start, end, strands, "name", foo, GenomeFactory.Assembly.hg19, null);
+
     }
 
     @BeforeClass
@@ -70,8 +76,18 @@ public class IntersectTest {
         scores1.add(0.7);
         scores1.add(0.1);
 
+        List<Character> strands = new ArrayList<>();
+
+        strands.add('-');
+        strands.add('+');
+        strands.add('+');
+        strands.add('-');
+
+
+
         sctrack = mockTrack(start1, end1, scores1);
         iotrack = mockTrack(start2, end2);
+        sttrack = mockTrack(start1,end1, strands, "needed to prevent clash with other mockTrack method");
 
 
         sites = new Sites() {
@@ -103,7 +119,20 @@ public class IntersectTest {
 
             @Override
             public List<Character> getStrands() {
-                return null;
+                List<Character> strands = new ArrayList<>();
+
+                strands.add('+');
+                strands.add('+');
+                strands.add('+');
+                strands.add('+');
+                strands.add('+');
+                strands.add('-');
+                strands.add('-');
+                strands.add('-');
+                strands.add('-');
+                strands.add('-');
+
+                return strands;
             }
 
             @Override
@@ -121,6 +150,11 @@ public class IntersectTest {
     }
 
     @Test
+    public void searchSingleInterval() throws Exception {
+
+    }
+
+    @Test
     public void searchSingleIntervalInOut() throws Exception {
 
         Intersect<InOutTrack> sect = new Intersect<>();
@@ -130,6 +164,20 @@ public class IntersectTest {
         assertEquals(6, result.getOut());
 
     }
+
+
+    @Test
+    public void searchStrandTrack() throws Exception {
+
+        Intersect<StrandTrack> sect = new Intersect<>();
+        TestTrackResult result = sect.searchSingleInterval(sttrack,sites);
+
+        assertEquals(1, result.getIn());
+        assertEquals(9, result.getOut());
+
+    }
+
+
 
     @Test
     public void searchScoredTrack() throws Exception {
