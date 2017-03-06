@@ -96,13 +96,14 @@ public final class TrackFactory {
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Distance, "Distances", GenomeFactory.Assembly.hg19));
             this.tracks.addAll(tmp);
 
-
-            tmp = getTracks(basePath.resolve("score"), Type.scored, GenomeFactory.Assembly.hg19);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Expression, "Expression scores", GenomeFactory.Assembly.hg19));
-            this.tracks.addAll(tmp);
-
             //only load all tracks when running on the big server
             if(!System.getenv("HOME").contains("menzel")) {
+
+
+                tmp = getTracks(basePath.resolve("score"), Type.scored, GenomeFactory.Assembly.hg19);
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Expression, "Expression scores", GenomeFactory.Assembly.hg19));
+                this.tracks.addAll(tmp);
+
 
 
                 tmp = getTracks(basePath.resolve("tf"), Type.inout, GenomeFactory.Assembly.hg19);
@@ -126,27 +127,27 @@ public final class TrackFactory {
                 this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name", GenomeFactory.Assembly.hg19));
                 this.tracks.addAll(tmp);
 
+
+
+
+                //////////// hg38  ///////////////
+                basePath = this.basePath.resolve("hg38"); //convert basePath to a local variable and set to hg38 dir
+
+                tmp = getTracks(basePath.resolve("inout"), Type.inout, GenomeFactory.Assembly.hg38);
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks.", GenomeFactory.Assembly.hg38));
+                this.tracks.addAll(tmp);
+
+                tmp = getTracks(basePath.resolve("distanced"), Type.distance, GenomeFactory.Assembly.hg38);
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Distance, "Distances", GenomeFactory.Assembly.hg38));
+                this.tracks.addAll(tmp);
+
+                //////////// hg18  ///////////////
+                basePath = this.basePath.resolve("hg18"); //convert basePath to a local variable and set to hg38 dir
+
+                tmp = getTracks(basePath.resolve("inout"), Type.inout, GenomeFactory.Assembly.hg18);
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks.", GenomeFactory.Assembly.hg18));
+                this.tracks.addAll(tmp);
             }
-
-
-
-            //////////// hg38  ///////////////
-            basePath = this.basePath.resolve("hg38"); //convert basePath to a local variable and set to hg38 dir
-
-            tmp = getTracks(basePath.resolve("inout"), Type.inout, GenomeFactory.Assembly.hg38);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks.", GenomeFactory.Assembly.hg38));
-            this.tracks.addAll(tmp);
-
-            tmp = getTracks(basePath.resolve("distanced"), Type.distance, GenomeFactory.Assembly.hg38);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Distance, "Distances", GenomeFactory.Assembly.hg38));
-            this.tracks.addAll(tmp);
-
-            //////////// hg18  ///////////////
-            basePath = this.basePath.resolve("hg18"); //convert basePath to a local variable and set to hg38 dir
-
-            tmp = getTracks(basePath.resolve("inout"), Type.inout, GenomeFactory.Assembly.hg18);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks.", GenomeFactory.Assembly.hg18));
-            this.tracks.addAll(tmp);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -350,6 +351,10 @@ public final class TrackFactory {
 
     public NamedTrack createNamedTrack(List<Long> starts, List<Long> ends, List<String> names, String name, String description, GenomeFactory.Assembly assembly, Track.CellLine cellLine) {
         return new NamedTrack(starts,ends, names, name, description, assembly, cellLine);
+    }
+
+    public StrandTrack createStrandTrack(List<Long> start, List<Long> end, List<Character> strands, String name, String desc, GenomeFactory.Assembly assembly, Track.CellLine cellLine) {
+        return new StrandTrack(start,end,strands,name,desc,assembly, cellLine);
     }
 
     public int getTrackCount() {
