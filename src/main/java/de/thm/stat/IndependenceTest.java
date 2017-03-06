@@ -32,10 +32,13 @@ public final class IndependenceTest implements Test{
 
     /**
      *
-     * @param testTrackResultA
-     * @param testTrackResultB
-     * @param track
-     * @return
+     * Compares two tes results for a single track
+     *
+     * @param testTrackResultA - test result for the first dataset
+     * @param testTrackResultB - test result for the second dataset
+     * @param track - tested track
+     *
+     * @return combined result with effect size and p value
      */
     public TestResult testScoredTrack(TestTrackResult testTrackResultA, TestTrackResult testTrackResultB, Track track){
 
@@ -55,10 +58,13 @@ public final class IndependenceTest implements Test{
 
     /**
      *
-     * @param testTrackResultA
-     * @param testTrackResultB
-     * @param track
-     * @return
+     * Compares two tes results for a single track
+     *
+     * @param testTrackResultA - test result for the first dataset
+     * @param testTrackResultB - test result for the second dataset
+     * @param track - tested track
+     *
+     * @return combined result with effect size and p value
      */
     public TestResult testNamedTrack(TestTrackResult testTrackResultA, TestTrackResult testTrackResultB, Track track) {
 
@@ -76,7 +82,7 @@ public final class IndependenceTest implements Test{
      * @param testTrackResultA measured results
      * @param testTrackResultB expected (random) results
      * @param track            - used interval for reference
-     * @return p value of independence test
+     * @return p value of independence test with effect size as TestResult object
      */
     public TestResult test(TestTrackResult testTrackResultA, TestTrackResult testTrackResultB, Track track) {
 
