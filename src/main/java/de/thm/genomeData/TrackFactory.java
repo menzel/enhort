@@ -84,16 +84,19 @@ public final class TrackFactory {
             Path basePath = this.basePath.resolve("hg19"); //convert basePath to a local variable and set to hg19 dir
 
             tmp = getTracks(basePath.resolve("inout"), Type.inout, GenomeFactory.Assembly.hg19);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks.", GenomeFactory.Assembly.hg19));
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks", GenomeFactory.Assembly.hg19));
             this.tracks.addAll(tmp);
 
             tmp = getTracks(basePath.resolve("named"), Type.named, GenomeFactory.Assembly.hg19);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Named, "Basic tracks.", GenomeFactory.Assembly.hg19));
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Named, "Named tracks", GenomeFactory.Assembly.hg19));
             this.tracks.addAll(tmp);
 
-
             tmp = getTracks(basePath.resolve("distanced"), Type.distance, GenomeFactory.Assembly.hg19);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Distance, "Distances", GenomeFactory.Assembly.hg19));
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Distance, "Distances to positions", GenomeFactory.Assembly.hg19));
+            this.tracks.addAll(tmp);
+
+            tmp = getTracks(basePath.resolve("strand"), Type.strand, GenomeFactory.Assembly.hg19);
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Strand, "Strand dependend tracks", GenomeFactory.Assembly.hg19));
             this.tracks.addAll(tmp);
 
             //only load all tracks when running on the big server
