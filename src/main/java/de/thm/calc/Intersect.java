@@ -50,24 +50,23 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
         List<Long> intervalStart = track.getStarts();
         List<Long> intervalEnd = track.getEnds();
         List<Character> strands = track.getStrands();
+        List<Long> positions = sites.getPositions();
 
         int intervalCount = intervalStart.size() - 1;
 
-        int p_counter = 0; //counter over positions from sites object
-        for (long p : sites.getPositions()) {
+        for (int j = 0; j < positions.size(); j++) {
+            long p = positions.get(j);
 
             while (i < intervalCount && intervalEnd.get(i) <= p)
                 i++;
 
-            if(i == intervalCount && p >= intervalEnd.get(i)) { //not inside last interval
-                out += sites.getPositions().size() - sites.getPositions().indexOf(p); //add remaining positions to out
+            if (i == intervalCount && p >= intervalEnd.get(i)) { //not inside last interval
+                out += sites.getPositions().size() - j; //add remaining positions to out
                 break; //and end the loop
             }
 
-            if (p >= intervalStart.get(i) && sites.getStrands().get(p_counter) == strands.get(i)) in++;
+            if (p >= intervalStart.get(i)  && sites.getStrands().get(j).equals(strands.get(i))) in++;
             else out++;
-
-            p_counter++;
         }
 
 
