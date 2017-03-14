@@ -47,7 +47,8 @@ public final class IndependenceTest implements Test{
 
         if (measuredScore.length < 2 || expectedScore.length < 2) {
             System.err.println("Not enough data to compute independence test");
-            return null;
+            double effectSize = effectSizeTester.test(testTrackResultA, testTrackResultB);
+            return new TestResult(Double.NaN, testTrackResultA, testTrackResultB, effectSize, track, TestResult.Type.score);
         }
 
         double effectSize = effectSizeTester.test(testTrackResultA, testTrackResultB);
