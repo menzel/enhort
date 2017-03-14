@@ -14,8 +14,8 @@ import java.util.List;
 @SuppressWarnings("unused")
 public abstract class AbstractSites implements Sites {
 
-    private List<Long> positions = new ArrayList<>();
-    private GenomeFactory.Assembly assembly;
+    List<Long> positions = new ArrayList<>();
+    GenomeFactory.Assembly assembly;
 
     @Override
     public void addPositions(Collection<Long> values) {
