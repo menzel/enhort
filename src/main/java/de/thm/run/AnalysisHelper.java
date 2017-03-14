@@ -3,6 +3,7 @@ package de.thm.run;
 import de.thm.backgroundModel.BackgroundModelFactory;
 import de.thm.calc.CalcCaller;
 import de.thm.exception.CovariantsException;
+import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
 import de.thm.genomeData.TrackPackage;
@@ -63,7 +64,7 @@ class AnalysisHelper {
         List<Track> covariants = getCovariants(cmd.getCovariants(), cmd.getAssembly());
         List<Track> runTracks;
         TrackFactory trackFactory = TrackFactory.getInstance();
-        Sites bg;
+        Sites bg = null;
         Double influence = cmd.getInfluence();
         int minSites = cmd.getMinBg();
 
@@ -76,7 +77,11 @@ class AnalysisHelper {
         } else if (covariants.isEmpty()){
             bg = BackgroundModelFactory.createBackgroundModel(sites.getAssembly(), sites.getPositionCount()); //check if minSites is larger
         } else {
-            bg = BackgroundModelFactory.createBackgroundModel(covariants, sites, minSites, influence);
+            try {
+                bg = BackgroundModelFactory.createBackgroundModel(covariants, sites, minSites, influence);
+            } catch (IntervalTypeNotAllowedExcpetion intervalTypeNotAllowedExcpetion) {
+                intervalTypeNotAllowedExcpetion.printStackTrace(); //TODO handle by inform user, and set some bg
+            }
         }
 
 
