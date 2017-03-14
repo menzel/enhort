@@ -55,7 +55,7 @@ public final class UserData implements Sites {
                 if (line_matcher.matches()) {
                     String[] parts = line.split("\t");
 
-                    if(parts.length >= 5) strand.add(parts[5].charAt(0));
+                    if(parts.length > 5) strand.add(parts[5].charAt(0));
 
                     positions.add(Long.parseLong(line_matcher.group(3)) + chrSizes.offset(assembly, line_matcher.group(1)));
 
