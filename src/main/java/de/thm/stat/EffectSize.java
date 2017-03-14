@@ -36,6 +36,9 @@ public final class EffectSize {
      * @param in1 - count insideof second set
      * @param out1 - count outside of second set
      *
+     * Params should be whole numbers
+     * They are converted implicitly to ensure double precision for the return value
+     *
      * @return fold change
      */
     double foldChange(double in, double out, double in1, double out1) {
