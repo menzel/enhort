@@ -125,4 +125,8 @@ public class StrandTrack extends Track{
     public String getDescription() {
         return description;
     }
+
+    public InOutTrack getInOut() {
+        return new InOutTrack(this.getStarts(), this.getEnds(), this.name, this.description, this.assembly, this.cellLine);
+    }
 }
