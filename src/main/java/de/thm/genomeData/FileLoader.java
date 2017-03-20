@@ -167,9 +167,10 @@ final class FileLoader implements Runnable {
                             scores.add(.0);
                     }
 
-                    if (parts.length > 5 && parts[5] != null && parts[5].matches("[+-]")){
-                        //type = TrackFactory.Type.strand; //TODO set once, not every time
-                        strands.add(parts[5].charAt(0));
+                    if(type == TrackFactory.Type.strand) {
+                        if (parts.length > 5 && parts[5] != null && parts[5].matches("[+-]"))
+                            strands.add(parts[5].charAt(0));
+                        else strands.add('o');
                     }
                 }
             }
