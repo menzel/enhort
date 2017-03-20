@@ -54,12 +54,6 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
 
         int intervalCount = intervalStart.size() - 1;
 
-        if(sites.getStrands().size() != positions.size() || strands.size() != intervalStart.size()){
-            System.err.println("Intersect: NotEnoughStrand data for " + track.getName());
-            return new TestTrackResult(track, 0,0); // not enough strand data
-        }
-
-
         for (int j = 0; j < positions.size(); j++) {
             long p = positions.get(j);
 
