@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 /**
  * Strand track, which is a inout track with strand (sense antisenes -+) information
+ * The strand data is + -  or 'o' for both strands
  *
  * Created by menzel on 2/21/17.
  */
@@ -17,7 +18,7 @@ public class StrandTrack extends Track{
     private final int uid = UID.incrementAndGet();
     private final long[] intervalsStart;
     private final long[] intervalsEnd;
-    private final char[] strand;
+    private final char[] strand; //should only contain  - + o  (o for both strands)
     private final String name;
     private final GenomeFactory.Assembly assembly;
     private final CellLine cellLine;
@@ -42,6 +43,12 @@ public class StrandTrack extends Track{
             for (int i = 0; i < strand.size(); i++)
                 this.strand[i] = strand.get(i);
         } else this.strand = new char[0];
+
+
+        if(intervalsStart.length != intervalsEnd.length || intervalsEnd.length  != this.strand.length){
+            System.err.println("In StrandTrack " + name + " some interval data is missing");
+        }
+
 
         this.description = description;
         this.name = name;
