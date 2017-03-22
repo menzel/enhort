@@ -91,7 +91,15 @@ public final class SiteFactory {
      * @return positions with a logo similar to logo
      */
     public Sites getByLogo(Logo logo, int count){
-        List<String> seq = indexTable.getSequences(logo.getConsensus().length());
+
+        List<String> seq = null;
+
+        try {
+            seq = indexTable.getSequences(logo.getConsensus().length());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         List<Long> pos = indexTable.getPositions();
         List<Long> new_pos = new ArrayList<>();
         MersenneTwister rand = new MersenneTwister();
