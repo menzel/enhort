@@ -66,73 +66,68 @@ final class Genome {
 
 
         List<String> sequences = new ArrayList<>();
-        int counter = 0;
+        int counter = 0; //genomic position counter
         LineIterator it = null;
         String lastChr = "";
         String line = "";
 
-        for(Long position: sublist) {
-
-
+        for (Long position : sublist) {
             Pair<String, Long> start = ChromosomSizes.getInstance().mapToChr(assembly, position);
-            Pair<String, Long> end = ChromosomSizes.getInstance().mapToChr(assembly, position);
-
-            assert end != null;
             assert start != null;
-            if (start.getLeft().equals(end.getLeft())) { //if start and end are on the same chr
 
-
-                if(!lastChr.equals(start.getLeft())) {
-
-                    try {
-                        Path chr = filepath.resolve(start.getLeft() + ".fa");
-                        it = FileUtils.lineIterator(chr.toFile(), "UTF-8");
-                        counter = 0;
-                        lastChr = start.getLeft();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-
-                long first = start.getRight() - width/2;
-
-                if (first < Math.toIntExact(end.getRight())) {
-
-                    assert it != null;
-                    while (it.hasNext() || counter > first) {
-
-                        if (counter > first) {
-                            int lineStart = Math.toIntExact(first - (counter - line.length()));
-                            int lineEnd = lineStart + width;
-
-                            if(lineEnd > 50){ //if end is on the next line
-                                String part = line.substring(lineStart, 50);
-
-                                line = it.nextLine();
-                                part += line.substring(0, lineEnd-50);
-
-                                counter += line.length();
-
-                                sequences.add(part);
-
-                            } else if(lineStart >= 0 && lineEnd > 0){
-                                sequences.add(line.substring(lineStart,lineEnd));
-                            }
-
-                            break;
-                        }
-
-
-                        line = it.nextLine();
-
-                        if(line.startsWith(">"))
-                            continue;
-
-                        counter += line.length();
-                    }
+            if (!lastChr.equals(start.getLeft())) {  // if new chr load the new chr file
+                try {
+                    Path chr = filepath.resolve(start.getLeft() + ".fa");
+                    it = FileUtils.lineIterator(chr.toFile(), "UTF-8");
+                    counter = 0;
+                    lastChr = start.getLeft();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
+
+
+            long first = start.getRight() - width / 2;
+            assert it != null;
+
+            while (it.hasNext() || counter > first) {
+
+                if (counter > first) {
+
+                    int lineStart = Math.toIntExact(first - (counter - line.length()));
+                    int lineEnd = lineStart + width;
+
+                    if (lineEnd > 50) { //if end is on the next line
+                        String part = line.substring(lineStart, 50);// TODO check if the next line (line) has 50 chars
+
+                        line = it.nextLine();
+                        counter += line.length();
+
+                        part += line.substring(0, lineEnd - 50);
+                        sequences.add(part);
+
+                    } else if (lineStart >= 0 && lineEnd > 0) {
+                        sequences.add(line.substring(lineStart, lineEnd));
+                    } else {
+                        String s = "NNNNNNNN";
+                        sequences.add(s); //TODO find out how one can get here? (negative lineStart)
+                    }
+
+                    break;
+                }
+
+                line = it.nextLine();
+
+                if (line.startsWith(">"))
+                    continue;
+
+                counter += line.length();
+            }
+
+        }
+
+        if(sequences.size() != sublist.size()){
+            System.err.println("nicht okay");
         }
 
         return sequences;
@@ -255,4 +250,14 @@ final class Genome {
         return pos;
     }
 
+    String getSequence(Long position, int width) {
+        List<Long> list = new ArrayList<>();
+        list.add(position);
+        return getSequence(list, width, 2).get(0);
+    }
 }
+
+
+
+
+
