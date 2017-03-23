@@ -135,7 +135,7 @@ public final class SiteFactory {
                new_pos.add(pos.get(i - 1));
             }
 
-            if(i >= pos.size())
+            if(i >= pos.size() || new_pos.size() >= count)
                 break;
         }
 
