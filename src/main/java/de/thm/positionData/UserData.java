@@ -41,7 +41,7 @@ public final class UserData implements Sites {
 
         ChromosomSizes chrSizes = ChromosomSizes.getInstance();
 
-        Pattern entry = Pattern.compile("(chr(\\d{1,2}|X|Y))\\s(\\d*)\\s((\\w+)\\s([+-]))?.*");
+        Pattern entry = Pattern.compile("(chr(\\d{1,2}|X|Y))\\s(\\d+)(\\s((\\w+)\\s([+-]))?)?.*");
 
         try (Stream<String> lines = Files.lines(path)) {
 
