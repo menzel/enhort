@@ -52,7 +52,7 @@ public final class BackendController {
             System.exit(1);
         }
 
-        SiteFactoryFactory.getInstance();
+        SiteFactoryFactory.getInstance(); // preload instance of factory
     }
 
 
