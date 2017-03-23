@@ -8,14 +8,18 @@ import de.thm.genomeData.TrackFactory;
 import de.thm.logo.GenomeFactory;
 import de.thm.logo.Logo;
 import de.thm.logo.LogoCreator;
+import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 
@@ -37,7 +41,7 @@ public class SiteFactoryTest {
             e.printStackTrace();
         }
 
-        factory = new SiteFactory(GenomeFactory.Assembly.hg19, 100000);
+        factory = new SiteFactory(GenomeFactory.Assembly.hg19, 500000);
 
     }
 
@@ -132,6 +136,76 @@ public class SiteFactoryTest {
         assertEquals(result.getIn(), in);
         assertEquals(result.getOut(), out);
     }
+
+
+    @Test
+    public void csaba() throws Exception {
+
+        List<String> sequences = Files.readAllLines(new File("/home/menzel/Desktop/THM/lfba/projekte/csaba/L1TAinsertionSites_JulijaRaizPaper.csv").toPath());
+        sequences = sequences.stream().map(String::toUpperCase).map(i -> i.substring(2,10)).collect(Collectors.toList());
+
+
+        Logo logo = LogoCreator.createLogo(sequences);
+
+        List<Long> sites = factory.getByLogo(logo, 30000).getPositions();
+        List<String> sitesNew = new ArrayList<>();
+
+
+        for(Long site: sites){
+            String line = ChromosomSizes.getInstance().mapToChr(GenomeFactory.Assembly.hg19,site).toString();
+
+            line = line.substring(1, line.length()-1);
+            line = line.replace(',','\t');
+
+            sitesNew.add(line);
+        }
+
+
+        Files.write(Paths.get("/home/menzel/Desktop/sites.bed"), sitesNew);
+
+        List<String> seq = GenomeFactory.getInstance().getSequence(GenomeFactory.Assembly.hg19, sites,8, Integer.MAX_VALUE);
+        Logo newLogo = LogoCreator.createLogo(seq);
+
+
+        try {
+            Files.write(Paths.get("/home/menzel/Desktop/test.out"), seq);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+        System.out.println(newLogo.getConsensus());
+    }
+
+
+
+    @Test
+    public void getByLogo2() throws Exception {
+        List<String> sequences = new ArrayList<>();
+
+        sequences.add("AATTAATT");
+        sequences.add("AACTAATT");
+        sequences.add("AATTATTT");
+        sequences.add("AATTATTT");
+        sequences.add("AATGAAAT");
+
+        Logo logo = LogoCreator.createLogo(sequences);
+
+        List<Long> sites = factory.getByLogo(logo, 10).getPositions();
+        List<String> seq = GenomeFactory.getInstance().getSequence(GenomeFactory.Assembly.hg19, sites,4, Integer.MAX_VALUE);
+        Logo newLogo = LogoCreator.createLogo(seq);
+
+
+        System.out.println(newLogo.getConsensus());
+
+        assertEquals(newLogo.getConsensus(), "AATT");
+    }
+
+
+
+
+
 
     @Test
     public void getByLogo() throws Exception {
