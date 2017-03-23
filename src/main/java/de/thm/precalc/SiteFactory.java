@@ -4,6 +4,7 @@ import de.thm.genomeData.Track;
 import de.thm.logo.GenomeFactory;
 import de.thm.logo.Logo;
 import de.thm.positionData.Sites;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.math3.random.MersenneTwister;
 
@@ -101,13 +102,19 @@ public final class SiteFactory {
         }
 
         List<Long> pos = indexTable.getPositions();
-        List<Long> new_pos = new ArrayList<>();
+        List<Pair<Long, String>> positions = new ArrayList<>();
+
+        for (int i = 0; i < pos.size(); i++) {
+            positions.add(new ImmutablePair(pos.get(i), seq.get(i)));
+        }
+
+        Collections.shuffle(positions);
+
+        List<Long> new_pos = new ArrayList<>(); // newly generated positions
         MersenneTwister rand = new MersenneTwister();
         Map<String, Double> scores = calculateScores(logo, seq);
 
-        //select scores based on propability
         double sum = scores.values().stream().mapToDouble(d -> d).sum();
-
         List<Double> rands = new ArrayList<>();
 
         double cum = 0;
@@ -125,17 +132,17 @@ public final class SiteFactory {
             }
 
             while(cum < rands.get(j)) {
-                double s = scores.get(seq.get(i++));
+                double s = scores.get(positions.get(i++).getRight());
                 cum += s;
             }
 
             j++;
 
-            if(new_pos.size() < 1 || ! new_pos.get(new_pos.size()-1).equals(pos.get(i-1))) {
-               new_pos.add(pos.get(i - 1));
+            if(new_pos.size() < 1 || ! new_pos.get(new_pos.size()-1).equals(positions.get(i-1).getLeft())) {
+               new_pos.add(positions.get(i - 1).getLeft());
             }
 
-            if(i >= pos.size() || new_pos.size() >= count)
+            if(i >= positions.size() || new_pos.size() >= count)
                 break;
         }
 
