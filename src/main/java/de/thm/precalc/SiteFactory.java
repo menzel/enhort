@@ -109,14 +109,20 @@ public final class SiteFactory {
         double sum = scores.values().stream().mapToDouble(d -> d).sum();
 
         List<Double> rands = new ArrayList<>();
-        IntStream.range(0, count).forEach(i -> rands.add(rand.nextDouble()*sum));
-        Collections.sort(rands);
 
         double cum = 0;
         int i = 0; //counter over seq/scores
         int j = 0; //counter over rands
 
-        while(j < rands.size()){
+        while(true){
+
+            if(j >= rands.size()){
+                rands.clear();
+                IntStream.range(0, count).forEach(x -> rands.add(rand.nextDouble()*sum));
+                Collections.sort(rands);
+                j = 0;
+                cum = 0;
+            }
 
             while(cum < rands.get(j)) {
                 double s = scores.get(seq.get(i++));
@@ -125,9 +131,11 @@ public final class SiteFactory {
 
             j++;
 
-            new_pos.add(pos.get(i-1));
+            if(new_pos.size() < 1 || ! new_pos.get(new_pos.size()-1).equals(pos.get(i-1))) {
+               new_pos.add(pos.get(i - 1));
+            }
 
-            if(i >= pos.size() || new_pos.size() >= count)
+            if(i >= pos.size())
                 break;
         }
 
