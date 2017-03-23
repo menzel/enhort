@@ -131,7 +131,7 @@ public final class SiteFactory {
                 cum = 0;
             }
 
-            while(cum < rands.get(j)) {
+            while(cum < rands.get(j) && i < positions.size()) {
                 double s = scores.get(positions.get(i++).getRight());
                 cum += s;
             }
@@ -145,6 +145,8 @@ public final class SiteFactory {
             if(i >= positions.size() || new_pos.size() >= count)
                 break;
         }
+
+        Collections.sort(new_pos); // dont forget to sort the sites here.
 
         return new PrecalcBackgroundModel(assembly, new_pos);
     }
