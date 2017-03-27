@@ -21,6 +21,8 @@ public final class UserData implements Sites {
     private final GenomeFactory.Assembly assembly;
     private List<Long> positions = new ArrayList<>();
     private List<Character> strand = new ArrayList<>();
+    private String filename;
+
 
     /**
      * Constructor
@@ -30,6 +32,8 @@ public final class UserData implements Sites {
     public UserData(GenomeFactory.Assembly assembly, Path path) {
         this.assembly = assembly;
         loadPositionsFromFile(path);
+
+        filename = path.toFile().getName().substring(0, path.toFile().getName().length()-37);// remove uuid appendix
     }
 
     /**
@@ -99,5 +103,13 @@ public final class UserData implements Sites {
 
     public List<Character> getStrands() {
         return this.strand;
+    }
+
+    public String getFilename() {
+        return this.filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 }

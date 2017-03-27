@@ -192,6 +192,8 @@ public class CalculationController {
                 Session currentSession = sessionControll.addSession(httpSession.getId(), inputFilepath);
 
                 UserData data = new UserData(assembly, inputFilepath);
+
+                currentSession.setSites(data);
                 BackendCommand command = new BackendCommand(data);
 
                 command.addCustomTrack(currentSession.getCustomTracks());
@@ -260,6 +262,7 @@ public class CalculationController {
                 Path file = currentSession.getFile();
                 UserData userSites = new UserData(GenomeFactory.Assembly.hg19, file);
                 currentSession.setBgSites(sitesBg);
+                currentSession.setBgFilename(bgname);
 
                 BackendCommand backendCommand = new BackendCommand(userSites, sitesBg);
 
@@ -270,13 +273,12 @@ public class CalculationController {
                 if(collector != null) {
 
                     currentSession.setCollector(collector);
-                    currentSession.setBgFilename(name);
 
                     setModel(model, collector, userSites, name);
                     model.addAttribute("covariants", new ArrayList<>());
                     model.addAttribute("covariantCount", 0);
                     model.addAttribute("customTracks", currentSession.getCustomTracks());
-                    model.addAttribute("bgfilename", bgname);
+                    model.addAttribute("bgfilename", currentSession.getBgname());
 
                     stats.addAnaylseC();
                     stats.addFileC();
@@ -313,8 +315,12 @@ public class CalculationController {
         Sessions sessionsControll = Sessions.getInstance();
 
         Session currentSession = sessionsControll.getSession(httpSession.getId());
-        Path file = currentSession.getFile();
-        UserData data = new UserData(GenomeFactory.Assembly.valueOf(command.getAssembly()), file);
+        UserData data = currentSession.getSites();
+
+        if(!command.getAssembly().equals(data.getAssembly())) { // if the user changed the assembly
+            Path file = currentSession.getFile(); //reload the file
+            data = new UserData(GenomeFactory.Assembly.valueOf(command.getAssembly()), file);
+        }
 
         ResultCollector collector;
         List<TestResult> covariants = new ArrayList<>();
@@ -323,13 +329,15 @@ public class CalculationController {
 
         //command.setCreateLogo(false);
         // remove uuid from filename for display and set it to the old InterfaceCommand, because it will be sent to the View again:
-        String filename = file.toFile().getName().substring(0, file.toFile().getName().length()-37);
+        String filename = data.getFilename(); //file.toFile().getName().substring(0, file.toFile().getName().length()-37);
         filename = filename.length() > 12 ? filename.substring(0,12) +  ".." : filename;
         command.setOriginalFilename(filename);
 
-        command.setSitesBg(currentSession.getSitesBg());
-        if(currentSession.getSitesBg() != null)
+        command.setSitesBg(currentSession.getSitesBg()); // get sites from session, add to command
+        if(currentSession.getSitesBg() != null) {
             command.setCovariants(new ArrayList<>()); // no covariates for uploaded bg
+            model.addAttribute("bgfilename", currentSession.getBgname());
+        }
 
         try {
 
@@ -475,6 +483,8 @@ public class CalculationController {
         }
 
         model.addAttribute("sl_effect", collector.logoEffectSize());
+
+        model.addAttribute("bgfilename", "Background");
     }
 
     /**
@@ -501,6 +511,5 @@ public class CalculationController {
 
         ExpressionCommand exCommand = new ExpressionCommand();
         model.addAttribute("expressionCommand", exCommand);
-        model.addAttribute("bgfilename", "Background");
     }
 }

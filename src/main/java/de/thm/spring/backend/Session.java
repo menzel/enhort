@@ -32,6 +32,7 @@ public final class Session {
     private List<Track> customTracks = new ArrayList<>();
     private String bgname = "Background";
     private UserData sitesBg;
+    private UserData sites;
 
     Session(Path file, String key, Date date, List<Track> customTracks) {
         this.file = file;
@@ -131,5 +132,13 @@ public final class Session {
 
     public UserData getSitesBg() {
         return sitesBg;
+    }
+
+    public UserData getSites() {
+        return sites;
+    }
+
+    public void setSites(UserData sites) {
+        this.sites = sites;
     }
 }
