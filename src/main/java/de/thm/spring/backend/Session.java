@@ -1,6 +1,7 @@
 package de.thm.spring.backend;
 
 import de.thm.genomeData.Track;
+import de.thm.positionData.UserData;
 import de.thm.stat.ResultCollector;
 import de.thm.stat.TestResult;
 
@@ -30,6 +31,7 @@ public final class Session {
     private List<TestResult> covariants;
     private List<Track> customTracks = new ArrayList<>();
     private String bgname = "Background";
+    private UserData sitesBg;
 
     Session(Path file, String key, Date date, List<Track> customTracks) {
         this.file = file;
@@ -117,5 +119,17 @@ public final class Session {
 
     public void setBgFilename(String bgname) {
         this.bgname = bgname;
+    }
+
+    public String getBgname() {
+        return bgname;
+    }
+
+    public void setBgSites(UserData sitesBg) {
+        this.sitesBg = sitesBg;
+    }
+
+    public UserData getSitesBg() {
+        return sitesBg;
     }
 }
