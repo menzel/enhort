@@ -43,6 +43,14 @@ public final class EffectSize {
      */
     double foldChange(double in, double out, double in1, double out1) {
 
+        double sum = in+out;
+        in = in/sum;
+        out = out/sum;
+
+        sum = in1+out1;
+        in1 = in1/sum;
+        out1 = out1/sum;
+
         if(in1 == 0 || out1 == 0 || out  == 0 || in == 0)
             return Double.POSITIVE_INFINITY;
 
