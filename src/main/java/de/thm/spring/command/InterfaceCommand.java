@@ -26,6 +26,7 @@ public final class InterfaceCommand {
     private boolean logoCovariate;
     private boolean createLogo;
     private ScoredTrack hotspots;
+    private Sites sitesBg;
 
     public InterfaceCommand() {
         covariants = new ArrayList<>();
@@ -138,5 +139,13 @@ public final class InterfaceCommand {
 
     public void setHotspots(ScoredTrack hotspots) {
         this.hotspots = hotspots;
+    }
+
+    public Sites getSitesBg() {
+        return this.sitesBg;
+    }
+
+    public void setSitesBg(Sites sitesBg) {
+        this.sitesBg = sitesBg;
     }
 }

@@ -259,6 +259,7 @@ public class CalculationController {
 
                 Path file = currentSession.getFile();
                 UserData userSites = new UserData(GenomeFactory.Assembly.hg19, file);
+                currentSession.setBgSites(sitesBg);
 
                 BackendCommand backendCommand = new BackendCommand(userSites, sitesBg);
 
@@ -320,12 +321,15 @@ public class CalculationController {
         StatisticsCollector stats = StatisticsCollector.getInstance();
         command.setSites(data);
 
-
         //command.setCreateLogo(false);
         // remove uuid from filename for display and set it to the old InterfaceCommand, because it will be sent to the View again:
         String filename = file.toFile().getName().substring(0, file.toFile().getName().length()-37);
         filename = filename.length() > 12 ? filename.substring(0,12) +  ".." : filename;
         command.setOriginalFilename(filename);
+
+        command.setSitesBg(currentSession.getSitesBg());
+        if(currentSession.getSitesBg() != null)
+            command.setCovariants(new ArrayList<>()); // no covariates for uploaded bg
 
         try {
 
@@ -342,6 +346,7 @@ public class CalculationController {
             model.addAttribute("covariants", covariants);
             model.addAttribute("covariantCount", covariants.size() + (command.getLogoCovariate()? 1:0));
             model.addAttribute("customTracks", currentSession.getCustomTracks());
+
 
         } catch (CovariantsException e) {
             model.addAttribute("errorMessage", "Too many covariants, a max of " + "10 covariants is allowed.");
@@ -470,7 +475,6 @@ public class CalculationController {
         }
 
         model.addAttribute("sl_effect", collector.logoEffectSize());
-
     }
 
     /**
@@ -497,7 +501,6 @@ public class CalculationController {
 
         ExpressionCommand exCommand = new ExpressionCommand();
         model.addAttribute("expressionCommand", exCommand);
-
         model.addAttribute("bgfilename", "Background");
     }
 }

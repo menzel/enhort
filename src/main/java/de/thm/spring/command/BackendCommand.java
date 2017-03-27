@@ -65,7 +65,7 @@ public final class BackendCommand implements Serializable, Command{
         this.assembly = GenomeFactory.Assembly.valueOf(command.getAssembly());
         this.logoCovariate = command.getLogoCovariate();
         this.createLogo  = command.getCreateLogo();
-        this.sitesBg = null;
+        this.sitesBg = command.getSitesBg();
     }
 
     public void addCustomTrack(List<Track> track){
