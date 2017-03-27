@@ -8,10 +8,7 @@ import de.thm.positionData.Sites;
 import org.apache.commons.math3.util.Precision;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -124,26 +121,53 @@ public final class ResultCollector implements Serializable{
      * @return results in csv format.
      */
     public String getCsv() {
-        String output = "Track name, p value, effect size, measured, expected \\\\";
+        String output = "Name,";
 
         //filter by p value and sort by effect size:
         List<TestResult> filtered_results = results.stream()
-                .filter(testResult -> testResult.getpValue() < 0.05)
+                //.filter(testResult -> testResult.getpValue() < 0.05)
                 .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
                 .collect(Collectors.toList());
 
+        filtered_results.sort(Comparator.comparing(TestResult::getName));
+
         for (TestResult result : filtered_results) {
             output += result.getName();
-            output += " & ";
-            output += result.getpValue();
-            output += " & ";
-            output += result.getEffectSize();
-            output += " & ";
-            output += result.getMeasuredIn();
-            output += " & ";
-            output += result.getExpectedIn();
-            output += " \\\\ ";
+            output += ",";
         }
+        output += "\\\\";
+
+
+        for (TestResult result : filtered_results) {
+            if(result.getpValue() > 0.05)
+                output += "0,";
+            else {
+                if (result.getExpectedIn() >= result.getMeasuredIn()) { // weniger als erwartet drinn
+                    output += -1 * result.getEffectSize();
+                } else {
+                    output += result.getEffectSize();
+                }
+                output += ",";
+            }
+        }
+
+
+        /*
+        for (TestResult result : filtered_results) {
+            if(result.getpValue() > 0.05)
+                output += "0,";
+            else {
+                if (result.getExpectedIn() < result.getMeasuredIn()) { // mehr als erwartet drinn
+                    output += ((double) result.getExpectedIn()) / result.getMeasuredIn();
+                }
+                if (result.getExpectedIn() >= result.getMeasuredIn()) { // weniger als erwartet drinn
+                    output += -1 * ((double) result.getExpectedIn()) / result.getMeasuredIn();
+
+                }
+                output += ",";
+            }
+        }
+         **/
 
         return output;
     }
