@@ -6,6 +6,7 @@ import de.thm.logo.Logo;
 import de.thm.logo.LogoCreator;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
+import de.thm.positionData.UserData;
 import de.thm.stat.EffectSize;
 import de.thm.stat.IndependenceTest;
 import de.thm.stat.ResultCollector;
@@ -53,6 +54,10 @@ public final class CalcCaller {
 
         ResultCollector collector = new ResultCollector(randomPositions, tracks.get(0).getAssembly()); // get assembly from the first track
 
+        if(measuredPositions.getPositions().size() < 1){
+            return collector; // TODO inform user that there are no sites, fileformat wrong?
+        }
+
         for (Track track : tracks) {
 
             if (track instanceof InOutTrack) {
@@ -78,10 +83,12 @@ public final class CalcCaller {
         //////////// Logo ////////////////
 
         if(createLogo && measuredPositions.getAssembly().equals(GenomeFactory.Assembly.hg19)){
-            LogoWrapper logoWrapper = new LogoWrapper(measuredPositions,collector, tracks.get(0).getAssembly(), "user data");
+            String first = (measuredPositions instanceof UserData)? ((UserData) measuredPositions).getFilename(): "user data";
+            LogoWrapper logoWrapper = new LogoWrapper(measuredPositions,collector, tracks.get(0).getAssembly(), first);
             exe.execute(logoWrapper);
 
-            LogoWrapper logoWrapper2 = new LogoWrapper(randomPositions, collector, tracks.get(0).getAssembly(), "random");
+            String second = (randomPositions instanceof UserData)? ((UserData) randomPositions).getFilename(): "random";
+            LogoWrapper logoWrapper2 = new LogoWrapper(randomPositions, collector, tracks.get(0).getAssembly(), second);
             exe.execute(logoWrapper2);
         }
 
@@ -227,7 +234,7 @@ public final class CalcCaller {
         @Override
         public void run() {
             GenomeFactory genome = GenomeFactory.getInstance();
-            int width = 8;//TODO use user set value
+            int width = 12;//TODO use user set value
             int count = 300;//TODO use user set value
 
             Logo logo = LogoCreator.createLogo(genome.getSequence(assembly, measuredPos, width, count));

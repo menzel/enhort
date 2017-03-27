@@ -104,7 +104,7 @@ class SiteCreator {
      * @param positions - positions to look up
      */
     private List<String> fill_sequence(GenomeFactory.Assembly assembly, List<Long> positions) {
-        return GenomeFactory.getInstance().getSequence(assembly, positions, 9, Integer.MAX_VALUE);
+        return GenomeFactory.getInstance().getSequence(assembly, positions, 12, Integer.MAX_VALUE);
     }
 
     private class PropWrapper implements Runnable{
