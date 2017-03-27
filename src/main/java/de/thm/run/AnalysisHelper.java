@@ -129,7 +129,7 @@ class AnalysisHelper {
         }
 
         CalcCaller multi = new CalcCaller();
-        return multi.execute(runTracks, sites, sitesBg, false);
+        return multi.execute(runTracks, sites, sitesBg, cmd.isCreateLogo());
     }
 
 
