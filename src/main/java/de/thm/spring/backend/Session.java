@@ -29,6 +29,7 @@ public final class Session {
     private String originalFilename;
     private List<TestResult> covariants;
     private List<Track> customTracks = new ArrayList<>();
+    private String bgname = "Background";
 
     Session(Path file, String key, Date date, List<Track> customTracks) {
         this.file = file;
@@ -112,5 +113,9 @@ public final class Session {
 
     public void setCovariants(List<TestResult> covariants) {
         this.covariants = covariants;
+    }
+
+    public void setBgFilename(String bgname) {
+        this.bgname = bgname;
     }
 }

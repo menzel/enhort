@@ -106,8 +106,40 @@ class AnalysisHelper {
 
     }
 
+
+    private ResultCollector runAnalysis(Sites sites, Sites sitesBg, BackendCommand cmd) {
+
+        List<Track> runTracks;
+        TrackFactory trackFactory = TrackFactory.getInstance();
+
+        if(cmd.getPackageNames().isEmpty()) {
+            runTracks = trackFactory.getTracksByPackage(TrackPackage.PackageName.Basic, cmd.getAssembly());
+        } else {
+            runTracks =  new ArrayList<>();
+
+            for(String packName: cmd.getPackageNames()){
+                runTracks.addAll(trackFactory.getTracksByPackage(packName, cmd.getAssembly()));
+            }
+
+            //check and apply custom tracks
+            runTracks.addAll(cmd.getCustomTracks());
+
+            if(runTracks.isEmpty())
+                System.err.println("TrackFactory did not provide any tracks for given packages (" + Arrays.toString(cmd.getPackageNames().toArray()) + ") in AnalysisHelper");
+        }
+
+        CalcCaller multi = new CalcCaller();
+        return multi.execute(runTracks, sites, sitesBg, false);
+    }
+
+
+
     ResultCollector runAnalysis(BackendCommand command) throws CovariantsException {
+        if(command.getSitesBg() != null){
+            return runAnalysis(command.getSites(), command.getSitesBg(), command);
+        }
         return runAnalysis(command.getSites(), command);
     }
+
 
 }

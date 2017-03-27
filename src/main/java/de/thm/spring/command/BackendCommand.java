@@ -20,6 +20,7 @@ public final class BackendCommand implements Serializable, Command{
     private final int minBg; //minimum of expected background positions
     private final List<Track> customTracks;
     private final Sites sites;
+    private final Sites sitesBg;
     private final double influence;
     private final GenomeFactory.Assembly assembly;
     private final boolean logoCovariate;
@@ -31,6 +32,21 @@ public final class BackendCommand implements Serializable, Command{
         this.packageNames = new ArrayList<>();
         this.packageNames.add(TrackPackage.PackageName.Basic.toString());
         this.sites = sites;
+        this.minBg = sites.getPositionCount();
+        this.customTracks = new ArrayList<>();
+        this.influence = 1;
+        this.assembly = sites.getAssembly();
+        this.logoCovariate = false;
+        this.createLogo = false;
+        this.sitesBg = null;
+    }
+
+    public BackendCommand(Sites sites, Sites sitesBg) {
+        this.sitesBg = sitesBg;
+        this.sites = sites;
+        this.covariants = new ArrayList<>();
+        this.packageNames = new ArrayList<>();
+        this.packageNames.add(TrackPackage.PackageName.Basic.toString());
         this.minBg = sites.getPositionCount();
         this.customTracks = new ArrayList<>();
         this.influence = 1;
@@ -49,7 +65,7 @@ public final class BackendCommand implements Serializable, Command{
         this.assembly = GenomeFactory.Assembly.valueOf(command.getAssembly());
         this.logoCovariate = command.getLogoCovariate();
         this.createLogo  = command.getCreateLogo();
-
+        this.sitesBg = null;
     }
 
     public void addCustomTrack(List<Track> track){
@@ -76,5 +92,9 @@ public final class BackendCommand implements Serializable, Command{
 
     public boolean isCreateLogo() {
         return createLogo;
+    }
+
+    public Sites getSitesBg() {
+        return sitesBg;
     }
 }

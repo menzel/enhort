@@ -231,6 +231,73 @@ public class CalculationController {
     }
 
 
+
+    @RequestMapping(value = "/uploadbg", method = RequestMethod.POST)
+    public String handleBackgroundUpload(Model model, @RequestParam("file") MultipartFile bgFile, HttpSession httpSession) {
+
+        String bgname = bgFile.getOriginalFilename();
+        String uuid = bgname + "-" + UUID.randomUUID();
+
+        Sessions sessionControll = Sessions.getInstance();
+        Session currentSession = sessionControll.getSession(httpSession.getId());
+        StatisticsCollector stats = StatisticsCollector.getInstance();
+        GenomeFactory.Assembly assembly = GenomeFactory.Assembly.hg19;
+
+
+        String name = currentSession.getOriginalFilename();
+
+
+        if (!bgFile.isEmpty()) {
+            try {
+                byte[] bytes = bgFile.getBytes();
+                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(basePath.resolve(uuid).toFile()));
+                stream.write(bytes);
+                stream.close();
+
+                Path inputFilepath = basePath.resolve(uuid);
+                UserData sitesBg = new UserData(assembly, inputFilepath);
+
+                Path file = currentSession.getFile();
+                UserData userSites = new UserData(GenomeFactory.Assembly.hg19, file);
+
+                BackendCommand backendCommand = new BackendCommand(userSites, sitesBg);
+
+                /////////// Run analysis ////////////
+                ResultCollector collector = BackendConnector.getInstance().runAnalysis(backendCommand);
+                /////////////////////////////////////
+
+                if(collector != null) {
+
+                    currentSession.setCollector(collector);
+                    currentSession.setBgFilename(name);
+
+                    setModel(model, collector, userSites, name);
+                    model.addAttribute("covariants", new ArrayList<>());
+                    model.addAttribute("covariantCount", 0);
+                    model.addAttribute("customTracks", currentSession.getCustomTracks());
+                    model.addAttribute("bgfilename", bgname);
+
+                    stats.addAnaylseC();
+                    stats.addFileC();
+
+                    return "result";
+                }
+
+            } catch (Exception e) {
+                model.addAttribute("errorMessage", e.getMessage());
+                return "error";
+            }
+
+        } else {
+            model.addAttribute("errorMessage", "You failed to upload " + name + " because the file was empty.");
+            return "error";
+        }
+
+        model.addAttribute("errorMessage", "No results from backend server. Maybe the server is down right now. Try again in a few minutes or contact an admin.");
+        return "error";
+    }
+
+
     @RequestMapping(value = "/covariate", method = RequestMethod.GET)
     public String covariant_get(@ModelAttribute InterfaceCommand command, Model model, HttpSession httpSession) {
         //TODO: try to reset and show results
@@ -430,5 +497,7 @@ public class CalculationController {
 
         ExpressionCommand exCommand = new ExpressionCommand();
         model.addAttribute("expressionCommand", exCommand);
+
+        model.addAttribute("bgfilename", "Background");
     }
 }
