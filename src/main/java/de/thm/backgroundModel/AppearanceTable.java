@@ -2,6 +2,8 @@ package de.thm.backgroundModel;
 
 import de.thm.genomeData.Track;
 import de.thm.positionData.Sites;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -31,10 +33,13 @@ class AppearanceTable {
         appearance = new HashMap<>();
         Map<Track, Integer> indices = new HashMap<>();
 
-        //init indices map:
-        for (Track track : tracks) {
+        //store start and stop positions in this map to reduce loading times:
+        Map<Track, Pair<List<Long>, List<Long>>> intervals = new HashMap<>();
+
+        tracks.forEach(track -> {
+            intervals.put(track, new ImmutablePair<>(track.getStarts(), track.getEnds()));
             indices.put(track, 0);
-        }
+        });
 
 
         for (Long p : positions.getPositions()) {
@@ -42,8 +47,8 @@ class AppearanceTable {
 
             for (Track track : tracks) {
 
-                List<Long> intervalStart = track.getStarts();
-                List<Long> intervalEnd = track.getEnds();
+                List<Long> intervalStart = intervals.get(track).getLeft();
+                List<Long> intervalEnd = intervals.get(track).getRight();
 
                 int i = indices.get(track);
                 int intervalCount = intervalStart.size() - 1;
