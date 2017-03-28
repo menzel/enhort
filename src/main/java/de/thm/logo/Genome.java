@@ -109,7 +109,7 @@ final class Genome {
                     } else if (lineStart >= 0 && lineEnd > 0) {
                         sequences.add(line.substring(lineStart, lineEnd));
                     } else {
-                        String s = "NNNNNNNN";
+                        String s = StringUtils.repeat('N', width);
                         sequences.add(s); //TODO find out how one can get here? (negative lineStart)
                     }
 
@@ -127,7 +127,11 @@ final class Genome {
         }
 
         if(sequences.size() != sublist.size()){
-            System.err.println("nicht okay");
+            System.err.println("Genome: Not enough sequences in list (Genome.java line 130)");
+        }
+
+        if(sequences.stream().filter(s -> s.length() != width).count() > 0){
+            System.err.println("Genome: Some or more sequences do not have the required width (Genome.java line 134)");
         }
 
         return sequences;

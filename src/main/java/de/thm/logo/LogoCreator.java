@@ -23,19 +23,23 @@ public final class LogoCreator {
 
     /**
      * Creates a List of Map of <String, Double> in which the String is a base (a,t,c,g) the Double is the height
-     * and each map of the list corresponds to a positions in the given sequences
+     * and each map of the list corresponds to a positions in the given sequences *
      *
-     * @param sequences - sequence to create logo from. Should all be of the same length
+     * @param sequences - sequence to create logo from. Should all be of the same length!
      *
      * @return heights for a logo
      */
     public static Logo createLogo(List<String> sequences){
         Logo logo = new Logo();
+        int l = sequences.get(0).length();
 
-        for(int i = 0; i < sequences.get(0).length(); i++) {
+        for(int i = 0; i < l; i++) {
 
             int finalI = i;
-            String bases = sequences.stream().map(s -> s.substring(finalI, finalI+1)).collect(Collectors.joining());
+            String bases = sequences.stream()
+                            .filter(s -> s.length() > l) // defensive filter
+                            .map(s -> s.substring(finalI, finalI+1))
+                            .collect(Collectors.joining());
 
             //information content:
             logo.add(getHeights(bases));
