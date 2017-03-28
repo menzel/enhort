@@ -2,6 +2,7 @@ package de.thm.logo;
 
 import de.thm.positionData.Sites;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,11 +34,16 @@ public final class LogoCreator {
         Logo logo = new Logo();
         int l = sequences.get(0).length();
 
+        if(sequences.stream().filter(s -> s.length() != l).count() > 0) {
+            System.err.println("LogoCreator: The sequences do not have the same length:");
+            System.err.println("They should be " + sequences.get(0).length());
+            System.err.println("And some are: " + Arrays.toString(sequences.stream().filter(s -> s.length() != l).toArray()));
+        }
+
         for(int i = 0; i < l; i++) {
 
             int finalI = i;
             String bases = sequences.stream()
-                            .filter(s -> s.length() > l) // defensive filter
                             .map(s -> s.substring(finalI, finalI+1))
                             .collect(Collectors.joining());
 
