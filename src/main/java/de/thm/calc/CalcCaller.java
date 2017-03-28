@@ -109,6 +109,7 @@ public final class CalcCaller {
         } catch (InterruptedException e) {
             e.printStackTrace();
             exe.shutdownNow();
+            return collector;
         } finally {
             if(!exe.isTerminated())
                 System.err.println("Killing all tasks now");

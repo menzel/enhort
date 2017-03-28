@@ -7,6 +7,7 @@ import de.thm.genomeData.InOutTrack;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
 import de.thm.logo.GenomeFactory;
+import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
 import org.junit.Test;
 
@@ -228,6 +229,95 @@ public class MultiTrackBackgroundModelTest {
         assertEquals(inFirst + out, result2.getOut());
 
     }
+
+
+
+    @Test
+    public void testInfinityTrack() throws Exception {
+
+        // intervals:
+
+        List<Long> start1 = new ArrayList<>();
+        List<Long> start2 = new ArrayList<>();
+
+        List<Long> end1 = new ArrayList<>();
+        List<Long> end2 = new ArrayList<>();
+
+        start1.add(0L);
+        end1.add(10L);
+
+        start1.add(20L);
+        end1.add(30L);
+
+        start1.add(45L);
+        end1.add(80L);
+
+
+        start2.add(0L);
+
+        long middle = ChromosomSizes.getInstance().getGenomeSize(GenomeFactory.Assembly.hg19)/2;
+
+        end2.add(middle);
+        start2.add(middle+1);
+        end2.add(ChromosomSizes.getInstance().getGenomeSize(GenomeFactory.Assembly.hg19));
+
+        Track track1 = mockTrack(start1, end1);
+        Track track2 = mockTrack(start2, end2);
+
+        List<Track> trackList = new ArrayList<>();
+
+        trackList.add(track1);
+        trackList.add(track2);
+
+
+
+         Sites sites =  new Sites() {
+             @Override
+             public void addPositions(Collection<Long> values) {}
+
+             @Override
+            public List<Long> getPositions() {
+
+                List<Long> sites = new ArrayList<>();
+
+                sites.add(12L);
+                sites.add(42L);
+                sites.add(46L);
+                sites.add(53L);
+                sites.add(54L);
+
+                sites.add(60L);
+                return sites;
+
+            }
+
+             @Override
+             public void setPositions(List<Long> positions) {}
+
+             @Override
+             public List<Character> getStrands() {
+                 return null;
+             }
+
+             @Override
+             public int getPositionCount() {
+                 return 6;
+             }
+
+             @Override
+             public GenomeFactory.Assembly getAssembly() {
+                 return GenomeFactory.Assembly.hg19;
+             }
+         };
+
+
+        MultiTrackBackgroundModel model = new MultiTrackBackgroundModel(trackList, sites, sites.getPositionCount());
+        //TODO ASSERTS
+    }
+
+
+
+
 
 
     private InOutTrack mockTrack(List<Long> start, List<Long> end) {

@@ -146,7 +146,9 @@ public final class BackendController {
                         queue = new ArrayBlockingQueue<>(16);
                         exe = new ThreadPoolExecutor(1, 4, 5L, TimeUnit.MILLISECONDS, queue);
 
+
                         try {
+                            inStream = new ObjectInputStream(socket.getInputStream()); //TODO TEST
                             outStream.writeObject(e);
 
                         } catch (IOException e1) {

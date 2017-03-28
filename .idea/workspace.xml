@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AnalysisUIOptions">
+    <option name="SPLITTER_PROPORTION" value="0.5005525" />
     <option name="ANALYZE_TEST_SOURCES" value="false" />
     <option name="CUSTOM_SCOPE_NAME" value="Project Files" />
-    <option name="ANALYSIS_IN_BACKGROUND" value="true" />
   </component>
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
@@ -12,50 +12,21 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ac5bf7f-aa21-443c-9819-d391adab5fa9" name="Default" comment="only check 5000 positions.&#10;&#10;look at the line again if the">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test/java/de/thm/misc/LogoTest.java" afterPath="" />
+    <list default="true" id="9ac5bf7f-aa21-443c-9819-d391adab5fa9" name="Default" comment="load strand package">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/de/thm/calc/StrandIntersect.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/de/thm/positionData/StrandSites.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/de/thm/run/Analyse.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/web/WEB-INF/web.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/web/index.jsp" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/BackgroundModelFactory.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/BackgroundModelFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/DistanceBackgroundModel.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/DistanceBackgroundModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/LogoBackgroundModel.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/LogoBackgroundModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/MultiTrackBackgroundModel.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/MultiTrackBackgroundModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/RandomBackgroundModel.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/RandomBackgroundModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/ScoreMultiTrackBackgroundModel.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/ScoreMultiTrackBackgroundModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/SecondScoreMultiTrackBackgroundModel.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/SecondScoreMultiTrackBackgroundModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/SingleTrackBackgroundModel.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/SingleTrackBackgroundModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/genomeData/FileLoader.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/genomeData/FileLoader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/genomeData/TrackFactory.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/genomeData/TrackFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/genomeData/Tracks.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/genomeData/Tracks.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/logo/Genome.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/logo/Genome.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/logo/GenomeFactory.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/logo/GenomeFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/misc/ChromosomSizes.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/misc/ChromosomSizes.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/misc/TrackBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/misc/TrackBuilder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/positionData/Sites.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/positionData/Sites.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/positionData/UserData.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/positionData/UserData.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/run/Analyse.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/run/Analyse.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/run/AnalysisHelper.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/run/AnalysisHelper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/calc/CalcCaller.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/calc/CalcCaller.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/run/BackendController.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/run/BackendController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/run/RandomTrack.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/run/RandomTrack.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/spring/command/BackendCommand.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/spring/command/BackendCommand.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/spring/command/InterfaceCommand.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/spring/command/InterfaceCommand.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/spring/controller/CalculationController.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/spring/controller/CalculationController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/de/thm/spring/controller/ExportController.java" afterPath="$PROJECT_DIR$/src/main/java/de/thm/spring/controller/ExportController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/upload.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/upload.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/BetterBackgroundModelTest.java" afterPath="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/BetterBackgroundModelTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/DistanceBackgroundModelTest.java" afterPath="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/DistanceBackgroundModelTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/MultiTrackBackgroundModelTest.java" afterPath="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/MultiTrackBackgroundModelTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/ScoreMultiTrackBackgroundModelTest.java" afterPath="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/ScoreMultiTrackBackgroundModelTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/SecondScoreMultiTrackBackgroundModelTest.java" afterPath="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/SecondScoreMultiTrackBackgroundModelTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/de/thm/calc/DistancesTest.java" afterPath="$PROJECT_DIR$/src/test/java/de/thm/calc/DistancesTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/de/thm/calc/TestTrackSimpleTest.java" afterPath="$PROJECT_DIR$/src/test/java/de/thm/calc/TestTrackSimpleTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/de/thm/genomeData/TracksTest.java" afterPath="$PROJECT_DIR$/src/test/java/de/thm/genomeData/TracksTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/de/thm/logo/GenomeTest.java" afterPath="$PROJECT_DIR$/src/test/java/de/thm/logo/GenomeTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/de/thm/misc/ChromosomSizesTest.java" afterPath="$PROJECT_DIR$/src/test/java/de/thm/misc/ChromosomSizesTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/de/thm/misc/TrackBuilderTest.java" afterPath="$PROJECT_DIR$/src/test/java/de/thm/misc/TrackBuilderTest.java" />
     </list>
     <list id="8ce51779-683a-4a4a-b00e-89aacd62971d" name="Rejected commit: Default" comment="javadoc" />
     <list id="a7df3c55-adf4-432b-b3b5-ec577c3a734d" name="Failed commit: Default" comment="added preprocessor for named tracks. added newNamedTrack to factory" />
     <list id="6b92c20c-475c-4e12-a262-694132a90f13" name="Failed commit: Default (2)" comment="Assembly enum is not abstract anymore to be used by others" />
+    <list id="ea48c903-8f47-4dc9-b7d5-610766d0586e" name="Failed commit: Default (3)" comment="test for score" />
     <ignored path="MultiGenBrowser.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -76,6 +47,15 @@
       <FILTER>de.thm.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/repo$All_in_MultiGenBrowser.coverage" NAME="All in MultiGenBrowser Coverage Results" MODIFIED="1480511549631" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/repo$SiteFactoryTest_getSites.coverage" NAME="SiteFactoryTest.getSites Coverage Results" MODIFIED="1486636522816" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>de.thm.precalc.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/repo$ChromosomSizesTest.coverage" NAME="ChromosomSizesTest Coverage Results" MODIFIED="1481547617371" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>de.thm.misc.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/repo$SecondScoreMultiTrackBackgroundModelTest_smooth.coverage" NAME="SecondScoreMultiTrackBackgroundModelTest.smooth Coverage Results" MODIFIED="1485872313089" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>de.thm.backgroundModel.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/MultiGenBrowser$DistancesTest.coverage" NAME="DistancesTest Coverage Results" MODIFIED="1474278819867" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>de.thm.calc.*</FILTER>
     </SUITE>
@@ -104,61 +84,78 @@
     <favorites_list name="MultiGenBrowser" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.40458015">
+    <splitter split-orientation="horizontal" split-proportion="0.86226285">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="ChromosomSizes.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/misc/ChromosomSizes.java">
+          <file leaf-file-name="CalcCaller.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/calc/CalcCaller.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="332">
-                  <caret line="89" column="0" lean-forward="false" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
+                <state relative-caret-position="792">
+                  <caret line="111" column="28" lean-forward="false" selection-start-line="111" selection-start-column="28" selection-end-line="111" selection-end-column="28" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="TrackBuilder.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/misc/TrackBuilder.java">
+          <file leaf-file-name="BackendController.java" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/run/BackendController.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="767">
-                  <caret line="150" column="129" lean-forward="false" selection-start-line="150" selection-start-column="129" selection-end-line="150" selection-end-column="129" />
+                <state relative-caret-position="585">
+                  <caret line="150" column="97" lean-forward="false" selection-start-line="150" selection-start-column="97" selection-end-line="150" selection-end-column="97" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="TracksTest.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/genomeData/TracksTest.java">
+          <file leaf-file-name="MultiTrackBackgroundModelTest.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/MultiTrackBackgroundModelTest.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="641">
-                  <caret line="360" column="0" lean-forward="true" selection-start-line="360" selection-start-column="0" selection-end-line="360" selection-end-column="0" />
+                <state relative-caret-position="666">
+                  <caret line="314" column="22" lean-forward="false" selection-start-line="314" selection-start-column="22" selection-end-line="314" selection-end-column="22" />
+                  <folding>
+                    <element signature="e#7649#7650#0" expanded="true" />
+                    <element signature="e#7694#7695#0" expanded="true" />
+                    <element signature="e#7763#7764#0" expanded="true" />
+                    <element signature="e#7805#7806#0" expanded="true" />
+                    <element signature="e#7888#7889#0" expanded="true" />
+                    <element signature="e#7956#7957#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="MultiTrackBackgroundModel.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/MultiTrackBackgroundModel.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="468">
+                  <caret line="35" column="27" lean-forward="false" selection-start-line="35" selection-start-column="27" selection-end-line="35" selection-end-column="27" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="SingleTrackBackgroundModel.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/SingleTrackBackgroundModel.java">
+          <file leaf-file-name="AppearanceTable.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/AppearanceTable.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="229">
-                  <caret line="51" column="0" lean-forward="false" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+                <state relative-caret-position="-5">
+                  <caret line="34" column="0" lean-forward="false" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="NativeMethodAccessorImpl.class" pinned="false" current-in-tab="false">
-            <entry file="jar:///usr/lib/jvm/java-8-jdk/jre/lib/rt.jar!/sun/reflect/NativeMethodAccessorImpl.class">
+          <file leaf-file-name="Track.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/Track.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="432">
-                  <caret line="37" column="33" lean-forward="false" selection-start-line="37" selection-start-column="33" selection-end-line="37" selection-end-column="33" />
+                <state relative-caret-position="486">
+                  <caret line="31" column="31" lean-forward="false" selection-start-line="31" selection-start-column="31" selection-end-line="31" selection-end-column="31" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="TrackFactory.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/TrackFactory.java">
+          <file leaf-file-name="LogoCreator.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/logo/LogoCreator.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="0">
                   <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -167,41 +164,31 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="DistancesTest.java" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/calc/DistancesTest.java">
+          <file leaf-file-name="BackgroundModelFactory.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/BackgroundModelFactory.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="95">
-                  <caret line="30" column="138" lean-forward="false" selection-start-line="30" selection-start-column="138" selection-end-line="30" selection-end-column="138" />
+                <state relative-caret-position="1365">
+                  <caret line="99" column="35" lean-forward="false" selection-start-line="99" selection-start-column="35" selection-end-line="99" selection-end-column="35" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="DistanceBackgroundModelTest.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/DistanceBackgroundModelTest.java">
+          <file leaf-file-name="ScoreSet.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/ScoreSet.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="862">
-                  <caret line="97" column="50" lean-forward="true" selection-start-line="97" selection-start-column="50" selection-end-line="97" selection-end-column="50" />
+                <state relative-caret-position="360">
+                  <caret line="23" column="4" lean-forward="false" selection-start-line="23" selection-start-column="4" selection-end-line="23" selection-end-column="4" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="BetterBackgroundModelTest.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/BetterBackgroundModelTest.java">
+          <file leaf-file-name="BackendConnector.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/backend/BackendConnector.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="817">
-                  <caret line="100" column="121" lean-forward="false" selection-start-line="100" selection-start-column="121" selection-end-line="100" selection-end-column="121" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="Tracks.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/Tracks.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="332">
-                  <caret line="342" column="0" lean-forward="false" selection-start-line="342" selection-start-column="0" selection-end-line="342" selection-end-column="0" />
+                <state relative-caret-position="972">
+                  <caret line="133" column="0" lean-forward="false" selection-start-line="133" selection-start-column="0" selection-end-line="133" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -211,101 +198,121 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="BackgroundModelFactory.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/BackgroundModelFactory.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="198">
-                  <caret line="18" column="19" lean-forward="false" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="19" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="CalculationController.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/controller/CalculationController.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="270">
-                  <caret line="108" column="0" lean-forward="true" selection-start-line="108" selection-start-column="0" selection-end-line="108" selection-end-column="0" />
+                <state relative-caret-position="350">
+                  <caret line="265" column="0" lean-forward="false" selection-start-line="265" selection-start-column="0" selection-end-line="265" selection-end-column="0" />
+                  <folding>
+                    <marker date="1490623719844" expanded="false" signature="43:1466" ph="..." />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Test.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/stat/Test.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="162">
+                  <caret line="10" column="17" lean-forward="false" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="TrackBuilderTest.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/misc/TrackBuilderTest.java">
+          <file leaf-file-name="ExportController.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/controller/ExportController.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="360">
+                  <caret line="38" column="58" lean-forward="false" selection-start-line="38" selection-start-column="58" selection-end-line="38" selection-end-column="58" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Session.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/backend/Session.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="234">
+                  <caret line="23" column="19" lean-forward="false" selection-start-line="23" selection-start-column="19" selection-end-line="23" selection-end-column="19" />
+                  <folding>
+                    <element signature="e#3047#3048#0" expanded="true" />
+                    <element signature="e#3083#3084#0" expanded="true" />
+                    <element signature="e#3116#3117#0" expanded="true" />
+                    <element signature="e#3145#3146#0" expanded="true" />
+                    <element signature="e#3193#3194#0" expanded="true" />
+                    <element signature="e#3231#3232#0" expanded="true" />
+                    <element signature="e#3267#3268#0" expanded="true" />
+                    <element signature="e#3297#3298#0" expanded="true" />
+                    <element signature="e#3331#3332#0" expanded="true" />
+                    <element signature="e#3359#3360#0" expanded="true" />
+                    <element signature="e#3403#3404#0" expanded="true" />
+                    <element signature="e#3437#3438#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="AnalysisHelper.java" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/run/AnalysisHelper.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="594">
+                  <caret line="77" column="12" lean-forward="false" selection-start-line="77" selection-start-column="12" selection-end-line="77" selection-end-column="12" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="ChromosomSizesTest.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/misc/ChromosomSizesTest.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="866">
+                  <caret line="89" column="0" lean-forward="false" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="upload.html" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/resources/templates/upload.html">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="450">
-                  <caret line="118" column="119" lean-forward="false" selection-start-line="118" selection-start-column="119" selection-end-line="118" selection-end-column="119" />
+                  <caret line="25" column="6" lean-forward="false" selection-start-line="25" selection-start-column="6" selection-end-line="25" selection-end-column="6" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="MultiTrackBackgroundModelTest.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/MultiTrackBackgroundModelTest.java">
+          <file leaf-file-name="InterfaceCommand.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/command/InterfaceCommand.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="803">
-                  <caret line="229" column="114" lean-forward="false" selection-start-line="229" selection-start-column="114" selection-end-line="229" selection-end-column="114" />
+                <state relative-caret-position="569">
+                  <caret line="132" column="0" lean-forward="false" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
+                  <folding>
+                    <element signature="e#3997#3998#0" expanded="true" />
+                    <element signature="e#4032#4033#0" expanded="true" />
+                    <element signature="e#4077#4078#0" expanded="true" />
+                    <element signature="e#4115#4116#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="ResultCollector.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/stat/ResultCollector.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="714">
+                  <caret line="147" column="35" lean-forward="false" selection-start-line="147" selection-start-column="35" selection-end-line="147" selection-end-column="35" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="TestTrackSimpleTest.java" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/calc/TestTrackSimpleTest.java">
+          <file leaf-file-name="result.html" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/resources/templates/result.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="328">
-                  <caret line="53" column="8" lean-forward="false" selection-start-line="53" selection-start-column="8" selection-end-line="53" selection-end-column="8" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="IntersectMultithread.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/calc/IntersectMultithread.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="988">
-                  <caret line="203" column="57" lean-forward="false" selection-start-line="203" selection-start-column="57" selection-end-line="203" selection-end-column="57" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="Distances.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/calc/Distances.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="162">
-                  <caret line="15" column="12" lean-forward="false" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="12" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="TestTrackResult.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/calc/TestTrackResult.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="162">
-                  <caret line="12" column="19" lean-forward="false" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="Intersect.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/calc/Intersect.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="180">
-                  <caret line="20" column="19" lean-forward="false" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="GenericMultithread.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/calc/GenericMultithread.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="180">
-                  <caret line="24" column="19" lean-forward="false" selection-start-line="24" selection-start-column="19" selection-end-line="24" selection-end-column="19" />
+                <state relative-caret-position="792">
+                  <caret line="128" column="0" lean-forward="false" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -322,10 +329,16 @@
         <option value="HTML File" />
         <option value="Interface" />
         <option value="CSS File" />
-        <option value="Class" />
         <option value="JUnit4 Test Class" />
+        <option value="Class" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>err.println</find>
+      <find>ll</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -347,57 +360,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/genomeData/InOutTrack.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/genomeData/DistanceTrack.java" />
-        <option value="$PROJECT_DIR$/src/test/java/de/thm/calc/GenomeTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/calc/IntersectMultithread.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/MultiTrackBackgroundModel.java" />
+        <option value="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/BetterBackgroundModelTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/DistanceBackgroundModelTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/ScoreBackgroundModelTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/de/thm/calc/DistancesTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/de/thm/calc/TestTrackSimpleTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/de/thm/logo/GenomeTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/precalc/PrecalcBackgroundModel.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/LogoBackgroundModel.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/RandomBackgroundModel.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/genomeData/AbstractTrack.java" />
         <option value="$PROJECT_DIR$/src/main/java/de/thm/genomeData/TrackPackage.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/calc/Genome.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/misc/Logo.java" />
+        <option value="$PROJECT_DIR$/src/test/java/de/thm/stat/IndependenceTestTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/de/thm/calc/IntersectTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/calc/Hotspot.java" />
+        <option value="$PROJECT_DIR$/src/test/java/de/thm/calc/HotspotTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/BackgroundModelFactory.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/calc/TestTrack.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/stat/IndependenceTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/positionData/SomeSites.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/positionData/AbstractSites.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/genomeData/Track.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/genomeData/FileLoader.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/genomeData/StrandTrack.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/calc/Intersect.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/genomeData/TrackFactory.java" />
+        <option value="$PROJECT_DIR$/src/test/java/de/thm/precalc/SiteFactoryTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/precalc/SiteFactoryFactory.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/precalc/IndexTable.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/logo/GenomeFactory.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/precalc/SiteFactory.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/stat/EffectSize.java" />
         <option value="$PROJECT_DIR$/src/main/java/de/thm/stat/ResultCollector.java" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/result.html" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/genomeData/Track.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/AppearanceTable.java" />
-        <option value="$PROJECT_DIR$/src/test/java/de/thm/misc/LogoCreatorTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/de/thm/logo/LogoTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/logo/Logo.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/logo/GenomeFactory.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/logo/Genome.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/genomeData/FileLoader.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/run/RandomTrack.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/templates/upload.html" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/spring/controller/ExportController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/positionData/Sites.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/positionData/UserData.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/LogoBackgroundModel.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/ScoreMultiTrackBackgroundModel.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/SecondScoreMultiTrackBackgroundModel.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/run/Analyse.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/RandomBackgroundModel.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/MultiTrackBackgroundModel.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/SingleTrackBackgroundModel.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/DistanceBackgroundModel.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/BackgroundModelFactory.java" />
-        <option value="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/ScoreMultiTrackBackgroundModelTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/SecondScoreMultiTrackBackgroundModelTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/de/thm/logo/GenomeTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/de/thm/misc/ChromosomSizesTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/spring/command/InterfaceCommand.java" />
         <option value="$PROJECT_DIR$/src/main/java/de/thm/spring/command/BackendCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/spring/command/InterfaceCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/templates/uploadBg.html" />
         <option value="$PROJECT_DIR$/src/main/java/de/thm/run/AnalysisHelper.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/run/BackendController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/misc/ChromosomSizes.java" />
-        <option value="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/BetterBackgroundModelTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/genomeData/Tracks.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/misc/TrackBuilder.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/precalc/SiteCreator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/positionData/Sites.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/spring/backend/Session.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/positionData/UserData.java" />
         <option value="$PROJECT_DIR$/src/main/java/de/thm/spring/controller/CalculationController.java" />
-        <option value="$PROJECT_DIR$/src/test/java/de/thm/misc/TrackBuilderTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/de/thm/misc/ChromosomSizesTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/logo/Genome.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/logo/LogoCreator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/ScoreSet.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/calc/CalcCaller.java" />
         <option value="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/MultiTrackBackgroundModelTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/de/thm/calc/TestTrackSimpleTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/de/thm/genomeData/TracksTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/DistanceBackgroundModelTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/de/thm/genomeData/TrackFactory.java" />
-        <option value="$PROJECT_DIR$/src/test/java/de/thm/calc/DistancesTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/AppearanceTable.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/thm/run/BackendController.java" />
       </list>
     </option>
   </component>
@@ -418,6 +431,7 @@
     <treeState />
   </component>
   <component name="ProjectFrameBounds">
+    <option name="x" value="1920" />
     <option name="width" value="1920" />
     <option name="height" value="1181" />
   </component>
@@ -557,6 +571,165 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiGenBrowser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiGenBrowser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiGenBrowser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiGenBrowser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="de.thm" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="stat" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiGenBrowser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiGenBrowser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="de.thm" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="run" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiGenBrowser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiGenBrowser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="de.thm" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="positionData" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiGenBrowser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiGenBrowser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="de.thm" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="misc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiGenBrowser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiGenBrowser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="de.thm" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="genomeData" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiGenBrowser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiGenBrowser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="de.thm" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="calc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiGenBrowser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiGenBrowser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="de.thm" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bootstrap" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiGenBrowser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MultiGenBrowser" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="de.thm" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="backgroundModel" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -606,6 +779,40 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="thm" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="stat" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="repo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="repo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="thm" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="precalc" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -825,32 +1032,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="static" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="repo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="repo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="java" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -878,6 +1059,10 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="thm" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="stat" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -908,6 +1093,10 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="spring" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="run" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1005,7 +1194,71 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="spring" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="backend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="repo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="repo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="thm" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="run" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="repo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="repo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="thm" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="precalc" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1155,6 +1408,36 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="exception" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="repo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="repo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="thm" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="calc" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -1192,165 +1475,6 @@
         </subPane>
       </pane>
       <pane id="Scratches" />
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiGenBrowser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiGenBrowser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiGenBrowser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiGenBrowser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="de.thm" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="stat" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiGenBrowser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiGenBrowser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="de.thm" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="run" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiGenBrowser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiGenBrowser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="de.thm" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="positionData" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiGenBrowser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiGenBrowser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="de.thm" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="misc" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiGenBrowser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiGenBrowser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="de.thm" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="genomeData" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiGenBrowser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiGenBrowser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="de.thm" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="calc" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiGenBrowser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiGenBrowser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="de.thm" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bootstrap" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiGenBrowser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MultiGenBrowser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="de.thm" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="backgroundModel" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1360,9 +1484,9 @@
     <property name="ignore_missing_gitignore" value="true" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.26206896" />
+    <property name="project.structure.side.proportion" value="0.75" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../robocode/robocode-1.9.2.5-setup.jar" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../oopis/code/beispiel_1_multi" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="settings.editor.splitter.proportion" value="0.28769842" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
@@ -1390,29 +1514,47 @@
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="last.edited.regexp" value="track fullname=&quot;name&quot; description=&quot;foo&quot;" />
     <property name="js.eslint.eslintPackage" value="" />
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="de.thm.precalc" />
+      <recent name="de.thm.genomeData" />
+      <recent name="de.thm.exception" />
+      <recent name="de.thm.stat" />
+    </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="de.thm.calc" />
       <recent name="de.thm.genomeData" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
-      <recent name="de.thm.logo" />
-      <recent name="de.thm.misc" />
       <recent name="de.thm.calc" />
-      <recent name="de.thm.backgroundModel" />
+      <recent name="de.thm.precalc" />
       <recent name="de.thm.stat" />
+      <recent name="de.thm.backgroundModel" />
+      <recent name="de.thm.misc" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
       <recent name="groovy.util.GroovyTestCase" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="de.thm.backgroundModel" />
       <recent name="de.thm.logo" />
       <recent name="de.thm.calc" />
-      <recent name="de.thm.backgroundModel" />
       <recent name="de.thm.misc" />
       <recent name="de.thm" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="de.thm.backgroundModel" />
+      <recent name="de.thm.calc" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/templates" />
+      <recent name="$PROJECT_DIR$/web/WEB-INF" />
+      <recent name="$PROJECT_DIR$/target/classes/static" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/static" />
@@ -1421,22 +1563,86 @@
       <recent name="$PROJECT_DIR$/src/main/resources/css/js" />
       <recent name="$PROJECT_DIR$/src/main/resources/css" />
     </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="de.thm.backgroundModel" />
-      <recent name="de.thm.calc" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/web/WEB-INF" />
-      <recent name="$PROJECT_DIR$/src/main/resources/templates" />
-      <recent name="$PROJECT_DIR$/target/classes/static" />
-    </key>
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="de.thm.genomeData" />
-      <recent name="de.thm.exception" />
-      <recent name="de.thm.stat" />
-    </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.Server">
+  <component name="RunManager" selected="Application.BackendController">
+    <configuration default="false" name="SiteFactoryTest.csaba" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="de.thm.precalc.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="MultiGenBrowser" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="de.thm.precalc" />
+      <option name="MAIN_CLASS_NAME" value="de.thm.precalc.SiteFactoryTest" />
+      <option name="METHOD_NAME" value="csaba" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="false" name="SiteFactoryTest.getByLogo2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="de.thm.precalc.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="MultiGenBrowser" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="de.thm.precalc" />
+      <option name="MAIN_CLASS_NAME" value="de.thm.precalc.SiteFactoryTest" />
+      <option name="METHOD_NAME" value="getByLogo2" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="false" name="GenomeTest.getSequence" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="de.thm.logo.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="MultiGenBrowser" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="de.thm.logo" />
+      <option name="MAIN_CLASS_NAME" value="de.thm.logo.GenomeTest" />
+      <option name="METHOD_NAME" value="getSequence" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
     <configuration default="false" name="BackendController" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
@@ -1457,59 +1663,7 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="false" name="GenomeTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="de.thm.logo.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="MultiGenBrowser" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="de.thm.logo" />
-      <option name="MAIN_CLASS_NAME" value="de.thm.logo.GenomeTest" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
-      <method />
-    </configuration>
-    <configuration default="false" name="LogoTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="de.thm.logo.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="MultiGenBrowser" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="de.thm.logo" />
-      <option name="MAIN_CLASS_NAME" value="de.thm.logo.LogoTest" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
-      <method />
-    </configuration>
-    <configuration default="false" name="SecondScoreMultiTrackBackgroundModelTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration default="false" name="MultiTrackBackgroundModelTest.testInfinityTrack" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
           <option name="PATTERN" value="de.thm.backgroundModel.*" />
@@ -1520,30 +1674,9 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="de.thm.backgroundModel" />
-      <option name="MAIN_CLASS_NAME" value="de.thm.backgroundModel.SecondScoreMultiTrackBackgroundModelTest" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
-      <method />
-    </configuration>
-    <configuration default="false" name="All in MultiGenBrowser" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <module name="MultiGenBrowser" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="package" />
+      <option name="MAIN_CLASS_NAME" value="de.thm.backgroundModel.MultiTrackBackgroundModelTest" />
+      <option name="METHOD_NAME" value="testInfinityTrack" />
+      <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" />
       <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" />
@@ -1928,7 +2061,7 @@
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
-      <command value="run-script" />
+      <command value="run" />
       <scripts />
       <node-interpreter value="project" />
       <envs />
@@ -1940,12 +2073,6 @@
     <configuration default="true" type="osgi.bnd.run" factoryName="Test Launcher (JUnit)">
       <method />
     </configuration>
-    <configuration default="false" name="gui" type="GWT.ConfigurationType" factoryName="GWT Configuration">
-      <module name="MultiGenBrowser" />
-      <option name="RUN_PAGE" value="gui.html" />
-      <option name="USE_SUPER_DEV_MODE" value="true" />
-      <method />
-    </configuration>
     <configuration default="false" name="Server" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="de.thm.spring.run.Webinterface" />
@@ -1955,22 +2082,21 @@
       <envs />
       <method />
     </configuration>
-    <list size="7">
-      <item index="0" class="java.lang.String" itemvalue="GWT Configuration.gui" />
-      <item index="1" class="java.lang.String" itemvalue="Spring Boot.Server" />
-      <item index="2" class="java.lang.String" itemvalue="Application.BackendController" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.GenomeTest" />
-      <item index="4" class="java.lang.String" itemvalue="JUnit.LogoTest" />
-      <item index="5" class="java.lang.String" itemvalue="JUnit.SecondScoreMultiTrackBackgroundModelTest" />
-      <item index="6" class="java.lang.String" itemvalue="JUnit.All in MultiGenBrowser" />
+    <list size="6">
+      <item index="0" class="java.lang.String" itemvalue="Spring Boot.Server" />
+      <item index="1" class="java.lang.String" itemvalue="JUnit.SiteFactoryTest.csaba" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.SiteFactoryTest.getByLogo2" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.GenomeTest.getSequence" />
+      <item index="4" class="java.lang.String" itemvalue="Application.BackendController" />
+      <item index="5" class="java.lang.String" itemvalue="JUnit.MultiTrackBackgroundModelTest.testInfinityTrack" />
     </list>
     <recent_temporary>
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="Application.BackendController" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.All in MultiGenBrowser" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.SecondScoreMultiTrackBackgroundModelTest" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.GenomeTest" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.LogoTest" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.MultiTrackBackgroundModelTest.testInfinityTrack" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.SiteFactoryTest.csaba" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.SiteFactoryTest.getByLogo2" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.GenomeTest.getSequence" />
       </list>
     </recent_temporary>
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
@@ -2107,388 +2233,420 @@
       <workItem from="1479978905572" duration="8058000" />
       <workItem from="1479994902834" duration="735000" />
       <workItem from="1479995660667" duration="6511000" />
-      <workItem from="1480497242583" duration="12300000" />
+      <workItem from="1480497242583" duration="25263000" />
+      <workItem from="1480598919997" duration="12720000" />
+      <workItem from="1481187710573" duration="11270000" />
+      <workItem from="1481204449935" duration="5497000" />
+      <workItem from="1481537843613" duration="31741000" />
+      <workItem from="1481797082803" duration="164000" />
+      <workItem from="1481797279875" duration="6888000" />
+      <workItem from="1481883197483" duration="2669000" />
+      <workItem from="1482138310959" duration="19422000" />
+      <workItem from="1482401218266" duration="1808000" />
+      <workItem from="1483620480467" duration="45000" />
+      <workItem from="1483951424182" duration="283000" />
+      <workItem from="1483951743742" duration="38811000" />
+      <workItem from="1484229690397" duration="1152000" />
+      <workItem from="1484820111471" duration="157000" />
+      <workItem from="1484820303493" duration="49000" />
+      <workItem from="1484820408150" duration="7057000" />
+      <workItem from="1485346121126" duration="16474000" />
+      <workItem from="1485515519175" duration="3813000" />
+      <workItem from="1485768216764" duration="13532000" />
+      <workItem from="1485851932671" duration="50030000" />
+      <workItem from="1486372708132" duration="51605000" />
+      <workItem from="1486976866695" duration="43538000" />
+      <workItem from="1487593268627" duration="5855000" />
+      <workItem from="1487930453990" duration="17595000" />
+      <workItem from="1488186545688" duration="48997000" />
+      <workItem from="1488791052112" duration="21158000" />
+      <workItem from="1489050703774" duration="6457000" />
+      <workItem from="1489397261656" duration="1521000" />
+      <workItem from="1489398828936" duration="13499000" />
+      <workItem from="1489743942916" duration="7696000" />
+      <workItem from="1490002778059" duration="50902000" />
+      <workItem from="1490601473574" duration="23975000" />
     </task>
-    <task id="LOCAL-00620" summary="Working test and model">
-      <created>1477648397819</created>
-      <option name="number" value="00620" />
-      <option name="presentableId" value="LOCAL-00620" />
+    <task id="LOCAL-00826" summary="added strand package">
+      <created>1488552951392</created>
+      <option name="number" value="00826" />
+      <option name="presentableId" value="LOCAL-00826" />
       <option name="project" value="LOCAL" />
-      <updated>1477648397821</updated>
+      <updated>1488552951392</updated>
     </task>
-    <task id="LOCAL-00621" summary="using dist bg model in bg model factory">
-      <created>1477648686256</created>
-      <option name="number" value="00621" />
-      <option name="presentableId" value="LOCAL-00621" />
+    <task id="LOCAL-00827" summary="load and use strand dependent stuff">
+      <created>1488557180134</created>
+      <option name="number" value="00827" />
+      <option name="presentableId" value="LOCAL-00827" />
       <option name="project" value="LOCAL" />
-      <updated>1477648686256</updated>
+      <updated>1488557180134</updated>
     </task>
-    <task id="LOCAL-00622" summary="converting dist track">
-      <created>1477658363230</created>
-      <option name="number" value="00622" />
-      <option name="presentableId" value="LOCAL-00622" />
+    <task id="LOCAL-00828" summary="abort search strand track if there is not strand data for user sites">
+      <created>1488793112314</created>
+      <option name="number" value="00828" />
+      <option name="presentableId" value="LOCAL-00828" />
       <option name="project" value="LOCAL" />
-      <updated>1477658363230</updated>
+      <updated>1488793112315</updated>
     </task>
-    <task id="LOCAL-00623" summary="remove everything further away than 5000">
-      <created>1477658382662</created>
-      <option name="number" value="00623" />
-      <option name="presentableId" value="LOCAL-00623" />
+    <task id="LOCAL-00829" summary="added assembly and cell line to abstract track">
+      <created>1488793421314</created>
+      <option name="number" value="00829" />
+      <option name="presentableId" value="LOCAL-00829" />
       <option name="project" value="LOCAL" />
-      <updated>1477658382662</updated>
+      <updated>1488793421314</updated>
     </task>
-    <task id="LOCAL-00624" summary="convertByRange method">
-      <created>1477658491309</created>
-      <option name="number" value="00624" />
-      <option name="presentableId" value="LOCAL-00624" />
+    <task id="LOCAL-00830" summary="added assembly nr and cell line">
+      <created>1488793434542</created>
+      <option name="number" value="00830" />
+      <option name="presentableId" value="LOCAL-00830" />
       <option name="project" value="LOCAL" />
-      <updated>1477658491310</updated>
+      <updated>1488793434542</updated>
     </task>
-    <task id="LOCAL-00625" summary="working alg for up and downstream">
-      <created>1477658506593</created>
-      <option name="number" value="00625" />
-      <option name="presentableId" value="LOCAL-00625" />
+    <task id="LOCAL-00831" summary="added ass and cell line to track factory call">
+      <created>1488793457684</created>
+      <option name="number" value="00831" />
+      <option name="presentableId" value="LOCAL-00831" />
       <option name="project" value="LOCAL" />
-      <updated>1477658506593</updated>
+      <updated>1488793457684</updated>
     </task>
-    <task id="LOCAL-00626" summary="Creates Logo and LogoTest class to create a sequence logo">
-      <created>1478614892045</created>
-      <option name="number" value="00626" />
-      <option name="presentableId" value="LOCAL-00626" />
+    <task id="LOCAL-00832" summary="created creatStrandTrack method">
+      <created>1488793472519</created>
+      <option name="number" value="00832" />
+      <option name="presentableId" value="LOCAL-00832" />
       <option name="project" value="LOCAL" />
-      <updated>1478614892045</updated>
+      <updated>1488793472519</updated>
     </task>
-    <task id="LOCAL-00627" summary="Genome class to get a list of sequences by a set of positions">
-      <created>1478614954451</created>
-      <option name="number" value="00627" />
-      <option name="presentableId" value="LOCAL-00627" />
+    <task id="LOCAL-00833" summary="added test for strand track">
+      <created>1488793502616</created>
+      <option name="number" value="00833" />
+      <option name="presentableId" value="LOCAL-00833" />
       <option name="project" value="LOCAL" />
-      <updated>1478614954451</updated>
+      <updated>1488793502616</updated>
     </task>
-    <task id="LOCAL-00628" summary="only check 5000 positions.&#10;&#10;look at the line again if the last line contains two positions">
-      <created>1478687189407</created>
-      <option name="number" value="00628" />
-      <option name="presentableId" value="LOCAL-00628" />
+    <task id="LOCAL-00834" summary="fixed search single interval for strand tracks">
+      <created>1488795955329</created>
+      <option name="number" value="00834" />
+      <option name="presentableId" value="LOCAL-00834" />
       <option name="project" value="LOCAL" />
-      <updated>1478687189407</updated>
+      <updated>1488795955329</updated>
     </task>
-    <task id="LOCAL-00629" summary="created wrapper for logo. changed name of logo to logoCreator">
-      <created>1478688154407</created>
-      <option name="number" value="00629" />
-      <option name="presentableId" value="LOCAL-00629" />
+    <task id="LOCAL-00835" summary="added strand track package">
+      <created>1488796440143</created>
+      <option name="number" value="00835" />
+      <option name="presentableId" value="LOCAL-00835" />
       <option name="project" value="LOCAL" />
-      <updated>1478688154407</updated>
+      <updated>1488796440143</updated>
     </task>
-    <task id="LOCAL-00630" summary="added commons io">
-      <created>1478688529537</created>
-      <option name="number" value="00630" />
-      <option name="presentableId" value="LOCAL-00630" />
+    <task id="LOCAL-00836" summary="call inde test for strand track (and error message if track type is unkown)">
+      <created>1488796471675</created>
+      <option name="number" value="00836" />
+      <option name="presentableId" value="LOCAL-00836" />
       <option name="project" value="LOCAL" />
-      <updated>1478688529537</updated>
+      <updated>1488796471675</updated>
     </task>
-    <task id="LOCAL-00631" summary="sequence logo stuff">
-      <created>1478699846207</created>
-      <option name="number" value="00631" />
-      <option name="presentableId" value="LOCAL-00631" />
+    <task id="LOCAL-00837" summary="javadoc">
+      <created>1488797586977</created>
+      <option name="number" value="00837" />
+      <option name="presentableId" value="LOCAL-00837" />
       <option name="project" value="LOCAL" />
-      <updated>1478699846207</updated>
+      <updated>1488797586977</updated>
     </task>
-    <task id="LOCAL-00632" summary="added seq logo">
-      <created>1478699854057</created>
-      <option name="number" value="00632" />
-      <option name="presentableId" value="LOCAL-00632" />
+    <task id="LOCAL-00838" summary="fixed automatic tests">
+      <created>1488798116950</created>
+      <option name="number" value="00838" />
+      <option name="presentableId" value="LOCAL-00838" />
       <option name="project" value="LOCAL" />
-      <updated>1478699854057</updated>
+      <updated>1488798116950</updated>
     </task>
-    <task id="LOCAL-00633" summary="renamed class&#10;">
-      <created>1478699872290</created>
-      <option name="number" value="00633" />
-      <option name="presentableId" value="LOCAL-00633" />
+    <task id="LOCAL-00839" summary="package private attributes">
+      <created>1489498903104</created>
+      <option name="number" value="00839" />
+      <option name="presentableId" value="LOCAL-00839" />
       <option name="project" value="LOCAL" />
-      <updated>1478699872290</updated>
+      <updated>1489498903105</updated>
     </task>
-    <task id="LOCAL-00634" summary="Logo class add and get methods">
-      <created>1478699910735</created>
-      <option name="number" value="00634" />
-      <option name="presentableId" value="LOCAL-00634" />
+    <task id="LOCAL-00840" summary="bugfix strand line widht check">
+      <created>1489498917537</created>
+      <option name="number" value="00840" />
+      <option name="presentableId" value="LOCAL-00840" />
       <option name="project" value="LOCAL" />
-      <updated>1478699910735</updated>
+      <updated>1489498917537</updated>
     </task>
-    <task id="LOCAL-00635" summary="made genome singleton&#10;">
-      <created>1478699963186</created>
-      <option name="number" value="00635" />
-      <option name="presentableId" value="LOCAL-00635" />
+    <task id="LOCAL-00841" summary="javadoc">
+      <created>1489499158001</created>
+      <option name="number" value="00841" />
+      <option name="presentableId" value="LOCAL-00841" />
       <option name="project" value="LOCAL" />
-      <updated>1478699963187</updated>
+      <updated>1489499158001</updated>
     </task>
-    <task id="LOCAL-00636" summary="javadoc">
-      <created>1478700127304</created>
-      <option name="number" value="00636" />
-      <option name="presentableId" value="LOCAL-00636" />
+    <task id="LOCAL-00842" summary="return nan instead of null if there is not enough data">
+      <created>1489499172800</created>
+      <option name="number" value="00842" />
+      <option name="presentableId" value="LOCAL-00842" />
       <option name="project" value="LOCAL" />
-      <updated>1478700127304</updated>
+      <updated>1489499172800</updated>
     </task>
-    <task id="LOCAL-00637" summary="impl wrapper to call for seq logo">
-      <created>1478700142371</created>
-      <option name="number" value="00637" />
-      <option name="presentableId" value="LOCAL-00637" />
+    <task id="LOCAL-00843" summary="strand track and exceptions">
+      <created>1489499190330</created>
+      <option name="number" value="00843" />
+      <option name="presentableId" value="LOCAL-00843" />
       <option name="project" value="LOCAL" />
-      <updated>1478700142372</updated>
+      <updated>1489499190330</updated>
     </task>
-    <task id="LOCAL-00638" summary="javadoc">
-      <created>1478788292534</created>
-      <option name="number" value="00638" />
-      <option name="presentableId" value="LOCAL-00638" />
+    <task id="LOCAL-00844" summary="handle bg factory exceptions">
+      <created>1489499203705</created>
+      <option name="number" value="00844" />
+      <option name="presentableId" value="LOCAL-00844" />
       <option name="project" value="LOCAL" />
-      <updated>1478788292535</updated>
+      <updated>1489499203705</updated>
     </task>
-    <task id="LOCAL-00639" summary="created factory for genome">
-      <created>1478788904361</created>
-      <option name="number" value="00639" />
-      <option name="presentableId" value="LOCAL-00639" />
+    <task id="LOCAL-00845" summary="rebuild strand track&#10;">
+      <created>1489747377388</created>
+      <option name="number" value="00845" />
+      <option name="presentableId" value="LOCAL-00845" />
       <option name="project" value="LOCAL" />
-      <updated>1478788904361</updated>
+      <updated>1489747377388</updated>
     </task>
-    <task id="LOCAL-00640" summary="using factory and assembly number">
-      <created>1478788924640</created>
-      <option name="number" value="00640" />
-      <option name="presentableId" value="LOCAL-00640" />
+    <task id="LOCAL-00846" summary="rebuild strand track">
+      <created>1489748663021</created>
+      <option name="number" value="00846" />
+      <option name="presentableId" value="LOCAL-00846" />
       <option name="project" value="LOCAL" />
-      <updated>1478788924640</updated>
+      <updated>1489748663021</updated>
     </task>
-    <task id="LOCAL-00641" summary="adding sequencelogo to the model">
-      <created>1478788951310</created>
-      <option name="number" value="00641" />
-      <option name="presentableId" value="LOCAL-00641" />
+    <task id="LOCAL-00847" summary="cancer track package">
+      <created>1489754329452</created>
+      <option name="number" value="00847" />
+      <option name="presentableId" value="LOCAL-00847" />
       <option name="project" value="LOCAL" />
-      <updated>1478788951310</updated>
+      <updated>1489754329452</updated>
     </task>
-    <task id="LOCAL-00642" summary="better sublist for seq logo creation">
-      <created>1478858599823</created>
-      <option name="number" value="00642" />
-      <option name="presentableId" value="LOCAL-00642" />
+    <task id="LOCAL-00848" summary="check for different strand / track / interval sizes">
+      <created>1490019297702</created>
+      <option name="number" value="00848" />
+      <option name="presentableId" value="LOCAL-00848" />
       <option name="project" value="LOCAL" />
-      <updated>1478858599823</updated>
+      <updated>1490019297705</updated>
     </task>
-    <task id="LOCAL-00643" summary="using count for vales set by the caller">
-      <created>1478858715648</created>
-      <option name="number" value="00643" />
-      <option name="presentableId" value="LOCAL-00643" />
+    <task id="LOCAL-00849" summary="only load strand data for strand track and add 'o' for missing or both strands">
+      <created>1490019326968</created>
+      <option name="number" value="00849" />
+      <option name="presentableId" value="LOCAL-00849" />
       <option name="project" value="LOCAL" />
-      <updated>1478858715648</updated>
+      <updated>1490019326968</updated>
     </task>
-    <task id="LOCAL-00644" summary="using count&#10;&#10;asserts">
-      <created>1478858738404</created>
-      <option name="number" value="00644" />
-      <option name="presentableId" value="LOCAL-00644" />
+    <task id="LOCAL-00850" summary="check missing strand data">
+      <created>1490019368704</created>
+      <option name="number" value="00850" />
+      <option name="presentableId" value="LOCAL-00850" />
       <option name="project" value="LOCAL" />
-      <updated>1478858738404</updated>
+      <updated>1490019368704</updated>
     </task>
-    <task id="LOCAL-00645" summary="using custom font stuff for seq logo">
-      <created>1478858760827</created>
-      <option name="number" value="00645" />
-      <option name="presentableId" value="LOCAL-00645" />
+    <task id="LOCAL-00851" summary="removed check for missing data (check in track object)">
+      <created>1490019390987</created>
+      <option name="number" value="00851" />
+      <option name="presentableId" value="LOCAL-00851" />
       <option name="project" value="LOCAL" />
-      <updated>1478858760827</updated>
+      <updated>1490019390987</updated>
     </task>
-    <task id="LOCAL-00646" summary="final classes">
-      <created>1478864298402</created>
-      <option name="number" value="00646" />
-      <option name="presentableId" value="LOCAL-00646" />
+    <task id="LOCAL-00852" summary="throw and catch error if getSeq is called with too small l or computes a negative start/ end">
+      <created>1490193141536</created>
+      <option name="number" value="00852" />
+      <option name="presentableId" value="LOCAL-00852" />
       <option name="project" value="LOCAL" />
-      <updated>1478864298402</updated>
+      <updated>1490193141536</updated>
     </task>
-    <task id="LOCAL-00647" summary="javadoc&#10;">
-      <created>1478864381422</created>
-      <option name="number" value="00647" />
-      <option name="presentableId" value="LOCAL-00647" />
+    <task id="LOCAL-00853" summary="comment&#10;">
+      <created>1490260391534</created>
+      <option name="number" value="00853" />
+      <option name="presentableId" value="LOCAL-00853" />
       <option name="project" value="LOCAL" />
-      <updated>1478864381422</updated>
+      <updated>1490260391534</updated>
     </task>
-    <task id="LOCAL-00648" summary="added result and moved toJSON test">
-      <created>1478865242590</created>
-      <option name="number" value="00648" />
-      <option name="presentableId" value="LOCAL-00648" />
+    <task id="LOCAL-00854" summary="new regex (for two column bed files)&#10;">
+      <created>1490260568364</created>
+      <option name="number" value="00854" />
+      <option name="presentableId" value="LOCAL-00854" />
       <option name="project" value="LOCAL" />
-      <updated>1478865242590</updated>
+      <updated>1490260568365</updated>
     </task>
-    <task id="LOCAL-00649" summary="using all positions if count if below the threshold">
-      <created>1478865685414</created>
-      <option name="number" value="00649" />
-      <option name="presentableId" value="LOCAL-00649" />
+    <task id="LOCAL-00855" summary="working site factory wit new calc">
+      <created>1490273206261</created>
+      <option name="number" value="00855" />
+      <option name="presentableId" value="LOCAL-00855" />
       <option name="project" value="LOCAL" />
-      <updated>1478865685414</updated>
+      <updated>1490273206262</updated>
     </task>
-    <task id="LOCAL-00650" summary="comparing sleeping beauty results with known TA motif&#10;">
-      <created>1478866058296</created>
-      <option name="number" value="00650" />
-      <option name="presentableId" value="LOCAL-00650" />
+    <task id="LOCAL-00856" summary="workign site factory">
+      <created>1490273227776</created>
+      <option name="number" value="00856" />
+      <option name="presentableId" value="LOCAL-00856" />
       <option name="project" value="LOCAL" />
-      <updated>1478866058296</updated>
+      <updated>1490273227776</updated>
     </task>
-    <task id="LOCAL-00651" summary="use all positions of below count threshold">
-      <created>1478866079489</created>
-      <option name="number" value="00651" />
-      <option name="presentableId" value="LOCAL-00651" />
+    <task id="LOCAL-00857" summary="csaba stuff">
+      <created>1490274856970</created>
+      <option name="number" value="00857" />
+      <option name="presentableId" value="LOCAL-00857" />
       <option name="project" value="LOCAL" />
-      <updated>1478866079489</updated>
+      <updated>1490274856970</updated>
     </task>
-    <task id="LOCAL-00652" summary="moved Assembly from Track to GenomeFactory">
-      <created>1478871655186</created>
-      <option name="number" value="00652" />
-      <option name="presentableId" value="LOCAL-00652" />
+    <task id="LOCAL-00858" summary="set filename in covariant controller part">
+      <created>1490274886931</created>
+      <option name="number" value="00858" />
+      <option name="presentableId" value="LOCAL-00858" />
       <option name="project" value="LOCAL" />
-      <updated>1478871655187</updated>
+      <updated>1490274886931</updated>
     </task>
-    <task id="LOCAL-00653" summary="cleanup">
-      <created>1478871884631</created>
-      <option name="number" value="00653" />
-      <option name="presentableId" value="LOCAL-00653" />
+    <task id="LOCAL-00859" summary="shuffle random sites">
+      <created>1490274919954</created>
+      <option name="number" value="00859" />
+      <option name="presentableId" value="LOCAL-00859" />
       <option name="project" value="LOCAL" />
-      <updated>1478871884631</updated>
+      <updated>1490274919954</updated>
     </task>
-    <task id="LOCAL-00654" summary="sequencelogo in collapse div in table&#10;&#10;calc effect size for sequence logo">
-      <created>1479387074018</created>
-      <option name="number" value="00654" />
-      <option name="presentableId" value="LOCAL-00654" />
+    <task id="LOCAL-00860" summary="check if factory exists">
+      <created>1490274991030</created>
+      <option name="number" value="00860" />
+      <option name="presentableId" value="LOCAL-00860" />
       <option name="project" value="LOCAL" />
-      <updated>1479387074019</updated>
+      <updated>1490274991030</updated>
     </task>
-    <task id="LOCAL-00655" summary="getter vor values">
-      <created>1479387088167</created>
-      <option name="number" value="00655" />
-      <option name="presentableId" value="LOCAL-00655" />
+    <task id="LOCAL-00861" summary="rebuild getSequence">
+      <created>1490275035841</created>
+      <option name="number" value="00861" />
+      <option name="presentableId" value="LOCAL-00861" />
       <option name="project" value="LOCAL" />
-      <updated>1479387088167</updated>
+      <updated>1490275035841</updated>
     </task>
-    <task id="LOCAL-00656" summary="init commit LogoBgModel Class">
-      <created>1479979168789</created>
-      <option name="number" value="00656" />
-      <option name="presentableId" value="LOCAL-00656" />
+    <task id="LOCAL-00862" summary="added missing sort">
+      <created>1490280804488</created>
+      <option name="number" value="00862" />
+      <option name="presentableId" value="LOCAL-00862" />
       <option name="project" value="LOCAL" />
-      <updated>1479979168792</updated>
+      <updated>1490280804488</updated>
     </task>
-    <task id="LOCAL-00657" summary="javadoc">
-      <created>1479979262994</created>
-      <option name="number" value="00657" />
-      <option name="presentableId" value="LOCAL-00657" />
+    <task id="LOCAL-00863" summary="effect size with percentages">
+      <created>1490598677850</created>
+      <option name="number" value="00863" />
+      <option name="presentableId" value="LOCAL-00863" />
       <option name="project" value="LOCAL" />
-      <updated>1479979262994</updated>
+      <updated>1490598677850</updated>
     </task>
-    <task id="LOCAL-00658" summary="Refactoring new package logo">
-      <created>1479979453900</created>
-      <option name="number" value="00658" />
-      <option name="presentableId" value="LOCAL-00658" />
+    <task id="LOCAL-00864" summary="Upload BG">
+      <created>1490603337084</created>
+      <option name="number" value="00864" />
+      <option name="presentableId" value="LOCAL-00864" />
       <option name="project" value="LOCAL" />
-      <updated>1479979453900</updated>
+      <updated>1490603337085</updated>
     </task>
-    <task id="LOCAL-00659" summary="refactoring&#10;">
-      <created>1479979635761</created>
-      <option name="number" value="00659" />
-      <option name="presentableId" value="LOCAL-00659" />
+    <task id="LOCAL-00865" summary="use user bg in covariats call&#10;">
+      <created>1490604692769</created>
+      <option name="number" value="00865" />
+      <option name="presentableId" value="LOCAL-00865" />
       <option name="project" value="LOCAL" />
-      <updated>1479979635761</updated>
+      <updated>1490604692769</updated>
     </task>
-    <task id="LOCAL-00660" summary="refactoring">
-      <created>1479983163957</created>
-      <option name="number" value="00660" />
-      <option name="presentableId" value="LOCAL-00660" />
+    <task id="LOCAL-00866" summary="bg saved in session">
+      <created>1490604709969</created>
+      <option name="number" value="00866" />
+      <option name="presentableId" value="LOCAL-00866" />
       <option name="project" value="LOCAL" />
-      <updated>1479983163957</updated>
+      <updated>1490604709969</updated>
     </task>
-    <task id="LOCAL-00661" summary="get positions by logo sequence and test">
-      <created>1479983199479</created>
-      <option name="number" value="00661" />
-      <option name="presentableId" value="LOCAL-00661" />
+    <task id="LOCAL-00867" summary="class box">
+      <created>1490605138645</created>
+      <option name="number" value="00867" />
+      <option name="presentableId" value="LOCAL-00867" />
       <option name="project" value="LOCAL" />
-      <updated>1479983199479</updated>
+      <updated>1490605138645</updated>
     </task>
-    <task id="LOCAL-00662" summary="javadoc and comments">
-      <created>1479983370056</created>
-      <option name="number" value="00662" />
-      <option name="presentableId" value="LOCAL-00662" />
+    <task id="LOCAL-00868" summary="r plot csv output">
+      <created>1490623696196</created>
+      <option name="number" value="00868" />
+      <option name="presentableId" value="LOCAL-00868" />
       <option name="project" value="LOCAL" />
-      <updated>1479983370056</updated>
+      <updated>1490623696196</updated>
     </task>
-    <task id="LOCAL-00663" summary="javadoc">
-      <created>1479984036175</created>
-      <option name="number" value="00663" />
-      <option name="presentableId" value="LOCAL-00663" />
+    <task id="LOCAL-00869" summary="save sites in session. save filename in userData">
+      <created>1490623722462</created>
+      <option name="number" value="00869" />
+      <option name="presentableId" value="LOCAL-00869" />
       <option name="project" value="LOCAL" />
-      <updated>1479984036175</updated>
+      <updated>1490623722462</updated>
     </task>
-    <task id="LOCAL-00664" summary="getConsenus for Logo class + test for getConsensus">
-      <created>1479984066192</created>
-      <option name="number" value="00664" />
-      <option name="presentableId" value="LOCAL-00664" />
+    <task id="LOCAL-00870" summary="createLogo possible for uploaded bg">
+      <created>1490623742733</created>
+      <option name="number" value="00870" />
+      <option name="presentableId" value="LOCAL-00870" />
       <option name="project" value="LOCAL" />
-      <updated>1479984066192</updated>
+      <updated>1490623742733</updated>
     </task>
-    <task id="LOCAL-00665" summary="javadoc and alwalys-calc for getConsensus">
-      <created>1479987949637</created>
-      <option name="number" value="00665" />
-      <option name="presentableId" value="LOCAL-00665" />
+    <task id="LOCAL-00871" summary="logo width 12">
+      <created>1490623761493</created>
+      <option name="number" value="00871" />
+      <option name="presentableId" value="LOCAL-00871" />
       <option name="project" value="LOCAL" />
-      <updated>1479987949637</updated>
+      <updated>1490623761493</updated>
     </task>
-    <task id="LOCAL-00666" summary="getConsensus javadoc and always-calc">
-      <created>1479987981471</created>
-      <option name="number" value="00666" />
-      <option name="presentableId" value="LOCAL-00666" />
+    <task id="LOCAL-00872" summary="add N's according to width. &#10;check for correct length in Genome AND in LogoCreator">
+      <created>1490688669667</created>
+      <option name="number" value="00872" />
+      <option name="presentableId" value="LOCAL-00872" />
       <option name="project" value="LOCAL" />
-      <updated>1479987981472</updated>
+      <updated>1490688669667</updated>
     </task>
-    <task id="LOCAL-00667" summary="using set assembly">
-      <created>1479991528105</created>
-      <option name="number" value="00667" />
-      <option name="presentableId" value="LOCAL-00667" />
+    <task id="LOCAL-00873" summary="impl length check for seq and error messages">
+      <created>1490689070191</created>
+      <option name="number" value="00873" />
+      <option name="presentableId" value="LOCAL-00873" />
       <option name="project" value="LOCAL" />
-      <updated>1479991528105</updated>
+      <updated>1490689070191</updated>
     </task>
-    <task id="LOCAL-00668" summary="Using Assembly # everywhere">
-      <created>1480070333244</created>
-      <option name="number" value="00668" />
-      <option name="presentableId" value="LOCAL-00668" />
+    <task id="LOCAL-00874" summary="improved loading:  intervals are fetched once and stored instead of every round over positions">
+      <created>1490706665046</created>
+      <option name="number" value="00874" />
+      <option name="presentableId" value="LOCAL-00874" />
       <option name="project" value="LOCAL" />
-      <updated>1480070333246</updated>
+      <updated>1490706665046</updated>
     </task>
-    <option name="localTasksCounter" value="669" />
+    <option name="localTasksCounter" value="875" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="All_in_MultiGenBrowser - 2016.11.30 at 14h 05m 28s.xml">
-      <configuration name="All in MultiGenBrowser" configurationId="JUnit" />
+    <history-entry file="MultiTrackBackgroundModelTest_testInfinityTrack - 2017.03.28 at 14h 35m 08s.xml">
+      <configuration name="MultiTrackBackgroundModelTest.testInfinityTrack" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="All_in_MultiGenBrowser - 2016.11.30 at 14h 10m 54s.xml">
-      <configuration name="All in MultiGenBrowser" configurationId="JUnit" />
+    <history-entry file="MultiTrackBackgroundModelTest_testInfinityTrack - 2017.03.28 at 14h 36m 22s.xml">
+      <configuration name="MultiTrackBackgroundModelTest.testInfinityTrack" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="All_in_MultiGenBrowser - 2016.11.30 at 14h 12m 33s.xml">
-      <configuration name="All in MultiGenBrowser" configurationId="JUnit" />
+    <history-entry file="MultiTrackBackgroundModelTest_testInfinityTrack - 2017.03.28 at 14h 37m 27s.xml">
+      <configuration name="MultiTrackBackgroundModelTest.testInfinityTrack" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="All_in_MultiGenBrowser - 2016.11.30 at 14h 15m 48s.xml">
-      <configuration name="All in MultiGenBrowser" configurationId="JUnit" />
+    <history-entry file="MultiTrackBackgroundModelTest_testInfinityTrack - 2017.03.28 at 14h 39m 19s.xml">
+      <configuration name="MultiTrackBackgroundModelTest.testInfinityTrack" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="All_in_MultiGenBrowser - 2016.11.30 at 14h 17m 40s.xml">
-      <configuration name="All in MultiGenBrowser" configurationId="JUnit" />
+    <history-entry file="SiteFactoryTest_csaba - 2017.03.23 at 13h 55m 56s.xml">
+      <configuration name="SiteFactoryTest.csaba" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="All_in_MultiGenBrowser - 2016.11.30 at 14h 18m 44s.xml">
-      <configuration name="All in MultiGenBrowser" configurationId="JUnit" />
+    <history-entry file="SiteFactoryTest_csaba - 2017.03.23 at 14h 06m 03s.xml">
+      <configuration name="SiteFactoryTest.csaba" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="LogoTest - 2016.11.24 at 11h 39m 28s.xml">
-      <configuration name="LogoTest" configurationId="JUnit" />
+    <history-entry file="SiteFactoryTest_csaba - 2017.03.23 at 14h 08m 21s.xml">
+      <configuration name="SiteFactoryTest.csaba" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="LogoTest - 2016.11.24 at 11h 39m 56s.xml">
-      <configuration name="LogoTest" configurationId="JUnit" />
+    <history-entry file="SiteFactoryTest_csaba - 2017.03.23 at 14h 12m 54s.xml">
+      <configuration name="SiteFactoryTest.csaba" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="LogoTest - 2016.11.24 at 11h 40m 16s.xml">
-      <configuration name="LogoTest" configurationId="JUnit" />
+    <history-entry file="SiteFactoryTest_csaba - 2017.03.23 at 15h 46m 27s.xml">
+      <configuration name="SiteFactoryTest.csaba" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SecondScoreMultiTrackBackgroundModelTest - 2016.11.24 at 14h 57m 18s.xml">
-      <configuration name="SecondScoreMultiTrackBackgroundModelTest" configurationId="JUnit" />
+    <history-entry file="SiteFactoryTest_getByLogo2 - 2017.03.23 at 13h 36m 52s.xml">
+      <configuration name="SiteFactoryTest.getByLogo2" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1436855000" />
+    <option name="totallyTimeSpent" value="1966198000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -2500,51 +2658,70 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1920" height="1181" extended-state="0" />
+    <frame x="1920" y="0" width="1920" height="1181" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.7916667" sideWeight="0.5347966" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32976446" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32976446" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Memory View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.32976446" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" x="1920" y="0" width="1920" height="1181" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2497332" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2497332" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="WINDOWED" visible="true" show_stripe_button="true" weight="1.0" sideWeight="0.5314835" order="3" side_tool="true" content_ui="tabs" x="1922" y="18" width="1916" height="1161" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29166666" sideWeight="0.40021345" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Memory View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.32976446" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" x="1920" y="0" width="1920" height="1181" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2497332" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2497332" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="WINDOWED" visible="true" show_stripe_button="true" weight="1.0" sideWeight="0.5314835" order="4" side_tool="true" content_ui="tabs" x="1922" y="18" width="1916" height="1161" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2907197" sideWeight="0.40021345" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31698114" sideWeight="0.47385272" order="8" side_tool="true" content_ui="tabs" x="604" y="221" width="388" height="402" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="WINDOWED" visible="true" show_stripe_button="true" weight="1.0" sideWeight="0.46851653" order="2" side_tool="false" content_ui="tabs" x="1922" y="18" width="1916" height="1161" />
-      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.11884368" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.064150944" sideWeight="0.46520343" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22858672" sideWeight="0.4839015" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32976446" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24304068" sideWeight="0.5160985" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.75284094" sideWeight="0.48875803" order="9" side_tool="true" content_ui="tabs" x="604" y="221" width="388" height="402" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="WINDOWED" visible="true" show_stripe_button="true" weight="1.0" sideWeight="0.46851653" order="3" side_tool="false" content_ui="tabs" x="1922" y="18" width="1916" height="1161" />
+      <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.511242" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.064150944" sideWeight="0.46520343" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2382227" sideWeight="0.48011363" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32976446" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.12689394" sideWeight="0.49786553" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23715204" sideWeight="0.5198864" order="5" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29560336" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="combo" />
-      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29560336" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.11268939" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" x="572" y="303" width="444" height="166" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3816651" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6990566" sideWeight="0.49786553" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3816651" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.116167024" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="processedProjectFiles" value="true" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -2560,519 +2737,445 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_NEW_TODO" value="false" />
     <confirmMoveToFailedCommit value="2" />
-    <MESSAGE value="using count&#10;&#10;asserts" />
-    <MESSAGE value="using custom font stuff for seq logo" />
-    <MESSAGE value="Assembly enum is not abstract anymore to be used by others" />
-    <MESSAGE value="final classes" />
-    <MESSAGE value="javadoc&#10;" />
-    <MESSAGE value="added result and moved toJSON test" />
-    <MESSAGE value="using all positions if count if below the threshold" />
-    <MESSAGE value="comparing sleeping beauty results with known TA motif&#10;" />
-    <MESSAGE value="use all positions of below count threshold" />
-    <MESSAGE value="moved Assembly from Track to GenomeFactory" />
-    <MESSAGE value="cleanup" />
-    <MESSAGE value="sequencelogo in collapse div in table&#10;&#10;calc effect size for sequence logo" />
-    <MESSAGE value="getter vor values" />
-    <MESSAGE value="init commit LogoBgModel Class" />
-    <MESSAGE value="Refactoring new package logo" />
-    <MESSAGE value="refactoring&#10;" />
-    <MESSAGE value="refactoring" />
-    <MESSAGE value="get positions by logo sequence and test" />
-    <MESSAGE value="javadoc and comments" />
-    <MESSAGE value="javadoc" />
-    <MESSAGE value="getConsenus for Logo class + test for getConsensus" />
-    <MESSAGE value="javadoc and alwalys-calc for getConsensus" />
-    <MESSAGE value="getConsensus javadoc and always-calc" />
-    <MESSAGE value="using set assembly" />
-    <MESSAGE value="Using Assembly # everywhere" />
-    <option name="LAST_COMMIT_MESSAGE" value="Using Assembly # everywhere" />
+    <MESSAGE value="check missing strand data" />
+    <MESSAGE value="removed check for missing data (check in track object)" />
+    <MESSAGE value="throw and catch error if getSeq is called with too small l or computes a negative start/ end" />
+    <MESSAGE value="comment&#10;" />
+    <MESSAGE value="new regex (for two column bed files)&#10;" />
+    <MESSAGE value="working site factory wit new calc" />
+    <MESSAGE value="workign site factory" />
+    <MESSAGE value="csaba stuff" />
+    <MESSAGE value="set filename in covariant controller part" />
+    <MESSAGE value="shuffle random sites" />
+    <MESSAGE value="check if factory exists" />
+    <MESSAGE value="rebuild getSequence" />
+    <MESSAGE value="added missing sort" />
+    <MESSAGE value="effect size with percentages" />
+    <MESSAGE value="Upload BG" />
+    <MESSAGE value="use user bg in covariats call&#10;" />
+    <MESSAGE value="bg saved in session" />
+    <MESSAGE value="class box" />
+    <MESSAGE value="r plot csv output" />
+    <MESSAGE value="save sites in session. save filename in userData" />
+    <MESSAGE value="createLogo possible for uploaded bg" />
+    <MESSAGE value="logo width 12" />
+    <MESSAGE value="add N's according to width. &#10;check for correct length in Genome AND in LogoCreator" />
+    <MESSAGE value="impl length check for seq and error messages" />
+    <MESSAGE value="improved loading:  intervals are fetched once and stored instead of every round over positions" />
+    <option name="LAST_COMMIT_MESSAGE" value="improved loading:  intervals are fetched once and stored instead of every round over positions" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint type="java-line">
-          <url>jar:///usr/lib/jvm/java-8-jdk/src.zip!/java/util/ArrayList.java</url>
-          <line>632</line>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/StrandTrack.java</url>
+          <line>48</line>
           <properties />
-          <option name="timeStamp" value="614" />
+          <option name="timeStamp" value="1054" />
         </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/de/thm/run/AnalysisHelper.java</url>
-          <line>88</line>
-          <properties />
-          <option name="timeStamp" value="705" />
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/de/thm/logo/GenomeTest.java</url>
+          <line>28</line>
+          <properties>
+            <option name="lambda-ordinal" value="-1" />
+          </properties>
+          <option name="timeStamp" value="1086" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/de/thm/logo/Genome.java</url>
-          <line>211</line>
+          <line>133</line>
           <properties />
-          <option name="timeStamp" value="794" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/de/thm/spring/controller/CalculationController.java</url>
-          <line>169</line>
-          <properties />
-          <option name="timeStamp" value="798" />
+          <option name="timeStamp" value="1131" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/de/thm/run/BackendController.java</url>
-          <line>109</line>
+          <line>142</line>
           <properties />
-          <option name="timeStamp" value="799" />
+          <option name="timeStamp" value="1134" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/Tracks.java</url>
-          <line>328</line>
+          <url>file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/MultiTrackBackgroundModel.java</url>
+          <line>35</line>
           <properties />
-          <option name="timeStamp" value="800" />
+          <option name="timeStamp" value="1137" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/MultiTrackBackgroundModelTest.java</url>
+          <line>313</line>
+          <properties />
+          <option name="timeStamp" value="1138" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="801" />
+      <option name="time" value="1141" />
     </breakpoint-manager>
-    <watches-manager>
-      <configuration name="SpringBootApplicationConfigurationType">
-        <watch expression="sites" />
-        <watch expression="outsideInterval" />
-      </configuration>
-    </watches-manager>
+    <watches-manager />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar:///usr/lib/jvm/java-8-jdk/src.zip!/java/lang/String.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/TrackPackage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="341">
-          <caret line="1152" column="15" lean-forward="false" selection-start-line="1152" selection-start-column="15" selection-end-line="1152" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/AppearanceTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="33" column="11" lean-forward="false" selection-start-line="33" selection-start-column="11" selection-end-line="33" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/ScoreSet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="9" column="6" lean-forward="false" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/logo/Genome.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="33" column="4" lean-forward="false" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="4" />
-          <folding />
+        <state relative-caret-position="540">
+          <caret line="38" column="4" lean-forward="false" selection-start-line="38" selection-start-column="4" selection-end-line="38" selection-end-column="4" />
+          <folding>
+            <element signature="e#945#946#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/FileLoader.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="632">
-          <caret line="78" column="67" lean-forward="false" selection-start-line="78" selection-start-column="67" selection-end-line="78" selection-end-column="67" />
+        <state relative-caret-position="589">
+          <caret line="172" column="45" lean-forward="false" selection-start-line="172" selection-start-column="45" selection-end-line="172" selection-end-column="45" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/result.html">
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/StrandTrack.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="27" column="18" lean-forward="false" selection-start-line="27" selection-start-column="18" selection-end-line="27" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/controller/ExportController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="547">
-          <caret line="61" column="65" lean-forward="false" selection-start-line="61" selection-start-column="65" selection-end-line="61" selection-end-column="65" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/positionData/UserData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#2168#2169#0" expanded="true" />
-            <element signature="e#2204#2205#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/LogoBackgroundModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="828">
-          <caret line="60" column="4" lean-forward="false" selection-start-line="60" selection-start-column="4" selection-end-line="60" selection-end-column="4" />
-          <folding>
-            <element signature="e#1561#1562#0" expanded="true" />
-            <element signature="e#1597#1598#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/run/RandomTrack.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="20" column="95" lean-forward="false" selection-start-line="20" selection-start-column="95" selection-end-line="20" selection-end-column="95" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/ScoreMultiTrackBackgroundModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="972">
-          <caret line="620" column="4" lean-forward="false" selection-start-line="620" selection-start-column="4" selection-end-line="620" selection-end-column="4" />
-          <folding>
-            <element signature="e#668#669#0" expanded="true" />
-            <element signature="e#708#709#0" expanded="true" />
-            <element signature="e#20801#20802#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/positionData/Sites.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="13" column="22" lean-forward="false" selection-start-line="13" selection-start-column="22" selection-end-line="13" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/calc/IntersectMultithread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="988">
-          <caret line="203" column="57" lean-forward="false" selection-start-line="203" selection-start-column="57" selection-end-line="203" selection-end-column="57" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/calc/GenericMultithread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="24" column="19" lean-forward="false" selection-start-line="24" selection-start-column="19" selection-end-line="24" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/calc/Distances.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="15" column="12" lean-forward="false" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/calc/TestTrackResult.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="12" column="19" lean-forward="false" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
+        <state relative-caret-position="116">
+          <caret line="13" column="1" lean-forward="false" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/calc/Intersect.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="20" column="19" lean-forward="false" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
+        <state relative-caret-position="285">
+          <caret line="55" column="0" lean-forward="false" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/TrackFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="548">
+          <caret line="109" column="52" lean-forward="true" selection-start-line="109" selection-start-column="52" selection-end-line="109" selection-end-column="52" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/SecondScoreMultiTrackBackgroundModel.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/calc/Hotspot.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="295">
-          <caret line="172" column="0" lean-forward="false" selection-start-line="172" selection-start-column="0" selection-end-line="172" selection-end-column="0" />
-          <folding>
-            <element signature="e#724#725#0" expanded="true" />
-            <element signature="e#764#765#0" expanded="true" />
-            <element signature="e#14727#14728#0" expanded="true" />
-            <element signature="e#14763#14764#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="576">
+          <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/run/Analyse.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/calc/HotspotTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
-          <caret line="171" column="107" lean-forward="false" selection-start-line="171" selection-start-column="107" selection-end-line="171" selection-end-column="107" />
-          <folding>
-            <element signature="e#4652#4653#0" expanded="true" />
-            <element signature="e#4718#4719#0" expanded="true" />
-            <element signature="e#6590#6591#0" expanded="true" />
-            <element signature="e#6664#6665#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="342">
+          <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/RandomBackgroundModel.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.11/junit-4.11.jar!/org/junit/runners/model/FrameworkMethod.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="630">
-          <caret line="79" column="28" lean-forward="false" selection-start-line="79" selection-start-column="28" selection-end-line="79" selection-end-column="28" />
-          <folding>
-            <element signature="e#1909#1910#0" expanded="true" />
-            <element signature="e#1945#1946#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="504">
+          <caret line="46" column="0" lean-forward="false" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/MultiTrackBackgroundModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="57" column="87" lean-forward="false" selection-start-line="57" selection-start-column="87" selection-end-line="57" selection-end-column="87" />
-          <folding>
-            <element signature="e#1367#1368#0" expanded="true" />
-            <element signature="e#1420#1421#0" expanded="true" />
-            <element signature="e#3662#3663#0" expanded="true" />
-            <element signature="e#3698#3699#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/ScoreMultiTrackBackgroundModelTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="535">
-          <caret line="271" column="53" lean-forward="false" selection-start-line="271" selection-start-column="53" selection-end-line="271" selection-end-column="53" />
-          <folding>
-            <element signature="e#4486#4487#0" expanded="true" />
-            <element signature="e#4552#4553#0" expanded="true" />
-            <element signature="e#6548#6549#0" expanded="true" />
-            <element signature="e#6622#6623#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/SecondScoreMultiTrackBackgroundModelTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="29" column="83" lean-forward="false" selection-start-line="29" selection-start-column="83" selection-end-line="29" selection-end-column="83" />
-          <folding>
-            <element signature="e#2966#2967#0" expanded="true" />
-            <element signature="e#3032#3033#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/logo/GenomeTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="653">
-          <caret line="92" column="51" lean-forward="false" selection-start-line="92" selection-start-column="51" selection-end-line="92" selection-end-column="51" />
-          <folding>
-            <element signature="e#2605#2606#0" expanded="true" />
-            <element signature="e#2675#2676#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/misc/ChromosomSizesTest.java">
+    <entry file="jar:///usr/lib/jvm/java-8-jdk/src.zip!/java/util/function/Function.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
-          <caret line="29" column="98" lean-forward="false" selection-start-line="29" selection-start-column="98" selection-end-line="29" selection-end-column="98" />
+          <caret line="48" column="6" lean-forward="false" selection-start-line="48" selection-start-column="6" selection-end-line="48" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///usr/lib/jvm/java-8-jdk/src.zip!/java/io/FileInputStream.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="218" column="23" lean-forward="false" selection-start-line="218" selection-start-column="23" selection-end-line="218" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/precalc/SiteFactoryTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="781">
+          <caret line="168" column="0" lean-forward="false" selection-start-line="168" selection-start-column="0" selection-end-line="168" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/logo/GenomeFactory.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/run/Webinterface.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="848">
-          <caret line="73" column="0" lean-forward="false" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
+        <state relative-caret-position="216">
+          <caret line="17" column="13" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/upload.html">
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/logo/Logo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="15" column="14" lean-forward="false" selection-start-line="15" selection-start-column="14" selection-end-line="15" selection-end-column="14" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#1938#1939#0" expanded="false" />
+            <element signature="e#1979#1980#0" expanded="false" />
+            <element signature="e#2262#2263#0" expanded="false" />
+            <element signature="e#2303#2304#0" expanded="false" />
+            <element signature="e#2361#2362#0" expanded="false" />
+            <element signature="e#2396#2397#0" expanded="false" />
+            <element signature="e#3962#3963#0" expanded="false" />
+            <element signature="e#3989#3990#0" expanded="false" />
+            <element signature="e#4029#4030#0" expanded="false" />
+            <element signature="e#4061#4062#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/stat/EffectSize.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="611">
+          <caret line="52" column="0" lean-forward="false" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/command/InterfaceCommand.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/controller/ApplicationController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="828">
-          <caret line="101" column="35" lean-forward="false" selection-start-line="101" selection-start-column="35" selection-end-line="101" selection-end-column="35" />
+        <state relative-caret-position="756">
+          <caret line="52" column="56" lean-forward="false" selection-start-line="52" selection-start-column="56" selection-end-line="52" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/error.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="594">
+          <caret line="33" column="13" lean-forward="false" selection-start-line="33" selection-start-column="13" selection-end-line="33" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/command/BackendCommand.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="954">
-          <caret line="63" column="41" lean-forward="false" selection-start-line="63" selection-start-column="41" selection-end-line="63" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/run/AnalysisHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="533">
-          <caret line="79" column="12" lean-forward="false" selection-start-line="79" selection-start-column="12" selection-end-line="79" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///usr/lib/jvm/java-8-jdk/src.zip!/java/util/concurrent/ThreadPoolExecutor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="341">
-          <caret line="1189" column="11" lean-forward="false" selection-start-line="1189" selection-start-column="11" selection-end-line="1189" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/run/BackendController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-152">
-          <caret line="86" column="58" lean-forward="true" selection-start-line="86" selection-start-column="58" selection-end-line="86" selection-end-column="58" />
+        <state relative-caret-position="580">
+          <caret line="67" column="31" lean-forward="false" selection-start-line="67" selection-start-column="31" selection-end-line="67" selection-end-column="31" />
           <folding>
-            <element signature="e#5569#5570#0" expanded="true" />
-            <element signature="e#5623#5624#0" expanded="true" />
+            <element signature="e#3301#3302#0" expanded="false" />
+            <element signature="e#3331#3332#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/ScoredTrack.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="24" column="10" lean-forward="true" selection-start-line="24" selection-start-column="10" selection-end-line="24" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/DistanceBackgroundModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="41" column="0" lean-forward="false" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/Track.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="23" column="43" lean-forward="false" selection-start-line="23" selection-start-column="43" selection-end-line="23" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/InOutTrack.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="28" column="32" lean-forward="false" selection-start-line="28" selection-start-column="32" selection-end-line="28" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/SingleTrackBackgroundModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
-          <caret line="51" column="0" lean-forward="false" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///usr/lib/jvm/java-8-jdk/jre/lib/rt.jar!/sun/reflect/NativeMethodAccessorImpl.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="37" column="33" lean-forward="false" selection-start-line="37" selection-start-column="33" selection-end-line="37" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/BetterBackgroundModelTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="817">
-          <caret line="100" column="121" lean-forward="false" selection-start-line="100" selection-start-column="121" selection-end-line="100" selection-end-column="121" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/BackgroundModelFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="18" column="19" lean-forward="false" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/controller/CalculationController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="108" column="0" lean-forward="true" selection-start-line="108" selection-start-column="0" selection-end-line="108" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/misc/TrackBuilderTest.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/upload.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
-          <caret line="118" column="119" lean-forward="false" selection-start-line="118" selection-start-column="119" selection-end-line="118" selection-end-column="119" />
+          <caret line="25" column="6" lean-forward="false" selection-start-line="25" selection-start-column="6" selection-end-line="25" selection-end-column="6" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/MultiTrackBackgroundModelTest.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/result.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="803">
-          <caret line="229" column="114" lean-forward="false" selection-start-line="229" selection-start-column="114" selection-end-line="229" selection-end-column="114" />
+        <state relative-caret-position="792">
+          <caret line="128" column="0" lean-forward="false" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/misc/TrackBuilder.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/uploadBg.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="767">
-          <caret line="150" column="129" lean-forward="false" selection-start-line="150" selection-start-column="129" selection-end-line="150" selection-end-column="129" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/genomeData/TracksTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="641">
-          <caret line="360" column="0" lean-forward="true" selection-start-line="360" selection-start-column="0" selection-end-line="360" selection-end-column="0" />
+        <state relative-caret-position="108">
+          <caret line="6" column="22" lean-forward="false" selection-start-line="6" selection-start-column="22" selection-end-line="6" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/misc/ChromosomSizes.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="332">
-          <caret line="89" column="0" lean-forward="false" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
+        <state relative-caret-position="511">
+          <caret line="154" column="34" lean-forward="true" selection-start-line="154" selection-start-column="34" selection-end-line="154" selection-end-column="34" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/Tracks.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/logo/GenomeTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="332">
-          <caret line="342" column="0" lean-forward="false" selection-start-line="342" selection-start-column="0" selection-end-line="342" selection-end-column="0" />
+        <state relative-caret-position="342">
+          <caret line="70" column="32" lean-forward="false" selection-start-line="70" selection-start-column="32" selection-end-line="70" selection-end-column="32" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/DistanceBackgroundModelTest.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/precalc/PrecalcBackgroundModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="862">
-          <caret line="97" column="50" lean-forward="true" selection-start-line="97" selection-start-column="50" selection-end-line="97" selection-end-column="50" />
+        <state relative-caret-position="270">
+          <caret line="20" column="4" lean-forward="false" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="4" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/TrackFactory.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/precalc/SiteFactoryFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="594">
+          <caret line="36" column="24" lean-forward="false" selection-start-line="36" selection-start-column="24" selection-end-line="36" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/precalc/SiteFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="972">
+          <caret line="230" column="0" lean-forward="false" selection-start-line="230" selection-start-column="0" selection-end-line="230" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/precalc/IndexTable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="846">
+          <caret line="68" column="15" lean-forward="true" selection-start-line="68" selection-start-column="15" selection-end-line="68" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/positionData/AbstractSites.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="14" column="36" lean-forward="false" selection-start-line="14" selection-start-column="36" selection-end-line="14" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/ScoreBackgroundModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="23" column="6" lean-forward="false" selection-start-line="23" selection-start-column="6" selection-end-line="23" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/positionData/Sites.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="25" column="41" lean-forward="false" selection-start-line="25" selection-start-column="41" selection-end-line="25" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/command/InterfaceCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="569">
+          <caret line="132" column="0" lean-forward="false" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
+          <folding>
+            <element signature="e#3997#3998#0" expanded="true" />
+            <element signature="e#4032#4033#0" expanded="true" />
+            <element signature="e#4077#4078#0" expanded="true" />
+            <element signature="e#4115#4116#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/controller/ExportController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="38" column="58" lean-forward="false" selection-start-line="38" selection-start-column="58" selection-end-line="38" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/stat/Test.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="10" column="17" lean-forward="false" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/stat/ResultCollector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="714">
+          <caret line="147" column="35" lean-forward="false" selection-start-line="147" selection-start-column="35" selection-end-line="147" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/controller/CalculationController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="265" column="0" lean-forward="false" selection-start-line="265" selection-start-column="0" selection-end-line="265" selection-end-column="0" />
+          <folding>
+            <marker date="1490623719844" expanded="false" signature="43:1466" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/backend/Session.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="23" column="19" lean-forward="false" selection-start-line="23" selection-start-column="19" selection-end-line="23" selection-end-column="19" />
+          <folding>
+            <element signature="e#3047#3048#0" expanded="true" />
+            <element signature="e#3083#3084#0" expanded="true" />
+            <element signature="e#3116#3117#0" expanded="true" />
+            <element signature="e#3145#3146#0" expanded="true" />
+            <element signature="e#3193#3194#0" expanded="true" />
+            <element signature="e#3231#3232#0" expanded="true" />
+            <element signature="e#3267#3268#0" expanded="true" />
+            <element signature="e#3297#3298#0" expanded="true" />
+            <element signature="e#3331#3332#0" expanded="true" />
+            <element signature="e#3359#3360#0" expanded="true" />
+            <element signature="e#3403#3404#0" expanded="true" />
+            <element signature="e#3437#3438#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/positionData/UserData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="354">
+          <caret line="35" column="115" lean-forward="false" selection-start-line="35" selection-start-column="115" selection-end-line="35" selection-end-column="115" />
+          <folding>
+            <element signature="e#2675#2676#0" expanded="true" />
+            <element signature="e#2711#2712#0" expanded="true" />
+            <element signature="e#2759#2760#0" expanded="true" />
+            <element signature="e#2799#2800#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/precalc/SiteCreator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="457">
+          <caret line="106" column="77" lean-forward="false" selection-start-line="106" selection-start-column="77" selection-end-line="106" selection-end-column="77" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/logo/GenomeFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="774">
+          <caret line="48" column="48" lean-forward="false" selection-start-line="48" selection-start-column="48" selection-end-line="48" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/logo/Genome.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="864">
+          <caret line="136" column="0" lean-forward="false" selection-start-line="136" selection-start-column="0" selection-end-line="136" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/logo/LogoCreator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -3080,18 +3183,97 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/calc/DistancesTest.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/ScoreSet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="30" column="138" lean-forward="false" selection-start-line="30" selection-start-column="138" selection-end-line="30" selection-end-column="138" />
+        <state relative-caret-position="360">
+          <caret line="23" column="4" lean-forward="false" selection-start-line="23" selection-start-column="4" selection-end-line="23" selection-end-column="4" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/calc/TestTrackSimpleTest.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/backend/BackendConnector.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="53" column="8" lean-forward="false" selection-start-line="53" selection-start-column="8" selection-end-line="53" selection-end-column="8" />
+        <state relative-caret-position="972">
+          <caret line="133" column="0" lean-forward="false" selection-start-line="133" selection-start-column="0" selection-end-line="133" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/misc/ChromosomSizesTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="866">
+          <caret line="89" column="0" lean-forward="false" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/BackgroundModelFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1365">
+          <caret line="99" column="35" lean-forward="false" selection-start-line="99" selection-start-column="35" selection-end-line="99" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/run/AnalysisHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="594">
+          <caret line="77" column="12" lean-forward="false" selection-start-line="77" selection-start-column="12" selection-end-line="77" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/Track.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="486">
+          <caret line="31" column="31" lean-forward="false" selection-start-line="31" selection-start-column="31" selection-end-line="31" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/MultiTrackBackgroundModelTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="666">
+          <caret line="314" column="22" lean-forward="false" selection-start-line="314" selection-start-column="22" selection-end-line="314" selection-end-column="22" />
+          <folding>
+            <element signature="e#7649#7650#0" expanded="true" />
+            <element signature="e#7694#7695#0" expanded="true" />
+            <element signature="e#7763#7764#0" expanded="true" />
+            <element signature="e#7805#7806#0" expanded="true" />
+            <element signature="e#7888#7889#0" expanded="true" />
+            <element signature="e#7956#7957#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/MultiTrackBackgroundModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="35" column="27" lean-forward="false" selection-start-line="35" selection-start-column="27" selection-end-line="35" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/calc/CalcCaller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="792">
+          <caret line="111" column="28" lean-forward="false" selection-start-line="111" selection-start-column="28" selection-end-line="111" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/AppearanceTable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-5">
+          <caret line="34" column="0" lean-forward="false" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/run/BackendController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="585">
+          <caret line="150" column="97" lean-forward="false" selection-start-line="150" selection-start-column="97" selection-end-line="150" selection-end-column="97" />
           <folding />
         </state>
       </provider>
@@ -3106,7 +3288,7 @@
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.26206896" />
+                <option value="0.75" />
                 <option value="0.5" />
               </list>
             </option>
@@ -3119,7 +3301,7 @@
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.26206896" />
+                <option value="0.75" />
               </list>
             </option>
           </splitter-proportions>
@@ -3176,11 +3358,11 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>commons-math3-3.5</last-edited>
+          <last-edited>Maven: org.apache.tomcat.embed:tomcat-embed-el:8.0.30</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.26206896" />
+                <option value="0.75" />
               </list>
             </option>
           </splitter-proportions>
