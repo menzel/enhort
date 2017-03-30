@@ -106,21 +106,23 @@ public final class BackendController {
 
                 //after interface is connected
                 while (isConnected) {
-                        Command command;
+                    Command command = null;
+                    Future f = null;
+
                     try {
                         command = (Command) inStream.readObject(); //wait for some input
 
-                        if(command instanceof BackendCommand) {
+                        if (command instanceof BackendCommand) {
 
                             BackgroundRunner runner = new BackgroundRunner((BackendCommand) command);
 
                             /////// Run Analysis ///////////
-                            Future f = exe.submit(runner);
+                            f = exe.submit(runner);
                             ////////////////////////////////
 
                             f.get(2, TimeUnit.MINUTES);
 
-                        } else if(command instanceof ExpressionCommand){
+                        } else if (command instanceof ExpressionCommand) {
                             TrackBuilder builder = new TrackBuilder();
 
                             /////// Build new Track
@@ -133,23 +135,32 @@ public final class BackendController {
                             outStream.writeObject(track);
                         }
 
+                    }catch(TimeoutException e){
+                        System.err.println("Timeout for " + command.hashCode());
+                        f.cancel(true);
+
                     }catch (EOFException | StreamCorruptedException | SocketException e){
 
                         //do nothing here. client is disconected.
                         System.out.println(prefix + "Webinterface lost");
                         isConnected = false;
 
-                    } catch (IOException | ClassNotFoundException  | InterruptedException | TimeoutException | ExecutionException e) {
+                    } catch (IOException | ClassNotFoundException  | InterruptedException | ExecutionException e) {
                         e.printStackTrace();
                         exe.shutdownNow();
 
                         queue = new ArrayBlockingQueue<>(16);
                         exe = new ThreadPoolExecutor(1, 4, 5L, TimeUnit.MILLISECONDS, queue);
 
-
                         try {
-                            inStream = new ObjectInputStream(socket.getInputStream()); //TODO TEST
-                            outStream.writeObject(e);
+                            serverSocket.close();
+                            socket.close();
+                            serverSocket = new ServerSocket(port);
+                            socket = serverSocket.accept();
+
+                            inStream = new ObjectInputStream(socket.getInputStream());
+                            outStream = new ObjectOutputStream(socket.getOutputStream());
+                            isConnected = true;
 
                         } catch (IOException e1) {
                             e1.printStackTrace();
