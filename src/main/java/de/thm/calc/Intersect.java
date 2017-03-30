@@ -19,15 +19,15 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
 
 
     @Override
-    public TestTrackResult searchTrack(T intv, Sites pos) {
-        if (intv instanceof StrandTrack)
-            return searchSingleInterval((StrandTrack) intv, pos);
-        if (intv instanceof InOutTrack)
-            return searchSingleInterval((InOutTrack) intv, pos);
-        if (intv instanceof ScoredTrack)
-            return searchSingleInterval((ScoredTrack) intv, pos);
-        if (intv instanceof NamedTrack)
-            return searchSingleInterval((NamedTrack) intv, pos);
+    public TestTrackResult searchTrack(T track, Sites pos) {
+        if (track instanceof StrandTrack)
+            return searchSingleInterval((StrandTrack) track, pos);
+        if (track instanceof InOutTrack)
+            return searchSingleInterval((InOutTrack) track, pos);
+        if (track instanceof ScoredTrack)
+            return searchSingleInterval((ScoredTrack) track, pos);
+        if (track instanceof NamedTrack)
+            return searchSingleInterval((NamedTrack) track, pos);
         else
             try {
                 throw new IntervalTypeNotAllowedExcpetion("Type not allowed in intersect");
@@ -54,6 +54,14 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
 
         int intervalCount = intervalStart.size() - 1;
 
+
+        if(intervalStart.size() != intervalEnd.size() || intervalStart.size() == 0){
+            System.err.println("Intersect (line 89) There is something wrong with the track: " + track.getName());
+            return new TestTrackResult(track, 0,0);
+        }
+
+
+
         for (int j = 0; j < positions.size(); j++) {
             long p = positions.get(j);
 
@@ -75,16 +83,21 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
 
 
 
-    private TestTrackResult searchSingleInterval(NamedTrack intv, Sites pos) {
+    private TestTrackResult searchSingleInterval(NamedTrack track, Sites pos) {
 
         int out = 0;
         int in = 0;
         int i = 0;
 
+        List<Long> intervalStart = track.getStarts();
+        List<Long> intervalEnd = track.getEnds();
+        List<String> names = track.getIntervalName();
 
-        List<Long> intervalStart = intv.getStarts();
-        List<Long> intervalEnd = intv.getEnds();
-        List<String> names = intv.getIntervalName();
+        if(intervalStart.size() != intervalEnd.size() || intervalStart.size() == 0){
+            System.err.println("Intersect (line 89) There is something wrong with the track: " + track.getName());
+            return new TestTrackResult(track, 0,0);
+        }
+
 
         ResultNames resultNames = new ResultNames();
 
@@ -112,17 +125,22 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
         }
 
 
-        return new TestTrackResult(intv, in, out, resultNames.resultNames);
+        return new TestTrackResult(track, in, out, resultNames.resultNames);
     }
 
-    public TestTrackResult searchSingleInterval(InOutTrack intv, Sites pos) {
+    public TestTrackResult searchSingleInterval(InOutTrack track, Sites pos) {
         int out = 0;
         int in = 0;
         int i = 0;
 
 
-        List<Long> intervalStart = intv.getStarts();
-        List<Long> intervalEnd = intv.getEnds();
+        List<Long> intervalStart = track.getStarts();
+        List<Long> intervalEnd = track.getEnds();
+
+        if(intervalStart.size() != intervalEnd.size() || intervalStart.size() == 0){
+            System.err.println("Intersect (line 129) There is something wrong with the track: " + track.getName());
+            return new TestTrackResult(track, 0,0);
+        }
 
         int intervalCount = intervalStart.size() - 1;
 
@@ -142,20 +160,28 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
         }
 
 
-        return new TestTrackResult(intv, in, out);
+        return new TestTrackResult(track, in, out);
     }
 
-    public TestTrackResult searchSingleInterval(ScoredTrack intv, Sites pos) {
+    public TestTrackResult searchSingleInterval(ScoredTrack track, Sites pos) {
 
         int out = 0;
         int in = 0;
         int i = 0;
 
-        List<Long> intervalStart = intv.getStarts();
-        List<Long> intervalEnd = intv.getEnds();
-        List<Double> intervalScore = intv.getIntervalScore();
+        List<Long> intervalStart = track.getStarts();
+        List<Long> intervalEnd = track.getEnds();
+        List<Double> intervalScore = track.getIntervalScore();
 
         List<Double> resultsScores = new ArrayList<>();
+
+
+        if(intervalStart.size() != intervalEnd.size() || intervalStart.size() == 0){
+            System.err.println("Intersect (line 180) There is something wrong with the track: " + track.getName());
+            return new TestTrackResult(track, 0,0);
+        }
+
+
 
         int intervalCount = intervalStart.size() - 1;
 
@@ -177,7 +203,7 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
             else out++;
         }
 
-        return new TestTrackResult(intv, in, out, resultsScores);
+        return new TestTrackResult(track, in, out, resultsScores);
     }
 
 
