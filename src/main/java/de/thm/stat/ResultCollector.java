@@ -115,6 +115,60 @@ public final class ResultCollector implements Serializable{
         return results.stream().filter(tr -> covariants.contains(Integer.toString(tr.getId()))).collect(Collectors.toList());
     }
 
+
+
+    public String getBarplotdata() {
+
+        String output = "";
+
+        List<TestResult> filtered_results = results.stream()
+        //.filter(testResult -> testResult.getpValue() < 0.05)
+        .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
+        .collect(Collectors.toList());
+
+        filtered_results.sort(Comparator.comparing(TestResult::getName));
+
+        // Name
+        for (TestResult result : filtered_results) {
+            output += result.getName();
+            output += ",";
+        }
+        output = output.substring(0,output.length()-1);
+        output += "\n";
+
+        // Effect Size
+        output += "pvalue,";
+        for (TestResult result : filtered_results) {
+            output += result.getpValue();
+            output += ",";
+        }
+
+        output = output.substring(0,output.length()-1);
+        output += "\n";
+
+        // Effect Size
+        output += "effectsize,";
+        for (TestResult result : filtered_results) {
+            if(result.getpValue() > 0.05)
+                output += "0,";
+            else {
+                if (result.getPercentInE() > result.getPercentInM()) { // weniger als erwartet drinn
+                    output += 1 / result.getEffectSize();
+                } else {
+                    output += result.getEffectSize();
+                }
+                output += ",";
+            }
+        }
+        output = output.substring(0,output.length()-1);
+        output += "\n";
+
+        return output;
+
+    }
+
+
+
     /**
      * Returns all significant results sorted by effect size in csv format.
      *
@@ -125,7 +179,7 @@ public final class ResultCollector implements Serializable{
 
         //filter by p value and sort by effect size:
         List<TestResult> filtered_results = results.stream()
-                //.filter(testResult -> testResult.getpValue() < 0.05)
+                .filter(testResult -> testResult.getpValue() < 0.05)
                 .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
                 .collect(Collectors.toList());
 

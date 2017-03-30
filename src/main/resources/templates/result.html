@@ -134,8 +134,10 @@
         <th:block th:if="${ran}">
             <div id="hotspots" >
 
-                <th:block th:each="pixel: ${interfaceCommand.hotspots}">
-                    <div class="hotspot" th:style="'background-color:hsl(231,100%,' + ${pixel} + '%);'"></div>
+                <th:block th:if="${interfaceCommand.hotspots != null}">
+                    <th:block th:each="pixel: ${interfaceCommand.hotspots}">
+                        <div class="hotspot" th:style="'background-color:hsl(231,100%,' + ${pixel} + '%);'"></div>
+                    </th:block>
                 </th:block>
 
             </div>
