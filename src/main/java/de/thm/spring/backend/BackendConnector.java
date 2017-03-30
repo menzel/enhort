@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 
 /**
  * Connects the interface to a backend server. Sends backendCommands and recives resultCollectors.
@@ -17,13 +18,13 @@ import java.net.Socket;
  *
  * Created by Michael Menzel on 11/3/16.
  */
-public final class BackendConnector implements Runnable{
+public final class BackendConnector implements Runnable {
     private static BackendConnector instance;
 
     static {
         // check if the instance is running on a local machine or ladon
 
-        if(System.getenv("HOME").contains("menzel")){
+        if (System.getenv("HOME").contains("menzel")) {
             instance = new BackendConnector(42412, "127.0.0.1");
         } else {
             instance = new BackendConnector(42412, "bioinf-ladon.mni.thm.de");
@@ -35,13 +36,14 @@ public final class BackendConnector implements Runnable{
     private boolean isConnected = false;
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
+    private Socket socket;
 
     private BackendConnector(int port, String ip) {
         this.port = port;
         this.ip = ip;
     }
 
-    public static BackendConnector getInstance(){
+    public static BackendConnector getInstance() {
         return instance;
     }
 
@@ -52,22 +54,23 @@ public final class BackendConnector implements Runnable{
         int connectionTimeout = 20; //max tries timeout
         int tries = 0;
 
-        while (!isConnected){
+        while (!isConnected) {
             try {
-                Socket socket = new Socket(ip, port);
+                socket = new Socket(ip, port);
 
                 isConnected = socket.isConnected();
-                System.out.println("[Enhort Webinterface]: Created " + isConnected +  " socket on port: " + port);
+                System.out.println("[Enhort Webinterface]: Created " + isConnected + " socket on port: " + port);
 
                 outputStream = new ObjectOutputStream(socket.getOutputStream());
                 inputStream = new ObjectInputStream(socket.getInputStream());
+                socket.setSoTimeout(120 * 1000);
 
             } catch (IOException e) {
                 System.err.println("[Enhort Webinterface]: Cannot connect to backend: " + ip + " reason: " + e.getMessage());
             }
             try {
                 tries++;
-                if(tries >= connectionTimeout)
+                if (tries >= connectionTimeout)
                     return;
 
                 Thread.sleep(1000);
@@ -87,52 +90,59 @@ public final class BackendConnector implements Runnable{
      * @return Results of the executed commnads
      * @throws CovariantsException - if too many or impossible combination of covariants is given
      */
-    public ResultCollector runAnalysis(BackendCommand command) throws CovariantsException {
+    public ResultCollector runAnalysis(BackendCommand command) throws CovariantsException, SocketTimeoutException {
 
-        if(isConnected){
-            try {
+        if (isConnected) try {
 
-                System.out.println("[Enhort Webinterface]: writing command");
-                outputStream.writeObject(command);
+            System.out.println("[Enhort Webinterface]: writing command");
+            outputStream.writeObject(command);
 
-                System.out.println("[Enhort Webinterface]: waiting for result");
+            System.out.println("[Enhort Webinterface]: waiting for result");
 
-                //TODO only wait for fixed time. apply timeout
-                Object answer = inputStream.readObject();
+            //TODO only wait for fixed time. apply timeout
 
-                ResultCollector collector;
+            Object answer = inputStream.readObject();
 
-                if(answer instanceof Exception){
+            ResultCollector collector;
 
-                    System.out.println("[Enhort Webinterface]: got exception: " + ((Exception) answer).getMessage());
+            if (answer instanceof Exception) {
 
-                    if(answer instanceof CovariantsException)
-                        throw (CovariantsException) answer;
+                if (answer instanceof CovariantsException)
+                    throw (CovariantsException) answer;
 
-                } else if(answer instanceof  ResultCollector){
+                System.out.println("[Enhort Webinterface]: got exception: " + ((Exception) answer).getMessage());
 
-                    collector = (ResultCollector) answer;
-                    System.out.println("[Enhort Webinterface]: got result: " + collector.getResults().size());
-                    return collector;
+            } else if (answer instanceof ResultCollector) {
 
-                } else {
-                    System.err.println("answer is not a result: " + answer.getClass());
-                    return null;
-                }
+                collector = (ResultCollector) answer;
+                System.out.println("[Enhort Webinterface]: got result: " + collector.getResults().size());
+                //TODO check collector for correct answers:
 
+                checkCollector(collector);
 
-            } catch(IOException | ClassNotFoundException e){
-                isConnected = false;
-                System.err.println("Something went wrong in the BackendConnector. Trying to start all over again");
+                return collector;
+
+            } else {
+                System.err.println("answer is not a result: " + answer.getClass());
+                return null;
             }
+
+
+        }  catch (SocketTimeoutException e){
+            e.printStackTrace();
+            throw new SocketTimeoutException("The backend took to long to respond. Maybe there are too many sites");
+
+        } catch (IOException | ClassNotFoundException e) {
+            isConnected = false;
+            System.err.println("Something went wrong in the BackendConnector. Trying to start all over again");
         }
 
         System.out.println("[Enhort Webinterface]: No connection to backend");
-        StatisticsCollector.getInstance().addErrorC();
+        //StatisticsCollector.getInstance().addErrorC();
 
         this.run(); //try to connect to backend again
 
-        if(isConnected){
+        if (isConnected) {
             //TODO check for endless recursion
 
             try {
@@ -141,15 +151,27 @@ public final class BackendConnector implements Runnable{
             } catch (InterruptedException e) {
                 System.err.println("Sleep interrupted after error state. Should not be a problem.");
             }
-            return runAnalysis(command); //only call run again if backend is connected.
-        }
-        else
             return null;
+            //return runAnalysis(command); //only call run again if backend is connected.
+        } else
+            return null;
+    }
+
+    private void checkCollector(ResultCollector collector) {
+
+        if(collector.getHotspots() == null){
+            System.err.println("BackendConnector: No Hotspots");
+        }
+
+        if(collector.getResults().size() < 1){
+            System.err.println("BackendConnector: Not Results in Collector");
+        }
+
     }
 
     public Track createCustomTrack(ExpressionCommand expressionCommand) {
 
-      if(isConnected){
+        if (isConnected) {
             try {
 
                 System.out.println("[Enhort Webinterface]: writing command");
@@ -157,16 +179,15 @@ public final class BackendConnector implements Runnable{
 
                 System.out.println("[Enhort Webinterface]: waiting for result");
 
-                //TODO only wait for fixed time. apply timeout
                 Object answer = inputStream.readObject();
 
                 Track track;
 
-                if(answer instanceof Exception){
+                if (answer instanceof Exception) {
 
                     System.out.println("[Enhort Webinterface]: got exception: " + ((Exception) answer).getMessage());
 
-                } else if(answer instanceof Track){
+                } else if (answer instanceof Track) {
 
                     track = (Track) answer;
 
@@ -178,7 +199,7 @@ public final class BackendConnector implements Runnable{
                 }
 
 
-            } catch(IOException | ClassNotFoundException e){
+            } catch (IOException | ClassNotFoundException e) {
                 isConnected = false;
                 System.err.println("Something went wrong in the BackendConnector. Trying to start all over again" + e);
             }
