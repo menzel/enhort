@@ -99,9 +99,15 @@ public final class TrackFactory {
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Strand, "Strand dependend tracks", GenomeFactory.Assembly.hg19));
             this.tracks.addAll(tmp);
 
+            tmp = getTracks(basePath.resolve("iPs"), Type.inout, GenomeFactory.Assembly.hg19);
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.iPs, "iPS Cell Stuff", GenomeFactory.Assembly.hg19));
+            this.tracks.addAll(tmp);
+
+
             tmp = getTracks(basePath.resolve("cancer_genes"), Type.inout, GenomeFactory.Assembly.hg19);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Cancer, "Cancer gene tracks", GenomeFactory.Assembly.hg19));
             this.tracks.addAll(tmp);
+
 
             //only load all tracks when running on the big server
             if(!System.getenv("HOME").contains("menzel")) {
