@@ -5,6 +5,7 @@ import de.thm.genomeData.TrackFactory;
 import de.thm.logo.GenomeFactory;
 import de.thm.logo.Logo;
 import de.thm.positionData.Sites;
+import org.apache.commons.math3.util.Pair;
 import org.apache.commons.math3.util.Precision;
 
 import java.io.Serializable;
@@ -115,18 +116,38 @@ public final class ResultCollector implements Serializable{
         return results.stream().filter(tr -> covariants.contains(Integer.toString(tr.getId()))).collect(Collectors.toList());
     }
 
+    public Pair<List<String>, List<Double>> getBarplotdata() {
 
 
-    public String getBarplotdata() {
+        List<String> names = new ArrayList<>();
+        List<Double> effecsizes = new ArrayList<>();
+
+        results.stream()
+        .filter(testResult -> testResult.getpValue() < 0.05)
+        .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
+        .forEach(result ->{
+            names.add(result.getName());
+
+            if (result.getPercentInE() > result.getPercentInM()) // weniger als erwartet drinn
+                effecsizes.add(1 / result.getEffectSize());
+             else effecsizes.add(result.getEffectSize());
+
+        });
+
+        return new Pair<>(names, effecsizes);
+    }
+
+
+    public String getBarplotdataExport() {
 
         String output = "";
 
         List<TestResult> filtered_results = results.stream()
-        //.filter(testResult -> testResult.getpValue() < 0.05)
+        .filter(testResult -> testResult.getpValue() < 0.05)
         .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
         .collect(Collectors.toList());
 
-        filtered_results.sort(Comparator.comparing(TestResult::getName));
+        //filtered_results.sort(Comparator.comparing(TestResult::getName));
 
         // Name
         for (TestResult result : filtered_results) {

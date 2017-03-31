@@ -8,6 +8,7 @@ import de.thm.spring.backend.StatisticsCollector;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,23 +28,13 @@ import java.util.List;
 public class ExportController {
 
     @RequestMapping(value = "/export/csv", method = RequestMethod.GET)
-    @ResponseBody
-    public FileSystemResource downloadCSV(HttpSession httpSession) {
+    public String plot(Model model, HttpSession httpSession) {
         Session currentSession = Sessions.getInstance().getSession(httpSession.getId());
 
-        //create file
-        File output = new File("/tmp/csv_output_" + httpSession.getId());
-        try (BufferedWriter writer = Files.newBufferedWriter(output.toPath())) {
-            //noinspection ResultOfMethodCallIgnored
-            output.createNewFile();
-            writer.write(currentSession.getCollector().getCsv());
+        org.apache.commons.math3.util.Pair<List<String>, List<Double>> data = currentSession.getCollector().getBarplotdata();
+        model.addAttribute("data", data);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        StatisticsCollector.getInstance().addDownloadC();
-        return new FileSystemResource(output);
+        return "plot";
     }
 
 
