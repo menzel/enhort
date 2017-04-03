@@ -128,8 +128,8 @@ public final class ResultCollector implements Serializable{
         .forEach(result ->{
             names.add(result.getName());
 
-            if (result.getPercentInE() > result.getPercentInM()) // weniger als erwartet drinn
-                effecsizes.add(1 / result.getEffectSize());
+            if (result.getPercentInE() > result.getPercentInM()) // if less in data than expected
+                effecsizes.add(1 / result.getEffectSize()); // invert value
              else effecsizes.add(result.getEffectSize());
 
         });
