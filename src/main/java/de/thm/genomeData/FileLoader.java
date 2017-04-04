@@ -188,6 +188,11 @@ final class FileLoader implements Runnable {
                 }
             }
 
+            if (starts.size() == 0 || starts.size() != ends.size()) {
+                System.err.println("File has no positions: " + file.getAbsolutePath());
+                throw new Exception("Something is wrong with this track or file");
+            }
+
 
             switch (type) {
                 case strand:
