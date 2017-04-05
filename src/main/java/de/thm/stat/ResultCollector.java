@@ -39,7 +39,7 @@ public final class ResultCollector implements Serializable{
         try {
             List<TestResult> r = results.stream()
                     .filter(testResult -> testResult.getType() == TestResult.Type.score)
-                    .filter(testResult -> testResult.getpValue() < 0.05)
+                    .filter(testResult -> testResult.getpValue() < 0.05 / (testResult.getExpectedIn() + testResult.getExpectedOut()))
                     .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
                     .collect(Collectors.toList());
 
@@ -57,7 +57,7 @@ public final class ResultCollector implements Serializable{
         try {
             List<TestResult> r = results.stream()
                     .filter(testResult -> testResult.getType() == TestResult.Type.inout)
-                    .filter(testResult -> testResult.getpValue() < 0.05)
+                    .filter(testResult -> testResult.getpValue() < 0.05 / (testResult.getExpectedIn() + testResult.getExpectedOut()))
                     .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
                     .collect(Collectors.toList());
 
@@ -77,7 +77,7 @@ public final class ResultCollector implements Serializable{
         try {
             List<TestResult> r = results.stream()
                     .filter(testResult -> testResult.getType() == TestResult.Type.name)
-                    .filter(testResult -> testResult.getpValue() < 0.05)
+                    .filter(testResult -> testResult.getpValue() < 0.05 / (testResult.getExpectedIn() + testResult.getExpectedOut()))
                     .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
                     .collect(Collectors.toList());
 
@@ -143,11 +143,11 @@ public final class ResultCollector implements Serializable{
         String output = "";
 
         List<TestResult> filtered_results = results.stream()
-        .filter(testResult -> testResult.getpValue() < 0.05)
+                //.filter(testResult -> testResult.getpValue() < 0.05)
         .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
         .collect(Collectors.toList());
 
-        //filtered_results.sort(Comparator.comparing(TestResult::getName));
+        filtered_results.sort(Comparator.comparing(TestResult::getName));
 
         // Name
         for (TestResult result : filtered_results) {
@@ -170,16 +170,12 @@ public final class ResultCollector implements Serializable{
         // Effect Size
         output += "effectsize,";
         for (TestResult result : filtered_results) {
-            if(result.getpValue() > 0.05)
-                output += "0,";
-            else {
-                if (result.getPercentInE() > result.getPercentInM()) { // weniger als erwartet drinn
-                    output += 1 / result.getEffectSize();
-                } else {
-                    output += result.getEffectSize();
-                }
-                output += ",";
+            if (result.getPercentInE() > result.getPercentInM()) { // weniger als erwartet drinn
+                output += 1 / result.getEffectSize();
+            } else {
+                output += result.getEffectSize();
             }
+            output += ",";
         }
         output = output.substring(0,output.length()-1);
         output += "\n";
@@ -196,11 +192,11 @@ public final class ResultCollector implements Serializable{
      * @return results in csv format.
      */
     public String getCsv() {
-        String output = "Name,";
+        String output = "";
 
         //filter by p value and sort by effect size:
         List<TestResult> filtered_results = results.stream()
-                .filter(testResult -> testResult.getpValue() < 0.05)
+                //.filter(testResult -> testResult.getpValue() < 0.05)
                 .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
                 .collect(Collectors.toList());
 
@@ -214,16 +210,12 @@ public final class ResultCollector implements Serializable{
 
 
         for (TestResult result : filtered_results) {
-            if(result.getpValue() > 0.05)
-                output += "0,";
-            else {
-                if (result.getExpectedIn() >= result.getMeasuredIn()) { // weniger als erwartet drinn
-                    output += -1 * result.getEffectSize();
-                } else {
-                    output += result.getEffectSize();
-                }
-                output += ",";
+            if (result.getExpectedIn() >= result.getMeasuredIn()) { // weniger als erwartet drinn
+                output += 1 / result.getEffectSize();
+            } else {
+                output += result.getEffectSize();
             }
+            output += ",";
         }
 
 
