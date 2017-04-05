@@ -77,7 +77,7 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
             else out++;
 
 
-            if (Thread.currentThread().isInterrupted()) return null;
+            if (Thread.currentThread().isInterrupted()) return new TestTrackResult(track, in, out);
         }
 
 
@@ -126,7 +126,7 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
                 out++;
             }
 
-            if (Thread.currentThread().isInterrupted()) return null;
+            if (Thread.currentThread().isInterrupted()) return new TestTrackResult(track, in, out);
         }
 
 
@@ -163,7 +163,7 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
             if (p >= intervalStart.get(i)) in++;
             else out++;
 
-            if (Thread.currentThread().isInterrupted()) return null;
+            if (Thread.currentThread().isInterrupted()) return new TestTrackResult(track, in, out);
         }
 
 
@@ -209,7 +209,7 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
             }
             else out++;
 
-            if (Thread.currentThread().isInterrupted()) return null;
+            if (Thread.currentThread().isInterrupted()) return new TestTrackResult(track, in, out);
         }
 
         return new TestTrackResult(track, in, out, resultsScores);
