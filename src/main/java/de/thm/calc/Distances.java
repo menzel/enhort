@@ -49,30 +49,30 @@ public final class Distances implements TestTrack<DistanceTrack>{
         //DistanceCounter distances = new DistanceCounter();
         List<Long> distances = new ArrayList<>();
 
-        List<Long> intervalStart = track.getStarts();
+        long[] intervalStart = track.getStarts();
 
         int i = 0;
-        int intervalCount = intervalStart.size() - 1;
+        int intervalCount = intervalStart.length - 1;
 
         for (long p : sites.getPositions()) {
 
-            while (i < intervalCount && intervalStart.get(i) < p)
+            while (i < intervalCount && intervalStart[i] < p)
                 i++;
 
             if(i == 0) { // if the position is before than the first start
-                distances.add(intervalStart.get(0) - p);
+                distances.add(intervalStart[0] - p);
                 continue;
             }
 
-            if(i == intervalCount && intervalStart.get(i) < p){
-                distances.add(p - intervalStart.get(intervalCount));
+            if (i == intervalCount && intervalStart[i] < p) {
+                distances.add(p - intervalStart[intervalCount]);
                 continue;
             }
 
             // calc distance to last and next site from position
 
-            long upstream = p - intervalStart.get(i-1);
-            long downstream = p - intervalStart.get(i);
+            long upstream = p - intervalStart[i - 1];
+            long downstream = p - intervalStart[i];
             //TODO use min or absolute min?
 
             // add smaller distance to map

@@ -37,7 +37,7 @@ class AppearanceTable {
         Map<Track, Pair<List<Long>, List<Long>>> intervals = new HashMap<>();
 
         tracks.forEach(track -> {
-            intervals.put(track, new ImmutablePair<>(track.getStarts(), track.getEnds()));
+            intervals.put(track, new ImmutablePair(track.getStarts(), track.getEnds()));
             indices.put(track, 0);
         });
 

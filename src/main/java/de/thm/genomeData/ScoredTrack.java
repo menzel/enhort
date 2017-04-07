@@ -98,13 +98,13 @@ public class ScoredTrack extends Track {
     }
 
     @Override
-    public List<Long> getStarts() {
-        return Arrays.stream(intervalsStart).boxed().collect(Collectors.toList());
+    public long[] getStarts() {
+        return this.intervalsStart;
     }
 
     @Override
-    public List<Long> getEnds() {
-        return Arrays.stream(intervalsEnd).boxed().collect(Collectors.toList());
+    public long[] getEnds() {
+        return this.intervalsEnd;
     }
 
     public List<String> getIntervalName() {

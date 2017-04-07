@@ -75,8 +75,8 @@ class SingleTrackBackgroundModel implements Sites {
 
         List<Long> randomValues = new ArrayList<>();
         List<Long> sites = new ArrayList<>();
-        List<Long> intervalStart = track.getStarts();
-        List<Long> intervalEnd = track.getEnds();
+        long[] intervalStart = track.getStarts();
+        long[] intervalEnd = track.getEnds();
 
         //get some random numbers
         for (int i = 0; i < siteCount; i++)
@@ -92,16 +92,16 @@ class SingleTrackBackgroundModel implements Sites {
         for (int i = 0; i < siteCount; i++) {
             Long r = randomValues.get(i) - sumOfPrevious;
 
-            Long intervalSize = intervalEnd.get(j) - 1  - intervalStart.get(j);
+            Long intervalSize = intervalEnd[j] - 1 - intervalStart[j];
 
             while(r >= intervalSize){
                 r -= intervalSize;
                 sumOfPrevious += intervalSize;
                 j++;
-                intervalSize = intervalEnd.get(j) - intervalStart.get(j);
+                intervalSize = intervalEnd[j] - intervalStart[j];
             }
 
-            sites.add(r + intervalStart.get(j));
+            sites.add(r + intervalStart[j]);
         }
 
 

@@ -104,19 +104,26 @@ public final class TrackFactory {
             this.tracks.addAll(tmp);
 
 
-            tmp = getTracks(basePath.resolve("cancer_genes"), Type.inout, GenomeFactory.Assembly.hg19);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Cancer, "Cancer gene tracks", GenomeFactory.Assembly.hg19));
-            this.tracks.addAll(tmp);
-
-
             //only load all tracks when running on the big server
-            if(!System.getenv("HOME").contains("menzel")) {
+            if (!System.getenv("HOME").contains("menzel")) {
+
+                tmp = getTracks(basePath.resolve("cancer_genes"), Type.inout, GenomeFactory.Assembly.hg19);
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Cancer, "Cancer gene tracks", GenomeFactory.Assembly.hg19));
+                this.tracks.addAll(tmp);
+
+                tmp = getTracks(basePath.resolve("safe_harbor"), Type.inout, GenomeFactory.Assembly.hg19);
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.safe_harbor, "Safe Harbor tracks", GenomeFactory.Assembly.hg19));
+                this.tracks.addAll(tmp);
+
+
+                tmp = getTracks(basePath.resolve("repeats_by_name"), Type.inout, GenomeFactory.Assembly.hg19);
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name", GenomeFactory.Assembly.hg19));
+                this.tracks.addAll(tmp);
 
 
                 tmp = getTracks(basePath.resolve("score"), Type.scored, GenomeFactory.Assembly.hg19);
                 this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Expression, "Expression scores", GenomeFactory.Assembly.hg19));
                 this.tracks.addAll(tmp);
-
 
 
                 tmp = getTracks(basePath.resolve("tf"), Type.inout, GenomeFactory.Assembly.hg19);
@@ -134,13 +141,6 @@ public final class TrackFactory {
                 tmp = getTracks(basePath.resolve("OpenChrom"), Type.inout, GenomeFactory.Assembly.hg19);
                 this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.OpenChrom, "Open Chromatin", GenomeFactory.Assembly.hg19));
                 this.tracks.addAll(tmp);
-
-
-                tmp = getTracks(basePath.resolve("repeats_by_name"), Type.inout, GenomeFactory.Assembly.hg19);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name", GenomeFactory.Assembly.hg19));
-                this.tracks.addAll(tmp);
-
-
 
 
                 //////////// hg38  ///////////////

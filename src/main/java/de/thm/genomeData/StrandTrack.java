@@ -96,12 +96,12 @@ public class StrandTrack extends Track{
     }
 
     @Override
-    public List<Long> getStarts() {
+    public long[] getStarts() {
         return Arrays.stream(intervalsStart).boxed().collect(Collectors.toList());
     }
 
     @Override
-    public List<Long> getEnds() {
+    public long[] getEnds() {
         return Arrays.stream(intervalsEnd).boxed().collect(Collectors.toList());
     }
 

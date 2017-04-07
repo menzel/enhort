@@ -15,8 +15,8 @@ public abstract class AbstractTrack extends Track {
     private static final long serialVersionUID = 30624951L;
     private final int uid = UID.incrementAndGet();
 
-    private final List<Long> intervalsStart;
-    private final List<Long> intervalsEnd;
+    private final long[] intervalsStart;
+    private final long[] intervalsEnd;
     private final String name;
     private final String description;
     private final GenomeFactory.Assembly assembly;

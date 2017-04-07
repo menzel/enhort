@@ -4,7 +4,6 @@ import de.thm.logo.GenomeFactory;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Track for intervals that define inside and outside of intervals.
@@ -50,13 +49,14 @@ public class InOutTrack extends Track {
     }
 
     @Override
-    public List<Long> getStarts() {
-        return Arrays.stream(intervalsStart).boxed().collect(Collectors.toList());
+    public long[] getStarts() {
+        return this.intervalsStart;
     }
 
+
     @Override
-    public List<Long> getEnds() {
-        return Arrays.stream(intervalsEnd).boxed().collect(Collectors.toList());
+    public long[] getEnds() {
+        return this.intervalsEnd;
     }
 
     @Override
@@ -99,12 +99,4 @@ public class InOutTrack extends Track {
         return !(description != null ? !description.equals(track.description) : track.description != null);
     }
 
-
-    public long[] getStartsA() {
-        return this.intervalsStart;
-    }
-
-    public long[] getEndsA() {
-        return this.intervalsEnd;
-    }
 }

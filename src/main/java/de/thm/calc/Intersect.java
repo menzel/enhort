@@ -47,15 +47,15 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
         int in = 0;
         int i = 0;
 
-        List<Long> intervalStart = track.getStarts();
-        List<Long> intervalEnd = track.getEnds();
+        long[] intervalStart = track.getStarts();
+        long[] intervalEnd = track.getEnds();
         List<Character> strands = track.getStrands();
         List<Long> positions = sites.getPositions();
 
-        int intervalCount = intervalStart.size() - 1;
+        int intervalCount = intervalStart.length - 1;
 
 
-        if(intervalStart.size() != intervalEnd.size() || intervalStart.size() == 0){
+        if (intervalStart.length != intervalEnd.length || intervalStart.length == 0) {
             System.err.println("Intersect (line 89) There is something wrong with the track: " + track.getName());
             return new TestTrackResult(track, 0,0);
         }
@@ -65,15 +65,16 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
         for (int j = 0; j < positions.size(); j++) {
             long p = positions.get(j);
 
-            while (i < intervalCount && intervalEnd.get(i) <= p)
+            while (i < intervalCount && intervalEnd[i] <= p)
                 i++;
 
-            if (i == intervalCount && p >= intervalEnd.get(i)) { //not inside last interval
+            if (i == intervalCount && p >= intervalEnd[i]) { //not inside last interval
                 out += sites.getPositions().size() - j; //add remaining positions to out
                 break; //and end the loop
             }
 
-            if (p >= intervalStart.get(i)  && (sites.getStrands().get(j).equals(strands.get(i)) ||strands.get(i).equals('o'))) in++;
+            if (p >= intervalStart[i] && (sites.getStrands().get(j).equals(strands.get(i)) || strands.get(i).equals('o')))
+                in++;
             else out++;
 
 
@@ -92,11 +93,11 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
         int in = 0;
         int i = 0;
 
-        List<Long> intervalStart = track.getStarts();
-        List<Long> intervalEnd = track.getEnds();
+        long[] intervalStart = track.getStarts();
+        long[] intervalEnd = track.getEnds();
         List<String> names = track.getIntervalName();
 
-        if(intervalStart.size() != intervalEnd.size() || intervalStart.size() == 0){
+        if (intervalStart.length != intervalEnd.length || intervalStart.length == 0) {
             System.err.println("Intersect (line 89) There is something wrong with the track: " + track.getName());
             return new TestTrackResult(track, 0,0);
         }
@@ -105,19 +106,19 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
         ResultNames resultNames = new ResultNames();
 
 
-        int intervalCount = intervalStart.size() - 1;
+        int intervalCount = intervalStart.length - 1;
 
         for (long p : pos.getPositions()) {
 
-            while (i < intervalCount && intervalEnd.get(i) <= p)
+            while (i < intervalCount && intervalEnd[i] <= p)
                 i++;
 
-            if(i == intervalCount && p >= intervalEnd.get(i)) { //not inside last interval
+            if (i == intervalCount && p >= intervalEnd[i]) { //not inside last interval
                 out += pos.getPositions().size() - pos.getPositions().indexOf(p); //add remaining positions to out
                 break; //and end the loop
             }
 
-            if (p >= intervalStart.get(i)) {
+            if (p >= intervalStart[i]) {
 
                 resultNames.add(names.get(i));
                 in++;
@@ -138,8 +139,8 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
         int in = 0;
         int i = 0;
 
-        long[] intervalStart = track.getStartsA();
-        long[] intervalEnd = track.getEndsA();
+        long[] intervalStart = track.getStarts();
+        long[] intervalEnd = track.getEnds();
 
         if (intervalStart.length != intervalEnd.length || intervalStart.length == 0) {
             System.err.println("Intersect (line 129) There is something wrong with the track: " + track.getName());
@@ -175,34 +176,33 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
         int in = 0;
         int i = 0;
 
-        List<Long> intervalStart = track.getStarts();
-        List<Long> intervalEnd = track.getEnds();
+        long[] intervalStart = track.getStarts();
+        long[] intervalEnd = track.getEnds();
         List<Double> intervalScore = track.getIntervalScore();
 
         List<Double> resultsScores = new ArrayList<>();
 
 
-        if(intervalStart.size() != intervalEnd.size() || intervalStart.size() == 0){
+        if (intervalStart.length != intervalEnd.length || intervalStart.length == 0) {
             System.err.println("Intersect (line 180) There is something wrong with the track: " + track.getName());
             return new TestTrackResult(track, 0,0);
         }
 
 
-
-        int intervalCount = intervalStart.size() - 1;
+        int intervalCount = intervalStart.length - 1;
 
         for (long p : pos.getPositions()) {
 
-            while (i < intervalCount && intervalEnd.get(i) <= p)
+            while (i < intervalCount && intervalEnd[i] <= p)
                 i++;
 
-            if(i == intervalCount && p >= intervalEnd.get(i)) { //not inside last interval
+            if (i == intervalCount && p >= intervalEnd[i]) { //not inside last interval
                 out += pos.getPositions().size() - pos.getPositions().indexOf(p); //add remaining positions to out
                 break; //and end the loop
             }
 
 
-            if (p >= intervalStart.get(i)){
+            if (p >= intervalStart[i]) {
                 resultsScores.add(intervalScore.get(i));
                 in++;
             }

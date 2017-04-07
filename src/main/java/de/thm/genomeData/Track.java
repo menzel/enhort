@@ -3,7 +3,6 @@ package de.thm.genomeData;
 import de.thm.logo.GenomeFactory;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -29,9 +28,9 @@ public abstract class Track implements Serializable, Cloneable {
 
     public abstract String getName();
 
-    public abstract List<Long> getStarts();
+    public abstract long[] getStarts();
 
-    public abstract List<Long> getEnds();
+    public abstract long[] getEnds();
 
     public abstract int getUid();
 
