@@ -138,29 +138,28 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
         int in = 0;
         int i = 0;
 
+        long[] intervalStart = track.getStartsA();
+        long[] intervalEnd = track.getEndsA();
 
-        List<Long> intervalStart = track.getStarts();
-        List<Long> intervalEnd = track.getEnds();
-
-        if(intervalStart.size() != intervalEnd.size() || intervalStart.size() == 0){
+        if (intervalStart.length != intervalEnd.length || intervalStart.length == 0) {
             System.err.println("Intersect (line 129) There is something wrong with the track: " + track.getName());
             return new TestTrackResult(track, 0,0);
         }
 
-        int intervalCount = intervalStart.size() - 1;
+        int intervalCount = intervalStart.length - 1;
 
 
         for (long p : pos.getPositions()) {
 
-            while (i < intervalCount && intervalEnd.get(i) <= p)
+            while (i < intervalCount && intervalEnd[i] <= p)
                 i++;
 
-            if(i == intervalCount && p >= intervalEnd.get(i)) { //not inside last interval
+            if (i == intervalCount && p >= intervalEnd[i]) { //not inside last interval
                 out += pos.getPositions().size() - pos.getPositions().indexOf(p); //add remaining positions to out
                 break; //and end the loop
             }
 
-            if (p >= intervalStart.get(i)) in++;
+            if (p >= intervalStart[i]) in++;
             else out++;
 
             if (Thread.currentThread().isInterrupted()) return new TestTrackResult(track, in, out);

@@ -100,4 +100,11 @@ public class InOutTrack extends Track {
     }
 
 
+    public long[] getStartsA() {
+        return this.intervalsStart;
+    }
+
+    public long[] getEndsA() {
+        return this.intervalsEnd;
+    }
 }
