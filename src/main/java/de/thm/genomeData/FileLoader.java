@@ -59,8 +59,8 @@ final class FileLoader implements Runnable {
         ChromosomSizes chr = ChromosomSizes.getInstance();
 
         if (type == TrackFactory.Type.inout) {
-            List<Long> starts = track.getStarts();
-            List<Long> ends = track.getEnds();
+            long[] starts = track.getStarts();
+            long[] ends = track.getEnds();
 
             try (BufferedReader reader = Files.newBufferedReader(path)) {
                 header = reader.readLine();
@@ -74,9 +74,9 @@ final class FileLoader implements Runnable {
                 if (header.contains("track"))
                     writer.write(header + "\n");
 
-                for (int i = 0; i < starts.size(); i++) {
-                    Pair<String, Long> start = chr.mapToChr(assembly, starts.get(i));
-                    Pair<String, Long> end = chr.mapToChr(assembly, ends.get(i));
+                for (int i = 0; i < starts.length; i++) {
+                    Pair<String, Long> start = chr.mapToChr(assembly, starts[i]);
+                    Pair<String, Long> end = chr.mapToChr(assembly, ends[i]);
 
                     writer.write(start.getKey() + "\t" + start.getValue() + "\t" + end.getValue() + "\n");
                 }

@@ -24,8 +24,14 @@ public abstract class AbstractTrack extends Track {
 
     AbstractTrack(List<Long> starts, List<Long> ends, String name, String description, GenomeFactory.Assembly assembly, CellLine cellLine) {
 
-        intervalsStart = starts;
-        intervalsEnd = ends;
+        intervalsStart = new long[starts.size()];
+        intervalsEnd = new long[ends.size()];
+
+        for (int i = 0; i < starts.size(); i++)
+            intervalsStart[i] = starts.get(i);
+        for (int i = 0; i < ends.size(); i++)
+            intervalsEnd[i] = ends.get(i);
+
         this.name = name;
         this.description = description;
         this.assembly = assembly;
@@ -37,12 +43,7 @@ public abstract class AbstractTrack extends Track {
     public abstract Track clone();
 
     @Override
-    public List<Long> getStarts() {
-        return intervalsStart;
-    }
-
-    @Override
-    public List<Long> getEnds() {
+    public long[] getEnds() {
         return intervalsEnd;
     }
 
@@ -92,8 +93,8 @@ public abstract class AbstractTrack extends Track {
     @Override
     public int hashCode() {
         int result = uid;
-        result = 31 * result + intervalsStart.size();
-        result = 31 * result + intervalsEnd.size();
+        result = 31 * result + intervalsStart.length;
+        result = 31 * result + intervalsEnd.length;
         return result;
     }
 }

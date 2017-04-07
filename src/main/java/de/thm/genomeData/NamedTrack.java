@@ -23,8 +23,16 @@ public class NamedTrack extends Track {
 
     NamedTrack(List<Long> starts, List<Long> ends, List<String> names, String name, String description, GenomeFactory.Assembly assembly, CellLine cellLine) {
 
-        this.intervalsStart= starts;
-        this.intervalsEnd= ends;
+
+        intervalsStart = new long[starts.size()];
+        intervalsEnd = new long[ends.size()];
+
+        for (int i = 0; i < starts.size(); i++)
+            intervalsStart[i] = starts.get(i);
+        for (int i = 0; i < ends.size(); i++)
+            intervalsEnd[i] = ends.get(i);
+
+
         this.intervalName= names;
         this.description = description;
         this.name = name;

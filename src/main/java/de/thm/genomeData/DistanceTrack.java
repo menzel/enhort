@@ -4,7 +4,6 @@ import de.thm.logo.GenomeFactory;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Track for genomic positions to which a distance will be calculated.
@@ -46,12 +45,12 @@ public class DistanceTrack extends Track{
     }
 
     @Override
-    public List<Long> getStarts() {
-        return Arrays.stream(intervalsStart).boxed().collect(Collectors.toList());
+    public long[] getStarts() {
+        return this.intervalsStart;
     }
 
     @Override
-    public List<Long> getEnds() {
+    public long[] getEnds() {
         return getStarts();
     }
 
