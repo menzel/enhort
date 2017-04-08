@@ -3,8 +3,10 @@ package de.thm.misc;
 import de.thm.genomeData.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Data preprocessor for merging overlaping intervals
@@ -23,8 +25,8 @@ public final class PositionPreprocessor {
         List<Long> newStart = new ArrayList<>();
         List<Long> newEnd = new ArrayList<>();
 
-        List<Long> intervalsStart = interval.getStarts();
-        List<Long> intervalsEnd = interval.getEnds();
+        List<Long> intervalsStart = Arrays.stream(interval.getStarts()).boxed().collect(Collectors.toList());
+        List<Long> intervalsEnd = Arrays.stream(interval.getEnds()).boxed().collect(Collectors.toList());
 
         if (intervalsStart.isEmpty()) return interval;
 
@@ -68,9 +70,9 @@ public final class PositionPreprocessor {
         List<Long> newEnd = new ArrayList<>();
         List<Double> newScore = new ArrayList<>();
 
-        List<Long> intervalsStart = track.getStarts();
-        List<Long> intervalsEnd = track.getEnds();
-        List<Double> scores = track.getIntervalScore();
+        List<Long> intervalsStart = Arrays.stream(track.getStarts()).boxed().collect(Collectors.toList());
+        List<Long> intervalsEnd = Arrays.stream(track.getEnds()).boxed().collect(Collectors.toList());
+        List<Double> scores = Arrays.stream(track.getIntervalScore()).boxed().collect(Collectors.toList());
 
         if (intervalsStart.isEmpty()) return track;
 
@@ -109,7 +111,13 @@ public final class PositionPreprocessor {
         intervalsStart.clear();
         intervalsEnd.clear();
 
-        ScoredTrack tmp = TrackFactory.getInstance().createScoredTrack(newStart, newEnd, track.getIntervalName().subList(0,newStart.size()), newScore ,track.getName(), track.getDescription());
+        ScoredTrack tmp = TrackFactory.getInstance().createScoredTrack(newStart,
+                newEnd,
+                Arrays.stream(track.getIntervalName()).collect(Collectors.toList()).subList(0, newStart.size()),
+                newScore,
+                track.getName(),
+                track.getDescription());
+
         tmp = Tracks.bin(tmp, 50);
 
         return tmp;
@@ -122,9 +130,9 @@ public final class PositionPreprocessor {
         List<Long> newEnd = new ArrayList<>();
         List<String> newNames = new ArrayList<>();
 
-        List<Long> intervalsStart = track.getStarts();
-        List<Long> intervalsEnd = track.getEnds();
-        List<String> names = track.getIntervalName();
+        List<Long> intervalsStart; //= track.getStarts();
+        List<Long> intervalsEnd; // = track.getEnds();
+        List<String> names; // = track.getIntervalName();
 
         //if (intervalsStart.isEmpty()) return track;
         if(true) return track; // do not preprocess Named Track for now. TODO Fix

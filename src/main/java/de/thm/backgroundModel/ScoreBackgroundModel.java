@@ -15,6 +15,8 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
+import java.util.stream.LongStream;
 
 /**
  * Background model for multiple tracks which have scored values.
@@ -86,8 +88,8 @@ class ScoreBackgroundModel implements Sites {
 
         // Fill occurences maps over whole genome
 
-        List<Long> starts = interval.getStarts();
-        List<Long> ends = interval.getEnds();
+        long[] starts = interval.getStarts();
+        long[] ends = interval.getEnds();
 
         Map<String, Long> lengths = new HashMap<>();
 
@@ -97,30 +99,30 @@ class ScoreBackgroundModel implements Sites {
         int j = 0;
         for (String key : interval.getIntervalName()) {
             if (lengths.containsKey(key)) {
-                lengths.put(key, lengths.get(key) + ends.get(j) - starts.get(j));
+                lengths.put(key, lengths.get(key) + ends[j] - starts[j]);
             } else {
-                lengths.put(key, ends.get(j) - starts.get(j));
+                lengths.put(key, ends[j] - starts[j]);
             }
             j++;
         }
 
         //generate prob list for each interval
 
-        List<String> keys = interval.getIntervalName();
-        List<Double> intervalScore = interval.getIntervalScore();
+        String[] keys = interval.getIntervalName();
+        double[] intervalScore = interval.getIntervalScore();
         List<Double> newScores = new ArrayList<>();
         long genome = ChromosomSizes.getInstance().getGenomeSize(assembly);
 
-        for (int i = 0; i < intervalScore.size(); i++) {
-            Double p = intervalScore.get(i);
+        for (int i = 0; i < intervalScore.length; i++) {
+            Double p = intervalScore[i];
 
             if (p == null) {
                 newScores.add(0d);
 
             } else {
 
-                double genomeLength = lengths.get(keys.get(i));
-                double length = ends.get(i) - starts.get(i);
+                double genomeLength = lengths.get(keys[i]);
+                double length = ends[i] - starts[i];
 
                 if(genomeLength != 0) { //this can happen with multiple scored tracks
 
@@ -148,9 +150,11 @@ class ScoreBackgroundModel implements Sites {
                 interval.getStarts(),
                 interval.getEnds(),
                 interval.getIntervalName(),
-                newScores,
+                newScores.stream().mapToDouble(d -> d).toArray(),
                 interval.getName(),
-                interval.getDescription());
+                interval.getDescription(),
+                sites.getAssembly()
+        );
     }
 
 
@@ -176,19 +180,19 @@ class ScoreBackgroundModel implements Sites {
 
             for (ScoredTrack track : tracks) {
 
-                List<Long> intervalStart = track.getStarts();
-                List<Long> intervalEnd = track.getEnds();
+                long[] intervalStart = track.getStarts();
+                long[] intervalEnd = track.getEnds();
 
                 int i = indices.get(track);
-                int intervalCount = intervalStart.size() - 1;
+                int intervalCount = intervalStart.length - 1;
 
 
-                    while (i < intervalCount && intervalEnd.get(i) <= p)
+                while (i < intervalCount && intervalEnd[i] <= p)
                         i++;
 
-                    if (p >= intervalStart.get(i)) {
+                if (p >= intervalStart[i]) {
 
-                        key.add(track.getIntervalScore().get(i), tracks.indexOf(track));
+                    key.add(track.getIntervalScore()[i], tracks.indexOf(track));
 
                     } else {
                         key.add(null, tracks.indexOf(track));
@@ -221,9 +225,9 @@ class ScoreBackgroundModel implements Sites {
     Collection<Long> generatePositionsByProbability(ScoredTrack probabilityInterval, int siteCount) {
 
         List<Long> sites = new ArrayList<>();
-        List<Long> starts = probabilityInterval.getStarts();
-        List<Long> ends = probabilityInterval.getEnds();
-        List<Double> probabilities = probabilityInterval.getIntervalScore();
+        long[] starts = probabilityInterval.getStarts();
+        long[] ends = probabilityInterval.getEnds();
+        double[] probabilities = probabilityInterval.getIntervalScore();
         List<Double> random = new ArrayList<>();
         MersenneTwister rand;
 
@@ -243,19 +247,19 @@ class ScoreBackgroundModel implements Sites {
         for (Double aRandom : random) {
             double currentRandom = aRandom - prev;
 
-            for (; j < starts.size(); j++) {
+            for (; j < starts.length; j++) {
 
                 // TODO FIX: IndexOutOfBoundsException  Index: 0, Size: 0
-                double prob = probabilities.get(j);
+                double prob = probabilities[j];
 
                 if (currentRandom >= prob) { // current random value does not fit inside interval
                     currentRandom -= prob;
                     prev += prob;
 
                 } else { // current random value fits inside interval
-                    Long intervalLength = (ends.get(j) - starts.get(j));
+                    Long intervalLength = (ends[j] - starts[j]);
 
-                    Long position = starts.get(j) + Math.round(Math.floor(intervalLength * currentRandom / prob));
+                    Long position = starts[j] + Math.round(Math.floor(intervalLength * currentRandom / prob));
                     sites.add(position);
 
                     break; //  break for loop and get next random value
@@ -289,12 +293,12 @@ class ScoreBackgroundModel implements Sites {
 
         // take all start and ends, combine in lists and sort
         for(ScoredTrack track: tracks){
-            new_start.addAll(track.getStarts());
-            new_start.addAll(track.getEnds());
+            new_start.addAll(LongStream.of(track.getStarts()).boxed().collect(Collectors.toList()));
+            new_start.addAll(LongStream.of(track.getEnds()).boxed().collect(Collectors.toList()));
             Collections.sort(new_start);
 
-            new_end.addAll(track.getStarts());
-            new_end.addAll(track.getEnds());
+            new_end.addAll(LongStream.of(track.getStarts()).boxed().collect(Collectors.toList()));
+            new_end.addAll(LongStream.of(track.getEnds()).boxed().collect(Collectors.toList()));
             Collections.sort(new_end);
         }
 
@@ -384,7 +388,7 @@ class ScoreBackgroundModel implements Sites {
             Map<ScoreSet, Double> newOccurence = new HashMap<>();
 
             //get possible scores
-            List<Double> possibleScores = track.getIntervalScore().stream().distinct().collect(Collectors.toList());
+            List<Double> possibleScores = Arrays.stream(track.getIntervalScore()).boxed().distinct().collect(Collectors.toList());
             Collections.sort(possibleScores);
             NormalDistribution nd = new NormalDistribution(0,factor);
 
@@ -500,6 +504,9 @@ class ScoreBackgroundModel implements Sites {
         private final List<ScoreSet> scoredSet;
         private final List<Long> new_start;
         private final List<Long> new_end;
+        private final List<Long> old_start;
+        private final List<Long> old_end;
+        private final List<Double> old_score;
         private int position;
 
         createScoreSet(int position, ScoredTrack track, List<ScoreSet> scoredSet, List<Long> new_start, List<Long> new_end) {
@@ -507,9 +514,13 @@ class ScoreBackgroundModel implements Sites {
             this.position = position;
             this.track = track;
             this.scoredSet = scoredSet;
+
             this.new_start = new_start;
             this.new_end = new_end;
 
+            this.old_start = LongStream.of(track.getStarts()).boxed().collect(Collectors.toList());
+            this.old_end = LongStream.of(track.getEnds()).boxed().collect(Collectors.toList());
+            this.old_score = DoubleStream.of(track.getIntervalScore()).boxed().collect(Collectors.toList());
         }
 
         @Override
@@ -525,17 +536,17 @@ class ScoreBackgroundModel implements Sites {
                 //get ScoreSet from all tracks
                 ScoreSet current = scoredSet.get(i);
 
-                if (track.getStarts().contains(start)) {
+                if (old_start.contains(start)) {
                     //if the start is exacly in the track get score
-                    current.add(track.getIntervalScore().get(track.getStarts().indexOf(start)), position);
+                    current.add(old_score.get(old_start.indexOf(start)), position);
                     continue;
                 }
 
-                while (j < track.getStarts().size() - 1 && track.getEnds().get(j) <= end)
+                while (j < old_start.size() - 1 && old_end.get(j) <= end)
                     j++;
 
-                if (start >= track.getStarts().get(j)) {
-                    current.add(track.getIntervalScore().get(j), position); //intervals overlap
+                if (start >= old_start.get(j)) {
+                    current.add(old_score.get(j), position); //intervals overlap
 
                 } else {
                     current.add(null, position);  //outside for this track

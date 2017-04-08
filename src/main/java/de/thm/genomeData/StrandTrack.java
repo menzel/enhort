@@ -2,10 +2,8 @@ package de.thm.genomeData;
 
 import de.thm.logo.GenomeFactory;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Strand track, which is a inout track with strand (sense antisenes -+) information
@@ -56,6 +54,35 @@ public class StrandTrack extends Track{
         this.cellLine = cellLine;
     }
 
+
+    StrandTrack(long[] starts, long[] ends, char[] strand, String name, String description, GenomeFactory.Assembly assembly, CellLine cellLine) {
+
+        if (starts != null) {
+            this.intervalsStart = starts;
+        } else intervalsStart = new long[0];
+
+        if (ends != null) {
+            intervalsEnd = ends;
+        } else intervalsEnd = new long[0];
+
+        if (strand != null) {
+            this.strand = strand;
+        } else this.strand = new char[0];
+
+
+        if (intervalsStart.length != intervalsEnd.length || intervalsEnd.length != this.strand.length) {
+            System.err.println("In StrandTrack " + name + " some interval data is missing");
+        }
+
+
+        this.description = description;
+        this.name = name;
+        this.assembly = assembly;
+        this.cellLine = cellLine;
+    }
+
+
+
     @Override
     public int getUid() {
         return uid;
@@ -97,19 +124,17 @@ public class StrandTrack extends Track{
 
     @Override
     public long[] getStarts() {
-        return Arrays.stream(intervalsStart).boxed().collect(Collectors.toList());
+        return this.intervalsStart;
     }
 
     @Override
     public long[] getEnds() {
-        return Arrays.stream(intervalsEnd).boxed().collect(Collectors.toList());
+        return this.intervalsEnd;
     }
 
 
-    public List<Character> getStrands() {
-        List<Character> newStrands = new ArrayList<>();
-        for (char aStrand : strand) newStrands.add(aStrand);
-        return newStrands;
+    public char[] getStrands() {
+        return strand;
     }
 
     @Override
@@ -134,6 +159,6 @@ public class StrandTrack extends Track{
     }
 
     public InOutTrack getInOut() {
-        return new InOutTrack(this.getStarts(), this.getEnds(), this.name, this.description, this.assembly, this.cellLine);
+        return new InOutTrack(intervalsStart, intervalsEnd, this.name, this.description, this.assembly, this.cellLine);
     }
 }

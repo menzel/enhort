@@ -21,6 +21,17 @@ public class InOutTrack extends Track {
     private final GenomeFactory.Assembly assembly;
     private final CellLine cellLine;
 
+
+    InOutTrack(long[] intervalsStart, long[] intervalsEnd, String name, String description, GenomeFactory.Assembly assembly, CellLine cellLine) {
+        this.intervalsStart = intervalsStart;
+        this.intervalsEnd = intervalsEnd;
+
+        this.description = description;
+        this.name = name;
+        this.assembly = assembly;
+        this.cellLine = cellLine;
+    }
+
     InOutTrack(List<Long> starts, List<Long> ends, String name, String description, GenomeFactory.Assembly assembly, CellLine cellLine) {
 
         intervalsStart =  new long[starts.size()];
@@ -45,7 +56,7 @@ public class InOutTrack extends Track {
 
     @Override
     public Track clone() {
-        return new InOutTrack(this.getStarts(), this.getEnds(), this.getName(), this.getDescription(), this.assembly, this.cellLine);
+        return new InOutTrack(intervalsStart, intervalsEnd, this.getName(), this.getDescription(), this.assembly, this.cellLine);
     }
 
     @Override

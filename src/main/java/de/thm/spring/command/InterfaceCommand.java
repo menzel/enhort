@@ -5,6 +5,7 @@ import de.thm.genomeData.TrackPackage;
 import de.thm.positionData.Sites;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -131,10 +132,12 @@ public final class InterfaceCommand {
 
     public List<Integer> getHotspots() {
         if(hotspots != null) {
-            double factor = 50 / Collections.max(hotspots.getIntervalScore());
+            List<Double> hs = Arrays.stream(hotspots.getIntervalScore()).boxed().collect(Collectors.toList());
+
+            double factor = 50 / Collections.max(hs);
             // change score by calc relative score to 50 (where 50 is the max), add 50 to have values ranging from 50 to 100. Then invert values to have highest values as 50% and lowest values as 100%
             // The calculated score is used as 'x' in hsl(100,100,x). Where the third param is the lightness
-            return hotspots.getIntervalScore().stream().map(i -> i * factor + 50).map(i -> (100 - i) + 50).map(Double::intValue).collect(Collectors.toList());
+            return hs.stream().map(i -> i * factor + 50).map(i -> (100 - i) + 50).map(Double::intValue).collect(Collectors.toList());
         } else {
             return null;
         }

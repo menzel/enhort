@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
 
 /**
  * Collection of utils for track objects.
@@ -38,7 +39,10 @@ public final class Tracks {
         //use method R 3 to set real values as bin bounds
         percentile = percentile.withEstimationType(Percentile.EstimationType.R_3);
 
-        List<Double> scores = track.getIntervalScore();
+        List<Double> scores = DoubleStream.of(track.getIntervalScore())
+                .mapToObj(Double::valueOf)
+                .collect(Collectors.toList());
+
         double[] values = scores
                             .stream()
                             .collect(Collectors.toSet()) //create set to remove duplicates
@@ -63,7 +67,14 @@ public final class Tracks {
             lowerBound = upperBound;
         }
 
-        return new ScoredTrack(track.getStarts(), track.getEnds(), track.getIntervalName(), scores, track.getName(), track.getDescription(), track.getAssembly(), track.getCellLine());
+        return new ScoredTrack(track.getStarts(),
+                track.getEnds(),
+                track.getIntervalName(),
+                scores.stream().mapToDouble(d -> d).toArray(),
+                track.getName(),
+                track.getDescription(),
+                track.getAssembly(),
+                track.getCellLine());
     }
 
 
@@ -104,16 +115,16 @@ public final class Tracks {
      */
     public static InOutTrack intersect(Track intv1, Track intv2) {
 
-        List<Long> starts1 = intv1.getStarts();
-        List<Long> starts2 = intv2.getStarts();
+        long[] starts1 = intv1.getStarts();
+        long[] starts2 = intv2.getStarts();
 
-        List<Long> ends1 = intv1.getEnds();
-        List<Long> ends2 = intv2.getEnds();
+        long[] ends1 = intv1.getEnds();
+        long[] ends2 = intv2.getEnds();
 
         List<Long> result_start = new ArrayList<>();
         List<Long> result_end = new ArrayList<>();
 
-        if (starts1.size() > starts2.size()) { //if start2 is smaller swap lists
+        if (starts1.length > starts2.length) { //if start2 is smaller swap lists
 
             starts2 = intv1.getStarts();
             starts1 = intv2.getStarts();
@@ -125,13 +136,13 @@ public final class Tracks {
         // iterator through one of the intervals, check if a track in the other track is overlapping with the current. if not proceed if yes create new track
         int i2 = 0;
 
-        for (int i1 = 0; i1 < starts1.size(); i1++) {
-            for (; i2 < ends2.size(); i2++) {
+        for (int i1 = 0; i1 < starts1.length; i1++) {
+            for (; i2 < ends2.length; i2++) {
 
-                if (starts1.get(i1) < ends2.get(i2)) {
-                    if (starts2.get(i2) < ends1.get(i1)) {
-                        long start = Math.max(starts1.get(i1), starts2.get(i2));
-                        long end = Math.min(ends1.get(i1), ends2.get(i2));
+                if (starts1[i1] < ends2[i2]) {
+                    if (starts2[i2] < ends1[i1]) {
+                        long start = Math.max(starts1[i1], starts2[i2]);
+                        long end = Math.min(ends1[i1], ends2[i2]);
 
                         result_start.add(start);
                         result_end.add(end);
@@ -139,7 +150,7 @@ public final class Tracks {
                     }
                 }
 
-                if (i1 < starts1.size() - 1 && ends2.get(i2) > starts1.get(i1 + 1))
+                if (i1 < starts1.length - 1 && ends2[i2] > starts1[i1 + 1])
                     break;
             }
         }
@@ -147,7 +158,12 @@ public final class Tracks {
         String name = intv1.getName() + "_" + intv2.getName();
         String desc = intv1.getDescription() + "_" + intv2.getDescription();
 
-        return new InOutTrack(result_start, result_end, name, desc, intv1.getAssembly(), intv1.getCellLine());
+        return new InOutTrack(result_start,
+                result_end,
+                name,
+                desc,
+                intv1.getAssembly(),
+                intv1.getCellLine());
     }
 
 
@@ -223,11 +239,11 @@ public final class Tracks {
      */
     public static InOutTrack xor(Track intv1, Track intv2) {
 
-        List<Long> starts1 = intv1.getStarts();
-        List<Long> starts2 = intv2.getStarts();
+        long[] starts1 = intv1.getStarts();
+        long[] starts2 = intv2.getStarts();
 
-        List<Long> ends1 = intv1.getEnds();
-        List<Long> ends2 = intv2.getEnds();
+        long[] ends1 = intv1.getEnds();
+        long[] ends2 = intv2.getEnds();
 
         List<Long> result_start = new ArrayList<>();
         List<Long> result_end = new ArrayList<>();
@@ -236,23 +252,23 @@ public final class Tracks {
         int j = 0;
         int i = 0;
 
-        for (; i < starts1.size(); i++) {
-            long start = starts1.get(i);
-            long end = ends1.get(i);
+        for (; i < starts1.length; i++) {
+            long start = starts1[i];
+            long end = ends1[i];
             long nextStart;
             boolean s = false;
 
-            if (start > starts2.get(j)) {
+            if (start > starts2[j]) {
                 s = true;
             }
 
-            if (s && j < starts2.size() - 1) {
-                nextStart = starts1.get(i);
-                start = starts2.get(j);
-                end = ends2.get(j++);
+            if (s && j < starts2.length - 1) {
+                nextStart = starts1[i];
+                start = starts2[j];
+                end = ends2[j++];
 
             } else {
-                nextStart = starts2.get(j);
+                nextStart = starts2[j];
             }
 
             if (start < previousEnd) {
@@ -292,11 +308,11 @@ public final class Tracks {
 
         long size = 0;
 
-        List<Long> intervalStart = track.getStarts();
-        List<Long> intervalEnd = track.getEnds();
+        long[] intervalStart = track.getStarts();
+        long[] intervalEnd = track.getEnds();
 
-        for (int i = 0; i < intervalStart.size(); i++)
-                size += intervalEnd.get(i) - 1 - intervalStart.get(i);
+        for (int i = 0; i < intervalStart.length; i++)
+            size += intervalEnd[i] - 1 - intervalStart[i];
 
         return size;
     }
@@ -306,18 +322,18 @@ public final class Tracks {
         List<Long> intervalStart = new ArrayList<>();
         List<Long> intervalEnd = new ArrayList<>();
 
-        List<Double> intervalScore = interval.getIntervalScore();
+        double[] intervalScore = interval.getIntervalScore();
         List<Double> intervalScore_n = new ArrayList<>();
 
         List<String> names = new ArrayList<>();
 
-        for (int i = 0; i < intervalScore.size(); i++) {
+        for (int i = 0; i < intervalScore.length; i++) {
 
-            if (intervalScore.get(i) == score) {
-                intervalStart.add(interval.getStarts().get(i));
-                intervalEnd.add(interval.getEnds().get(i));
+            if (intervalScore[i] == score) {
+                intervalStart.add(interval.getStarts()[i]);
+                intervalEnd.add(interval.getEnds()[i]);
                 intervalScore_n.add(score);
-                names.add(interval.getIntervalName().get(i));
+                names.add(interval.getIntervalName()[i]);
             }
         }
 
@@ -334,19 +350,19 @@ public final class Tracks {
     public static InOutTrack invert(Track track) {
         GenomeFactory.Assembly assembly = track.getAssembly();
 
-        if (track.getStarts().size() == 0)
+        if (track.getStarts().length == 0)
             return (InOutTrack) track.clone();
 
         // copy start to end and end to start list
-        List<Long> starts = new ArrayList<>(track.getEnds());
-        List<Long> ends = new ArrayList<>(track.getStarts());
+        List<Long> starts = Arrays.stream(track.getEnds()).boxed().collect(Collectors.toList());
+        List<Long> ends = Arrays.stream(track.getStarts()).boxed().collect(Collectors.toList());
 
-        if (track.getStarts().get(0) != 0L)
+        if (track.getStarts()[0] != 0L)
             starts.add(0, 0L);
         else ends.remove(0);
 
 
-        if (track.getEnds().get(track.getEnds().size() - 1) == ChromosomSizes.getInstance().getGenomeSize(assembly))
+        if (track.getEnds()[track.getEnds().length - 1] == ChromosomSizes.getInstance().getGenomeSize(assembly))
             starts.remove(starts.size() - 1);
         else
             ends.add(ChromosomSizes.getInstance().getGenomeSize(assembly));
@@ -362,18 +378,31 @@ public final class Tracks {
      */
     public static ScoredTrack cast(InOutTrack track) {
 
-        List<Double> scores = new ArrayList<>(Collections.nCopies(track.getStarts().size(), 1.0));
-        List<String> names = new ArrayList<>(Collections.nCopies(track.getStarts().size(), ""));
+        List<Double> scores = new ArrayList<>(Collections.nCopies(track.getStarts().length, 1.0));
+        List<String> names = new ArrayList<>(Collections.nCopies(track.getStarts().length, ""));
 
-        return new ScoredTrack(track.getStarts(), track.getEnds(), names, scores, track.getName(), track.getDescription(), track.getAssembly(), track.getCellLine());
+        return new ScoredTrack(track.getStarts(),
+                track.getEnds(),
+                names.stream().toArray(String[]::new),
+                scores.stream().mapToDouble(d -> d).toArray(),
+                track.getName(),
+                track.getDescription(),
+                track.getAssembly(),
+                track.getCellLine());
     }
 
     public static ScoredTrack cast(NamedTrack track) {
 
-        List<Double> scores = track.getIntervalName().stream().map(name -> (double) name.hashCode()).collect(Collectors.toList());
+        List<Double> scores = Arrays.stream(track.getIntervalName()).map(name -> (double) name.hashCode()).collect(Collectors.toList());
 
-        return new ScoredTrack(track.getStarts(), track.getEnds(), track.getIntervalName(), scores, track.getName(), track.getDescription(), track.getAssembly(), track.getCellLine());
-
+        return new ScoredTrack(track.getStarts(),
+                track.getEnds(),
+                track.getIntervalName(),
+                scores.stream().mapToDouble(d -> d).toArray(),
+                track.getName(),
+                track.getDescription(),
+                track.getAssembly(),
+                track.getCellLine());
     }
 
 
@@ -387,17 +416,17 @@ public final class Tracks {
      */
     public static boolean checkTrack(Track track){
 
-        List<Long> intervalStart = track.getStarts();
-        List<Long> intervalEnd = track.getEnds();
+        long[] intervalStart = track.getStarts();
+        long[] intervalEnd = track.getEnds();
 
-        if(intervalEnd.size() != intervalStart.size()) return false;
+        if (intervalEnd.length != intervalStart.length) return false;
 
         Long lastStart = 0L;
         Long lastEnd = 0L;
 
-        for(int i = 0; i < intervalEnd.size(); i++){
-            Long start = intervalStart.get(i);
-            Long end = intervalEnd.get(i);
+        for (int i = 0; i < intervalEnd.length; i++) {
+            Long start = intervalStart[i];
+            Long end = intervalEnd[i];
 
             if(start > end) return false;
             if(start < lastEnd) return false;

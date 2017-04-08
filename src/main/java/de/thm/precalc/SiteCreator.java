@@ -76,15 +76,15 @@ class SiteCreator {
         List<Integer> inout = new ArrayList<>();
 
         for(Long pos: positions){
-            List<Long> ends = track.getEnds();
+            long[] ends = track.getEnds();
 
-            for (int i = 0; i < ends.size(); i++) {
-                Long end = ends.get(i);
+            for (int i = 0; i < ends.length; i++) {
+                Long end = ends[i];
 
                 if (end <= pos)
                     continue;
 
-                Long start = track.getStarts().get(i);
+                Long start = track.getStarts()[i];
 
                 if(start <= pos)
                     inout.add(1);

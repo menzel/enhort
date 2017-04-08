@@ -4,7 +4,6 @@ import de.thm.logo.GenomeFactory;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Track with scored values for each interval.
@@ -22,6 +21,30 @@ public class ScoredTrack extends Track {
     private final GenomeFactory.Assembly assembly;
     private final CellLine cellLine;
     private final String description;
+
+    ScoredTrack(long[] starts, long[] ends, String[] names, double[] scores, String name, String description, GenomeFactory.Assembly assembly, CellLine cellLine) {
+
+        if (starts != null) {
+            intervalsStart = starts;
+        } else intervalsStart = new long[0];
+
+        if (ends != null) {
+            intervalsEnd = ends;
+        } else intervalsEnd = new long[0];
+
+        if (names != null) {
+            intervalName = names;
+        } else intervalName = new String[0];
+
+        if (scores != null) {
+            intervalScore = scores;
+        } else intervalScore = new double[0];
+
+        this.description = description;
+        this.name = name;
+        this.assembly = assembly;
+        this.cellLine = cellLine;
+    }
 
     ScoredTrack(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String description, GenomeFactory.Assembly assembly, CellLine cellLine) {
 
@@ -107,13 +130,14 @@ public class ScoredTrack extends Track {
         return this.intervalsEnd;
     }
 
-    public List<String> getIntervalName() {
-        return Arrays.asList(intervalName);
+    public String[] getIntervalName() {
+        return intervalName;
     }
 
-    public List<Double> getIntervalScore() {
-        return Arrays.stream(intervalScore).boxed().collect(Collectors.toList());
+    public double[] getIntervalScore() {
+        return intervalScore;
     }
+
 
     @Override
     public String getName() {

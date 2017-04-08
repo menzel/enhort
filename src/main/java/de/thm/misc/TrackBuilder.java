@@ -141,7 +141,11 @@ public final class TrackBuilder {
         }
 
         Track track = build(cmd);
-        return TrackFactory.getInstance().createInOutTrack(track.getStarts(), track.getEnds(), ex , desc + ex, track.getAssembly());
+        return TrackFactory.getInstance().createInOutTrack(track.getStarts(),
+                track.getEnds(),
+                ex,
+                desc + ex,
+                track.getAssembly());
     }
 
     private enum op {and, or , xor, not, lb, rb} //available operators

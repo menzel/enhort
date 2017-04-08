@@ -49,7 +49,7 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
 
         long[] intervalStart = track.getStarts();
         long[] intervalEnd = track.getEnds();
-        List<Character> strands = track.getStrands();
+        char[] strands = track.getStrands();
         List<Long> positions = sites.getPositions();
 
         int intervalCount = intervalStart.length - 1;
@@ -73,7 +73,7 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
                 break; //and end the loop
             }
 
-            if (p >= intervalStart[i] && (sites.getStrands().get(j).equals(strands.get(i)) || strands.get(i).equals('o')))
+            if (p >= intervalStart[i] && (sites.getStrands().get(j).equals(strands[i]) || strands[i] == 'o'))
                 in++;
             else out++;
 
@@ -95,7 +95,7 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
 
         long[] intervalStart = track.getStarts();
         long[] intervalEnd = track.getEnds();
-        List<String> names = track.getIntervalName();
+        String[] names = track.getIntervalName();
 
         if (intervalStart.length != intervalEnd.length || intervalStart.length == 0) {
             System.err.println("Intersect (line 89) There is something wrong with the track: " + track.getName());
@@ -120,7 +120,7 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
 
             if (p >= intervalStart[i]) {
 
-                resultNames.add(names.get(i));
+                resultNames.add(names[i]);
                 in++;
 
             } else {
@@ -170,7 +170,7 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
         return new TestTrackResult(track, in, out);
     }
 
-    public TestTrackResult searchSingleInterval(ScoredTrack track, Sites pos) {
+    TestTrackResult searchSingleInterval(ScoredTrack track, Sites pos) {
 
         int out = 0;
         int in = 0;
@@ -178,7 +178,7 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
 
         long[] intervalStart = track.getStarts();
         long[] intervalEnd = track.getEnds();
-        List<Double> intervalScore = track.getIntervalScore();
+        double[] intervalScore = track.getIntervalScore();
 
         List<Double> resultsScores = new ArrayList<>();
 
@@ -203,7 +203,7 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
 
 
             if (p >= intervalStart[i]) {
-                resultsScores.add(intervalScore.get(i));
+                resultsScores.add(intervalScore[i]);
                 in++;
             }
             else out++;

@@ -327,6 +327,11 @@ public final class TrackFactory {
         return new ScoredTrack(starts, ends, names, scores, name, description, assembly, cellLine);
     }
 
+    public ScoredTrack createScoredTrack(long[] starts, long[] ends, String[] names, double[] scores, String name, String description, GenomeFactory.Assembly assembly) {
+        return new ScoredTrack(starts, ends, names, scores, name, description, assembly, null);
+    }
+
+
     /**
      * Factory method for inout tracks. Creates a new track based on input.
      *
@@ -342,6 +347,10 @@ public final class TrackFactory {
     }
     public InOutTrack createInOutTrack(List<Long> starts, List<Long> ends, String name, String description, GenomeFactory.Assembly assembly, Track.CellLine cellLine) {
         return new InOutTrack(starts, ends, name, description, assembly, cellLine);
+    }
+
+    public Track createInOutTrack(long[] starts, long[] ends, String ex, String description, GenomeFactory.Assembly assembly) {
+        return new InOutTrack(starts, ends, ex, description, assembly, null);
     }
 
 
@@ -378,7 +387,6 @@ public final class TrackFactory {
     public void addTrack(Track track){
         this.tracks.add(track);
     }
-
 
 
     enum Type {inout, named, distance, strand, scored}

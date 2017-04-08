@@ -2,7 +2,7 @@ package de.thm.genomeData;
 
 import de.thm.logo.GenomeFactory;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -19,21 +19,34 @@ public class NamedTrack extends Track {
     private final String description;
     private final long[] intervalsStart;
     private final long[] intervalsEnd;
-    private final List<String> intervalName;
+    private final String[] intervalName;
+
+    NamedTrack(long[] starts, long[] ends, String[] names, String name, String description, GenomeFactory.Assembly assembly, CellLine cellLine) {
+
+        intervalsStart = starts;
+        intervalsEnd = ends;
+
+        this.intervalName = names;
+        this.description = description;
+        this.name = name;
+        this.assembly = assembly;
+        this.cellLine = cellLine;
+    }
 
     NamedTrack(List<Long> starts, List<Long> ends, List<String> names, String name, String description, GenomeFactory.Assembly assembly, CellLine cellLine) {
 
 
         intervalsStart = new long[starts.size()];
         intervalsEnd = new long[ends.size()];
+        this.intervalName = new String[names.size()];
 
         for (int i = 0; i < starts.size(); i++)
             intervalsStart[i] = starts.get(i);
         for (int i = 0; i < ends.size(); i++)
             intervalsEnd[i] = ends.get(i);
+        for (int i = 0; i < names.size(); i++)
+            intervalName[i] = names.get(i);
 
-
-        this.intervalName= names;
         this.description = description;
         this.name = name;
         this.assembly = assembly;
@@ -51,9 +64,9 @@ public class NamedTrack extends Track {
     public Track clone() {
 
         return new NamedTrack(
-                new ArrayList<>(intervalsStart),
-                new ArrayList<>(intervalsEnd),
-                new ArrayList<>(intervalName),
+                intervalsStart,
+                intervalsEnd,
+                intervalName,
                 name,
                 description,
                 assembly,
@@ -68,15 +81,15 @@ public class NamedTrack extends Track {
         if (!(o instanceof NamedTrack)) return false;
 
         NamedTrack interval = (NamedTrack) o;
-        if (!intervalsStart.equals(interval.intervalsStart)) return false;
-        if (!intervalsEnd.equals(interval.intervalsEnd)) return false;
+        if (!Arrays.equals(intervalsStart, interval.intervalsStart)) return false;
+        if (!Arrays.equals(intervalsEnd, interval.intervalsEnd)) return false;
         return intervalName.equals(interval.intervalName) && !(description != null ? !description.equals(interval.description) : interval.description != null);
     }
 
     @Override
     public int hashCode() {
         int result = uid;
-        result = 31 * result + intervalsEnd.size();
+        result = 31 * result + intervalsEnd.length;
         return result;
     }
 
@@ -102,7 +115,7 @@ public class NamedTrack extends Track {
         return intervalsEnd;
     }
 
-    public List<String> getIntervalName() {
+    public String[] getIntervalName() {
         return intervalName;
     }
 
