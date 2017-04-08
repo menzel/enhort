@@ -7,6 +7,8 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 /**
  * This class holds the appearances for the different combinations of points in intervals
@@ -37,7 +39,10 @@ class AppearanceTable {
         Map<Track, Pair<List<Long>, List<Long>>> intervals = new HashMap<>();
 
         tracks.forEach(track -> {
-            intervals.put(track, new ImmutablePair(track.getStarts(), track.getEnds()));
+            intervals.put(track, new ImmutablePair<>(
+                    LongStream.of(track.getStarts()).boxed().collect(Collectors.toList()),
+                    LongStream.of(track.getEnds()).boxed().collect(Collectors.toList())));
+
             indices.put(track, 0);
         });
 

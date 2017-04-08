@@ -116,6 +116,7 @@ class ScoreBackgroundModel implements Sites {
         for (int i = 0; i < intervalScore.length; i++) {
             Double p = intervalScore[i];
 
+            //TODO check were the nulls were set before the arrays refactoring..
             if (p == null) {
                 newScores.add(0d);
 
@@ -500,7 +501,6 @@ class ScoreBackgroundModel implements Sites {
      */
     private class createScoreSet implements Runnable {
 
-        private final ScoredTrack track;
         private final List<ScoreSet> scoredSet;
         private final List<Long> new_start;
         private final List<Long> new_end;
@@ -512,7 +512,6 @@ class ScoreBackgroundModel implements Sites {
         createScoreSet(int position, ScoredTrack track, List<ScoreSet> scoredSet, List<Long> new_start, List<Long> new_end) {
 
             this.position = position;
-            this.track = track;
             this.scoredSet = scoredSet;
 
             this.new_start = new_start;
