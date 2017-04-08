@@ -267,8 +267,8 @@ public class TracksTest {
 
         ScoredTrack track = (ScoredTrack) Tracks.subsetScore(interval1, 0.5);
         assertEquals(track.getIntervalScore(), result);
-        assertEquals(track.getStarts().size(), 3);
-        assertEquals(track.getEnds().size(), 3);
+        assertEquals(track.getStarts().length, 3);
+        assertEquals(track.getEnds().length, 3);
 
 
     }

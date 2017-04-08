@@ -223,11 +223,11 @@ public class ScoreBackgroundModelTest {
 
         /////// check result //////////
 
-        assertEquals(expectedScores.size(), probTrack.getIntervalScore().size());
+        assertEquals(expectedScores.size(), probTrack.getIntervalScore().length);
 
         for(int i = 0 ; i < expectedScores.size()-1 ; i++){
             //check each value with a small deviation allowed
-            assertEquals(expectedScores.get(i), probTrack.getIntervalScore().get(i), 0.01);
+            assertEquals(expectedScores.get(i), probTrack.getIntervalScore()[i], 0.01);
         }
 
     }
