@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -108,11 +107,14 @@ final class FileLoader implements Runnable {
             e.printStackTrace();
         }
 
-        List<Long> starts = new ArrayList<>(length);
-        List<Long> ends = new ArrayList<>(length);
-        List<String> names = new ArrayList<>(length);
-        List<Double> scores = new ArrayList<>(length);
-        List<Character> strands = new ArrayList<>(length);
+        long[] starts = new long[length];
+        long[] ends = new long[length];
+        String[] names = new String[length];
+        double[] scores = new double[length];
+        char[] strands = new char[length];
+
+
+        int p = 0; // arrays positon counter
 
         try (Stream<String> lines = Files.lines(file.toPath(), StandardCharsets.UTF_8)) {
             Iterator<String> it = lines.iterator();
@@ -152,26 +154,29 @@ final class FileLoader implements Runnable {
                     if (!(start < end)) //check if interval length is positive
                         continue;
 
-                    starts.add(start);
-                    ends.add(end);
+                    starts[p] = start;
+                    ends[p] = end;
 
                     if (type == TrackFactory.Type.named)
-                        names.add(parts[3].intern());
+                        names[p] = parts[3].intern();
 
                     if (type == TrackFactory.Type.scored) {
-                        names.add(parts[3].intern());
+                        names[p] = parts[3].intern();
 
                         if (parts.length > 4 && parts[4] != null)
-                            scores.add(Double.parseDouble(parts[4]));
+                            scores[p] = Double.parseDouble(parts[4]);
                         else
-                            scores.add(.0);
+                            scores[p] = .0;
                     }
 
                     if(type == TrackFactory.Type.strand) {
                         if (parts.length > 5 && parts[5] != null && parts[5].matches("[+-]"))
-                            strands.add(parts[5].charAt(0));
-                        else strands.add('o');
+                            strands[p] = parts[5].charAt(0);
+                        else strands[p] = 'o';
                     }
+
+
+                    p++; // increase array counter
                 }
             }
 
@@ -188,7 +193,7 @@ final class FileLoader implements Runnable {
                 }
             }
 
-            if (starts.size() == 0 || starts.size() != ends.size()) {
+            if (starts.length == 0 || starts.length != ends.length) {
                 System.err.println("File has no positions: " + file.getAbsolutePath());
                 throw new Exception("Something is wrong with this track or file");
             }

@@ -19,6 +19,21 @@ public class DistanceTrack extends Track{
     private final CellLine cellLine;
     private final String description;
 
+    DistanceTrack(long[] starts, String name, String description, GenomeFactory.Assembly assembly, CellLine cellLine) {
+
+        if (starts != null) {
+            intervalsStart = starts;
+        } else intervalsStart = new long[0];
+
+        this.description = description;
+        this.name = name;
+        this.assembly = assembly;
+        this.cellLine = cellLine;
+    }
+
+
+
+
     DistanceTrack(List<Long> starts, String name, String description, GenomeFactory.Assembly assembly, CellLine cellLine) {
 
         if(starts != null) {
