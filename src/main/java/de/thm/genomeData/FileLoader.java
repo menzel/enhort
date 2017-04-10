@@ -9,10 +9,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -113,14 +110,11 @@ final class FileLoader implements Runnable {
             e.printStackTrace();
         }
 
-        long[] starts = new long[length];
-        long[] ends = new long[length];
-        String[] names = new String[length];
-        double[] scores = new double[length];
-        char[] strands = new char[length];
-
-
-        int p = 0; // arrays positon counter
+        List<Long> starts = new ArrayList<>(length);
+        List<Long> ends = new ArrayList<>(length);
+        List<String> names = new ArrayList<>(length);
+        List<Double> scores = new ArrayList<>(length);
+        List<Character> strands = new ArrayList<>(length);
 
         try (Stream<String> lines = Files.lines(file.toPath(), StandardCharsets.UTF_8)) {
             Iterator<String> it = lines.iterator();
@@ -139,7 +133,6 @@ final class FileLoader implements Runnable {
 
                     if (header_matcher.group(3) != null)
                         cellline = header_matcher.group(3);
-
 
                 } else if (line_matcher.matches()) {
                     String[] parts = line.split("\t");
@@ -165,30 +158,28 @@ final class FileLoader implements Runnable {
                     if (!(start < end)) //check if interval length is positive
                         continue;
 
-                    starts[p] = start;
-                    ends[p] = end;
+                    starts.add(start);
+                    ends.add(end);
 
-                    if (type == TrackFactory.Type.named) {
-                        names[p] = parts[3].intern();
-                    }
+                    if (type == TrackFactory.Type.named)
+                        names.add(parts[3].intern());
 
                     if (type == TrackFactory.Type.scored) {
-                        names[p] = parts[3].intern();
+                        names.add(parts[3].intern());
 
                         if (parts.length > 4 && parts[4] != null)
-                            scores[p] = Double.parseDouble(parts[4]);
+                            scores.add(Double.parseDouble(parts[4]));
                         else
-                            scores[p] = .0;
+                            scores.add(.0);
                     }
 
                     if(type == TrackFactory.Type.strand) {
                         if (parts.length > 5 && parts[5] != null && parts[5].matches("[+-]"))
-                            strands[p] = parts[5].charAt(0);
-                        else strands[p] = 'o';
+                            strands.add(parts[5].charAt(0));
+                        else strands.add('o');
                     }
-
-
-                    p++; // increase array counter
+                } else {
+                    System.err.println("Cannot handle line: " + line);
                 }
             }
 
@@ -204,23 +195,24 @@ final class FileLoader implements Runnable {
                     name = name.substring("wgEncodeBroadHistone".length());
                 }
             }
+
             // Check read files //
 
-            if (starts.length == 0 || starts.length != ends.length) {
+            if (starts.size() == 0 || starts.size() != ends.size()) {
                 System.err.println("File has no positions or different start and end lengths: " + file.getAbsolutePath());
                 throw new Exception("Something is wrong with this track or file: " + file.getName());
             }
 
-            if (Arrays.stream(starts).filter(Objects::isNull).count() > 0)
+            if (starts.stream().filter(Objects::isNull).count() > 0)
                 System.err.println("List of starts is missing something for " + file.getName());
 
-            if (Arrays.stream(ends).filter(Objects::isNull).count() > 0)
+            if (ends.stream().filter(Objects::isNull).count() > 0)
                 System.err.println("List of ends is missing something for " + file.getName());
 
-            if ((type == TrackFactory.Type.named || type == TrackFactory.Type.scored) && Arrays.stream(names).filter(Objects::isNull).count() > 0)
+            if ((type == TrackFactory.Type.named || type == TrackFactory.Type.scored) && names.stream().filter(Objects::isNull).count() > 0)
                 System.err.println("List of names is missing something for " + file.getName());
 
-            if (type == TrackFactory.Type.scored && Arrays.stream(scores).filter(Objects::isNull).count() > 0)
+            if (type == TrackFactory.Type.scored && scores.stream().filter(Objects::isNull).count() > 0)
                 System.err.println("List of scores is missing something for " + file.getName());
 
             // End check read files //
