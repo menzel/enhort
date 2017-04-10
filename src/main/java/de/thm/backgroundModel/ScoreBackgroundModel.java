@@ -419,13 +419,6 @@ class ScoreBackgroundModel implements Sites {
             else
                 newOccurence.put(set, 0.);
 
-            newOccurence.keySet().forEach(key -> {
-                if (newOccurence.get(key) == null) {
-                    System.err.println(key + " " + newOccurence.get(key));
-                    System.err.println("Got some null object in siteOcc in ScoreBgModel smooth func");
-                }
-            });
-
             return newOccurence;
 
         } catch (Exception e){
