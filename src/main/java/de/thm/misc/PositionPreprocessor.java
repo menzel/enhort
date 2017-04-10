@@ -1,6 +1,9 @@
 package de.thm.misc;
 
-import de.thm.genomeData.*;
+import de.thm.genomeData.InOutTrack;
+import de.thm.genomeData.NamedTrack;
+import de.thm.genomeData.ScoredTrack;
+import de.thm.genomeData.TrackFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -118,7 +121,7 @@ public final class PositionPreprocessor {
                 track.getName(),
                 track.getDescription());
 
-        tmp = Tracks.bin(tmp, 50);
+        //tmp = Tracks.bin(tmp, 50);
 
         return tmp;
     }
