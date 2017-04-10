@@ -4,10 +4,7 @@ import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
 import org.apache.commons.math3.stat.descriptive.rank.Percentile;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 
@@ -40,12 +37,10 @@ public final class Tracks {
         percentile = percentile.withEstimationType(Percentile.EstimationType.R_3);
 
         List<Double> scores = DoubleStream.of(track.getIntervalScore())
-                .mapToObj(Double::valueOf)
+                .boxed()
                 .collect(Collectors.toList());
 
-        double[] values = scores
-                            .stream()
-                            .collect(Collectors.toSet()) //create set to remove duplicates
+        double[] values = new HashSet<>(scores) //create set to remove duplicates
                             .stream()
                             .mapToDouble(i -> i)
                             .toArray();
@@ -383,7 +378,7 @@ public final class Tracks {
 
         return new ScoredTrack(track.getStarts(),
                 track.getEnds(),
-                names.stream().toArray(String[]::new),
+                names.toArray(new String[0]),
                 scores.stream().mapToDouble(d -> d).toArray(),
                 track.getName(),
                 track.getDescription(),

@@ -173,7 +173,10 @@ class AppearanceTable {
 
         app = app.substring(1, app.length() - 1);
 
-        int[] digits = Arrays.stream(app.split(",")).map(String::trim).mapToInt(Integer::parseInt).toArray();
+        int[] digits = Arrays.stream(app.split(","))
+                .map(String::trim)
+                .mapToInt(Integer::parseInt)
+                .toArray();
 
         for (int id : digits) {
             for (Track track : knownTracks) {
@@ -200,7 +203,10 @@ class AppearanceTable {
 
         app = app.substring(1, app.length() - 1);
 
-        int[] digits = Arrays.stream(app.split(",")).map(String::trim).mapToInt(Integer::parseInt).toArray();
+        int[] digits = Arrays.stream(app.split(","))
+                .map(String::trim)
+                .mapToInt(Integer::parseInt)
+                .toArray();
 
 
         //remove those which are in the given list
