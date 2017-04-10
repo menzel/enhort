@@ -5,15 +5,14 @@ import de.thm.misc.ChromosomSizes;
 import de.thm.misc.PositionPreprocessor;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -98,11 +97,18 @@ final class FileLoader implements Runnable {
         String name = "";
         String description = "";
         String cellline = "none";
-        int length = 0;
+        int length = -1;
         ChromosomSizes chrSizes = ChromosomSizes.getInstance();
 
         try {
-            length = new Long(Files.lines(file.toPath()).count()).intValue();
+            length = countBedLines(file.toPath());
+
+            BufferedReader brTest = new BufferedReader(new FileReader(file));
+            String text = brTest.readLine();
+
+            if (text.contains("fullname="))
+                length -= 1;
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -134,6 +140,7 @@ final class FileLoader implements Runnable {
                     if (header_matcher.group(3) != null)
                         cellline = header_matcher.group(3);
 
+
                 } else if (line_matcher.matches()) {
                     String[] parts = line.split("\t");
 
@@ -148,6 +155,10 @@ final class FileLoader implements Runnable {
                         end = Long.parseLong(parts[2]) + offset;
                     } catch (NullPointerException e) {
                         System.err.println("File loader chrname " + parts[0] + " not found in file " + file.getName());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        System.err.println("Could not parse " + Arrays.toString(parts) + " from file " + file.getName());
+                        continue;
                     }
 
 
@@ -157,8 +168,9 @@ final class FileLoader implements Runnable {
                     starts[p] = start;
                     ends[p] = end;
 
-                    if (type == TrackFactory.Type.named)
+                    if (type == TrackFactory.Type.named) {
                         names[p] = parts[3].intern();
+                    }
 
                     if (type == TrackFactory.Type.scored) {
                         names[p] = parts[3].intern();
@@ -192,11 +204,26 @@ final class FileLoader implements Runnable {
                     name = name.substring("wgEncodeBroadHistone".length());
                 }
             }
+            // Check read files //
 
             if (starts.length == 0 || starts.length != ends.length) {
-                System.err.println("File has no positions: " + file.getAbsolutePath());
-                throw new Exception("Something is wrong with this track or file");
+                System.err.println("File has no positions or different start and end lengths: " + file.getAbsolutePath());
+                throw new Exception("Something is wrong with this track or file: " + file.getName());
             }
+
+            if (Arrays.stream(starts).filter(Objects::isNull).count() > 0)
+                System.err.println("List of starts is missing something for " + file.getName());
+
+            if (Arrays.stream(ends).filter(Objects::isNull).count() > 0)
+                System.err.println("List of ends is missing something for " + file.getName());
+
+            if ((type == TrackFactory.Type.named || type == TrackFactory.Type.scored) && Arrays.stream(names).filter(Objects::isNull).count() > 0)
+                System.err.println("List of names is missing something for " + file.getName());
+
+            if (type == TrackFactory.Type.scored && Arrays.stream(scores).filter(Objects::isNull).count() > 0)
+                System.err.println("List of scores is missing something for " + file.getName());
+
+            // End check read files //
 
 
             switch (type) {
@@ -212,13 +239,33 @@ final class FileLoader implements Runnable {
                 case distance:
                     return new DistanceTrack(starts, "Distance from " + name, description, assembly, Track.CellLine.valueOf(cellline));
                 default:
-                    throw new Exception("Something is wrong with this track or file");
+                    throw new Exception("Something is wrong with this track or file: " + file.getName());
             }
 
         } catch (Exception e) {
 
             e.printStackTrace();
             return null;
+        }
+    }
+
+
+    private int countBedLines(Path path) throws IOException {
+
+        try (InputStream is = new BufferedInputStream(new FileInputStream(path.toFile()))) {
+            byte[] c = new byte[1024];
+            int count = 0;
+            int readChars = 0;
+            boolean empty = true;
+            while ((readChars = is.read(c)) != -1) {
+                empty = false;
+                for (int i = 0; i < readChars; ++i) {
+                    if (c[i] == '\n') {
+                        ++count;
+                    }
+                }
+            }
+            return (count == 0 && !empty) ? 1 : count;
         }
     }
 }
