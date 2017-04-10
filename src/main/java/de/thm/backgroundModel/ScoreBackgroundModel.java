@@ -380,8 +380,6 @@ class ScoreBackgroundModel implements Sites {
     Map<ScoreSet, Double> smooth(Map<ScoreSet, Double> sitesOccurence, List<ScoredTrack> tracks, double factor) {
 
         //TODO. do multidimensional smoothing or decrease dimensions
-        BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(sitesOccurence.size());
-        ThreadPoolExecutor exe = new ThreadPoolExecutor(4,32,50L, TimeUnit.SECONDS,queue);
 
         try {
             ScoredTrack track = tracks.get(0);
@@ -392,6 +390,9 @@ class ScoreBackgroundModel implements Sites {
             List<Double> possibleScores = Arrays.stream(track.getIntervalScore()).boxed().distinct().collect(Collectors.toList());
             Collections.sort(possibleScores);
             NormalDistribution nd = new NormalDistribution(0,factor);
+
+            BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(possibleScores.size());
+            ThreadPoolExecutor exe = new ThreadPoolExecutor(4, 32, 50L, TimeUnit.SECONDS, queue);
 
             for(Double score: possibleScores) {
                 SmoothWrapper smoothWrapper = new SmoothWrapper(possibleScores, sitesOccurence,newOccurence,score ,broadening,nd);
@@ -413,15 +414,23 @@ class ScoreBackgroundModel implements Sites {
             }
 
             ScoreSet set = new ScoreSet(new Double[]{null});
-            newOccurence.put(set, sitesOccurence.get(set)); //copy old value for outside values
+            if (sitesOccurence.get(set) != null)
+                newOccurence.put(set, sitesOccurence.get(set)); //copy old value for outside values
+            else
+                newOccurence.put(set, 0.);
 
+            newOccurence.keySet().forEach(key -> {
+                if (newOccurence.get(key) == null) {
+                    System.err.println(key + " " + newOccurence.get(key));
+                    System.err.println("Got some null object in siteOcc in ScoreBgModel smooth func");
+                }
+            });
 
             return newOccurence;
 
         } catch (Exception e){
             e.printStackTrace();
         }
-
         return sitesOccurence;
     }
 
@@ -489,6 +498,9 @@ class ScoreBackgroundModel implements Sites {
                     if(sitesOccurence.containsKey(set))
                         value += sitesOccurence.get(set) * nd.density(broad);
                 }
+
+                if (Thread.currentThread().isInterrupted())
+                    newOccurence.put(new ScoreSet(new Double[]{possibleScores.get(i)}), value);
             }
 
             ScoreSet middle = new ScoreSet(new Double[]{possibleScores.get(i)}); // middle position, the position to be changed by neighbours
