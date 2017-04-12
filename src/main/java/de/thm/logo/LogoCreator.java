@@ -19,7 +19,7 @@ public final class LogoCreator {
 
 
     public static Logo createLogo(Sites sites){
-        return  createLogo(GenomeFactory.getInstance().getSequence(sites.getAssembly(),sites,12, 300));
+        return createLogo(GenomeFactory.getInstance().getSequence(sites.getAssembly(), sites, 12, 3000));
     }
 
     /**

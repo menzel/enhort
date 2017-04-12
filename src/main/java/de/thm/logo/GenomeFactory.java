@@ -22,7 +22,7 @@ public final class GenomeFactory {
         if(System.getenv("HOME").contains("menzel")){
             genomes.put(Assembly.hg19, new Genome(Assembly.hg19, new File("/home/menzel/Desktop/chromosomes").toPath()));
         } else {
-            genomes.put(Assembly.hg19, new Genome(Assembly.hg19, new File("/home/mmnz21/chromosomes").toPath()));
+            genomes.put(Assembly.hg19, new Genome(Assembly.hg19, new File("/tempData/chromosomes").toPath()));
         }
         //genomes.put(Track.Assembly.hg38, new Genome(new File("/home/menzel/Desktop/").toPath()));  TODO
 
