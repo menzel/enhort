@@ -156,6 +156,13 @@ public final class BackgroundModelFactory {
     }
 
 
+    /**
+     * Filters the given sites by contigs and blacklisted regions.
+     * All sites which are inside the blacklisted regions or not inside contigs are removed from the sites collections.
+     *
+     * @param sites -  sites to filter
+     * @return filtered sites
+     */
     private static Sites filter(Sites sites) {
 
         Track contigs = TrackFactory.getInstance().getTrackByName("Contigs");
@@ -165,8 +172,6 @@ public final class BackgroundModelFactory {
             System.err.println("Could not find contigs or blacklisted regions track for filtering");
             return sites;
         }
-
-        //TODO check if contigs and bl exists
 
         Track sitesTrack = TrackFactory.getInstance()
                 .createInOutTrack(sites.getPositions(),
