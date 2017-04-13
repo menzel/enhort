@@ -293,7 +293,7 @@ public final class TrackFactory {
 
     /**
      *
-     * Gets a track by name
+     * Gets a track by name (case insensitive)
      * @param name - name of the track
      *
      * @return  track with the give name or null if no such track exists
@@ -301,7 +301,7 @@ public final class TrackFactory {
     public Track getTrackByName(String name) {
 
         for (Track track : tracks) {
-            if (track.getName().equals(name)) {
+            if (track.getName().toLowerCase().equals(name.toLowerCase())) {
                 return track;
             }
         }
