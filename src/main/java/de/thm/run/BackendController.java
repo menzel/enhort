@@ -28,6 +28,7 @@ import java.util.concurrent.*;
  */
 public final class BackendController {
 
+    public static final Runlevel runlevel = Runlevel.DEBUG;
     private static final int port = 42412;
     private static final String prefix = "[Enhort Backend ::=]: ";
 
@@ -55,6 +56,7 @@ public final class BackendController {
         SiteFactoryFactory.getInstance(); // preload instance of factory
     }
 
+    public enum Runlevel {DEBUG, RUN}
 
     /**
      * Impl. for backend listener

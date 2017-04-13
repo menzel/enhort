@@ -3,6 +3,7 @@ package de.thm.calc;
 import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.genomeData.*;
 import de.thm.positionData.Sites;
+import de.thm.run.BackendController;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,9 +56,11 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
         int intervalCount = intervalStart.length - 1;
 
 
-        if (intervalStart.length != intervalEnd.length || intervalStart.length == 0) {
-            System.err.println("Intersect (line 89) There is something wrong with the track: " + track.getName());
-            return new TestTrackResult(track, 0,0);
+        if (BackendController.runlevel == BackendController.Runlevel.DEBUG) {
+            if (intervalStart.length != intervalEnd.length || intervalStart.length == 0) {
+                System.err.println("Intersect (line 89) There is something wrong with the track: " + track.getName());
+                return new TestTrackResult(track, 0, 0);
+            }
         }
 
 
@@ -97,9 +100,11 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
         long[] intervalEnd = track.getEnds();
         String[] names = track.getIntervalName();
 
-        if (intervalStart.length != intervalEnd.length || intervalStart.length == 0) {
-            System.err.println("Intersect (line 89) There is something wrong with the track: " + track.getName());
-            return new TestTrackResult(track, 0,0);
+        if (BackendController.runlevel == BackendController.Runlevel.DEBUG) {
+            if (intervalStart.length != intervalEnd.length || intervalStart.length == 0) {
+                System.err.println("Intersect (line 89) There is something wrong with the track: " + track.getName());
+                return new TestTrackResult(track, 0, 0);
+            }
         }
 
 
@@ -142,9 +147,11 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
         long[] intervalStart = track.getStarts();
         long[] intervalEnd = track.getEnds();
 
-        if (intervalStart.length != intervalEnd.length || intervalStart.length == 0) {
-            System.err.println("Intersect (line 129) There is something wrong with the track: " + track.getName());
-            return new TestTrackResult(track, 0,0);
+        if (BackendController.runlevel == BackendController.Runlevel.DEBUG) {
+            if (intervalStart.length != intervalEnd.length || intervalStart.length == 0) {
+                System.err.println("Intersect (line 129) There is something wrong with the track: " + track.getName());
+                return new TestTrackResult(track, 0, 0);
+            }
         }
 
         int intervalCount = intervalStart.length - 1;
@@ -183,9 +190,11 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
         List<Double> resultsScores = new ArrayList<>();
 
 
-        if (intervalStart.length != intervalEnd.length || intervalStart.length == 0) {
-            System.err.println("Intersect (line 180) There is something wrong with the track: " + track.getName());
-            return new TestTrackResult(track, 0,0);
+        if (BackendController.runlevel == BackendController.Runlevel.DEBUG) {
+            if (intervalStart.length != intervalEnd.length || intervalStart.length == 0) {
+                System.err.println("Intersect (line 180) There is something wrong with the track: " + track.getName());
+                return new TestTrackResult(track, 0, 0);
+            }
         }
 
 
@@ -240,15 +249,15 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
 
         @Override
         public String toString(){
-            String result = "";
+            StringBuilder result = new StringBuilder();
 
             for(String key: resultNames.keySet()){
 
                 for(int i = 0; i < resultNames.get(key) ; i++)
-                    result += key + ",";
+                    result.append(key).append(",");
 
             }
-            return result;
+            return result.toString();
         }
 
 

@@ -3,6 +3,7 @@ package de.thm.genomeData;
 import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
 import de.thm.misc.PositionPreprocessor;
+import de.thm.run.BackendController;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.*;
@@ -178,8 +179,6 @@ final class FileLoader implements Runnable {
                             strands.add(parts[5].charAt(0));
                         else strands.add('o');
                     }
-                } else {
-                    System.err.println("Cannot handle line: " + line);
                 }
             }
 
@@ -198,22 +197,25 @@ final class FileLoader implements Runnable {
 
             // Check read files //
 
-            if (starts.size() == 0 || starts.size() != ends.size()) {
-                System.err.println("File has no positions or different start and end lengths: " + file.getAbsolutePath());
-                throw new Exception("Something is wrong with this track or file: " + file.getName());
+            if (BackendController.runlevel == BackendController.Runlevel.DEBUG) {
+
+                if (starts.size() == 0 || starts.size() != ends.size()) {
+                    System.err.println("File has no positions or different start and end lengths: " + file.getAbsolutePath());
+                    throw new Exception("Something is wrong with this track or file: " + file.getName());
+                }
+
+                if (starts.stream().filter(Objects::isNull).count() > 0)
+                    System.err.println("List of starts is missing something for " + file.getName());
+
+                if (ends.stream().filter(Objects::isNull).count() > 0)
+                    System.err.println("List of ends is missing something for " + file.getName());
+
+                if ((type == TrackFactory.Type.named || type == TrackFactory.Type.scored) && names.stream().filter(Objects::isNull).count() > 0)
+                    System.err.println("List of names is missing something for " + file.getName());
+
+                if (type == TrackFactory.Type.scored && scores.stream().filter(Objects::isNull).count() > 0)
+                    System.err.println("List of scores is missing something for " + file.getName());
             }
-
-            if (starts.stream().filter(Objects::isNull).count() > 0)
-                System.err.println("List of starts is missing something for " + file.getName());
-
-            if (ends.stream().filter(Objects::isNull).count() > 0)
-                System.err.println("List of ends is missing something for " + file.getName());
-
-            if ((type == TrackFactory.Type.named || type == TrackFactory.Type.scored) && names.stream().filter(Objects::isNull).count() > 0)
-                System.err.println("List of names is missing something for " + file.getName());
-
-            if (type == TrackFactory.Type.scored && scores.stream().filter(Objects::isNull).count() > 0)
-                System.err.println("List of scores is missing something for " + file.getName());
 
             // End check read files //
 
