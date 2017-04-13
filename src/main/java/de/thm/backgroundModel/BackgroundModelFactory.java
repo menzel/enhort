@@ -4,8 +4,10 @@ import de.thm.exception.CovariantsException;
 import de.thm.exception.IntervalTypeNotAllowedExcpetion;
 import de.thm.genomeData.*;
 import de.thm.logo.GenomeFactory;
+import de.thm.positionData.AbstractSites;
 import de.thm.positionData.Sites;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +22,7 @@ public final class BackgroundModelFactory {
 
     private static final int maxCovariants = 4;
     private static final int maxCovariantsInOutOnly = 10;
+    private static Track invertedBlacklistedRegions;  // save inverted track for faster filtering in filter method
 
     /**
      * Creates a random backgroundmodel of given size.
@@ -30,8 +33,12 @@ public final class BackgroundModelFactory {
     public static Sites createBackgroundModel(GenomeFactory.Assembly assembly, int positionCount) {
         if(positionCount < 10000)
             positionCount = 10000;
-        return new RandomBackgroundModel(assembly, positionCount);
+
+        positionCount *= 1.05;
+
+        return filter(new RandomBackgroundModel(assembly, positionCount));
     }
+
 
     /**
      * Creates a background model based on one track as covariant, the given sites and a minimum of sites to create.
@@ -59,16 +66,18 @@ public final class BackgroundModelFactory {
     public static Sites createBackgroundModel(Track track, Sites sites, int minSites, double influence) throws IntervalTypeNotAllowedExcpetion {
         if(minSites < 10000) minSites = 10000;
 
+        minSites *= 1.05;
+
         if (track instanceof InOutTrack)
-            return new SingleTrackBackgroundModel((InOutTrack) track, sites,minSites);
+            return filter(new SingleTrackBackgroundModel((InOutTrack) track, sites, minSites));
         else if (track instanceof ScoredTrack) // put single track in a list of size one
-            return new ScoreBackgroundModel((ScoredTrack) track, sites, minSites, influence);
+            return filter(new ScoreBackgroundModel((ScoredTrack) track, sites, minSites, influence));
         else if (track instanceof NamedTrack) //convert the single track to a scored track and put in a list of size one
-             return new ScoreBackgroundModel(Tracks.cast((NamedTrack) track), sites, minSites, influence);
+            return filter(new ScoreBackgroundModel(Tracks.cast((NamedTrack) track), sites, minSites, influence));
         else if (track instanceof DistanceTrack)
-             return new DistanceBackgroundModel((DistanceTrack) track, sites, 200);
+            return filter(new DistanceBackgroundModel((DistanceTrack) track, sites, 200));
         else if (track instanceof StrandTrack)
-            return new RandomBackgroundModel(track.getAssembly(), minSites);
+            return filter(new RandomBackgroundModel(track.getAssembly(), minSites));
         throw new IntervalTypeNotAllowedExcpetion("Type of " + track  + " unkonwn");
     }
 
@@ -99,6 +108,8 @@ public final class BackgroundModelFactory {
      */
     public static Sites createBackgroundModel(List<Track> trackList, Sites sites, int minSites, double influence) throws CovariantsException, IntervalTypeNotAllowedExcpetion {
 
+        minSites *= 1.05;
+
         if (trackList.isEmpty())
             return createBackgroundModel(sites.getAssembly(), sites.getPositionCount());
 
@@ -107,7 +118,7 @@ public final class BackgroundModelFactory {
 
         else if (trackList.stream().allMatch(i -> i instanceof InOutTrack))
             if(trackList.size() < maxCovariantsInOutOnly) {
-                return new MultiTrackBackgroundModel(trackList, sites, minSites);
+                return filter(new MultiTrackBackgroundModel(trackList, sites, minSites));
             } else throw new CovariantsException("Too many covariants: " + trackList.size() + ". Max " + maxCovariantsInOutOnly + " are allowed");
 
         else if (trackList.size() <= maxCovariants) {
@@ -115,7 +126,7 @@ public final class BackgroundModelFactory {
             if (trackList.stream().allMatch(i -> i instanceof ScoredTrack)) {
                 List<ScoredTrack> newList = trackList.stream().map(i -> (ScoredTrack) i).collect(Collectors.toList());
 
-                return new ScoreBackgroundModel(newList, sites, minSites, influence);
+                return filter(new ScoreBackgroundModel(newList, sites, minSites, influence));
 
             } else {
                 List<ScoredTrack> scoredIntervals = trackList.stream()
@@ -136,11 +147,50 @@ public final class BackgroundModelFactory {
                     .map(Tracks::cast)
                     .collect(Collectors.toList()));
 
-                return new ScoreBackgroundModel(scoredIntervals, sites, minSites, influence);
+                return filter(new ScoreBackgroundModel(scoredIntervals, sites, minSites, influence));
             }
 
         } else {
             throw new CovariantsException("Too many covariants. " + trackList.size() + ". Only " + maxCovariantsInOutOnly + " are allowed");
         }
     }
+
+
+    private static Sites filter(Sites sites) {
+
+        Track contigs = TrackFactory.getInstance().getTrackByName("Contigs");
+        Track bl = TrackFactory.getInstance().getTrackByName("Blacklisted Regions");
+
+        if (contigs == null || bl == null) {
+            System.err.println("Could not find contigs or blacklisted regions track for filtering");
+            return sites;
+        }
+
+        //TODO check if contigs and bl exists
+
+        Track sitesTrack = TrackFactory.getInstance()
+                .createInOutTrack(sites.getPositions(),
+                        sites.getPositions().stream().map(i -> i += 1).collect(Collectors.toList()),
+                        "background model track",
+                        "background model track",
+                        sites.getAssembly());
+
+        Track intersect = Tracks.intersect(sitesTrack, contigs);
+
+        if (invertedBlacklistedRegions == null) //only invert the track once and then use the saved version
+            invertedBlacklistedRegions = Tracks.invert(bl);
+
+        intersect = Tracks.intersect(intersect, invertedBlacklistedRegions);
+
+        Sites returnSites = new AbstractSites() {
+            @Override
+            public List<Long> getPositions() {
+                return super.getPositions();
+            }
+        };
+
+        returnSites.setPositions(Arrays.stream(intersect.getStarts()).boxed().collect(Collectors.toList()));
+        return returnSites;
+    }
+
 }
