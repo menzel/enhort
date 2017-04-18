@@ -435,6 +435,16 @@
         </div>
     </th:block>
 
+
+    <th:block th:if="${ran != null}">
+        <th:block th:if="${interfaceCommand.positionCount < 1}">
+            <div id="new" class="bg-warning">
+                <h3> No positions in your file </h3>
+                <p>There are no genomic positions in the .bed file you uploaded. </p>
+                <p>Does it have the correct format, example: chr1\t10\t100 (where \t is a tab)</p>
+            </div>
+        </th:block>
+    </th:block>
 </div>
 <script>
     $(function () {
