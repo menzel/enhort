@@ -186,7 +186,11 @@ public final class TrackFactory {
 
         Files.walk(Paths.get(path.toString())).filter(Files::isRegularFile).forEach(files::add);
 
-        ExecutorService exe = Executors.newFixedThreadPool(4);
+        int nThreads = 8;
+        if (System.getenv("HOME").contains("menzel"))
+            nThreads = 4;
+
+        ExecutorService exe = Executors.newFixedThreadPool(nThreads);
 
         for (Path file : files) {
             FileLoader loader = new FileLoader(file, tracks , type, assembly);
@@ -196,7 +200,7 @@ public final class TrackFactory {
         exe.shutdown();
 
         try {
-            if(!exe.awaitTermination(120, TimeUnit.SECONDS)){
+            if (!exe.awaitTermination(2, TimeUnit.MINUTES)) {
                 System.err.println("Still loading track files. Stopping now");
                 exe.shutdownNow();
             }
