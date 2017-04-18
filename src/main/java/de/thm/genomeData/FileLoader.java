@@ -123,41 +123,41 @@ final class FileLoader implements Runnable {
             Pattern header = Pattern.compile("track fullname=.(.*). description=.(.*).( cellline=.(.*).)?"); //TODO dots (.) are "
             Pattern entry = Pattern.compile("chr(\\d{1,2}|X|Y)\\s(\\d*)\\s(\\d*).*");
 
+            String lastChr = "";
+            long offset = 0; //remember offset
+
+            if (!file.getName().contains("iPS")) {
+                return null;
+            }
+
             while (it.hasNext()) {
                 String line = it.next();
-                Matcher header_matcher = header.matcher(line);
                 Matcher line_matcher = entry.matcher(line);
 
-                if (header_matcher.matches()) {
-                    name = header_matcher.group(1);
-                    description = header_matcher.group(2);
-
-                    if (header_matcher.group(3) != null)
-                        cellline = header_matcher.group(3);
-
-                } else if (line_matcher.matches()) {
+                if (line_matcher.matches()) {
                     String[] parts = line.split("\t");
 
-                    long start = -1;
-                    long end = -2;
+                    long start;
+                    long end;
 
                     try { //handle null pointer exc if chromosome name is not in list
 
-                        long offset = chrSizes.offset(assembly, parts[0]);
+                        if (!lastChr.equals(parts[0])) {  //only calc new offset if the chr changes
+                            offset = chrSizes.offset(assembly, parts[0]);
+                            lastChr = parts[0];
+                        }
 
                         start = Long.parseLong(parts[1]) + offset;
                         end = Long.parseLong(parts[2]) + offset;
+
                     } catch (NullPointerException e) {
                         System.err.println("File loader chrname " + parts[0] + " not found in file " + file.getName());
+                        continue;
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
                         System.err.println("Could not parse " + Arrays.toString(parts) + " from file " + file.getName());
                         continue;
                     }
-
-
-                    if (!(start < end)) //check if interval length is positive
-                        continue;
 
                     starts.add(start);
                     ends.add(end);
@@ -179,6 +179,18 @@ final class FileLoader implements Runnable {
                             strands.add(parts[5].charAt(0));
                         else strands.add('o');
                     }
+                } else {
+
+                    Matcher header_matcher = header.matcher(line);
+
+                    if (header_matcher.matches()) {
+                        name = header_matcher.group(1);
+                        description = header_matcher.group(2);
+
+                        if (header_matcher.group(3) != null)
+                            cellline = header_matcher.group(3);
+                    }
+
                 }
             }
 
@@ -215,6 +227,19 @@ final class FileLoader implements Runnable {
 
                 if (type == TrackFactory.Type.scored && scores.stream().filter(Objects::isNull).count() > 0)
                     System.err.println("List of scores is missing something for " + file.getName());
+
+                for (int i = 0; i < starts.size() - 1; i++)
+                    if (starts.get(i) > starts.get(i + 1))
+                        System.err.println("Looks like this track is not sorted (yet) " + file.getName());
+
+                for (int i = 0; i < starts.size() - 1; i++)
+                    if (ends.get(i) > ends.get(i + 1))
+                        System.err.println("Looks like this track is not sorted (yet) " + file.getName());
+
+                for (int i = 0; i < starts.size(); i++)
+                    if (starts.get(i) > ends.get(i))
+                        System.err.println("There is an interval with larger end than start in " + file.getName());
+
             }
 
             // End check read files //
@@ -238,6 +263,7 @@ final class FileLoader implements Runnable {
 
         } catch (Exception e) {
 
+            System.err.println("For file " + file.getName());
             e.printStackTrace();
             return null;
         }

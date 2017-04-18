@@ -28,9 +28,17 @@ import java.util.concurrent.*;
  */
 public final class BackendController {
 
-    public static final Runlevel runlevel = Runlevel.DEBUG;
+    public static final Runlevel runlevel;
     private static final int port = 42412;
     private static final String prefix = "[Enhort Backend ::=]: ";
+
+    static {
+        if (System.getenv("HOME").contains("menzel")) {
+            runlevel = Runlevel.RUN; // default DEBUG
+        } else {
+            runlevel = Runlevel.RUN;
+        }
+    }
 
     public static void main(String[] args) {
         System.out.println(prefix + "Starting Enhort backend server");

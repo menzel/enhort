@@ -87,30 +87,30 @@ public final class TrackFactory {
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks", GenomeFactory.Assembly.hg19));
             this.tracks.addAll(tmp);
 
-            tmp = getTracks(basePath.resolve("named"), Type.named, GenomeFactory.Assembly.hg19);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Named, "Named tracks", GenomeFactory.Assembly.hg19));
-            this.tracks.addAll(tmp);
 
             tmp = getTracks(basePath.resolve("distanced"), Type.distance, GenomeFactory.Assembly.hg19);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Distance, "Distances to positions", GenomeFactory.Assembly.hg19));
             this.tracks.addAll(tmp);
 
-            tmp = getTracks(basePath.resolve("score"), Type.scored, GenomeFactory.Assembly.hg19);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Expression, "Expression scores", GenomeFactory.Assembly.hg19));
-            this.tracks.addAll(tmp);
 
+            tmp = getTracks(basePath.resolve("iPs"), Type.inout, GenomeFactory.Assembly.hg19);
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.iPs, "iPS Cell Stuff", GenomeFactory.Assembly.hg19));
+            this.tracks.addAll(tmp);
 
             //only load all tracks when running on the big server
             if (!System.getenv("HOME").contains("menzel")) {
+
+                tmp = getTracks(basePath.resolve("named"), Type.named, GenomeFactory.Assembly.hg19);
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Named, "Named tracks", GenomeFactory.Assembly.hg19));
+                this.tracks.addAll(tmp);
 
                 tmp = getTracks(basePath.resolve("strand"), Type.strand, GenomeFactory.Assembly.hg19);
                 this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Strand, "Strand dependend tracks", GenomeFactory.Assembly.hg19));
                 this.tracks.addAll(tmp);
 
-                tmp = getTracks(basePath.resolve("iPs"), Type.inout, GenomeFactory.Assembly.hg19);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.iPs, "iPS Cell Stuff", GenomeFactory.Assembly.hg19));
+                tmp = getTracks(basePath.resolve("score"), Type.scored, GenomeFactory.Assembly.hg19);
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Expression, "Expression scores", GenomeFactory.Assembly.hg19));
                 this.tracks.addAll(tmp);
-
 
 
                 tmp = getTracks(basePath.resolve("cancer_genes"), Type.inout, GenomeFactory.Assembly.hg19);

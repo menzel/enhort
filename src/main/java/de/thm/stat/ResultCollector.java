@@ -144,6 +144,7 @@ public final class ResultCollector implements Serializable{
 
         List<TestResult> filtered_results = results.stream()
                 //.filter(testResult -> testResult.getpValue() < 0.05)
+                .filter(testResult -> testResult.getType() == TestResult.Type.inout)
         .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
         .collect(Collectors.toList());
 

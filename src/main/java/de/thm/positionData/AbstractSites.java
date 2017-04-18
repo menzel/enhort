@@ -14,8 +14,9 @@ import java.util.List;
 @SuppressWarnings("unused")
 public abstract class AbstractSites implements Sites {
 
-    List<Long> positions = new ArrayList<>();
-    GenomeFactory.Assembly assembly;
+    private List<Long> positions = new ArrayList<>();
+    private GenomeFactory.Assembly assembly;
+    private List<Character> strand = new ArrayList<>();
 
     @Override
     public void addPositions(Collection<Long> values) {
@@ -35,6 +36,11 @@ public abstract class AbstractSites implements Sites {
     @Override
     public int getPositionCount() {
         return positions.size();
+    }
+
+    @Override
+    public List<Character> getStrands() {
+        return this.strand;
     }
 
     @Override
