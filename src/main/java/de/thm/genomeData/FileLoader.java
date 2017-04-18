@@ -5,6 +5,7 @@ import de.thm.misc.ChromosomSizes;
 import de.thm.misc.PositionPreprocessor;
 import de.thm.run.BackendController;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.math3.util.Precision;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -38,8 +39,9 @@ final class FileLoader implements Runnable {
     public void run() {
 
         Track track = initTrackfromFile(path.toFile(), type);
-        //if(path.toString().contains("conservation")) saveTrack(track, path, type);
-        tracks.add(track);
+
+        if (track != null)
+            tracks.add(track);
     }
 
 
@@ -98,6 +100,8 @@ final class FileLoader implements Runnable {
         int length = -1;
         ChromosomSizes chrSizes = ChromosomSizes.getInstance();
 
+        long time = System.currentTimeMillis();
+
         try {
             length = countBedLines(file.toPath());
 
@@ -126,11 +130,19 @@ final class FileLoader implements Runnable {
             String lastChr = "";
             long offset = 0; //remember offset
 
-            if (!file.getName().contains("iPS")) {
-                return null;
-            }
+            //if (!file.getName().contains("iPS")) { return null; }
 
             while (it.hasNext()) {
+
+                if (Thread.currentThread().isInterrupted()) {
+
+                    long diff = System.currentTimeMillis() - time;
+                    System.err.println("loaded " + Precision.round(((double) length / diff), 2) + "\t" + file.getName() + " of lines " + length + " in " + diff);
+
+                    System.err.println("Interrupted loading of " + file.getName());
+                    return null;
+                }
+
                 String line = it.next();
                 Matcher line_matcher = entry.matcher(line);
 
@@ -244,6 +256,9 @@ final class FileLoader implements Runnable {
 
             // End check read files //
 
+
+            //long diff = System.currentTimeMillis() - time;
+            //System.err.println("loaded " + Precision.round(((double) length/diff),2) + "\t" + file.getName() + " of lines " + length + " in " +  diff);
 
             switch (type) {
                 case strand:
