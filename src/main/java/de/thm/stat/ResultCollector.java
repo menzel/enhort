@@ -39,7 +39,7 @@ public final class ResultCollector implements Serializable{
         try {
             List<TestResult> r = results.stream()
                     .filter(testResult -> testResult.getType() == TestResult.Type.score)
-                    .filter(testResult -> testResult.getpValue() < 0.05 / (testResult.getExpectedIn() + testResult.getExpectedOut()))
+                    .filter(testResult -> testResult.getpValue() < 0.05 / results.size())
                     .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
                     .collect(Collectors.toList());
 
@@ -57,7 +57,7 @@ public final class ResultCollector implements Serializable{
         try {
             List<TestResult> r = results.stream()
                     .filter(testResult -> testResult.getType() == TestResult.Type.inout)
-                    .filter(testResult -> testResult.getpValue() < 0.05 / (testResult.getExpectedIn() + testResult.getExpectedOut()))
+                    .filter(testResult -> testResult.getpValue() < 0.05 / results.size())
                     .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
                     .collect(Collectors.toList());
 
@@ -77,7 +77,7 @@ public final class ResultCollector implements Serializable{
         try {
             List<TestResult> r = results.stream()
                     .filter(testResult -> testResult.getType() == TestResult.Type.name)
-                    .filter(testResult -> testResult.getpValue() < 0.05 / (testResult.getExpectedIn() + testResult.getExpectedOut()))
+                    .filter(testResult -> testResult.getpValue() < 0.05 / results.size())
                     .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
                     .collect(Collectors.toList());
 
