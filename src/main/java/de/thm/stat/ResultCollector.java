@@ -96,7 +96,7 @@ public final class ResultCollector implements Serializable{
     public List<TestResult> getInsignificantResults() {
         try {
             List<TestResult> r = results.stream()
-                    .filter(testResult -> testResult.getpValue() >= 0.05)
+                    .filter(testResult -> testResult.getpValue() >= 0.05 / results.size())
                     .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
                     .collect(Collectors.toList());
 
