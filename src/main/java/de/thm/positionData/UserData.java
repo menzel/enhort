@@ -33,7 +33,10 @@ public final class UserData implements Sites {
         this.assembly = assembly;
         loadPositionsFromFile(path);
 
-        filename = path.toFile().getName().substring(0, path.toFile().getName().length()-37);// remove uuid appendix
+        if (path.toFile().getName().length() > 37)
+            filename = path.toFile().getName().substring(0, path.toFile().getName().length() - 37);// remove uuid appendix
+        else
+            filename = path.toFile().getName();
     }
 
     /**
@@ -69,6 +72,7 @@ public final class UserData implements Sites {
             lines.close();
 
         } catch (IOException e) {
+            System.err.println("In file" + path.toString());
             e.printStackTrace();
 
         }
