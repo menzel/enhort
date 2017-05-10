@@ -41,7 +41,7 @@ public final class Tracks {
                 .collect(Collectors.toList());
 
         double[] values = new HashSet<>(scores) //create set to remove duplicates
-                            .stream()
+                .parallelStream()
                             .mapToDouble(i -> i)
                             .toArray();
         Arrays.sort(values);
@@ -65,7 +65,7 @@ public final class Tracks {
         return new ScoredTrack(track.getStarts(),
                 track.getEnds(),
                 track.getIntervalName(),
-                scores.stream().mapToDouble(d -> d).toArray(),
+                scores.parallelStream().mapToDouble(d -> d).toArray(),
                 track.getName(),
                 track.getDescription(),
                 track.getAssembly(),
@@ -379,7 +379,7 @@ public final class Tracks {
         return new ScoredTrack(track.getStarts(),
                 track.getEnds(),
                 names.toArray(new String[0]),
-                scores.stream().mapToDouble(d -> d).toArray(),
+                scores.parallelStream().mapToDouble(d -> d).toArray(),
                 track.getName(),
                 track.getDescription(),
                 track.getAssembly(),
@@ -393,7 +393,7 @@ public final class Tracks {
         return new ScoredTrack(track.getStarts(),
                 track.getEnds(),
                 track.getIntervalName(),
-                scores.stream().mapToDouble(d -> d).toArray(),
+                scores.parallelStream().mapToDouble(d -> d).toArray(),
                 track.getName(),
                 track.getDescription(),
                 track.getAssembly(),
