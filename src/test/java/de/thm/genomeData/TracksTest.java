@@ -5,11 +5,10 @@ import de.thm.misc.ChromosomSizes;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertArrayEquals;
 
 /**
  * Tests for tracks class
@@ -107,9 +106,8 @@ public class TracksTest {
 
         Track result = Tracks.intersect(track1, track2);
 
-        assertEquals(expectedStarts, result.getStarts());
-        assertEquals(expectedEnds, result.getEnds());
-
+        assertArrayEquals(expectedStarts.stream().mapToLong(l -> l).toArray(), result.getStarts());
+        assertArrayEquals(expectedEnds.stream().mapToLong(l -> l).toArray(), result.getEnds());
     }
 
 
@@ -166,9 +164,9 @@ public class TracksTest {
         expectedEnds.add(80L);
         expectedEnds.add(110L);
 
-        assertEquals(expectedStarts, result.getStarts());
-        assertEquals(expectedEnds, result.getEnds());
-
+        assert result != null;
+        assertArrayEquals(expectedStarts.stream().mapToLong(l -> l).toArray(), result.getStarts());
+        assertArrayEquals(expectedEnds.stream().mapToLong(l -> l).toArray(), result.getEnds());
 
     }
 
@@ -214,8 +212,8 @@ public class TracksTest {
         expectedEnds.add(30L);
         expectedEnds.add(40L);
 
-        assertEquals(expectedStarts, result.getStarts());
-        assertEquals(expectedEnds, result.getEnds());
+        assertArrayEquals(expectedStarts.stream().mapToLong(l -> l).toArray(), result.getStarts());
+        assertArrayEquals(expectedEnds.stream().mapToLong(l -> l).toArray(), result.getEnds());
 
     }
 
@@ -266,7 +264,7 @@ public class TracksTest {
         result.add(0.5);
 
         ScoredTrack track = (ScoredTrack) Tracks.subsetScore(interval1, 0.5);
-        assertEquals(track.getIntervalScore(), result);
+        assertEquals(track.getIntervalScore(), result.stream().mapToDouble(Double::doubleValue).toArray());
         assertEquals(track.getStarts().length, 3);
         assertEquals(track.getEnds().length, 3);
 
@@ -303,16 +301,16 @@ public class TracksTest {
         expectedEnds.add(25L);
         expectedEnds.add(ChromosomSizes.getInstance().getGenomeSize(GenomeFactory.Assembly.hg19));
 
-        assertEquals(expectedStarts, invert.getStarts());
-        assertEquals(expectedEnds, invert.getEnds());
+         assertArrayEquals(expectedStarts.stream().mapToLong(l -> l).toArray(), invert.getStarts());
+         assertArrayEquals(expectedEnds.stream().mapToLong(l -> l).toArray(), invert.getEnds());
 
-        assertEquals(starts, base.getStarts());
-        assertEquals(ends, base.getEnds());
+         assertArrayEquals(starts.stream().mapToLong(l -> l).toArray(), base.getStarts());
+         assertArrayEquals(ends.stream().mapToLong(l -> l).toArray(), base.getEnds());
 
         Track doubleInvert = Tracks.invert(Tracks.invert(base));
 
-        assertEquals(starts, doubleInvert.getStarts());
-        assertEquals(ends, doubleInvert.getEnds());
+         assertArrayEquals(starts.stream().mapToLong(l -> l).toArray(), doubleInvert.getStarts());
+         assertArrayEquals(ends.stream().mapToLong(l -> l).toArray(), doubleInvert.getEnds());
     }
 
     @Test
@@ -340,7 +338,7 @@ public class TracksTest {
 
         ScoredTrack result = Tracks.cast(base);
 
-        assertEquals(expectedScores, result.getIntervalScore());
+        assertArrayEquals(expectedScores.stream().mapToDouble(l -> l).toArray(), result.getIntervalScore(), 0.1);
 
     }
     private ScoredTrack mockTrack(List<Long> start, List<Long> end, List<String> names, List<Double> scores) {
@@ -395,7 +393,7 @@ public class TracksTest {
 
         ScoredTrack track = Tracks.bin(TrackFactory.getInstance().createScoredTrack(null,null,null,vals,null,null), 5);
 
-        assertEquals(Arrays.stream(exp).boxed().collect(Collectors.toList()), track.getIntervalScore());
+             assertArrayEquals(exp, track.getIntervalScore(), 0.05);
     }
 
 }
