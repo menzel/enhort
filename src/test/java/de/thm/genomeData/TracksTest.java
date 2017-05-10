@@ -50,10 +50,10 @@ public class TracksTest {
 
 
         // sum(a,b) == -TestTrack(-a, -b)
-        assertEquals(Tracks.sum(interval1,interval2).getStarts(), Tracks.invert(Tracks.intersect(Tracks.invert(interval1), Tracks.invert(interval2))).getStarts());
+        assertArrayEquals(Tracks.sum(interval1, interval2).getStarts(), Tracks.invert(Tracks.intersect(Tracks.invert(interval1), Tracks.invert(interval2))).getStarts());
 
         // sum(-a, -b) == -TestTrack(a, b)
-        assertEquals(Tracks.sum(Tracks.invert(interval1), Tracks.invert(interval2)).getStarts(), Tracks.invert(Tracks.intersect(interval1, interval2)).getStarts());
+        assertArrayEquals(Tracks.sum(Tracks.invert(interval1), Tracks.invert(interval2)).getStarts(), Tracks.invert(Tracks.intersect(interval1, interval2)).getStarts());
 
     }
 
@@ -264,7 +264,7 @@ public class TracksTest {
         result.add(0.5);
 
         ScoredTrack track = (ScoredTrack) Tracks.subsetScore(interval1, 0.5);
-        assertEquals(track.getIntervalScore(), result.stream().mapToDouble(Double::doubleValue).toArray());
+        assertArrayEquals(track.getIntervalScore(), result.stream().mapToDouble(Double::doubleValue).toArray(), 0.05);
         assertEquals(track.getStarts().length, 3);
         assertEquals(track.getEnds().length, 3);
 
