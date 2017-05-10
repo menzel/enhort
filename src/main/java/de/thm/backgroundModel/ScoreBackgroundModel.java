@@ -79,7 +79,7 @@ class ScoreBackgroundModel implements Sites {
 
         sitesOccurence = smooth(sitesOccurence, tracks,10);
 
-        double sum = sitesOccurence.values().stream().mapToDouble(Double::doubleValue).sum();
+        double sum = sitesOccurence.values().parallelStream().mapToDouble(Double::doubleValue).sum();
         for (ScoreSet k : sitesOccurence.keySet())
             sitesOccurence.put(k, sitesOccurence.get(k) / sum);
 

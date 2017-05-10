@@ -50,8 +50,8 @@ class DistanceBackgroundModel implements Sites {
     private List<Long> generatePositions(List<Long> distances, Track track, int count, int standardDeviation) {
 
         List<Long> positions = new ArrayList<>();
-        List<Long> upstream = distances.stream().filter(i -> i < 0).sorted().collect(Collectors.toList());
-        List<Long> downstream = distances.stream().filter(i -> i >= 0).sorted().collect(Collectors.toList());
+        List<Long> upstream = distances.parallelStream().filter(i -> i < 0).sorted().collect(Collectors.toList());
+        List<Long> downstream = distances.parallelStream().filter(i -> i >= 0).sorted().collect(Collectors.toList());
         Collections.reverse(downstream); // reverse downstream list to begin with the farest distances to the postion. upstream is already in order
         NormalDistribution nd = new NormalDistribution(0,standardDeviation);
 
@@ -103,7 +103,7 @@ class DistanceBackgroundModel implements Sites {
 
         distances.addAll(dist.distancesToNext(track, sites));
 
-        return  distances.stream().filter(i -> i < 5000 && i > -5000).collect(Collectors.toList());
+        return distances.parallelStream().filter(i -> i < 5000 && i > -5000).collect(Collectors.toList());
     }
 
 

@@ -80,7 +80,7 @@ class AppearanceTable {
         }
 
 
-        int sum = appearance.values().stream().mapToInt(i->i).sum();
+        int sum = appearance.values().stream().parallel().mapToInt(i -> i).sum();
 
         if(sum < minSites){
             int factor = (minSites/ sum);
