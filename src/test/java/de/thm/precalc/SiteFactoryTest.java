@@ -41,7 +41,7 @@ public class SiteFactoryTest {
             e.printStackTrace();
         }
 
-        factory = new SiteFactory(GenomeFactory.Assembly.hg19, 500000);
+        factory = new SiteFactory(GenomeFactory.Assembly.hg19, 2000000);
 
     }
 
@@ -147,7 +147,7 @@ public class SiteFactoryTest {
 
         Logo logo = LogoCreator.createLogo(sequences);
 
-        List<Long> sites = factory.getByLogo(logo, 30000).getPositions();
+        List<Long> sites = factory.getByLogo(logo, 100000).getPositions();
         List<String> sitesNew = new ArrayList<>();
 
 
