@@ -38,5 +38,5 @@ public final class TrackPackage {
         return assembly;
     }
 
-    public enum PackageName {Basic, Expression, Histone, Repeats_by_name, TFBS, OpenChrom, Distance, Named, Strand, Cancer, iPs, safe_harbor, Restriction_sites}
+    public enum PackageName {Basic, Expression, Histone, Repeats_by_name, TFBS, OpenChrom, Distance, Named, Strand, Cancer, iPs, safe_harbor, Repeats_by_family, Restriction_sites}
 }
