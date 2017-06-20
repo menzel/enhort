@@ -57,7 +57,9 @@ public final class ResultCollector implements Serializable{
         try {
             List<TestResult> r = results.stream()
                     .filter(testResult -> testResult.getType() == TestResult.Type.inout)
-                    .filter(testResult -> testResult.getpValue() < 0.05 / results.size())
+                    //.filter(testResult -> testResult.getpValue() < 0.05 / results.size())
+                    //.filter(testResult -> testResult.getMeasuredIn() >= (testResult.getMeasuredIn()+testResult.getMeasuredOut())/100
+                    //       && testResult.getExpectedIn() >= (testResult.getExpectedIn()+testResult.getExpectedOut())/100)
                     .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
                     .collect(Collectors.toList());
 
@@ -77,7 +79,7 @@ public final class ResultCollector implements Serializable{
         try {
             List<TestResult> r = results.stream()
                     .filter(testResult -> testResult.getType() == TestResult.Type.name)
-                    .filter(testResult -> testResult.getpValue() < 0.05 / results.size())
+                    //    .filter(testResult -> testResult.getpValue() < 0.05 / results.size())
                     .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
                     .collect(Collectors.toList());
 
@@ -143,12 +145,16 @@ public final class ResultCollector implements Serializable{
         String output = "";
 
         List<TestResult> filtered_results = results.stream()
-                //.filter(testResult -> testResult.getpValue() < 0.05)
                 .filter(testResult -> testResult.getType() == TestResult.Type.inout)
+                //.filter(testResult -> testResult.getpValue() < 0.05)
+                //.filter(testResult -> testResult.getMeasuredIn() >= (testResult.getMeasuredIn()+testResult.getMeasuredOut())/100
+                //       && testResult.getExpectedIn() >= (testResult.getExpectedIn()+testResult.getExpectedOut())/100)
         .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
         .collect(Collectors.toList());
 
         filtered_results.sort(Comparator.comparing(TestResult::getName));
+
+        String lb = "<br>";
 
         // Name
         for (TestResult result : filtered_results) {
@@ -156,7 +162,7 @@ public final class ResultCollector implements Serializable{
             output += ",";
         }
         output = output.substring(0,output.length()-1);
-        output += "\n";
+        output += lb;
 
         // Effect Size
         output += "pvalue,";
@@ -166,7 +172,7 @@ public final class ResultCollector implements Serializable{
         }
 
         output = output.substring(0,output.length()-1);
-        output += "\n";
+        output += lb;
 
         // Effect Size
         output += "effectsize,";
@@ -179,7 +185,45 @@ public final class ResultCollector implements Serializable{
             output += ",";
         }
         output = output.substring(0,output.length()-1);
-        output += "\n";
+        output += lb;
+
+        output += "MeasuredIn,";
+        for (TestResult result : filtered_results) {
+            output += result.getMeasuredIn();
+            output += ",";
+        }
+
+        output = output.substring(0, output.length() - 1);
+        output += lb;
+
+        output += "ExpectedIn,";
+        for (TestResult result : filtered_results) {
+            output += result.getExpectedIn();
+            output += ",";
+        }
+
+        output = output.substring(0, output.length() - 1);
+        output += lb;
+
+        output += "MeasuredPercentIn,";
+        for (TestResult result : filtered_results) {
+            output += result.getPercentInM();
+            output += ",";
+        }
+
+        output = output.substring(0, output.length() - 1);
+        output += lb;
+
+        output += "ExpectedPercentIn,";
+        for (TestResult result : filtered_results) {
+            output += result.getPercentInE();
+            output += ",";
+        }
+
+        output = output.substring(0, output.length() - 1);
+        output += lb;
+
+
 
         return output;
 
