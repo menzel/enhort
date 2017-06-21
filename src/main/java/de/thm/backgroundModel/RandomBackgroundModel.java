@@ -1,13 +1,13 @@
 package de.thm.backgroundModel;
 
+import de.thm.genomeData.Track;
+import de.thm.genomeData.TrackFactory;
 import de.thm.logo.GenomeFactory;
-import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
 import org.apache.commons.math3.random.MersenneTwister;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -18,8 +18,7 @@ import java.util.List;
 class RandomBackgroundModel implements Sites {
 
     private final GenomeFactory.Assembly assembly;
-    private final transient MersenneTwister rand;
-    private List<Long> positions = new ArrayList<>();
+    private List<Long> positions;
     private List<Character> strands;
 
     /**
@@ -30,31 +29,17 @@ class RandomBackgroundModel implements Sites {
     RandomBackgroundModel(GenomeFactory.Assembly assembly, int count) {
         this.assembly = assembly;
 
-        rand  = new MersenneTwister();
         strands = new ArrayList<>();
 
-        createSites(assembly, count);
-    }
+        Track contigs = TrackFactory.getInstance().getTrackByName("Contigs", assembly);
+        SingleTrackBackgroundModel singleTrackBackgroundModel = new SingleTrackBackgroundModel(assembly);
 
-    /**
-     * Creates random sites.
-     *
-     * @param sites count of sites to be created.
-     */
-    private void createSites(GenomeFactory.Assembly assembly, int sites) {
+        positions = new ArrayList<>(singleTrackBackgroundModel.randPositions(count, contigs));
 
-        long genomeSize = ChromosomSizes.getInstance().getGenomeSize(assembly)-1;
 
-        for (long i = 0; i < sites; i++) {
-            long r = Math.round(rand.nextDouble() * ((double) genomeSize));
-            positions.add(r);
-
-            if(rand.nextBoolean()) strands.add('+');
-            else strands.add('-');
-        }
-
-        Collections.sort(positions);
-
+        MersenneTwister rand = new MersenneTwister();
+        for (long i = 0; i < positions.size(); i++)
+            strands.add(rand.nextBoolean() ? '+' : '-');
     }
 
     @Override
