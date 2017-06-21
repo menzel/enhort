@@ -88,25 +88,25 @@ public final class TrackFactory {
             this.tracks.addAll(tmp);
 
 
-            tmp = getTracks(basePath.resolve("iPS"), Type.inout, GenomeFactory.Assembly.hg19);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.iPs, "iPS Cell Stuff", GenomeFactory.Assembly.hg19));
-            this.tracks.addAll(tmp);
-
-            tmp = getTracks(basePath.resolve("repeats_by_name"), Type.inout, GenomeFactory.Assembly.hg19);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name", GenomeFactory.Assembly.hg19));
-            this.tracks.addAll(tmp);
-
-            tmp = getTracks(basePath.resolve("repeats_by_family"), Type.inout, GenomeFactory.Assembly.hg19);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_family, "Repeats by family", GenomeFactory.Assembly.hg19));
-            this.tracks.addAll(tmp);
-
-
-            //tracks.stream().map(s -> s.getName()).forEach(System.out::println);
-
-
-
-            //only load all tracks when running on the big server
             if (!System.getenv("HOME").contains("menzel")) {
+
+                tmp = getTracks(basePath.resolve("iPS"), Type.inout, GenomeFactory.Assembly.hg19);
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.iPs, "iPS Cell Stuff", GenomeFactory.Assembly.hg19));
+                this.tracks.addAll(tmp);
+
+                tmp = getTracks(basePath.resolve("repeats_by_name"), Type.inout, GenomeFactory.Assembly.hg19);
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name", GenomeFactory.Assembly.hg19));
+                this.tracks.addAll(tmp);
+
+                tmp = getTracks(basePath.resolve("repeats_by_family"), Type.inout, GenomeFactory.Assembly.hg19);
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_family, "Repeats by family", GenomeFactory.Assembly.hg19));
+                this.tracks.addAll(tmp);
+
+
+                //tracks.stream().map(s -> s.getName()).forEach(System.out::println);
+
+
+                //only load all tracks when running on the big server
 
 
                 tmp = getTracks(basePath.resolve("cancer_genes"), Type.inout, GenomeFactory.Assembly.hg19);
@@ -308,17 +308,19 @@ public final class TrackFactory {
      *
      * Gets a track by name (case insensitive)
      * @param name - name of the track
+     * @param assembly - assembly of the track
      *
-     * @return  track with the give name or null if no such track exists
+     * @return track with the give name and assembly or null if no such track exists
      */
-    public Track getTrackByName(String name) {
+    public Track getTrackByName(String name, GenomeFactory.Assembly assembly) {
 
         for (Track track : tracks) {
-            if (track.getName().toLowerCase().equals(name.toLowerCase())) {
+            if (track.getAssembly().equals(assembly) && track.getName().toLowerCase().equals(name.toLowerCase()))
                 return track;
-            }
         }
 
+        System.err.println("Could not find track " + name + ". Some parts might not be working correct. " +
+                "Please check the track file and name");
         return null;
     }
 
