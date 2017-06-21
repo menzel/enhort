@@ -446,15 +446,15 @@ public class CalculationController {
      */
     private void setModel(Model model, ResultCollector collector, InterfaceCommand cmd, List<TestResult> covariants) {
 
-        List<TestResult> inout = collector.getInOutResults();
+        List<TestResult> inout = collector.getInOutResults(cmd.isShowall());
         inout.removeAll(covariants);
         model.addAttribute("results_inout", inout);
 
-        List<TestResult> score = collector.getScoredResults();
+        List<TestResult> score = collector.getScoredResults(cmd.isShowall());
         score.removeAll(covariants);
         model.addAttribute("results_score", score);
 
-        List<TestResult> name = collector.getNamedResults();
+        List<TestResult> name = collector.getNamedResults(cmd.isShowall());
         name.removeAll(covariants);
         model.addAttribute("results_named", name);
 

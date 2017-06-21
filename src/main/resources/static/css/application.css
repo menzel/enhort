@@ -3,12 +3,12 @@
 */
 
 @font-face {
-    font-family: "Clear Sans";
-    src: url(../fonts/ClearSans-Medium.woff);
+    font-family: "Fira Sans";
+    src: url(FiraSans-Book.otf);
 }
 
 * {
-    font-family: "Fira Sans", "Clear Sans", Helvetica, Arial;
+    font-family: "Fira Sans", "Clear Sans", "Open Sans", Helvetica, serif;
     font-size: 18px;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;

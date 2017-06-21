@@ -28,6 +28,7 @@ public final class InterfaceCommand {
     private boolean createLogo;
     private ScoredTrack hotspots;
     private Sites sitesBg;
+    private boolean showall;
 
     public InterfaceCommand() {
         covariants = new ArrayList<>();
@@ -153,5 +154,13 @@ public final class InterfaceCommand {
 
     public void setSitesBg(Sites sitesBg) {
         this.sitesBg = sitesBg;
+    }
+
+    public boolean isShowall() {
+        return showall;
+    }
+
+    public void setShowall(boolean showall) {
+        this.showall = showall;
     }
 }
