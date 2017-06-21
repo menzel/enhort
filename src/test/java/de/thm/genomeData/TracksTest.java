@@ -16,7 +16,23 @@ import static org.junit.Assert.assertArrayEquals;
  * Created by Michael Menzel on 19/1/16. *
  */
 public class TracksTest {
+    @Test
+    public void sumOfIntervals() throws Exception {
+        List<Long> starts = new ArrayList<>();
+        List<Long> ends = new ArrayList<>();
 
+        starts.add(5L);
+        starts.add(15L);
+        starts.add(25L);
+
+        ends.add(10L);
+        ends.add(20L);
+        ends.add(26L);
+
+        InOutTrack base = mockTrack(starts, ends);
+
+        assertEquals(11, Tracks.sumOfIntervals(base));
+    }
 
 
     @Test
