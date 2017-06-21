@@ -51,26 +51,22 @@ class SingleTrackBackgroundModel implements Sites {
         // TODO: factor is wrong, seems to be always 1
         int factor = (sites.getPositionCount() < minSites)? minSites/ sites.getPositionCount(): 1;
 
-        positions.addAll(randPositions(result.getIn() * factor, track));
+        Track contigs = TrackFactory.getInstance().getTrackByName("Contigs", sites.getAssembly());
 
-        Track invert = Tracks.invert(track);
-        Track contigs = TrackFactory.getInstance().getTrackByName("Contigs");
-        Track filteredInvert = Tracks.intersect(invert, contigs);
-
-        positions.addAll(randPositions(result.getOut() * factor, filteredInvert));
-
-        //positions.addAll(randPositions(result.getIn() * factor, interval, "in"));
-        //positions.addAll(randPositions(result.getOut() * factor, interval, "out"));
+        positions.addAll(randPositions(result.getIn() * factor, Tracks.intersect(track, contigs)));
+        positions.addAll(randPositions(result.getOut() * factor, Tracks.intersect(Tracks.invert(track), contigs)));
 
         Collections.sort(positions); //sort again here after merging outside and inside positions
-
     }
 
     /**
-     * Generates random positions which are either all inside or outside of the given intervals
+     * Generates random positions which are either all inside or outside of the given intervals.
+     * The given track is always interesected with the given contigs track
+     *
      *
      * @param siteCount - count of random positions to be made up
      * @param track     - interval by which the in/out check is made
+     *
      * @return Collection of random positions
      */
     Collection<Long> randPositions(int siteCount, Track track) {
@@ -86,7 +82,7 @@ class SingleTrackBackgroundModel implements Sites {
 
         //get some random numbers
         for (int i = 0; i < siteCount; i++)
-            randomValues.add(Math.round(Math.floor(rand.nextDouble() * maxValue)));
+            randomValues.add((long) Math.floor(rand.nextDouble() * maxValue));
 
         Collections.sort(randomValues); // very important before streching to the genome!
 
@@ -110,11 +106,8 @@ class SingleTrackBackgroundModel implements Sites {
             sites.add(r + intervalStart[j]);
         }
 
-
-
         return sites;
     }
-
 
     @Override
     public void addPositions(Collection<Long> values) {
