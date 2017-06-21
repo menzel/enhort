@@ -4,6 +4,7 @@ import de.thm.calc.Intersect;
 import de.thm.calc.TestTrackResult;
 import de.thm.genomeData.InOutTrack;
 import de.thm.genomeData.Track;
+import de.thm.genomeData.TrackFactory;
 import de.thm.genomeData.Tracks;
 import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
@@ -51,7 +52,12 @@ class SingleTrackBackgroundModel implements Sites {
         int factor = (sites.getPositionCount() < minSites)? minSites/ sites.getPositionCount(): 1;
 
         positions.addAll(randPositions(result.getIn() * factor, track));
-        positions.addAll(randPositions(result.getOut() * factor, Tracks.invert(track)));
+
+        Track invert = Tracks.invert(track);
+        Track contigs = TrackFactory.getInstance().getTrackByName("Contigs");
+        Track filteredInvert = Tracks.intersect(invert, contigs);
+
+        positions.addAll(randPositions(result.getOut() * factor, filteredInvert));
 
         //positions.addAll(randPositions(result.getIn() * factor, interval, "in"));
         //positions.addAll(randPositions(result.getOut() * factor, interval, "out"));
@@ -92,7 +98,7 @@ class SingleTrackBackgroundModel implements Sites {
         for (int i = 0; i < siteCount; i++) {
             Long r = randomValues.get(i) - sumOfPrevious;
 
-            Long intervalSize = intervalEnd[j] - 1 - intervalStart[j];
+            Long intervalSize = intervalEnd[j] - intervalStart[j];
 
             while(r >= intervalSize){
                 r -= intervalSize;
