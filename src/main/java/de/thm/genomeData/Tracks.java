@@ -307,7 +307,7 @@ public final class Tracks {
         long[] intervalEnd = track.getEnds();
 
         for (int i = 0; i < intervalStart.length; i++)
-            size += intervalEnd[i] - 1 - intervalStart[i];
+            size += intervalEnd[i] - intervalStart[i];
 
         return size;
     }
