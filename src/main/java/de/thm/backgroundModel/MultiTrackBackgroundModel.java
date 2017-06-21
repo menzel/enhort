@@ -1,6 +1,7 @@
 package de.thm.backgroundModel;
 
 import de.thm.genomeData.Track;
+import de.thm.genomeData.TrackFactory;
 import de.thm.genomeData.Tracks;
 import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
@@ -57,6 +58,7 @@ class MultiTrackBackgroundModel implements Sites {
 
         List<Long> sites = new ArrayList<>();
         SingleTrackBackgroundModel better = new SingleTrackBackgroundModel(this.assembly);
+        Track contigs = TrackFactory.getInstance().getTrackByName("Contigs", assembly);
 
         // set the positions for each combination of tracks
         for (String app : appearanceTable.getKeySet()) {
@@ -73,13 +75,13 @@ class MultiTrackBackgroundModel implements Sites {
             Track track = Tracks.intersect(currentTracks);
 
             //TODO check if sum of intervals is too small and add some pseudocount
-            sites.addAll(better.randPositions(count, track));
+            sites.addAll(better.randPositions(count, Tracks.intersect(track, contigs)));
         }
 
         // set outside positions
         int count = appearanceTable.getAppearance("[]");
         Track outs = Tracks.intersect(tracks.stream().map(Tracks::invert).collect(Collectors.toList()));
-        sites.addAll(better.randPositions(count, outs));
+        sites.addAll(better.randPositions(count, Tracks.intersect(outs, contigs)));
 
         Collections.sort(sites);
 
