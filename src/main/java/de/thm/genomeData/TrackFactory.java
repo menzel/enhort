@@ -87,26 +87,31 @@ public final class TrackFactory {
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks", GenomeFactory.Assembly.hg19));
             this.tracks.addAll(tmp);
 
+            tmp = getTracks(basePath.resolve("score"), Type.scored, GenomeFactory.Assembly.hg19);
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Expression, "Expression scores", GenomeFactory.Assembly.hg19));
+            this.tracks.addAll(tmp);
 
-            if (!System.getenv("HOME").contains("menzel")) {
+
+
 
                 tmp = getTracks(basePath.resolve("iPS"), Type.inout, GenomeFactory.Assembly.hg19);
                 this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.iPs, "iPS Cell Stuff", GenomeFactory.Assembly.hg19));
-                this.tracks.addAll(tmp);
-
-                tmp = getTracks(basePath.resolve("repeats_by_name"), Type.inout, GenomeFactory.Assembly.hg19);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_name, "Repeats by name", GenomeFactory.Assembly.hg19));
                 this.tracks.addAll(tmp);
 
                 tmp = getTracks(basePath.resolve("repeats_by_family"), Type.inout, GenomeFactory.Assembly.hg19);
                 this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_family, "Repeats by family", GenomeFactory.Assembly.hg19));
                 this.tracks.addAll(tmp);
 
+                tmp = getTracks(basePath.resolve("repeats_by_class"), Type.inout, GenomeFactory.Assembly.hg19);
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_class, "Repeats by class", GenomeFactory.Assembly.hg19));
+                this.tracks.addAll(tmp);
+
+            if (!System.getenv("HOME").contains("menzel")) {
+                //only load all tracks when running on the big server
 
                 //tracks.stream().map(s -> s.getName()).forEach(System.out::println);
 
 
-                //only load all tracks when running on the big server
 
 
                 tmp = getTracks(basePath.resolve("cancer_genes"), Type.inout, GenomeFactory.Assembly.hg19);
@@ -133,10 +138,6 @@ public final class TrackFactory {
                 this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Strand, "Strand dependend tracks", GenomeFactory.Assembly.hg19));
                 this.tracks.addAll(tmp);
 
-
-                tmp = getTracks(basePath.resolve("score"), Type.scored, GenomeFactory.Assembly.hg19);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Expression, "Expression scores", GenomeFactory.Assembly.hg19));
-                this.tracks.addAll(tmp);
 
                 tmp = getTracks(basePath.resolve("tf"), Type.inout, GenomeFactory.Assembly.hg19);
                 this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.TFBS, "Transcription factor binding sites", GenomeFactory.Assembly.hg19));
