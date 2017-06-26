@@ -78,6 +78,7 @@ th{
 
 .fileinfo p{
     margin-bottom: 0;
+    overflow: hidden;
 }
 
 .fileinfo input{
@@ -110,6 +111,7 @@ label{
     height:10px;
     transition:height 0.5s;
     float: left;
+    width: 98.5%;
 }
 
 #hotspot_info{
@@ -123,12 +125,10 @@ label{
 }
 
 .hotspot{
-    width:1.5px;
+    width: 0.16%;
     height:inherit;
     float: left;
 }
-
-
 
 /*
 * -- sequence logo
