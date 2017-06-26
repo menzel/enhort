@@ -111,7 +111,8 @@ final class FileLoader implements Runnable {
             if (text.contains("fullname="))
                 length -= 1;
 
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
+            System.err.println("in file: " + file.getName());
             e.printStackTrace();
         }
 
@@ -157,6 +158,16 @@ final class FileLoader implements Runnable {
                         if (!lastChr.equals(parts[0])) {  //only calc new offset if the chr changes
                             offset = chrSizes.offset(assembly, parts[0]);
                             lastChr = parts[0];
+                        }
+
+                        if(BackendController.runlevel == BackendController.Runlevel.DEBUG){
+                            //check if start and end are on the chromosome
+                            if(chrSizes.getChrSize(assembly,parts[0]) < Long.parseLong(parts[1]) ||
+                                (chrSizes.getChrSize(assembly,parts[0]) < Long.parseLong(parts[2]))){
+                                System.err.println("Start or End out of chromosome bounds (" + file.getName() + "): " + line);
+
+                            }
+
                         }
 
                         start = Long.parseLong(parts[1]) + offset;
@@ -243,12 +254,14 @@ final class FileLoader implements Runnable {
                 if(type != TrackFactory.Type.scored) {
 
                     for (int i = 0; i < starts.size() - 1; i++)
-                        if (starts.get(i) > starts.get(i + 1))
+                        if (starts.get(i) > starts.get(i + 1)) {
                             System.err.println("Looks like this track is not sorted (yet) " + file.getName());
+                        }
 
                     for (int i = 0; i < starts.size() - 1; i++)
-                        if (ends.get(i) > ends.get(i + 1))
+                        if (ends.get(i) > ends.get(i + 1)) {
                             System.err.println("Looks like this track is not sorted (yet) " + file.getName());
+                        }
 
                     for (int i = 0; i < starts.size(); i++)
                         if (starts.get(i) > ends.get(i))
