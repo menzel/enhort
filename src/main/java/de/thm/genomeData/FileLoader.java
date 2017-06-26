@@ -240,17 +240,21 @@ final class FileLoader implements Runnable {
                 if (type == TrackFactory.Type.scored && scores.stream().filter(Objects::isNull).count() > 0)
                     System.err.println("List of scores is missing something for " + file.getName());
 
-                for (int i = 0; i < starts.size() - 1; i++)
-                    if (starts.get(i) > starts.get(i + 1))
-                        System.err.println("Looks like this track is not sorted (yet) " + file.getName());
+                if(type != TrackFactory.Type.scored) {
 
-                for (int i = 0; i < starts.size() - 1; i++)
-                    if (ends.get(i) > ends.get(i + 1))
-                        System.err.println("Looks like this track is not sorted (yet) " + file.getName());
+                    for (int i = 0; i < starts.size() - 1; i++)
+                        if (starts.get(i) > starts.get(i + 1))
+                            System.err.println("Looks like this track is not sorted (yet) " + file.getName());
 
-                for (int i = 0; i < starts.size(); i++)
-                    if (starts.get(i) > ends.get(i))
-                        System.err.println("There is an interval with larger end than start in " + file.getName());
+                    for (int i = 0; i < starts.size() - 1; i++)
+                        if (ends.get(i) > ends.get(i + 1))
+                            System.err.println("Looks like this track is not sorted (yet) " + file.getName());
+
+                    for (int i = 0; i < starts.size(); i++)
+                        if (starts.get(i) > ends.get(i))
+                            System.err.println("There is an interval with larger end than start in " + file.getName());
+
+                }
 
             }
 
