@@ -330,7 +330,7 @@ public class CalculationController {
         //command.setCreateLogo(false);
         // remove uuid from filename for display and set it to the old InterfaceCommand, because it will be sent to the View again:
         String filename = data.getFilename(); //file.toFile().getName().substring(0, file.toFile().getName().length()-37);
-        filename = filename.length() > 12 ? filename.substring(0,12) +  ".." : filename;
+        filename = filename.length() > 18 ? filename.substring(0, 15) + ".." : filename;
         command.setOriginalFilename(filename);
 
         command.setSitesBg(currentSession.getSitesBg()); // get sites from session, add to command
@@ -500,8 +500,8 @@ public class CalculationController {
         InterfaceCommand command = new InterfaceCommand();
         command.setPositionCount(data.getPositionCount());
 
-        //cut off filenames longer than 12 chars:
-        filename = filename.length() > 12 ? filename.substring(0,12) +  ".." : filename;
+        //cut off filenames longer than 18 chars:
+        filename = filename.length() > 18 ? filename.substring(0, 15) + ".." : filename;
         command.setOriginalFilename(filename);
 
         command.setMinBg(collector.getBgCount());
