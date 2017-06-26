@@ -2,6 +2,7 @@ package de.thm.genomeData;
 
 import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
+import de.thm.run.BackendController;
 import org.apache.commons.math3.stat.descriptive.rank.Percentile;
 
 import java.util.*;
@@ -414,7 +415,12 @@ public final class Tracks {
         long[] intervalStart = track.getStarts();
         long[] intervalEnd = track.getEnds();
 
-        if (intervalEnd.length != intervalStart.length) return false;
+        if (intervalEnd.length != intervalStart.length) {
+
+            if (BackendController.runlevel == BackendController.Runlevel.DEBUG)
+                System.err.println("Different start and ends lenght in" + track.getName());
+            return false;
+        }
 
         Long lastStart = 0L;
         Long lastEnd = 0L;
@@ -423,9 +429,22 @@ public final class Tracks {
             Long start = intervalStart[i];
             Long end = intervalEnd[i];
 
-            if(start > end) return false;
-            if(start < lastEnd) return false;
-            if(lastStart > start) return false;
+            if (start > end) {
+                if (BackendController.runlevel == BackendController.Runlevel.DEBUG)
+                    System.err.println("Start larger than end " + track.getName());
+                return false;
+            }
+            if (start < lastEnd) {
+                if (BackendController.runlevel == BackendController.Runlevel.DEBUG)
+                    System.err.println("next start is smaller than last end " + track.getName());
+                return false;
+            }
+
+            if (lastStart > start) {
+                if (BackendController.runlevel == BackendController.Runlevel.DEBUG)
+                    System.err.println("overlapping starts " + track.getName());
+                return false;
+            }
 
             lastEnd = end;
             lastStart = start;

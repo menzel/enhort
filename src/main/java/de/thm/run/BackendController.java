@@ -3,6 +3,8 @@ package de.thm.run;
 import de.thm.exception.CovariantsException;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
+import de.thm.genomeData.Tracks;
+import de.thm.logo.GenomeFactory;
 import de.thm.misc.TrackBuilder;
 import de.thm.precalc.SiteFactoryFactory;
 import de.thm.spring.command.BackendCommand;
@@ -34,7 +36,7 @@ public final class BackendController {
 
     static {
         if (System.getenv("HOME").contains("menzel")) {
-            runlevel = Runlevel.RUN; // default DEBUG
+            runlevel = Runlevel.DEBUG; // default DEBUG
         } else {
             runlevel = Runlevel.RUN;
         }
@@ -47,6 +49,13 @@ public final class BackendController {
             TrackFactory tf = TrackFactory.getInstance();
             tf.loadTracks();
             System.out.println(prefix + tf.getTrackCount()  + " Track files loaded");
+
+            if (runlevel == Runlevel.DEBUG)
+                tf.getTracks(GenomeFactory.Assembly.hg19)
+                        .parallelStream()
+                        .filter(track -> !Tracks.checkTrack(track))
+                        .forEach(t -> System.out.println("Error in track " + t.getName()));
+
         }).run();
 
         BackendServer server = new BackendServer(port);
