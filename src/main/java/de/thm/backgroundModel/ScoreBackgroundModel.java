@@ -16,6 +16,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 /**
@@ -53,9 +54,9 @@ class ScoreBackgroundModel implements Sites {
      * @param sites      - sites to build model against.
      * @param covariants - list of intervals to build model against.
      */
-    ScoreBackgroundModel(List<ScoredTrack> covariants, Sites sites, int minSites, double influence) {
+    ScoreBackgroundModel(List<ScoredTrack> covariants, Sites sites, int minSites, double smooth) {
         this.assembly = sites.getAssembly();
-        ScoredTrack interval = generateProbabilityInterval(sites, covariants, influence);
+        ScoredTrack interval = generateProbabilityInterval(sites, covariants, smooth);
 
         int count = (sites.getPositionCount() > minSites) ? sites.getPositionCount() : minSites;
         Collection<Long> pos = generatePositionsByProbability(interval, count);
@@ -72,12 +73,12 @@ class ScoreBackgroundModel implements Sites {
      * @param tracks - list of tracks as covariants.
      * @return new interval with probability scores.
      */
-    ScoredTrack generateProbabilityInterval(Sites sites, List<ScoredTrack> tracks, double influence) {
+    ScoredTrack generateProbabilityInterval(Sites sites, List<ScoredTrack> tracks, double smooth) {
 
 
         Map<ScoreSet, Double> sitesOccurence = fillOccurenceMap(tracks, sites);
 
-        sitesOccurence = smooth(sitesOccurence, tracks,10);
+        sitesOccurence = smooth(sitesOccurence, tracks, smooth);
 
         double sum = sitesOccurence.values().parallelStream().mapToDouble(Double::doubleValue).sum();
         for (ScoreSet k : sitesOccurence.keySet())
@@ -128,7 +129,7 @@ class ScoreBackgroundModel implements Sites {
                 if(genomeLength != 0) { //this can happen with multiple scored tracks
 
                     double prob = p * (length/genomeLength);
-                    prob = influence * prob + (1 - influence) * (length/genome);
+                    //prob = influence * prob + (1 - influence) * (length/genome);
 
                     //add probability to score list
                     newScores.add(prob);
@@ -225,21 +226,24 @@ class ScoreBackgroundModel implements Sites {
      */
     Collection<Long> generatePositionsByProbability(ScoredTrack probabilityInterval, int siteCount) {
 
+
+        Track contigs = TrackFactory.getInstance().getTrackByName("Contigs", assembly);
+
+        //probabilityInterval = Tracks.intersect(probabilityInterval, contigs);
+        //TODO filter interval with contigs track
+
         List<Long> sites = new ArrayList<>();
         long[] starts = probabilityInterval.getStarts();
         long[] ends = probabilityInterval.getEnds();
         double[] probabilities = probabilityInterval.getIntervalScore();
-        List<Double> random = new ArrayList<>();
-        MersenneTwister rand;
-
-        rand  = new MersenneTwister();
+        MersenneTwister rand = new MersenneTwister();
 
         //generate random numbers
-        for (int i = 0; i < siteCount; i++) {
-            random.add(rand.nextDouble());
-        }
-
-        Collections.sort(random);
+        List<Double> random = IntStream.range(0, siteCount)
+                    .parallel()
+                    .mapToObj(i -> rand.nextDouble())
+                    .sorted()
+                    .collect(Collectors.toList());
 
         //set random values across the track
         double prev = 0;
@@ -380,6 +384,10 @@ class ScoreBackgroundModel implements Sites {
     Map<ScoreSet, Double> smooth(Map<ScoreSet, Double> sitesOccurence, List<ScoredTrack> tracks, double factor) {
 
         //TODO. do multidimensional smoothing or decrease dimensions
+
+        if(factor == 0.0){
+            return sitesOccurence;
+        }
 
         try {
             ScoredTrack track = tracks.get(0);

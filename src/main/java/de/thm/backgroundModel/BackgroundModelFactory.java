@@ -99,7 +99,7 @@ public final class BackgroundModelFactory {
      * @return background model as sites object.
      * @throws CovariantsException - if there are too many covariants
      */
-    public static Sites createBackgroundModel(List<Track> trackList, Sites sites, int minSites, double influence) throws CovariantsException, IntervalTypeNotAllowedExcpetion {
+    public static Sites createBackgroundModel(List<Track> trackList, Sites sites, int minSites, double smooth) throws CovariantsException, IntervalTypeNotAllowedExcpetion {
 
         minSites *= 1.05;
 
@@ -107,7 +107,7 @@ public final class BackgroundModelFactory {
             return createBackgroundModel(sites.getAssembly(), sites.getPositionCount());
 
         else if (trackList.size() == 1)
-            return createBackgroundModel(trackList.get(0), sites, minSites, influence);
+            return createBackgroundModel(trackList.get(0), sites, minSites, smooth);
 
         else if (trackList.stream().allMatch(i -> i instanceof InOutTrack))
             if(trackList.size() < maxCovariantsInOutOnly) {
@@ -119,7 +119,7 @@ public final class BackgroundModelFactory {
             if (trackList.stream().allMatch(i -> i instanceof ScoredTrack)) {
                 List<ScoredTrack> newList = trackList.stream().map(i -> (ScoredTrack) i).collect(Collectors.toList());
 
-                return new ScoreBackgroundModel(newList, sites, minSites, influence);
+                return new ScoreBackgroundModel(newList, sites, minSites, smooth);
 
             } else {
                 List<ScoredTrack> scoredIntervals = trackList.stream()
@@ -140,7 +140,7 @@ public final class BackgroundModelFactory {
                     .map(Tracks::cast)
                     .collect(Collectors.toList()));
 
-                return new ScoreBackgroundModel(scoredIntervals, sites, minSites, influence);
+                return new ScoreBackgroundModel(scoredIntervals, sites, minSites, smooth);
             }
 
         } else {
