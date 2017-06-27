@@ -23,9 +23,13 @@ class Hotspot {
      *
      * @return track with integration count as scores
      */
-    ScoredTrack findHotspots(Sites sites, int windowSize){
-
+    ScoredTrack findHotspots(Sites sites, final int windowSize){
         long genomeSize = ChromosomSizes.getInstance().getGenomeSize(sites.getAssembly());
+
+        // if windows size is below the threshold the lists can't handle the amount of intervals
+        // if(windowSize < 10 * genomeSize/Integer.MAX_VALUE) // which is about 14, so windowSize should be at leat 20 (20/10 =2)
+        if(windowSize < 20)
+            throw new IllegalArgumentException("Window size is too small for the hotspots list. List can't be biggger than Int.Max_Value");
 
         int size = (int) (genomeSize/(windowSize/10)); //init size for interval lists
 
@@ -34,13 +38,13 @@ class Hotspot {
         List<Double> score = new ArrayList<>(size);
         List<Long> positions = sites.getPositions();
 
-        //TODO smart algorithm for sliding window
-
-        for(long i = 0; i < genomeSize-windowSize && i < positions.get(positions.size()-1)+windowSize; i+=windowSize/10){
+        for(long i = 0; i < (genomeSize - windowSize) && i < (positions.get(positions.size() - 1) + windowSize); i+=windowSize/10){
             // find sites between i and i + windowSize
 
             long finalI = i;
-            long count =  positions.stream().filter(p -> p >= finalI && p < (finalI +windowSize)).count();
+            long count = positions.parallelStream()
+                            .filter(p -> p >= finalI && p < (finalI + windowSize))
+                            .count();
 
             starts.add(i);
             ends.add(i+windowSize);
