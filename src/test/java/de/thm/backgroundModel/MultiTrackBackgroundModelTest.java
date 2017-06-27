@@ -9,11 +9,14 @@ import de.thm.genomeData.TrackFactory;
 import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.*;
 
 import static junit.framework.TestCase.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Test cases for multi track bg model
@@ -21,6 +24,22 @@ import static junit.framework.TestCase.assertEquals;
  * Created by Michael Menzel on 13/1/16.
  */
 public class MultiTrackBackgroundModelTest {
+
+    @BeforeClass
+    public static void setUp(){
+        long end = 1000; //should be larger than all test intervals in this class
+
+        //mock contigs track
+        Track contigs = mock(InOutTrack.class);
+        when(contigs.getStarts()).thenReturn(new long[]{0});
+        when(contigs.getEnds()).thenReturn(new long[]{end});
+        when(contigs.getAssembly()).thenReturn(GenomeFactory.Assembly.hg19);
+        when(contigs.getName()).thenReturn("Contigs");
+
+        TrackFactory factory = TrackFactory.getInstance();
+        factory.addTrack(contigs);
+        //end mock contigs track
+    }
 
     @Test
     public void testAdvancedBg() throws Exception {

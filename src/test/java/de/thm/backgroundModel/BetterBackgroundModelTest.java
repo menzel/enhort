@@ -3,16 +3,20 @@ package de.thm.backgroundModel;
 import de.thm.calc.Intersect;
 import de.thm.calc.TestTrackResult;
 import de.thm.genomeData.InOutTrack;
+import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
 import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by Michael Menzel on 1/2/16.
@@ -36,59 +40,27 @@ public class BetterBackgroundModelTest {
 
         InOutTrack track = mockInterval(startList,endList);
 
+        // mock sites
+        Sites sites = mock(Sites.class);
+        List<Long> r = Arrays.asList(1L,10L,12L,22L,35L,60L,70L,100L);
 
+        when(sites.getPositions()).thenReturn(r);
+        when(sites.getAssembly()).thenReturn(GenomeFactory.Assembly.hg19);
+        when(sites.getPositionCount()).thenReturn(r.size());
+        // end mock sites
 
+        //mock contigs track
+        Track contigs = mock(InOutTrack.class);
+        when(contigs.getStarts()).thenReturn(new long[]{0});
+        when(contigs.getEnds()).thenReturn(new long[]{Collections.max(r)});
+        when(contigs.getAssembly()).thenReturn(GenomeFactory.Assembly.hg19);
+        when(contigs.getName()).thenReturn("Contigs");
 
-        Sites sites = new Sites() {
-            List<Long> positions = new ArrayList<>();
+        TrackFactory factory = TrackFactory.getInstance();
+        factory.addTrack(contigs);
+        //end mock contigs track
 
-            @Override
-            public void addPositions(Collection<Long> values) {
-                this.positions.addAll(values);
-            }
-
-            @Override
-            public List<Long> getPositions() {
-                return this.positions;
-            }
-
-            @Override
-            public void setPositions(List<Long> positions) {
-                this.positions = positions;
-
-            }
-
-            @Override
-            public List<Character> getStrands() {
-                return null;
-            }
-
-            @Override
-            public int getPositionCount() {
-                return this.positions.size();
-            }
-
-            @Override
-            public GenomeFactory.Assembly getAssembly() {
-                return GenomeFactory.Assembly.hg19;
-            }
-        };
-
-
-        List<Long> positions = new ArrayList<>();
-
-        positions.add(1L);
-        positions.add(10L);
-        positions.add(12L);
-        positions.add(22L);
-        positions.add(35L);
-        positions.add(60L);
-        positions.add(70L);
-        positions.add(100L);
-
-        sites.setPositions(positions);
-
-        SingleTrackBackgroundModel better = new SingleTrackBackgroundModel(track , sites, positions.size());
+        SingleTrackBackgroundModel better = new SingleTrackBackgroundModel(track , sites, sites.getPositionCount());
 
         Intersect sect = new Intersect<>();
 

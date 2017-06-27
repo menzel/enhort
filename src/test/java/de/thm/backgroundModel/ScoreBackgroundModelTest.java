@@ -1,16 +1,21 @@
 package de.thm.backgroundModel;
 
+import de.thm.genomeData.InOutTrack;
 import de.thm.genomeData.ScoredTrack;
+import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
 import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
 import org.junit.Before;
 import org.junit.Test;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.*;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Test for bg model occurenceMap
@@ -22,6 +27,7 @@ public class ScoreBackgroundModelTest {
     private Sites sites;
     private Map<ScoreSet, Double> expected;
     private ScoreBackgroundModel model;
+
 
 
     @Test
@@ -75,6 +81,19 @@ public class ScoreBackgroundModelTest {
 
     @Before
     public void setUp() {
+
+        long end = 1000; //should be larger than all test intervals in this class
+
+        //mock contigs track
+        Track contigs = mock(InOutTrack.class);
+        when(contigs.getStarts()).thenReturn(new long[]{0});
+        when(contigs.getEnds()).thenReturn(new long[]{end});
+        when(contigs.getAssembly()).thenReturn(GenomeFactory.Assembly.hg19);
+        when(contigs.getName()).thenReturn("Contigs");
+
+        TrackFactory factory = TrackFactory.getInstance();
+        factory.addTrack(contigs);
+        //end mock contigs track
 
         model = new ScoreBackgroundModel(GenomeFactory.Assembly.hg19);
 
@@ -137,47 +156,10 @@ public class ScoreBackgroundModelTest {
 
         //////// create positions ////////
 
-        sites = new Sites() {
-
-            @Override
-            public void addPositions(Collection<Long> values) {}
-
-            @Override
-            public List<Long> getPositions() {
-                List<Long> l = new ArrayList<>();
-
-                l.add(5L); //.5.4
-                l.add(7L); //.5.4
-                l.add(8L); //.5.4
-                l.add(17L);// ||
-
-                l.add(37L); // .6
-                l.add(55L); // .7.8
-                l.add(70L); // ||
-
-                return l;
-            }
-
-            @Override
-            public void setPositions(List<Long> positions) {}
-
-            @Override
-            public List<Character> getStrands() {
-                return null;
-            }
-
-            @Override
-            public int getPositionCount() {
-                return 7;
-            }
-
-            @Override
-            public GenomeFactory.Assembly getAssembly() {
-                return GenomeFactory.Assembly.hg19;
-            }
-
-        };
-
+        sites = mock(Sites.class);
+        when(sites.getPositions()).thenReturn(Arrays.asList(5L,7L,8L,17L,37L,55L,70L));
+        when(sites.getPositionCount()).thenReturn(7);
+        when(sites.getAssembly()).thenReturn(GenomeFactory.Assembly.hg19);
 
         ///////// expected occurence map //////////////
 
@@ -198,7 +180,7 @@ public class ScoreBackgroundModelTest {
 
         /////// call bg model ////////
 
-        ScoredTrack probTrack = model.generateProbabilityInterval(sites, tracks, 1);
+        ScoredTrack probTrack = model.generateProbabilityInterval(sites, tracks, 0);
 
 
         ///////// Create expected probabilites /////////
@@ -223,12 +205,7 @@ public class ScoreBackgroundModelTest {
 
         /////// check result //////////
 
-        assertEquals(expectedScores.size(), probTrack.getIntervalScore().length);
-
-        for(int i = 0 ; i < expectedScores.size()-1 ; i++){
-            //check each value with a small deviation allowed
-            assertEquals(expectedScores.get(i), probTrack.getIntervalScore()[i], 0.01);
-        }
+        assertArrayEquals(expectedScores.stream().mapToDouble(d->d).toArray(), probTrack.getIntervalScore(), 0.01);
 
     }
 
@@ -236,11 +213,11 @@ public class ScoreBackgroundModelTest {
     @Test
     public void generatePositionsByProbability() throws Exception {
 
-        ScoredTrack probTrack = model.generateProbabilityInterval(sites, tracks, 1);
+        ScoredTrack probTrack = model.generateProbabilityInterval(sites, tracks, 0);
         Collection<Long> pos = model.generatePositionsByProbability(probTrack, 10);
 
         // TODO  check if rand pos generated are good
-        assertTrue(false);
+        throw new NotImplementedException();
     }
 
 
@@ -305,16 +282,12 @@ public class ScoreBackgroundModelTest {
         end.add(3095677412L);
 
 
-
-
         //expectedTrack = TrackFactory.getInstance().createScoredTrack(start, end, null, null);
-
-
 
         /////// check result //////////
 
-        assertEquals(start, result.getStarts());
-        assertEquals(end, result.getEnds());
+        assertArrayEquals(start.stream().mapToLong(l->l).toArray(), result.getStarts());
+        assertArrayEquals(end.stream().mapToLong(l->l).toArray(), result.getEnds());
         //TODO Check scores (probs)
 
     }

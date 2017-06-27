@@ -11,6 +11,7 @@ import de.thm.positionData.Sites;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -104,12 +105,8 @@ public class SingleTrackBackgroundModelTest {
         return TrackFactory.getInstance().createInOutTrack(start, end, "name", "desc", GenomeFactory.Assembly.hg19);
     }
 
-
     @Test
     public void randPosReal() throws Exception {
-
-        TrackFactory.getInstance().loadTracks();
-        Track contigs = TrackFactory.getInstance().getTrackByName("Contigs", GenomeFactory.Assembly.hg19);
 
         int count = 300000;
 
@@ -130,6 +127,13 @@ public class SingleTrackBackgroundModelTest {
 
         SingleTrackBackgroundModel model = new SingleTrackBackgroundModel(GenomeFactory.Assembly.hg19);
 
+        //mock contigs track
+        Track contigs = mock(InOutTrack.class);
+        when(contigs.getStarts()).thenReturn(new long[]{0});
+        when(contigs.getEnds()).thenReturn(new long[]{Collections.max(ends)});
+        when(contigs.getAssembly()).thenReturn(GenomeFactory.Assembly.hg19);
+        when(contigs.getName()).thenReturn("Contigs");
+        //end mock contigs track
 
         Track filteredInvertTrack = Tracks.intersect(Tracks.invert(base), contigs);
 
