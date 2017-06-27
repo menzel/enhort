@@ -73,7 +73,6 @@ final class Genome {
 
         for (Long position : sublist) {
             Pair<String, Long> start = ChromosomSizes.getInstance().mapToChr(assembly, position);
-            assert start != null;
 
             if (!lastChr.equals(start.getLeft())) {  // if new chr load the new chr file
                 try {
@@ -97,14 +96,19 @@ final class Genome {
                     int lineStart = Math.toIntExact(first - (counter - line.length()));
                     int lineEnd = lineStart + width;
 
-                    if (lineEnd > 50) { //if end is on the next line
-                        String part = line.substring(lineStart, 50);// TODO check if the next line (line) has 50 chars
+                    if (lineEnd > line.length()) { //if end is on the next line
+                        int lll = line.length(); /// last line length
+                        String part = line.substring(lineStart, lll);// TODO check if the next line (line) has 50 chars
 
                         line = it.nextLine();
                         counter += line.length();
 
-                        part += line.substring(0, lineEnd - 50);
-                        sequences.add(part);
+                        try {
+                            part += line.substring(0, (lineEnd - lll));
+                            sequences.add(part);
+                        } catch (StringIndexOutOfBoundsException e){
+                            // happens when the following line has too few chars. just ignore the position then.
+                        }
 
                     } else if (lineStart >= 0 && lineEnd > 0) {
                         sequences.add(line.substring(lineStart, lineEnd));
