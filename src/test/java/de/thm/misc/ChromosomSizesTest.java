@@ -87,6 +87,16 @@ public class ChromosomSizesTest {
         pos = chrSizes.offset(GenomeFactory.Assembly.hg19, "chr15") + p;
         assertEquals(new ImmutablePair<>("chr15", p),chrSizes.mapToChr(GenomeFactory.Assembly.hg19, pos));
 
-
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testOutOfChr() throws Exception {
+        ChromosomSizes chrSizes = ChromosomSizes.getInstance();
+
+        Long p = 3095679876L;
+        Long pos = chrSizes.offset(GenomeFactory.Assembly.hg19, "chrX") + p;
+        assertEquals(null,chrSizes.mapToChr(GenomeFactory.Assembly.hg19, pos));
+    }
+
+
 }
