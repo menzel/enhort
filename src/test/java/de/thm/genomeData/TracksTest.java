@@ -9,6 +9,8 @@ import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Tests for tracks class
@@ -234,6 +236,21 @@ public class TracksTest {
     }
 
 
+    @Test
+    public void xor_inner() throws Exception {
+        Track first = mock(Track.class);
+        when(first.getStarts()).thenReturn(new long[]{1L, 22L});
+        when(first.getEnds()).thenReturn(new long[]{5L, 30L});
+
+        Track second = mock(Track.class);
+        when(second.getStarts()).thenReturn(new long[]{20L});
+        when(second.getEnds()).thenReturn(new long[]{32L});
+
+        Track result = Tracks.xor(first, second);
+        assertArrayEquals(new long[]{1L,20L,30L}, result.getStarts());
+        assertArrayEquals(new long[]{5L,22L,32L}, result.getEnds());
+
+    }
 
     @Test
     public void testSubsetScore() throws Exception {
