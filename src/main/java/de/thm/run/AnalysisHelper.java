@@ -65,7 +65,7 @@ class AnalysisHelper {
         List<Track> runTracks;
         TrackFactory trackFactory = TrackFactory.getInstance();
         Sites bg = null;
-        Double influence = cmd.getInfluence();
+        Double smooth = 10d; //cmd.getInfluence(); //TODO use user defined value
         int minSites = cmd.getMinBg();
 
 
@@ -78,7 +78,7 @@ class AnalysisHelper {
             bg = BackgroundModelFactory.createBackgroundModel(sites.getAssembly(), sites.getPositionCount()); //check if minSites is larger
         } else {
             try {
-                bg = BackgroundModelFactory.createBackgroundModel(covariants, sites, minSites, influence);
+                bg = BackgroundModelFactory.createBackgroundModel(covariants, sites, minSites, smooth);
             } catch (IntervalTypeNotAllowedExcpetion intervalTypeNotAllowedExcpetion) {
                 intervalTypeNotAllowedExcpetion.printStackTrace(); //TODO handle by inform user, and set some bg
             }
