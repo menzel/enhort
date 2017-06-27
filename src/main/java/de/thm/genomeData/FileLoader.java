@@ -106,10 +106,9 @@ final class FileLoader implements Runnable {
             length = countBedLines(file.toPath());
 
             BufferedReader brTest = new BufferedReader(new FileReader(file));
-            String text = brTest.readLine();
 
-            if (text.contains("fullname="))
-                length -= 1;
+            // decrease length by 1 if there is a header:
+            if (brTest.readLine().contains("fullname=")) length--;
 
         } catch (IOException | NullPointerException e) {
             System.err.println("in file: " + file.getName());
@@ -251,7 +250,7 @@ final class FileLoader implements Runnable {
                 if (type == TrackFactory.Type.scored && scores.stream().filter(Objects::isNull).count() > 0)
                     System.err.println("List of scores is missing something for " + file.getName());
 
-                if(type != TrackFactory.Type.scored) {
+                if(type != TrackFactory.Type.scored && type != TrackFactory.Type.named) {
 
                     for (int i = 0; i < starts.size() - 1; i++)
                         if (starts.get(i) > starts.get(i + 1)) {
