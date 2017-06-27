@@ -5,9 +5,12 @@ import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.List;
+
+import static org.junit.Assert.assertArrayEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by menzel on 2/21/17.
@@ -15,60 +18,28 @@ import java.util.List;
 public class HotspotTest {
     @Test
     public void findHotspots() throws Exception {
+        Sites sites = mock(Sites.class);
+        List<Long> r = Arrays.asList(5L, 7L, 8L, 37L, 70L, 71L, 73L, 74L, 78L);
 
-        Sites sites = new Sites() {
-
-            @Override
-            public void addPositions(Collection<Long> values) {}
-
-            @Override
-            public List<Long> getPositions() {
-                List<Long> l = new ArrayList<>();
-
-                l.add(5L);
-                l.add(7L);
-                l.add(8L);
-                l.add(37L);
-
-                l.add(70L);
-                l.add(71L);
-                l.add(73L);
-                l.add(74L);
-                l.add(78L);
-
-                return l;
-            }
-
-            @Override
-            public void setPositions(List<Long> positions) {}
-
-            @Override
-            public List<Character> getStrands() {
-                return null;
-            }
-
-            @Override
-            public int getPositionCount() {
-                return 5;
-            }
-
-            @Override
-            public GenomeFactory.Assembly getAssembly() {
-                return GenomeFactory.Assembly.hg19;
-            }
-
-        };
-
+        when(sites.getPositions()).thenReturn(r);
+        when(sites.getAssembly()).thenReturn(GenomeFactory.Assembly.hg19);
+        when(sites.getPositionCount()).thenReturn(5);
 
         Hotspot hotspot = new Hotspot();
 
+        ScoredTrack track = hotspot.findHotspots(sites, 100);
 
-        ScoredTrack track = hotspot.findHotspots(sites, 100000);
-        System.out.println(track.getIntervalScore());
-        //TODO assert
+        assertArrayEquals(new double[]{9.0, 6.0, 6.0, 6.0, 5.0, 5.0, 5.0, 5.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}, track.getIntervalScore(),0.0);
+    }
 
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testTooSmallWindowSize() throws Exception {
+        Sites sites = mock(Sites.class);
+        when(sites.getAssembly()).thenReturn(GenomeFactory.Assembly.hg19);
 
+        Hotspot hotspot = new Hotspot();
+        hotspot.findHotspots(sites, 10); // throws exception
     }
 
 }
