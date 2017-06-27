@@ -115,7 +115,7 @@ public final class IndependenceTest implements Test{
      * @param values - Map of names to values
      * @return Integer values from values as long[]
      */
-    private long[] sortAndFlat(Map<String, Integer> values) {
+    long[] sortAndFlat(Map<String, Integer> values) {
         long[] val = new long[values.keySet().size()];
 
         List<String> names = new ArrayList<>(values.keySet());
@@ -137,7 +137,7 @@ public final class IndependenceTest implements Test{
      * @param expected - expected results
      * @return rectangular long[][] for chi square test
      */
-    private long[][] prepareLists(Map<String, Integer> measured, Map<String, Integer> expected) {
+    long[][] prepareLists(Map<String, Integer> measured, Map<String, Integer> expected) {
 
         //make sure the keys in both lists are the same:
         for (String name : measured.keySet()) {
