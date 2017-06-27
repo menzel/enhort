@@ -172,10 +172,6 @@ public class SiteFactoryTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
-        System.out.println(newLogo.getConsensus());
     }
 
 
@@ -222,9 +218,6 @@ public class SiteFactoryTest {
         List<Long> sites = factory.getByLogo(logo, 100).getPositions();
         List<String> seq = GenomeFactory.getInstance().getSequence(GenomeFactory.Assembly.hg19, sites,4, Integer.MAX_VALUE);
         Logo newLogo = LogoCreator.createLogo(seq);
-
-
-        System.out.println(newLogo.getConsensus());
 
         assertEquals(newLogo.getConsensus(), "AATT");
     }
