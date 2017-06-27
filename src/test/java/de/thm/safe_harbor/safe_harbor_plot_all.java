@@ -9,7 +9,6 @@ import de.thm.positionData.Sites;
 import de.thm.positionData.UserData;
 import de.thm.stat.ResultCollector;
 import de.thm.stat.TestResult;
-import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +25,7 @@ import java.util.stream.Collectors;
  */
 public class safe_harbor_plot_all {
 
-    @Test
+    //@Test
     public void getPlotData() {
 
         TrackFactory.getInstance().loadTracks();
