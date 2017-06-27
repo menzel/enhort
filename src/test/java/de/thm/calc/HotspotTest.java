@@ -27,9 +27,10 @@ public class HotspotTest {
 
         Hotspot hotspot = new Hotspot();
 
-        ScoredTrack track = hotspot.findHotspots(sites, 100);
+        ScoredTrack track = hotspot.findHotspots(sites, 1000);
+        System.out.println(Arrays.toString(track.getIntervalScore()));
 
-        assertArrayEquals(new double[]{9.0, 6.0, 6.0, 6.0, 5.0, 5.0, 5.0, 5.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}, track.getIntervalScore(),0.0);
+        assertArrayEquals(new double[]{9.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}, track.getIntervalScore(),0.0);
     }
 
 
