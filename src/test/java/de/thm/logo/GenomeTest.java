@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
 /**
@@ -26,7 +27,7 @@ public class GenomeTest {
         List<String> seq = genome.getSequence(GenomeFactory.Assembly.hg19, pos, 5, Integer.MAX_VALUE);
 
         assert seq != null;
-        seq.forEach(s -> assertTrue(s.contains("TATA")));
+        assertEquals(motif,LogoCreator.createLogo(seq).getConsensus().substring(0,motif.length()));
     }
 
 
@@ -34,20 +35,27 @@ public class GenomeTest {
     public void getSequence_another() throws Exception {
 
         GenomeFactory genome = GenomeFactory.getInstance(); //new Genome(new File("/home/menzel/Desktop/chromosomes").toPath());
-        Sites userDat = new UserData(GenomeFactory.Assembly.hg19, new File("/home/menzel/Desktop/THM/lfba/enhort/sleeping_beauty.hg19.bed").toPath());
+        Sites sleepingBeauty = new UserData(GenomeFactory.Assembly.hg19, new File("/home/menzel/Desktop/THM/lfba/enhort/sleeping_beauty.hg19.bed").toPath());
 
-        List<String> seq = genome.getSequence(GenomeFactory.Assembly.hg19, userDat, 8, Integer.MAX_VALUE);
+        List<String> seqs = genome.getSequence(GenomeFactory.Assembly.hg19, sleepingBeauty, 8, Integer.MAX_VALUE);
 
-        assert seq != null;
+        //check if there  are any results:
+        assertTrue(0 < seqs.stream()
+                .map(String::toUpperCase)
+                .count());
 
-        for(String s: seq){
-            s = s.toLowerCase();
-            if(!s.contains("ta")) //comparing sb with known TA motif
-                System.err.println("Sequence was " + s);
-            assertTrue(s.contains("ta"));
+        // check if there are any sequences with not 'N' in it
+        assertTrue(0 < seqs.stream()
+                .map(String::toUpperCase)
+                .filter(s -> !s.contains("N"))
+                .count());
 
-        }
-
+        // filter the remaining sites by TA, there should be none left
+        assertEquals(0, seqs.stream()
+                .map(String::toUpperCase)
+                .filter(s -> !s.contains("N"))
+                .filter(s -> !s.contains("TA"))
+                .count());
     }
 
     @Test
