@@ -20,7 +20,7 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
 
 
     @Override
-    public TestTrackResult searchTrack(T track, Sites pos) {
+    public TestTrackResult searchTrack(T track, Sites pos) throws TrackTypeNotAllowedExcpetion{
         if (track instanceof StrandTrack)
             return searchSingleInterval((StrandTrack) track, pos);
         if (track instanceof InOutTrack)
@@ -29,14 +29,12 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
             return searchSingleInterval((ScoredTrack) track, pos);
         if (track instanceof NamedTrack)
             return searchSingleInterval((NamedTrack) track, pos);
-        else
-            try {
-                throw new TrackTypeNotAllowedExcpetion("Type not allowed in intersect");
-            } catch (TrackTypeNotAllowedExcpetion e) {
-                if(BackendController.runlevel == BackendController.Runlevel.DEBUG)
-                    e.printStackTrace();
-                return null;
-            }
+        else {
+            if (BackendController.runlevel == BackendController.Runlevel.DEBUG)
+                System.err.println(track.getClass() + " not allowed in searchTrack of Intersect.java");
+            throw new TrackTypeNotAllowedExcpetion("Type not allowed in intersect");
+        }
+
     }
 
     TestTrackResult searchSingleInterval(StrandTrack track, Sites sites) {
