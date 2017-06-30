@@ -71,7 +71,7 @@ public class IntersectTest {
 
         Intersect<Track> sect = new Intersect<>();
         Track track = mock(Track.class);
-        assertNull(sect.searchTrack(track, sites));
+        assertNull(sect.searchTrack(track, sites)); // prints error message!
     }
 
     @Test
