@@ -15,7 +15,7 @@ import java.util.Map;
  * <p>
  * Created by Michael Menzel on 12/1/16.
  */
-public final class TestResult implements Serializable{
+public class TestResult implements Serializable{
 
     private final double pValue;
     private final double effectSize;
