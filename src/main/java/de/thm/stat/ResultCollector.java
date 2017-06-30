@@ -320,7 +320,7 @@ public final class ResultCollector implements Serializable{
      */
     public long getSignificantTrackCount() {
         return results.stream()
-                .filter(testResult -> testResult.getpValue() < 0.05 / (testResult.getExpectedIn() + testResult.getExpectedOut()))
+                .filter(testResult -> testResult.getpValue() < 0.05 / (results.size()))
                 .count();
     }
 
