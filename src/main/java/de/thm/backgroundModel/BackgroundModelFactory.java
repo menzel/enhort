@@ -1,7 +1,7 @@
 package de.thm.backgroundModel;
 
 import de.thm.exception.CovariantsException;
-import de.thm.exception.IntervalTypeNotAllowedExcpetion;
+import de.thm.exception.TrackTypeNotAllowedExcpetion;
 import de.thm.genomeData.*;
 import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
@@ -44,7 +44,7 @@ public final class BackgroundModelFactory {
      *
      * @return background model as sites object.
      */
-    public static Sites createBackgroundModel(Track track, Sites sites, int minSites) throws IntervalTypeNotAllowedExcpetion {
+    public static Sites createBackgroundModel(Track track, Sites sites, int minSites) throws TrackTypeNotAllowedExcpetion {
         return  createBackgroundModel(track,sites,minSites,1);
     }
 
@@ -58,7 +58,7 @@ public final class BackgroundModelFactory {
      *
      * @return background model as sites object.
      */
-    public static Sites createBackgroundModel(Track track, Sites sites, int minSites, double influence) throws IntervalTypeNotAllowedExcpetion {
+    public static Sites createBackgroundModel(Track track, Sites sites, int minSites, double influence) throws TrackTypeNotAllowedExcpetion {
         if(minSites < 10000) minSites = 10000;
 
         if (track instanceof InOutTrack)
@@ -71,7 +71,7 @@ public final class BackgroundModelFactory {
             return new DistanceBackgroundModel((DistanceTrack) track, sites, 200);
         else if (track instanceof StrandTrack)
             return new RandomBackgroundModel(track.getAssembly(), minSites); // TODO add missing strandTrack BG model
-        throw new IntervalTypeNotAllowedExcpetion("Type of " + track  + " unkonwn");
+        throw new TrackTypeNotAllowedExcpetion("Type of " + track  + " unkonwn");
     }
 
 
@@ -85,7 +85,7 @@ public final class BackgroundModelFactory {
      *
      * @throws CovariantsException - if there are too many covariants
      */
-    public static Sites createBackgroundModel(List<Track> trackList, Sites sites, double influence) throws CovariantsException, IntervalTypeNotAllowedExcpetion {
+    public static Sites createBackgroundModel(List<Track> trackList, Sites sites, double influence) throws CovariantsException, TrackTypeNotAllowedExcpetion {
         return createBackgroundModel(trackList, sites, sites.getPositionCount(), influence);
 
     }
@@ -99,7 +99,7 @@ public final class BackgroundModelFactory {
      * @return background model as sites object.
      * @throws CovariantsException - if there are too many covariants
      */
-    public static Sites createBackgroundModel(List<Track> trackList, Sites sites, int minSites, double smooth) throws CovariantsException, IntervalTypeNotAllowedExcpetion {
+    public static Sites createBackgroundModel(List<Track> trackList, Sites sites, int minSites, double smooth) throws CovariantsException, TrackTypeNotAllowedExcpetion {
 
         minSites *= 1.05;
 

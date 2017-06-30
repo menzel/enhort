@@ -1,19 +1,18 @@
 package de.thm.calc;
 
-import de.thm.genomeData.InOutTrack;
-import de.thm.genomeData.ScoredTrack;
-import de.thm.genomeData.StrandTrack;
-import de.thm.genomeData.TrackFactory;
+import de.thm.genomeData.*;
 import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Test intersect alg
@@ -25,129 +24,65 @@ public class IntersectTest {
     private static InOutTrack iotrack;
     private static ScoredTrack sctrack;
     private static StrandTrack sttrack;
-
-    private static InOutTrack mockTrack(List<Long> start, List<Long> end) {
-
-        return  TrackFactory.getInstance().createInOutTrack(start, end, "name", "desc", GenomeFactory.Assembly.hg19);
-    }
-
-    private static ScoredTrack mockTrack(List<Long> start, List<Long> end, List<Double> scores) {
-
-        return  TrackFactory.getInstance().createScoredTrack(start, end, null, scores,"name", "desc");
-    }
-
-    private static StrandTrack mockTrack(List<Long> start, List<Long> end, List<Character> strands, String foo) {
-        return  TrackFactory.getInstance().createStrandTrack(start, end, strands, "name", foo, GenomeFactory.Assembly.hg19, null);
-
-    }
+    private static NamedTrack nmtrack;
 
     @BeforeClass
     public static void prepare(){
 
-        List<Long> start1 = new ArrayList<>();
-        List<Long> start2 = new ArrayList<>();
 
-        List<Long> end1 = new ArrayList<>();
-        List<Long> end2 = new ArrayList<>();
-
-        start1.add(1L);
-        start1.add(20L);
-        start1.add(50L);
-
-        end1.add(10L);
-        end1.add(30L);
-        end1.add(60L);
-
-        start2.add(5L);
-        start2.add(35L);
-        start2.add(50L);
-
-        end2.add(15L);
-        end2.add(40L);
-        end2.add(60L);
+        iotrack  = mock(InOutTrack.class);
+        sctrack = mock(ScoredTrack.class);
+        sttrack = mock(StrandTrack.class);
+        nmtrack = mock(NamedTrack.class);
 
 
-        List<Double> scores1 = new ArrayList<>();
+        when(iotrack.getAssembly()).thenReturn(GenomeFactory.Assembly.hg19);
+        when(sctrack.getAssembly()).thenReturn(GenomeFactory.Assembly.hg19);
+        when(sttrack.getAssembly()).thenReturn(GenomeFactory.Assembly.hg19);
+        when(nmtrack.getAssembly()).thenReturn(GenomeFactory.Assembly.hg19);
 
-        scores1.add(0.5);
-        scores1.add(0.2);
-        scores1.add(0.7);
-        scores1.add(0.1);
+        when(iotrack.getStarts()).thenReturn(new long[]{5L,35L,50L});
+        when(iotrack.getEnds()).thenReturn(new long[]{15L,40L,60L});
 
-        List<Character> strands = new ArrayList<>();
+        when(sctrack.getStarts()).thenReturn(new long[]{1L,20L,50L});
+        when(sctrack.getEnds()).thenReturn(new long[]{10L,30L,60L});
+        when(sctrack.getIntervalScore()).thenReturn(new double[]{0.5, .2,.7,.1});
 
-        strands.add('-');
-        strands.add('+');
-        strands.add('+');
+        when(sttrack.getStarts()).thenReturn(new long[]{1L,20L,50L});
+        when(sttrack.getEnds()).thenReturn(new long[]{10L,30L,60L});
+        when(sttrack.getStrands()).thenReturn(new char[]{'-','+','+'});
 
+        when(nmtrack.getStarts()).thenReturn(new long[]{1L,20L,50L});
+        when(nmtrack.getEnds()).thenReturn(new long[]{10L,30L,60L});
+        when(nmtrack.getIntervalName()).thenReturn(new String[]{"a", "c", "b"});
 
+        sites = mock(Sites.class);
+        List<Long> r = Arrays.asList(1L, 4L, 5L, 6L, 14L, 44L, 52L, 61L, 191L, 200L);
 
-        sctrack = mockTrack(start1, end1, scores1);
-        iotrack = mockTrack(start2, end2);
-        sttrack = mockTrack(start1,end1, strands, "needed to prevent clash with other mockTrack method");
-
-
-        sites = new Sites() {
-            @Override
-            public void addPositions(Collection<Long> values) {}
-
-            @Override
-            public List<Long> getPositions() {
-
-                List<Long> sites = new ArrayList<>();
-
-                sites.add(1L);
-                sites.add(4L);
-                sites.add(5L);
-                sites.add(6L);
-                sites.add(14L);
-                sites.add(44L);
-                sites.add(52L);
-                sites.add(61L);
-                sites.add(191L);
-                sites.add(200L);
-
-                return sites;
-
-            }
-
-            @Override
-            public void setPositions(List<Long> positions) {}
-
-            @Override
-            public List<Character> getStrands() {
-                List<Character> strands = new ArrayList<>();
-
-                strands.add('-');
-                strands.add('+');
-                strands.add('+');
-                strands.add('+');
-                strands.add('+');
-                strands.add('-');
-                strands.add('-');
-                strands.add('-');
-                strands.add('-');
-                strands.add('-');
-
-                return strands;
-            }
-
-            @Override
-            public int getPositionCount() {
-                return 10;
-            }
-
-            @Override
-            public GenomeFactory.Assembly getAssembly() {
-                return GenomeFactory.Assembly.hg19;
-            }
-        };
-
+        when(sites.getPositions()).thenReturn(r);
+        when(sites.getAssembly()).thenReturn(GenomeFactory.Assembly.hg19);
+        when(sites.getPositionCount()).thenReturn(r.size());
+        when(sites.getStrands()).thenReturn(Arrays.asList('+','-','+','+','-','+','+','-','+','+'));
 
     }
 
     @Test
-    public void searchSingleInterval() throws Exception {
+    public void searchNotAllowed() throws Exception{
+
+        Intersect<Track> sect = new Intersect<>();
+        Track track = mock(Track.class);
+        assertNull(sect.searchTrack(track, sites));
+    }
+
+    @Test
+    public void searchSingleIntervalNamed() throws Exception {
+
+        Intersect<NamedTrack> sect = new Intersect<>();
+        TestTrackResult result = sect.searchSingleInterval(nmtrack,sites);
+
+        assertEquals(5, result.getIn());
+        assertEquals(5, result.getOut());
+        assertArrayEquals(new String[]{"a","b"}, result.getResultNames().keySet().toArray());
 
     }
 
@@ -169,8 +104,8 @@ public class IntersectTest {
         Intersect<StrandTrack> sect = new Intersect<>();
         TestTrackResult result = sect.searchSingleInterval(sttrack,sites);
 
-        assertEquals(1, result.getIn());
-        assertEquals(9, result.getOut());
+        assertEquals(2, result.getIn());
+        assertEquals(8, result.getOut());
 
     }
 

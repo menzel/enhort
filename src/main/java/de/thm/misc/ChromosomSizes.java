@@ -109,6 +109,7 @@ public final class ChromosomSizes {
         return genomeSize.get(assembly);
     }
 
+
     /**
      * Returns the offset for a specific chromosome by name.
      *
@@ -153,6 +154,7 @@ public final class ChromosomSizes {
      * @return a pair containing chromosome name and position inside that chromosome.
      */
     public Pair<String, Long> mapToChr(GenomeFactory.Assembly assembly, Long position) {
+        long finalPosition = position;
         int i = 0;
         Long chrSize = Long.valueOf(chromosomeSizes.get(assembly).get(names.get(assembly).get(0)));
 
@@ -162,10 +164,11 @@ public final class ChromosomSizes {
                 position -= chrSize;
                 chrSize = Long.valueOf(chromosomeSizes.get(assembly).get(names.get(assembly).get(++i)));
             }
-        } catch (IndexOutOfBoundsException e){
-            System.err.println("iofe");
-            System.err.println("for: " + position);
-            return null;
+        } catch (IndexOutOfBoundsException e){ // if i is over 24 (24 chromosomes)
+
+            //throw an exception that does not need to be catched
+            throw new IllegalArgumentException("Position is outside of the genome " + finalPosition);
+
         }
 
         return new ImmutablePair<>(names.get(assembly).get(i), position);

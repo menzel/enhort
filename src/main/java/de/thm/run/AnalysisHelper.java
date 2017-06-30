@@ -3,7 +3,7 @@ package de.thm.run;
 import de.thm.backgroundModel.BackgroundModelFactory;
 import de.thm.calc.CalcCaller;
 import de.thm.exception.CovariantsException;
-import de.thm.exception.IntervalTypeNotAllowedExcpetion;
+import de.thm.exception.TrackTypeNotAllowedExcpetion;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
 import de.thm.genomeData.TrackPackage;
@@ -79,8 +79,8 @@ class AnalysisHelper {
         } else {
             try {
                 bg = BackgroundModelFactory.createBackgroundModel(covariants, sites, minSites, smooth);
-            } catch (IntervalTypeNotAllowedExcpetion intervalTypeNotAllowedExcpetion) {
-                intervalTypeNotAllowedExcpetion.printStackTrace(); //TODO handle by inform user, and set some bg
+            } catch (TrackTypeNotAllowedExcpetion trackTypeNotAllowedExcpetion) {
+                trackTypeNotAllowedExcpetion.printStackTrace(); //TODO handle by inform user, and set some bg
             }
         }
 

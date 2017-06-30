@@ -9,7 +9,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertArrayEquals;
 
 /**
  * Test cases for the build method of the track builder class
@@ -52,8 +52,8 @@ public class TrackBuilderTest {
         for(String expression: expressions){
 
             Track result = builder.build(expression);
-            assertEquals(results.get(i).getStarts(), result.getStarts());
-            assertEquals(results.get(i++).getEnds(), result.getEnds());
+            assertArrayEquals(results.get(i).getStarts(), result.getStarts());
+            assertArrayEquals(results.get(i++).getEnds(), result.getEnds());
             //System.err.println("done '" + expression + "' without error");
 
         }

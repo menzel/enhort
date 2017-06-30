@@ -60,6 +60,16 @@ public class IndependenceTestTest {
 
     }
 
+    @Test
+    public void sortAndFlat() throws Exception {
+        //TODO
+    }
+
+    @Test
+    public void prepareLists() throws Exception {
+        //TODO
+    }
+
 
 
     private ScoredTrack mockTrack(List<Long> start, List<Long> end, List<String> names, List<Double> scores) {

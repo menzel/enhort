@@ -5,9 +5,9 @@ package de.thm.exception;
  *
  * Created by Michael Menzel on 15/2/16.
  */
-public final class IntervalTypeNotAllowedExcpetion extends Throwable {
+public final class TrackTypeNotAllowedExcpetion extends Throwable {
 
-    public IntervalTypeNotAllowedExcpetion(String s) {
+    public TrackTypeNotAllowedExcpetion(String s) {
         super(s);
     }
 }

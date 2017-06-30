@@ -93,7 +93,7 @@ public final class PositionPreprocessor {
                 if (end < intervalsEnd.get(i + 1))
                     end = intervalsEnd.get(i + 1);
 
-                tmpScore += scores.get(i + 1);
+                tmpScore += scores.get(i + 1); // TODO use max instead of average
                 iCount++;
 
             } else {  //do not overlap

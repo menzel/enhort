@@ -1,6 +1,6 @@
 package de.thm.misc;
 
-import de.thm.exception.IntervalTypeNotAllowedExcpetion;
+import de.thm.exception.TrackTypeNotAllowedExcpetion;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
 import de.thm.genomeData.Tracks;
@@ -35,7 +35,7 @@ public final class TrackBuilder {
      * @param command - list of commands, a command is a track or a TrackBuilder.op (operator)
      *
      * @return a new Track build by the command
-     * @throws IntervalTypeNotAllowedExcpetion
+     * @throws TrackTypeNotAllowedExcpetion
      */
     private Track parse(List<Object> command) {
 

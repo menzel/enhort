@@ -1,6 +1,6 @@
 package de.thm.calc;
 
-import de.thm.exception.IntervalTypeNotAllowedExcpetion;
+import de.thm.exception.TrackTypeNotAllowedExcpetion;
 import de.thm.genomeData.*;
 import de.thm.positionData.Sites;
 import de.thm.run.BackendController;
@@ -31,18 +31,22 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
             return searchSingleInterval((NamedTrack) track, pos);
         else
             try {
-                throw new IntervalTypeNotAllowedExcpetion("Type not allowed in intersect");
-            } catch (IntervalTypeNotAllowedExcpetion intervalTypeNotAllowedExcpetion) {
-                intervalTypeNotAllowedExcpetion.printStackTrace();
+                throw new TrackTypeNotAllowedExcpetion("Type not allowed in intersect");
+            } catch (TrackTypeNotAllowedExcpetion e) {
+                if(BackendController.runlevel == BackendController.Runlevel.DEBUG)
+                    e.printStackTrace();
                 return null;
             }
-
     }
 
     TestTrackResult searchSingleInterval(StrandTrack track, Sites sites) {
 
-        if(sites.getStrands().size() != sites.getPositions().size())
-            return new TestTrackResult(track, 0,0); //return 0s if there is no strand data in user data
+        if(sites.getStrands().size() != sites.getPositions().size()) {
+            if(BackendController.runlevel == BackendController.Runlevel.DEBUG)
+                System.err.println("No strand information in Sites object in searchSingleInterval in Intersect.java");
+
+            return new TestTrackResult(track, 0, 0); //return 0s if there is no strand data in user data
+        }
 
         int out = 0;
         int in = 0;
@@ -90,7 +94,7 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
 
 
 
-    private TestTrackResult searchSingleInterval(NamedTrack track, Sites pos) {
+    TestTrackResult searchSingleInterval(NamedTrack track, Sites pos) {
 
         int out = 0;
         int in = 0;

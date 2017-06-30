@@ -30,7 +30,7 @@ class SiteCreator {
         Sites model = BackgroundModelFactory.createBackgroundModel(assembly, count);
         List<Long> positions = model.getPositions();
         indexTable.setPositions(positions);
-        List<Track> tracks = new ArrayList<>(); //TrackFactory.getInstance().getTracks(assembly);
+        List<Track> tracks = new ArrayList<>(); //TrackFactory.getInstance().getTracks(assembly); // disabled to save init time
 
         if(tracks.size() > 0) { //only call threads if there is work to do
 
