@@ -38,10 +38,8 @@ final class FileLoader implements Runnable {
     @Override
     public void run() {
 
-        Track track = initTrackfromFile(path.toFile(), type);
-
-        if (track != null)
-            tracks.add(track);
+        Optional<Track> track = initTrackfromFile(path.toFile(), type);
+        track.ifPresent(tracks::add);
     }
 
 
@@ -92,7 +90,7 @@ final class FileLoader implements Runnable {
      * @param file - file to parse
      * @param type - type of interval
      */
-    private Track initTrackfromFile(File file, TrackFactory.Type type) {
+    private Optional<Track> initTrackfromFile(File file, TrackFactory.Type type) {
 
         String name = "";
         String description = "";
@@ -140,7 +138,7 @@ final class FileLoader implements Runnable {
                     System.err.println("loaded " + Precision.round(((double) length / diff), 2) + "\t" + file.getName() + " of lines " + length + " in " + diff);
 
                     System.err.println("Interrupted loading of " + file.getName());
-                    return null;
+                    return Optional.empty();
                 }
 
                 String line = it.next();
@@ -278,16 +276,16 @@ final class FileLoader implements Runnable {
 
             switch (type) {
                 case strand:
-                    return new StrandTrack(starts, ends, strands, name, description, assembly, Track.CellLine.valueOf(cellline));
+                    return Optional.of(new StrandTrack(starts, ends, strands, name, description, assembly, Track.CellLine.valueOf(cellline)));
                 case inout:
                     //return PositionPreprocessor.preprocessData(new InOutTrack(starts, ends, name, description));
-                    return new InOutTrack(starts, ends, name, description, assembly, Track.CellLine.valueOf(cellline));
+                    return Optional.of(new InOutTrack(starts, ends, name, description, assembly, Track.CellLine.valueOf(cellline)));
                 case scored:
-                    return PositionPreprocessor.preprocessData(new ScoredTrack(starts, ends, names, scores, name, description, assembly, Track.CellLine.valueOf(cellline)));
+                    return Optional.of(PositionPreprocessor.preprocessData(new ScoredTrack(starts, ends, names, scores, name, description, assembly, Track.CellLine.valueOf(cellline))));
                 case named:
-                    return PositionPreprocessor.preprocessData(new NamedTrack(starts, ends, names, name, description, assembly, Track.CellLine.valueOf(cellline)));
+                    return Optional.of(PositionPreprocessor.preprocessData(new NamedTrack(starts, ends, names, name, description, assembly, Track.CellLine.valueOf(cellline))));
                 case distance:
-                    return new DistanceTrack(starts, "Distance from " + name, description, assembly, Track.CellLine.valueOf(cellline));
+                    return Optional.of(new DistanceTrack(starts, "Distance from " + name, description, assembly, Track.CellLine.valueOf(cellline)));
                 default:
                     throw new Exception("Something is wrong with this track or file: " + file.getName());
             }
@@ -296,7 +294,7 @@ final class FileLoader implements Runnable {
 
             System.err.println("For file " + file.getName());
             e.printStackTrace();
-            return null;
+            return Optional.empty();
         }
     }
 
