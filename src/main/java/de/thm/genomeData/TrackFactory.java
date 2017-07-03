@@ -255,7 +255,7 @@ public final class TrackFactory {
             if (pack.getName() == name && pack.getAssembly() == assembly)
                 return pack.getTrackList();
         }
-        return null;
+        throw new RuntimeException("No TrackPackage with that name (" + name + ") and assembly (" + assembly + ")");
     }
 
 
@@ -301,7 +301,7 @@ public final class TrackFactory {
             }
         }
 
-        return null;
+        throw new RuntimeException("Track not found by id: " + id);
     }
 
 
@@ -320,9 +320,8 @@ public final class TrackFactory {
                 return track;
         }
 
-        System.err.println("Could not find track " + name + ". Some parts might not be working correct. " +
+        throw new RuntimeException("Could not find track " + name + ". Some parts might not be working correct. " +
                 "Please check the track file and name");
-        return null;
     }
 
 
