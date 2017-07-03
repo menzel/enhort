@@ -1,5 +1,6 @@
 package de.thm.calc;
 
+import de.thm.exception.TrackTypeNotAllowedExcpetion;
 import de.thm.genomeData.*;
 import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
@@ -66,12 +67,12 @@ public class IntersectTest {
 
     }
 
-    @Test
+    @Test(expected = TrackTypeNotAllowedExcpetion.class)
     public void searchNotAllowed() throws Exception{
 
         Intersect<Track> sect = new Intersect<>();
         Track track = mock(Track.class);
-        assertNull(sect.searchTrack(track, sites)); // prints error message!
+        assertNull(sect.searchTrack(track, sites));
     }
 
     @Test
