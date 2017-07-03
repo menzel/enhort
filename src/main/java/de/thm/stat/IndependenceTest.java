@@ -1,6 +1,7 @@
 package de.thm.stat;
 
 import de.thm.calc.TestTrackResult;
+import de.thm.exception.TrackTypeNotAllowedExcpetion;
 import de.thm.genomeData.*;
 import org.apache.commons.math3.stat.inference.ChiSquareTest;
 import org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest;
@@ -104,8 +105,7 @@ public final class IndependenceTest implements Test{
             return new TestResult(tester.chiSquareTest(counts), testTrackResultA, testTrackResultB, effectSize, track, TestResult.Type.inout);
 
         } else {
-            System.err.println("Unknown track type for test in IndependenceTest");
-            return null;
+            throw new TrackTypeNotAllowedExcpetion("Unknown track type for test in IndependenceTest");
         }
     }
 
