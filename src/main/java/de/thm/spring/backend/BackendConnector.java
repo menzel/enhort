@@ -11,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.util.Optional;
 
 /**
  * Connects the interface to a backend server. Sends backendCommands and recives resultCollectors.
@@ -122,11 +123,7 @@ public final class BackendConnector implements Runnable {
 
                 return collector;
 
-            } else {
-                System.err.println("answer is not a result: " + answer.getClass());
-                return null;
-            }
-
+            } else throw new IllegalArgumentException("answer is not a result: " + answer.getClass());
 
         }  catch (SocketTimeoutException e){
             e.printStackTrace();
@@ -169,12 +166,13 @@ public final class BackendConnector implements Runnable {
 
     }
 
-    public Track createCustomTrack(ExpressionCommand expressionCommand) {
+    public Optional<Track> createCustomTrack(ExpressionCommand expressionCommand) {
 
         if (isConnected) {
             try {
 
                 System.out.println("[Enhort Webinterface]: writing command");
+
                 outputStream.writeObject(expressionCommand);
 
                 System.out.println("[Enhort Webinterface]: waiting for result");
@@ -185,17 +183,17 @@ public final class BackendConnector implements Runnable {
 
                 if (answer instanceof Exception) {
 
-                    System.out.println("[Enhort Webinterface]: got exception: " + ((Exception) answer).getMessage());
+                    System.err.println("[Enhort Webinterface]: got exception: " + ((Exception) answer).getMessage());
 
                 } else if (answer instanceof Track) {
 
                     track = (Track) answer;
 
-                    return track;
+                    return Optional.of(track);
 
                 } else {
                     System.err.println("answer is not a result: " + answer.getClass());
-                    return null;
+                    return Optional.empty();
                 }
 
 
@@ -205,6 +203,7 @@ public final class BackendConnector implements Runnable {
             }
         }
 
-        return null;
+        System.err.println("No connection in createCustomTrack");
+        return Optional.empty();
     }
 }

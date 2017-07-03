@@ -32,10 +32,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -386,11 +383,16 @@ public class CalculationController {
         Sessions sessionsControll = Sessions.getInstance();
         Session currentSession = sessionsControll.getSession(httpSession.getId());
 
-        Track track = BackendConnector.getInstance().createCustomTrack(expressionCommand);
+        Track track;
+        Optional<Track> trackToUse  = BackendConnector.getInstance().createCustomTrack(expressionCommand);
 
-        currentSession.addCustomTrack(track);
-
-        return withNewTrack(currentSession, model);
+        if(trackToUse.isPresent()) {
+            track = trackToUse.get();
+            currentSession.addCustomTrack(track);
+            return withNewTrack(currentSession, model);
+        } else {
+            return withNewTrack(currentSession, model);
+        }
     }
 
 
