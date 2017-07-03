@@ -136,12 +136,7 @@ class AppearanceTable {
      */
     int getAppearance(List<Track> tracks) {
 
-        if (appearance.containsKey(hash(tracks))) {
-            return appearance.get(hash(tracks));
-
-        } else {
-            return 0;
-        }
+        return appearance.getOrDefault(hash(tracks), 0);
     }
 
     /**
@@ -158,16 +153,13 @@ class AppearanceTable {
 
     /**
      * Translates a hash key (String) app to a list of intervals.
-     * This method is for testing environment, use translate(String) for other
      *
      * @param app - hash key as String
+     * @param knownTracks - knownTracks
+     *
      * @return List of intervals which are referenced in the hash key
      */
     List<Track> translate(String app, List<Track> knownTracks) {
-
-        if (app.compareTo("[]") == 0) { //empty array
-            return null;
-        }
 
         List<Track> tracks = new ArrayList<>();
 
@@ -184,7 +176,6 @@ class AppearanceTable {
                     tracks.add(track);
             }
         }
-
 
         return tracks;
     }
