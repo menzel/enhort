@@ -5,7 +5,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -23,30 +25,41 @@ public class TrackFactoryTest {
 
     @BeforeClass
     public static void getTracks() throws Exception {
-        List<Track> tmp = tf.getTracks(basePath.resolve("inout"), TrackFactory.Type.inout, GenomeFactory.Assembly.hg19);
+
+        //reset track factory
+        Class<?> inner = tf.getClass();
+        Field instance = inner.getDeclaredField("instance");
+        instance.setAccessible(true);
+        instance.set(tf,null);
+
+        // load some tracks
+        List<Track> tmp = tf.loadTracks(basePath.resolve("inout"), TrackFactory.Type.inout, GenomeFactory.Assembly.hg19);
         trackCounter = tmp.size();
         assertTrue(tmp.size() > 0);
-        tmp.forEach(tf::addTrack); // add to tf
+        tmp.forEach(tf::addTrack); // add to track factory
+
+        //set track package
+        TrackPackage pack = new TrackPackage(tmp, TrackPackage.PackageName.Basic, "basic tracks", GenomeFactory.Assembly.hg19);
+
+        Field packs = inner.getDeclaredField("trackPackages");
+        packs.setAccessible(true);
+        packs.set(tf, Collections.singletonList(pack));
     }
 
     @Test
-    public void loadTrack() throws Exception {
-    }
-
-    @Test
-    public void loadTracks() throws Exception {
+    public void getTracksTest() throws Exception {
+        assertEquals(trackCounter,tf.getTracks(GenomeFactory.Assembly.hg19).size());
     }
 
     @Test
     public void getTracksByPackage() throws Exception {
-    }
-
-    @Test
-    public void getTracksByPackage1() throws Exception {
+        assertEquals(trackCounter, tf.getTracksByPackage(TrackPackage.PackageName.Basic, GenomeFactory.Assembly.hg19).size());
+        assertEquals(trackCounter, tf.getTracksByPackage("Basic", GenomeFactory.Assembly.hg19).size());
     }
 
     @Test
     public void getTrackPackageNames() throws Exception {
+        assertEquals("Basic", tf.getTrackPackageNames(GenomeFactory.Assembly.hg19).get(0));
     }
 
     @Test
@@ -70,12 +83,9 @@ public class TrackFactoryTest {
     }
 
     @Test
-    public void getTrackCount() throws Exception {
+    public void addAndCountTest() throws Exception {
         assertEquals(trackCounter, tf.getTrackCount());
-    }
 
-    @Test
-    public void addTrack() throws Exception {
         Track track = mock(InOutTrack.class);
 
         int before = tf.getTrackCount();
