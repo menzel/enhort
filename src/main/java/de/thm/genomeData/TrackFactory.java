@@ -189,7 +189,7 @@ public final class TrackFactory {
      * @param type - Interval.Type. Type based upon dir name
      * @throws IOException on file problems
      */
-    private List<Track> getTracks(Path path, Type type, GenomeFactory.Assembly assembly) throws IOException {
+    List<Track> getTracks(Path path, Type type, GenomeFactory.Assembly assembly) throws IOException {
 
         List<Path> files = new ArrayList<>();
         final List<Track> tracks = Collections.synchronizedList(new ArrayList<>());
