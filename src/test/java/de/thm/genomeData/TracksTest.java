@@ -389,8 +389,34 @@ public class TracksTest {
 
     @Test
     public void testCast() throws Exception {
-        //TODO
+        InOutTrack inOutTrack = mock(InOutTrack.class);
+        when(inOutTrack.getStarts()).thenReturn(new long[]{1L, 10L});
+        when(inOutTrack.getEnds()).thenReturn(new long[]{8L, 18L});
+
+        ScoredTrack scoredTrack = Tracks.cast(inOutTrack);
+
+        assertArrayEquals(inOutTrack.getStarts(), scoredTrack.getStarts());
+        assertArrayEquals(inOutTrack.getEnds(), scoredTrack.getEnds());
+        assertArrayEquals(new double[]{1d, 1d}, scoredTrack.getIntervalScore(), 0.0001);
     }
+
+
+    @Test
+    public void testCastNamed() throws Exception {
+        NamedTrack namedTrack = mock(NamedTrack.class);
+        when(namedTrack.getStarts()).thenReturn(new long[]{1L, 10L});
+        when(namedTrack.getEnds()).thenReturn(new long[]{8L, 18L});
+        when(namedTrack.getIntervalName()).thenReturn(new String[]{"first", "second"});
+
+        ScoredTrack scoredTrack = Tracks.cast(namedTrack);
+
+        assertArrayEquals(namedTrack.getStarts(), scoredTrack.getStarts());
+        assertArrayEquals(namedTrack.getEnds(), scoredTrack.getEnds());
+        assertArrayEquals(namedTrack.getIntervalName(), scoredTrack.getIntervalName());
+        assertArrayEquals(new double[]{9.7440432E7, -9.0627982E8}, scoredTrack.getIntervalScore(), 0.001);
+    }
+
+
 
          @Test
     public void bin() throws Exception {
