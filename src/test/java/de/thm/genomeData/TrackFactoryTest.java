@@ -47,11 +47,6 @@ public class TrackFactoryTest {
     }
 
     @Test
-    public void getTracksTest() throws Exception {
-        assertEquals(trackCounter,tf.getTracks(GenomeFactory.Assembly.hg19).size());
-    }
-
-    @Test
     public void getTracksByPackage() throws Exception {
         assertEquals(trackCounter, tf.getTracksByPackage(TrackPackage.PackageName.Basic, GenomeFactory.Assembly.hg19).size());
         assertEquals(trackCounter, tf.getTracksByPackage("Basic", GenomeFactory.Assembly.hg19).size());
@@ -84,6 +79,8 @@ public class TrackFactoryTest {
 
     @Test
     public void addAndCountTest() throws Exception {
+
+        assertEquals(trackCounter,tf.getTracks(GenomeFactory.Assembly.hg19).size());
         assertEquals(trackCounter, tf.getTrackCount());
 
         Track track = mock(InOutTrack.class);
