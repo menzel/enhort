@@ -1,0 +1,38 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+
+
+
+  <body>
+      <div th:fragment="celllines">
+
+        <!-- Modal -->
+        <div class="modal fade" id="celllines" tabindex="-1" role="dialog" aria-labelledby="label">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="label">Cell lines</h4>
+              </div>
+              <div class="modal-body">
+
+                  <table>
+                      <th:block th:each="cellline: ${celllines}">
+                          <td th:text="${cellline}"></td>
+                          <td><input type="checkbox"/></td>
+                      </th:block>
+                  </table>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+  </body>
+
+</html>

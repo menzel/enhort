@@ -473,6 +473,8 @@ public class CalculationController {
         model.addAttribute("trackPackages", collector.getKnownPackages());
         model.addAttribute("ran", true);
 
+        model.addAttribute("celllines", collector.getKnownCelllines());
+
         Logo logo1 = collector.getLogo();
         Logo logo2 = collector.getSecondLogo();
 

@@ -1,5 +1,6 @@
 package de.thm.stat;
 
+import de.thm.genomeData.CellLine;
 import de.thm.genomeData.ScoredTrack;
 import de.thm.genomeData.TrackFactory;
 import de.thm.logo.GenomeFactory;
@@ -23,6 +24,7 @@ public final class ResultCollector implements Serializable{
 
     private final List<TestResult> results;
     private final Sites backgroundSites;
+    private final List<String> knownCelllines;
     private List<String> knownPackages; //keeps a list of all known packages for the gui to display
     private Logo logo;
     private Logo other_logo;
@@ -32,6 +34,7 @@ public final class ResultCollector implements Serializable{
         results = Collections.synchronizedList(new ArrayList<>());
         backgroundSites = bgModel;
         knownPackages = TrackFactory.getInstance().getTrackPackageNames(assembly);
+        knownCelllines = CellLine.getInstance().getCelllines();
     }
 
     public List<TestResult> getScoredResults(boolean showall) {
@@ -386,5 +389,9 @@ public final class ResultCollector implements Serializable{
 
     public ScoredTrack getHotspots() {
         return hotspots;
+    }
+
+    public List<String> getKnownCelllines() {
+        return this.knownCelllines;
     }
 }

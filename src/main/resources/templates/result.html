@@ -40,12 +40,9 @@
 
 
             <div class="box">
-                <h4>Cell Line</h4>
-                <select id="cellline" class="form-control" name="cellline" form="covariate_form">
-                    <option value="none">None</option>
-                    <option value="hela">HeLa</option>
-                    <option value="hesc">hESC</option>
-                </select>
+                <button class="btn btn-default" data-toggle="modal" data-target="#celllines">
+                        Cell Lines
+                </button>
             </div>
 
 
@@ -426,6 +423,10 @@
 
     <!-- Modal for add/upload track -->
     <div th:include="add_track:: add_track"></div>
+
+    <!-- Modal for Cell lines-->
+    <div th:include="celllines:: celllines"></div>
+
 
     <!-- Modal Settings -->
     <div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
