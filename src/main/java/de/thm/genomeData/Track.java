@@ -22,7 +22,7 @@ public abstract class Track implements Serializable, Cloneable {
 
     public abstract GenomeFactory.Assembly getAssembly();
 
-    public abstract  CellLine getCellLine();
+    public abstract int getCellLine();
 
     public abstract String getDescription();
 
@@ -42,6 +42,4 @@ public abstract class Track implements Serializable, Cloneable {
 
     @Override
     public abstract boolean equals(Object o);
-
-    public enum CellLine {HeLa, hESC, none}
 }

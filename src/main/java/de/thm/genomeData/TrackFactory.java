@@ -338,14 +338,14 @@ public final class TrackFactory {
      * @return new track with all given parameters
      */
     public ScoredTrack createScoredTrack(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String description) {
-        return new ScoredTrack(starts, ends, names, scores, name, description, null, null);
+        return new ScoredTrack(starts, ends, names, scores, name, description, null, -1);
     }
-    public ScoredTrack createScoredTrack(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String description, GenomeFactory.Assembly assembly, Track.CellLine cellLine) {
+    public ScoredTrack createScoredTrack(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String description, GenomeFactory.Assembly assembly, int cellLine) {
         return new ScoredTrack(starts, ends, names, scores, name, description, assembly, cellLine);
     }
 
     public ScoredTrack createScoredTrack(long[] starts, long[] ends, String[] names, double[] scores, String name, String description, GenomeFactory.Assembly assembly) {
-        return new ScoredTrack(starts, ends, names, scores, name, description, assembly, null);
+        return new ScoredTrack(starts, ends, names, scores, name, description, assembly, -1);
     }
 
 
@@ -360,14 +360,14 @@ public final class TrackFactory {
      * @return new track with all given parameters
      */
     public InOutTrack createInOutTrack(List<Long> starts, List<Long> ends, String name, String description, GenomeFactory.Assembly assembly) {
-        return new InOutTrack(starts, ends, name, description, assembly, null);
+        return new InOutTrack(starts, ends, name, description, assembly, -1);
     }
-    public InOutTrack createInOutTrack(List<Long> starts, List<Long> ends, String name, String description, GenomeFactory.Assembly assembly, Track.CellLine cellLine) {
+    public InOutTrack createInOutTrack(List<Long> starts, List<Long> ends, String name, String description, GenomeFactory.Assembly assembly, int cellLine) {
         return new InOutTrack(starts, ends, name, description, assembly, cellLine);
     }
 
     public Track createInOutTrack(long[] starts, long[] ends, String ex, String description, GenomeFactory.Assembly assembly) {
-        return new InOutTrack(starts, ends, ex, description, assembly, null);
+        return new InOutTrack(starts, ends, ex, description, assembly, -1);
     }
 
 
@@ -382,17 +382,17 @@ public final class TrackFactory {
       * @return new track with all given parameters
      */
     public DistanceTrack createDistanceTrack(List<Long> starts, String name, String description, GenomeFactory.Assembly assembly) {
-        return new DistanceTrack(starts, name, description, assembly, null);
+        return new DistanceTrack(starts, name, description, assembly, -1);
     }
-    public DistanceTrack createDistanceTrack(List<Long> starts, String name, String description, GenomeFactory.Assembly assembly, Track.CellLine cellLine) {
+    public DistanceTrack createDistanceTrack(List<Long> starts, String name, String description, GenomeFactory.Assembly assembly, int cellLine) {
         return new DistanceTrack(starts, name, description, assembly, cellLine);
     }
 
-    public NamedTrack createNamedTrack(List<Long> starts, List<Long> ends, List<String> names, String name, String description, GenomeFactory.Assembly assembly, Track.CellLine cellLine) {
+    public NamedTrack createNamedTrack(List<Long> starts, List<Long> ends, List<String> names, String name, String description, GenomeFactory.Assembly assembly, int cellLine) {
         return new NamedTrack(starts,ends, names, name, description, assembly, cellLine);
     }
 
-    public StrandTrack createStrandTrack(List<Long> start, List<Long> end, List<Character> strands, String name, String desc, GenomeFactory.Assembly assembly, Track.CellLine cellLine) {
+    public StrandTrack createStrandTrack(List<Long> start, List<Long> end, List<Character> strands, String name, String desc, GenomeFactory.Assembly assembly, int cellLine) {
         return new StrandTrack(start,end,strands,name,desc,assembly, cellLine);
     }
 

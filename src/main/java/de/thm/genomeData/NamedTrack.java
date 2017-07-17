@@ -15,13 +15,13 @@ public class NamedTrack extends Track {
     private final int uid = UID.incrementAndGet();
     private final String name;
     private final GenomeFactory.Assembly assembly;
-    private final CellLine cellLine;
+    private final int cellLine;
     private final String description;
     private final long[] intervalsStart;
     private final long[] intervalsEnd;
     private final String[] intervalName;
 
-    NamedTrack(long[] starts, long[] ends, String[] names, String name, String description, GenomeFactory.Assembly assembly, CellLine cellLine) {
+    NamedTrack(long[] starts, long[] ends, String[] names, String name, String description, GenomeFactory.Assembly assembly, int cellLine) {
 
         intervalsStart = starts;
         intervalsEnd = ends;
@@ -33,7 +33,7 @@ public class NamedTrack extends Track {
         this.cellLine = cellLine;
     }
 
-    NamedTrack(List<Long> starts, List<Long> ends, List<String> names, String name, String description, GenomeFactory.Assembly assembly, CellLine cellLine) {
+    NamedTrack(List<Long> starts, List<Long> ends, List<String> names, String name, String description, GenomeFactory.Assembly assembly, int cellLine) {
 
 
         intervalsStart = new long[starts.size()];
@@ -100,7 +100,7 @@ public class NamedTrack extends Track {
     }
 
     @Override
-    public CellLine getCellLine() {
+    public int getCellLine() {
         return cellLine;
     }
 

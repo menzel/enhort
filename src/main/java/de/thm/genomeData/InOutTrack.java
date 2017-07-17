@@ -19,10 +19,10 @@ public class InOutTrack extends Track {
     private final String description;
 
     private final GenomeFactory.Assembly assembly;
-    private final CellLine cellLine;
+    private final int cellLine;
 
 
-    InOutTrack(long[] intervalsStart, long[] intervalsEnd, String name, String description, GenomeFactory.Assembly assembly, CellLine cellLine) {
+    InOutTrack(long[] intervalsStart, long[] intervalsEnd, String name, String description, GenomeFactory.Assembly assembly, int cellLine) {
         this.intervalsStart = intervalsStart;
         this.intervalsEnd = intervalsEnd;
 
@@ -32,7 +32,7 @@ public class InOutTrack extends Track {
         this.cellLine = cellLine;
     }
 
-    InOutTrack(List<Long> starts, List<Long> ends, String name, String description, GenomeFactory.Assembly assembly, CellLine cellLine) {
+    InOutTrack(List<Long> starts, List<Long> ends, String name, String description, GenomeFactory.Assembly assembly, int cellLine) {
 
         intervalsStart =  new long[starts.size()];
         intervalsEnd = new long[ends.size()];
@@ -81,7 +81,7 @@ public class InOutTrack extends Track {
     }
 
     @Override
-    public CellLine getCellLine() {
+    public int getCellLine() {
         return this.cellLine;
     }
 

@@ -26,6 +26,7 @@ final class FileLoader implements Runnable {
     private final List<Track> tracks; //reference to the syncronized list created in the FileLoader
     private final TrackFactory.Type type;
     private final GenomeFactory.Assembly assembly;
+    private final CellLine cellLine;
 
     FileLoader(Path path, List<Track> tracks, TrackFactory.Type type, GenomeFactory.Assembly assembly) {
 
@@ -33,6 +34,7 @@ final class FileLoader implements Runnable {
         this.tracks = tracks;
         this.type = type;
         this.assembly = assembly;
+        cellLine = CellLine.getInstance();
     }
 
     @Override
@@ -276,16 +278,16 @@ final class FileLoader implements Runnable {
 
             switch (type) {
                 case strand:
-                    return Optional.of(new StrandTrack(starts, ends, strands, name, description, assembly, Track.CellLine.valueOf(cellline)));
+                    return Optional.of(new StrandTrack(starts, ends, strands, name, description, assembly, cellLine.valueOf(cellline)));
                 case inout:
                     //return PositionPreprocessor.preprocessData(new InOutTrack(starts, ends, name, description));
-                    return Optional.of(new InOutTrack(starts, ends, name, description, assembly, Track.CellLine.valueOf(cellline)));
+                    return Optional.of(new InOutTrack(starts, ends, name, description, assembly, cellLine.valueOf(cellline)));
                 case scored:
-                    return Optional.of(PositionPreprocessor.preprocessData(new ScoredTrack(starts, ends, names, scores, name, description, assembly, Track.CellLine.valueOf(cellline))));
+                    return Optional.of(PositionPreprocessor.preprocessData(new ScoredTrack(starts, ends, names, scores, name, description, assembly, cellLine.valueOf(cellline))));
                 case named:
-                    return Optional.of(PositionPreprocessor.preprocessData(new NamedTrack(starts, ends, names, name, description, assembly, Track.CellLine.valueOf(cellline))));
+                    return Optional.of(PositionPreprocessor.preprocessData(new NamedTrack(starts, ends, names, name, description, assembly, cellLine.valueOf(cellline))));
                 case distance:
-                    return Optional.of(new DistanceTrack(starts, "Distance from " + name, description, assembly, Track.CellLine.valueOf(cellline)));
+                    return Optional.of(new DistanceTrack(starts, "Distance from " + name, description, assembly, cellLine.valueOf(cellline)));
                 default:
                     throw new Exception("Something is wrong with this track or file: " + file.getName());
             }

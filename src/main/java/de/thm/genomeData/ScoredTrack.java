@@ -19,10 +19,10 @@ public class ScoredTrack extends Track {
     private final double[] intervalScore;
     private final String name;
     private final GenomeFactory.Assembly assembly;
-    private final CellLine cellLine;
+    private final int cellLine;
     private final String description;
 
-    ScoredTrack(long[] starts, long[] ends, String[] names, double[] scores, String name, String description, GenomeFactory.Assembly assembly, CellLine cellLine) {
+    ScoredTrack(long[] starts, long[] ends, String[] names, double[] scores, String name, String description, GenomeFactory.Assembly assembly, int cellLine) {
 
         if (starts != null) {
             intervalsStart = starts;
@@ -46,7 +46,7 @@ public class ScoredTrack extends Track {
         this.cellLine = cellLine;
     }
 
-    ScoredTrack(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String description, GenomeFactory.Assembly assembly, CellLine cellLine) {
+    ScoredTrack(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String description, GenomeFactory.Assembly assembly, int cellLine) {
 
         if (starts != null) {
             intervalsStart = new long[starts.size()];
@@ -151,7 +151,7 @@ public class ScoredTrack extends Track {
     }
 
     @Override
-    public CellLine getCellLine() {
+    public int getCellLine() {
         return this.cellLine;
     }
 

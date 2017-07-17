@@ -19,10 +19,10 @@ public class StrandTrack extends Track{
     private final char[] strand; //should only contain  - + o  (o for both strands)
     private final String name;
     private final GenomeFactory.Assembly assembly;
-    private final CellLine cellLine;
+    private final int cellLine;
     private final String description;
 
-    StrandTrack(List<Long> starts, List<Long> ends, List<Character> strand, String name, String description, GenomeFactory.Assembly assembly, CellLine cellLine) {
+    StrandTrack(List<Long> starts, List<Long> ends, List<Character> strand, String name, String description, GenomeFactory.Assembly assembly, int cellLine) {
 
         if (starts != null) {
             intervalsStart = new long[starts.size()];
@@ -55,7 +55,7 @@ public class StrandTrack extends Track{
     }
 
 
-    StrandTrack(long[] starts, long[] ends, char[] strand, String name, String description, GenomeFactory.Assembly assembly, CellLine cellLine) {
+    StrandTrack(long[] starts, long[] ends, char[] strand, String name, String description, GenomeFactory.Assembly assembly, int cellLine) {
 
         if (starts != null) {
             this.intervalsStart = starts;
@@ -149,7 +149,7 @@ public class StrandTrack extends Track{
     }
 
     @Override
-    public CellLine getCellLine() {
+    public int getCellLine() {
         return this.cellLine;
     }
 
