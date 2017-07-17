@@ -10,18 +10,20 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
+ * Class for cell line names.
+ * The Class creates a list of cellline names together with an id.
+ * The id is used through the application, however the names have to be unique, too.
+ *
  * Created by menzel on 7/17/17.
  */
 public class CellLine {
     private static CellLine instance;
-    private Map<String, Integer> names;
+    private Map<String, Integer> names; // all cell line names
     private Integer nextID = 0;
 
     private CellLine(){
         names = new HashMap<>();
-
         names.put("none", -1);
-
         load();
     }
 
@@ -32,7 +34,7 @@ public class CellLine {
     }
 
     /**
-     *
+     * loads the cells file
      */
     private void load() {
 
@@ -51,9 +53,10 @@ public class CellLine {
 
 
     /**
+     * Returns the cell line id of a given cellline name
      *
-     * @param cellline
-     * @return
+     * @param cellline - name of the cell line
+     * @return id of the given cell line
      */
     public int valueOf(String cellline) {
         if(this.names.containsKey(cellline)){
@@ -63,6 +66,11 @@ public class CellLine {
         throw new RuntimeException("No known Cellline with the name " + cellline);
     }
 
+    /**
+     * Returns all known cell lines
+     *
+     * @return list of cell lines as Strings
+     */
     public List<String> getCelllines() {
         return names.keySet().stream().sorted().collect(Collectors.toList());
     }
