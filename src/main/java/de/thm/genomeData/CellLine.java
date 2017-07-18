@@ -1,13 +1,13 @@
 package de.thm.genomeData;
 
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.*;
 
 /**
  * Class for cell line names.
@@ -18,12 +18,11 @@ import java.util.stream.Stream;
  */
 public class CellLine {
     private static CellLine instance;
-    private Map<String, Integer> names; // all cell line names
-    private Integer nextID = 0;
+    private SortedMap<String, List<String>> names; // all cell line names
 
     private CellLine(){
-        names = new HashMap<>();
-        names.put("none", -1);
+        names = new TreeMap<>();
+        names.put("none", null);
         load();
     }
 
@@ -38,14 +37,29 @@ public class CellLine {
      */
     private void load() {
 
-        try (Stream<String> stream = Files.lines(new File("cells").toPath())) {
+        try {
+            List<String> lines = Files.readAllLines(new File("cells").toPath());
 
-            stream.forEach(line -> {
-                if(line.trim().startsWith("\"name\"")){
-                    String name = line.split(":")[1].split("\"")[1];
-                    this.names.put(name, nextID++);
+            JSONObject all = new JSONObject(StringUtils.join(lines, ""));
+            JSONArray cellines = all.getJSONArray("celllines");
+
+            for(int i = 0; i < cellines.length(); i++){
+
+                if(cellines.getJSONObject(i).has("sub")){
+                    JSONArray sublines = cellines.getJSONObject(i).getJSONArray("sub");
+                    List<String> subnames = new ArrayList<>();
+
+                    for(int j = 0; j < sublines.length(); j++)  //add subnames
+                        subnames.add(sublines.getJSONObject(j).getString("name"));
+
+                    names.put(cellines.getJSONObject(i).getString("name"), subnames);
+
+
+                } else {
+                    names.put(cellines.getJSONObject(i).getString("name"), null);
                 }
-            });
+
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -59,8 +73,15 @@ public class CellLine {
      * @return id of the given cell line
      */
     public int valueOf(String cellline) {
-        if(this.names.containsKey(cellline)){
-            return this.names.get(cellline);
+        for(String key: names.keySet()){
+
+            if(key.equals(cellline))
+                return key.hashCode();
+
+            if(names.get(key) != null) //if there is a sublist
+                for(String inner: names.get(key))
+                    if (inner.equals(cellline))
+                        return inner.hashCode();
         }
 
         throw new RuntimeException("No known Cellline with the name " + cellline);
@@ -71,7 +92,7 @@ public class CellLine {
      *
      * @return list of cell lines as Strings
      */
-    public List<String> getCelllines() {
-        return names.keySet().stream().sorted().collect(Collectors.toList());
+    public Map<String, List<String>> getCelllines() {
+        return names;
     }
 }

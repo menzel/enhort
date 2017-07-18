@@ -24,7 +24,7 @@ public final class ResultCollector implements Serializable{
 
     private final List<TestResult> results;
     private final Sites backgroundSites;
-    private final List<String> knownCelllines;
+    private final Map<String, List<String>> knownCelllines;
     private List<String> knownPackages; //keeps a list of all known packages for the gui to display
     private Logo logo;
     private Logo other_logo;
@@ -391,7 +391,7 @@ public final class ResultCollector implements Serializable{
         return hotspots;
     }
 
-    public List<String> getKnownCelllines() {
+    public Map<String, List<String>> getKnownCelllines() {
         return this.knownCelllines;
     }
 }
