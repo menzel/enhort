@@ -3,7 +3,6 @@
       xmlns="http://www.w3.org/1999/xhtml">
 
 
-
   <body>
       <div th:fragment="celllines">
 
@@ -17,12 +16,50 @@
               </div>
               <div class="modal-body">
 
-                  <table>
-                      <th:block th:each="cellline: ${celllines}">
-                          <td th:text="${cellline}"></td>
-                          <td><input type="checkbox"/></td>
-                      </th:block>
-                  </table>
+                <!--  code from http://experiments.wemakesites.net/css3-treeview-with-multiple-node-selection.html -->
+                <div class="acidjs-css3-treeview">
+                        <input type="checkbox" id="cb_none" checked="checked" /><label>
+                        <input type="checkbox" checked="checked"  /><span></span></label>
+                        <label for="cb_none">Not specified</label>
+
+
+                    <li>
+                        <input type="checkbox" id="cb_all" checked="checked" /><label>
+                        <input type="checkbox" /><span></span></label>
+                        <label for="cb_all">Specific</label>
+
+                        <ul>
+                            <th:block th:each="cellline: ${celllines}">
+                                <li>
+                                    <th:block th:if="${ not #lists.isEmpty(cellline.value)}">
+                                        <input type="checkbox" th:id="'cb_' + *{#strings.replace(cellline.key, ' ', '_')}"/> <!-- Collapse triangle -->
+                                        <label><input type="checkbox" /><span></span></label>
+                                        <label th:for="'cb_' + *{#strings.replace(cellline.key, ' ', '_')}" th:text="${cellline.key}"></label>
+                                    </th:block>
+
+                                    <th:block th:if="${#lists.isEmpty(cellline.value)}">
+                                        <input type="checkbox" th:id="'cb_' + *{#strings.replace(cellline.key, ' ', '_')}"/> <!-- Collapse triangle -->
+                                        <label><input type="checkbox" /><span></span></label>
+                                        <span th:for="'cb_' + *{#strings.replace(cellline.key, ' ', '_')}" th:text="${cellline.key}"></span>
+                                    </th:block>
+
+                                    <th:block th:if="${ not #lists.isEmpty(cellline.value)}">
+                                        <ul>
+                                        <th:block th:each="inner: ${cellline.value}">
+                                            <li>
+                                                <input type="checkbox" th:id="'cb_' + ${#strings.replace(inner, ' ', '_')}"/> <!-- Collapse triangle -->
+                                                <label><input type="checkbox" /><span></span></label>
+                                                <label th:for="'cb_' + *{#strings.replace(inner, ' ', '_')}" th:text="${inner}"></label>
+                                            </li>
+                                        </th:block>
+                                        </ul>
+                                    </th:block>
+                                </li>
+                            </th:block>
+                        </ul>
+                    </li>
+                </div>
+
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -30,6 +67,21 @@
             </div>
           </div>
         </div>
+
+
+      <script>
+          $(".acidjs-css3-treeview").delegate("label input:checkbox", "change", function() {
+              var
+                  checkbox = $(this),
+                  nestedList = checkbox.parent().next().next(),
+                  selectNestedListCheckbox = nestedList.find("label:not([for]) input:checkbox");
+
+              if(checkbox.is(":checked")) {
+                  return selectNestedListCheckbox.prop("checked", true);
+              }
+              selectNestedListCheckbox.prop("checked", false);
+          });
+      </script>
 
       </div>
 
