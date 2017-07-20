@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 public final class InterfaceCommand {
     private List<String> covariants; //list of ids of tracks that are used as covariant
     private List<String> packageNames; // list of packages that will be used in the intersect run
+    private List<String> celllines; // list of celllines used
     private int positionCount; //count of user data positons
     private int minBg; //minimum of expected background positions
     private String originalFilename; // filename of the file the user uploaded
@@ -162,5 +163,13 @@ public final class InterfaceCommand {
 
     public void setShowall(boolean showall) {
         this.showall = showall;
+    }
+
+    public List<String> getCelllines() {
+        return celllines;
+    }
+
+    public void setCelllines(List<String> celllines) {
+        this.celllines = celllines;
     }
 }

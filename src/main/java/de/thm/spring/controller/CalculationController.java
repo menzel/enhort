@@ -314,7 +314,7 @@ public class CalculationController {
         Session currentSession = sessionsControll.getSession(httpSession.getId());
         UserData data = currentSession.getSites();
 
-        if(!command.getAssembly().equals(data.getAssembly())) { // if the user changed the assembly
+        if(!command.getAssembly().equals(data.getAssembly().name())) { // if the user changed the assembly
             Path file = currentSession.getFile(); //reload the file
             data = new UserData(GenomeFactory.Assembly.valueOf(command.getAssembly()), file);
         }

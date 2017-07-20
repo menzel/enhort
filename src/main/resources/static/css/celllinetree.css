@@ -37,7 +37,7 @@
     line-height: 13px;
 }
 
-.acidjs-css3-treeview ul li span {
+.pad {
     padding-left: 13px;
 }
 
@@ -114,9 +114,9 @@
     opacity: .50;
 }
 
-.acidjs-css3-treeview label input:checked + span::before
+.acidjs-css3-treeview label input[type="checkbox"]:checked ~ span::before
 {
-    content: "\2714";
+    content: "\2714"; /* Checkmark */
     box-shadow: 0 0 2px rgba(0, 0, 0, .25) inset;
     opacity: 1;
 }

@@ -18,14 +18,23 @@
 
                 <!--  code from http://experiments.wemakesites.net/css3-treeview-with-multiple-node-selection.html -->
                 <div class="acidjs-css3-treeview">
-                        <input type="checkbox" id="cb_none" checked="checked" /><label>
-                        <input type="checkbox" checked="checked"  /><span></span></label>
-                        <label for="cb_none">Not specified</label>
-
+                    <ul>
 
                     <li>
-                        <input type="checkbox" id="cb_all" checked="checked" /><label>
-                        <input type="checkbox" /><span></span></label>
+                        <input type="checkbox" id="cb_none"/>
+                        <label>
+                            <input type="checkbox" checked="checked"/>
+                        <span></span>
+                        </label>
+                        <label for="cb_none">Not specified</label>
+                    </li>
+
+                    <li>
+                        <input type="checkbox" id="cb_all" checked="checked"/>
+                        <label>
+                            <input type="checkbox" form="covariate_form" th:field="*{interfaceCommand.celllines}" th:value="${'all'}"/>
+                            <span></span>
+                        </label>
                         <label for="cb_all">Specific</label>
 
                         <ul>
@@ -33,14 +42,14 @@
                                 <li>
                                     <th:block th:if="${ not #lists.isEmpty(cellline.value)}">
                                         <input type="checkbox" th:id="'cb_' + *{#strings.replace(cellline.key, ' ', '_')}"/> <!-- Collapse triangle -->
-                                        <label><input type="checkbox" /><span></span></label>
+                                        <label><input type="checkbox" form="covariate_form" th:field="*{interfaceCommand.celllines}" th:value="*{#strings.replace(cellline.key, ' ', '_')}"/><span></span></label>
                                         <label th:for="'cb_' + *{#strings.replace(cellline.key, ' ', '_')}" th:text="${cellline.key}"></label>
                                     </th:block>
 
                                     <th:block th:if="${#lists.isEmpty(cellline.value)}">
                                         <input type="checkbox" th:id="'cb_' + *{#strings.replace(cellline.key, ' ', '_')}"/> <!-- Collapse triangle -->
-                                        <label><input type="checkbox" /><span></span></label>
-                                        <span th:for="'cb_' + *{#strings.replace(cellline.key, ' ', '_')}" th:text="${cellline.key}"></span>
+                                        <label><input type="checkbox" form="covariate_form" th:field="*{interfaceCommand.celllines}" th:value="*{#strings.replace(cellline.key, ' ', '_')}"/><span></span></label>
+                                        <span th:for="'cb_' + *{#strings.replace(cellline.key, ' ', '_')}" th:text="${cellline.key} " class="pad"></span>
                                     </th:block>
 
                                     <th:block th:if="${ not #lists.isEmpty(cellline.value)}">
@@ -48,8 +57,8 @@
                                         <th:block th:each="inner: ${cellline.value}">
                                             <li>
                                                 <input type="checkbox" th:id="'cb_' + ${#strings.replace(inner, ' ', '_')}"/> <!-- Collapse triangle -->
-                                                <label><input type="checkbox" /><span></span></label>
-                                                <label th:for="'cb_' + *{#strings.replace(inner, ' ', '_')}" th:text="${inner}"></label>
+                                                <label><input type="checkbox" form="covariate_form" th:field="*{interfaceCommand.celllines}" th:value="*{#strings.replace(inner, ' ', '_')}"/><span></span></label>
+                                                <span th:for="'cb_' + *{#strings.replace(inner, ' ', '_')}" th:text="${inner}" class="pad"></span>
                                             </li>
                                         </th:block>
                                         </ul>
@@ -58,6 +67,7 @@
                             </th:block>
                         </ul>
                     </li>
+                    </ul>
                 </div>
 
               </div>
