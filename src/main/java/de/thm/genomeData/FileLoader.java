@@ -124,7 +124,7 @@ final class FileLoader implements Runnable {
         try (Stream<String> lines = Files.lines(file.toPath(), StandardCharsets.UTF_8)) {
             Iterator<String> it = lines.iterator();
 
-            Pattern header = Pattern.compile("track fullname=.(.*). description=.(.*).( cellline=.(.*).)?"); //TODO dots (.) are "
+            Pattern header = Pattern.compile("track fullname=\"([\\w\\s]+)\"\\s+description=\"([\\w\\s]+)\"(\\s+cellline=.(.*).)?");
             Pattern entry = Pattern.compile("chr(\\d{1,2}|X|Y)\\s(\\d*)\\s(\\d*).*");
 
             String lastChr = "";
@@ -209,10 +209,9 @@ final class FileLoader implements Runnable {
                         name = header_matcher.group(1);
                         description = header_matcher.group(2);
 
-                        if (header_matcher.group(3) != null)
-                            cellline = header_matcher.group(3);
+                        if (header_matcher.group(4) != null)
+                            cellline = header_matcher.group(4);
                     }
-
                 }
             }
 
