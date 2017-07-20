@@ -1,5 +1,6 @@
 package de.thm.genomeData;
 
+import de.thm.run.BackendController;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -8,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Class for cell line names.
@@ -64,7 +66,18 @@ public class CellLine {
             e.printStackTrace();
         }
 
-        //TODO check uniqueness in DEBUG mode
+        if(BackendController.runlevel == BackendController.Runlevel.DEBUG) {
+            List<String> allNames = new ArrayList<>();
+            allNames.addAll(names.keySet().stream().filter(key -> names.get(key) == null).collect(Collectors.toList()));
+            names.keySet().stream().filter(key -> names.get(key) != null).forEach(key -> allNames.addAll(names.get(key)));
+
+            if (allNames.size() != allNames.stream().distinct().count()) {
+                System.err.println("Cellline: There are duplicate values in the cell line names list and sublists:");
+
+                Set<String> set = new HashSet<>();
+                allNames.stream().filter(key -> !set.add(key)).forEach(System.err::println);
+            }
+        }
     }
 
 
