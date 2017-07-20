@@ -90,11 +90,13 @@ public final class TrackFactory {
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Expression, "Expression scores", GenomeFactory.Assembly.hg19));
             this.tracks.addAll(tmp);
 
+            if (!System.getenv("HOME").contains("menzel")) {
+                //only load all tracks when running on the big server
 
 
 
                 tmp = loadTracks(basePath.resolve("iPS"), Type.inout, GenomeFactory.Assembly.hg19);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.iPs, "iPS Cell Stuff", GenomeFactory.Assembly.hg19));
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.iPS, "iPS Cell Stuff", GenomeFactory.Assembly.hg19));
                 this.tracks.addAll(tmp);
 
                 tmp = loadTracks(basePath.resolve("repeats_by_family"), Type.inout, GenomeFactory.Assembly.hg19);
@@ -105,8 +107,6 @@ public final class TrackFactory {
                 this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_class, "Repeats by class", GenomeFactory.Assembly.hg19));
                 this.tracks.addAll(tmp);
 
-            if (!System.getenv("HOME").contains("menzel")) {
-                //only load all tracks when running on the big server
 
                 //tracks.stream().map(s -> s.getName()).forEach(System.out::println);
 
