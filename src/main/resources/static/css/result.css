@@ -130,6 +130,12 @@ label{
     float: left;
 }
 
+#italic {
+    font-style: italic;
+    font-size: 8pt;
+}
+
+
 /*
 * -- sequence logo
 */
@@ -173,9 +179,4 @@ label{
     margin-top: 170px;
     margin-left: inherit;
     padding: 5px
-}
-
-#italic {
-    font-style: italic;
-    font-size: 8pt;
 }
