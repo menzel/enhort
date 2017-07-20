@@ -175,3 +175,7 @@ label{
     padding: 5px
 }
 
+#italic {
+    font-style: italic;
+    font-size: 8pt;
+}

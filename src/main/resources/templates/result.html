@@ -44,6 +44,9 @@
                 <button class="btn btn-default" data-toggle="modal" data-target="#celllines">
                         Cell Lines
                 </button>
+                <th:block th:if="${not #lists.isEmpty(interfaceCommand.celllines)}">
+                    <span id="italic">Cell Line filter active</span>
+                </th:block>
             </div>
 
 
