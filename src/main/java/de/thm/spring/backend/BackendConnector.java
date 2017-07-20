@@ -1,6 +1,7 @@
 package de.thm.spring.backend;
 
 import de.thm.exception.CovariantsException;
+import de.thm.exception.NoTracksLeftException;
 import de.thm.genomeData.Track;
 import de.thm.spring.command.BackendCommand;
 import de.thm.spring.command.ExpressionCommand;
@@ -91,7 +92,7 @@ public final class BackendConnector implements Runnable {
      * @return Results of the executed commnads
      * @throws CovariantsException - if too many or impossible combination of covariants is given
      */
-    public ResultCollector runAnalysis(BackendCommand command) throws CovariantsException, SocketTimeoutException {
+    public ResultCollector runAnalysis(BackendCommand command) throws CovariantsException, SocketTimeoutException, NoTracksLeftException {
 
         if (isConnected) try {
 
@@ -110,6 +111,9 @@ public final class BackendConnector implements Runnable {
 
                 if (answer instanceof CovariantsException)
                     throw (CovariantsException) answer;
+                if (answer instanceof NoTracksLeftException)
+                    throw (NoTracksLeftException) answer;
+
 
                 System.out.println("[Enhort Webinterface]: got exception: " + ((Exception) answer).getMessage());
 

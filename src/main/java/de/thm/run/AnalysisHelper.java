@@ -3,6 +3,7 @@ package de.thm.run;
 import de.thm.backgroundModel.BackgroundModelFactory;
 import de.thm.calc.CalcCaller;
 import de.thm.exception.CovariantsException;
+import de.thm.exception.NoTracksLeftException;
 import de.thm.exception.TrackTypeNotAllowedExcpetion;
 import de.thm.genomeData.CellLine;
 import de.thm.genomeData.Track;
@@ -62,7 +63,7 @@ class AnalysisHelper {
      * @return Collection of Results inside a ResultCollector object
      * @throws CovariantsException - if too many covariants are supplied or an impossible combination
      */
-    private ResultCollector runAnalysis(Sites sites, BackendCommand cmd) throws CovariantsException {
+    private ResultCollector runAnalysis(Sites sites, BackendCommand cmd) throws CovariantsException, NoTracksLeftException {
         List<Track> covariants = getCovariants(cmd.getCovariants(), cmd.getAssembly());
         List<Track> runTracks;
         TrackFactory trackFactory = TrackFactory.getInstance();
@@ -106,17 +107,19 @@ class AnalysisHelper {
             //check and apply custom tracks
             runTracks.addAll(cmd.getCustomTracks());
 
-            if(runTracks.isEmpty())
-                System.err.println("TrackFactory did not provide any tracks for given packages (" + Arrays.toString(cmd.getPackageNames().toArray()) + ") in AnalysisHelper");
+            if(runTracks.isEmpty()) {
+                if(BackendController.runlevel == BackendController.Runlevel.DEBUG)
+                    System.err.println("TrackFactory did not provide any tracks for given packages (" + Arrays.toString(cmd.getPackageNames().toArray()) + ") in AnalysisHelper");
+                throw new NoTracksLeftException("There are no tracks available for this genome version and cell line");
+            }
         }
 
         CalcCaller multi = new CalcCaller();
         return multi.execute(runTracks, sites, bg, cmd.isCreateLogo());
-
     }
 
 
-    private ResultCollector runAnalysis(Sites sites, Sites sitesBg, BackendCommand cmd) {
+    private ResultCollector runAnalysis(Sites sites, Sites sitesBg, BackendCommand cmd) throws Exception{
 
         List<Track> runTracks;
         TrackFactory trackFactory = TrackFactory.getInstance();
@@ -133,8 +136,10 @@ class AnalysisHelper {
             //check and apply custom tracks
             runTracks.addAll(cmd.getCustomTracks());
 
-            if(runTracks.isEmpty())
+            if(runTracks.isEmpty()){
                 System.err.println("TrackFactory did not provide any tracks for given packages (" + Arrays.toString(cmd.getPackageNames().toArray()) + ") in AnalysisHelper");
+                throw new NoTracksLeftException("There are no tracks available for this genome version and cell line" );
+            }
         }
 
         CalcCaller multi = new CalcCaller();
@@ -143,7 +148,7 @@ class AnalysisHelper {
 
 
 
-    ResultCollector runAnalysis(BackendCommand command) throws CovariantsException {
+    ResultCollector runAnalysis(BackendCommand command) throws Exception {
         if(command.getSitesBg() != null){
             return runAnalysis(command.getSites(), command.getSitesBg(), command);
         }

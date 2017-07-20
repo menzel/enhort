@@ -1,6 +1,7 @@
 package de.thm.run;
 
 import de.thm.exception.CovariantsException;
+import de.thm.exception.NoTracksLeftException;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
 import de.thm.genomeData.Tracks;
@@ -218,7 +219,7 @@ public final class BackendController {
                     long diff = System.currentTimeMillis() - time;
                     System.out.println(prefix + "answered request " + command.hashCode() + " in " +  diff + " mils");
 
-                }catch (CovariantsException e){ //if a covariant exception is thrown return it as answer
+                }catch (CovariantsException | NoTracksLeftException e){ //if a covariant exception is thrown return it as answer
                     try {
                         outStream.writeObject(e);
 
