@@ -108,10 +108,10 @@ public class CellLine {
     public String valueOf(int id) {
 
         for(String key: names.keySet()) {
-            if (names.get(key) == null) // if there is no subgroup
-                if(key.hashCode() == id)
+            if (names.get(key) == null) { // if there is no subgroup
+                if (key.hashCode() == id)
                     return key;
-            else
+            } else if(names.get(key) != null)
                 for (String sub : names.get(key)) //iterate through subgroup
                     if (sub.hashCode() == id)
                         return sub;
