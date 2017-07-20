@@ -40,7 +40,7 @@ public final class BackendCommand implements Serializable, Command{
         this.logoCovariate = false;
         this.createLogo = false;
         this.sitesBg = null;
-        this.celllines = null;
+        this.celllines = new ArrayList<>();
     }
 
     public BackendCommand(Sites sites, Sites sitesBg) {
@@ -55,7 +55,7 @@ public final class BackendCommand implements Serializable, Command{
         this.assembly = sites.getAssembly();
         this.logoCovariate = false;
         this.createLogo = false;
-        this.celllines = null;
+        this.celllines = new ArrayList<>();
     }
 
     public BackendCommand(InterfaceCommand command) {

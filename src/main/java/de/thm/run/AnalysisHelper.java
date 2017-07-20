@@ -4,6 +4,7 @@ import de.thm.backgroundModel.BackgroundModelFactory;
 import de.thm.calc.CalcCaller;
 import de.thm.exception.CovariantsException;
 import de.thm.exception.TrackTypeNotAllowedExcpetion;
+import de.thm.genomeData.CellLine;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
 import de.thm.genomeData.TrackPackage;
@@ -18,6 +19,7 @@ import de.thm.stat.ResultCollector;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Wrapper for the spring gui to call the different intersects and background models.
@@ -84,14 +86,21 @@ class AnalysisHelper {
             }
         }
 
+        List<String> celllines = cmd.getCelllines();
+        CellLine cLine = CellLine.getInstance();
 
         if(cmd.getPackageNames().isEmpty()) {
             runTracks = trackFactory.getTracksByPackage(TrackPackage.PackageName.Basic, cmd.getAssembly());
         } else {
             runTracks =  new ArrayList<>();
 
+            /* Cellline filter:  If the cellline list contains no elements (which means none but the first checkbox in the cellline dialog was
+             selected) there is no cellline filter. If there is a cellline name, all tracks are filtered */
+
             for(String packName: cmd.getPackageNames()){
-                runTracks.addAll(trackFactory.getTracksByPackage(packName, cmd.getAssembly()));
+                runTracks.addAll(trackFactory.getTracksByPackage(packName, cmd.getAssembly()).stream()
+                        .filter(t -> (celllines.size() > 0 && celllines.contains(cLine.valueOf(t.getCellLine()))))
+                        .collect(Collectors.toList()));
             }
 
             //check and apply custom tracks
