@@ -18,18 +18,8 @@
 
                 <!--  code from http://experiments.wemakesites.net/css3-treeview-with-multiple-node-selection.html -->
                 <div class="acidjs-css3-treeview">
-                    <ul>
-
-                    <li>
-                        <input type="checkbox" id="cb_none"/>
-                        <label>
-                            <input type="checkbox" checked="checked"/>
-                        <span></span>
-                        </label>
-                        <label for="cb_none">Not specified</label>
-                    </li>
-
-                    <li>
+                   <ul>
+                   <li>
                         <input type="checkbox" id="cb_all" checked="checked"/>
                         <label>
                             <input type="checkbox" form="covariate_form" th:field="*{interfaceCommand.celllines}" th:value="${'all'}"/>
