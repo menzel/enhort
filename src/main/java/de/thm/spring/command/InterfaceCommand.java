@@ -166,7 +166,7 @@ public final class InterfaceCommand {
     }
 
     public List<String> getCelllines() {
-        return celllines;
+        return (celllines == null)? new ArrayList<>(): celllines;
     }
 
     public void setCelllines(List<String> celllines) {
