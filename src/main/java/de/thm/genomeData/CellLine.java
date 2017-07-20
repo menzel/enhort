@@ -95,4 +95,18 @@ public class CellLine {
     public Map<String, List<String>> getCelllines() {
         return names;
     }
+
+    /**
+     * Returns the name for a given cellline id
+     *
+     * @param id cellline id
+     * @return name of the cellline with the id id, or error Message
+     *
+     */
+    public String valueOf(int id) {
+        return names.keySet().stream()
+                .filter(key -> key.hashCode() == id)
+                .findFirst()
+                .orElse("Error: unknown cell line name in CellLine.valueOf");
+    }
 }
