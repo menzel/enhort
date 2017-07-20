@@ -63,6 +63,8 @@ public class CellLine {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        //TODO check uniqueness in DEBUG mode
     }
 
 
@@ -97,16 +99,24 @@ public class CellLine {
     }
 
     /**
-     * Returns the name for a given cellline id
+     * Returns the name for a given cellline id.
      *
      * @param id cellline id
      * @return name of the cellline with the id id, or error Message
      *
      */
     public String valueOf(int id) {
-        return names.keySet().stream()
-                .filter(key -> key.hashCode() == id)
-                .findFirst()
-                .orElse("Error: unknown cell line name in CellLine.valueOf");
+
+        for(String key: names.keySet()) {
+            if (names.get(key) == null) // if there is no subgroup
+                if(key.hashCode() == id)
+                    return key;
+            else
+                for (String sub : names.get(key)) //iterate through subgroup
+                    if (sub.hashCode() == id)
+                        return sub;
+        }
+
+        throw new RuntimeException("No cellline with id " + id);
     }
 }
