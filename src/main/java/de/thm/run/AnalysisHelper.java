@@ -99,7 +99,7 @@ class AnalysisHelper {
 
             for(String packName: cmd.getPackageNames()){
                 runTracks.addAll(trackFactory.getTracksByPackage(packName, cmd.getAssembly()).stream()
-                        .filter(t -> (celllines.size() > 0 && celllines.contains(cLine.valueOf(t.getCellLine()))))
+                        .filter(t -> (celllines.size() == 0 || celllines.contains(cLine.valueOf(t.getCellLine()))))
                         .collect(Collectors.toList()));
             }
 
