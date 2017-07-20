@@ -46,6 +46,7 @@
                 </button>
                 <th:block th:if="${not #lists.isEmpty(interfaceCommand.celllines)}">
                     <span id="italic">Cell Line filter active</span>
+                    <span style="background-color: #337ab7" class="badge" th:text="${#lists.size(interfaceCommand.celllines)}"></span>
                 </th:block>
             </div>
 
