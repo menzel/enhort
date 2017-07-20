@@ -25,7 +25,7 @@
                             <input type="checkbox" form="covariate_form" th:field="*{interfaceCommand.celllines}" th:value="${'all'}"/>
                             <span></span>
                         </label>
-                        <label for="cb_all">Specific</label>
+                        <label for="cb_all">(De-)Select all</label>
 
                         <ul>
                             <th:block th:each="cellline: ${celllines}">
