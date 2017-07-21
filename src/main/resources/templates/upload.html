@@ -6,19 +6,21 @@
       <div th:fragment="upload">
       <div class="box">
         <h4> Upload new file </h4>
-        <form method="POST" enctype="multipart/form-data" action="/upload">
+        <form method="POST" enctype="multipart/form-data" action="/upload" id="uploadform">
           <div>
             <input type="file" name="file" id="file" class="btn"/>
           </div>
-            <th:block th:if="${ran == null}">
-                <button type="submit" class="btn btn-primary" id="upload_btn">Upload</button>
-
-            </th:block>
-            <th:block th:if="${ran}">
-                <button type="submit" class="btn btn-default" id="upload_btn">Upload</button>
-            </th:block>
+          <button type="submit" class="btn btn-primary" id="upload_btn">Upload</button>
         </form>
       </div>
+
+      <!-- auto start upload -->
+      <script>
+        document.getElementById("file").onchange = function() {
+            document.getElementById("upload_btn").disabled = true;
+            document.getElementById("uploadform").submit();
+        };
+      </script>
       </div>
 
   </body>
