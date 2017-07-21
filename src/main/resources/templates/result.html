@@ -29,87 +29,80 @@
 
     <th:block th:if="${ran}">
 
-            <div class="box">
-                <h4>Assembly</h4>
-                <select id="assembly" class="form-control" name="assembly" form="covariate_form">
-                    <option th:value="${interfaceCommand.assembly}" th:text="${interfaceCommand.assembly}"></option>
-                    <option value="hg18">hg18</option>
-                    <option value="hg19">hg19</option>
-                    <option value="hg38">hg38</option>
-                </select>
-            </div>
+        <div class="box">
+            <h4>Assembly</h4>
+            <select id="assembly" class="form-control" name="assembly" form="covariate_form">
+                <option th:value="${interfaceCommand.assembly}" th:text="${interfaceCommand.assembly}"></option>
+                <option value="hg18">hg18</option>
+                <option value="hg19">hg19</option>
+                <option value="hg38">hg38</option>
+            </select>
+        </div>
 
 
-            <div class="box">
-                <button class="btn btn-default" data-toggle="modal" data-target="#celllines">
-                        Cell Lines
-                </button>
-                <th:block th:if="${not #lists.isEmpty(interfaceCommand.celllines)}">
-                    <span id="italic">Cell Line filter active</span>
-                    <span style="background-color: #337ab7" class="badge" th:text="${#lists.size(interfaceCommand.celllines)}"></span>
-                </th:block>
-            </div>
+        <div class="box">
+            <button class="btn btn-default" data-toggle="modal" data-target="#celllines">
+                    Cell Lines
+            </button>
+            <th:block th:if="${not #lists.isEmpty(interfaceCommand.celllines)}">
+                <span id="italic">Cell Line filter active</span>
+                <span style="background-color: #337ab7" class="badge" th:text="${#lists.size(interfaceCommand.celllines)}"></span>
+            </th:block>
+        </div>
 
 
 
-    <div class="box">
-        <h4> Track packages </h4>
+        <div class="box">
+            <h4> Track packages </h4>
 
-        <label><input type="checkbox" th:field="*{interfaceCommand.createLogo}" th:value="${interfaceCommand.createLogo}"
-                      form="covariate_form"/> Sequence Logo</label>
+            <label><input type="checkbox" th:field="*{interfaceCommand.createLogo}" th:value="${interfaceCommand.createLogo}"
+                          form="covariate_form"/> Sequence Logo</label>
 
-        <th:block th:each="packName: ${trackPackages}">
-            <div class="checkbox">
-                <label><input type="checkbox" th:field="*{interfaceCommand.packageNames}" th:value="${packName}"
-                              form="covariate_form" checked="checked" th:text="${packName}"/></label>
+            <th:block th:each="packName: ${trackPackages}">
+                <div class="checkbox">
+                    <label><input type="checkbox" th:field="*{interfaceCommand.packageNames}" th:value="${packName}"
+                                  form="covariate_form" checked="checked" th:text="${packName}"/></label>
 
-            </div>
-        </th:block>
+                </div>
+            </th:block>
 
-        <th:block th:if="${not #lists.isEmpty(customTracks)}">
-            <h4> Custom tracks </h4>
-        </th:block>
+            <th:block th:if="${not #lists.isEmpty(customTracks)}">
+                <h4> Custom tracks </h4>
+            </th:block>
 
-        <th:block th:each="track: ${customTracks}">
-            <div class="checkbox">
-                <span th:text="${track.name}"></span>
-            </div>
-        </th:block>
+            <th:block th:each="track: ${customTracks}">
+                <div class="checkbox">
+                    <span th:text="${track.name}"></span>
+                </div>
+            </th:block>
 
-    </div>
+        </div>
 
-    <h4>Information</h4>
-
-
-    <div class="fileinfo">
-        <p th:text="${'Current File: ' + interfaceCommand.originalFilename}"></p>
-        <span>Positions</span><span class="file_positions" th:text="${interfaceCommand.positionCount}"></span>
-    </div>
+        <h4>Information</h4>
 
 
-    <div class="fileinfo">
-        <p>
-            <a href="export/bg"><span>Bg Positions:</span></a> <input type="number" step="200" th:value="${bgCount}"
-                                                                      form="covariate_form"
-                                                                      th:field="*{interfaceCommand.minBg}"/>
-        </p>
-        <!--
-        <p>
-            <span>Influence:</span> <input type="number" step="0.1" th:value="${interfaceCommand.influence}"
-                                           form="covariate_form" style="margin-left: 28px"
-                                           th:field="*{interfaceCommand.influence}"/>
-        </p>
-                                           -->
-    </div>
+        <div class="fileinfo">
+            <p th:text="${'Current File: ' + interfaceCommand.originalFilename}"></p>
+            <span>Positions</span><span class="file_positions" th:text="${interfaceCommand.positionCount}"></span>
+        </div>
 
-    </th:block>
 
-    <th:block th:if="${ran == null}">
-        <button id="rerun" type="submit" class="btn btn-default" form="covariate_form" disabled="disabled">Run again
-        </button>
-    </th:block>
-    <th:block th:if="${ran}">
-        <button id="rerun" type="submit" class="btn btn-primary" form="covariate_form">Run again</button>
+        <div class="fileinfo">
+            <p>
+                <a href="export/bg"><span>Bg Positions:</span></a> <input type="number" step="200" th:value="${bgCount}"
+                                                                          form="covariate_form"
+                                                                          th:field="*{interfaceCommand.minBg}"/>
+            </p>
+            <!--
+            <p>
+                <span>Influence:</span> <input type="number" step="0.1" th:value="${interfaceCommand.influence}"
+                                               form="covariate_form" style="margin-left: 28px"
+                                               th:field="*{interfaceCommand.influence}"/>
+            </p>
+                                               -->
+        </div>
+
+        <button id="rerun" type="submit" onclick="this.disabled=true;this.form.submit();" class="btn btn-primary" form="covariate_form">Run again</button>
     </th:block>
 
 
@@ -499,9 +492,11 @@
     /*<![CDATA[*/
     'use strict';
 
+    if([[${results_named}]] != null) {
 
-    plotNames([[${results_named}]]);
-    plotNames([[${covariants}]]);
+        plotNames([[${results_named}]]);
+        plotNames([[${covariants}]]);
+    }
 
     function plotNames(results) {
         var limit = 0.2; /* Limit for fold change of named track plot */
@@ -579,8 +574,10 @@
     }
 
 
-    plot([[${results_score}]]);
-    plot([[${covariants}]]);
+    if([[${results_score}]] != null) {
+        plot([[${results_score}]]);
+        plot([[${covariants}]]);
+    }
 
     function plot(results) {
         var buttons_s = {};
@@ -649,8 +646,10 @@
 
     /* Sequence logo stuff */
 
-    setSequenceLogo([[${sequencelogo}]], "#sequencelogo");
-    setSequenceLogo([[${sequencelogo2}]], "#sequencelogo2");
+    if([[${sequencelogo}]] != null) {
+        setSequenceLogo([[${sequencelogo}]], "#sequencelogo");
+        setSequenceLogo([[${sequencelogo2}]], "#sequencelogo2");
+    }
 
     function setSequenceLogo(logo, div) {
 
