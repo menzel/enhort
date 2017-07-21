@@ -52,13 +52,13 @@ public class CellLine {
                     List<String> subnames = new ArrayList<>();
 
                     for(int j = 0; j < sublines.length(); j++)  //add subnames
-                        subnames.add(sublines.getJSONObject(j).getString("name"));
+                        subnames.add(sublines.getJSONObject(j).getString("name").replaceAll("[,\\s]+", "_"));
 
-                    names.put(cellines.getJSONObject(i).getString("name"), subnames);
+                    names.put(cellines.getJSONObject(i).getString("name").replaceAll("[,\\s]+", "_"), subnames);
 
 
                 } else {
-                    names.put(cellines.getJSONObject(i).getString("name"), null);
+                    names.put(cellines.getJSONObject(i).getString("name").replaceAll("[,\\s]+", "_"), null);
                 }
 
             }
