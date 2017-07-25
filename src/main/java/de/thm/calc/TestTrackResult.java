@@ -77,5 +77,9 @@ public final class TestTrackResult {
     public Class getType() {
         return getClass();
     }
+
+    public Track getUsedTrack() {
+        return usedInterval;
+    }
 }
 
