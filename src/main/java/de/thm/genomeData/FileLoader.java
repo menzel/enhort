@@ -254,17 +254,17 @@ final class FileLoader implements Runnable {
 
                     for (int i = 0; i < starts.size() - 1; i++)
                         if (starts.get(i) > starts.get(i + 1)) {
-                            System.err.println("Looks like this track is not sorted (yet) " + file.getName());
+                            System.err.println("Looks like this track is not sorted (yet) " + file.getName() + "(" + file.getAbsolutePath() + ")");
                         }
 
                     for (int i = 0; i < starts.size() - 1; i++)
                         if (ends.get(i) > ends.get(i + 1)) {
-                            System.err.println("Looks like this track is not sorted (yet) " + file.getName());
+                            System.err.println("Looks like this track is not sorted (yet) " + file.getName() + "(" + file.getAbsolutePath() + ")");
                         }
 
                     for (int i = 0; i < starts.size(); i++)
                         if (starts.get(i) > ends.get(i))
-                            System.err.println("There is an interval with larger end than start in " + file.getName());
+                            System.err.println("There is an interval with larger end than start in " + file.getName() + "(" + file.getAbsolutePath() + ")");
 
                 }
 
