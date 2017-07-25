@@ -39,6 +39,11 @@ public class WizardController {
 
         model.addAttribute("page", "upload");
 
+        Sessions sessionsControll = Sessions.getInstance();
+        Session currentSession = sessionsControll.getSession(httpSession.getId());
+        currentSession.setSites(null); // reset old session
+
+
         InterfaceCommand command = new InterfaceCommand();
         model.addAttribute("interfaceCommand", command);
 
@@ -103,11 +108,12 @@ public class WizardController {
             model.addAttribute("page", "packages");
             return "wizard";
 
-        } else if(interfaceCommand.getPackageNames().size() > 0) {
+        } else if(interfaceCommand.getPackageNames().size() > 0) { // serve covariates page:
 
             interfaceCommand.setAssembly(currentSession.getSites().getAssembly().toString());
+
             model.addAttribute("interfaceCommand", interfaceCommand);
-            model.addAttribute("tracks", currentSession.getCollector().getResults());
+            model.addAttribute("tracks", currentSession.getCollector().getInOutResults(false));
             model.addAttribute("page", "covariates");
 
             //TODO
