@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 public class AssemblyGuesserTest {
 
     private AssemblyGuesser guesser = new AssemblyGuesser();
-    private String base = "/home/menzel/Desktop/THM/lfba/enhort/testfiles/";
+    private String base = "/home/menzel/Desktop/THM/lfba/enhort/";
 
     @BeforeClass
     public static void setup(){
@@ -32,17 +32,46 @@ public class AssemblyGuesserTest {
     }
 
     @Test
-    public void guess_hg18() throws Exception {
+    public void guess_hg18_other() throws Exception {
 
-        Path path = new File(base + "sb_hg18.bed").toPath();
+        Path path = new File(base + "elAshkar/hg18.mlv_elAshkar.tab").toPath();
         UserData userData = new UserData(GenomeFactory.Assembly.hg38, path);
         assertEquals(GenomeFactory.Assembly.hg18, guesser.guess(userData));
     }
 
     @Test
+    public void guess_hg18_comb() throws Exception {
+
+        Path path = new File(base + "elAshkar/hg18.mlv_comb.bed").toPath();
+        UserData userData = new UserData(GenomeFactory.Assembly.hg38, path);
+        assertEquals(GenomeFactory.Assembly.hg18, guesser.guess(userData));
+    }
+
+
+    @Test
+    public void guess_hg19_other() throws Exception {
+
+        Path path = new File(base + "elAshkar/hg19.mlv_comb.bed").toPath();
+        UserData userData = new UserData(GenomeFactory.Assembly.hg38, path);
+        assertEquals(GenomeFactory.Assembly.hg19, guesser.guess(userData));
+    }
+
+
+
+    @Test
+    public void guess_hg18() throws Exception {
+
+        Path path = new File(base + "testfiles/sb_hg18.bed").toPath();
+        UserData userData = new UserData(GenomeFactory.Assembly.hg38, path);
+        assertEquals(GenomeFactory.Assembly.hg18, guesser.guess(userData));
+    }
+
+
+
+    @Test
     public void guess_hg19() throws Exception {
 
-        Path path = new File(base + "sb_hg19.bed").toPath();
+        Path path = new File(base + "testfiles/sb_hg19.bed").toPath();
         UserData userData = new UserData(GenomeFactory.Assembly.hg38, path);
         assertEquals(GenomeFactory.Assembly.hg19, guesser.guess(userData));
     }
@@ -50,7 +79,7 @@ public class AssemblyGuesserTest {
     @Test
     public void guess_hg38() throws Exception {
 
-        Path path = new File(base + "sb_hg38.bed").toPath();
+        Path path = new File(base + "testfiles/sb_hg38.bed").toPath();
         UserData userData = new UserData(GenomeFactory.Assembly.hg38, path);
         assertEquals(GenomeFactory.Assembly.hg38, guesser.guess(userData));
     }
@@ -58,9 +87,10 @@ public class AssemblyGuesserTest {
     @Test
     public void guess_hg17() throws Exception {
 
-        Path path = new File(base + "sb_hg17.bed").toPath();
+        Path path = new File(base + "testfiles/sb_hg17.bed").toPath();
         UserData userData = new UserData(GenomeFactory.Assembly.hg38, path);
-        //assertEquals(null, guesser.guess(userData));
+        //TODO
+        assertEquals(GenomeFactory.Assembly.hg18, guesser.guess(userData));
     }
 
 }
