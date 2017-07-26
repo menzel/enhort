@@ -4,6 +4,7 @@ package de.thm.spring.controller;
 import de.thm.exception.CovariantsException;
 import de.thm.genomeData.Track;
 import de.thm.genomeData.TrackFactory;
+import de.thm.guess.AssemblyGuesser;
 import de.thm.logo.GenomeFactory;
 import de.thm.logo.Logo;
 import de.thm.misc.ChromosomSizes;
@@ -125,23 +126,16 @@ public class CalculationController {
    @RequestMapping(value = "/upload", method = RequestMethod.GET)
     public String plainView(Model model, InterfaceCommand iCommand, HttpSession httpSession) {
 
-
         Sessions sessionsControll = Sessions.getInstance();
         Session currentSession = sessionsControll.getSession(httpSession.getId());
 
         ResultCollector collector = currentSession.getCollector();
 
         if (collector != null) {
-            Path file = currentSession.getFile();
-            String assembly = iCommand.getAssembly();
-
-            if(assembly == null) assembly = "hg19"; //TODO use last used assembly set by user
-
-            UserData data = new UserData(GenomeFactory.Assembly.valueOf(assembly), file);
 
             List<TestResult> covariants = currentSession.getCovariants();
 
-            setModel(model, collector, data, currentSession.getOriginalFilename());
+            setModel(model, collector, currentSession.getSites(), currentSession.getOriginalFilename());
             model.addAttribute("covariants", covariants);
             model.addAttribute("covariantCount", covariants.size() + (iCommand.getLogoCovariate()? 1:0));
 
@@ -174,9 +168,6 @@ public class CalculationController {
 
         StatisticsCollector stats = StatisticsCollector.getInstance();
 
-        //TODO guess genome Nr
-        GenomeFactory.Assembly assembly = GenomeFactory.Assembly.hg19;
-
         if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
@@ -188,7 +179,7 @@ public class CalculationController {
 
                 Session currentSession = sessionControll.addSession(httpSession.getId(), inputFilepath);
 
-                UserData data = new UserData(assembly, inputFilepath);
+                UserData data = new UserData(AssemblyGuesser.guessAssembly(file),inputFilepath);
 
                 currentSession.setSites(data);
                 BackendCommand command = new BackendCommand(data);
@@ -503,6 +494,7 @@ public class CalculationController {
 
         InterfaceCommand command = new InterfaceCommand();
         command.setPositionCount(data.getPositionCount());
+        command.setAssembly(collector.getAssembly().toString());
 
         //cut off filenames longer than 18 chars:
         filename = filename.length() > 18 ? filename.substring(0, 15) + ".." : filename;

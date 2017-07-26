@@ -25,6 +25,7 @@ public final class ResultCollector implements Serializable{
     private final List<TestResult> results;
     private final Sites backgroundSites;
     private final Map<String, List<String>> knownCelllines;
+    private final GenomeFactory.Assembly assembly;
     private List<String> knownPackages; //keeps a list of all known packages for the gui to display
     private Logo logo;
     private Logo other_logo;
@@ -35,6 +36,7 @@ public final class ResultCollector implements Serializable{
         backgroundSites = bgModel;
         knownPackages = TrackFactory.getInstance().getTrackPackageNames(assembly);
         knownCelllines = CellLine.getInstance().getCelllines();
+        this.assembly = assembly;
     }
 
     public List<TestResult> getScoredResults(boolean showall) {
@@ -393,5 +395,9 @@ public final class ResultCollector implements Serializable{
 
     public Map<String, List<String>> getKnownCelllines() {
         return this.knownCelllines;
+    }
+
+    public GenomeFactory.Assembly getAssembly() {
+        return assembly;
     }
 }
