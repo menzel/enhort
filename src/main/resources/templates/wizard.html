@@ -36,20 +36,7 @@
                             <input type="file" name="file" id="file" class="btn"/>
                         </div>
 
-                        <!-- Assembly -->
-                        I would guess your data is hg19, if not please select the assembly number:
-
-                        <div class="box" id="assemblybox" style="display:none;">
-                            <h4>Assembly</h4>
-                            <select id="assembly" class="form-control" name="assembly">
-                                <option th:value="${interfaceCommand.assembly}"
-                                        th:text="${interfaceCommand.assembly}"></option>
-                                <option value="hg18">hg18</option>
-                                <option value="hg19" selected="selected">hg19</option>
-                                <option value="hg38">hg38</option>
-                            </select>
-                            <button class="btn btn-primary" id="down">Continue</button>
-                        </div>
+                        <button class="btn btn-primary" id="first">Continue</button>
                     </form>
                 </div>
             </th:block>
@@ -62,11 +49,14 @@
 
                     <input style="display: none" type="file" name="file" id="file"/>
 
-                    <button class="btn btn-primary" id="down">Continue</button>
+                    <p>
+                        <!-- Assembly -->
+                        I would guess your data is <span th:text="${interfaceCommand.assembly}"></span>.
+                    </p>
 
                     <!--  code from http://experiments.wemakesites.net/css3-treeview-with-multiple-node-selection.html -->
-                    <h3>Select the used cell line or cell line group. If you want to use a cell line specific set of
-                        annotation data leave blank:</h3>
+                    <h4>Select the used cell line or cell line group. If you want to use a cell line specific set of
+                        annotation data leave blank:</h4>
                     <div class="acidjs-css3-treeview">
                         <ul>
                             <li>
@@ -127,7 +117,7 @@
 
                     <!-- Track packages -->
 
-                    <h3>Select the annotations to be used:</h3>
+                    <h4>Select the annotations to be used:</h4>
                     <th:block th:each="packName: ${trackPackages}">
                         <div class="checkbox">
                             <label><input type="checkbox" th:field="*{interfaceCommand.packageNames}"
@@ -137,7 +127,7 @@
                         </div>
                     </th:block>
 
-                    <button class="btn btn-primary" id="down">Continue</button>
+                    <button class="btn btn-primary" id="fourth">Continue</button>
                 </form>
             </th:block>
 
@@ -154,9 +144,9 @@
                            type="hidden"/>
 
 
-                    <button type="submit" class="btn btn-primary" id="upload_btn">Start</button>
+                    <button class="btn btn-primary" id="another">Start</button>
 
-                    <h3>Choose Covariates to adapt the background model. Leave blank to skip adaption:</h3>
+                    <h4>Choose Covariates to adapt the background model. Leave blank to skip adaption:</h4>
 
                     <table class="table table-hover fixed">
                         <th:block th:each="result: ${tracks}">
@@ -176,7 +166,7 @@
 
                     <!-- Covariates -->
 
-                    <button type="submit" class="btn btn-primary" id="upload_btn">Start</button>
+                    <button class="btn btn-primary" id="last">Start</button>
                 </form>
             </th:block>
 
@@ -186,12 +176,6 @@
 </div>
 </div>
 </body>
-
-<script>
-    document.getElementById("file").onchange = function () {
-        document.getElementById("assemblybox").style.display = 'block';
-    };
-</script>
 
 <script>
     $(".acidjs-css3-treeview").delegate("label input:checkbox", "change", function () {
