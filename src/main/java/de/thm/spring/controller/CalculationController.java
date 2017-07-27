@@ -179,7 +179,7 @@ public class CalculationController {
 
                 Session currentSession = sessionControll.addSession(httpSession.getId(), inputFilepath);
 
-                UserData data = new UserData(AssemblyGuesser.guessAssembly(file),inputFilepath);
+                UserData data = new UserData(AssemblyGuesser.guessAssembly(inputFilepath),inputFilepath);
 
                 currentSession.setSites(data);
                 BackendCommand command = new BackendCommand(data);
