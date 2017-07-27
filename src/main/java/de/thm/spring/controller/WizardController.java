@@ -2,7 +2,7 @@ package de.thm.spring.controller;
 
 import de.thm.exception.CovariantsException;
 import de.thm.exception.NoTracksLeftException;
-import de.thm.logo.GenomeFactory;
+import de.thm.guess.AssemblyGuesser;
 import de.thm.positionData.UserData;
 import de.thm.spring.backend.BackendConnector;
 import de.thm.spring.backend.Session;
@@ -78,12 +78,9 @@ public class WizardController {
                 }
             }
 
-            UserData data = null;
-
-            if (inputFilepath != null) {
-                data = new UserData(GenomeFactory.Assembly.valueOf(interfaceCommand.getAssembly()), inputFilepath);
-                currentSession.setSites(data);
-            }
+            UserData data = new UserData(AssemblyGuesser.guessAssembly(inputFilepath),inputFilepath);
+            currentSession.setSites(data);
+            interfaceCommand.setAssembly(data.getAssembly().toString());
 
             BackendCommand command = new BackendCommand(data);
 
