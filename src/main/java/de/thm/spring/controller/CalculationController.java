@@ -307,6 +307,10 @@ public class CalculationController {
 
         if(!command.getAssembly().equals(data.getAssembly().name())) { // if the user changed the assembly
             Path file = currentSession.getFile(); //reload the file
+            if(file == null) {
+                model.addAttribute("errorMessage", "Please upload the file again and then change the assembly number.");
+                return "error";
+            }
             data = new UserData(GenomeFactory.Assembly.valueOf(command.getAssembly()), file);
         }
 
