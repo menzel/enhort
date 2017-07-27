@@ -131,7 +131,7 @@ public class CalculationController {
 
         ResultCollector collector = currentSession.getCollector();
 
-        if (collector != null) {
+        if (collector != null && currentSession.getSites() != null) {
 
             List<TestResult> covariants = currentSession.getCovariants();
 
@@ -457,6 +457,7 @@ public class CalculationController {
         cmd.setAssembly(cmd.getAssembly() == null? "hg19": cmd.getAssembly()); //set assembly nr if there was none set in the previous run
         model.addAttribute("interfaceCommand", cmd);
 
+        cmd.setMinBg(collector.getBgCount());
         model.addAttribute("bgCount", collector.getBgCount());
         model.addAttribute("sigTrackCount", collector.getSignificantTrackCount());
         model.addAttribute("trackCount", collector.getTrackCount());
