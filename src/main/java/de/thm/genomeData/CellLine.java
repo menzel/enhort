@@ -88,6 +88,9 @@ public class CellLine {
      * @return id of the given cell line
      */
     public int valueOf(String cellline) {
+        if(cellline.equals("Unknown"))
+            return -1;
+
         for(String key: names.keySet()){
 
             if(key.equals(cellline))
@@ -119,6 +122,8 @@ public class CellLine {
      *
      */
     public String valueOf(int id) {
+        if(id == -1)
+            return "Unknown";
 
         for(String key: names.keySet()) {
             if (names.get(key) == null) { // if there is no subgroup
