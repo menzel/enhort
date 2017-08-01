@@ -11,6 +11,7 @@
     <link rel="stylesheet" media="screen" href="../static/css/faq.css" th:href="@{/css/faq.css}"/>
     <link rel="stylesheet" media="screen" href="../static/css/result.css" th:href="@{/css/result.css}"/>
     <link rel="stylesheet" media="screen" href="../static/css/celllinetree.css" th:href="@{/css/celllinetree.css}"/>
+    <link rel="stylesheet" media="screen" href="../static/css/wizard.css" th:href="@{/css/wizard.css}"/>
 
     <script src="/js/jquery-1.12.0.min.js" th:href="@{/js/jquery-1.12.0.min.js}"></script>
     <script src="/js/bootstrap.min.js" th:href="@{/js/bootstrap.min.js}"></script>
@@ -21,7 +22,7 @@
 
 <div th:include="header:: bar"></div>
 
-<div class="col-xs-10 col-xs-offset-2 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+<div class="col-xs-10 col-xs-offset-2 col-sm-6 col-sm-offset-2 col-md-7 col-md-offset-2 main">
     <div class="container row col-md-12">
 
         <img src="title_logo_wizard.png"/>
@@ -36,7 +37,7 @@
                             <input type="file" name="file" id="file" class="btn"/>
                         </div>
 
-                        <button class="btn btn-primary" id="first">Continue</button>
+                        <button onclick="this.disabled=true;this.form.submit();" class="btn btn-primary">Continue</button>
                     </form>
                 </div>
             </th:block>
@@ -51,12 +52,14 @@
 
                     <p>
                         <!-- Assembly -->
+
                         I would guess your data is <span th:text="${interfaceCommand.assembly}"></span>.
+
                     </p>
 
                     <!--  code from http://experiments.wemakesites.net/css3-treeview-with-multiple-node-selection.html -->
-                    <h4>Select the used cell line or cell line group. If you want to use a cell line specific set of
-                        annotation data leave blank:</h4>
+                    <h4>Select cell line:</h4>
+
                     <div class="acidjs-css3-treeview">
                         <ul>
                             <li>
@@ -127,12 +130,13 @@
                         </div>
                     </th:block>
 
-                    <button class="btn btn-primary" id="fourth">Continue</button>
+                    <button onclick="this.form.submit();" class="btn btn-primary">Continue</button>
                 </form>
             </th:block>
 
 
             <th:block th:case="'covariates'">
+
 
                 <form method="POST" action="/covariate" id="uploadform">
 
@@ -143,8 +147,9 @@
                     <input th:value="${interfaceCommand.packageNames}" th:field="*{interfaceCommand.packageNames}"
                            type="hidden"/>
 
+                    <button type="button" onclick="window.history.back();" class="btn btn-default">Back</button>
 
-                    <button class="btn btn-primary" id="another">Start</button>
+                    <button onclick="this.disabled=true;this.form.submit();" class="btn btn-primary">Start</button>
 
                     <h4>Choose Covariates to adapt the background model. Leave blank to skip adaption:</h4>
 
@@ -166,7 +171,7 @@
 
                     <!-- Covariates -->
 
-                    <button class="btn btn-primary" id="last">Start</button>
+                    <button onclick="this.disabled=true;this.form.submit();" class="btn btn-primary">Start</button>
                 </form>
             </th:block>
 
@@ -175,7 +180,54 @@
     </div>
 </div>
 </div>
-</body>
+
+<div class="col-xs-1 col-sm-2 col-md-3 info extra-margin">
+
+    <div id="info">
+
+        <th:block th:switch="${page}">
+            <th:block th:case="'packages'">
+
+                <div class="border">
+                    <details>
+                        <summary>The assembly version is guessed using the distribution of positions across the contigs. Click here to read more.</summary>
+                        <p>
+                            Lorem ipsum dolor sit amet, probo delenit indoctum nam eu, nam fastidii accumsan liberavisse eu, mel ut utroque dolorem. Id dicant commune persequeris sed. Noluisse praesent qui at, an scripta facilis mei. Id est quod debet doctus, ad vel quidam labores, scripta vivendo accusamus ex eos.
+                        </p>
+                    </details>
+                </div>
+
+                <div class="border">
+                    <details>
+                        <summary>The cell lines used change the tracks used. Click here to read more</summary>
+                        <p>
+                            Lorem ipsum dolor sit amet, probo delenit indoctum nam eu, nam fastidii accumsan liberavisse eu, mel ut utroque dolorem. Id dicant commune persequeris sed. Noluisse praesent qui at, an scripta facilis mei. Id est quod debet doctus, ad vel quidam labores, scripta vivendo accusamus ex eos.
+                        </p>
+                    </details>
+                </div>
+
+                    <div class="border">
+                    <details>
+                        <summary>The annotation packages selected combine tracks against the sites are tested. Click here to read more</summary>
+                        <p>
+                            Lorem ipsum dolor sit amet, probo delenit indoctum nam eu, nam fastidii accumsan liberavisse eu, mel ut utroque dolorem. Id dicant commune persequeris sed. Noluisse praesent qui at, an scripta facilis mei. Id est quod debet doctus, ad vel quidam labores, scripta vivendo accusamus ex eos.
+                        </p>
+                    </details>
+                </div>
+
+
+            </th:block>
+
+            <th:block th:case="'covariates'">
+                <div class="border">
+                    Lorem ipsum dolor sit amet, probo delenit indoctum nam eu, nam fastidii accumsan liberavisse eu, mel ut utroque dolorem. Id dicant commune persequeris sed. Noluisse praesent qui at, an scripta facilis mei. Id est quod debet doctus, ad vel quidam labores, scripta vivendo accusamus ex eos. Illud homero ne est, postulant sententiae temporibus id usu. At eam commune definiebas inciderint, eos eu audiam commodo legimus, pri te summo mandamus euripidis.
+                </div>
+            </th:block>
+
+        </th:block>
+
+    </div>
+</div>
 
 <script>
     $(".acidjs-css3-treeview").delegate("label input:checkbox", "change", function () {
@@ -191,4 +243,5 @@
     });
 </script>
 
+</body>
 </html>
