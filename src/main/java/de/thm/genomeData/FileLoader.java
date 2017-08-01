@@ -173,6 +173,7 @@ final class FileLoader implements Runnable {
                         start = Long.parseLong(parts[1]) + offset;
                         end = Long.parseLong(parts[2]) + offset;
 
+
                     } catch (NullPointerException e) {
                         System.err.println("File loader chrname " + parts[0] + " not found in file " + file.getName());
                         continue;
@@ -184,6 +185,12 @@ final class FileLoader implements Runnable {
 
                     starts.add(start);
                     ends.add(end);
+
+                    if (BackendController.runlevel == BackendController.Runlevel.DEBUG) {
+                        if(starts.size() > 2 && start < starts.get(starts.size()-2)){
+                            System.err.println("Illegal position at " + line);
+                        }
+                    }
 
                     if (type == TrackFactory.Type.named)
                         names.add(parts[3].intern());
@@ -254,12 +261,14 @@ final class FileLoader implements Runnable {
 
                     for (int i = 0; i < starts.size() - 1; i++)
                         if (starts.get(i) > starts.get(i + 1)) {
-                            System.err.println("Looks like this track is not sorted (yet) " + file.getName() + "(" + file.getAbsolutePath() + ")");
+                            Pair<String, Long> pos = chrSizes.mapToChr(assembly, starts.get(i));
+                            System.err.println("Looks like this track is not sorted " + file.getName() + "(" + file.getAbsolutePath() + ")" + pos.getLeft() + " " + pos.getRight());
                         }
 
                     for (int i = 0; i < starts.size() - 1; i++)
                         if (ends.get(i) > ends.get(i + 1)) {
-                            System.err.println("Looks like this track is not sorted (yet) " + file.getName() + "(" + file.getAbsolutePath() + ")");
+                            Pair<String, Long> pos = chrSizes.mapToChr(assembly, ends.get(i));
+                            System.err.println("Looks like this track is not sorted " + file.getName() + "(" + file.getAbsolutePath() + ")" + pos.getLeft() + " " + pos.getRight());
                         }
 
                     for (int i = 0; i < starts.size(); i++)
