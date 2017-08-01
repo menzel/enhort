@@ -119,7 +119,10 @@ public final class PositionPreprocessor {
                 Arrays.stream(track.getIntervalName()).collect(Collectors.toList()).subList(0, newStart.size()),
                 newScore,
                 track.getName(),
-                track.getDescription());
+                track.getDescription(),
+                track.getAssembly(),
+                -1
+        );
 
         //tmp = Tracks.bin(tmp, 50);
 
