@@ -89,7 +89,7 @@ public final class ChromosomSizes {
         chromosomeSizes.put(assembly, hg);
 
         names.put(assembly, new ArrayList<>(hg.keySet()));
-        java.util.Collections.sort(names.get(assembly));
+        names.get(assembly).sort(Comparator.comparing(o -> o.substring(3))); // sort by Number
 
         // get whole genome length for the genome
         long gz = 0;
