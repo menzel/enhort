@@ -2,6 +2,7 @@ package de.thm.misc;
 
 import de.thm.logo.GenomeFactory;
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -65,8 +66,22 @@ public class ChromosomSizesTest {
         //System.out.println(chrSizes.getChrSize("chr1"));
 
         assertEquals(chrSizes.getChrSize(GenomeFactory.Assembly.hg19, "chr1"), chrSizes.getChrSize( GenomeFactory.Assembly.hg19, "chr1"));
+    }
 
 
+
+    @Test
+    public void testHg38() throws Exception {
+
+        Pair<String, Long> oldPos= new ImmutablePair<>("chrX", 11014L);
+        ChromosomSizes chrSizes = ChromosomSizes.getInstance();
+
+        Long mappedPos = chrSizes.offset(GenomeFactory.Assembly.hg38, oldPos.getLeft()) + oldPos.getRight();
+
+        Pair<String, Long> newPos = chrSizes.mapToChr(GenomeFactory.Assembly.hg38, mappedPos);
+
+        assertEquals(oldPos.getLeft(), newPos.getLeft());
+        assertEquals(oldPos.getRight(), newPos.getRight());
     }
 
     @Test
