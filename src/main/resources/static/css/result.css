@@ -141,7 +141,8 @@ label{
 */
 
 #sequencelogo{
-    width: 600px;
+    display: block;
+    width: 90%;
     height:170px;
     font: 10px Arial;
 }

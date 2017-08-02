@@ -663,9 +663,10 @@
     }
 
     function setSequenceLogo(logo, div) {
+        var basewidth = document.body.offsetWidth/3;
 
         var margin = {top: 10, right: 20, bottom: 30, left: 50},
-            width = 500 - margin.left - margin.right,
+            width = basewidth - margin.left - margin.right,
             height = 150 - margin.top - margin.bottom;
 
         var x = d3.scale.ordinal()
