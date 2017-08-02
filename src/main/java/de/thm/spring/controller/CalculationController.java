@@ -502,7 +502,8 @@ public class CalculationController {
         command.setAssembly(collector.getAssembly().toString());
 
         //cut off filenames longer than 18 chars:
-        filename = filename.length() > 18 ? filename.substring(0, 15) + ".." : filename;
+        if(filename != null)
+            filename = filename.length() > 18 ? filename.substring(0, 15) + ".." : filename;
         command.setOriginalFilename(filename);
 
         command.setMinBg(collector.getBgCount());
