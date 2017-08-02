@@ -80,6 +80,7 @@ public class WizardController {
 
             UserData data = new UserData(AssemblyGuesser.guessAssembly(inputFilepath),inputFilepath);
             currentSession.setSites(data);
+            currentSession.setOriginalFilename(file.getOriginalFilename());
             interfaceCommand.setAssembly(data.getAssembly().toString());
 
             BackendCommand command = new BackendCommand(data);
