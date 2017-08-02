@@ -35,9 +35,9 @@
                         <!-- Bed file -->
                         <div>
                             <input type="file" name="file" id="file" class="btn"/>
+                            <button onclick="this.disabled=true;this.form.submit();" style="margin-left: 13px;" class="btn btn-primary">Continue</button>
                         </div>
 
-                        <button onclick="this.disabled=true;this.form.submit();" class="btn btn-primary">Continue</button>
                     </form>
                 </div>
             </th:block>
@@ -53,85 +53,98 @@
                     <p>
                         <!-- Assembly -->
 
-                        I would guess your data is <span th:text="${interfaceCommand.assembly}"></span>.
+                        The positions are guessed to be <span th:text="${interfaceCommand.assembly}"></span>.
+
+                        <button onclick="this.form.submit();" class="btn btn-primary right">Continue</button>
 
                     </p>
 
-                    <!--  code from http://experiments.wemakesites.net/css3-treeview-with-multiple-node-selection.html -->
-                    <h4>Select cell line:</h4>
+                    <hr />
 
-                    <div class="acidjs-css3-treeview">
-                        <ul>
-                            <li>
-                                <input type="checkbox" id="cb_all"/> <!-- Collapse triangle -->
-                                <label>
-                                    <input type="checkbox" th:field="*{interfaceCommand.celllines}"
-                                           th:value="${'all'}"/>
-                                    <span></span>
-                                </label>
-                                <label for="cb_all">All cell lines</label>
+                    <div id="left">
 
-                                <ul>
-                                    <th:block th:each="cellline: ${celllines}">
-                                        <li>
-                                            <th:block th:if="${ not #lists.isEmpty(cellline.value)}">
-                                                <input type="checkbox"
-                                                       th:id="'cb_' + *{#strings.replace(cellline.key, ' ', '_')}"/>
-                                                <!-- Collapse triangle -->
-                                                <label><input type="checkbox" th:field="*{interfaceCommand.celllines}"
-                                                              th:value="*{#strings.replace(cellline.key, ' ', '_')}"/><span></span></label>
-                                                <label th:for="'cb_' + *{#strings.replace(cellline.key, ' ', '_')}"
-                                                       th:text="${cellline.key}"></label>
-                                            </th:block>
+                        <!--  code from http://experiments.wemakesites.net/css3-treeview-with-multiple-node-selection.html -->
+                        <h4>Select cell line(s):</h4>
 
-                                            <th:block th:if="${#lists.isEmpty(cellline.value)}">
-                                                <input type="checkbox"
-                                                       th:id="'cb_' + *{#strings.replace(cellline.key, ' ', '_')}"/>
-                                                <!-- Collapse triangle -->
-                                                <label><input type="checkbox" th:field="*{interfaceCommand.celllines}"
-                                                              th:value="*{#strings.replace(cellline.key, ' ', '_')}"/><span></span></label>
-                                                <span th:for="'cb_' + *{#strings.replace(cellline.key, ' ', '_')}"
-                                                      th:text="${cellline.key} " class="pad"></span>
-                                            </th:block>
+                        <div class="acidjs-css3-treeview">
+                            <ul>
+                                <li>
+                                    <input type="checkbox" id="cb_all"/> <!-- Collapse triangle -->
+                                    <label>
+                                        <input type="checkbox" th:field="*{interfaceCommand.celllines}"
+                                               th:value="${'all'}"/>
+                                        <span></span>
+                                    </label>
+                                    <label for="cb_all">All cell lines</label>
 
-                                            <th:block th:if="${ not #lists.isEmpty(cellline.value)}">
-                                                <ul>
-                                                    <th:block th:each="inner: ${cellline.value}">
-                                                        <li>
-                                                            <input type="checkbox"
-                                                                   th:id="'cb_' + ${#strings.replace(inner, ' ', '_')}"/>
-                                                            <!-- Collapse triangle -->
-                                                            <label><input type="checkbox"
-                                                                          th:field="*{interfaceCommand.celllines}"
-                                                                          th:value="*{#strings.replace(inner, ' ', '_')}"/><span></span></label>
-                                                            <span th:for="'cb_' + *{#strings.replace(inner, ' ', '_')}"
-                                                                  th:text="${inner}" class="pad"></span>
-                                                        </li>
-                                                    </th:block>
-                                                </ul>
-                                            </th:block>
-                                        </li>
-                                    </th:block>
-                                </ul>
-                            </li>
-                        </ul>
+                                    <ul>
+                                        <th:block th:each="cellline: ${celllines}">
+                                            <li>
+                                                <th:block th:if="${ not #lists.isEmpty(cellline.value)}">
+                                                    <input type="checkbox"
+                                                           th:id="'cb_' + *{#strings.replace(cellline.key, ' ', '_')}"/>
+                                                    <!-- Collapse triangle -->
+                                                    <label><input type="checkbox" th:field="*{interfaceCommand.celllines}"
+                                                                  th:value="*{#strings.replace(cellline.key, ' ', '_')}"/><span></span></label>
+                                                    <label th:for="'cb_' + *{#strings.replace(cellline.key, ' ', '_')}"
+                                                           th:text="${cellline.key}"></label>
+                                                </th:block>
+
+                                                <th:block th:if="${#lists.isEmpty(cellline.value)}">
+                                                    <input type="checkbox"
+                                                           th:id="'cb_' + *{#strings.replace(cellline.key, ' ', '_')}"/>
+                                                    <!-- Collapse triangle -->
+                                                    <label><input type="checkbox" th:field="*{interfaceCommand.celllines}"
+                                                                  th:value="*{#strings.replace(cellline.key, ' ', '_')}"/><span></span></label>
+                                                    <span th:for="'cb_' + *{#strings.replace(cellline.key, ' ', '_')}"
+                                                          th:text="${cellline.key} " class="pad"></span>
+                                                </th:block>
+
+                                                <th:block th:if="${ not #lists.isEmpty(cellline.value)}">
+                                                    <ul>
+                                                        <th:block th:each="inner: ${cellline.value}">
+                                                            <li>
+                                                                <input type="checkbox"
+                                                                       th:id="'cb_' + ${#strings.replace(inner, ' ', '_')}"/>
+                                                                <!-- Collapse triangle -->
+                                                                <label><input type="checkbox"
+                                                                              th:field="*{interfaceCommand.celllines}"
+                                                                              th:value="*{#strings.replace(inner, ' ', '_')}"/><span></span></label>
+                                                                <span th:for="'cb_' + *{#strings.replace(inner, ' ', '_')}"
+                                                                      th:text="${inner}" class="pad"></span>
+                                                            </li>
+                                                        </th:block>
+                                                    </ul>
+                                                </th:block>
+                                            </li>
+                                        </th:block>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
                     </div>
 
+                    <div id="right">
 
-                    <!-- Track packages -->
 
-                    <h4>Select the annotations to be used:</h4>
-                    <th:block th:each="packName: ${trackPackages}">
-                        <div class="checkbox">
-                            <label><input type="checkbox" th:field="*{interfaceCommand.packageNames}"
-                                          th:value="${packName}"
-                                          checked="checked" th:text="${packName}"/></label>
+                        <!-- Track packages -->
 
-                        </div>
-                    </th:block>
+                        <h4>Select annotations to be checked:</h4>
+                        <th:block th:each="packName: ${trackPackages}">
+                            <div class="checkbox">
+                                <label><input type="checkbox" th:field="*{interfaceCommand.packageNames}"
+                                              th:value="${packName}"
+                                              checked="checked" th:text="${packName}"/></label>
 
-                    <button onclick="this.form.submit();" class="btn btn-primary">Continue</button>
+                            </div>
+                        </th:block>
+
+
+                    </div>
+
                 </form>
+
             </th:block>
 
 
@@ -149,7 +162,7 @@
 
                     <button type="button" onclick="window.history.back();" class="btn btn-default">Back</button>
 
-                    <button onclick="this.disabled=true;this.form.submit();" class="btn btn-primary">Start</button>
+                    <button onclick="this.disabled=true;this.form.submit();" class="btn btn-primary right">Continue</button>
 
                     <h4>Choose Covariates to adapt the background model. Leave blank to skip adaption:</h4>
 
@@ -171,7 +184,7 @@
 
                     <!-- Covariates -->
 
-                    <button onclick="this.disabled=true;this.form.submit();" class="btn btn-primary">Start</button>
+                    <button onclick="this.disabled=true;this.form.submit();" class="btn btn-primary right">Continue</button>
                 </form>
             </th:block>
 
@@ -183,36 +196,35 @@
 
 <div class="col-xs-1 col-sm-2 col-md-3 info extra-margin">
 
+
+    <label class="coll" for="info"><span class="glyphicon glyphicon-info-sign"></span></label>
+    <input id="info" type="checkbox">
+    <div>
     <div id="info">
 
         <th:block th:switch="${page}">
             <th:block th:case="'packages'">
 
+
                 <div class="border">
-                    <details>
-                        <summary>The assembly version is guessed using the distribution of positions across the contigs. Click here to read more.</summary>
+                        The assembly version is guessed using the distribution of positions across the contigs. Click here to read more.
                         <p>
                             Lorem ipsum dolor sit amet, probo delenit indoctum nam eu, nam fastidii accumsan liberavisse eu, mel ut utroque dolorem. Id dicant commune persequeris sed. Noluisse praesent qui at, an scripta facilis mei. Id est quod debet doctus, ad vel quidam labores, scripta vivendo accusamus ex eos.
                         </p>
-                    </details>
                 </div>
 
                 <div class="border">
-                    <details>
-                        <summary>The cell lines used change the tracks used. Click here to read more</summary>
+                        The cell lines used change the tracks used. Click here to read more
                         <p>
                             Lorem ipsum dolor sit amet, probo delenit indoctum nam eu, nam fastidii accumsan liberavisse eu, mel ut utroque dolorem. Id dicant commune persequeris sed. Noluisse praesent qui at, an scripta facilis mei. Id est quod debet doctus, ad vel quidam labores, scripta vivendo accusamus ex eos.
                         </p>
-                    </details>
                 </div>
 
-                    <div class="border">
-                    <details>
-                        <summary>The annotation packages selected combine tracks against the sites are tested. Click here to read more</summary>
+                <div class="border">
+                        The annotation packages selected combine tracks against the sites are tested. Click here to read more
                         <p>
                             Lorem ipsum dolor sit amet, probo delenit indoctum nam eu, nam fastidii accumsan liberavisse eu, mel ut utroque dolorem. Id dicant commune persequeris sed. Noluisse praesent qui at, an scripta facilis mei. Id est quod debet doctus, ad vel quidam labores, scripta vivendo accusamus ex eos.
                         </p>
-                    </details>
                 </div>
 
 
@@ -226,6 +238,7 @@
 
         </th:block>
 
+    </div>
     </div>
 </div>
 

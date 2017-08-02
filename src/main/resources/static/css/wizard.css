@@ -1,16 +1,61 @@
 .border{
-    border:1px solid black;
+    border-bottom:3px solid white;
     padding: 5px;
-    margin-bottom: 40px;
-
 }
 
-.border::before{
-    content: "Info";
-    font-size: 10pt;
-    background-color: #2694cf;
+.container{
+    margin-top: 10px;
 }
 
 #info{
     margin-top: 130px;
+    background-color: rgba(51, 122, 183, 0.48);
+    height:100%;
+    width:500px;
+}
+
+img {
+    margin-bottom: 30px;
+}
+
+.right {
+    float: right;
+}
+
+h4{
+    font-size: 13px;
+}
+
+
+.coll{
+    margin-top: 200px;
+    cursor: pointer;
+    display: block;
+    height:500px;
+    float: right;
+    background-color: rgba(51, 122, 183, 0.48);
+}
+.coll + input{
+  display: none; /* hide the checkboxes */
+}
+
+.coll + input + div{
+  display:none;
+}
+
+.coll + input:checked + div{
+  display:block;
+}
+
+input:checked + .coll{
+  display:none;
+}
+
+#left {
+    float: left;
+    width:50%;
+}
+#right{
+    float: left;
+    width:50%;
 }
