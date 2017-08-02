@@ -35,7 +35,7 @@
                         <!-- Bed file -->
                         <div>
                             <input type="file" name="file" id="file" class="btn"/>
-                            <button onclick="this.disabled=true;this.form.submit();" style="margin-left: 13px;" class="btn btn-primary">Continue</button>
+                            <button onclick="this.disabled=true;this.form.submit();" class="btn" id="uploadbtn">Continue</button>
                         </div>
 
                     </form>
@@ -241,6 +241,12 @@
     </div>
     </div>
 </div>
+
+<script>
+    document.getElementById("file").onchange = function() {
+    document.getElementById("uploadform").submit();
+};
+</script>
 
 <script>
     $(".acidjs-css3-treeview").delegate("label input:checkbox", "change", function () {
