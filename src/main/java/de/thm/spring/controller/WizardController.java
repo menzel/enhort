@@ -76,6 +76,10 @@ public class WizardController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+            } else {
+                model.addAttribute("errorMessage", "Upload failed. The file was empty.");
+                return "error";
             }
 
             UserData data = new UserData(AssemblyGuesser.guessAssembly(inputFilepath),inputFilepath);
