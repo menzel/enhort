@@ -212,7 +212,7 @@ public class CalculationController {
             }
 
         } else {
-            model.addAttribute("errorMessage", "You failed to upload " + name + " because the file was empty.");
+            model.addAttribute("errorMessage", "Upload failed. No file was selected.");
             return "error";
         }
 
