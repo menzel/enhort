@@ -59,3 +59,8 @@ input:checked + .coll{
     float: left;
     width:50%;
 }
+
+#uploadbtn {
+    margin-left: 13px;
+    visibility: hidden;
+}
