@@ -108,6 +108,24 @@ public class WizardController {
         } else if(interfaceCommand.getPackageNames().size() > 0) { // serve covariates page:
 
             interfaceCommand.setAssembly(currentSession.getSites().getAssembly().toString());
+            interfaceCommand.setSites(currentSession.getSites());
+            interfaceCommand.setPositionCount(currentSession.getSites().getPositionCount());
+
+            BackendCommand command = new BackendCommand(interfaceCommand);
+
+            ResultCollector collector = null;
+            try {
+                collector = BackendConnector.getInstance().runAnalysis(command);
+            } catch (CovariantsException | SocketTimeoutException | NoTracksLeftException e) {
+                e.printStackTrace();
+            }
+
+            if (collector == null) {
+                model.addAttribute("errorMessage", "Backend Connection Error");
+                return "error";
+            }
+
+            currentSession.setCollector(collector);
 
             model.addAttribute("interfaceCommand", interfaceCommand);
             model.addAttribute("tracks", currentSession.getCollector().getInOutResults(false));
