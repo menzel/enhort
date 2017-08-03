@@ -3,7 +3,7 @@
       xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
-    <title>Enhort - FAQ</title>
+    <title>Enhort - Wizard</title>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
@@ -65,7 +65,9 @@
             </th:block>
         </th:block>
 
-
+        <th:block th:if="${message != null}">
+            <div class="bg-danger" th:text="${message}"></div>
+        </th:block>
 
         <div id="wizardouter">
 

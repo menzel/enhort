@@ -78,7 +78,7 @@ public class WizardController {
                 }
 
             } else {
-                model.addAttribute("errorMessage", "Upload failed. The file was empty.");
+                model.addAttribute("message", "Upload failed. The file was empty.");
                 return "error";
             }
 
@@ -92,7 +92,7 @@ public class WizardController {
             ResultCollector collector = null;
             try {
                 collector = BackendConnector.getInstance().runAnalysis(command);
-            } catch (CovariantsException | SocketTimeoutException | NoTracksLeftException e) {
+            } catch (NoTracksLeftException | CovariantsException | SocketTimeoutException e) {
                 e.printStackTrace();
             }
 
@@ -121,7 +121,17 @@ public class WizardController {
             ResultCollector collector = null;
             try {
                 collector = BackendConnector.getInstance().runAnalysis(command);
-            } catch (CovariantsException | SocketTimeoutException | NoTracksLeftException e) {
+
+            } catch(NoTracksLeftException e){
+
+                model.addAttribute("interfaceCommand", interfaceCommand);
+                model.addAttribute("trackPackages", currentSession.getCollector().getKnownPackages());
+                model.addAttribute("celllines", currentSession.getCollector().getKnownCelllines());
+                model.addAttribute("page", "packages");
+                model.addAttribute("message", "There are no tracks for this combination of cell lines and packages");
+
+                return "wizard";
+            } catch (CovariantsException | SocketTimeoutException e){
                 e.printStackTrace();
             }
 
