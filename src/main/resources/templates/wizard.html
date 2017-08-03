@@ -25,10 +25,9 @@
 <div class="col-xs-10 col-xs-offset-2 col-sm-6 col-sm-offset-2 col-md-7 col-md-offset-2 main">
     <div class="container row col-md-12">
 
-
         <th:block th:switch="${page}">
             <th:block th:case="'upload'">
-                <img class="svg" id="workflowsvg" src="img/wizbar_small1.svg" width="700" height="200px">
+                <object id="workflowsvg" data="img/wizbar_small1.svg" type="image/svg+xml"></object>
                 <img id="wizard" src="title_logo_wizard.png">
 
                 <div id="wizardheader">
@@ -40,7 +39,7 @@
 
             </th:block>
             <th:block th:case="'packages'">
-                <img class="svg" id="workflowsvg" src="img/wizbar_small2.svg" width="700" height="200px">
+                <object id="workflowsvg" data="img/wizbar_small2.svg" type="image/svg+xml" onclick="window.history.back();"></object>
                 <img id="wizard" src="title_logo_wizard.png">
 
                  <div id="wizardheader">
@@ -53,7 +52,7 @@
 
             </th:block>
             <th:block th:case="'covariates'">
-                <img class="svg" id="workflowsvg" src="img/wizbar_small3.svg" width="700" height="200px">
+                <object id="workflowsvg" data="img/wizbar_small3.svg" type="image/svg+xml" onclick="window.history.back();"></object>
                 <img id="wizard" src="title_logo_wizard.png">
 
                 <div id="wizardheader">
@@ -96,7 +95,7 @@
                         <p>
                             <!-- Assembly -->
 
-                            The positions are guessed to be <span th:text="${interfaceCommand.assembly}"></span>.
+                            The positions are guessed to be <span id="assemb" th:text="${interfaceCommand.assembly}"></span>
 
                             <button onclick="this.form.submit();" class="btn btn-primary right">Continue</button>
 
@@ -207,7 +206,14 @@
 
                         <button onclick="this.disabled=true;this.form.submit();" class="btn btn-primary right">Continue</button>
 
-                        <h4>Choose Covariates to adapt the background model. Leave blank to skip adaption:</h4>
+                        <h4>Skip this step if you want a random background. Otherwise upload a file with background sites:</h4>
+
+                        <input type="file" name="file" id="file" class="btn"/>
+
+                        <hr/>
+                        <h3>-Or-</h3>
+
+                        <h4>choose Covariates to adapt the background model:</h4>
 
                         <table class="table table-hover fixed">
                             <th:block th:each="result: ${tracks}">

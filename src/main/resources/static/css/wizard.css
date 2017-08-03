@@ -26,31 +26,6 @@ h4{
     font-size: 13px;
 }
 
-
-.coll{
-    margin-top: 200px;
-    cursor: pointer;
-    display: block;
-    height:500px;
-    float: right;
-    background-color: rgba(51, 122, 183, 0.48);
-}
-.coll + input{
-  display: none; /* hide the checkboxes */
-}
-
-.coll + input + div{
-  display:none;
-}
-
-.coll + input:checked + div{
-  display:block;
-}
-
-input:checked + .coll{
-  display:none;
-}
-
 #left {
     float: left;
     width:50%;
@@ -63,4 +38,39 @@ input:checked + .coll{
 #uploadbtn {
     margin-left: 13px;
     visibility: hidden;
+}
+
+#wizard {
+    margin-left:100px;
+}
+
+#workflowsvg{
+    width:67%;
+}
+
+#wizardouter {
+    border-right: 1px solid lightgray;
+    border-left: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    width:100%;
+    min-height:400px;
+    padding-left: 10px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    overflow: hidden;
+    margin-bottom: 50px;
+}
+
+#wizardheader {
+    background-color: rgba(55, 200, 240, 1);
+    box-shadow: 0px 6px 4px 0px rgba(70, 164, 201, 0.5);
+    height:50px;
+    width:100%;
+    padding: 10px;
+    color: white;
+}
+
+#assemb {
+    padding:1px;
+    background-color: rgba(55,240,149,0.8);
 }
