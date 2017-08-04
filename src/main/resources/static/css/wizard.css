@@ -105,8 +105,8 @@ table input[type="checkbox"]{
     -moz-appearance: none;
     cursor: pointer;
     background-color: rgb(0, 0, 145);
-    width: 22px;
-    height: 22px;
+    width: 21.5px;
+    height: 21.5px;
     margin: 0;
     padding:0;
     position: absolute;
@@ -131,6 +131,7 @@ table input[type="checkbox"]:checked {
 
 .table tbody tr .row{
     padding: 0;
+    height:22px;
 }
 
 .table .clrow:hover{
