@@ -121,7 +121,7 @@ public final class PositionPreprocessor {
                 track.getName(),
                 track.getDescription(),
                 track.getAssembly(),
-                -1
+               ""
         );
 
         //tmp = Tracks.bin(tmp, 50);

@@ -22,7 +22,7 @@ public abstract class Track implements Serializable, Cloneable {
 
     public abstract GenomeFactory.Assembly getAssembly();
 
-    public abstract int getCellLine();
+    public abstract String getCellLine();
 
     public abstract String getDescription();
 

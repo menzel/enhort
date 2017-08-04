@@ -20,9 +20,9 @@ public abstract class AbstractTrack extends Track {
     private final String name;
     private final String description;
     private final GenomeFactory.Assembly assembly;
-    private final int cellLine;
+    private final String cellLine;
 
-    AbstractTrack(List<Long> starts, List<Long> ends, String name, String description, GenomeFactory.Assembly assembly, int cellLine) {
+    AbstractTrack(List<Long> starts, List<Long> ends, String name, String description, GenomeFactory.Assembly assembly, String cellLine) {
 
         intervalsStart = new long[starts.size()];
         intervalsEnd = new long[ends.size()];
@@ -69,7 +69,7 @@ public abstract class AbstractTrack extends Track {
 
 
     @Override
-    public int getCellLine() {
+    public String getCellLine() {
         return cellLine;
     }
 

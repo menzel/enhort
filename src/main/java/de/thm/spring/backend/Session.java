@@ -2,7 +2,7 @@ package de.thm.spring.backend;
 
 import de.thm.genomeData.Track;
 import de.thm.positionData.UserData;
-import de.thm.stat.ResultCollector;
+import de.thm.result.ResultCollector;
 import de.thm.stat.TestResult;
 
 import java.io.IOException;

@@ -8,10 +8,10 @@ import de.thm.genomeData.Tracks;
 import de.thm.logo.GenomeFactory;
 import de.thm.misc.TrackBuilder;
 import de.thm.precalc.SiteFactoryFactory;
+import de.thm.result.Result;
 import de.thm.spring.command.BackendCommand;
 import de.thm.spring.command.Command;
 import de.thm.spring.command.ExpressionCommand;
-import de.thm.stat.ResultCollector;
 
 import java.io.*;
 import java.net.BindException;
@@ -213,7 +213,7 @@ public final class BackendController {
                     long time = System.currentTimeMillis();
                     System.out.println(prefix + "recieved a command " + command.hashCode());
 
-                    ResultCollector collector = new AnalysisHelper().runAnalysis(command);
+                    Result collector = new AnalysisHelper().runAnalysis(command);
                     outStream.writeObject(collector);
 
                     long diff = System.currentTimeMillis() - time;

@@ -4,12 +4,12 @@ import de.thm.exception.CovariantsException;
 import de.thm.exception.NoTracksLeftException;
 import de.thm.guess.AssemblyGuesser;
 import de.thm.positionData.UserData;
+import de.thm.result.ResultCollector;
 import de.thm.spring.backend.BackendConnector;
 import de.thm.spring.backend.Session;
 import de.thm.spring.backend.Sessions;
 import de.thm.spring.command.BackendCommand;
 import de.thm.spring.command.InterfaceCommand;
-import de.thm.stat.ResultCollector;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -91,7 +91,7 @@ public class WizardController {
 
             ResultCollector collector = null;
             try {
-                collector = BackendConnector.getInstance().runAnalysis(command);
+                collector = (ResultCollector) BackendConnector.getInstance().runAnalysis(command);
             } catch (NoTracksLeftException | CovariantsException | SocketTimeoutException e) {
                 e.printStackTrace();
             }
@@ -120,7 +120,7 @@ public class WizardController {
 
             ResultCollector collector = null;
             try {
-                collector = BackendConnector.getInstance().runAnalysis(command);
+                collector = (ResultCollector) BackendConnector.getInstance().runAnalysis(command);
 
             } catch(NoTracksLeftException e){
 

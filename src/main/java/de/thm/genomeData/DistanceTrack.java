@@ -16,10 +16,10 @@ public class DistanceTrack extends Track{
     private final long[] intervalsStart;
     private final String name;
     private final GenomeFactory.Assembly assembly;
-    private final int cellLine;
+    private final String cellLine;
     private final String description;
 
-    DistanceTrack(long[] starts, String name, String description, GenomeFactory.Assembly assembly, int cellLine) {
+    DistanceTrack(long[] starts, String name, String description, GenomeFactory.Assembly assembly, String cellLine) {
 
         if (starts != null) {
             intervalsStart = starts;
@@ -34,7 +34,7 @@ public class DistanceTrack extends Track{
 
 
 
-    DistanceTrack(List<Long> starts, String name, String description, GenomeFactory.Assembly assembly, int cellLine) {
+    DistanceTrack(List<Long> starts, String name, String description, GenomeFactory.Assembly assembly, String cellLine) {
 
         if(starts != null) {
             intervalsStart = new long[starts.size()];
@@ -103,7 +103,7 @@ public class DistanceTrack extends Track{
     }
 
     @Override
-    public int getCellLine() {
+    public String getCellLine() {
         return cellLine;
     }
 }

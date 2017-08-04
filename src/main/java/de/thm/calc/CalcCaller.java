@@ -7,9 +7,9 @@ import de.thm.logo.LogoCreator;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
 import de.thm.positionData.UserData;
+import de.thm.result.ResultCollector;
 import de.thm.stat.EffectSize;
 import de.thm.stat.IndependenceTest;
-import de.thm.stat.ResultCollector;
 import de.thm.stat.TestResult;
 
 import java.util.List;

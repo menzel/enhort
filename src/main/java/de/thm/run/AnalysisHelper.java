@@ -14,8 +14,10 @@ import de.thm.logo.LogoCreator;
 import de.thm.positionData.Sites;
 import de.thm.precalc.SiteFactory;
 import de.thm.precalc.SiteFactoryFactory;
+import de.thm.result.DataViewResult;
+import de.thm.result.Result;
+import de.thm.result.ResultCollector;
 import de.thm.spring.command.BackendCommand;
-import de.thm.stat.ResultCollector;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -100,7 +102,7 @@ class AnalysisHelper {
 
             for(String packName: cmd.getPackageNames()){
                 runTracks.addAll(trackFactory.getTracksByPackage(packName, cmd.getAssembly()).stream()
-                        .filter(t -> (celllines.size() == 0 || celllines.contains(cLine.valueOf(t.getCellLine()))))
+                        .filter(t -> (celllines.size() == 0 || celllines.contains(t.getCellLine())))
                         .collect(Collectors.toList()));
             }
 
@@ -146,14 +148,25 @@ class AnalysisHelper {
         return multi.execute(runTracks, sites, sitesBg, cmd.isCreateLogo());
     }
 
+    private Result returnDataTableView(GenomeFactory.Assembly assembly) {
+        List<Track> tracks = TrackFactory.getInstance().getTracks(assembly);
+
+        return new DataViewResult(assembly, tracks);
+    }
 
 
-    ResultCollector runAnalysis(BackendCommand command) throws Exception {
-        if(command.getSitesBg() != null){
+
+    Result runAnalysis(BackendCommand command) throws Exception {
+        if(command.getSites() == null){
+            // return all tracks for data table overview
+            return returnDataTableView(command.getAssembly());
+
+        }else if(command.getSitesBg() != null){
             return runAnalysis(command.getSites(), command.getSitesBg(), command);
         }
         return runAnalysis(command.getSites(), command);
     }
+
 
 
 }

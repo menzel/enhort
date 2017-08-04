@@ -28,14 +28,13 @@ public final class TrackFactory {
     private List<TrackPackage> trackPackages;
 
 
-
     /**
      * Constructor. Parses the base dir and gets all tracks from files.
      * Expects three dirs with the names 'inout', 'named' and 'score' for types.
      */
     private TrackFactory() {
 
-        if(System.getenv("HOME").contains("menzel")){
+        if (System.getenv("HOME").contains("menzel")) {
             basePath = new File("/home/menzel/Desktop/THM/lfba/enhort/dat/").toPath();
         } else {
             basePath = new File("/home/mmnz21/dat/").toPath();
@@ -45,7 +44,6 @@ public final class TrackFactory {
         tracks = new ArrayList<>();
         trackPackages = new ArrayList<>();
     }
-
 
 
     public static TrackFactory getInstance() {
@@ -61,16 +59,15 @@ public final class TrackFactory {
      * @param path to track
      * @throws IOException if something goes wrong while loading the track
      */
-    public void loadTrack(Path path) throws IOException {
+    public void loadTrack(Path path, GenomeFactory.Assembly assembly) throws IOException {
         Track track;
-        track = loadTracks(path, Type.inout, GenomeFactory.Assembly.hg19).get(0);
+        track = loadTracks(path, Type.inout, assembly).get(0);
         this.tracks.add(track);
     }
 
     /**
      * Loads tracks from basePath dir.
      * Call once at start. Fills this.tracks with all tracks from the dirs.
-     *
      */
     public void loadAllTracks() {
 
@@ -80,19 +77,43 @@ public final class TrackFactory {
 
 
             //////////// hg19  ///////////////
-            Path basePath = this.basePath.resolve("hg19"); //convert basePath to a local variable and set to hg19 dir
+            Path hg19path = this.basePath.resolve("hg19"); //convert basePath to a local variable and set to hg19 dir
 
-            tmp = loadTracks(basePath.resolve("inout"), Type.inout, GenomeFactory.Assembly.hg19);
+            tmp = loadTracks(hg19path.resolve("inout"), Type.inout, GenomeFactory.Assembly.hg19);
             this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks", GenomeFactory.Assembly.hg19));
             this.tracks.addAll(tmp);
 
-            tmp = loadTracks(basePath.resolve("score"), Type.scored, GenomeFactory.Assembly.hg19);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Expression, "Expression scores", GenomeFactory.Assembly.hg19));
+
+            tmp = loadTracks(hg19path.resolve("histmod_cd4"), Type.inout, GenomeFactory.Assembly.hg19);
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Histone, "Histone modifications", GenomeFactory.Assembly.hg19));
             this.tracks.addAll(tmp);
+
+            //////////// hg38  ///////////////
+            Path hg38path = this.basePath.resolve("hg38"); //convert basePath to a local variable and set to hg38 dir
+
+            tmp = loadTracks(hg38path.resolve("inout"), Type.inout, GenomeFactory.Assembly.hg38);
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks.", GenomeFactory.Assembly.hg38));
+            this.tracks.addAll(tmp);
+
+
+            //////////// hg18  ///////////////
+            Path hg18path = this.basePath.resolve("hg18"); //convert basePath to a local variable and set to hg38 dir
+
+            tmp = loadTracks(hg18path.resolve("inout"), Type.inout, GenomeFactory.Assembly.hg18);
+            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks.", GenomeFactory.Assembly.hg18));
+            this.tracks.addAll(tmp);
+
 
             if (!System.getenv("HOME").contains("menzel")) {
                 //only load all tracks when running on the big server
 
+                tmp = loadTracks(hg19path.resolve("score"), Type.scored, GenomeFactory.Assembly.hg19);
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Expression, "Expression scores", GenomeFactory.Assembly.hg19));
+                this.tracks.addAll(tmp);
+
+                tmp = loadTracks(hg38path.resolve("distanced"), Type.distance, GenomeFactory.Assembly.hg38);
+                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Distance, "Distances", GenomeFactory.Assembly.hg38));
+                this.tracks.addAll(tmp);
 
 
                 tmp = loadTracks(basePath.resolve("iPS"), Type.inout, GenomeFactory.Assembly.hg19);
@@ -106,11 +127,6 @@ public final class TrackFactory {
                 tmp = loadTracks(basePath.resolve("repeats_by_class"), Type.inout, GenomeFactory.Assembly.hg19);
                 this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_class, "Repeats by class", GenomeFactory.Assembly.hg19));
                 this.tracks.addAll(tmp);
-
-
-                //tracks.stream().map(s -> s.getName()).forEach(System.out::println);
-
-
 
 
                 tmp = loadTracks(basePath.resolve("cancer_genes"), Type.inout, GenomeFactory.Assembly.hg19);
@@ -154,24 +170,6 @@ public final class TrackFactory {
                 this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.OpenChrom, "Open Chromatin", GenomeFactory.Assembly.hg19));
                 this.tracks.addAll(tmp);
 
-
-                //////////// hg38  ///////////////
-                basePath = this.basePath.resolve("hg38"); //convert basePath to a local variable and set to hg38 dir
-
-                tmp = loadTracks(basePath.resolve("inout"), Type.inout, GenomeFactory.Assembly.hg38);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks.", GenomeFactory.Assembly.hg38));
-                this.tracks.addAll(tmp);
-
-                tmp = loadTracks(basePath.resolve("distanced"), Type.distance, GenomeFactory.Assembly.hg38);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Distance, "Distances", GenomeFactory.Assembly.hg38));
-                this.tracks.addAll(tmp);
-
-                //////////// hg18  ///////////////
-                basePath = this.basePath.resolve("hg18"); //convert basePath to a local variable and set to hg38 dir
-
-                tmp = loadTracks(basePath.resolve("inout"), Type.inout, GenomeFactory.Assembly.hg18);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks.", GenomeFactory.Assembly.hg18));
-                this.tracks.addAll(tmp);
             }
 
         } catch (IOException e) {
@@ -202,7 +200,7 @@ public final class TrackFactory {
         ExecutorService exe = Executors.newFixedThreadPool(nThreads);
 
         for (Path file : files) {
-            FileLoader loader = new FileLoader(file, tracks , type, assembly);
+            FileLoader loader = new FileLoader(file, tracks, type, assembly);
             exe.execute(loader);
         }
 
@@ -258,8 +256,6 @@ public final class TrackFactory {
     }
 
 
-
-
     /**
      * Returns tracks by package name as String
      *
@@ -267,10 +263,10 @@ public final class TrackFactory {
      * @return list of tracks within the package
      * @throws IllegalArgumentException - if name is not known as package name
      */
-    public List<Track> getTracksByPackage(String packName, GenomeFactory.Assembly assembly) throws IllegalArgumentException{
+    public List<Track> getTracksByPackage(String packName, GenomeFactory.Assembly assembly) throws IllegalArgumentException {
         List<Track> tracks = getTracksByPackage(TrackPackage.PackageName.valueOf(packName), assembly);
 
-        if(tracks != null)
+        if (tracks != null)
             return tracks;
         return new ArrayList<>();
     }
@@ -281,7 +277,7 @@ public final class TrackFactory {
      *
      * @return list of all packages names
      */
-    public List<String> getTrackPackageNames(GenomeFactory.Assembly assembly){
+    public List<String> getTrackPackageNames(GenomeFactory.Assembly assembly) {
         return this.trackPackages.stream().filter(i -> i.getAssembly() == assembly).map(TrackPackage::getName).map(Enum::toString).collect(Collectors.toList());
     }
 
@@ -305,11 +301,10 @@ public final class TrackFactory {
 
 
     /**
-     *
      * Gets a track by name (case insensitive)
-     * @param name - name of the track
-     * @param assembly - assembly of the track
      *
+     * @param name     - name of the track
+     * @param assembly - assembly of the track
      * @return track with the give name and assembly or null if no such track exists
      */
     public Track getTrackByName(String name, GenomeFactory.Assembly assembly) {
@@ -324,76 +319,75 @@ public final class TrackFactory {
     }
 
 
-
     /**
      * Factory method for scored tracks. Creates a new track based on input.
      *
-     * @param starts - list of start positions
-     * @param ends - list of end positions
-     * @param names - list of names
-     * @param scores - list of scores
-     * @param name - name of track
+     * @param starts      - list of start positions
+     * @param ends        - list of end positions
+     * @param names       - list of names
+     * @param scores      - list of scores
+     * @param name        - name of track
      * @param description - description of track
-     *
      * @return new track with all given parameters
      */
     public ScoredTrack createScoredTrack(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String description) {
-        return new ScoredTrack(starts, ends, names, scores, name, description, null, -1);
+        return new ScoredTrack(starts, ends, names, scores, name, description, GenomeFactory.Assembly.Unknown, "");
     }
-    public ScoredTrack createScoredTrack(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String description, GenomeFactory.Assembly assembly, int cellLine) {
+
+    public ScoredTrack createScoredTrack(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String description, GenomeFactory.Assembly assembly, String cellLine) {
         return new ScoredTrack(starts, ends, names, scores, name, description, assembly, cellLine);
     }
 
     public ScoredTrack createScoredTrack(long[] starts, long[] ends, String[] names, double[] scores, String name, String description, GenomeFactory.Assembly assembly) {
-        return new ScoredTrack(starts, ends, names, scores, name, description, assembly, -1);
+        return new ScoredTrack(starts, ends, names, scores, name, description, assembly, "");
     }
 
 
     /**
      * Factory method for inout tracks. Creates a new track based on input.
      *
-     * @param starts - list of start positions
-     * @param ends - list of end positions
-     * @param name - name of track
+     * @param starts      - list of start positions
+     * @param ends        - list of end positions
+     * @param name        - name of track
      * @param description - description of track
-     *
      * @return new track with all given parameters
      */
     public InOutTrack createInOutTrack(List<Long> starts, List<Long> ends, String name, String description, GenomeFactory.Assembly assembly) {
-        return new InOutTrack(starts, ends, name, description, assembly, -1);
+        return new InOutTrack(starts, ends, name, description, assembly, "");
     }
-    public InOutTrack createInOutTrack(List<Long> starts, List<Long> ends, String name, String description, GenomeFactory.Assembly assembly, int cellLine) {
+
+    public InOutTrack createInOutTrack(List<Long> starts, List<Long> ends, String name, String description, GenomeFactory.Assembly assembly, String cellLine) {
         return new InOutTrack(starts, ends, name, description, assembly, cellLine);
     }
 
     public Track createInOutTrack(long[] starts, long[] ends, String ex, String description, GenomeFactory.Assembly assembly) {
-        return new InOutTrack(starts, ends, ex, description, assembly, -1);
+        return new InOutTrack(starts, ends, ex, description, assembly, "");
     }
 
 
-     /**
+    /**
      * Factory method for distance tracks. Creates a new track based on input.
      *
-     * @param starts - list of start positions
-     * @param name - name of track
+     * @param starts      - list of start positions
+     * @param name        - name of track
      * @param description - description of track
-     *
      * @param hg19
-      * @return new track with all given parameters
+     * @return new track with all given parameters
      */
     public DistanceTrack createDistanceTrack(List<Long> starts, String name, String description, GenomeFactory.Assembly assembly) {
-        return new DistanceTrack(starts, name, description, assembly, -1);
+        return new DistanceTrack(starts, name, description, assembly, "");
     }
-    public DistanceTrack createDistanceTrack(List<Long> starts, String name, String description, GenomeFactory.Assembly assembly, int cellLine) {
+
+    public DistanceTrack createDistanceTrack(List<Long> starts, String name, String description, GenomeFactory.Assembly assembly, String cellLine) {
         return new DistanceTrack(starts, name, description, assembly, cellLine);
     }
 
-    public NamedTrack createNamedTrack(List<Long> starts, List<Long> ends, List<String> names, String name, String description, GenomeFactory.Assembly assembly, int cellLine) {
-        return new NamedTrack(starts,ends, names, name, description, assembly, cellLine);
+    public NamedTrack createNamedTrack(List<Long> starts, List<Long> ends, List<String> names, String name, String description, GenomeFactory.Assembly assembly, String cellLine) {
+        return new NamedTrack(starts, ends, names, name, description, assembly, cellLine);
     }
 
-    public StrandTrack createStrandTrack(List<Long> start, List<Long> end, List<Character> strands, String name, String desc, GenomeFactory.Assembly assembly, int cellLine) {
-        return new StrandTrack(start,end,strands,name,desc,assembly, cellLine);
+    public StrandTrack createStrandTrack(List<Long> start, List<Long> end, List<Character> strands, String name, String desc, GenomeFactory.Assembly assembly, String cellLine) {
+        return new StrandTrack(start, end, strands, name, desc, assembly, cellLine);
     }
 
     public int getTrackCount() {
@@ -401,7 +395,7 @@ public final class TrackFactory {
     }
 
 
-    public void addTrack(Track track){
+    public void addTrack(Track track) {
         this.tracks.add(track);
     }
 

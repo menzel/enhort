@@ -80,31 +80,6 @@ public class CellLine {
         }
     }
 
-
-    /**
-     * Returns the cell line id of a given cellline name
-     *
-     * @param cellline - name of the cell line
-     * @return id of the given cell line
-     */
-    public int valueOf(String cellline) {
-        if(cellline.equals("Unknown"))
-            return -1;
-
-        for(String key: names.keySet()){
-
-            if(key.equals(cellline))
-                return key.hashCode();
-
-            if(names.get(key) != null) //if there is a sublist
-                for(String inner: names.get(key))
-                    if (inner.equals(cellline))
-                        return inner.hashCode();
-        }
-
-        throw new RuntimeException("No known Cellline with the name " + cellline);
-    }
-
     /**
      * Returns all known cell lines
      *
@@ -114,27 +89,17 @@ public class CellLine {
         return names;
     }
 
+
     /**
-     * Returns the name for a given cellline id.
+     * checks if the given cell line is known to the env. If not it throws an error,
+     * if it is known, the real name is given back
      *
-     * @param id cellline id
-     * @return name of the cellline with the id id, or error Message
-     *
+     * @param cellline - name of the cell line as string
+     * @return real name of the cell line
      */
-    public String valueOf(int id) {
-        if(id == -1)
-            return "Unknown";
+    public String check(String cellline) throws RuntimeException{
 
-        for(String key: names.keySet()) {
-            if (names.get(key) == null) { // if there is no subgroup
-                if (key.hashCode() == id)
-                    return key;
-            } else if(names.get(key) != null)
-                for (String sub : names.get(key)) //iterate through subgroup
-                    if (sub.hashCode() == id)
-                        return sub;
-        }
-
-        throw new RuntimeException("No cellline with id " + id);
+        //TODO impl check
+        return cellline;
     }
 }

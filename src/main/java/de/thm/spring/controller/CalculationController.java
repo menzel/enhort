@@ -9,6 +9,7 @@ import de.thm.logo.GenomeFactory;
 import de.thm.logo.Logo;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.UserData;
+import de.thm.result.ResultCollector;
 import de.thm.spring.backend.BackendConnector;
 import de.thm.spring.backend.Session;
 import de.thm.spring.backend.Sessions;
@@ -16,7 +17,6 @@ import de.thm.spring.backend.StatisticsCollector;
 import de.thm.spring.command.BackendCommand;
 import de.thm.spring.command.ExpressionCommand;
 import de.thm.spring.command.InterfaceCommand;
-import de.thm.stat.ResultCollector;
 import de.thm.stat.TestResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -187,7 +187,7 @@ public class CalculationController {
                 command.addCustomTrack(currentSession.getCustomTracks());
 
                 /////////// Run analysis ////////////
-                ResultCollector collector = BackendConnector.getInstance().runAnalysis(command);
+                ResultCollector collector = (ResultCollector) BackendConnector.getInstance().runAnalysis(command);
                 /////////////////////////////////////
 
                 if(collector != null) {
@@ -255,7 +255,7 @@ public class CalculationController {
                 BackendCommand backendCommand = new BackendCommand(userSites, sitesBg);
 
                 /////////// Run analysis ////////////
-                ResultCollector collector = BackendConnector.getInstance().runAnalysis(backendCommand);
+                ResultCollector collector = (ResultCollector) BackendConnector.getInstance().runAnalysis(backendCommand);
                 /////////////////////////////////////
 
                 if(collector != null) {
@@ -337,7 +337,7 @@ public class CalculationController {
             backendCommand.addCustomTrack(currentSession.getCustomTracks());
 
             /////////// Run analysis ////////////
-            collector = BackendConnector.getInstance().runAnalysis(backendCommand);
+            collector = (ResultCollector) BackendConnector.getInstance().runAnalysis(backendCommand);
             /////////////////////////////////////
 
             covariants = collector.getCovariants(command.getCovariants());

@@ -72,6 +72,27 @@ public final class BackendCommand implements Serializable, Command{
         this.celllines = command.getCelllines();
     }
 
+    /**
+     * Constructor to get all tracks from bg.
+     * Used by the data table view
+     *
+     * @param assembly - assembly number to get
+     */
+    public BackendCommand(GenomeFactory.Assembly assembly) {
+        this.assembly = assembly;
+
+        this.covariants = new ArrayList<>();
+        this.packageNames = new ArrayList<>();
+        this.sites = null;
+        this.minBg =  0;
+        this.customTracks = new ArrayList<>();
+        this.influence = 1;
+        this.logoCovariate = false;
+        this.createLogo = false;
+        this.sitesBg = null;
+        this.celllines = new ArrayList<>();
+    }
+
     public void addCustomTrack(List<Track> track){
         this.customTracks.addAll(track);
     }

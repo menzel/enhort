@@ -287,16 +287,16 @@ final class FileLoader implements Runnable {
 
             switch (type) {
                 case strand:
-                    return Optional.of(new StrandTrack(starts, ends, strands, name, description, assembly, cellLine.valueOf(cellline)));
+                    return Optional.of(new StrandTrack(starts, ends, strands, name, description, assembly, cellLine.check(cellline)));
                 case inout:
                     //return PositionPreprocessor.preprocessData(new InOutTrack(starts, ends, name, description));
-                    return Optional.of(new InOutTrack(starts, ends, name, description, assembly, cellLine.valueOf(cellline)));
+                    return Optional.of(new InOutTrack(starts, ends, name, description, assembly, cellLine.check(cellline)));
                 case scored:
-                    return Optional.of(PositionPreprocessor.preprocessData(new ScoredTrack(starts, ends, names, scores, name, description, assembly, cellLine.valueOf(cellline))));
+                    return Optional.of(PositionPreprocessor.preprocessData(new ScoredTrack(starts, ends, names, scores, name, description, assembly, cellLine.check(cellline))));
                 case named:
-                    return Optional.of(PositionPreprocessor.preprocessData(new NamedTrack(starts, ends, names, name, description, assembly, cellLine.valueOf(cellline))));
+                    return Optional.of(PositionPreprocessor.preprocessData(new NamedTrack(starts, ends, names, name, description, assembly, cellLine.check(cellline))));
                 case distance:
-                    return Optional.of(new DistanceTrack(starts, "Distance from " + name, description, assembly, cellLine.valueOf(cellline)));
+                    return Optional.of(new DistanceTrack(starts, "Distance from " + name, description, assembly, cellLine.check(cellline)));
                 default:
                     throw new Exception("Something is wrong with this track or file: " + file.getName());
             }
