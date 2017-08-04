@@ -54,9 +54,7 @@
                                     <td class="row" th:if="${cl.key} == ${track.cellLine}">
                                         <input class="check" type="checkbox" th:value="${track.uid}">
                                     </td>
-                                    <td class="row" th:if="${cl.key} != ${track.cellLine}">
-                                        <div class="square"></div>
-                                    </td>
+                                    <td class="row" th:if="${cl.key} != ${track.cellLine}"></td>
                                 </th:block>
                             </tr>
 
@@ -73,9 +71,7 @@
                                         <td class="row" th:if="${inner} == ${track.cellLine}">
                                             <input class="check" type="checkbox" th:value="${track.uid}">
                                         </td>
-                                        <td class="row" th:if="${inner} != ${track.cellLine}">
-                                            <div class="square"></div>
-                                        </td>
+                                        <td class="row" th:if="${inner} != ${track.cellLine}"></td>
                                     </th:block>
                                 </tr>
                             </th:block>
