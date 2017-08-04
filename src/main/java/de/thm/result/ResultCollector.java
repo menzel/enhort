@@ -1,4 +1,4 @@
-package de.thm.stat;
+package de.thm.result;
 
 import de.thm.genomeData.CellLine;
 import de.thm.genomeData.ScoredTrack;
@@ -6,6 +6,7 @@ import de.thm.genomeData.TrackFactory;
 import de.thm.logo.GenomeFactory;
 import de.thm.logo.Logo;
 import de.thm.positionData.Sites;
+import de.thm.stat.TestResult;
 import org.apache.commons.math3.util.Pair;
 import org.apache.commons.math3.util.Precision;
 
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
  * <p>
  * Created by Michael Menzel on 26/1/16.
  */
-public final class ResultCollector implements Serializable{
+public final class ResultCollector implements Serializable, Result{
 
     private final List<TestResult> results;
     private final Sites backgroundSites;

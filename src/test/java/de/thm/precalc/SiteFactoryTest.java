@@ -38,7 +38,7 @@ public class SiteFactoryTest {
         Path path = new File("/home/menzel/Desktop/THM/lfba/enhort/dat/hg19/inout/knownGenes.bed").toPath();
 
         try {
-            TrackFactory.getInstance().loadTrack(path);
+            TrackFactory.getInstance().loadTrack(path, GenomeFactory.Assembly.hg19);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -54,7 +54,7 @@ public class SiteFactoryTest {
         trackFactory.addTrack(contigs);
         //end mock contigs track
 
-        factory = new SiteFactory(GenomeFactory.Assembly.hg19, 2000000);
+        factory = new SiteFactory(GenomeFactory.Assembly.hg19, 3000000);
     }
 
 

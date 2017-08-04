@@ -2,6 +2,7 @@ package de.thm.stat;
 
 import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
+import de.thm.result.ResultCollector;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

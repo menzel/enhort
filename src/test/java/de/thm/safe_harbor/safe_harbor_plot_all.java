@@ -7,7 +7,7 @@ import de.thm.genomeData.TrackFactory;
 import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
 import de.thm.positionData.UserData;
-import de.thm.stat.ResultCollector;
+import de.thm.result.ResultCollector;
 import de.thm.stat.TestResult;
 
 import java.io.File;
@@ -28,7 +28,7 @@ public class safe_harbor_plot_all {
     //@Test
     public void getPlotData() {
 
-        TrackFactory.getInstance().loadTracks();
+        TrackFactory.getInstance().loadAllTracks();
 
         // get file list
 
