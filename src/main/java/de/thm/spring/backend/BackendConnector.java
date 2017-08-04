@@ -131,7 +131,7 @@ public final class BackendConnector implements Runnable {
 
             } else if (answer instanceof DataViewResult){
                 DataViewResult result = (DataViewResult) answer;
-                //TODO
+                System.out.println("[Enhort Webinterface]: got data table: " + result.getTracks().size());
 
                 return result;
 
