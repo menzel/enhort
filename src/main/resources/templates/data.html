@@ -30,22 +30,27 @@
             <div id="presets">
                 <div class="preset"><label>
                     <input type="checkbox">
-                </label>Unknown cell line</div>
+                    Unknown cell line
+                </label></div>
                 <div class="preset"><label>
                     <input type="checkbox">
-                </label>Histone modifications</div>
+                Histone modifications
+                </label></div>
                 <div class="preset"><label>
                     <input type="checkbox">
-                </label>Genotoxicity</div>
+                Genotoxicity
+                </label></div>
                 <div class="preset"><label>
                     <input type="checkbox">
-                </label>Genome segmentation</div>
+                Genome segmentation
+                </label></div>
                 <div class="preset"><label>
                     <input type="checkbox">
-                </label>Expression levels</div>
+                Expression levels
+                </label></div>
             </div>
 
-            <div class="table-responsive">
+            <div id="datatable" class="table-responsive">
             <table class="table table-hover fixed">
 
                 <colgroup>
@@ -98,57 +103,43 @@
                     </th:block>
                 </tbody>
             </table>
+
+            </div>
+            <div id="selectedtracks">
+                Selected tracks:
+                <table>
+                </table>
+
             </div>
 
         </div>
 
     </div>
 
-<script>
+    <script src="/js/celltable.js" th:href="@{/js/celltable.js}" ></script>
 
-    var rowheader = document.getElementsByClassName("rowheader");
-    var colheader = document.getElementsByClassName("trackname");
-    var coln = colheader.length;
-    var rown = rowheader.length;
+    <script>
+        $('#datatable').click(function () {
 
+            var values = $('input:checked').map(function() {
+                return this.value;
+            }).get();
 
-    /*Select all in row if the rowname is clicked */
+            var table = document.getElementById("selectedtracks").firstElementChild;
 
-    //iterate over table rows and add listeners
-    for(var i=0, l=rowheader.length; i<l; i++){
-        rowheader[i].addEventListener('click', function (event) {
-            var row = event.currentTarget;
-
-            //iterate over childs and toggle checkboxes
-            for(var j=1; j<coln; j++){ // first element is the row header, skip
-                var child = row.nextElementSibling.parentElement.cells[j].firstElementChild;
-
-                if(child !== null)
-                    child.checked = !child.checked;
+            while(table.rows.length > 0){
+                table.deleteRow(0);
             }
-        });
-    }
 
-    /*Select all in column if the colname is clicked */
-
-
-    for(i=0, l=coln; i<l; i++){
-        colheader[i].addEventListener('click', function (event) {
-            var colnum = event.currentTarget.parentElement.cellIndex; // colnumber clicked
-            col = event.currentTarget;
-
-            for(var j = 0; j < rown; j++){ //iterate over all rows
-                child = rowheader[j].nextElementSibling.parentElement.cells[colnum].firstElementChild; // get elements from each row
-
-                if(child !== null)
-                    child.checked = !child.checked;
-
+            for(var i = 0, l = values.length; i<l; i++){
+                var row = table.insertRow();
+                var cell = row.insertCell(0);
+                cell.innerHTML = values[i];
             }
-        });
-    }
+        })
 
 
-</script>
+    </script>
 
 </body>
 </html>
