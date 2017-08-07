@@ -84,7 +84,6 @@ public class ApplicationController {
             DataViewResult collector = (DataViewResult) BackendConnector.getInstance().runAnalysis(command);
             /////////////////////////////////////
 
-            //TODO: save the list of known cell lines somewhere and only reload if needed
             if(collector != null) {
 
                 model.addAttribute("tracks", collector.getTracks());
