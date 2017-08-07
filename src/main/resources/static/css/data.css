@@ -11,15 +11,44 @@
     position: absolute;
 }
 
+.preset label{
+    font-weight:500;
+}
+
 .preset input{
     margin-right:3px;
 }
 
 
+.preset input[type="checkbox"]{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    background-color: white;
+    width: 16px;
+    height: 16px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    margin: 0;
+    padding:0;
+    -webkit-box-shadow: inset 0px 0px 1px 2px rgba(0,0,145,1);
+    -moz-box-shadow: inset 0px 0px 1px 2px rgba(0,0,145,1);
+    box-shadow: inset 0px 0px 1px 2px rgba(0,0,145,1);
+}
+
+
+.preset input[type="checkbox"]:checked{
+    background-color: rgb(255, 133, 56);
+}
+
 /*
 * Data Table
  */
 
+#datatable{
+    overflow-x: visible;
+}
 table {
     table-layout: fixed;
     width:100%;
