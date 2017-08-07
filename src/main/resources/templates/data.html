@@ -105,41 +105,11 @@
             </table>
 
             </div>
-            <div id="selectedtracks">
-                Selected tracks:
-                <table>
-                </table>
-
-            </div>
-
         </div>
 
     </div>
 
     <script src="/js/celltable.js" th:href="@{/js/celltable.js}" ></script>
-
-    <script>
-        $('#datatable').click(function () {
-
-            var values = $('input:checked').map(function() {
-                return this.value;
-            }).get();
-
-            var table = document.getElementById("selectedtracks").firstElementChild;
-
-            while(table.rows.length > 0){
-                table.deleteRow(0);
-            }
-
-            for(var i = 0, l = values.length; i<l; i++){
-                var row = table.insertRow();
-                var cell = row.insertCell(0);
-                cell.innerHTML = values[i];
-            }
-        })
-
-
-    </script>
 
 </body>
 </html>
