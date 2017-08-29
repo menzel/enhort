@@ -55,7 +55,7 @@
 
                 <colgroup>
                     <col width="160px"/>
-                    <th:block th:each="track: ${tracks}">
+                    <th:block th:each="track: ${trackNames}">
                         <col width="5px"/>
                     </th:block>
                 </colgroup>
@@ -63,23 +63,29 @@
                 <thead>
                     <tr>
                         <th><!-- Cell line column--></th>
-                        <th:block th:each="track: ${tracks}">
-                            <th class="colheader"><div class="trackname" th:text="${track.name}"></div></th>
+                        <th:block th:each="track: ${trackNames}">
+                            <th class="colheader"><div class="trackname" th:text="${track}"></div></th>
                         </th:block>
                     </tr>
                 </thead>
+
 
                 <tbody>
                     <th:block th:each="cl: ${celllines}">
                         <th:block th:if="${#lists.isEmpty(cl.value)}">
                             <tr class="clrow">
                                 <td class="rowheader" th:text="${cl.key}"></td>
-                                <th:block th:each="track: ${tracks}">
-                                    <td class="row" th:if="${cl.key} == ${track.cellLine}">
-                                        <input class="check" type="checkbox" th:value="${track.uid}">
-                                    </td>
-                                    <td class="row" th:if="${cl.key} != ${track.cellLine}"></td>
-                                </th:block>
+
+                                    <th:block th:each="pack: ${ids}">
+                                        <th:block th:if="${cl.key == pack.key}">
+
+                                            <th:block th:each="value: ${pack.value}">
+
+                                                <td class="row" th:if="${value != -1}"><input class="check" type="checkbox" th:value="${value}"></td>
+                                                <td class="row" th:if="${value == -1}"></td>
+                                            </th:block>
+                                        </th:block>
+                                    </th:block>
                             </tr>
 
                         </th:block>
@@ -91,12 +97,17 @@
                                 <tr class="clrow">
                                     <td class="rowheader"  th:text="${inner}"></td>
 
-                                    <th:block th:each="track: ${tracks}">
-                                        <td class="row" th:if="${inner} == ${track.cellLine}">
-                                            <input class="check" type="checkbox" th:value="${track.uid}">
-                                        </td>
-                                        <td class="row" th:if="${inner} != ${track.cellLine}"></td>
-                                    </th:block>
+                                        <th:block th:each="pack: ${ids}">
+                                            <th:block th:if="${inner == pack.key}">
+
+                                                <th:block th:each="value: ${pack.value}">
+
+                                                    <td class="row" th:if="${value != -1}"><input class="check" type="checkbox" th:value="${value}"></td>
+                                                    <td class="row" th:if="${value == -1}"></td>
+                                                </th:block>
+                                            </th:block>
+                                        </th:block>
+
                                 </tr>
                             </th:block>
                         </th:block>

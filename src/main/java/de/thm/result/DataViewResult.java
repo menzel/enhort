@@ -1,7 +1,6 @@
 package de.thm.result;
 
-import de.thm.genomeData.CellLine;
-import de.thm.genomeData.Track;
+import de.thm.genomeData.TrackPackage;
 import de.thm.logo.GenomeFactory;
 
 import java.io.Serializable;
@@ -12,13 +11,13 @@ public class DataViewResult implements Serializable, Result{
 
 
     private final GenomeFactory.Assembly assembly;
-    private final List<Track> tracks;
-    private final Map<String, List<String>> knownCelllines;
+    private List<TrackPackage> packages;
+    private Map<String, List<String>> cellLines;
 
-    public DataViewResult(GenomeFactory.Assembly assembly, List<Track> tracks) {
+    public DataViewResult(GenomeFactory.Assembly assembly, List<TrackPackage> packages, Map<String, List<String>> cellLines) {
         this.assembly = assembly;
-        this.tracks = tracks;
-        knownCelllines = CellLine.getInstance().getCelllines();
+        this.packages = packages;
+        this.cellLines = cellLines;
     }
 
     @Override
@@ -26,12 +25,11 @@ public class DataViewResult implements Serializable, Result{
         return this.assembly;
     }
 
-    public List<Track> getTracks() {
-        return tracks;
+    public List<TrackPackage> getPackages() {
+        return packages;
     }
 
     public Map<String, List<String>> getCellLines() {
-
-        return knownCelllines;
+        return cellLines;
     }
 }
