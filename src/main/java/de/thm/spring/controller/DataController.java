@@ -2,8 +2,8 @@ package de.thm.spring.controller;
 
 import de.thm.exception.CovariantsException;
 import de.thm.exception.NoTracksLeftException;
-import de.thm.genomeData.Track;
-import de.thm.genomeData.TrackPackage;
+import de.thm.genomeData.tracks.Track;
+import de.thm.genomeData.tracks.TrackPackage;
 import de.thm.logo.GenomeFactory;
 import de.thm.result.DataViewResult;
 import de.thm.spring.backend.BackendConnector;

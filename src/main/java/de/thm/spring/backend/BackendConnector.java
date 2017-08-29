@@ -2,7 +2,7 @@ package de.thm.spring.backend;
 
 import de.thm.exception.CovariantsException;
 import de.thm.exception.NoTracksLeftException;
-import de.thm.genomeData.Track;
+import de.thm.genomeData.tracks.Track;
 import de.thm.result.DataViewResult;
 import de.thm.result.Result;
 import de.thm.result.ResultCollector;
@@ -131,7 +131,7 @@ public final class BackendConnector implements Runnable {
 
             } else if (answer instanceof DataViewResult){
                 DataViewResult result = (DataViewResult) answer;
-                System.out.println("[Enhort Webinterface]: got data table: " + result.getTracks().size());
+                System.out.println("[Enhort Webinterface]: got data table: " + result.getPackages().size());
 
                 return result;
 

@@ -2,8 +2,8 @@ package de.thm.spring.controller;
 
 
 import de.thm.exception.CovariantsException;
-import de.thm.genomeData.Track;
-import de.thm.genomeData.TrackFactory;
+import de.thm.genomeData.tracks.Track;
+import de.thm.genomeData.tracks.TrackFactory;
 import de.thm.guess.AssemblyGuesser;
 import de.thm.logo.GenomeFactory;
 import de.thm.logo.Logo;

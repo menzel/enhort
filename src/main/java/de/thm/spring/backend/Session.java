@@ -1,6 +1,6 @@
 package de.thm.spring.backend;
 
-import de.thm.genomeData.Track;
+import de.thm.genomeData.tracks.Track;
 import de.thm.positionData.UserData;
 import de.thm.result.ResultCollector;
 import de.thm.stat.TestResult;

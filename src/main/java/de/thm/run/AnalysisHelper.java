@@ -5,10 +5,10 @@ import de.thm.calc.CalcCaller;
 import de.thm.exception.CovariantsException;
 import de.thm.exception.NoTracksLeftException;
 import de.thm.exception.TrackTypeNotAllowedExcpetion;
-import de.thm.genomeData.CellLine;
-import de.thm.genomeData.Track;
-import de.thm.genomeData.TrackFactory;
-import de.thm.genomeData.TrackPackage;
+import de.thm.genomeData.tracks.CellLine;
+import de.thm.genomeData.tracks.Track;
+import de.thm.genomeData.tracks.TrackFactory;
+import de.thm.genomeData.tracks.TrackPackage;
 import de.thm.logo.GenomeFactory;
 import de.thm.logo.LogoCreator;
 import de.thm.positionData.Sites;
@@ -22,7 +22,6 @@ import de.thm.spring.command.BackendCommand;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Wrapper for the spring gui to call the different intersects and background models.
@@ -89,29 +88,17 @@ class AnalysisHelper {
             }
         }
 
-        List<String> celllines = cmd.getCelllines();
-        CellLine cLine = CellLine.getInstance();
-
-        if(cmd.getPackageNames().isEmpty()) {
-            runTracks = trackFactory.getTracksByPackage(TrackPackage.PackageName.Basic, cmd.getAssembly());
+        if(cmd.getTracks().isEmpty()) {
+            runTracks = trackFactory.getTracksByName(cmd.getTracks(), cmd.getAssembly());
         } else {
             runTracks =  new ArrayList<>();
-
-            /* Cellline filter:  If the cellline list contains no elements (which means none but the first checkbox in the cellline dialog was
-             selected) there is no cellline filter. If there is a cellline name, all tracks are filtered */
-
-            for(String packName: cmd.getPackageNames()){
-                runTracks.addAll(trackFactory.getTracksByPackage(packName, cmd.getAssembly()).stream()
-                        .filter(t -> (celllines.size() == 0 || celllines.contains(t.getCellLine())))
-                        .collect(Collectors.toList()));
-            }
 
             //check and apply custom tracks
             runTracks.addAll(cmd.getCustomTracks());
 
             if(runTracks.isEmpty()) {
                 if(BackendController.runlevel == BackendController.Runlevel.DEBUG)
-                    System.err.println("TrackFactory did not provide any tracks for given packages (" + Arrays.toString(cmd.getPackageNames().toArray()) + ") in AnalysisHelper");
+                    System.err.println("TrackFactory did not provide any tracks for given packages (" + Arrays.toString(cmd.getTracks().toArray()) + ") in AnalysisHelper");
                 throw new NoTracksLeftException("There are no tracks available for this genome version and cell line");
             }
         }
@@ -126,20 +113,16 @@ class AnalysisHelper {
         List<Track> runTracks;
         TrackFactory trackFactory = TrackFactory.getInstance();
 
-        if(cmd.getPackageNames().isEmpty()) {
-            runTracks = trackFactory.getTracksByPackage(TrackPackage.PackageName.Basic, cmd.getAssembly());
+        if(cmd.getTracks().isEmpty()) {
+            runTracks = TrackFactory.getInstance().getTracks(cmd.getAssembly());
         } else {
-            runTracks =  new ArrayList<>();
-
-            for(String packName: cmd.getPackageNames()){
-                runTracks.addAll(trackFactory.getTracksByPackage(packName, cmd.getAssembly()));
-            }
+            runTracks = trackFactory.getTracksByName(cmd.getTracks(), cmd.getAssembly());
 
             //check and apply custom tracks
             runTracks.addAll(cmd.getCustomTracks());
 
             if(runTracks.isEmpty()){
-                System.err.println("TrackFactory did not provide any tracks for given packages (" + Arrays.toString(cmd.getPackageNames().toArray()) + ") in AnalysisHelper");
+                System.err.println("TrackFactory did not provide any tracks for given packages (" + Arrays.toString(cmd.getTracks().toArray()) + ") in AnalysisHelper");
                 throw new NoTracksLeftException("There are no tracks available for this genome version and cell line" );
             }
         }
@@ -149,9 +132,9 @@ class AnalysisHelper {
     }
 
     private Result returnDataTableView(GenomeFactory.Assembly assembly) {
-        List<Track> tracks = TrackFactory.getInstance().getTracks(assembly);
+        List<TrackPackage> packages = TrackFactory.getInstance().getTrackPackages(assembly);
 
-        return new DataViewResult(assembly, tracks);
+        return new DataViewResult(assembly, packages, CellLine.getInstance().getCelllines());
     }
 
 

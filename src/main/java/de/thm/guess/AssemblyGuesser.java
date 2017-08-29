@@ -2,8 +2,8 @@ package de.thm.guess;
 
 import de.thm.calc.Intersect;
 import de.thm.calc.TestTrackResult;
-import de.thm.genomeData.InOutTrack;
-import de.thm.genomeData.TrackFactory;
+import de.thm.genomeData.tracks.InOutTrack;
+import de.thm.genomeData.tracks.TrackFactory;
 import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
 import org.apache.commons.exec.CommandLine;

@@ -1,6 +1,6 @@
 package de.thm.backgroundModel;
 
-import de.thm.genomeData.Track;
+import de.thm.genomeData.tracks.Track;
 import de.thm.positionData.Sites;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;

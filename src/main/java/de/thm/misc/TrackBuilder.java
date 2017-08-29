@@ -1,9 +1,9 @@
 package de.thm.misc;
 
 import de.thm.exception.TrackTypeNotAllowedExcpetion;
-import de.thm.genomeData.Track;
-import de.thm.genomeData.TrackFactory;
-import de.thm.genomeData.Tracks;
+import de.thm.genomeData.tracks.Track;
+import de.thm.genomeData.tracks.TrackFactory;
+import de.thm.genomeData.tracks.Tracks;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import java.util.ArrayList;

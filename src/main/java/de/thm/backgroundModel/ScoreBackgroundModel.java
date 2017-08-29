@@ -1,8 +1,8 @@
 package de.thm.backgroundModel;
 
-import de.thm.genomeData.ScoredTrack;
-import de.thm.genomeData.Track;
-import de.thm.genomeData.TrackFactory;
+import de.thm.genomeData.tracks.ScoredTrack;
+import de.thm.genomeData.tracks.Track;
+import de.thm.genomeData.tracks.TrackFactory;
 import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;

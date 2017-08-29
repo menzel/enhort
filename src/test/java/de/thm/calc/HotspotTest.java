@@ -1,6 +1,6 @@
 package de.thm.calc;
 
-import de.thm.genomeData.ScoredTrack;
+import de.thm.genomeData.tracks.ScoredTrack;
 import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
 import org.junit.Test;

@@ -89,7 +89,7 @@ final class Genome {
             long first = start.getRight() - width / 2;
             assert it != null;
 
-            while (it.hasNext() || counter > first) {
+            while (it.hasNext() || counter > first) { //TODO check overflow of 'it' on large numbers in GenomeFacotry
 
                 if (counter > first) {
 
@@ -154,21 +154,6 @@ final class Genome {
         return getSequence(sites.getPositions(), width,count);
     }
 
-
-    /**
-     * Get positions by given Logo @see logo.Logo
-     *
-     * @param logo - given Logo
-     * @param count - count of positions to find
-     *
-     * @return positions found
-     */
-    public List<Long> getPositions(Logo logo, int count) {
-        //TODO
-        return null;
-    }
-
-
     /**
      * Returns a list of 'count' sequence positions that show the exact representation of the given logo.
      *
@@ -192,7 +177,10 @@ final class Genome {
         }
 
         //collect and remove nulls:
-        List<Path> paths_list =  paths.collect(Collectors.toList()).stream().filter(Objects::nonNull).collect(Collectors.toList());
+        List<Path> paths_list = paths.collect(Collectors.toList())
+                                .stream()
+                                .filter(Objects::nonNull)
+                                .collect(Collectors.toList());
 
         for (Path path : paths_list) {
 

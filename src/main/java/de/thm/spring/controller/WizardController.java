@@ -110,7 +110,7 @@ public class WizardController {
             model.addAttribute("page", "packages");
             return "wizard";
 
-        } else if(interfaceCommand.getPackageNames().size() > 0) { // serve covariates page:
+        } else if(interfaceCommand.getTracks().size() > 0) { // serve covariates page:
 
             interfaceCommand.setAssembly(currentSession.getSites().getAssembly().toString());
             interfaceCommand.setSites(currentSession.getSites());

@@ -1,4 +1,4 @@
-package de.thm.genomeData;
+package de.thm.genomeData.tracks;
 
 import de.thm.logo.GenomeFactory;
 
@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 /**
  * Handles the loading of all tracks. Implements factory methods for all three track types.
@@ -35,11 +34,16 @@ public final class TrackFactory {
     private TrackFactory() {
 
         if (System.getenv("HOME").contains("menzel")) {
-            basePath = new File("/home/menzel/Desktop/THM/lfba/enhort/dat/").toPath();
+            basePath = new File("/home/menzel/Desktop/THM/lfba/enhort/dat_small/").toPath();
         } else {
             basePath = new File("/home/mmnz21/dat/").toPath();
         }
 
+        /*
+        DBConnector connector = new DBConnector();
+        connector.connect();
+        System.out.println(connector.getAllTracks());
+        */
 
         tracks = new ArrayList<>();
         trackPackages = new ArrayList<>();
@@ -61,7 +65,9 @@ public final class TrackFactory {
      */
     public void loadTrack(Path path, GenomeFactory.Assembly assembly) throws IOException {
         Track track;
-        track = loadTracks(path, Type.inout, assembly).get(0);
+        List<Path> paths = new ArrayList<>();
+        paths.add(path);
+        track = loadTracks(paths, assembly).get(0);
         this.tracks.add(track);
     }
 
@@ -71,105 +77,51 @@ public final class TrackFactory {
      */
     public void loadAllTracks() {
 
-        List<Track> tmp;
-
         try {
 
-
             //////////// hg19  ///////////////
-            Path hg19path = this.basePath.resolve("hg19"); //convert basePath to a local variable and set to hg19 dir
+            Path hg19path = this.basePath.resolve("hg19");
 
-            tmp = loadTracks(hg19path.resolve("inout"), Type.inout, GenomeFactory.Assembly.hg19);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks", GenomeFactory.Assembly.hg19));
-            this.tracks.addAll(tmp);
+            List<Path> dirs19 = new ArrayList<>();
+            Files.walk(Paths.get(hg19path.toString())).filter(Files::isRegularFile).forEach(dirs19::add);
 
+            this.tracks.addAll(loadTracks(dirs19, GenomeFactory.Assembly.hg19));
 
-            tmp = loadTracks(hg19path.resolve("histmod_cd4"), Type.inout, GenomeFactory.Assembly.hg19);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Histone, "Histone modifications", GenomeFactory.Assembly.hg19));
-            this.tracks.addAll(tmp);
-
-            //////////// hg38  ///////////////
-            Path hg38path = this.basePath.resolve("hg38"); //convert basePath to a local variable and set to hg38 dir
-
-            tmp = loadTracks(hg38path.resolve("inout"), Type.inout, GenomeFactory.Assembly.hg38);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks.", GenomeFactory.Assembly.hg38));
-            this.tracks.addAll(tmp);
-
+            /*
 
             //////////// hg18  ///////////////
-            Path hg18path = this.basePath.resolve("hg18"); //convert basePath to a local variable and set to hg38 dir
+            Path hg18path = this.basePath.resolve("hg18");
 
-            tmp = loadTracks(hg18path.resolve("inout"), Type.inout, GenomeFactory.Assembly.hg18);
-            this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Basic, "Basic tracks.", GenomeFactory.Assembly.hg18));
-            this.tracks.addAll(tmp);
+            List<Path> dirs18 = new ArrayList<>();
+            Files.walk(Paths.get(hg18path.toString())).filter(Files::isRegularFile).forEach(dirs18::add);
 
-
-            if (!System.getenv("HOME").contains("menzel")) {
-                //only load all tracks when running on the big server
-
-                tmp = loadTracks(hg19path.resolve("score"), Type.scored, GenomeFactory.Assembly.hg19);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Expression, "Expression scores", GenomeFactory.Assembly.hg19));
-                this.tracks.addAll(tmp);
-
-                tmp = loadTracks(hg38path.resolve("distanced"), Type.distance, GenomeFactory.Assembly.hg38);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Distance, "Distances", GenomeFactory.Assembly.hg38));
-                this.tracks.addAll(tmp);
+            this.tracks.addAll(loadTracks(dirs18, GenomeFactory.Assembly.hg18));
 
 
-                tmp = loadTracks(basePath.resolve("iPS"), Type.inout, GenomeFactory.Assembly.hg19);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.iPS, "iPS Cell Stuff", GenomeFactory.Assembly.hg19));
-                this.tracks.addAll(tmp);
+            //////////// hg38  ///////////////
+            Path hg38path = this.basePath.resolve("hg38");
 
-                tmp = loadTracks(basePath.resolve("repeats_by_family"), Type.inout, GenomeFactory.Assembly.hg19);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_family, "Repeats by family", GenomeFactory.Assembly.hg19));
-                this.tracks.addAll(tmp);
+            List<Path> dirs38 = new ArrayList<>();
+            Files.walk(Paths.get(hg18path.toString())).filter(Files::isRegularFile).forEach(dirs38::add);
 
-                tmp = loadTracks(basePath.resolve("repeats_by_class"), Type.inout, GenomeFactory.Assembly.hg19);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Repeats_by_class, "Repeats by class", GenomeFactory.Assembly.hg19));
-                this.tracks.addAll(tmp);
+            this.tracks.addAll(loadTracks(dirs38, GenomeFactory.Assembly.hg38));
+            */
 
+            List<String> trackPackagesNames = new ArrayList<>();
 
-                tmp = loadTracks(basePath.resolve("cancer_genes"), Type.inout, GenomeFactory.Assembly.hg19);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Cancer, "Cancer gene tracks", GenomeFactory.Assembly.hg19));
-                this.tracks.addAll(tmp);
+            for(Track track: tracks){
+                if(trackPackagesNames.contains(track.getCellLine())){
+                    //if the package exist add the track
+                    trackPackages.get(trackPackagesNames.indexOf(track.getCellLine())).add(track);
 
+                } else {
+                    //if the package for this cell line does not exist create a new package and then add the track
+                    TrackPackage trackPackage = new TrackPackage(track.getCellLine(), track.getAssembly(), track.getCellLine());
+                    this.trackPackages.add(trackPackage);
+                    trackPackagesNames.add(track.getCellLine());
 
-                tmp = loadTracks(basePath.resolve("safe_harbor"), Type.inout, GenomeFactory.Assembly.hg19);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.safe_harbor, "Safe Harbor tracks", GenomeFactory.Assembly.hg19));
-                this.tracks.addAll(tmp);
-
-
-                tmp = loadTracks(basePath.resolve("distanced"), Type.distance, GenomeFactory.Assembly.hg19);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Distance, "Distances to positions", GenomeFactory.Assembly.hg19));
-                this.tracks.addAll(tmp);
-
-
-                tmp = loadTracks(basePath.resolve("named"), Type.named, GenomeFactory.Assembly.hg19);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Named, "Named tracks", GenomeFactory.Assembly.hg19));
-                this.tracks.addAll(tmp);
-
-
-                tmp = loadTracks(basePath.resolve("strand"), Type.strand, GenomeFactory.Assembly.hg19);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Strand, "Strand dependend tracks", GenomeFactory.Assembly.hg19));
-                this.tracks.addAll(tmp);
-
-
-                tmp = loadTracks(basePath.resolve("tf"), Type.inout, GenomeFactory.Assembly.hg19);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.TFBS, "Transcription factor binding sites", GenomeFactory.Assembly.hg19));
-                this.tracks.addAll(tmp);
-
-                tmp = loadTracks(basePath.resolve("restriction_sites"), Type.inout, GenomeFactory.Assembly.hg19);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Restriction_sites, "Restriction sites", GenomeFactory.Assembly.hg19));
-                this.tracks.addAll(tmp);
-
-                tmp = loadTracks(basePath.resolve("broadHistone"), Type.inout, GenomeFactory.Assembly.hg19);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.Histone, "Histone modifications", GenomeFactory.Assembly.hg19));
-                this.tracks.addAll(tmp);
-
-                tmp = loadTracks(basePath.resolve("OpenChrom"), Type.inout, GenomeFactory.Assembly.hg19);
-                this.trackPackages.add(new TrackPackage(tmp, TrackPackage.PackageName.OpenChrom, "Open Chromatin", GenomeFactory.Assembly.hg19));
-                this.tracks.addAll(tmp);
-
+                    trackPackage.add(track);
+                }
             }
 
         } catch (IOException e) {
@@ -182,16 +134,13 @@ public final class TrackFactory {
      * Gets all tracks from a single type
      *
      * @param hg19
-     * @param path - path to the dir with files
      * @param type - Interval.Type. Type based upon dir name
+     * @param path - path to the dir with files
      * @throws IOException on file problems
      */
-    List<Track> loadTracks(Path path, Type type, GenomeFactory.Assembly assembly) throws IOException {
+    List<Track> loadTracks(List<Path> files, GenomeFactory.Assembly assembly) throws IOException {
 
-        List<Path> files = new ArrayList<>();
         final List<Track> tracks = Collections.synchronizedList(new ArrayList<>());
-
-        Files.walk(Paths.get(path.toString())).filter(Files::isRegularFile).forEach(files::add);
 
         int nThreads = 8;
         if (System.getenv("HOME").contains("menzel"))
@@ -200,8 +149,10 @@ public final class TrackFactory {
         ExecutorService exe = Executors.newFixedThreadPool(nThreads);
 
         for (Path file : files) {
-            FileLoader loader = new FileLoader(file, tracks, type, assembly);
-            exe.execute(loader);
+            if(!file.toFile().getName().equals("chrSizes")) { //only load bed files, omit the chromosome sizes files
+                FileLoader loader = new FileLoader(file, tracks, assembly);
+                exe.execute(loader);
+            }
         }
 
         exe.shutdown();
@@ -247,7 +198,7 @@ public final class TrackFactory {
      * @param name - name of the package
      * @return list of tracks with package name
      */
-    public List<Track> getTracksByPackage(TrackPackage.PackageName name, GenomeFactory.Assembly assembly) {
+    public List<Track> getTracksByPackage(String name, GenomeFactory.Assembly assembly) {
         for (TrackPackage pack : trackPackages) {
             if (pack.getName() == name && pack.getAssembly() == assembly)
                 return pack.getTrackList();
@@ -257,29 +208,18 @@ public final class TrackFactory {
 
 
     /**
-     * Returns tracks by package name as String
-     *
-     * @param packName - name as String
-     * @return list of tracks within the package
-     * @throws IllegalArgumentException - if name is not known as package name
-     */
-    public List<Track> getTracksByPackage(String packName, GenomeFactory.Assembly assembly) throws IllegalArgumentException {
-        List<Track> tracks = getTracksByPackage(TrackPackage.PackageName.valueOf(packName), assembly);
-
-        if (tracks != null)
-            return tracks;
-        return new ArrayList<>();
-    }
-
-
-    /**
      * Returns all known track packages.
      *
      * @return list of all packages names
      */
     public List<String> getTrackPackageNames(GenomeFactory.Assembly assembly) {
-        return this.trackPackages.stream().filter(i -> i.getAssembly() == assembly).map(TrackPackage::getName).map(Enum::toString).collect(Collectors.toList());
+        return null; //TODO FIX this.trackPackages.stream().filter(i -> i.getAssembly() == assembly).map(TrackPackage::getName).map(Enum::toString).collect(Collectors.toList());
     }
+
+    public List<TrackPackage> getTrackPackages(GenomeFactory.Assembly assembly) {
+        return this.trackPackages;
+    }
+
 
 
     /**
@@ -317,6 +257,24 @@ public final class TrackFactory {
         throw new RuntimeException("Could not find track " + name + ". Some parts might not be working correct. " +
                 "Please check the track file and name");
     }
+
+
+
+    public List<Track> getTracksByName(List<String> trackNames, GenomeFactory.Assembly assembly){
+        List<Track> returnTracks = new ArrayList<>();
+
+        for (Track track : tracks) {
+            if (track.getAssembly().equals(assembly) && trackNames.contains(track.getName()))
+                returnTracks.add(track);
+        }
+
+        if(!returnTracks.isEmpty())
+            return returnTracks;
+
+        throw new RuntimeException("Could not find tracks " + trackNames.toArray().toString() + ". Some parts might not be working correct. " +
+                "Please check the track file and name");
+    }
+
 
 
     /**

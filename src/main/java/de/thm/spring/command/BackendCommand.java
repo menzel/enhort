@@ -1,7 +1,6 @@
 package de.thm.spring.command;
 
-import de.thm.genomeData.Track;
-import de.thm.genomeData.TrackPackage;
+import de.thm.genomeData.tracks.Track;
 import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
 
@@ -16,7 +15,6 @@ import java.util.List;
  */
 public final class BackendCommand implements Serializable, Command{
     private final List<String> covariants; //list of ids of tracks that are used as covariant
-    private final List<String> packageNames; // list of packages that will be used in the intersect run
     private final int minBg; //minimum of expected background positions
     private final List<Track> customTracks;
     private final Sites sites;
@@ -26,12 +24,11 @@ public final class BackendCommand implements Serializable, Command{
     private final boolean logoCovariate;
     private final boolean createLogo;
     private final List<String> celllines;
+    private List<String> tracks;
 
 
     public BackendCommand(Sites sites) {
         this.covariants = new ArrayList<>();
-        this.packageNames = new ArrayList<>();
-        this.packageNames.add(TrackPackage.PackageName.Basic.toString());
         this.sites = sites;
         this.minBg = sites.getPositionCount();
         this.customTracks = new ArrayList<>();
@@ -47,8 +44,6 @@ public final class BackendCommand implements Serializable, Command{
         this.sitesBg = sitesBg;
         this.sites = sites;
         this.covariants = new ArrayList<>();
-        this.packageNames = new ArrayList<>();
-        this.packageNames.add(TrackPackage.PackageName.Basic.toString());
         this.minBg = sites.getPositionCount();
         this.customTracks = new ArrayList<>();
         this.influence = 1;
@@ -60,7 +55,6 @@ public final class BackendCommand implements Serializable, Command{
 
     public BackendCommand(InterfaceCommand command) {
         this.covariants = command.getCovariants();
-        this.packageNames = command.getPackageNames();
         this.minBg = command.getMinBg();
         this.sites = command.getSites();
         this.influence = command.getInfluence();
@@ -82,7 +76,6 @@ public final class BackendCommand implements Serializable, Command{
         this.assembly = assembly;
 
         this.covariants = new ArrayList<>();
-        this.packageNames = new ArrayList<>();
         this.sites = null;
         this.minBg =  0;
         this.customTracks = new ArrayList<>();
@@ -100,8 +93,6 @@ public final class BackendCommand implements Serializable, Command{
     public List<Track> getCustomTracks() { return customTracks; }
 
     public List<String> getCovariants() { return covariants; }
-
-    public List<String> getPackageNames() { return packageNames; }
 
     public Sites getSites() { return sites; }
 
@@ -125,5 +116,9 @@ public final class BackendCommand implements Serializable, Command{
 
     public List<String> getCelllines() {
         return celllines;
+    }
+
+    public List<String> getTracks() {
+        return tracks;
     }
 }

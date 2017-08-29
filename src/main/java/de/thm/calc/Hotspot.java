@@ -1,7 +1,7 @@
 package de.thm.calc;
 
-import de.thm.genomeData.ScoredTrack;
-import de.thm.genomeData.TrackFactory;
+import de.thm.genomeData.tracks.ScoredTrack;
+import de.thm.genomeData.tracks.TrackFactory;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
 

@@ -1,4 +1,4 @@
-package de.thm.genomeData;
+package de.thm.genomeData.tracks;
 
 import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;

@@ -1,6 +1,6 @@
 package de.thm.calc;
 
-import de.thm.genomeData.*;
+import de.thm.genomeData.tracks.*;
 import de.thm.logo.GenomeFactory;
 import de.thm.logo.Logo;
 import de.thm.logo.LogoCreator;

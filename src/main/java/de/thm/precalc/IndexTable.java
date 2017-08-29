@@ -1,6 +1,6 @@
 package de.thm.precalc;
 
-import de.thm.genomeData.Track;
+import de.thm.genomeData.tracks.Track;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 

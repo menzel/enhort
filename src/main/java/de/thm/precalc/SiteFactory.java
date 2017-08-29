@@ -1,6 +1,6 @@
 package de.thm.precalc;
 
-import de.thm.genomeData.Track;
+import de.thm.genomeData.tracks.Track;
 import de.thm.logo.GenomeFactory;
 import de.thm.logo.Logo;
 import de.thm.positionData.Sites;

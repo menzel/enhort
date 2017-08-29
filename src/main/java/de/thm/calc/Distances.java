@@ -1,7 +1,7 @@
 package de.thm.calc;
 
-import de.thm.genomeData.DistanceTrack;
-import de.thm.genomeData.Track;
+import de.thm.genomeData.tracks.DistanceTrack;
+import de.thm.genomeData.tracks.Track;
 import de.thm.positionData.Sites;
 
 import java.util.ArrayList;

@@ -2,7 +2,7 @@ package de.thm.backgroundModel;
 
 import de.thm.exception.CovariantsException;
 import de.thm.exception.TrackTypeNotAllowedExcpetion;
-import de.thm.genomeData.*;
+import de.thm.genomeData.tracks.*;
 import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
 

@@ -1,6 +1,6 @@
 package de.thm.guess;
 
-import de.thm.genomeData.TrackFactory;
+import de.thm.genomeData.tracks.TrackFactory;
 import de.thm.logo.GenomeFactory;
 import de.thm.positionData.UserData;
 import org.junit.BeforeClass;

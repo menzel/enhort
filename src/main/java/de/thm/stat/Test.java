@@ -1,7 +1,7 @@
 package de.thm.stat;
 
 import de.thm.calc.TestTrackResult;
-import de.thm.genomeData.Track;
+import de.thm.genomeData.tracks.Track;
 
 /**
  * Interface for statistical test evaluation

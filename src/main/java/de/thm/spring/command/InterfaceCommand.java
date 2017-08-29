@@ -1,7 +1,6 @@
 package de.thm.spring.command;
 
-import de.thm.genomeData.ScoredTrack;
-import de.thm.genomeData.TrackPackage;
+import de.thm.genomeData.tracks.ScoredTrack;
 import de.thm.positionData.Sites;
 
 import java.util.ArrayList;
@@ -17,8 +16,8 @@ import java.util.stream.Collectors;
  */
 public final class InterfaceCommand {
     private List<String> covariants; //list of ids of tracks that are used as covariant
-    private List<String> packageNames; // list of packages that will be used in the intersect run
     private List<String> celllines; // list of celllines used
+    private List<String> tracks;
     private int positionCount; //count of user data positons
     private int minBg; //minimum of expected background positions
     private String originalFilename; // filename of the file the user uploaded
@@ -33,8 +32,6 @@ public final class InterfaceCommand {
 
     public InterfaceCommand() {
         covariants = new ArrayList<>();
-        packageNames = new ArrayList<>();
-        packageNames.add(TrackPackage.PackageName.Basic.toString());
     }
 
 
@@ -77,12 +74,6 @@ public final class InterfaceCommand {
     public void setMinBg(int minBg) {
         this.minBg = minBg;
     }
-
-    public List<String> getPackageNames() { return packageNames; }
-
-
-    public void setPackageNames(List<String> packageNames) { this.packageNames = packageNames; }
-
 
     public List<String> getCovariants() {
         return covariants;
@@ -171,5 +162,13 @@ public final class InterfaceCommand {
 
     public void setCelllines(List<String> celllines) {
         this.celllines = celllines;
+    }
+
+    public List<String> getTracks() {
+        return tracks;
+    }
+
+    public void setTracks(List<String> tracks) {
+        this.tracks = tracks;
     }
 }

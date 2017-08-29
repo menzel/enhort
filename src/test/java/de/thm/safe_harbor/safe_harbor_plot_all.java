@@ -2,8 +2,8 @@ package de.thm.safe_harbor;
 
 import de.thm.backgroundModel.BackgroundModelFactory;
 import de.thm.calc.CalcCaller;
-import de.thm.genomeData.Track;
-import de.thm.genomeData.TrackFactory;
+import de.thm.genomeData.tracks.Track;
+import de.thm.genomeData.tracks.TrackFactory;
 import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
 import de.thm.positionData.UserData;

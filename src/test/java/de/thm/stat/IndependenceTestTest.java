@@ -1,8 +1,8 @@
 package de.thm.stat;
 
 import de.thm.calc.TestTrackResult;
-import de.thm.genomeData.ScoredTrack;
-import de.thm.genomeData.TrackFactory;
+import de.thm.genomeData.tracks.ScoredTrack;
+import de.thm.genomeData.tracks.TrackFactory;
 import org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest;
 import org.junit.Test;
 

@@ -1,8 +1,8 @@
 package de.thm.backgroundModel;
 
-import de.thm.genomeData.Track;
-import de.thm.genomeData.TrackFactory;
-import de.thm.genomeData.Tracks;
+import de.thm.genomeData.tracks.Track;
+import de.thm.genomeData.tracks.TrackFactory;
+import de.thm.genomeData.tracks.Tracks;
 import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
 

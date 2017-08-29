@@ -1,4 +1,4 @@
-package de.thm.genomeData;
+package de.thm.genomeData.tracks;
 
 import de.thm.run.BackendController;
 import org.apache.commons.lang3.StringUtils;

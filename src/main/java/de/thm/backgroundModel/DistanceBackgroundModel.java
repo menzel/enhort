@@ -1,10 +1,10 @@
 package de.thm.backgroundModel;
 
 import de.thm.calc.Distances;
-import de.thm.genomeData.DistanceTrack;
-import de.thm.genomeData.InOutTrack;
-import de.thm.genomeData.Track;
-import de.thm.genomeData.Tracks;
+import de.thm.genomeData.tracks.DistanceTrack;
+import de.thm.genomeData.tracks.InOutTrack;
+import de.thm.genomeData.tracks.Track;
+import de.thm.genomeData.tracks.Tracks;
 import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
 import org.apache.commons.math3.distribution.NormalDistribution;

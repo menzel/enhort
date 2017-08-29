@@ -1,6 +1,6 @@
 package de.thm.result;
 
-import de.thm.genomeData.TrackPackage;
+import de.thm.genomeData.tracks.TrackPackage;
 import de.thm.logo.GenomeFactory;
 
 import java.io.Serializable;

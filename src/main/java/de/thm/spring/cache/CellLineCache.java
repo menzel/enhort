@@ -1,6 +1,6 @@
 package de.thm.spring.cache;
 
-import de.thm.genomeData.Track;
+import de.thm.genomeData.tracks.TrackPackage;
 import de.thm.result.DataViewResult;
 
 import java.util.HashMap;
@@ -16,7 +16,7 @@ public class CellLineCache {
     private CellLineCache(DataViewResult collector){
 
         this.newCellLinesMap = new HashMap<>();
-        List<String> knownCelllines = collector.getTracks().stream().map(Track::getCellLine).distinct().collect(Collectors.toList());
+        List<String> knownCelllines = collector.getPackages().stream().map(TrackPackage::getCellLine).collect(Collectors.toList());
         Map<String, List<String>> cellLines = collector.getCellLines();
 
         for (String cellline : cellLines.keySet()) {

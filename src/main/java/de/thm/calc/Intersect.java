@@ -1,7 +1,7 @@
 package de.thm.calc;
 
 import de.thm.exception.TrackTypeNotAllowedExcpetion;
-import de.thm.genomeData.*;
+import de.thm.genomeData.tracks.*;
 import de.thm.positionData.Sites;
 import de.thm.run.BackendController;
 

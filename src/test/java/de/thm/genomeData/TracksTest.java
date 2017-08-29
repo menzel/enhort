@@ -1,5 +1,6 @@
 package de.thm.genomeData;
 
+import de.thm.genomeData.tracks.*;
 import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
 import org.junit.Test;

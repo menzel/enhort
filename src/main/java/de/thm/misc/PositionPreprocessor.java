@@ -1,9 +1,9 @@
 package de.thm.misc;
 
-import de.thm.genomeData.InOutTrack;
-import de.thm.genomeData.NamedTrack;
-import de.thm.genomeData.ScoredTrack;
-import de.thm.genomeData.TrackFactory;
+import de.thm.genomeData.tracks.InOutTrack;
+import de.thm.genomeData.tracks.NamedTrack;
+import de.thm.genomeData.tracks.ScoredTrack;
+import de.thm.genomeData.tracks.TrackFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;

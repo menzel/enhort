@@ -1,8 +1,8 @@
 package de.thm.backgroundModel;
 
 import de.thm.calc.Distances;
-import de.thm.genomeData.DistanceTrack;
-import de.thm.genomeData.TrackFactory;
+import de.thm.genomeData.tracks.DistanceTrack;
+import de.thm.genomeData.tracks.TrackFactory;
 import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
 import org.junit.Test;

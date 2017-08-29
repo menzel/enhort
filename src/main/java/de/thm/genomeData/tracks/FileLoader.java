@@ -1,4 +1,4 @@
-package de.thm.genomeData;
+package de.thm.genomeData.tracks;
 
 import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
@@ -24,15 +24,13 @@ import java.util.stream.Stream;
 final class FileLoader implements Runnable {
     private final Path path;
     private final List<Track> tracks; //reference to the syncronized list created in the FileLoader
-    private final TrackFactory.Type type;
     private final GenomeFactory.Assembly assembly;
     private final CellLine cellLine;
 
-    FileLoader(Path path, List<Track> tracks, TrackFactory.Type type, GenomeFactory.Assembly assembly) {
+    FileLoader(Path path, List<Track> tracks, GenomeFactory.Assembly assembly) {
 
         this.path = path;
         this.tracks = tracks;
-        this.type = type;
         this.assembly = assembly;
         cellLine = CellLine.getInstance();
     }
@@ -40,7 +38,7 @@ final class FileLoader implements Runnable {
     @Override
     public void run() {
 
-        Optional<Track> track = initTrackfromFile(path.toFile(), type);
+        Optional<Track> track = initTrackfromFile(path.toFile());
         track.ifPresent(tracks::add);
     }
 
@@ -90,15 +88,15 @@ final class FileLoader implements Runnable {
      * Loads track data from a bed file. Calls handleParts to handle each line
      *
      * @param file - file to parse
-     * @param type - type of interval
      */
-    private Optional<Track> initTrackfromFile(File file, TrackFactory.Type type) {
+    private Optional<Track> initTrackfromFile(File file) {
 
         String name = "";
         String description = "";
         String cellline = "none";
         int length = -1;
         ChromosomSizes chrSizes = ChromosomSizes.getInstance();
+        TrackFactory.Type type = null;
 
         long time = System.currentTimeMillis();
 
@@ -133,6 +131,8 @@ final class FileLoader implements Runnable {
 
             //if (!file.getName().contains("iPS")) { return null; }
 
+
+
             while (it.hasNext()) {
 
                 if (Thread.currentThread().isInterrupted()) {
@@ -149,6 +149,8 @@ final class FileLoader implements Runnable {
 
                 if (line_matcher.matches()) {
                     String[] parts = line.split("\t");
+
+                    if(type == null) type = guessType(parts);
 
                     long start;
                     long end;
@@ -306,6 +308,24 @@ final class FileLoader implements Runnable {
             System.err.println("For file " + file.getName());
             e.printStackTrace();
             return Optional.empty();
+        }
+    }
+
+    private TrackFactory.Type guessType(String[] parts) {
+
+        switch (parts.length){
+            case 2:
+                return TrackFactory.Type.distance;
+            case 3:
+                return TrackFactory.Type.inout;
+            case 4:
+                return TrackFactory.Type.named;
+            case 5:
+                if(parts[4].equals("+") || parts[4].equals("-"))
+                    return TrackFactory.Type.strand;
+                return TrackFactory.Type.scored;
+            default:
+                return TrackFactory.Type.inout;
         }
     }
 

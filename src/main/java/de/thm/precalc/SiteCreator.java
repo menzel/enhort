@@ -1,7 +1,7 @@
 package de.thm.precalc;
 
 import de.thm.backgroundModel.BackgroundModelFactory;
-import de.thm.genomeData.Track;
+import de.thm.genomeData.tracks.Track;
 import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
 

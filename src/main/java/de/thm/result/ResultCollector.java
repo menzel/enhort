@@ -1,8 +1,8 @@
 package de.thm.result;
 
-import de.thm.genomeData.CellLine;
-import de.thm.genomeData.ScoredTrack;
-import de.thm.genomeData.TrackFactory;
+import de.thm.genomeData.tracks.CellLine;
+import de.thm.genomeData.tracks.ScoredTrack;
+import de.thm.genomeData.tracks.TrackFactory;
 import de.thm.logo.GenomeFactory;
 import de.thm.logo.Logo;
 import de.thm.positionData.Sites;

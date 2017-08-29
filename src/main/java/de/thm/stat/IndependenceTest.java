@@ -2,7 +2,7 @@ package de.thm.stat;
 
 import de.thm.calc.TestTrackResult;
 import de.thm.exception.TrackTypeNotAllowedExcpetion;
-import de.thm.genomeData.*;
+import de.thm.genomeData.tracks.*;
 import org.apache.commons.math3.stat.inference.ChiSquareTest;
 import org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest;
 

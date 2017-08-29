@@ -1,4 +1,4 @@
-package de.thm.genomeData;
+package de.thm.genomeData.tracks;
 
 import de.thm.logo.GenomeFactory;
 
@@ -42,4 +42,9 @@ public abstract class Track implements Serializable, Cloneable {
 
     @Override
     public abstract boolean equals(Object o);
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }
