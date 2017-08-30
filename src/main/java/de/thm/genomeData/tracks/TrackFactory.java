@@ -8,11 +8,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * Handles the loading of all tracks. Implements factory methods for all three track types.
@@ -241,6 +243,23 @@ public final class TrackFactory {
 
 
     /**
+     * Returns a list of tracks by given list of Ids (as list of Strings).
+     *
+     * If any given Id does not exists no error is thrown.
+     *
+     * @param trackIds - list of ids (as String)
+     * @param assembly - assembly number
+     * @return
+     */
+    public List<Track> getTracksById(List<String> trackIds, GenomeFactory.Assembly assembly) {
+
+        List<Integer> ids = trackIds.stream().map(n -> Integer.parseInt(n)).collect(Collectors.toList());
+        return tracks.parallelStream().filter(track -> track.getAssembly() == assembly && ids.contains(track.getUid())).collect(Collectors.toList());
+    }
+
+
+
+    /**
      * Gets a track by name (case insensitive)
      *
      * @param name     - name of the track
@@ -271,7 +290,7 @@ public final class TrackFactory {
         if(!returnTracks.isEmpty())
             return returnTracks;
 
-        throw new RuntimeException("Could not find tracks " + trackNames.toArray().toString() + ". Some parts might not be working correct. " +
+        throw new RuntimeException("Could not find tracks " + Arrays.toString(trackNames.toArray()) + ". Some parts might not be working correct. " +
                 "Please check the track file and name");
     }
 
