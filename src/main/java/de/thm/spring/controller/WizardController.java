@@ -2,12 +2,17 @@ package de.thm.spring.controller;
 
 import de.thm.exception.CovariantsException;
 import de.thm.exception.NoTracksLeftException;
+import de.thm.genomeData.tracks.Track;
+import de.thm.genomeData.tracks.TrackPackage;
 import de.thm.guess.AssemblyGuesser;
+import de.thm.logo.GenomeFactory;
 import de.thm.positionData.UserData;
+import de.thm.result.DataViewResult;
 import de.thm.result.ResultCollector;
 import de.thm.spring.backend.BackendConnector;
 import de.thm.spring.backend.Session;
 import de.thm.spring.backend.Sessions;
+import de.thm.spring.cache.CellLineCache;
 import de.thm.spring.command.BackendCommand;
 import de.thm.spring.command.InterfaceCommand;
 import org.springframework.stereotype.Controller;
@@ -25,7 +30,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.nio.file.Path;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -50,10 +56,8 @@ public class WizardController {
         return "wizard";
     }
 
-
-    @RequestMapping(value = "/wiz", method = RequestMethod.POST)
-    public String wizard2(Model model, HttpSession httpSession, @RequestParam("file") MultipartFile file, @ModelAttribute InterfaceCommand interfaceCommand){
-
+    @RequestMapping(value = "/wiz/file", method = RequestMethod.POST)
+    public String wizard1(Model model, HttpSession httpSession, @RequestParam("file") MultipartFile file, @ModelAttribute InterfaceCommand interfaceCommand) {
         Sessions sessionsControll = Sessions.getInstance();
         Session currentSession = sessionsControll.getSession(httpSession.getId());
 
@@ -82,11 +86,12 @@ public class WizardController {
                 return "error";
             }
 
-            UserData data = new UserData(AssemblyGuesser.guessAssembly(inputFilepath),inputFilepath);
+            UserData data = new UserData(AssemblyGuesser.guessAssembly(inputFilepath), inputFilepath);
             currentSession.setSites(data);
             currentSession.setOriginalFilename(file.getOriginalFilename());
             interfaceCommand.setAssembly(data.getAssembly().toString());
 
+            /*
             BackendCommand command = new BackendCommand(data);
 
             ResultCollector collector = null;
@@ -100,17 +105,23 @@ public class WizardController {
                 model.addAttribute("errorMessage", "Backend Connection Error");
                 return "error";
             }
+            */
 
-            currentSession.setCollector(collector);
+            model = loadDataTableModel(model, GenomeFactory.Assembly.hg19);
+            model.addAttribute("page", "tracks");
 
-            model.addAttribute("interfaceCommand", interfaceCommand);
-            model.addAttribute("trackPackages", collector.getKnownPackages());
-            model.addAttribute("celllines", collector.getKnownCelllines());
-
-            model.addAttribute("page", "packages");
             return "wizard";
+        }
+        return "error";
+    }
 
-        } else if(interfaceCommand.getTracks().size() > 0) { // serve covariates page:
+    @RequestMapping(value = "/wiz/cov", method = RequestMethod.POST)
+    public String wizard2(Model model, HttpSession httpSession, @RequestParam("file") MultipartFile file, @ModelAttribute InterfaceCommand interfaceCommand){
+
+        Sessions sessionsControll = Sessions.getInstance();
+        Session currentSession = sessionsControll.getSession(httpSession.getId());
+
+        if(interfaceCommand.getTracks().size() > 0) { // serve covariates page:
 
             interfaceCommand.setAssembly(currentSession.getSites().getAssembly().toString());
             interfaceCommand.setSites(currentSession.getSites());
@@ -124,13 +135,9 @@ public class WizardController {
 
             } catch(NoTracksLeftException e){
 
-                model.addAttribute("interfaceCommand", interfaceCommand);
-                model.addAttribute("trackPackages", currentSession.getCollector().getKnownPackages());
-                model.addAttribute("celllines", currentSession.getCollector().getKnownCelllines());
-                model.addAttribute("page", "packages");
                 model.addAttribute("message", "There are no tracks for this combination of cell lines and packages");
+                return "error";
 
-                return "wizard";
             } catch (CovariantsException | SocketTimeoutException e){
                 e.printStackTrace();
             }
@@ -152,5 +159,67 @@ public class WizardController {
 
         }
         return "error";
+    }
+
+
+    /**
+     * Loads all data for the matrix data table view
+     * @param model - model container to be loaded with the data
+     *
+     * @return the filled model
+     */
+    private Model loadDataTableModel(Model model, GenomeFactory.Assembly assembly) {
+
+        BackendCommand command = new BackendCommand(assembly);
+
+        try {
+            /////////// Run analysis ////////////
+            DataViewResult collector = (DataViewResult) BackendConnector.getInstance().runAnalysis(command);
+            /////////////////////////////////////
+
+            if(collector != null) {
+
+                //TODO cache:
+                List<String> trackNames = collector.getPackages().stream()
+                        .flatMap(trackPackage -> trackPackage.getTrackList().stream())
+                        .map(Track::getName)
+                        .distinct()
+                        .sorted()
+                        .collect(Collectors.toList());
+
+                Map<String, List<Integer>> ids = new TreeMap<>();
+
+                for(TrackPackage pack: collector.getPackages()){
+
+                    List<Integer> linkIds = new ArrayList<>();
+                    List<String> packNames = pack.getTrackList().stream().map(Track::getName).collect(Collectors.toList());
+
+                    for(String name: trackNames){
+                        if(packNames.contains(name))
+                            linkIds.add(pack.getTrackList().get(packNames.indexOf(name)).getUid());
+                        else
+                            linkIds.add(-1);
+                    }
+
+                    ids.put(pack.getCellLine(), linkIds);
+                }
+
+                model.addAttribute("ids", ids);
+
+                model.addAttribute("trackNames", trackNames);
+                model.addAttribute("packages", collector.getPackages());
+                model.addAttribute("assembly", collector.getAssembly());
+                model.addAttribute("celllines", CellLineCache.getInstance(collector).getCellLines());
+
+            } else {
+                System.err.println("ApplicationController: Collector for data is null");
+            }
+
+        } catch (CovariantsException | SocketTimeoutException | NoTracksLeftException e) {
+            e.printStackTrace();
+        }
+
+
+        return model;
     }
 }

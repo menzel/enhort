@@ -6,6 +6,7 @@ import de.thm.positionData.Sites;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -38,6 +39,7 @@ public final class BackendCommand implements Serializable, Command{
         this.createLogo = false;
         this.sitesBg = null;
         this.celllines = new ArrayList<>();
+        this.tracks = Collections.emptyList();
     }
 
     public BackendCommand(Sites sites, Sites sitesBg) {
@@ -51,6 +53,7 @@ public final class BackendCommand implements Serializable, Command{
         this.logoCovariate = false;
         this.createLogo = false;
         this.celllines = new ArrayList<>();
+        this.tracks = Collections.emptyList();
     }
 
     public BackendCommand(InterfaceCommand command) {
@@ -64,6 +67,7 @@ public final class BackendCommand implements Serializable, Command{
         this.createLogo  = command.getCreateLogo();
         this.sitesBg = command.getSitesBg();
         this.celllines = command.getCelllines();
+        this.tracks =  command.getTracks();
     }
 
     /**
@@ -84,6 +88,7 @@ public final class BackendCommand implements Serializable, Command{
         this.createLogo = false;
         this.sitesBg = null;
         this.celllines = new ArrayList<>();
+        this.tracks = Collections.emptyList();
     }
 
     public void addCustomTrack(List<Track> track){

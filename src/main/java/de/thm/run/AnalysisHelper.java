@@ -89,9 +89,11 @@ class AnalysisHelper {
         }
 
         if(cmd.getTracks().isEmpty()) {
-            runTracks = trackFactory.getTracksByName(cmd.getTracks(), cmd.getAssembly());
+            System.err.println("No tracks given in AnalysisHelper");
+            throw new NoTracksLeftException("There are no tracks here");
+
         } else {
-            runTracks =  new ArrayList<>();
+            runTracks = trackFactory.getTracksById(cmd.getTracks(), cmd.getAssembly());
 
             //check and apply custom tracks
             runTracks.addAll(cmd.getCustomTracks());
@@ -114,9 +116,12 @@ class AnalysisHelper {
         TrackFactory trackFactory = TrackFactory.getInstance();
 
         if(cmd.getTracks().isEmpty()) {
-            runTracks = TrackFactory.getInstance().getTracks(cmd.getAssembly());
+            //runTracks = TrackFactory.getInstance().getTracks(cmd.getAssembly());
+            System.err.println("No tracks given in AnalysisHelper");
+            throw new NoTracksLeftException("There are no tracks here");
+
         } else {
-            runTracks = trackFactory.getTracksByName(cmd.getTracks(), cmd.getAssembly());
+            runTracks = trackFactory.getTracksById(cmd.getTracks(), cmd.getAssembly());
 
             //check and apply custom tracks
             runTracks.addAll(cmd.getCustomTracks());
@@ -138,7 +143,6 @@ class AnalysisHelper {
     }
 
 
-
     Result runAnalysis(BackendCommand command) throws Exception {
         if(command.getSites() == null){
             // return all tracks for data table overview
@@ -149,7 +153,4 @@ class AnalysisHelper {
         }
         return runAnalysis(command.getSites(), command);
     }
-
-
-
 }
