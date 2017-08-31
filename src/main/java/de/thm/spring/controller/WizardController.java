@@ -12,7 +12,7 @@ import de.thm.result.ResultCollector;
 import de.thm.spring.backend.BackendConnector;
 import de.thm.spring.backend.Session;
 import de.thm.spring.backend.Sessions;
-import de.thm.spring.cache.CellLineCache;
+import de.thm.spring.cache.DataTableCache;
 import de.thm.spring.command.BackendCommand;
 import de.thm.spring.command.InterfaceCommand;
 import org.springframework.stereotype.Controller;
@@ -40,7 +40,7 @@ public class WizardController {
     private static final Path basePath = new File("/tmp").toPath();
 
 
-    @RequestMapping(value = "/wiz", method = RequestMethod.GET)
+    @RequestMapping(value = {"/wiz", "/wizfile", "/wizcov"}, method = RequestMethod.GET)
     public String wizard(Model model, HttpSession httpSession){
 
         model.addAttribute("page", "upload");
@@ -56,7 +56,7 @@ public class WizardController {
         return "wizard";
     }
 
-    @RequestMapping(value = "/wiz/file", method = RequestMethod.POST)
+    @RequestMapping(value = "/wizfile", method = RequestMethod.POST)
     public String wizard1(Model model, HttpSession httpSession, @RequestParam("file") MultipartFile file, @ModelAttribute InterfaceCommand interfaceCommand) {
         Sessions sessionsControll = Sessions.getInstance();
         Session currentSession = sessionsControll.getSession(httpSession.getId());
@@ -91,21 +91,10 @@ public class WizardController {
             currentSession.setOriginalFilename(file.getOriginalFilename());
             interfaceCommand.setAssembly(data.getAssembly().toString());
 
-            /*
-            BackendCommand command = new BackendCommand(data);
-
-            ResultCollector collector = null;
-            try {
-                collector = (ResultCollector) BackendConnector.getInstance().runAnalysis(command);
-            } catch (NoTracksLeftException | CovariantsException | SocketTimeoutException e) {
-                e.printStackTrace();
-            }
-
-            if (collector == null) {
-                model.addAttribute("errorMessage", "Backend Connection Error");
+            if(data.getPositionCount() < 1){
+                model.addAttribute("message", "There are no genomic positions in the .bed file you uploaded. Does it have the correct format, example: chr1\\t10\\t100 (where \\t is a tab)");
                 return "error";
             }
-            */
 
             model = loadDataTableModel(model, GenomeFactory.Assembly.hg19);
             model.addAttribute("page", "tracks");
@@ -115,11 +104,12 @@ public class WizardController {
         return "error";
     }
 
-    @RequestMapping(value = "/wiz/cov", method = RequestMethod.POST)
+    @RequestMapping(value = "/wizcov", method = RequestMethod.POST)
     public String wizard2(Model model, HttpSession httpSession, @RequestParam("file") MultipartFile file, @ModelAttribute InterfaceCommand interfaceCommand){
 
         Sessions sessionsControll = Sessions.getInstance();
         Session currentSession = sessionsControll.getSession(httpSession.getId());
+        System.out.println("is logo: " + interfaceCommand.getCreateLogo());
 
         if(interfaceCommand.getTracks().size() > 0) { // serve covariates page:
 
@@ -153,6 +143,9 @@ public class WizardController {
             model.addAttribute("tracks", currentSession.getCollector().getInOutResults(false));
             model.addAttribute("page", "covariates");
 
+            model.addAttribute("sigTrackCount", collector.getSignificantTrackCount());
+            model.addAttribute("trackCount", collector.getTrackCount());
+
             //TODO
 
             return "wizard";
@@ -179,14 +172,7 @@ public class WizardController {
 
             if(collector != null) {
 
-                //TODO cache:
-                List<String> trackNames = collector.getPackages().stream()
-                        .flatMap(trackPackage -> trackPackage.getTrackList().stream())
-                        .map(Track::getName)
-                        .distinct()
-                        .sorted()
-                        .collect(Collectors.toList());
-
+                List<String> trackNames = DataTableCache.getInstance(collector).getTrackNames();
                 Map<String, List<Integer>> ids = new TreeMap<>();
 
                 for(TrackPackage pack: collector.getPackages()){
@@ -209,7 +195,7 @@ public class WizardController {
                 model.addAttribute("trackNames", trackNames);
                 model.addAttribute("packages", collector.getPackages());
                 model.addAttribute("assembly", collector.getAssembly());
-                model.addAttribute("celllines", CellLineCache.getInstance(collector).getCellLines());
+                model.addAttribute("celllines", DataTableCache.getInstance(collector).getCellLines());
 
             } else {
                 System.err.println("ApplicationController: Collector for data is null");
