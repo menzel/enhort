@@ -41,31 +41,8 @@
 
 
         <div class="box">
-            <button class="btn btn-default" data-toggle="modal" data-target="#celllines">
-                Cell Lines
-            </button>
-            <th:block th:if="${not #lists.isEmpty(interfaceCommand.celllines)}">
-                <span id="italic">Cell Line filter active</span>
-                <span style="background-color: #337ab7" class="badge"
-                      th:text="${#lists.size(interfaceCommand.celllines)}"></span>
-            </th:block>
-        </div>
 
-
-        <div class="box">
-            <h4> Track packages </h4>
-
-            <label><input type="checkbox" th:field="*{interfaceCommand.createLogo}"
-                          th:value="${interfaceCommand.createLogo}"
-                          form="covariate_form"/> Sequence Logo</label>
-
-            <th:block th:each="packName: ${trackPackages}">
-                <div class="checkbox">
-                    <label><input type="checkbox" th:field="*{interfaceCommand.packageNames}" th:value="${packName}"
-                                  form="covariate_form" checked="checked" th:text="${packName}"/></label>
-
-                </div>
-            </th:block>
+            <button class="btn btn-default">Change tracks</button>
 
             <th:block th:if="${not #lists.isEmpty(customTracks)}">
                 <h4> Custom tracks </h4>
@@ -78,9 +55,6 @@
             </th:block>
 
         </div>
-
-        <h4>Information</h4>
-
 
         <div class="fileinfo">
             <p th:text="${'Current File: ' + interfaceCommand.originalFilename}"></p>
@@ -434,10 +408,6 @@
 
     <!-- Modal for add/upload track -->
     <div th:include="add_track:: add_track"></div>
-
-    <!-- Modal for Cell lines-->
-    <div th:include="celllines:: celllines"></div>
-
 
     <!-- Modal Settings -->
     <div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
