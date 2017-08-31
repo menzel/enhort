@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
  */
 public final class InterfaceCommand {
     private List<String> covariants; //list of ids of tracks that are used as covariant
-    private List<String> celllines; // list of celllines used
     private List<String> tracks;
     private int positionCount; //count of user data positons
     private int minBg; //minimum of expected background positions
@@ -143,14 +142,6 @@ public final class InterfaceCommand {
 
     public void setShowall(boolean showall) {
         this.showall = showall;
-    }
-
-    public List<String> getCelllines() {
-        return (celllines == null)? new ArrayList<>(): celllines;
-    }
-
-    public void setCelllines(List<String> celllines) {
-        this.celllines = celllines;
     }
 
     public List<String> getTracks() {

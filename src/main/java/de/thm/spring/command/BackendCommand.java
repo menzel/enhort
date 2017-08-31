@@ -23,7 +23,6 @@ public final class BackendCommand implements Serializable, Command{
     private final GenomeFactory.Assembly assembly;
     private final boolean logoCovariate;
     private final boolean createLogo;
-    private final List<String> celllines;
     private List<String> tracks;
 
 
@@ -36,7 +35,6 @@ public final class BackendCommand implements Serializable, Command{
         this.logoCovariate = false;
         this.createLogo = false;
         this.sitesBg = null;
-        this.celllines = new ArrayList<>();
         this.tracks = Collections.emptyList();
     }
 
@@ -49,7 +47,6 @@ public final class BackendCommand implements Serializable, Command{
         this.assembly = sites.getAssembly();
         this.logoCovariate = false;
         this.createLogo = false;
-        this.celllines = new ArrayList<>();
         this.tracks = Collections.emptyList();
     }
 
@@ -62,7 +59,6 @@ public final class BackendCommand implements Serializable, Command{
         this.logoCovariate = command.getLogoCovariate();
         this.createLogo  = command.getCreateLogo();
         this.sitesBg = command.getSitesBg();
-        this.celllines = command.getCelllines();
         this.tracks =  command.getTracks();
     }
 
@@ -82,7 +78,6 @@ public final class BackendCommand implements Serializable, Command{
         this.logoCovariate = false;
         this.createLogo = false;
         this.sitesBg = null;
-        this.celllines = new ArrayList<>();
         this.tracks = Collections.emptyList();
     }
 
@@ -110,10 +105,6 @@ public final class BackendCommand implements Serializable, Command{
 
     public Sites getSitesBg() {
         return sitesBg;
-    }
-
-    public List<String> getCelllines() {
-        return celllines;
     }
 
     public List<String> getTracks() {
