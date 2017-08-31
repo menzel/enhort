@@ -49,7 +49,7 @@
 #datatable{
     overflow-x: visible;
 }
-table {
+#datatable table {
     table-layout: fixed;
     width:100%;
     border-collapse: collapse;
@@ -75,7 +75,7 @@ table {
     padding:0;
 }
 
-table input[type="checkbox"]{
+#datatable table input[type="checkbox"]{
     -webkit-appearance: none;
     -moz-appearance: none;
     cursor: pointer;
@@ -87,12 +87,12 @@ table input[type="checkbox"]{
     position: absolute;
 }
 
-table input[type="checkbox"]:hover{
+#datatable table input[type="checkbox"]:hover{
     background-color: rgba(0, 0, 238, 0.71);
 
 }
 
-table input[type="checkbox"]:checked {
+#datatable table input[type="checkbox"]:checked {
     background-color: rgb(255, 133, 56);
 
 }
@@ -116,7 +116,7 @@ table input[type="checkbox"]:checked {
 }
 
 
-td{
+#datatable td{
     border: 1px solid #ccc;
 }
 
