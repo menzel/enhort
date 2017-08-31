@@ -75,7 +75,14 @@ public final class IndependenceTest implements Test{
 
         double effectSize = effectSizeTester.test(testTrackResultA, testTrackResultB);
 
-        return new TestResult(tester.chiSquareTest(prepareLists(measured, expected)), testTrackResultA, testTrackResultB, effectSize, track, TestResult.Type.name);
+        try {
+            return new TestResult(tester.chiSquareTest(prepareLists(measured, expected)), testTrackResultA, testTrackResultB, effectSize, track, TestResult.Type.name);
+        } catch (Exception e){
+            //There is a dimension mismatch error in the chiSquareTester if there is only one 'name' inside the results
+            System.err.println("IndependenceTest Exception: " + e.getMessage() + " for " + track.getName());
+        }
+
+        return null;
     }
 
     /**
