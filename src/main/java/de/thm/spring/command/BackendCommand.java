@@ -20,7 +20,6 @@ public final class BackendCommand implements Serializable, Command{
     private final List<Track> customTracks;
     private final Sites sites;
     private final Sites sitesBg;
-    private final double influence;
     private final GenomeFactory.Assembly assembly;
     private final boolean logoCovariate;
     private final boolean createLogo;
@@ -33,7 +32,6 @@ public final class BackendCommand implements Serializable, Command{
         this.sites = sites;
         this.minBg = sites.getPositionCount();
         this.customTracks = new ArrayList<>();
-        this.influence = 1;
         this.assembly = sites.getAssembly();
         this.logoCovariate = false;
         this.createLogo = false;
@@ -48,7 +46,6 @@ public final class BackendCommand implements Serializable, Command{
         this.covariants = new ArrayList<>();
         this.minBg = sites.getPositionCount();
         this.customTracks = new ArrayList<>();
-        this.influence = 1;
         this.assembly = sites.getAssembly();
         this.logoCovariate = false;
         this.createLogo = false;
@@ -60,7 +57,6 @@ public final class BackendCommand implements Serializable, Command{
         this.covariants = command.getCovariants();
         this.minBg = command.getMinBg();
         this.sites = command.getSites();
-        this.influence = command.getInfluence();
         this.customTracks = new ArrayList<>();
         this.assembly = GenomeFactory.Assembly.valueOf(command.getAssembly());
         this.logoCovariate = command.getLogoCovariate();
@@ -83,7 +79,6 @@ public final class BackendCommand implements Serializable, Command{
         this.sites = null;
         this.minBg =  0;
         this.customTracks = new ArrayList<>();
-        this.influence = 1;
         this.logoCovariate = false;
         this.createLogo = false;
         this.sitesBg = null;
@@ -102,8 +97,6 @@ public final class BackendCommand implements Serializable, Command{
     public Sites getSites() { return sites; }
 
     public int getMinBg() { return minBg; }
-
-    public double getInfluence() { return influence; }
 
     public GenomeFactory.Assembly getAssembly() { return assembly; }
 

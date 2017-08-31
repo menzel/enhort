@@ -22,7 +22,6 @@ public final class InterfaceCommand {
     private int minBg; //minimum of expected background positions
     private String originalFilename; // filename of the file the user uploaded
     private Sites sites;
-    private Double influence; //influence of positions on prob interval
     private String assembly;
     private boolean logoCovariate;
     private boolean createLogo;
@@ -88,16 +87,6 @@ public final class InterfaceCommand {
     }
 
     public void setSites(Sites sites) { this.sites = sites; }
-
-    public double getInfluence() {
-        if(influence == null)
-            influence = 1d;
-        return influence;
-    }
-
-    public void setInfluence(double influence) {
-        this.influence = influence;
-    }
 
     public String getAssembly() {
         return this.assembly;
