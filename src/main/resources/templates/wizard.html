@@ -76,7 +76,7 @@
                 <th:block th:case="'upload'">
                     <p>Please upload a bed-file with genomic positions:</p>
                     <div class="box">
-                        <form method="POST" enctype="multipart/form-data" action="/wiz/file" id="uploadform">
+                        <form method="POST" enctype="multipart/form-data" action="/wizfile" id="uploadform">
                             <!-- Bed file -->
                             <div>
                                 <input type="file" name="file" id="file" class="btn"/>
@@ -90,7 +90,7 @@
 
                 <th:block th:case="'tracks'">
 
-                    <form method="POST" enctype="multipart/form-data" action="/wiz/cov" id="uploadform" th:object="${interfaceCommand}">
+                    <form method="POST" enctype="multipart/form-data" action="/wizcov" id="uploadform" th:object="${interfaceCommand}">
 
                         <input style="display: none" type="file" name="file" id="file"/>
 
@@ -105,13 +105,11 @@
 
                         <hr />
 
-                         <p>The table shows tracks for <span th:text="${assembly}"></span>.</p>
-
                         Select one or more presets:
                         <div id="presets">
                             <div class="preset"><label>
                                 <input type="checkbox">
-                                Unknown cell line
+                                 Suggested tracks
                             </label></div>
                             <div class="preset"><label>
                                 <input type="checkbox">
@@ -186,10 +184,14 @@
                                         </th:block>
                                     </th:block>
                                 </th:block>
+
                             </tbody>
                         </table>
 
                         </div>
+
+
+                        <!-- Sequence Logo: <input class="check" type="checkbox" th:field="*{interfaceCommand.createLogo}" -->
                     </form>
 
                 </th:block>
@@ -218,7 +220,24 @@
 
                         <h4>choose Covariates to adapt the background model:</h4>
 
-                        <table class="table table-hover fixed">
+                        <table class="table table-hover fixed covariates">
+
+                            <thead><tr>
+                                <th th:text="${'Significant tracks' + ' (' + sigTrackCount + '/' + trackCount + ')'}"
+                                    data-toggle="tooltip" data-placement="right" title="Count of significant tracks vs all tracks">
+                                    Significant Tracks
+                                </th>
+
+                                <th data-toggle="tooltip" data-placement="right" title="P-value computed by chi-square-test">P Value
+                                </th>
+                                <th>Effect Size</th>
+                                <th>Relative Integration<span style="font-size: 10px;"> <span
+                                        style="color: #337ab7; font-size: 13px;">Data</span> vs. <span
+                                        style="color: #555; font-size: 13px;"> Background</span></span></th>
+                                <th>Covariate</th>
+                            </tr></thead>
+
+
                             <th:block th:each="result: ${tracks}">
                                 <tr>
                                     <td th:text="${result.name}"></td>
