@@ -4,7 +4,6 @@
 
 
 #presets{
-    height: 200px;
     width: 500px;
     padding: 10px;
     margin: 10px;
@@ -103,7 +102,12 @@
     line-height:1;
     vertical-align: middle;
     cursor: pointer;
-    width: 200px;
+    width: 150px;
+}
+
+
+.table tbody tr .subrowheader{
+    padding: 0 0 0 15px;
 }
 
 .table tbody tr .row{

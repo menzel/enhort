@@ -164,10 +164,14 @@
 
                                     <th:block th:if="${not #lists.isEmpty(cl.value)}">
 
+                                        <tr class="clrow">
+                                            <td class="rowheader" th:text="${cl.key}"></td>
+                                        </tr>
+
                                         <th:block th:each="inner: ${cl.value}">
 
                                             <tr class="clrow">
-                                                <td class="rowheader"  th:text="${inner}"></td>
+                                                <td class="subrowheader rowheader" th:text="${inner}"></td>
 
                                                     <th:block th:each="pack: ${ids}">
                                                         <th:block th:if="${inner == pack.key}">
