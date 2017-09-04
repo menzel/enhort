@@ -115,10 +115,14 @@
     height:16px;
 }
 
+.table .clrow{
+    min-height:16px;
+}
+
+
 .table .clrow:hover{
     background-color: rgba(0, 0, 238, 0.5);
 }
-
 
 #datatable td{
     border: 1px solid #ccc;
