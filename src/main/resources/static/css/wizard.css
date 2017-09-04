@@ -71,8 +71,18 @@ h4{
     color: white;
 }
 
-#assemb {
-    padding:1px;
-    background-color: rgba(55,240,149,0.8);
+
+#header_out{
+    overflow:hidden;
 }
 
+
+#header_in1{
+    float: left;
+    width:400px;
+}
+
+#header_in2{
+    float: right;
+    overflow: hidden;
+}

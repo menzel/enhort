@@ -94,15 +94,33 @@
 
                         <input style="display: none" type="file" name="file" id="file"/>
 
-                        <p>
+                        <div id="header_out">
                             <!-- Assembly -->
 
-                            The positions are guessed to be <span id="assemb" th:text="${interfaceCommand.assembly}"></span>
+                            <div id="header_in1">
+                                <p style="float: left;">
+                                    The annotations are based on
+                                </p>
 
-                            <button onclick="this.form.submit();" class="btn btn-primary right">Continue</button>
-                            <button class="btn btn-default right" id="clearbtn">Clear</button>
+                                <div class="dropdown show">
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span th:text="${interfaceCommand.assembly}"></span>
+                                        <span class="caret"></span>
+                                    </a>
 
-                        </p>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <a class="dropdown-item" href="#">hg18</a>
+                                        <a class="dropdown-item" href="#">hg19</a>
+                                        <a class="dropdown-item" href="#">hg38</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="header_in2">
+                                <button onclick="this.form.submit();" class="btn btn-primary right">Continue</button>
+                                <button class="btn btn-default right" id="clearbtn">Clear</button>
+                            </div>
+                        </div>
 
                         <hr />
 
