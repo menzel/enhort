@@ -91,10 +91,17 @@ public class WizardController {
             currentSession.setOriginalFilename(file.getOriginalFilename());
             interfaceCommand.setAssembly(data.getAssembly().toString());
 
+            if(currentSession.getCollector() != null)
+                interfaceCommand.setTracks(currentSession.getCollector().getTracks());
+
             if(data.getPositionCount() < 1){
                 model.addAttribute("message", "There are no genomic positions in the .bed file you uploaded. Does it have the correct format, example: chr1\\t10\\t100 (where \\t is a tab)");
                 return "error";
             }
+
+            /* Add presets */
+
+            List<String> preset_histmod = Arrays.asList("2","8","7");
 
             model = loadDataTableModel(model, GenomeFactory.Assembly.hg19);
             model.addAttribute("page", "tracks");
@@ -109,7 +116,6 @@ public class WizardController {
 
         Sessions sessionsControll = Sessions.getInstance();
         Session currentSession = sessionsControll.getSession(httpSession.getId());
-        System.out.println("is logo: " + interfaceCommand.getCreateLogo());
 
         if(interfaceCommand.getTracks().size() > 0) { // serve covariates page:
 
