@@ -278,7 +278,14 @@
 </div>
 
 
+
 <script src="/js/celltable.js" th:href="@{/js/celltable.js}" ></script>
+
+
+<script th:inline="javascript" async="async">
+    selectByIds([[${interfaceCommand.tracks}]]);
+</script>
+
 
 <script>
     document.getElementById("file").onchange = function() {
