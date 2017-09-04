@@ -44,7 +44,12 @@ Set the given val to all checkboxes with the given colnum
 function checkCol(rowheader, colnum, val) {
 
     for(var j = 0; j <= rown; j++) { //iterate over all rows
+
+        if(rowheader[j].nextElementSibling === null)
+            continue; //skip without td elemnts with possible checkboxes
+
         var child = rowheader[j].nextElementSibling.parentElement.cells[colnum].firstElementChild; // get elements from each row
+
         if(child !== null)
             child.checked = val;
     }
@@ -57,6 +62,9 @@ for(i=0, l=coln; i<l; i++){
         col = event.currentTarget;
 
         for(var j = 0; j <= rown; j++) { //iterate over all rows
+            if(rowheader[j].nextElementSibling === null)
+                continue; //skip header rows without td elemnts with possible checkboxes
+
             child = rowheader[j].nextElementSibling.parentElement.cells[colnum].firstElementChild; // get elements from each row
 
             if (child !== null && child.checked === false) {
