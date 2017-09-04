@@ -52,7 +52,7 @@ public final class CalcCaller {
 
         ////////////  Tracks intersect ////////////////
 
-        ResultCollector collector = new ResultCollector(randomPositions, tracks.get(0).getAssembly()); // get assembly from the first track
+        ResultCollector collector = new ResultCollector(randomPositions, tracks.get(0).getAssembly(), tracks); // get assembly from the first track
 
         if(measuredPositions.getPositions().size() < 1){
             return collector; // TODO inform user that there are no sites, fileformat wrong?

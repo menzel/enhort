@@ -1,8 +1,7 @@
 package de.thm.result;
 
-import de.thm.genomeData.tracks.CellLine;
 import de.thm.genomeData.tracks.ScoredTrack;
-import de.thm.genomeData.tracks.TrackFactory;
+import de.thm.genomeData.tracks.Track;
 import de.thm.logo.GenomeFactory;
 import de.thm.logo.Logo;
 import de.thm.positionData.Sites;
@@ -25,18 +24,16 @@ public final class ResultCollector implements Serializable, Result{
 
     private final List<TestResult> results;
     private final Sites backgroundSites;
-    private final Map<String, List<String>> knownCelllines;
     private final GenomeFactory.Assembly assembly;
-    private List<String> knownPackages; //keeps a list of all known packages for the gui to display
+    private List<String> tracks; //keeps a list of all known packages for the gui to display
     private Logo logo;
     private Logo other_logo;
     private ScoredTrack hotspots;
 
-    public ResultCollector(Sites bgModel, GenomeFactory.Assembly assembly) {
+    public ResultCollector(Sites bgModel, GenomeFactory.Assembly assembly, List<Track> tracks) {
         results = Collections.synchronizedList(new ArrayList<>());
         backgroundSites = bgModel;
-        knownPackages = TrackFactory.getInstance().getTrackPackageNames(assembly);
-        knownCelllines = CellLine.getInstance().getCelllines();
+        this.tracks = tracks.stream().map(t -> String.valueOf(t.getUid())).collect(Collectors.toList());
         this.assembly = assembly;
     }
 
@@ -343,12 +340,12 @@ public final class ResultCollector implements Serializable, Result{
         return backgroundSites.getPositionCount();
     }
 
-    public List<String> getKnownPackages() {
-        return knownPackages;
+    public List<String> getTracks() {
+        return tracks;
     }
 
-    public void setKnownPackages(List<String> packages){
-        this.knownPackages = packages;
+    public void setTracks(List<String> tracks){
+        this.tracks = tracks;
     }
 
     public Logo getLogo() {
@@ -392,10 +389,6 @@ public final class ResultCollector implements Serializable, Result{
 
     public ScoredTrack getHotspots() {
         return hotspots;
-    }
-
-    public Map<String, List<String>> getKnownCelllines() {
-        return this.knownCelllines;
     }
 
     public GenomeFactory.Assembly getAssembly() {

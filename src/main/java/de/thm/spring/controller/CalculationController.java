@@ -331,6 +331,8 @@ public class CalculationController {
             model.addAttribute("bgfilename", currentSession.getBgname());
         }
 
+        command.setTracks(currentSession.getCollector().getTracks()); // get tracks from last collector
+
         try {
 
             BackendCommand backendCommand = new BackendCommand(command);
@@ -466,10 +468,7 @@ public class CalculationController {
         model.addAttribute("sigTrackCount", collector.getSignificantTrackCount());
         model.addAttribute("trackCount", collector.getTrackCount());
 
-        model.addAttribute("trackPackages", collector.getKnownPackages());
         model.addAttribute("ran", true);
-
-        model.addAttribute("celllines", collector.getKnownCelllines());
 
         Logo logo1 = collector.getLogo();
         Logo logo2 = collector.getSecondLogo();
