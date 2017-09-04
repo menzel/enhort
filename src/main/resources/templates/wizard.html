@@ -100,6 +100,7 @@
                             The positions are guessed to be <span id="assemb" th:text="${interfaceCommand.assembly}"></span>
 
                             <button onclick="this.form.submit();" class="btn btn-primary right">Continue</button>
+                            <button class="btn btn-default right" id="clearbtn">Clear</button>
 
                         </p>
 
@@ -127,8 +128,6 @@
                                 <input type="checkbox">
                             Expression levels
                             </label></div>
-
-                            <button class="btn btn-default">Clear</button>
 
                         </div>
 
@@ -286,6 +285,17 @@
     selectByIds([[${interfaceCommand.tracks}]]);
 </script>
 
+
+<script>
+    document.getElementById("clearbtn").onclick = function (event) {
+        event.preventDefault();
+
+        $("input[type='checkbox']").each(function (id, box) {
+            box.checked = false;
+        });
+    }
+
+</script>
 
 <script>
     document.getElementById("file").onchange = function() {
