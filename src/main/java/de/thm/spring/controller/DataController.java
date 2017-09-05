@@ -7,7 +7,7 @@ import de.thm.genomeData.tracks.TrackPackage;
 import de.thm.logo.GenomeFactory;
 import de.thm.result.DataViewResult;
 import de.thm.spring.backend.BackendConnector;
-import de.thm.spring.cache.CellLineCache;
+import de.thm.spring.cache.DataTableCache;
 import de.thm.spring.command.BackendCommand;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -67,7 +67,7 @@ public class DataController {
                 model.addAttribute("trackNames", trackNames);
                 model.addAttribute("packages", collector.getPackages());
                 model.addAttribute("assembly", collector.getAssembly());
-                model.addAttribute("celllines", CellLineCache.getInstance(collector).getCellLines());
+                model.addAttribute("celllines", DataTableCache.getInstance(collector).getCellLines());
 
             } else {
                 System.err.println("ApplicationController: Collector for data is null");
