@@ -4,6 +4,7 @@ import de.thm.genomeData.tracks.Track;
 import de.thm.genomeData.tracks.TrackPackage;
 import de.thm.result.DataViewResult;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,31 +13,37 @@ import java.util.stream.Collectors;
 public class DataTableCache {
 
     private static DataTableCache instance;
-    private Map<String, List<String>> newCellLinesMap;
+    private Map<String, List<String>> newCellLinesMap; //contains a list of celllines, with either null or another list as child. The containing cell lines are the intersect between the known cellines from the celllines-file and the celllines given by loaded tracks
     private static Integer lastCollectorHash;
     private List<String> trackNames;
 
     private DataTableCache(DataViewResult collector){
 
-
-        // Cell lines
+        // Cell lines list
 
         this.newCellLinesMap = new HashMap<>();
         List<String> knownCelllines = collector.getPackages().stream().map(TrackPackage::getCellLine).collect(Collectors.toList());
         Map<String, List<String>> cellLines = collector.getCellLines();
 
-        for (String cellline : cellLines.keySet()) {
+        List<String> flatCellLines = new ArrayList<>();
+        cellLines.keySet().stream().filter(k -> cellLines.get(k) != null).forEach(k -> flatCellLines.addAll(cellLines.get(k)));
 
-            if (cellLines.get(cellline) != null) {
-                List<String> subs = cellLines.get(cellline);
-                subs = subs.stream().filter(knownCelllines::contains).collect(Collectors.toList());
+        for(String cl: knownCelllines) { //iterate over all cell lines given by tracks
+            if (cellLines.keySet().contains(cl)) { // if the cell line is in the upper list
+                if (cellLines.get(cl) == null) // if there is no sub-list
+                    newCellLinesMap.put(cl, null);
+                else // if there is a sub list (should not happen in most cases):
+                    newCellLinesMap.put(cl, cellLines.get(cl).stream()
+                                    .filter(knownCelllines::contains)
+                                    .collect(Collectors.toList()));
+            } else if (flatCellLines.contains(cl)) { // if the cell line is in any sub-list
 
-                if(!subs.isEmpty())
-                    newCellLinesMap.put(cellline, subs);
-
-            } else {
-                if(knownCelllines.contains(cellline))
-                    newCellLinesMap.put(cellline, null);
+                for (String key : cellLines.keySet())// iterate over all celllines (each time)
+                    if (cellLines.get(key) != null)
+                        if (cellLines.get(key).contains(cl))
+                            newCellLinesMap.put(key, cellLines.get(key).stream() // add all sub cell lines together with upper name
+                                    .filter(knownCelllines::contains)
+                                    .collect(Collectors.toList()));
             }
         }
 
