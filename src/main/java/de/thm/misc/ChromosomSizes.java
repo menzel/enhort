@@ -1,18 +1,13 @@
 package de.thm.misc;
 
+import de.thm.genomeData.sql.DBConnector;
 import de.thm.logo.GenomeFactory;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 /**
  * Supplies chromosome sizes for HG19
@@ -21,7 +16,7 @@ import java.util.stream.Stream;
 public final class ChromosomSizes {
 
     private static ChromosomSizes instance;
-    private final Map<GenomeFactory.Assembly, Map<String, Integer>> chromosomeSizes = new HashMap<>();
+    private final Map<GenomeFactory.Assembly, Map<String, Integer>> chromosomeSizes;
     private final Map<GenomeFactory.Assembly, List<String>> names = new HashMap<> ();
     private final Map<String, Long> offsets = new HashMap<>();
     private final Map<GenomeFactory.Assembly, Long> genomeSize = new HashMap<>();
@@ -38,11 +33,24 @@ public final class ChromosomSizes {
         } else {
             basePath = new File("/home/mmnz21/dat/").toPath();
         }
+        DBConnector connector = new DBConnector();
+        connector.connect();
+
+        chromosomeSizes = connector.getChrSizes();
 
 
-        readChrSizes(basePath, GenomeFactory.Assembly.hg18);
-        readChrSizes(basePath, GenomeFactory.Assembly.hg19);
-        readChrSizes(basePath, GenomeFactory.Assembly.hg38);
+        for(GenomeFactory.Assembly assembly: chromosomeSizes.keySet()) {
+            Map<String, Integer> hg = chromosomeSizes.get(assembly);
+
+            names.put(assembly, new ArrayList<>(hg.keySet()));
+            names.get(assembly).sort(Comparator.comparing(o -> o.substring(3))); // sort by Number
+
+            // get whole genome length for the genome
+            long gz = 0;
+            for (String key : hg.keySet()) gz += hg.get(key);
+            genomeSize.put(assembly, gz);
+        }
+
 
     }
 
@@ -57,44 +65,6 @@ public final class ChromosomSizes {
         }
 
         return instance;
-    }
-
-    /**
-     * Reads the chr sizes for the given path and assembly
-     *
-     * @param basePath - path to data directory
-     * @param assembly - assembly name from GenomeFactory.Assembly
-     */
-    private void readChrSizes(Path basePath, GenomeFactory.Assembly assembly) {
-        Map<String, Integer> hg = new HashMap<>();
-
-
-        try (Stream<String> lines = Files.lines(basePath.resolve(assembly.toString() + "/chrSizes"), StandardCharsets.UTF_8)) {
-            Iterator<String> it = lines.iterator();
-            Pattern chrPattern = Pattern.compile("(chr(\\d{1,2}|X|Y))\\s(\\d+)");
-
-            while(it.hasNext()){
-                String line = it.next();
-                Matcher lineMatcher = chrPattern.matcher(line);
-
-                if(lineMatcher.matches())
-                    hg.put(lineMatcher.group(1), Integer.valueOf(lineMatcher.group(3)));
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        chromosomeSizes.put(assembly, hg);
-
-        names.put(assembly, new ArrayList<>(hg.keySet()));
-        names.get(assembly).sort(Comparator.comparing(o -> o.substring(3))); // sort by Number
-
-        // get whole genome length for the genome
-        long gz = 0;
-        for (String key : hg.keySet()) gz += hg.get(key);
-        genomeSize.put(assembly, gz);
     }
 
     public Long getChrSize(GenomeFactory.Assembly assembly, String chr) throws NoSuchElementException{
