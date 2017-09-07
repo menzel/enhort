@@ -184,9 +184,11 @@ public class WizardController {
                 for(TrackPackage pack: collector.getPackages()){
 
                     List<Integer> linkIds = new ArrayList<>();
-                    List<String> packNames = pack.getTrackList().stream().map(Track::getName).collect(Collectors.toList());
+                    List<String> packNames = pack.getTrackList().stream().map(Track::getName).map(String::toLowerCase).collect(Collectors.toList());
 
                     for(String name: trackNames){
+                        name = name.toLowerCase();
+
                         if(packNames.contains(name))
                             linkIds.add(pack.getTrackList().get(packNames.indexOf(name)).getUid());
                         else
