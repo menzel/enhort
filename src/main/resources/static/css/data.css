@@ -78,8 +78,8 @@
     -moz-appearance: none;
     cursor: pointer;
     background-color: rgb(0, 0, 145);
-    width: 15px;
-    height: 15px;
+    width: 14px;
+    height: 14px;
     margin: 0;
     padding:0;
 }
@@ -110,11 +110,11 @@
 
 .table tbody tr .row{
     padding: 0;
-    height:16px;
+    height:15px;
 }
 
 .table .clrow{
-    height:16px;
+    height:15px;
 }
 
 
@@ -124,6 +124,7 @@
 
 #datatable td{
     border: 1px solid #ccc;
+    line-height: 0;
 }
 
 .colheader{

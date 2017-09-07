@@ -58,8 +58,8 @@ h4{
     padding-left: 10px;
     padding-bottom: 20px;
     padding-top: 20px;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    overflow-x: scroll;
+    overflow-y: hidden;
     margin-bottom: 50px;
 }
 
@@ -86,4 +86,11 @@ h4{
 #header_in2{
     float: right;
     overflow: hidden;
+}
+
+#counter{
+    color: #9f9f9f;
+    font-size:10px;
+    float: right;
+    position: absolute;
 }

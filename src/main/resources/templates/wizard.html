@@ -148,6 +148,7 @@
                             </label></div>
 
                         </div>
+                        <div id="counter">0 tracks selected</div>
 
                         <div id="datatable" class="table-responsive">
                         <table class="table table-hover">
@@ -301,10 +302,40 @@
 </div>
 
 
+<script>
+    document.getElementById("file").onchange = function() {
+    document.getElementById("uploadform").submit();
+};
+</script>
+
+
+<script>
+    document.getElementById("datatable").onclick = function () {
+        var counter = 0;
+
+        $("input[type='checkbox']").each(function () {
+            counter++;
+        });
+
+        document.getElementById("counter").innerHTML = counter + " tracks selected";
+    }
+</script>
+
+<script>
+    $(".acidjs-css3-treeview").delegate("label input:checkbox", "change", function () {
+        var
+            checkbox = $(this),
+            nestedList = checkbox.parent().next().next(),
+            selectNestedListCheckbox = nestedList.find("label:not([for]) input:checkbox");
+
+        if (checkbox.is(":checked")) {
+            return selectNestedListCheckbox.prop("checked", true);
+        }
+        selectNestedListCheckbox.prop("checked", false);
+    });
+</script>
 
 <script src="/js/celltable.js" th:href="@{/js/celltable.js}" ></script>
-
-
 <script th:inline="javascript" async="async">
     selectByIds([[${interfaceCommand.tracks}]]);
 </script>
@@ -321,25 +352,6 @@
 
 </script>
 
-<script>
-    document.getElementById("file").onchange = function() {
-    document.getElementById("uploadform").submit();
-};
-</script>
-
-<script>
-    $(".acidjs-css3-treeview").delegate("label input:checkbox", "change", function () {
-        var
-            checkbox = $(this),
-            nestedList = checkbox.parent().next().next(),
-            selectNestedListCheckbox = nestedList.find("label:not([for]) input:checkbox");
-
-        if (checkbox.is(":checked")) {
-            return selectNestedListCheckbox.prop("checked", true);
-        }
-        selectNestedListCheckbox.prop("checked", false);
-    });
-</script>
 
 </body>
 </html>
