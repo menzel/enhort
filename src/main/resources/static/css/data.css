@@ -7,7 +7,6 @@
     width: 500px;
     padding: 10px;
     margin: 10px;
-    position: absolute;
 }
 
 .preset label{
@@ -50,7 +49,7 @@
 }
 #datatable table {
     table-layout: fixed;
-    width:100%;
+    width:1200px;
     border-collapse: collapse;
     margin-top: 150px;
 }
@@ -83,7 +82,6 @@
     height: 15px;
     margin: 0;
     padding:0;
-    position: absolute;
 }
 
 #datatable table input[type="checkbox"]:hover{

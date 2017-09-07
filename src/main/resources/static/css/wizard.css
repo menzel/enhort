@@ -58,7 +58,8 @@ h4{
     padding-left: 10px;
     padding-bottom: 20px;
     padding-top: 20px;
-    overflow: hidden;
+    overflow-y: scroll;
+    overflow-x: hidden;
     margin-bottom: 50px;
 }
 
