@@ -24,7 +24,7 @@ public class CellLine {
 
     private CellLine(){
         names = new TreeMap<>();
-        names.put("none", null);
+        names.put("Unknown", null);
         load();
     }
 

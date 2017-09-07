@@ -1,12 +1,10 @@
 package de.thm.genomeData.tracks;
 
+import de.thm.genomeData.sql.DBConnector;
 import de.thm.logo.GenomeFactory;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -24,7 +22,6 @@ import java.util.stream.Collectors;
 public final class TrackFactory {
 
     private static TrackFactory instance;
-    private final Path basePath;
     private final List<Track> tracks;
     private List<TrackPackage> trackPackages;
 
@@ -34,18 +31,6 @@ public final class TrackFactory {
      * Expects three dirs with the names 'inout', 'named' and 'score' for types.
      */
     private TrackFactory() {
-
-        if (System.getenv("HOME").contains("menzel")) {
-            basePath = new File("/home/menzel/Desktop/THM/lfba/enhort/dat_small/").toPath();
-        } else {
-            basePath = new File("/home/mmnz21/dat/").toPath();
-        }
-
-        /*
-        DBConnector connector = new DBConnector();
-        connector.connect();
-        System.out.println(connector.getAllTracks());
-        */
 
         tracks = new ArrayList<>();
         trackPackages = new ArrayList<>();
@@ -79,82 +64,21 @@ public final class TrackFactory {
      */
     public void loadAllTracks() {
 
-        try {
-
-            //////////// hg19  ///////////////
-            Path hg19path = this.basePath.resolve("hg19");
-
-            List<Path> dirs19 = new ArrayList<>();
-            Files.walk(Paths.get(hg19path.toString())).filter(Files::isRegularFile).forEach(dirs19::add);
-
-            this.tracks.addAll(loadTracks(dirs19, GenomeFactory.Assembly.hg19));
-
-            /*
-
-            //////////// hg18  ///////////////
-            Path hg18path = this.basePath.resolve("hg18");
-
-            List<Path> dirs18 = new ArrayList<>();
-            Files.walk(Paths.get(hg18path.toString())).filter(Files::isRegularFile).forEach(dirs18::add);
-
-            this.tracks.addAll(loadTracks(dirs18, GenomeFactory.Assembly.hg18));
-
-
-            //////////// hg38  ///////////////
-            Path hg38path = this.basePath.resolve("hg38");
-
-            List<Path> dirs38 = new ArrayList<>();
-            Files.walk(Paths.get(hg18path.toString())).filter(Files::isRegularFile).forEach(dirs38::add);
-
-            this.tracks.addAll(loadTracks(dirs38, GenomeFactory.Assembly.hg38));
-            */
-
-            List<String> trackPackagesNames = new ArrayList<>();
-
-            for(Track track: tracks){
-                if(trackPackagesNames.contains(track.getCellLine())){
-                    //if the package exist add the track
-                    trackPackages.get(trackPackagesNames.indexOf(track.getCellLine())).add(track);
-
-                } else {
-                    //if the package for this cell line does not exist create a new package and then add the track
-                    TrackPackage trackPackage = new TrackPackage(track.getCellLine(), track.getAssembly(), track.getCellLine());
-                    this.trackPackages.add(trackPackage);
-                    trackPackagesNames.add(track.getCellLine());
-
-                    trackPackage.add(track);
-                }
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    /**
-     * Gets all tracks from a single type
-     *
-     * @param hg19
-     * @param type - Interval.Type. Type based upon dir name
-     * @param path - path to the dir with files
-     * @throws IOException on file problems
-     */
-    List<Track> loadTracks(List<Path> files, GenomeFactory.Assembly assembly) throws IOException {
-
         final List<Track> tracks = Collections.synchronizedList(new ArrayList<>());
 
-        int nThreads = 8;
-        if (System.getenv("HOME").contains("menzel"))
-            nThreads = 4;
+        DBConnector connector  = new DBConnector();
+        connector.connect();
 
+        List<DBConnector.TrackEntry> allTracks = connector.getAllTracks("WHERE cellline != 'Unknown' OR filesize < 100000 ORDER BY filesize ASC ");
+
+        int nThreads = 8;
+        if (System.getenv("HOME").contains("menzel")) nThreads = 4;
         ExecutorService exe = Executors.newFixedThreadPool(nThreads);
 
-        for (Path file : files) {
-            if(!file.toFile().getName().equals("chrSizes")) { //only load bed files, omit the chromosome sizes files
-                FileLoader loader = new FileLoader(file, tracks, assembly);
-                exe.execute(loader);
-            }
+        for(DBConnector.TrackEntry entry: allTracks){
+
+            FileLoader loader = new FileLoader(entry, tracks);
+            exe.execute(loader);
         }
 
         exe.shutdown();
@@ -170,6 +94,39 @@ public final class TrackFactory {
         }
 
         exe.shutdownNow();
+
+
+        //TODO use DB:
+        List<String> trackPackagesNames = new ArrayList<>();
+
+        for(Track track: tracks){
+            if(trackPackagesNames.contains(track.getCellLine())){
+                //if the package exist add the track
+                trackPackages.get(trackPackagesNames.indexOf(track.getCellLine())).add(track);
+
+            } else {
+                //if the package for this cell line does not exist create a new package and then add the track
+                TrackPackage trackPackage = new TrackPackage(track.getCellLine(), track.getAssembly(), track.getCellLine());
+                this.trackPackages.add(trackPackage);
+                trackPackagesNames.add(track.getCellLine());
+
+                trackPackage.add(track);
+            }
+        }
+
+        this.tracks.addAll(tracks);
+    }
+
+    /**
+     * Gets all tracks from a single type
+     *
+     * @param hg19
+     * @param type - Interval.Type. Type based upon dir name
+     * @param path - path to the dir with files
+     * @throws IOException on file problems
+     */
+    List<Track> loadTracks(List<Path> files, GenomeFactory.Assembly assembly) throws IOException {
+
 
         return tracks;
     }

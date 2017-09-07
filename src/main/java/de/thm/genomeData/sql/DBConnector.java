@@ -20,8 +20,6 @@ public class DBConnector {
         try {
             conn = DriverManager.getConnection(link);
 
-            System.out.println("DBConnector: connected to sqlite db");
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -61,17 +59,31 @@ public class DBConnector {
         return conn;
     }
 
-    public List<String> getAllTracks() {
-        List<String> paths = new ArrayList<>();
 
-        String sql = "SELECT * FROM tracks";
+
+    public List<TrackEntry> getAllTracks() {
+        return getAllTracks("");
+    }
+
+    public List<TrackEntry> getAllTracks(String whereClause) {
+        List<TrackEntry> entries = new ArrayList<>();
+
+        String sql = "SELECT * FROM tracks " + whereClause;
 
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
 
             while(rs.next()){
-                paths.add(rs.getString("file"));
+                TrackEntry entry = new TrackEntry(rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getString("file"),
+                        rs.getString("type"),
+                        rs.getString("assembly"),
+                        rs.getString("cellline"),
+                        rs.getInt("filesize"));
+
+                entries.add(entry);
             }
 
         } catch (SQLException e) {
@@ -79,6 +91,57 @@ public class DBConnector {
         }
 
 
-        return paths;
+        return entries;
+    }
+
+    /**
+     * Inner Class for Object mapping
+     */
+    public class TrackEntry {
+        private String name;
+        private String description;
+        private String filepath;
+        private String type;
+        private String assembly;
+        private String cellline;
+        private int filesize;
+
+        public TrackEntry(String name, String description, String filepath, String type, String assembly, String cellline, int filesize) {
+            this.name = name;
+            this.description = description;
+            this.filepath = filepath;
+            this.type = type;
+            this.assembly = assembly;
+            this.cellline = cellline;
+            this.filesize = filesize;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public String getFilepath() {
+            return filepath;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public String getAssembly() {
+            return assembly;
+        }
+
+        public String getCellline() {
+            return cellline;
+        }
+
+        public int getFilesize() {
+            return filesize;
+        }
     }
 }

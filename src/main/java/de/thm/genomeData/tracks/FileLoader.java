@@ -1,5 +1,6 @@
 package de.thm.genomeData.tracks;
 
+import de.thm.genomeData.sql.DBConnector;
 import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
 import de.thm.misc.PositionPreprocessor;
@@ -7,7 +8,10 @@ import de.thm.run.BackendController;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.math3.util.Precision;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,17 +26,36 @@ import java.util.stream.Stream;
  * Created by menzel on 10/13/16.
  */
 final class FileLoader implements Runnable {
-    private final Path path;
     private final List<Track> tracks; //reference to the syncronized list created in the FileLoader
+
+    private final Path path;
     private final GenomeFactory.Assembly assembly;
-    private final CellLine cellLine;
+    private final String cellline;
+    private final String name;
+    private final String desc;
+    private final TrackFactory.Type type;
+    private final int linecount;
 
-    FileLoader(Path path, List<Track> tracks, GenomeFactory.Assembly assembly) {
+    public FileLoader(DBConnector.TrackEntry entry, List<Track> tracks) {
 
-        this.path = path;
+
+        Path basePath;
+        if (System.getenv("HOME").contains("menzel")) {
+            basePath = new File("/home/menzel/Desktop/THM/lfba/enhort/dat/").toPath();
+        } else {
+            basePath = new File("/home/mmnz21/dat/").toPath();
+        }
+
         this.tracks = tracks;
-        this.assembly = assembly;
-        cellLine = CellLine.getInstance();
+        this.path = basePath.resolve(new File(entry.getFilepath()).toPath());
+
+        this.assembly = GenomeFactory.Assembly.valueOf(entry.getAssembly());
+        this.cellline = entry.getCellline();
+        this.name =entry.getName();
+        this.type = TrackFactory.Type.valueOf(entry.getType());
+        this.desc = entry.getDescription();
+        this.linecount = entry.getFilesize();
+
     }
 
     @Override
@@ -91,39 +114,19 @@ final class FileLoader implements Runnable {
      */
     private Optional<Track> initTrackfromFile(File file) {
 
-        String name = "";
-        String description = "";
-        String cellline = "none";
-        int length = -1;
         ChromosomSizes chrSizes = ChromosomSizes.getInstance();
-        TrackFactory.Type type = null;
 
         long time = System.currentTimeMillis();
 
-        try {
-            length = countBedLines(file.toPath());
-
-            BufferedReader brTest = new BufferedReader(new FileReader(file));
-
-            // decrease length by 1 if there is a header:
-            if (brTest.readLine().contains("fullname=")) length--;
-
-        } catch (IOException | NullPointerException e) {
-            System.err.println("in file: " + file.getName());
-            e.printStackTrace();
-        }
-
-        List<Long> starts = new ArrayList<>(length);
-        List<Long> ends = new ArrayList<>(length);
-        List<String> names = new ArrayList<>(length);
-        List<Double> scores = new ArrayList<>(length);
-        List<Character> strands = new ArrayList<>(length);
+        List<Long> starts = new ArrayList<>(linecount);
+        List<Long> ends = new ArrayList<>(linecount);
+        List<String> names = new ArrayList<>(linecount);
+        List<Double> scores = new ArrayList<>(linecount);
+        List<Character> strands = new ArrayList<>(linecount);
 
         try (Stream<String> lines = Files.lines(file.toPath(), StandardCharsets.UTF_8)) {
             Iterator<String> it = lines.iterator();
 
-
-            Pattern header = Pattern.compile("track fullname=\"([^\"]+)\"\\s+description=\"([^\"]*)\"(\\s+cellline=\"([^\"]*)\")?");
             Pattern entry = Pattern.compile("chr(\\d{1,2}|X|Y)\\s(\\d*)\\s(\\d*).*");
 
             String lastChr = "";
@@ -138,7 +141,7 @@ final class FileLoader implements Runnable {
                 if (Thread.currentThread().isInterrupted()) {
 
                     long diff = System.currentTimeMillis() - time;
-                    System.err.println("loaded " + Precision.round(((double) length / diff), 2) + "\t" + file.getName() + " of lines " + length + " in " + diff);
+                    System.err.println("loaded " + Precision.round(((double) linecount / diff), 2) + "\t" + file.getName() + " of lines " + linecount + " in " + diff);
 
                     System.err.println("Interrupted loading of " + file.getName());
                     return Optional.empty();
@@ -149,8 +152,6 @@ final class FileLoader implements Runnable {
 
                 if (line_matcher.matches()) {
                     String[] parts = line.split("\t");
-
-                    if(type == null) type = guessType(parts);
 
                     long start;
                     long end;
@@ -211,34 +212,12 @@ final class FileLoader implements Runnable {
                             strands.add(parts[5].charAt(0));
                         else strands.add('o');
                     }
-                } else {
-
-                    Matcher header_matcher = header.matcher(line);
-
-                    if (header_matcher.matches()) {
-                        name = header_matcher.group(1);
-                        description = header_matcher.group(2);
-
-                        if (header_matcher.group(4) != null && header_matcher.group(4).length() > 0)
-                            cellline = header_matcher.group(4).replaceAll("[\\s,]+", "_");
-                    }
                 }
             }
 
             lines.close();
 
-            if (name.equals("")) {
-                if (file.getName().contains("."))
-                    name = file.getName().substring(0, file.getName().indexOf("."));
-                else
-                    name = file.getName();
-
-                if (name.startsWith("wgEncodeBroadHistone")) {
-                    name = name.substring("wgEncodeBroadHistone".length());
-                }
-            }
-
-            // Check read files //
+           // Check read files //
 
             if (BackendController.runlevel == BackendController.Runlevel.DEBUG) {
 
@@ -289,16 +268,16 @@ final class FileLoader implements Runnable {
 
             switch (type) {
                 case strand:
-                    return Optional.of(new StrandTrack(starts, ends, strands, name, description, assembly, cellLine.check(cellline)));
+                    return Optional.of(new StrandTrack(starts, ends, strands, name, desc, assembly, cellline));
                 case inout:
                     //return PositionPreprocessor.preprocessData(new InOutTrack(starts, ends, name, description));
-                    return Optional.of(new InOutTrack(starts, ends, name, description, assembly, cellLine.check(cellline)));
+                    return Optional.of(new InOutTrack(starts, ends, name, desc, assembly, cellline));
                 case scored:
-                    return Optional.of(PositionPreprocessor.preprocessData(new ScoredTrack(starts, ends, names, scores, name, description, assembly, cellLine.check(cellline))));
+                    return Optional.of(PositionPreprocessor.preprocessData(new ScoredTrack(starts, ends, names, scores, name, desc, assembly, cellline)));
                 case named:
-                    return Optional.of(PositionPreprocessor.preprocessData(new NamedTrack(starts, ends, names, name, description, assembly, cellLine.check(cellline))));
+                    return Optional.of(PositionPreprocessor.preprocessData(new NamedTrack(starts, ends, names, name, desc, assembly, cellline)));
                 case distance:
-                    return Optional.of(new DistanceTrack(starts, "Distance from " + name, description, assembly, cellLine.check(cellline)));
+                    return Optional.of(new DistanceTrack(starts, "Distance from " + name, desc, assembly, cellline));
                 default:
                     throw new Exception("Something is wrong with this track or file: " + file.getName());
             }
@@ -308,44 +287,6 @@ final class FileLoader implements Runnable {
             System.err.println("For file " + file.getName());
             e.printStackTrace();
             return Optional.empty();
-        }
-    }
-
-    private TrackFactory.Type guessType(String[] parts) {
-
-        switch (parts.length){
-            case 2:
-                return TrackFactory.Type.distance;
-            case 3:
-                return TrackFactory.Type.inout;
-            case 4:
-                return TrackFactory.Type.named;
-            case 5:
-                if(parts[4].equals("+") || parts[4].equals("-"))
-                    return TrackFactory.Type.strand;
-                return TrackFactory.Type.scored;
-            default:
-                return TrackFactory.Type.inout;
-        }
-    }
-
-
-    private int countBedLines(Path path) throws IOException {
-
-        try (InputStream is = new BufferedInputStream(new FileInputStream(path.toFile()))) {
-            byte[] c = new byte[1024];
-            int count = 0;
-            int readChars = 0;
-            boolean empty = true;
-            while ((readChars = is.read(c)) != -1) {
-                empty = false;
-                for (int i = 0; i < readChars; ++i) {
-                    if (c[i] == '\n') {
-                        ++count;
-                    }
-                }
-            }
-            return (count == 0 && !empty) ? 1 : count;
         }
     }
 }
