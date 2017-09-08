@@ -45,7 +45,7 @@
  */
 
 #datatable{
-    overflow-x: visible;
+    overflow-x: scroll;
 }
 #datatable table {
     table-layout: fixed;
