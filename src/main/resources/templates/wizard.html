@@ -222,7 +222,7 @@
                         </div>
 
 
-                        <!-- Sequence Logo: <input class="check" type="checkbox" th:field="*{interfaceCommand.createLogo}" -->
+                        Sequence Logo:<input class="check" type="checkbox" title="Sequence Logo" th:field="${interfaceCommand.logo}">
                     </form>
 
                 </th:block>
@@ -236,6 +236,8 @@
                         <input th:value="${interfaceCommand.assembly}" th:field="*{interfaceCommand.assembly}"
                                type="hidden"/>
                         <input th:value="${interfaceCommand.tracks}" th:field="*{interfaceCommand.tracks}"
+                               type="hidden"/>
+                        <input th:value="${interfaceCommand.logo}" th:field="*{interfaceCommand.logo}"
                                type="hidden"/>
 
                         <button type="button" onclick="window.history.back();" class="btn btn-default">Back</button>
