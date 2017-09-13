@@ -23,7 +23,7 @@ public final class InterfaceCommand {
     private Sites sites;
     private String assembly;
     private boolean logoCovariate;
-    private boolean createLogo;
+    private boolean logo;
     private ScoredTrack hotspots;
     private Sites sitesBg;
     private boolean showall;
@@ -103,12 +103,12 @@ public final class InterfaceCommand {
         this.logoCovariate = logoCovariate;
     }
 
-    public boolean getCreateLogo() {
-        return createLogo;
+    public boolean getLogo() {
+        return logo;
     }
 
-    public void setCreateLogo(boolean createLogo) {
-        this.createLogo = createLogo;
+    public void setLogo(boolean createLogo) {
+        this.logo= createLogo;
     }
 
     public List<Integer> getHotspots() {
