@@ -2,7 +2,7 @@
 * Created by menzel on 16/2/16.
 */
 
-function plotNames(results) {
+function plotNames(results,bgcount, posCount) {
     var limit = 0.2;
     /* Limit for fold change of named track plot */
 
@@ -19,8 +19,8 @@ function plotNames(results) {
                 var effectSize = result.namesExp[key] / result.namesMea[key];
 
                 if (effectSize >= 1.0 + limit || effectSize <= 1.0 - limit) {
-                    y1.push(result.namesExp[key] / [[${bgCount}]]);
-                    y2.push(result.namesMea[key] / [[${interfaceCommand.positionCount}]]);
+                    y1.push(result.namesExp[key] / bgcount);
+                    y2.push(result.namesMea[key] / posCount);
                 }
             }
         }
@@ -87,7 +87,7 @@ function plot(results) {
         var x0 = results[j].scoresMea;
         var x1 = results[j].scoresExp;
 
-        if (x0 == null || x0.length < 3 || x1.length < 3) {
+        if (x0 === null || x0.length < 3 || x1.length < 3) {
             break;
         }
 
