@@ -24,6 +24,11 @@
     background-color: rgba(76, 167, 255, 0.21);
 }
 
+.glyphicon{
+    color: #0bc1db;
+    font-size: 22px;
+}
+
 .left {
     float: left;
 }
@@ -79,5 +84,3 @@
 .inputfile:focus + label, .inputfile + label:hover {
     background-color: rgba(76, 167, 255, 0.21);
 }
-
-
