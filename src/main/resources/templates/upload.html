@@ -5,12 +5,11 @@
   <body>
       <div th:fragment="upload">
       <div class="box">
-        <h4> Upload new bed file </h4>
         <form method="POST" enctype="multipart/form-data" action="/upload" id="uploadform">
           <div>
-            <input type="file" name="file" id="file" class="btn"/>
+            <input type="file" name="file" id="file" class="inputfile"/>
+             <label for="file" class="right">Quick start:<br> Choose a bed file</label>
           </div>
-          <button class="btn btn-primary" id="upload_btn">Upload</button>
         </form>
       </div>
 
