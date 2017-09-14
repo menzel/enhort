@@ -1,5 +1,6 @@
 package de.thm.guess;
 
+import de.thm.genomeData.sql.DBConnector;
 import de.thm.genomeData.tracks.TrackFactory;
 import de.thm.logo.GenomeFactory;
 import de.thm.positionData.UserData;
@@ -7,7 +8,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 
 import static org.junit.Assert.assertEquals;
@@ -19,16 +19,10 @@ public class AssemblyGuesserTest {
 
     @BeforeClass
     public static void setup(){
-        String contigspath = "/home/menzel/Desktop/THM/lfba/enhort/dat/hg19/inout/contigs";
 
-        try {
-            TrackFactory.getInstance().loadTrack(new File(contigspath).toPath(), GenomeFactory.Assembly.hg19);
-            TrackFactory.getInstance().loadTrack(new File(contigspath.replaceAll("19", "18")).toPath(), GenomeFactory.Assembly.hg18);
-            TrackFactory.getInstance().loadTrack(new File(contigspath.replaceAll("19", "38")).toPath(), GenomeFactory.Assembly.hg38);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        DBConnector connector = new DBConnector();
+        connector.connect();
+        connector.getAllTracks("WHERE name like 'contigs'").forEach(TrackFactory.getInstance()::loadTrack);
     }
 
     @Test

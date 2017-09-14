@@ -6,6 +6,8 @@ import de.thm.result.ResultCollector;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -22,7 +24,7 @@ public class ResultCollectorTest {
     public static void setUp() throws Exception {
         Sites sites = mock(Sites.class);
         when(sites.getPositionCount()).thenReturn(42);
-        r = new ResultCollector(sites, GenomeFactory.Assembly.hg19);
+        r = new ResultCollector(sites, GenomeFactory.Assembly.hg19, new ArrayList<>());
 
 
         //create results

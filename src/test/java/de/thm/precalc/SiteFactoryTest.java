@@ -2,6 +2,7 @@ package de.thm.precalc;
 
 import de.thm.calc.Intersect;
 import de.thm.calc.TestTrackResult;
+import de.thm.genomeData.sql.DBConnector;
 import de.thm.genomeData.tracks.InOutTrack;
 import de.thm.genomeData.tracks.Track;
 import de.thm.genomeData.tracks.TrackFactory;
@@ -16,7 +17,6 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -35,13 +35,9 @@ public class SiteFactoryTest {
     @BeforeClass
     public static void init(){
 
-        Path path = new File("/home/menzel/Desktop/THM/lfba/enhort/dat/hg19/inout/knownGenes.bed").toPath();
-
-        try {
-            TrackFactory.getInstance().loadTrack(path, GenomeFactory.Assembly.hg19);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        DBConnector connector = new DBConnector();
+        connector.connect();
+        connector.getAllTracks("WHERE name like 'known genes' AND assembly = 'hg19'").forEach(TrackFactory.getInstance()::loadTrack);
 
         //mock contigs track
         Track contigs = mock(InOutTrack.class);

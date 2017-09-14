@@ -1,5 +1,6 @@
 package de.thm.genomeData;
 
+import de.thm.genomeData.sql.DBConnector;
 import de.thm.genomeData.tracks.InOutTrack;
 import de.thm.genomeData.tracks.Track;
 import de.thm.genomeData.tracks.TrackFactory;
@@ -7,9 +8,7 @@ import de.thm.logo.GenomeFactory;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.File;
 import java.lang.reflect.Field;
-import java.nio.file.Path;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -21,7 +20,6 @@ import static org.mockito.Mockito.mock;
  */
 public class TrackFactoryTest {
 
-    private static final Path basePath = new File("/home/menzel/Desktop/THM/lfba/enhort/dat/hg19").toPath();
     private static final TrackFactory tf = TrackFactory.getInstance();
     private static int trackCounter = 0;
 
@@ -34,11 +32,13 @@ public class TrackFactoryTest {
         instance.setAccessible(true);
         instance.set(tf,null);
 
-        // load some tracks
-        List<Track> tmp = null; /// TODO FIX TEST: tf.loadTracks(basePath.resolve("inout"), GenomeFactory.Assembly.hg19);
+        DBConnector connector = new DBConnector();
+        connector.connect();
+        connector.getAllTracks("WHERE (name like 'House%' OR name like 'known%' OR name like 'exons' OR name like 'contigs') AND assembly = 'hg19'").forEach(tf::loadTrack);
+
+        List<Track> tmp  = tf.getTracks(GenomeFactory.Assembly.hg19);
         trackCounter = tmp.size();
         assertTrue(tmp.size() > 0);
-        tmp.forEach(tf::addTrack); // add to track factory
 
         //set track package
         //TrackPackage pack = new TrackPackage(tmp, TrackPackage.PackageName.Basic, "basic tracks", GenomeFactory.Assembly.hg19, null);
