@@ -117,7 +117,7 @@
                             </div>
 
                             <div id="header_in2">
-                                <button onclick="this.form.submit();" class="btn btn-primary right">Continue</button>
+                                <button id="submitTracks" onclick="this.form.submit();" class="btn btn-primary right">Continue</button>
                                 <button class="btn btn-default right" id="clearbtn">Clear</button>
                             </div>
                         </div>
@@ -303,11 +303,16 @@
 </div>
 </div>
 
+<script>
+    document.getElementById("submitTracks").disabled = true;
+</script>
 
 <script>
+
+
     document.getElementById("file").onchange = function() {
-    document.getElementById("uploadform").submit();
-};
+        document.getElementById("uploadform").submit();
+    };
 </script>
 
 
@@ -321,6 +326,10 @@
         });
 
         document.getElementById("counter").innerHTML = counter + " tracks selected";
+
+        if(counter > 0)
+            document.getElementById("submitTracks").disabled = false;
+
     }
 </script>
 
@@ -346,6 +355,9 @@
 
 <script>
     document.getElementById("clearbtn").onclick = function (event) {
+
+        document.getElementById("submitTracks").disabled = true;
+
         event.preventDefault();
 
         $("input[type='checkbox']").each(function (id, box) {
@@ -353,7 +365,6 @@
         });
 
         document.getElementById("counter").innerHTML = "0 tracks selected";
-
     }
 
 </script>
