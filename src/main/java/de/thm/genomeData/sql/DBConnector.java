@@ -94,6 +94,27 @@ public class DBConnector {
         return entries;
     }
 
+    public List<String> getCompilationByName(String name, GenomeFactory.Assembly assembly){
+        List<String> trackNames = new ArrayList<>();
+
+        String sql = "SELECT * FROM compilationsView WHERE compilationName == '" + name + "' AND assembly == '" + assembly + "'";
+
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while(rs.next()){
+                trackNames.add(rs.getString("trackName"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return trackNames;
+    }
+
+
     /**
      * Inner Class for Object mapping
      */

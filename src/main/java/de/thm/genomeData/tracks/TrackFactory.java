@@ -253,6 +253,13 @@ public final class TrackFactory {
 
 
 
+    public List<Track> getTracksByCompilation(String name, GenomeFactory.Assembly assembly) {
+        DBConnector connector = new DBConnector();
+        connector.connect();
+
+        return getTracksByName(connector.getCompilationByName(name, assembly), assembly);
+    }
+
     /**
      * Factory method for scored tracks. Creates a new track based on input.
      *

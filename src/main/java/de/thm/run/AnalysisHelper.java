@@ -89,8 +89,9 @@ class AnalysisHelper {
         }
 
         if(cmd.getTracks().isEmpty()) {
-            System.err.println("No tracks given in AnalysisHelper");
-            throw new NoTracksLeftException("There are no tracks here");
+
+            runTracks = trackFactory.getTracksByCompilation("basic", cmd.getAssembly());
+
 
         } else {
             runTracks = trackFactory.getTracksById(cmd.getTracks(), cmd.getAssembly());
@@ -116,9 +117,7 @@ class AnalysisHelper {
         TrackFactory trackFactory = TrackFactory.getInstance();
 
         if(cmd.getTracks().isEmpty()) {
-            //runTracks = TrackFactory.getInstance().getTracks(cmd.getAssembly());
-            System.err.println("No tracks given in AnalysisHelper");
-            throw new NoTracksLeftException("There are no tracks here");
+            runTracks = trackFactory.getTracksByCompilation("basic", cmd.getAssembly());
 
         } else {
             runTracks = trackFactory.getTracksById(cmd.getTracks(), cmd.getAssembly());
