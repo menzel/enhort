@@ -14,7 +14,6 @@ import static org.junit.Assert.assertEquals;
 
 public class AssemblyGuesserTest {
 
-    private AssemblyGuesser guesser = new AssemblyGuesser();
     private String base = "/home/menzel/Desktop/THM/lfba/enhort/";
 
     @BeforeClass
@@ -30,7 +29,7 @@ public class AssemblyGuesserTest {
 
         Path path = new File(base + "elAshkar/hg18.mlv_elAshkar.tab").toPath();
         UserData userData = new UserData(GenomeFactory.Assembly.hg38, path);
-        assertEquals(GenomeFactory.Assembly.hg18, guesser.guess(userData));
+        assertEquals(GenomeFactory.Assembly.hg18, AssemblyGuesser.guess(userData));
     }
 
     @Test
@@ -38,7 +37,7 @@ public class AssemblyGuesserTest {
 
         Path path = new File(base + "elAshkar/hg18.mlv_comb.bed").toPath();
         UserData userData = new UserData(GenomeFactory.Assembly.hg38, path);
-        assertEquals(GenomeFactory.Assembly.hg18, guesser.guess(userData));
+        assertEquals(GenomeFactory.Assembly.hg18, AssemblyGuesser.guess(userData));
     }
 
 
@@ -47,7 +46,7 @@ public class AssemblyGuesserTest {
 
         Path path = new File(base + "elAshkar/hg19.mlv_comb.bed").toPath();
         UserData userData = new UserData(GenomeFactory.Assembly.hg38, path);
-        assertEquals(GenomeFactory.Assembly.hg19, guesser.guess(userData));
+        assertEquals(GenomeFactory.Assembly.hg19, AssemblyGuesser.guess(userData));
     }
 
 
@@ -57,7 +56,7 @@ public class AssemblyGuesserTest {
 
         Path path = new File(base + "testfiles/sb_hg18.bed").toPath();
         UserData userData = new UserData(GenomeFactory.Assembly.hg38, path);
-        assertEquals(GenomeFactory.Assembly.hg18, guesser.guess(userData));
+        assertEquals(GenomeFactory.Assembly.hg18, AssemblyGuesser.guess(userData));
     }
 
 
@@ -67,7 +66,7 @@ public class AssemblyGuesserTest {
 
         Path path = new File(base + "testfiles/sb_hg19.bed").toPath();
         UserData userData = new UserData(GenomeFactory.Assembly.hg38, path);
-        assertEquals(GenomeFactory.Assembly.hg19, guesser.guess(userData));
+        assertEquals(GenomeFactory.Assembly.hg19, AssemblyGuesser.guess(userData));
     }
 
     @Test
@@ -75,7 +74,7 @@ public class AssemblyGuesserTest {
 
         Path path = new File(base + "testfiles/sb_hg38.bed").toPath();
         UserData userData = new UserData(GenomeFactory.Assembly.hg38, path);
-        assertEquals(GenomeFactory.Assembly.hg38, guesser.guess(userData));
+        assertEquals(GenomeFactory.Assembly.hg38, AssemblyGuesser.guess(userData));
     }
 
     @Test
@@ -84,7 +83,7 @@ public class AssemblyGuesserTest {
         Path path = new File(base + "testfiles/sb_hg17.bed").toPath();
         UserData userData = new UserData(GenomeFactory.Assembly.hg38, path);
         //TODO
-        assertEquals(GenomeFactory.Assembly.hg18, guesser.guess(userData));
+        assertEquals(GenomeFactory.Assembly.hg18, AssemblyGuesser.guess(userData));
     }
 
 }

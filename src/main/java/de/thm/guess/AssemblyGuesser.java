@@ -29,7 +29,7 @@ public class AssemblyGuesser {
                         .getTrackByName("contigs", assembly))
                     .map(track -> (InOutTrack) track)
                     .map(track -> intersect.searchSingleInterval(track, sites))
-                    .peek(ttr -> System.out.println(ttr.getUsedTrack().getAssembly() + " " + ttr.getOut()))
+                    //.peek(ttr -> System.out.println(ttr.getUsedTrack().getAssembly() + " " + ttr.getOut()))
                     .sorted(Comparator.comparingInt(TestTrackResult::getOut))
                     .findFirst()
                     .get().getUsedTrack().getAssembly();
