@@ -290,7 +290,7 @@ public class CalculationController {
 
 
     @RequestMapping(value = "/covariate", method = RequestMethod.GET)
-    public String covariant_get(@ModelAttribute InterfaceCommand command, Model model, HttpSession httpSession) {
+    public String covariant_get(@ModelAttribute InterfaceCommand command, Model model) {
         //TODO: try to reset and show results
 
         model.addAttribute("errorMessage", "The calculation could not be saved, please run it again");
@@ -305,19 +305,16 @@ public class CalculationController {
         Session currentSession = sessionsControll.getSession(httpSession.getId());
         UserData data = currentSession.getSites();
 
-        if(!command.getAssembly().equals(data.getAssembly().name())) { // if the user changed the assembly
-            Path file = currentSession.getFile(); //reload the file
-            if(file == null) {
-                model.addAttribute("errorMessage", "Please upload the file again and then change the assembly number.");
-                return "error";
-            }
-            data = new UserData(GenomeFactory.Assembly.valueOf(command.getAssembly()), file);
+        if(data == null) {
+            model.addAttribute("errorMessage", "The calculation could not be saved, please run it again");
+            return "error";
         }
 
         ResultCollector collector;
         List<TestResult> covariants = new ArrayList<>();
         StatisticsCollector stats = StatisticsCollector.getInstance();
         command.setSites(data);
+        command.setAssembly(data.getAssembly().toString());
 
         //command.setCreateLogo(false);
         // remove uuid from filename for display and set it to the old InterfaceCommand, because it will be sent to the View again:
@@ -332,6 +329,7 @@ public class CalculationController {
         }
 
         command.setTracks(currentSession.getCollector().getTracks()); // get tracks from last collector
+        command.setAssembly(data.getAssembly().toString());
 
         try {
 
