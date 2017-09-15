@@ -39,7 +39,7 @@ public class ApplicationController {
         model.addAttribute("interfaceCommand", command);
         model.addAttribute("expressionCommand", new ExpressionCommand());
 
-        return "result";
+        return "index";
     }
 
 
