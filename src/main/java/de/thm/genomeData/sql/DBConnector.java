@@ -3,10 +3,7 @@ package de.thm.genomeData.sql;
 import de.thm.logo.GenomeFactory;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DBConnector {
     private Connection conn;
@@ -112,6 +109,58 @@ public class DBConnector {
         }
 
         return trackNames;
+    }
+
+    /**
+     * Returns all cell lines from the db
+     *
+     * @return cell lines as Sorted map, with parents/childrens
+     */
+    public SortedMap<String,List<String>> getAllCellLines() {
+
+        SortedMap<String, List<String>> celllines = new TreeMap<>();
+
+
+        try {
+
+            // get all cellliens without children
+            String parents = "SELECT name FROM celllines WHERE parent = ''";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(parents);
+
+            while(rs.next()){
+                celllines.put(rs.getString("name"), null);
+            }
+
+            // get celllines with children
+            String children = "SELECT name, parent FROM celllines WHERE parent != '' ORDER BY parent";
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(children);
+
+            String oldParent = "";
+            List<String> tmpNames = new ArrayList<>();
+
+            while(rs.next()) {
+
+                String currentParent = rs.getString("parent");
+
+                if(oldParent.equals(currentParent)){
+                    tmpNames.add(rs.getString("name"));
+
+                } else {
+                    if(tmpNames.size() > 0)
+                        celllines.put(oldParent, tmpNames);
+
+                    tmpNames = new ArrayList<>();
+                    oldParent = currentParent;
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return celllines;
     }
 
 

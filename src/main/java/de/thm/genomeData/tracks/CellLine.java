@@ -1,13 +1,8 @@
 package de.thm.genomeData.tracks;
 
+import de.thm.genomeData.sql.DBConnector;
 import de.thm.run.BackendController;
-import org.apache.commons.lang3.StringUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -24,7 +19,6 @@ public class CellLine {
 
     private CellLine(){
         names = new TreeMap<>();
-        names.put("Unknown", null);
         load();
     }
 
@@ -39,32 +33,10 @@ public class CellLine {
      */
     private void load() {
 
-        try {
-            List<String> lines = Files.readAllLines(new File("cells").toPath());
 
-            JSONObject all = new JSONObject(StringUtils.join(lines, ""));
-            JSONArray cellines = all.getJSONArray("celllines");
-
-            for(int i = 0; i < cellines.length(); i++){
-
-                if(cellines.getJSONObject(i).has("sub")){
-                    JSONArray sublines = cellines.getJSONObject(i).getJSONArray("sub");
-                    List<String> subnames = new ArrayList<>();
-
-                    for(int j = 0; j < sublines.length(); j++)  //add subnames
-                        subnames.add(sublines.getJSONObject(j).getString("name").replaceAll("[,\\s]+", "_"));
-
-                    names.put(cellines.getJSONObject(i).getString("name").replaceAll("[,\\s]+", "_"), subnames);
-
-
-                } else {
-                    names.put(cellines.getJSONObject(i).getString("name").replaceAll("[,\\s]+", "_"), null);
-                }
-
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        DBConnector connector = new DBConnector();
+        connector.connect();
+        names = connector.getAllCellLines();
 
         if(BackendController.runlevel == BackendController.Runlevel.DEBUG) {
             List<String> allNames = new ArrayList<>();
