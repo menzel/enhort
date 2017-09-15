@@ -164,6 +164,12 @@ public class DBConnector {
     }
 
 
+    public TrackEntry createTrackEntry(String name, String description, String filepath, String type, String assembly, String cellline, int filesize){
+
+        return new TrackEntry(name, description,filepath,type, assembly,cellline,filesize);
+    }
+
+
     /**
      * Inner Class for Object mapping
      */
