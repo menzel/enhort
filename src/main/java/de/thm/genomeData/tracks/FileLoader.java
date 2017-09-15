@@ -132,10 +132,6 @@ final class FileLoader implements Runnable {
             String lastChr = "";
             long offset = 0; //remember offset
 
-            //if (!file.getName().contains("iPS")) { return null; }
-
-
-
             while (it.hasNext()) {
 
                 if (Thread.currentThread().isInterrupted()) {
@@ -191,9 +187,11 @@ final class FileLoader implements Runnable {
 
                     if (BackendController.runlevel == BackendController.Runlevel.DEBUG) {
                         if(starts.size() > 2 && start < starts.get(starts.size()-2)){
-                            System.err.println("Illegal position at " + line);
+                            System.err.println("Illegal position at " + line + " file " + file.getName());
                         }
                     }
+                    if (type == TrackFactory.Type.inout)
+                        continue;
 
                     if (type == TrackFactory.Type.named)
                         names.add(parts[3].intern());
