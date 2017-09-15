@@ -4,7 +4,6 @@ import de.thm.genomeData.sql.DBConnector;
 import de.thm.logo.GenomeFactory;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -50,12 +49,9 @@ public final class TrackFactory {
      * @param path to track
      * @throws IOException if something goes wrong while loading the track
      */
-    public void loadTrack(Path path, GenomeFactory.Assembly assembly) throws IOException {
-        Track track;
-        List<Path> paths = new ArrayList<>();
-        paths.add(path);
-        track = loadTracks(paths, assembly).get(0);
-        this.tracks.add(track);
+    public void loadTrack(DBConnector.TrackEntry entry) {
+        FileLoader loader = new FileLoader(entry, tracks);
+        loader.run();
     }
 
     /**
@@ -115,20 +111,6 @@ public final class TrackFactory {
         }
 
         this.tracks.addAll(tracks);
-    }
-
-    /**
-     * Gets all tracks from a single type
-     *
-     * @param hg19
-     * @param type - Interval.Type. Type based upon dir name
-     * @param path - path to the dir with files
-     * @throws IOException on file problems
-     */
-    List<Track> loadTracks(List<Path> files, GenomeFactory.Assembly assembly) throws IOException {
-
-
-        return tracks;
     }
 
     /**
