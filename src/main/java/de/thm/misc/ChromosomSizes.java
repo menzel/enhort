@@ -2,11 +2,10 @@ package de.thm.misc;
 
 import de.thm.genomeData.sql.DBConnector;
 import de.thm.logo.GenomeFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.io.File;
-import java.nio.file.Path;
 import java.util.*;
 
 /**
@@ -17,8 +16,8 @@ public final class ChromosomSizes {
 
     private static ChromosomSizes instance;
     private final Map<GenomeFactory.Assembly, Map<String, Integer>> chromosomeSizes;
-    private final Map<GenomeFactory.Assembly, List<String>> names = new HashMap<> ();
-    private final Map<String, Long> offsets = new HashMap<>();
+    private final SortedMap<GenomeFactory.Assembly, List<String>> names = new TreeMap<> ();
+    private final Map<GenomeFactory.Assembly, Map<String, Long>> offsets = new HashMap<>();
     private final Map<GenomeFactory.Assembly, Long> genomeSize = new HashMap<>();
 
     /**
@@ -26,24 +25,16 @@ public final class ChromosomSizes {
      */
     private ChromosomSizes() {
 
-        Path basePath;
-
-        if(System.getenv("HOME").contains("menzel")){
-            basePath = new File("/home/menzel/Desktop/THM/lfba/enhort/dat/").toPath();
-        } else {
-            basePath = new File("/home/mmnz21/dat/").toPath();
-        }
         DBConnector connector = new DBConnector();
         connector.connect();
 
         chromosomeSizes = connector.getChrSizes();
 
-
         for(GenomeFactory.Assembly assembly: chromosomeSizes.keySet()) {
             Map<String, Integer> hg = chromosomeSizes.get(assembly);
 
             names.put(assembly, new ArrayList<>(hg.keySet()));
-            names.get(assembly).sort(Comparator.comparing(o -> o.substring(3))); // sort by Number
+            names.get(assembly).sort(new ChromosomeComparator());
 
             // get whole genome length for the genome
             long gz = 0;
@@ -51,7 +42,18 @@ public final class ChromosomSizes {
             genomeSize.put(assembly, gz);
         }
 
+        calcOffsets();
+    }
 
+    /**
+     * Returns the offset for a specific chromosome by name.
+     *
+     * @param chromosomeName - name of the chromosome to get offset for
+     * @return offset for new map
+     */
+    public Long offset(GenomeFactory.Assembly assembly, String chromosomeName) {
+
+        return offsets.get(assembly).get(chromosomeName);
     }
 
     /**
@@ -79,42 +81,41 @@ public final class ChromosomSizes {
         return genomeSize.get(assembly);
     }
 
-
     /**
-     * Returns the offset for a specific chromosome by name.
+     * Calculates the offsets for all assemblies and chrs
      *
-     * @param chromosomeName - name of the chromosome to get offset for
-     * @return offset for new map
      */
-    public Long offset(GenomeFactory.Assembly assembly, String chromosomeName) {
+    private void calcOffsets() {
 
+        for(GenomeFactory.Assembly assembly: chromosomeSizes.keySet()){
 
-        if (!offsets.containsKey(chromosomeName)) {
-            offsets.put(chromosomeName, calcOffset(assembly, chromosomeName));
+            Map<String, Long> tmp = new HashMap<>();
+            Map<String, Integer> chrSizes = chromosomeSizes.get(assembly);
+            Long sum = 0L;
+
+            for(String chrNum: names.get(assembly)){
+                tmp.put(chrNum, sum);
+                sum += chrSizes.get(chrNum);
+            }
+
+            offsets.put(assembly, tmp);
         }
-
-        return offsets.get(chromosomeName);
-
     }
 
-    /**
-     * Calculates the offset for a given chromosome
-     *
-     * @param chromosomeName - name of the chromosome
-     * @return offset as Long
-     */
-    private Long calcOffset(GenomeFactory.Assembly assembly, String chromosomeName) {
+    private class ChromosomeComparator implements Comparator<String>{
 
-        long offset = 0;
+        @Override
+        public int compare(String o1, String o2){
+            String s1 = o1.substring(3);
+            String s2 = o2.substring(3);
 
-        for (String name : names.get(assembly)) {
-            if (name.equals(chromosomeName))
-                return offset;
-            else
-                offset += chromosomeSizes.get(assembly).get(name);
+            if(o1.equals(o2)) return 0;
+            else if(StringUtils.isNumeric(s1) && StringUtils.isNumeric(s2))
+                return Integer.valueOf(s1).compareTo(Integer.valueOf(s2));
+            else if(StringUtils.isNumeric(s1)) return -1;
+            else if(StringUtils.isNumeric(s2)) return 1;
+            else return o1.contains("X") ? -1 : 1;
         }
-
-        return null;
     }
 
     /**
