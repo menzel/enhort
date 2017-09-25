@@ -145,7 +145,7 @@ public final class ResultCollector implements Serializable, Result{
 
     public String getBarplotdataExport() {
 
-        String output = "";
+        StringBuilder output = new StringBuilder();
 
         List<TestResult> filtered_results = results.stream()
                 .filter(testResult -> testResult.getType() == TestResult.Type.inout)
@@ -161,74 +161,74 @@ public final class ResultCollector implements Serializable, Result{
 
         // Name
         for (TestResult result : filtered_results) {
-            output += result.getName();
-            output += ",";
+            output.append(result.getName());
+            output.append(",");
         }
-        output = output.substring(0,output.length()-1);
-        output += lb;
+        output = new StringBuilder(output.substring(0, output.length() - 1));
+        output.append(lb);
 
         // Effect Size
-        output += "pvalue,";
+        output.append("pvalue,");
         for (TestResult result : filtered_results) {
-            output += result.getpValue();
-            output += ",";
+            output.append(result.getpValue());
+            output.append(",");
         }
 
-        output = output.substring(0,output.length()-1);
-        output += lb;
+        output = new StringBuilder(output.substring(0, output.length() - 1));
+        output.append(lb);
 
         // Effect Size
-        output += "effectsize,";
+        output.append("effectsize,");
         for (TestResult result : filtered_results) {
             if (result.getPercentInE() > result.getPercentInM()) { // weniger als erwartet drinn
-                output += 1 / result.getEffectSize();
+                output.append(1 / result.getEffectSize());
             } else {
-                output += result.getEffectSize();
+                output.append(result.getEffectSize());
             }
-            output += ",";
+            output.append(",");
         }
-        output = output.substring(0,output.length()-1);
-        output += lb;
+        output = new StringBuilder(output.substring(0, output.length() - 1));
+        output.append(lb);
 
-        output += "MeasuredIn,";
+        output.append("MeasuredIn,");
         for (TestResult result : filtered_results) {
-            output += result.getMeasuredIn();
-            output += ",";
+            output.append(result.getMeasuredIn());
+            output.append(",");
         }
 
-        output = output.substring(0, output.length() - 1);
-        output += lb;
+        output = new StringBuilder(output.substring(0, output.length() - 1));
+        output.append(lb);
 
-        output += "ExpectedIn,";
+        output.append("ExpectedIn,");
         for (TestResult result : filtered_results) {
-            output += result.getExpectedIn();
-            output += ",";
+            output.append(result.getExpectedIn());
+            output.append(",");
         }
 
-        output = output.substring(0, output.length() - 1);
-        output += lb;
+        output = new StringBuilder(output.substring(0, output.length() - 1));
+        output.append(lb);
 
-        output += "MeasuredPercentIn,";
+        output.append("MeasuredPercentIn,");
         for (TestResult result : filtered_results) {
-            output += result.getPercentInM();
-            output += ",";
+            output.append(result.getPercentInM());
+            output.append(",");
         }
 
-        output = output.substring(0, output.length() - 1);
-        output += lb;
+        output = new StringBuilder(output.substring(0, output.length() - 1));
+        output.append(lb);
 
-        output += "ExpectedPercentIn,";
+        output.append("ExpectedPercentIn,");
         for (TestResult result : filtered_results) {
-            output += result.getPercentInE();
-            output += ",";
+            output.append(result.getPercentInE());
+            output.append(",");
         }
 
-        output = output.substring(0, output.length() - 1);
-        output += lb;
+        output = new StringBuilder(output.substring(0, output.length() - 1));
+        output.append(lb);
 
 
 
-        return output;
+        return output.toString();
 
     }
 
@@ -240,7 +240,7 @@ public final class ResultCollector implements Serializable, Result{
      * @return results in csv format.
      */
     public String getCsv() {
-        String output = "";
+        StringBuilder output = new StringBuilder();
 
         //filter by p value and sort by effect size:
         List<TestResult> filtered_results = results.stream()
@@ -251,19 +251,19 @@ public final class ResultCollector implements Serializable, Result{
         filtered_results.sort(Comparator.comparing(TestResult::getName));
 
         for (TestResult result : filtered_results) {
-            output += result.getName();
-            output += ",";
+            output.append(result.getName());
+            output.append(",");
         }
-        output += "\\\\";
+        output.append("\\\\");
 
 
         for (TestResult result : filtered_results) {
             if (result.getExpectedIn() >= result.getMeasuredIn()) { // weniger als erwartet drinn
-                output += 1 / result.getEffectSize();
+                output.append(1 / result.getEffectSize());
             } else {
-                output += result.getEffectSize();
+                output.append(result.getEffectSize());
             }
-            output += ",";
+            output.append(",");
         }
 
 
@@ -284,7 +284,7 @@ public final class ResultCollector implements Serializable, Result{
         }
          **/
 
-        return output;
+        return output.toString();
     }
 
     public Sites getBackgroundSites() {
@@ -293,13 +293,13 @@ public final class ResultCollector implements Serializable, Result{
 
 
     public String toString() {
-        String r = "";
+        StringBuilder r = new StringBuilder();
 
         for (TestResult result : results) {
-            r += result.toString() + "\n";
+            r.append(result.toString()).append("\n");
         }
 
-        return r;
+        return r.toString();
     }
 
     public List<TestResult> getResults() {
