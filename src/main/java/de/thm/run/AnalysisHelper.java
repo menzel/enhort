@@ -90,10 +90,12 @@ class AnalysisHelper {
 
         if(cmd.getTracks().isEmpty()) {
 
-            runTracks = trackFactory.getTracksByCompilation("basic", cmd.getAssembly());
+            try {
+                runTracks = trackFactory.getTracksByCompilation("basic", cmd.getAssembly());
+            } catch (RuntimeException e){
+                runTracks = trackFactory.getTracksByName(Arrays.asList("Known genes", "CpG Islands" ,"Exons", "Introns"), GenomeFactory.Assembly.hg19);
+            }
 
-            if(runTracks.size() == 0)
-                runTracks = trackFactory.getTracksByName(Arrays.asList("knownGenes", "TSS", "Exons", "Introns"), GenomeFactory.Assembly.hg19);
 
         } else {
             runTracks = trackFactory.getTracksById(cmd.getTracks(), cmd.getAssembly());
