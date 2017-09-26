@@ -42,6 +42,7 @@ public class SampleController {
         Path file = new File(samplefilepath).toPath();
 
         UserData userSites = new UserData(GenomeFactory.Assembly.hg19, file);
+        currentSession.setSites(userSites);
 
         BackendCommand backendCommand = new BackendCommand(userSites);
 
