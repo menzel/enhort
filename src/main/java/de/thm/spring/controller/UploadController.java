@@ -49,7 +49,7 @@ public class UploadController {
 
     private static final Path basePath = new File("/tmp").toPath();
 
-   @RequestMapping(value = "/upload", method = RequestMethod.GET)
+    @RequestMapping(value = "/upload", method = RequestMethod.GET)
     public String plainView(Model model, InterfaceCommand iCommand, HttpSession httpSession) {
 
         Sessions sessionsControll = Sessions.getInstance();
@@ -64,24 +64,14 @@ public class UploadController {
             setModel(model, collector, currentSession.getSites(), currentSession.getOriginalFilename());
             model.addAttribute("covariants", covariants);
             model.addAttribute("covariantCount", covariants.size() + (iCommand.getLogoCovariate()? 1:0));
+            return "result";
 
-        } else {
-
-            InterfaceCommand command = new InterfaceCommand();
-            command.setOriginalFilename("");
-            command.setMinBg(10000);
-
-            model.addAttribute("interfaceCommand", command);
-            model.addAttribute("bgCount", 10000);
-            model.addAttribute("sigTrackCount", null);
-            model.addAttribute("trackCount", null);
-
-
-            ExpressionCommand exCommand = new ExpressionCommand();
-            model.addAttribute("expressionCommand", exCommand);
         }
 
-        return "result";
+
+        // if there are not results or data show the welcome page
+        return "index";
+
     }
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)

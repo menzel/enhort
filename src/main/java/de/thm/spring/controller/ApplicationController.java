@@ -20,8 +20,13 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class ApplicationController {
 
+    /**
+     * Index/ Welcome page with four links
+     *
+     * @return index page
+     */
     @RequestMapping(value = {"/welcome", "/"}, method = RequestMethod.GET)
-    public String index(Model model) {
+    public String index() {
 
         return "index";
     }
