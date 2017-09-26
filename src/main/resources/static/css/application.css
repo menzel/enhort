@@ -4,7 +4,7 @@
 
 @font-face {
     font-family: "Fira Sans";
-    src: url(FiraSans-Book.otf);
+    src: url(static/fonts/FiraSans-Book.otf);
 }
 
 * {
@@ -41,6 +41,10 @@ a:active{
 html {
     overflow: -moz-scrollbars-vertical;
     overflow-y: scroll;
+}
+
+.h2{
+    text-align: center;
 }
 
 /*

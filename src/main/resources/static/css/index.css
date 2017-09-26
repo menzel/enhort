@@ -17,6 +17,7 @@
     border: 1px solid lightgray;
     border-radius: 25px;
     margin: 50px;
+    text-align: center;
 }
 
 .block:hover{
