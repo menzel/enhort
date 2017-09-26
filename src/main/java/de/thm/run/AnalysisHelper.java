@@ -92,6 +92,8 @@ class AnalysisHelper {
 
             runTracks = trackFactory.getTracksByCompilation("basic", cmd.getAssembly());
 
+            if(runTracks.size() == 0)
+                runTracks = trackFactory.getTracksByName(Arrays.asList("knownGenes", "TSS", "Exons", "Introns"), GenomeFactory.Assembly.hg19);
 
         } else {
             runTracks = trackFactory.getTracksById(cmd.getTracks(), cmd.getAssembly());
