@@ -29,7 +29,7 @@ public final class BackendCommand implements Serializable, Command{
     public BackendCommand(Sites sites) {
         this.covariants = new ArrayList<>();
         this.sites = sites;
-        this.minBg = sites.getPositionCount();
+        this.minBg = sites.getPositionCount() < 10000 ? 10000: sites.getPositionCount();
         this.customTracks = new ArrayList<>();
         this.assembly = sites.getAssembly();
         this.logoCovariate = false;
