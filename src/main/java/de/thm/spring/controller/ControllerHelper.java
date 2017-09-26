@@ -42,7 +42,7 @@ public class ControllerHelper {
 
         cmd.setMinBg(collector.getBgCount());
         model.addAttribute("bgCount", collector.getBgCount());
-        model.addAttribute("sigTrackCount", collector.getSignificantTrackCount());
+        model.addAttribute("sigTrackCount", inout.size() + score.size() + name.size());
         model.addAttribute("trackCount", collector.getTrackCount());
 
         model.addAttribute("ran", true);
