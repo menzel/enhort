@@ -145,6 +145,8 @@ public final class BackendConnector implements Runnable {
         } catch (IOException | ClassNotFoundException e) {
             isConnected = false;
             System.err.println("Something went wrong in the BackendConnector. Trying to start all over again");
+        } catch (Exception e){
+            System.err.println("Something went wrong in the BackendConnector." + e.getMessage());
         }
 
         System.out.println("[Enhort Webinterface]: No connection to backend");
