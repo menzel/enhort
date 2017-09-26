@@ -1,12 +1,10 @@
 package de.thm.spring.controller;
 
 
-import de.thm.exception.CovariantsException;
 import de.thm.genomeData.tracks.Track;
 import de.thm.genomeData.tracks.TrackFactory;
 import de.thm.guess.AssemblyGuesser;
 import de.thm.logo.GenomeFactory;
-import de.thm.logo.Logo;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.UserData;
 import de.thm.result.ResultCollector;
@@ -20,7 +18,6 @@ import de.thm.spring.command.InterfaceCommand;
 import de.thm.stat.TestResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,6 +35,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import static de.thm.spring.controller.ControllerHelper.setModel;
+
 /**
  * Controller for main page. Relies heavily on the model and session/command objects:
  * The model is used to get stuff to the view as well as the command object.
@@ -46,82 +45,9 @@ import java.util.stream.Stream;
  * Created by Michael Menzel on 3/2/16.
  */
 @Controller
-public class CalculationController {
+public class UploadController {
 
     private static final Path basePath = new File("/tmp").toPath();
-
-
-    /**
-     * Handle the upload of a custom track
-     *
-     * @param model
-     * @param file - custom bed file
-     * @param httpSession
-     * @return
-     */
-    @RequestMapping(value = "/upload_track", method = RequestMethod.POST)
-    public String uploadTrack(Model model, @RequestParam("file") MultipartFile file, HttpSession httpSession) {
-
-        Sessions sessionsControll = Sessions.getInstance();
-        Session currentSession = sessionsControll.getSession(httpSession.getId());
-
-        String name = file.getOriginalFilename();
-        String uuid = name + "-" + UUID.randomUUID();
-
-        Pattern interval = Pattern.compile("(chr(\\d{1,2}|X|Y))\\s(\\d*)\\s(\\d*)");
-        ChromosomSizes chrSizes = ChromosomSizes.getInstance();
-
-         if (!file.isEmpty()) {
-             try {
-                 byte[] bytes = file.getBytes();
-                 BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(basePath.resolve(uuid).toFile()));
-                 stream.write(bytes);
-                 stream.close();
-
-                 Path path = basePath.resolve(uuid);
-
-                 List<Long> start = new ArrayList<>();
-                 List<Long> end = new ArrayList<>();
-
-
-                try (Stream<String> lines = Files.lines(path)) {
-
-                    Iterator it = lines.iterator();
-
-                    while (it.hasNext()) {
-
-                        String line = (String) it.next();
-                        Matcher line_matcher = interval.matcher(line);
-                        if (line_matcher.matches()) {
-                            start.add(Long.parseLong(line_matcher.group(3)) + chrSizes.offset(GenomeFactory.Assembly.hg19, line_matcher.group(1)));
-                            end.add(Long.parseLong(line_matcher.group(4)) + chrSizes.offset(GenomeFactory.Assembly.hg19, line_matcher.group(1)));
-                        }
-                    }
-
-                    lines.close();
-
-                    Files.delete(path);
-                    //TODO do not write file which needs to be deleted after anyway
-
-                    Track track = TrackFactory.getInstance().createInOutTrack(start,end,name,name, GenomeFactory.Assembly.hg19);
-
-                    currentSession.addCustomTrack(track);
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-
-             } catch (Exception e){
-                 e.printStackTrace();
-                 return "error";
-             }
-         }
-
-
-        return withNewTrack(currentSession, model);
-
-    }
 
    @RequestMapping(value = "/upload", method = RequestMethod.GET)
     public String plainView(Model model, InterfaceCommand iCommand, HttpSession httpSession) {
@@ -289,87 +215,80 @@ public class CalculationController {
     }
 
 
-    @RequestMapping(value = "/covariate", method = RequestMethod.GET)
-    public String covariant_get(@ModelAttribute InterfaceCommand command, Model model) {
-        //TODO: try to reset and show results
 
-        model.addAttribute("errorMessage", "The calculation could not be saved, please run it again");
-        return "error";
-    }
 
-    @RequestMapping(value = "/covariate", method = RequestMethod.POST)
-    public String covariant(@ModelAttribute InterfaceCommand command, Model model, HttpSession httpSession) {
+    /**
+     * Handle the upload of a custom track
+     *
+     * @param model
+     * @param file - custom bed file
+     * @param httpSession
+     * @return
+     */
+    @RequestMapping(value = "/upload_track", method = RequestMethod.POST)
+    public String uploadTrack(Model model, @RequestParam("file") MultipartFile file, HttpSession httpSession) {
 
         Sessions sessionsControll = Sessions.getInstance();
-
         Session currentSession = sessionsControll.getSession(httpSession.getId());
-        UserData data = currentSession.getSites();
 
-        if(data == null) {
-            model.addAttribute("errorMessage", "The calculation could not be saved, please run it again");
-            return "error";
-        }
+        String name = file.getOriginalFilename();
+        String uuid = name + "-" + UUID.randomUUID();
 
-        ResultCollector collector;
-        List<TestResult> covariants = new ArrayList<>();
-        StatisticsCollector stats = StatisticsCollector.getInstance();
-        command.setSites(data);
-        command.setAssembly(data.getAssembly().toString());
+        Pattern interval = Pattern.compile("(chr(\\d{1,2}|X|Y))\\s(\\d*)\\s(\\d*)");
+        ChromosomSizes chrSizes = ChromosomSizes.getInstance();
 
-        //command.setCreateLogo(false);
-        // remove uuid from filename for display and set it to the old InterfaceCommand, because it will be sent to the View again:
-        String filename = data.getFilename(); //file.toFile().getName().substring(0, file.toFile().getName().length()-37);
-        filename = filename.length() > 18 ? filename.substring(0, 15) + ".." : filename;
-        command.setOriginalFilename(filename);
+         if (!file.isEmpty()) {
+             try {
+                 byte[] bytes = file.getBytes();
+                 BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(basePath.resolve(uuid).toFile()));
+                 stream.write(bytes);
+                 stream.close();
 
-        command.setSitesBg(currentSession.getSitesBg()); // get sites from session, add to command
-        if(currentSession.getSitesBg() != null) {
-            command.setCovariants(new ArrayList<>()); // no covariates for uploaded bg
-            model.addAttribute("bgfilename", currentSession.getBgname());
-        }
+                 Path path = basePath.resolve(uuid);
 
-        command.setTracks(currentSession.getCollector().getTracks()); // get tracks from last collector
-        command.setAssembly(data.getAssembly().toString());
-
-        try {
-
-            BackendCommand backendCommand = new BackendCommand(command);
-            backendCommand.addCustomTrack(currentSession.getCustomTracks());
-
-            /////////// Run analysis ////////////
-            collector = (ResultCollector) BackendConnector.getInstance().runAnalysis(backendCommand);
-            /////////////////////////////////////
-
-            covariants = collector.getCovariants(command.getCovariants());
-            currentSession.setCovariants(covariants);
-
-            model.addAttribute("covariants", covariants);
-            model.addAttribute("covariantCount", covariants.size() + (command.getLogoCovariate()? 1:0));
-            model.addAttribute("customTracks", currentSession.getCustomTracks());
+                 List<Long> start = new ArrayList<>();
+                 List<Long> end = new ArrayList<>();
 
 
-        } catch (CovariantsException e) {
-            model.addAttribute("errorMessage", "Too many covariants, a max of " + "10 covariants is allowed.");
-            collector = currentSession.getCollector();
+                try (Stream<String> lines = Files.lines(path)) {
 
-            //TODO reset last known state: set command object and put to runAnalysis
-            //covariants = currentSession.getCovariants();
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", e.getMessage() + " " + e.getCause());
-            return "error";
-        }
+                    Iterator it = lines.iterator();
 
-        currentSession.setCollector(collector);
-        setModel(model, collector, command, covariants);
+                    while (it.hasNext()) {
 
-        ExpressionCommand exCommand = new ExpressionCommand();
-        model.addAttribute("expressionCommand", exCommand);
+                        String line = (String) it.next();
+                        Matcher line_matcher = interval.matcher(line);
+                        if (line_matcher.matches()) {
+                            start.add(Long.parseLong(line_matcher.group(3)) + chrSizes.offset(GenomeFactory.Assembly.hg19, line_matcher.group(1)));
+                            end.add(Long.parseLong(line_matcher.group(4)) + chrSizes.offset(GenomeFactory.Assembly.hg19, line_matcher.group(1)));
+                        }
+                    }
 
-        command.setPositionCount(data.getPositionCount());
+                    lines.close();
 
-        stats.addAnaylseC();
-        return "result";
+                    Files.delete(path);
+                    //TODO do not write file which needs to be deleted after anyway
+
+                    Track track = TrackFactory.getInstance().createInOutTrack(start,end,name,name, GenomeFactory.Assembly.hg19);
+
+                    currentSession.addCustomTrack(track);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+             } catch (Exception e){
+                 e.printStackTrace();
+                 return "error";
+             }
+         }
+
+
+        return withNewTrack(currentSession, model);
+
     }
+
 
 
     @RequestMapping(value = "/trackbuilder", method = RequestMethod.POST)
@@ -434,81 +353,4 @@ public class CalculationController {
         return "result"; //TODO plain view
     }
 
-    /**
-     * Set params for model with known interfaceCommand
-     *
-     * @param model - model to set params to
-     * @param collector - result collector to get results from
-     * @param cmd - interfaceCommand for user set params
-     */
-    private void setModel(Model model, ResultCollector collector, InterfaceCommand cmd, List<TestResult> covariants) {
-
-        List<TestResult> inout = collector.getInOutResults(cmd.isShowall());
-        inout.removeAll(covariants);
-        model.addAttribute("results_inout", inout);
-
-        List<TestResult> score = collector.getScoredResults(cmd.isShowall());
-        score.removeAll(covariants);
-        model.addAttribute("results_score", score);
-
-        List<TestResult> name = collector.getNamedResults(cmd.isShowall());
-        name.removeAll(covariants);
-        model.addAttribute("results_named", name);
-
-        model.addAttribute("insig_results", collector.getInsignificantResults());
-
-        cmd.setHotspots(collector.getHotspots());
-        cmd.setAssembly(cmd.getAssembly() == null? "hg19": cmd.getAssembly()); //set assembly nr if there was none set in the previous run
-        model.addAttribute("interfaceCommand", cmd);
-
-        cmd.setMinBg(collector.getBgCount());
-        model.addAttribute("bgCount", collector.getBgCount());
-        model.addAttribute("sigTrackCount", collector.getSignificantTrackCount());
-        model.addAttribute("trackCount", collector.getTrackCount());
-
-        model.addAttribute("ran", true);
-
-        Logo logo1 = collector.getLogo();
-        Logo logo2 = collector.getSecondLogo();
-
-        if(logo1 != null && logo2 != null) {
-            model.addAttribute("sequencelogo", logo1.getHeights().toString());
-            model.addAttribute("sequencelogo2", logo2.getHeights().toString());
-
-            model.addAttribute("sequencelogo_name", logo1.getName());
-            model.addAttribute("sequencelogo2_name", logo2.getName());
-        }
-
-        model.addAttribute("sl_effect", collector.logoEffectSize());
-
-        model.addAttribute("bgfilename", "Background");
-    }
-
-    /**
-     * Set params for model
-     *
-     * @param model - model to set params to
-     * @param collector - collector to get results from
-     * @param data - user data to get size from
-     * @param filename - name of uploaded file
-     */
-    private void setModel(Model model, ResultCollector collector, UserData data, String filename) {
-
-        InterfaceCommand command = new InterfaceCommand();
-        command.setPositionCount(data.getPositionCount());
-        command.setAssembly(collector.getAssembly().toString());
-
-        //cut off filenames longer than 18 chars:
-        if(filename != null)
-            filename = filename.length() > 18 ? filename.substring(0, 15) + ".." : filename;
-        command.setOriginalFilename(filename);
-
-        command.setMinBg(collector.getBgCount());
-
-        setModel(model, collector, command, new ArrayList<>());
-
-
-        ExpressionCommand exCommand = new ExpressionCommand();
-        model.addAttribute("expressionCommand", exCommand);
-    }
 }

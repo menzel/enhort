@@ -101,8 +101,6 @@ public class WizardController {
 
             /* Add presets */
 
-            List<String> preset_histmod = Arrays.asList("2","8","7");
-
             model = loadDataTableModel(model, GenomeFactory.Assembly.hg19);
             model.addAttribute("page", "tracks");
 
