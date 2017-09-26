@@ -9,9 +9,15 @@ public class DBConnector {
     private Connection conn;
 
     public void connect(){
+        final String path;
         conn = null;
 
-        String path = "/home/menzel/Desktop/THM/lfba/enhort/";
+        if (System.getenv("HOME").contains("menzel")) {
+            path = "/home/menzel/Desktop/THM/lfba/enhort/";
+        } else {
+            path = "/home/mmnz21/enhort/";
+        }
+
         String link = "jdbc:sqlite:" + path + "track.db";
 
         try {
