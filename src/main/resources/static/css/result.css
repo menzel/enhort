@@ -82,13 +82,13 @@ th{
 }
 
 .fileinfo input{
-    margin-left:6px;
+    margin-left:50px;
     width:80px;
     border: none;
 }
 
 .fileinfo .file_positions{
-    margin-left: 105px;
+    margin-left: 95px;
 }
 
 #rerun{
@@ -103,39 +103,28 @@ th{
     color: rgba(51,51,51,0.8);
 }
 
-
 /* btn hovers: */
-
-#savebtn:hover {
-    color: #337ab7;
-}
 
 #savebtn:hover:before{
     content: "Download results";
 }
 
-#changetracksbtn:hover{
-    color: #337ab7;
-}
-
 #changetracksbtn:hover:before{
     content: "Change tracks";
-}
-#settingsbtn:hover{
-    color: #337ab7;
 }
 
 #settingsbtn:hover:before{
     content: "Settings";
 }
 
-#plotbtn:hover{
-    color: #337ab7;
-}
-
 #plotbtn:hover:before{
     content: "Barplot";
 }
+
+#clearbtn:hover:before{
+    content: "Clear session";
+}
+
 
 a span .glyphicon{
     color: inherit;

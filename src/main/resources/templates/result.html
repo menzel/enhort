@@ -37,7 +37,7 @@
 
             <div class="fileinfo">
                 <p>
-                    <a href="export/bg"><span>Bg Positions:</span></a> <input type="number" step="200" form="covariate_form" th:field="*{interfaceCommand.minBg}"/>
+                    <a href="export/bg"><span>Bg Positions</span></a> <input type="number" step="200" form="covariate_form" th:field="*{interfaceCommand.minBg}"/>
                 </p>
             </div>
         </div>
@@ -93,7 +93,11 @@
                 form="covariate_form">Run again
         </button>
 
-        <a class="btn btn-default bottom" href="clear_session" id="clear">Clear session</a>
+        <a id="clearbtn" class="btn btn-default bottom" href="clear_session">
+            <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>
+        </a>
+
+
 
     </th:block>
 
