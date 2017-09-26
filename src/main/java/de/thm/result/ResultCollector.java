@@ -61,8 +61,8 @@ public final class ResultCollector implements Serializable, Result{
             List<TestResult> r = results.stream()
                     .filter(testResult -> testResult.getType() == TestResult.Type.inout)
                     .filter(testResult -> testResult.getpValue() < 0.05 / results.size() || showall)
-                    .filter(testResult -> testResult.getMeasuredIn() >= (testResult.getMeasuredIn() + testResult.getMeasuredOut()) / 100
-                            && testResult.getExpectedIn() >= (testResult.getExpectedIn() + testResult.getExpectedOut()) / 100)
+                    .filter(testResult -> testResult.getMeasuredIn() >= (testResult.getMeasuredIn() + testResult.getMeasuredOut()) / 200
+                           && testResult.getExpectedIn() >= (testResult.getExpectedIn() + testResult.getExpectedOut()) / 200)
                     .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
                     .collect(Collectors.toList());
 
