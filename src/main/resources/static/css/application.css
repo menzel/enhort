@@ -4,7 +4,7 @@
 
 @font-face {
     font-family: "Fira Sans";
-    src: url(static/fonts/FiraSans-Book.otf);
+    src: url(../fonts/FiraSans-Book.otf);
 }
 
 * {
