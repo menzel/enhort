@@ -2,6 +2,7 @@ package de.thm.genomeData.tracks;
 
 import de.thm.logo.GenomeFactory;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -84,9 +85,9 @@ public abstract class AbstractTrack extends Track {
 
         Track track = (Track) o;
 
-        if (!intervalsStart.equals(track.getStarts())) return false;
-        if (!intervalsEnd.equals(track.getEnds())) return false;
-        return !(description != null ? !description.equals(track.getDescription()) : track.getDescription() != null);
+        if (!Arrays.equals(intervalsStart, track.getStarts())) return false;
+        if (!Arrays.equals(intervalsEnd, track.getEnds())) return false;
+        return !((description != null) ? !description.equals(track.getDescription()) : (track.getDescription() != null));
 
     }
 

@@ -83,7 +83,7 @@ public class NamedTrack extends Track {
         NamedTrack interval = (NamedTrack) o;
         if (!Arrays.equals(intervalsStart, interval.intervalsStart)) return false;
         if (!Arrays.equals(intervalsEnd, interval.intervalsEnd)) return false;
-        return intervalName.equals(interval.intervalName) && !(description != null ? !description.equals(interval.description) : interval.description != null);
+        return Arrays.equals(intervalName, interval.intervalName) && !(description != null ? !description.equals(interval.description) : interval.description != null);
     }
 
     @Override
