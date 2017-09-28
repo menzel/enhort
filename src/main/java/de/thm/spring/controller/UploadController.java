@@ -163,12 +163,10 @@ public class UploadController {
                 Path inputFilepath = basePath.resolve(uuid);
                 UserData sitesBg = new UserData(assembly, inputFilepath);
 
-                Path file = currentSession.getFile();
-                UserData userSites = new UserData(GenomeFactory.Assembly.hg19, file);
                 currentSession.setBgSites(sitesBg);
                 currentSession.setBgFilename(bgname);
 
-                BackendCommand backendCommand = new BackendCommand(userSites, sitesBg);
+                BackendCommand backendCommand = new BackendCommand(currentSession.getSites(), sitesBg);
 
                 /////////// Run analysis ////////////
                 ResultCollector collector = (ResultCollector) BackendConnector.getInstance().runAnalysis(backendCommand);
@@ -178,7 +176,7 @@ public class UploadController {
 
                     currentSession.setCollector(collector);
 
-                    setModel(model, collector, userSites, name);
+                    setModel(model, collector, currentSession.getSites(), name);
                     model.addAttribute("covariants", new ArrayList<>());
                     model.addAttribute("covariantCount", 0);
                     model.addAttribute("customTracks", currentSession.getCustomTracks());
@@ -191,7 +189,7 @@ public class UploadController {
                 }
 
             } catch (Exception e) {
-                model.addAttribute("errorMessage", e.getMessage());
+                model.addAttribute("errorMessage", e.getMessage() + e.toString());
                 return "error";
             }
 
