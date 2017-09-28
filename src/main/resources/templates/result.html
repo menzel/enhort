@@ -37,7 +37,7 @@
 
             <div class="fileinfo">
                 <p>
-                    <a href="export/bg"><span>Bg Positions</span></a> <input type="number" step="200" form="covariate_form" th:field="*{interfaceCommand.minBg}"/>
+                    <a href="export/bg"><span>Background</span></a> <input type="number" step="200" form="covariate_form" th:field="*{interfaceCommand.minBg}"/>
                 </p>
             </div>
         </div>
@@ -70,7 +70,9 @@
 
             <th:block th:if="${ran}">
                 <th:block th:if="${#lists.isEmpty(covariants)}">
-                    <div th:include="uploadBg:: uploadbg"></div>
+                    <th:block th:if="${bgfilename == 'Background'}">
+                        <div th:include="uploadBg:: uploadbg"></div>
+                    </th:block>
                 </th:block>
             </th:block>
 
@@ -298,6 +300,8 @@
             </div>
             <div class="col-md-4">
 
+                <div class="bg-info" th:if="${bgfilename != 'Background'}"> Background sites are taken from the uploaded file <span th:text="${bgfilename}"></span></div>
+
                 <table class="table table-hover fixed">
 
                     <col width="400px"/>
@@ -306,7 +310,6 @@
                     <th th:text="${'Covariates' + ' (' + covariantCount + ')'}">Covariates</th>
                     </thead>
                     <tbody>
-
 
                     <th:block th:if="${interfaceCommand.logoCovariate}">
                         <tr>
@@ -464,6 +467,17 @@
     </th:block>
 </div>
 
+<script th:inline="javascript" async="async">
+    /*<![CDATA[*/
+    'use strict';
+
+    //disable all checkboxes if there is an uploaded bg file
+    if([[${bgfilename }]] !== "Background"){
+        $("input[type='checkbox']").each(function (id, box) {
+            box.disabled = true;
+        });
+    }
+</script>
 
 <script>
     $(function () {
