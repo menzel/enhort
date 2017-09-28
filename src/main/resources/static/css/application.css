@@ -38,6 +38,13 @@ html {
     overflow-y: scroll;
 }
 
+
+
+.container{
+    margin-top: 40px;
+}
+
+
 /*
 * -- Sidebar --
 */
@@ -124,6 +131,8 @@ hr {
     padding-left: 5px;
     padding-top: 5px;
     margin-top:50px;
+    border: 1px solid black;
+    color: #b70303;
 }
 
 .bold {

@@ -81,7 +81,6 @@ public class UploadController {
         String uuid = name + "-" + UUID.randomUUID();
 
         Sessions sessionControll = Sessions.getInstance();
-
         StatisticsCollector stats = StatisticsCollector.getInstance();
 
         if (!file.isEmpty()) {
@@ -94,8 +93,13 @@ public class UploadController {
                 Path inputFilepath = basePath.resolve(uuid);
 
                 Session currentSession = sessionControll.addSession(httpSession.getId(), inputFilepath);
-
                 UserData data = new UserData(AssemblyGuesser.guessAssembly(inputFilepath),inputFilepath);
+
+                if(data.getPositionCount() < 1){
+                    model.addAttribute("errorMessage", "There were no positions in the file '" + file.getOriginalFilename() + "' you uploaded." +
+                            "Make sure your file is in .bed format, where each line contains a position e.g. chr1\\t10\\t100 (where \\t is a tab)");
+                    return "error";
+                }
 
                 currentSession.setSites(data);
                 BackendCommand command = new BackendCommand(data);
