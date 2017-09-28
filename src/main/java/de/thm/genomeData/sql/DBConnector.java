@@ -188,7 +188,7 @@ public class DBConnector {
         private String cellline;
         private int filesize;
 
-        public TrackEntry(String name, String description, String filepath, String type, String assembly, String cellline, int filesize) {
+        TrackEntry(String name, String description, String filepath, String type, String assembly, String cellline, int filesize) {
             this.name = name;
             this.description = description;
             this.filepath = filepath;
