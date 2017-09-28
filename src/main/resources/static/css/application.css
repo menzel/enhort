@@ -2,13 +2,8 @@
 * -- Global --
 */
 
-@font-face {
-    font-family: "Fira Sans";
-    src: url(../fonts/FiraSans-Book.otf);
-}
-
 * {
-    font-family: "Fira Sans", "Clear Sans", "Open Sans", Helvetica, serif;
+    font-family: "Clear Sans", Helvetica, serif;
     font-size: 18px;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
