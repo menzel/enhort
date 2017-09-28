@@ -216,7 +216,7 @@ public final class CalcCaller {
         private final Sites measuredPos;
         private final ResultCollector collector;
         private final GenomeFactory.Assembly assembly;
-        private String name;
+        private final String name;
 
         /**
          * Constructor for the wrapper object
@@ -246,8 +246,8 @@ public final class CalcCaller {
     }
 
     private class HotspotWrapper implements Runnable{
-        private Sites measuredPositions;
-        private ResultCollector collector;
+        private final Sites measuredPositions;
+        private final ResultCollector collector;
 
         private HotspotWrapper(Sites measuredPositions, ResultCollector collector) {
 
