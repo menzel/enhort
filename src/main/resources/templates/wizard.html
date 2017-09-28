@@ -118,7 +118,7 @@
 
                             <div id="header_in2">
                                 <button id="submitTracks" onclick="this.form.submit();" class="btn btn-primary right">Continue</button>
-                                <button class="btn btn-default right" id="clearbtn">Clear</button>
+                                <button class="btn btn-default right" id="clearbtn_wiz">Clear</button>
                             </div>
                         </div>
 
@@ -351,7 +351,7 @@
 <script src="/js/celltable.js" th:href="@{/js/celltable.js}" ></script>
 
 <script>
-    document.getElementById("clearbtn").onclick = function (event) {
+    document.getElementById("clearbtn_wiz").onclick = function (event) {
 
         document.getElementById("submitTracks").disabled = true;
 
