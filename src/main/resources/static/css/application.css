@@ -43,10 +43,6 @@ html {
     overflow-y: scroll;
 }
 
-.h2{
-    text-align: center;
-}
-
 /*
 * -- Sidebar --
 */
@@ -99,8 +95,13 @@ html {
 }
 
 #logo_eihort{
+    display: block;
     height:50px;
-    margin-top: -17px;
+    width:50px;
+    margin-top: -14px;
+    background: url(../img/En.svg);
+    -webkit-background-size: 50px 50px;
+    background-size: 50px 50px;
 }
 
 
