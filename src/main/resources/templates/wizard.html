@@ -308,8 +308,6 @@
 </script>
 
 <script>
-
-
     document.getElementById("file").onchange = function() {
         document.getElementById("uploadform").submit();
     };
@@ -317,7 +315,8 @@
 
 
 <script>
-    document.getElementById("datatable").onclick = function () {
+
+    function count() {
         var counter = 0;
 
         $("input[type='checkbox']").each(function (id, box) {
@@ -329,8 +328,10 @@
 
         if(counter > 0)
             document.getElementById("submitTracks").disabled = false;
-
     }
+
+    count(); //count once at loading to get tracks selected by session
+    document.getElementById("datatable").onclick = function () { count(); }
 </script>
 
 <script>
@@ -348,10 +349,6 @@
 </script>
 
 <script src="/js/celltable.js" th:href="@{/js/celltable.js}" ></script>
-<script th:inline="javascript" async="async">
-    selectByIds([[${interfaceCommand.tracks}]]);
-</script>
-
 
 <script>
     document.getElementById("clearbtn").onclick = function (event) {

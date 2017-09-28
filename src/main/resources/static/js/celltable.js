@@ -79,16 +79,3 @@ for(i=0, l=coln; i<l; i++){
 
     });
 }
-
-
-/* Select all checkboxes by ids stored in session */
-
-function selectByIds(ids) {
-
-    $("input[type='checkbox']").each(function (box) {
-        if($.inArray(box.value, ids)){
-            box.prop("checked", true);
-        }
-    });
-}
-
