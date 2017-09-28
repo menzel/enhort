@@ -24,18 +24,45 @@
 
     <div class="col-xs-10 col-xs-offset-2 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         <div class="container row col-md-12">
+
             <img src="title_logo.png"/>
 
-            <h3>What is this tool used for</h3>
-            <hr/>
-            <p> An analyzing tool for genomic positions. </p>
+            <!-- Guide -->
+            <h2>Beginner's guide</h2>
 
-            <h3>How to use this tool</h3>
-            <hr/>
-            <p> Select a file in BED-format in the upload form in the right panel and start the upload. The middle table shows all tracks on which the uploaded data deviates from random.</p>
-            <p> The tracks are sorted by their effect size. Each table can be expanded by clicking the row to view more detailed information.</p>
-            <p> The checkbox on the right is used to mark a track as covariant. After selecting one or more covariants the model has to be created and run again. This is done by using the blue 'Run again' button on the left.</p>
-            <p> Tracks selected as covariant now appear in the table on the right with a high p-value. Which means that the background positions are now fitted to the uploaded data on this track</p>
+            <h3>Basics</h3>
+
+            <p>Welcome to Enhort, an analyzing tool for genomic positions. Enhort accepts .bed-files, where in each line a genomic position is specified (e.g. chr7 1000 1001).
+            You can upload your .bed-file on the <a href="/">Index-Page</a> or using the <a href="/wiz">Wizard</a>. Enhort then tests your genomic positions against a set of annotations.
+            Using the wizard you can select annotations, based on your assembly number and cellline, see the section about the wizard usage below on this page. The quickstart upload uses a curated list of annotations, containing genes and gene related features, genotoxicity, accessability and a selection of histone modifications.
+            </p>
+
+            <p>
+                After submitting your data, Enhort tests your positions and an equally sized random set of positions against each annotation.
+                On the results page a list of significant annotations is shown, ordered by their effect size. Each entry corresponds to an annotation track and is clickable to show detaild information about integration counts and a description of the data.
+                The colored bars present a visual guide to compare the integration of your sites in blue and the background sites in grey.
+            </p>
+
+            <p>
+               In the basic mode the sites are adjusted to fall inside the contigs and outside of blacklisted regions as specified by Encode.
+               As an advanced usage the user can further alter the creation of the background sites. For example you already know your sites prefer genes, you can then select "known genes" as covariate using the checkbox on the right of the entry at the results page.
+               After you click the "Run again"-button on the left the background model is recreated to express the same integration counts for genes as your sites. The genes annotation then appears on the right table.
+               Multiple annotations can be selected as covariates to create a specified background model for your sites.
+            </p>
+
+            <h3>Wizard</h3>
+
+            <p>
+                The wizard guides you through the steps to create an analysis. On the first page upload your .bed-file. Based on the positions the assembly is guessed.
+                On the second page a selection of annotations can be made, based on your used cell line and the questions you have for the data.
+                For example your positions are sequenced from a hESC cell line, all specific annotations for this cell line can be selected by clicking of the cell line name on the left of the table.
+                Additionally you can select cell line indepenedent annotations such as genes or CpG islands by clicking the blue labels in the "Unknown" row.
+                After you click "continue" you can upload your own set of background sites or pre-select covariates for the background model.
+                Take a look at the previous section for information about covariates and the upcoming results page.
+            </p>
+
+            <!-- FAQ -->
+            <h2>FAQ</h2>
 
             <h3>How is the Fold Change calculated</h3>
             <hr/>
@@ -50,10 +77,6 @@
             <h3>Why is the p-value exact 0.0?</h3>
             <hr/>
             <p>The p-value is calculated using the <a href="https://commons.apache.org/">Apache Commons API</a> as double values. Values smaller than the maximal precision is set to 0.</p>
-
-            <h3>Why is contigs the most significant track?</h3>
-            <hr/>
-            <p>Background positions are set random across the genome. Thus they tend be in parts of the genome were no virus can integrate or no integration can be sequenced. Set the 'contigs' track as covariant to adjust the background model.</p>
 
             <h3>What does the influence factor change?</h3>
             <hr/>
@@ -74,6 +97,11 @@
             <hr/>
             <p>The Information-Panel on the left shows the minimal positions count which is sent to the backend server. However, depending on the background model the count of positions needs to be increased to fit a certain distribution. The Information value remains unchanged by that.</p>
 
+            <h3>Which algorithm creates the pseudorandom numbers?</h3>
+            <hr/>
+            <p>The application uses the <a href="http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html"> Mersenne Twister Algorithm</a>.</p>
+
+
             <h3>Where does the name/ logo come from</h3>
             <hr/>
             <p> The name is an alteration of Eihort. A monster created by the author H.P. Lovecraft. </p>
@@ -84,14 +112,9 @@
             <p>The base image is taken from <a href="http://draguunthor.deviantart.com/art/Mythos-Minis-143564593">here</a>.</p>
             <p>Credit goes to Draguunthor.</p>
 
-            <h3>How are the random numbers generated?</h3>
-            <hr/>
-            <p>The application uses the <a href="http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html"> Mersenne Twister Algorithm</a>.</p>
-
-            <h3>How to cite</h3>
+            <h3>Cite</h3>
             <hr/>
             <p>There is no published paper yet.</p>
-
             <p>However, there was a poster presentation at <a href="https://www.gcb2016.de/home">GCB 2016</a>. A .pdf version of the poster can be found here: <a th:href="@{files/GCB_Enhort_Poster.pdf}">GCB 2016 Poster</a></p>
 
         </div>
