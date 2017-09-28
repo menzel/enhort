@@ -97,6 +97,12 @@ html {
     background: url(../img/En.svg);
     -webkit-background-size: 50px 50px;
     background-size: 50px 50px;
+    opacity: 0.9;
+}
+
+
+#logo_eihort:hover{
+    opacity: 1;
 }
 
 
