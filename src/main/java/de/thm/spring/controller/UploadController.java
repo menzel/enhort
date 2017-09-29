@@ -151,11 +151,8 @@ public class UploadController {
         Sessions sessionControll = Sessions.getInstance();
         Session currentSession = sessionControll.getSession(httpSession.getId());
         StatisticsCollector stats = StatisticsCollector.getInstance();
-        GenomeFactory.Assembly assembly = GenomeFactory.Assembly.hg19;
-
 
         String name = currentSession.getOriginalFilename();
-
 
         if (!bgFile.isEmpty()) {
             try {
@@ -165,6 +162,7 @@ public class UploadController {
                 stream.close();
 
                 Path inputFilepath = basePath.resolve(uuid);
+                GenomeFactory.Assembly assembly = currentSession.getSites().getAssembly();
                 UserData sitesBg = new UserData(assembly, inputFilepath);
 
                 currentSession.setBgSites(sitesBg);
