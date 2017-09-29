@@ -43,6 +43,7 @@ public class SampleController {
 
         UserData userSites = new UserData(GenomeFactory.Assembly.hg19, file);
         currentSession.setSites(userSites);
+        currentSession.setOriginalFilename("HIV");
 
         BackendCommand backendCommand = new BackendCommand(userSites);
 
