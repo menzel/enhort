@@ -11,7 +11,6 @@ import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.PumpStreamHandler;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -82,8 +81,8 @@ public class AssemblyGuesser {
                 counts.add(lines);
 
 
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (Exception e){
+                return GenomeFactory.Assembly.Unknown;
             }
         }
 
