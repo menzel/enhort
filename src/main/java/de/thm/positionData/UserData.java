@@ -47,13 +47,11 @@ public final class UserData implements Sites {
     private void loadPositionsFromFile(Path path) {
 
         ChromosomSizes chrSizes = ChromosomSizes.getInstance();
-
-        Pattern entry = Pattern.compile("(chr(\\d{1,2}|X|Y))(\\s)(\\d+)((\\s)((\\w+)(\\s)([+-]))?)?.*");
+        Pattern entry = Pattern.compile("(chr(\\d{1,2}|X|Y))\\s(\\d+)(\\s((\\w+)\\s([+-]))?)?.*");
 
         try (Stream<String> lines = Files.lines(path)) {
 
             Iterator it = lines.iterator();
-            String delim = "";
 
             while (it.hasNext()) {
 
@@ -62,19 +60,10 @@ public final class UserData implements Sites {
 
                 if (line_matcher.matches()) {
 
-                    if(delim.length() == 0) {
-                        if ((line_matcher.group(3).equals("\t") || (line_matcher.group(3).equals(" "))
-                                && line_matcher.group(5).equals(line_matcher.group(6))
-                                && line_matcher.group(2).equals(line_matcher.group(6))))
-                            delim = line_matcher.group(3);
-                        else
-                            throw new RuntimeException("Unknown delimiter in UserData.java while loading the user file. Please use a tab or space as delimiter between chr1 and the position number in your file");
-                    }
+                    if(line_matcher.group(7) != null)
+                        strand.add(line_matcher.group(7).charAt(0));
 
-                    String[] parts = line.split(delim);
-
-                    if(parts.length > 5) strand.add(parts[7].charAt(0));
-                    positions.add(Long.parseLong(line_matcher.group(4)) + chrSizes.offset(assembly, line_matcher.group(1)));
+                    positions.add(Long.parseLong(line_matcher.group(3)) + chrSizes.offset(assembly, line_matcher.group(1)));
                 }
             }
 
