@@ -48,9 +48,8 @@ final class FileLoader implements Runnable {
 
         this.tracks = tracks;
         this.path = basePath.resolve(new File(entry.getFilepath()).toPath());
-
         this.assembly = GenomeFactory.Assembly.valueOf(entry.getAssembly());
-        this.cellline = entry.getCellline();
+        this.cellline = (entry.getCellline() == null || entry.getCellline().equals("")) ? "Unknown" : entry.getCellline();
         this.name =entry.getName();
         this.type = TrackFactory.Type.valueOf(entry.getType());
         this.desc = entry.getDescription();
