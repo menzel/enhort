@@ -86,7 +86,12 @@ public class WizardController {
                 return "error";
             }
 
-            UserData data = new UserData(AssemblyGuesser.guessAssembly(inputFilepath), inputFilepath);
+            GenomeFactory.Assembly assembly = AssemblyGuesser.guessAssembly(inputFilepath);
+
+            if(assembly == GenomeFactory.Assembly.Unknown)
+                assembly = GenomeFactory.Assembly.hg19; // reset unknown to hg19
+
+            UserData data = new UserData(assembly, inputFilepath);
             currentSession.setSites(data);
             currentSession.setOriginalFilename(file.getOriginalFilename());
             interfaceCommand.setAssembly(data.getAssembly().toString());
@@ -137,7 +142,7 @@ public class WizardController {
             }
 
             if (collector == null) {
-                model.addAttribute("errorMessage", "Backend Connection Error");
+                model.addAttribute("errorMessage", "There were no results for this given input. You can try to submit your request again with a different set of tracks");
                 return "error";
             }
 
