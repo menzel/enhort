@@ -38,7 +38,12 @@ class AnalysisHelper {
      * @return list of intervals with the same as given by input names
      */
     private static List<Track> getCovariants(List<String> covariantNames, GenomeFactory.Assembly assembly) {
+
         List<Track> selectedTracks = new ArrayList<>();
+
+        if(covariantNames.size() == 0)
+            return selectedTracks;
+
         TrackFactory loader = TrackFactory.getInstance();
 
         List<Track> knownTracks = loader.getTracks(assembly);
@@ -98,7 +103,7 @@ class AnalysisHelper {
 
 
         } else {
-            runTracks = trackFactory.getTracksById(cmd.getTracks(), cmd.getAssembly());
+            runTracks = trackFactory.getTracksById(cmd.getTracks());
 
             //check and apply custom tracks
             runTracks.addAll(cmd.getCustomTracks());
@@ -128,7 +133,7 @@ class AnalysisHelper {
             }
 
         } else {
-            runTracks = trackFactory.getTracksById(cmd.getTracks(), cmd.getAssembly());
+            runTracks = trackFactory.getTracksById(cmd.getTracks());
 
             //check and apply custom tracks
             runTracks.addAll(cmd.getCustomTracks());

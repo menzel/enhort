@@ -65,7 +65,8 @@ public final class TrackFactory {
         DBConnector connector  = new DBConnector();
         connector.connect();
 
-        List<DBConnector.TrackEntry> allTracks = connector.getAllTracks("WHERE cellline != 'Unknown' OR filesize < 100000 ORDER BY filesize ASC ");
+        //List<DBConnector.TrackEntry> allTracks = connector.getAllTracks("WHERE (cellline != 'Unknown' OR filesize < 100000) and file like '%inout%' ORDER BY filesize ASC ");
+        List<DBConnector.TrackEntry> allTracks = connector.getAllTracks("WHERE (cellline != 'Unknown' OR filesize < 100000) ORDER BY filesize ASC ");
 
         int nThreads = 8;
         if (System.getenv("HOME").contains("menzel")) nThreads = 4;
@@ -109,6 +110,8 @@ public final class TrackFactory {
                 trackPackage.add(track);
             }
         }
+
+        System.out.println("there are " + trackPackages.stream().filter(t -> t.getName() == "").count() + " packages without a name");
 
         this.tracks.addAll(tracks);
     }
@@ -190,10 +193,10 @@ public final class TrackFactory {
      * @param assembly - assembly number
      * @return
      */
-    public List<Track> getTracksById(List<String> trackIds, GenomeFactory.Assembly assembly) {
+    public List<Track> getTracksById(List<String> trackIds) {
 
         List<Integer> ids = trackIds.stream().map(n -> Integer.parseInt(n)).collect(Collectors.toList());
-        return tracks.parallelStream().filter(track -> track.getAssembly() == assembly && ids.contains(track.getUid())).collect(Collectors.toList());
+        return tracks.parallelStream().filter(track -> ids.contains(track.getUid())).collect(Collectors.toList());
     }
 
 
