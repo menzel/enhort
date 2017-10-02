@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -67,6 +68,17 @@ public class TrackFactoryTest {
 
         assertEquals("Contigs", result.getName());
     }
+
+    @Test
+    public void getTracksById() throws Exception {
+        List<String> ids = tf.getTracks(GenomeFactory.Assembly.hg19).stream().map(t -> Integer.toString(t.getUid())).collect(Collectors.toList());
+
+
+        List<Track> tracks = tf.getTracksById(ids);
+
+        assertEquals(tf.getTrackCount(), tracks.size());
+    }
+
 
     @Test
     public void getTrackByName() throws Exception {
