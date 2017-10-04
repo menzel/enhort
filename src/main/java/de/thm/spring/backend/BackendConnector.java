@@ -8,6 +8,8 @@ import de.thm.result.Result;
 import de.thm.result.ResultCollector;
 import de.thm.spring.command.BackendCommand;
 import de.thm.spring.command.ExpressionCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -24,6 +26,7 @@ import java.util.Optional;
  */
 public final class BackendConnector implements Runnable {
     private static BackendConnector instance;
+    private final Logger logger = LoggerFactory.getLogger(BackendConnector.class);
 
     static {
         // check if the instance is running on a local machine or ladon
@@ -54,7 +57,7 @@ public final class BackendConnector implements Runnable {
     @Override
     public void run() {
 
-        System.out.println("[Enhort Webinterface]: Starting backend connection to " + this.ip);
+        logger.info("[Enhort Webinterface]: Starting backend connection to " + this.ip);
         int connectionTimeout = 20; //max tries timeout
         int tries = 0;
 
@@ -63,7 +66,7 @@ public final class BackendConnector implements Runnable {
                 socket = new Socket(ip, port);
 
                 isConnected = socket.isConnected();
-                System.out.println("[Enhort Webinterface]: Created " + isConnected + " socket on port: " + port);
+                logger.info("[Enhort Webinterface]: Created " + isConnected + " socket on port: " + port);
 
                 outputStream = new ObjectOutputStream(socket.getOutputStream());
                 inputStream = new ObjectInputStream(socket.getInputStream());
@@ -82,7 +85,7 @@ public final class BackendConnector implements Runnable {
                 e.printStackTrace();
             }
         }
-        System.out.println("[Enhort Webinterface]: Connected to backend");
+        logger.info("[Enhort Webinterface]: Connected to backend");
 
     }
 
@@ -98,10 +101,10 @@ public final class BackendConnector implements Runnable {
 
         if (isConnected) try {
 
-            System.out.println("[Enhort Webinterface]: writing command");
+            logger.info("[Enhort Webinterface]: writing command");
             outputStream.writeObject(command);
 
-            System.out.println("[Enhort Webinterface]: waiting for result");
+            logger.info("[Enhort Webinterface]: waiting for result");
 
             //TODO only wait for fixed time. apply timeout
 
@@ -117,12 +120,12 @@ public final class BackendConnector implements Runnable {
                     throw (NoTracksLeftException) answer;
 
 
-                System.out.println("[Enhort Webinterface]: got exception: " + ((Exception) answer).getMessage());
+                logger.info("[Enhort Webinterface]: got exception: " + ((Exception) answer).getMessage());
 
             } else if (answer instanceof ResultCollector) {
 
                 collector = (ResultCollector) answer;
-                System.out.println("[Enhort Webinterface]: got result: " + collector.getResults().size());
+                logger.info("[Enhort Webinterface]: got result: " + collector.getResults().size());
                 //TODO check collector for correct answers:
 
                 checkCollector(collector);
@@ -131,7 +134,7 @@ public final class BackendConnector implements Runnable {
 
             } else if (answer instanceof DataViewResult){
                 DataViewResult result = (DataViewResult) answer;
-                System.out.println("[Enhort Webinterface]: got data table: " + result.getPackages().size());
+                logger.info("[Enhort Webinterface]: got data table: " + result.getPackages().size());
 
                 return result;
 
@@ -149,7 +152,7 @@ public final class BackendConnector implements Runnable {
             System.err.println("Something went wrong in the BackendConnector." + e.getMessage());
         }
 
-        System.out.println("[Enhort Webinterface]: No connection to backend");
+        logger.info("[Enhort Webinterface]: No connection to backend");
         //StatisticsCollector.getInstance().addErrorC();
 
         this.run(); //try to connect to backend again
@@ -186,11 +189,11 @@ public final class BackendConnector implements Runnable {
         if (isConnected) {
             try {
 
-                System.out.println("[Enhort Webinterface]: writing command");
+                logger.info("[Enhort Webinterface]: writing command");
 
                 outputStream.writeObject(expressionCommand);
 
-                System.out.println("[Enhort Webinterface]: waiting for result");
+                logger.info("[Enhort Webinterface]: waiting for result");
 
                 Object answer = inputStream.readObject();
 

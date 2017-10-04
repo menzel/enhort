@@ -52,7 +52,7 @@ public class DataTableCache {
         trackNames = collector.getPackages().stream()
                 .flatMap(trackPackage -> trackPackage.getTrackList().stream())
                 .map(Track::getName)
-                .distinct()
+                .distinct() //TODO filter case insensitiv
                 .sorted()
                 .collect(Collectors.toList());
     }

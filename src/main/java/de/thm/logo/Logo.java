@@ -153,7 +153,6 @@ public final class Logo implements Serializable{
             }
         }
 
-        System.out.println("In Logo.java: " + regex);
         return regex.substring(0, regex.length()-1);
 
 

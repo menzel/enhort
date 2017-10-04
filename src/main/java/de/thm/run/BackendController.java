@@ -12,6 +12,8 @@ import de.thm.result.Result;
 import de.thm.spring.command.BackendCommand;
 import de.thm.spring.command.Command;
 import de.thm.spring.command.ExpressionCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.BindException;
@@ -34,6 +36,7 @@ public final class BackendController {
     public static final Runlevel runlevel;
     private static final int port = 42412;
     private static final String prefix = "[Enhort Backend ::=]: ";
+    private static final Logger logger = LoggerFactory.getLogger(BackendController.class);
 
     static {
         if (System.getenv("HOME").contains("menzel")) {
@@ -44,18 +47,19 @@ public final class BackendController {
     }
 
     public static void main(String[] args) {
-        System.out.println(prefix + "Starting Enhort backend server");
+
+        logger.info("Starting Enhort backend server");
 
         new Thread(() -> {
             TrackFactory tf = TrackFactory.getInstance();
             tf.loadAllTracks();
-            System.out.println(prefix + tf.getTrackCount()  + " Track files loaded");
+            logger.info(tf.getTrackCount()  + " Track files loaded");
 
             if (runlevel == Runlevel.DEBUG)
                 tf.getTracks(GenomeFactory.Assembly.hg19)
                         .parallelStream()
                         .filter(track -> !Tracks.checkTrack(track))
-                        .forEach(t -> System.out.println("Error in track " + t.getName()));
+                        .forEach(t -> logger.info("Error in track " + t.getName()));
 
         }).run();
 
@@ -114,7 +118,7 @@ public final class BackendController {
 
                 try {
                     socket = serverSocket.accept();
-                    System.out.println(prefix + "Webinterface connected");
+                    logger.info(prefix + "Webinterface connected");
 
                     inStream = new ObjectInputStream(socket.getInputStream());
                     outStream = new ObjectOutputStream(socket.getOutputStream());
@@ -162,7 +166,7 @@ public final class BackendController {
                     }catch (EOFException | StreamCorruptedException | SocketException e){
 
                         //do nothing here. client is disconected.
-                        System.out.println(prefix + "Webinterface lost");
+                        logger.info(prefix + "Webinterface lost");
                         isConnected = false;
 
                     } catch (IOException | ClassNotFoundException  | InterruptedException | ExecutionException e) {
@@ -191,7 +195,7 @@ public final class BackendController {
 
                 } //close while(isConnected) loop
 
-                System.out.println(prefix + "Webinterface lost");
+                logger.info(prefix + "Webinterface lost");
             }
 
         }
@@ -211,13 +215,13 @@ public final class BackendController {
             public void run() { //put stuff into background thread once data is recived
                 try {
                     long time = System.currentTimeMillis();
-                    System.out.println(prefix + "recieved a command " + command.hashCode());
+                    logger.info(prefix + "recieved a command " + command.hashCode());
 
                     Result collector = new AnalysisHelper().runAnalysis(command);
                     outStream.writeObject(collector);
 
                     long diff = System.currentTimeMillis() - time;
-                    System.out.println(prefix + "answered request " + command.hashCode() + " in " +  diff + " mils");
+                    logger.info(prefix + "answered request " + command.hashCode() + " in " +  diff + " mils");
 
                 }catch (CovariantsException | NoTracksLeftException e){ //if a covariant exception is thrown return it as answer
                     try {

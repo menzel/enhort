@@ -123,7 +123,7 @@ class SiteCreator {
         @Override
         public void run() {
             indexTable.setProperties(track,fill_inout(positions, track));
-            //System.out.println("loaded " + track.getName());
+            //logger.info("loaded " + track.getName());
         }
     }
 }

@@ -17,7 +17,7 @@ public class Testruns {
         /*
         Sites userDat = BackgroundModelFactory.createBackgroundModel(7489);
 
-        System.out.println(userDat.getPositionCount());
+        logger.info(userDat.getPositionCount());
 
 
         Intersect intersect = new Intersect();
@@ -31,7 +31,7 @@ public class Testruns {
             }
         }
 
-        System.out.println((Arrays.toString(intersect.getAverageDistance(track, userDat).toArray())));
+        logger.info((Arrays.toString(intersect.getAverageDistance(track, userDat).toArray())));
 
         Analyse analyse = new Analyse();
         try {

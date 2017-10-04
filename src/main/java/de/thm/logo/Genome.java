@@ -187,8 +187,6 @@ final class Genome {
             if (!path.toFile().isFile())
                 continue; //if the file is not a chr file jump to next
 
-            System.out.println("Genome.java (getPositions) current file: " + path.toString());
-
             try {
                 it = FileUtils.lineIterator(path.toFile(), "UTF-8");
             } catch (IOException e) {

@@ -183,7 +183,7 @@ public final class SiteFactory {
         for(Double d: tmp.subList(0,min(10,tmp.size()-1))){
             for(String key: scores.keySet()){
                 if(scores.get(key).equals(d)){
-                    System.out.println(key + " " + d);
+                    logger.info(key + " " + d);
                 }
             }
         }

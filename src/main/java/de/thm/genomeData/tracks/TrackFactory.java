@@ -2,6 +2,8 @@ package de.thm.genomeData.tracks;
 
 import de.thm.genomeData.sql.DBConnector;
 import de.thm.logo.GenomeFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ public final class TrackFactory {
     private static TrackFactory instance;
     private final List<Track> tracks;
     private List<TrackPackage> trackPackages;
+    private static final Logger logger = LoggerFactory.getLogger(TrackFactory.class);
 
 
     /**
@@ -111,7 +114,7 @@ public final class TrackFactory {
             }
         }
 
-        System.out.println("there are " + trackPackages.stream().filter(t -> t.getName() == "").count() + " packages without a name");
+        logger.info("There are " + trackPackages.stream().filter(t -> t.getName() == "").count() + " packages without a name");
 
         this.tracks.addAll(tracks);
     }
