@@ -1,7 +1,5 @@
 package de.thm.run;
 
-import de.thm.exception.CovariantsException;
-import de.thm.exception.NoTracksLeftException;
 import de.thm.genomeData.tracks.Track;
 import de.thm.genomeData.tracks.TrackFactory;
 import de.thm.genomeData.tracks.Tracks;
@@ -150,12 +148,17 @@ public final class BackendController {
 
                     }catch(TimeoutException e){
                         logger.warn("Timeout for " + command.hashCode());
+
                         f.cancel(true);
+
+                        //rebuild the queue
+                        queue = new ArrayBlockingQueue<>(16);
+                        exe = new ThreadPoolExecutor(1, 4, 5L, TimeUnit.MILLISECONDS, queue);
 
                     }catch (EOFException | StreamCorruptedException | SocketException e){
 
                         //do nothing here. client is disconected.
-                        logger.info("Webinterface lost");
+                        logger.warn("Webinterface lost");
                         isConnected = false;
 
                     } catch (IOException | ClassNotFoundException  | InterruptedException | ExecutionException e) {
@@ -212,18 +215,16 @@ public final class BackendController {
                     long diff = System.currentTimeMillis() - time;
                     logger.info("answered request " + command.hashCode() + " in " +  diff + " mils");
 
-                }catch (CovariantsException | NoTracksLeftException e){ //if a covariant exception is thrown return it as answer
+                }catch (Exception e) { //if a covariant exception is thrown return it as answer
+
+                    logger.error("Exception {}", e.getMessage(), e);
+
                     try {
                         outStream.writeObject(e);
 
                     } catch (IOException e1) {
-                        logger.warn("connection problem " + e1.getMessage());
+                        logger.error("Exception {}", e.getMessage(), e);
                     }
-                } catch (IOException | ClassCastException e) {
-                    logger.warn("connection problem " + e.getMessage());
-                    logger.error("Exception {}", e.getMessage(), e);
-                } catch (Exception e){
-                    logger.error("Exception {}", e.getMessage(), e);
                 }
             }
         }
