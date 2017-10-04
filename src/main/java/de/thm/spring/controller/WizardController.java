@@ -215,7 +215,7 @@ public class WizardController {
                 logger.warn("ApplicationController: Collector for data is null");
             }
 
-        } catch (CovariantsException | SocketTimeoutException | NoTracksLeftException e) {
+        } catch (CovariantsException | SocketTimeoutException | NoTracksLeftException | ClassCastException e) {
             logger.error("Exception {}", e.getMessage(), e);
         }
 
