@@ -1,5 +1,8 @@
 package de.thm.spring.backend;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +23,7 @@ public final class StatisticsCollector {
 
     private static final StatisticsCollector instance = new StatisticsCollector(new File("/home/mmnz21/enhort.log").toPath());
     private final Path logPath;
+    private final Logger logger = LoggerFactory.getLogger(StatisticsCollector.class);
 
     /**
      * TODO use hashmap with enum as key for generic stats
@@ -42,8 +46,8 @@ public final class StatisticsCollector {
         this.logPath = logPath;
 
         if (!logPath.toFile().exists()) {
-            System.err.println("Log File does not exists: " + logPath.toAbsolutePath());
-            System.err.println("Creating new file");
+            logger.warn("Log File does not exists: " + logPath.toAbsolutePath());
+            logger.warn("Creating new file");
 
             fileCount = new AtomicInteger(0);
             analyseCount = new AtomicInteger(0);
@@ -58,11 +62,11 @@ public final class StatisticsCollector {
             try {
                 logPath.toFile().createNewFile();
             } catch (IOException e){
-                System.err.println("Could not create new log file");
+                logger.warn("Could not create new log file");
                 return;
             }
 
-            System.err.println("New log file created and saved");
+            logger.warn("New log file created and saved");
 
         } else {
 
@@ -80,7 +84,7 @@ public final class StatisticsCollector {
                 lines.close();
 
             } catch (IOException | ParseException e) {
-                e.printStackTrace();
+                logger.error("Exception {}", e.getMessage(), e);
             }
 
         }
@@ -136,7 +140,7 @@ public final class StatisticsCollector {
             writer.write(date + "\n");
 
         } catch (IOException e) {
-            System.err.println("Could not write log file");
+            logger.warn("Could not write log file");
         }
     }
 

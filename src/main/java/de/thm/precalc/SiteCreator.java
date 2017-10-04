@@ -4,6 +4,8 @@ import de.thm.backgroundModel.BackgroundModelFactory;
 import de.thm.genomeData.tracks.Track;
 import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,8 @@ import java.util.concurrent.*;
  * Created by menzel on 2/8/17.
  */
 class SiteCreator {
+
+    private final Logger logger = LoggerFactory.getLogger(SiteCreator.class);
 
     /**
      * Creates an indexTable for a given assembly and count of positions
@@ -46,11 +50,11 @@ class SiteCreator {
                 exe.awaitTermination(2, TimeUnit.MINUTES);
 
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error("Exception {}", e.getMessage(), e);
                 exe.shutdownNow();
             } finally {
                 if (!exe.isTerminated())
-                    System.err.println("Killing all precalc tasks now");
+                    logger.warn("Killing all precalc tasks now");
                 exe.shutdownNow();
             }
         }

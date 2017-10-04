@@ -18,6 +18,8 @@ import de.thm.result.DataViewResult;
 import de.thm.result.Result;
 import de.thm.result.ResultCollector;
 import de.thm.spring.command.BackendCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,6 +31,8 @@ import java.util.List;
  * Created by Michael Menzel on 4/2/16.
  */
 class AnalysisHelper {
+
+    private static final Logger logger = LoggerFactory.getLogger(BackendController.class);
 
     /**
      * Converts a list of covariant names from the webinterface to a list of intervals for analysis.
@@ -55,7 +59,7 @@ class AnalysisHelper {
                 }
             }
         } catch (NullPointerException e){//TODO check in what case this is happening
-            e.printStackTrace();
+            logger.error("Exception {}", e.getMessage(), e);
         }
 
         return selectedTracks;
@@ -109,8 +113,8 @@ class AnalysisHelper {
             runTracks.addAll(cmd.getCustomTracks());
 
             if(runTracks.isEmpty()) {
-                if(BackendController.runlevel == BackendController.Runlevel.DEBUG)
-                    System.err.println("TrackFactory did not provide any tracks for given packages (" + Arrays.toString(cmd.getTracks().toArray()) + ") in AnalysisHelper");
+                if(logger.isDebugEnabled())
+                    logger.warn("TrackFactory did not provide any tracks for given packages (" + Arrays.toString(cmd.getTracks().toArray()) + ") in AnalysisHelper");
                 throw new NoTracksLeftException("There are no tracks available for this genome version and cell line");
             }
         }
@@ -139,7 +143,7 @@ class AnalysisHelper {
             runTracks.addAll(cmd.getCustomTracks());
 
             if(runTracks.isEmpty()){
-                System.err.println("TrackFactory did not provide any tracks for given packages (" + Arrays.toString(cmd.getTracks().toArray()) + ") in AnalysisHelper");
+                logger.warn("TrackFactory did not provide any tracks for given packages (" + Arrays.toString(cmd.getTracks().toArray()) + ") in AnalysisHelper");
                 throw new NoTracksLeftException("There are no tracks available for this genome version and cell line" );
             }
         }

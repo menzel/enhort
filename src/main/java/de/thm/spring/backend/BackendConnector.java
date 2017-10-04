@@ -73,7 +73,7 @@ public final class BackendConnector implements Runnable {
                 socket.setSoTimeout(120 * 1000);
 
             } catch (IOException e) {
-                System.err.println("[Enhort Webinterface]: Cannot connect to backend: " + ip + " reason: " + e.getMessage());
+                logger.warn("[Enhort Webinterface]: Cannot connect to backend: " + ip + " reason: " + e.getMessage());
             }
             try {
                 tries++;
@@ -82,7 +82,7 @@ public final class BackendConnector implements Runnable {
 
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error("Exception {}", e.getMessage(), e);
             }
         }
         logger.info("[Enhort Webinterface]: Connected to backend");
@@ -142,14 +142,14 @@ public final class BackendConnector implements Runnable {
             } else throw new IllegalArgumentException("answer is not a result: " + answer.getClass());
 
         }  catch (SocketTimeoutException e){
-            e.printStackTrace();
+            logger.error("Exception {}", e.getMessage(), e);
             throw new SocketTimeoutException("The backend took to long to respond. Maybe there are too many sites");
 
         } catch (IOException | ClassNotFoundException e) {
             isConnected = false;
-            System.err.println("Something went wrong in the BackendConnector. Trying to start all over again");
+            logger.warn("Something went wrong in the BackendConnector. Trying to start all over again");
         } catch (Exception e){
-            System.err.println("Something went wrong in the BackendConnector." + e.getMessage());
+            logger.warn("Something went wrong in the BackendConnector." + e.getMessage());
         }
 
         logger.info("[Enhort Webinterface]: No connection to backend");
@@ -164,7 +164,7 @@ public final class BackendConnector implements Runnable {
                 Thread.sleep(5000);
 
             } catch (InterruptedException e) {
-                System.err.println("Sleep interrupted after error state. Should not be a problem.");
+                logger.warn("Sleep interrupted after error state. Should not be a problem.");
             }
             return null;
             //return runAnalysis(command); //only call run again if backend is connected.
@@ -175,11 +175,11 @@ public final class BackendConnector implements Runnable {
     private void checkCollector(ResultCollector collector) {
 
         if(collector.getHotspots() == null){
-            System.err.println("BackendConnector: No Hotspots");
+            logger.warn("BackendConnector: No Hotspots");
         }
 
         if(collector.getResults().size() < 1){
-            System.err.println("BackendConnector: Not Results in Collector");
+            logger.warn("BackendConnector: Not Results in Collector");
         }
 
     }
@@ -201,7 +201,7 @@ public final class BackendConnector implements Runnable {
 
                 if (answer instanceof Exception) {
 
-                    System.err.println("[Enhort Webinterface]: got exception: " + ((Exception) answer).getMessage());
+                    logger.warn("[Enhort Webinterface]: got exception: " + ((Exception) answer).getMessage());
 
                 } else if (answer instanceof Track) {
 
@@ -210,18 +210,18 @@ public final class BackendConnector implements Runnable {
                     return Optional.of(track);
 
                 } else {
-                    System.err.println("answer is not a result: " + answer.getClass());
+                    logger.warn("answer is not a result: " + answer.getClass());
                     return Optional.empty();
                 }
 
 
             } catch (IOException | ClassNotFoundException e) {
                 isConnected = false;
-                System.err.println("Something went wrong in the BackendConnector. Trying to start all over again" + e);
+                logger.warn("Something went wrong in the BackendConnector. Trying to start all over again" + e);
             }
         }
 
-        System.err.println("No connection in createCustomTrack");
+        logger.warn("No connection in createCustomTrack");
         return Optional.empty();
     }
 }

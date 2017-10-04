@@ -2,8 +2,9 @@ package de.thm.genomeData.tracks;
 
 import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
-import de.thm.run.BackendController;
 import org.apache.commons.math3.stat.descriptive.rank.Percentile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -15,6 +16,8 @@ import java.util.stream.DoubleStream;
  * Created by Michael Menzel on 13/1/16.
  */
 public final class Tracks {
+
+    private static final Logger logger = LoggerFactory.getLogger(Tracks.class);
 
     //prevent init of Intervals object with private constructor
     private Tracks() {
@@ -417,8 +420,8 @@ public final class Tracks {
 
         if (intervalEnd.length != intervalStart.length) {
 
-            if (BackendController.runlevel == BackendController.Runlevel.DEBUG)
-                System.err.println("Different start and ends lenght in" + track.getName());
+            if (logger.isDebugEnabled())
+                logger.warn("Different start and ends lenght in" + track.getName());
             return false;
         }
 
@@ -430,19 +433,19 @@ public final class Tracks {
             Long end = intervalEnd[i];
 
             if (start > end) {
-                if (BackendController.runlevel == BackendController.Runlevel.DEBUG)
-                    System.err.println("Start larger than end " + track.getName());
+                if (logger.isDebugEnabled())
+                    logger.warn("Start larger than end " + track.getName());
                 return false;
             }
             if (start < lastEnd) {
-                if (BackendController.runlevel == BackendController.Runlevel.DEBUG)
-                    System.err.println("next start is smaller than last end " + track.getName());
+                if (logger.isDebugEnabled())
+                    logger.warn("next start is smaller than last end " + track.getName());
                 return false;
             }
 
             if (lastStart > start) {
-                if (BackendController.runlevel == BackendController.Runlevel.DEBUG)
-                    System.err.println("overlapping starts " + track.getName());
+                if (logger.isDebugEnabled())
+                    logger.warn("overlapping starts " + track.getName());
                 return false;
             }
 

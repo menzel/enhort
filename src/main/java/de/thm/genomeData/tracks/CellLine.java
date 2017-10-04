@@ -1,7 +1,8 @@
 package de.thm.genomeData.tracks;
 
 import de.thm.genomeData.sql.DBConnector;
-import de.thm.run.BackendController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 public class CellLine {
     private static CellLine instance;
     private SortedMap<String, List<String>> names; // all cell line names
+    private final Logger logger = LoggerFactory.getLogger(CellLine.class);
 
     private CellLine(){
         names = new TreeMap<>();
@@ -38,13 +40,13 @@ public class CellLine {
         connector.connect();
         names = connector.getAllCellLines();
 
-        if(BackendController.runlevel == BackendController.Runlevel.DEBUG) {
+        if(logger.isDebugEnabled()) {
             List<String> allNames = new ArrayList<>();
             allNames.addAll(names.keySet().stream().filter(key -> names.get(key) == null).collect(Collectors.toList()));
             names.keySet().stream().filter(key -> names.get(key) != null).forEach(key -> allNames.addAll(names.get(key)));
 
             if (allNames.size() != allNames.stream().distinct().count()) {
-                System.err.println("Cellline: There are duplicate values in the cell line names list and sublists:");
+                logger.warn("Cellline: There are duplicate values in the cell line names list and sublists:");
 
                 Set<String> set = new HashSet<>();
                 allNames.stream().filter(key -> !set.add(key)).forEach(System.err::println);

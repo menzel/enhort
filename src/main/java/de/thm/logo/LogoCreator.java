@@ -1,6 +1,8 @@
 package de.thm.logo;
 
 import de.thm.positionData.Sites;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -17,6 +19,7 @@ import static org.apache.commons.math3.util.FastMath.log;
  */
 public final class LogoCreator {
 
+    private static final Logger logger = LoggerFactory.getLogger(LogoCreator.class);
 
     public static Logo createLogo(Sites sites){
         return createLogo(GenomeFactory.getInstance().getSequence(sites.getAssembly(), sites, 12, 3000));
@@ -35,9 +38,9 @@ public final class LogoCreator {
         int l = sequences.get(0).length();
 
         if(sequences.stream().filter(s -> s.length() != l).count() > 0) {
-            System.err.println("LogoCreator: The sequences do not have the same length:");
-            System.err.println("They should be " + sequences.get(0).length());
-            System.err.println("And some are: " + Arrays.toString(sequences.stream().filter(s -> s.length() != l).toArray()));
+            logger.warn("LogoCreator: The sequences do not have the same length:");
+            logger.warn("They should be " + sequences.get(0).length());
+            logger.warn("And some are: " + Arrays.toString(sequences.stream().filter(s -> s.length() != l).toArray()));
         }
 
         for(int i = 0; i < l; i++) {

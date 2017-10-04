@@ -1,5 +1,8 @@
 package de.thm.backgroundModel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -10,6 +13,8 @@ import java.util.Objects;
 class ScoreSet {
 
     private final Double[] scoreList; // list of scores
+    private final Logger logger = LoggerFactory.getLogger(ScoreSet.class);
+
 
     /**
      * Constructor for testing
@@ -33,7 +38,7 @@ class ScoreSet {
         if(i < scoreList.length)
             scoreList[i] = score;
         else
-            System.err.println("ScoreSet cannot accept another score " + Arrays.toString(scoreList));
+            logger.warn("ScoreSet cannot accept another score " + Arrays.toString(scoreList));
     }
 
     Double[] getScores() {

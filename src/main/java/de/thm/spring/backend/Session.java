@@ -79,7 +79,7 @@ public final class Session {
             if(file != null)
                 Files.deleteIfExists(file);
         } catch (IOException e) {
-            //System.err.println("File is not there. Could not delete");
+            //logger.warn("File is not there. Could not delete");
             // do nothing here. File seems to be unreacheable
         }
     }

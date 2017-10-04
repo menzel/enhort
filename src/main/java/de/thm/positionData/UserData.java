@@ -2,6 +2,8 @@ package de.thm.positionData;
 
 import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -23,6 +25,7 @@ public final class UserData implements Sites {
     private List<Character> strand = new ArrayList<>();
     private String filename;
 
+    private final Logger logger = LoggerFactory.getLogger(UserData.class);
 
     /**
      * Constructor
@@ -70,8 +73,8 @@ public final class UserData implements Sites {
             lines.close();
 
         } catch (IOException e) {
-            System.err.println("In file" + path.toString());
-            e.printStackTrace();
+            logger.warn("In file" + path.toString());
+            logger.error("Exception {}", e.getMessage(), e);
 
         }
 

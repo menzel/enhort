@@ -16,6 +16,8 @@ import de.thm.spring.command.BackendCommand;
 import de.thm.spring.command.ExpressionCommand;
 import de.thm.spring.command.InterfaceCommand;
 import de.thm.stat.TestResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,6 +50,7 @@ import static de.thm.spring.controller.ControllerHelper.setModel;
 public class UploadController {
 
     private static final Path basePath = new File("/tmp").toPath();
+    private final Logger logger = LoggerFactory.getLogger(UploadController.class);
 
     @RequestMapping(value = "/upload", method = RequestMethod.GET)
     public String plainView(Model model, InterfaceCommand iCommand, HttpSession httpSession) {
@@ -264,12 +267,12 @@ public class UploadController {
                     currentSession.addCustomTrack(track);
 
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.error("Exception {}", e.getMessage(), e);
                 }
 
 
              } catch (Exception e){
-                 e.printStackTrace();
+                 logger.error("Exception {}", e.getMessage(), e);
                  return "error";
              }
          }

@@ -34,10 +34,9 @@ public final class SiteFactoryFactory {
      *
      * @return factory of given assembly
      */
-    public SiteFactory get(GenomeFactory.Assembly assembly) {
+    public SiteFactory get(GenomeFactory.Assembly assembly) throws RuntimeException{
         if(this.factories.containsKey(assembly))
             return this.factories.get(assembly);
-        System.err.println("SiteFactoryFactory: There is no factory for " + assembly);
-        return null;
+        throw  new RuntimeException("SiteFactoryFactory: There is no factory for " + assembly);
     }
 }

@@ -7,6 +7,8 @@ import de.thm.positionData.Sites;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.math3.random.MersenneTwister;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -22,6 +24,8 @@ public final class SiteFactory {
 
     private final GenomeFactory.Assembly assembly;
     private IndexTable indexTable = new IndexTable();
+
+    private final Logger logger = LoggerFactory.getLogger(SiteFactory.class);
 
     /**
      * Creates a site factory with given count for given assembly
@@ -98,7 +102,7 @@ public final class SiteFactory {
         try {
             seq = indexTable.getSequences(logo.getConsensus().length());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception {}", e.getMessage(), e);
         }
 
         List<Long> pos = indexTable.getPositions();

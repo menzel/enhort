@@ -5,6 +5,8 @@ import de.thm.exception.TrackTypeNotAllowedExcpetion;
 import de.thm.genomeData.tracks.*;
 import org.apache.commons.math3.stat.inference.ChiSquareTest;
 import org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,6 +24,8 @@ public final class IndependenceTest implements Test{
     private final ChiSquareTest tester;
     private final KolmogorovSmirnovTest kolmoTester;
     private final EffectSize effectSizeTester;
+
+    private final Logger logger = LoggerFactory.getLogger(IndependenceTest.class);
 
     public IndependenceTest() {
 
@@ -47,7 +51,7 @@ public final class IndependenceTest implements Test{
         double[] expectedScore = testTrackResultB.getResultScores().stream().mapToDouble(i -> i).toArray();
 
         if (measuredScore.length < 2 || expectedScore.length < 2) {
-            System.err.println("Not enough data to compute independence test");
+            logger.warn("Not enough data to compute independence test");
             double effectSize = effectSizeTester.test(testTrackResultA, testTrackResultB);
             return new TestResult(Double.NaN, testTrackResultA, testTrackResultB, effectSize, track, TestResult.Type.score);
         }
@@ -79,7 +83,7 @@ public final class IndependenceTest implements Test{
             return new TestResult(tester.chiSquareTest(prepareLists(measured, expected)), testTrackResultA, testTrackResultB, effectSize, track, TestResult.Type.name);
         } catch (Exception e){
             //There is a dimension mismatch error in the chiSquareTester if there is only one 'name' inside the results
-            System.err.println("IndependenceTest Exception: " + e.getMessage() + " for " + track.getName());
+            logger.warn("IndependenceTest Exception: " + e.getMessage() + " for " + track.getName());
         }
 
         return null;

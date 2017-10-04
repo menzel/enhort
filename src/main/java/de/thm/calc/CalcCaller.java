@@ -11,6 +11,8 @@ import de.thm.result.ResultCollector;
 import de.thm.stat.EffectSize;
 import de.thm.stat.IndependenceTest;
 import de.thm.stat.TestResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.concurrent.*;
@@ -23,6 +25,8 @@ import java.util.concurrent.*;
  */
 public final class CalcCaller {
     private static final int threadCount;
+
+    private final Logger logger = LoggerFactory.getLogger(CalcCaller.class);
 
     static {
         if(System.getenv("HOME").contains("menzel")) {
@@ -107,12 +111,12 @@ public final class CalcCaller {
             exe.awaitTermination(2, TimeUnit.MINUTES);
 
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.error("Exception {}", e.getMessage(), e);
             exe.shutdownNow();
             return collector;
         } finally {
             if(!exe.isTerminated())
-                System.err.println("Killing all tasks now");
+                logger.warn("Killing all tasks now");
             exe.shutdownNow();
         }
 

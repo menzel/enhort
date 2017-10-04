@@ -1,12 +1,16 @@
 package de.thm.genomeData.sql;
 
 import de.thm.logo.GenomeFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.*;
 
 public class DBConnector {
     private Connection conn;
+
+    private final Logger logger = LoggerFactory.getLogger(DBConnector.class);
 
     public void connect(){
         final String path;
@@ -24,7 +28,7 @@ public class DBConnector {
             conn = DriverManager.getConnection(link);
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Exception {}", e.getMessage(), e);
         }
     }
 
@@ -50,7 +54,7 @@ public class DBConnector {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Exception {}", e.getMessage(), e);
         }
 
 
@@ -90,7 +94,7 @@ public class DBConnector {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Exception {}", e.getMessage(), e);
         }
 
 
@@ -111,7 +115,7 @@ public class DBConnector {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Exception {}", e.getMessage(), e);
         }
 
         return trackNames;
@@ -163,7 +167,7 @@ public class DBConnector {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Exception {}", e.getMessage(), e);
         }
 
         return celllines;

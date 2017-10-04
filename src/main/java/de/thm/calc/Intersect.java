@@ -3,7 +3,8 @@ package de.thm.calc;
 import de.thm.exception.TrackTypeNotAllowedExcpetion;
 import de.thm.genomeData.tracks.*;
 import de.thm.positionData.Sites;
-import de.thm.run.BackendController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +20,8 @@ import java.util.Map;
 public final class Intersect<T extends Track> implements TestTrack<T> {
 
 
+    private final Logger logger = LoggerFactory.getLogger(Intersect.class);
+
     @Override
     public TestTrackResult searchTrack(T track, Sites pos) throws TrackTypeNotAllowedExcpetion{
         if (track instanceof StrandTrack)
@@ -30,8 +33,8 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
         if (track instanceof NamedTrack)
             return searchSingleInterval((NamedTrack) track, pos);
         else {
-            if (BackendController.runlevel == BackendController.Runlevel.DEBUG)
-                System.err.println(track.getClass() + " not allowed in searchTrack of Intersect.java");
+            if (logger.isDebugEnabled())
+                logger.warn(track.getClass() + " not allowed in searchTrack of Intersect.java");
             throw new TrackTypeNotAllowedExcpetion("Type not allowed in intersect");
         }
 
@@ -40,8 +43,8 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
     TestTrackResult searchSingleInterval(StrandTrack track, Sites sites) {
 
         if(sites.getStrands().size() != sites.getPositions().size()) {
-            if(BackendController.runlevel == BackendController.Runlevel.DEBUG)
-                System.err.println("No strand information in Sites object in searchSingleInterval in Intersect.java");
+            if(logger.isDebugEnabled())
+                logger.warn("No strand information in Sites object in searchSingleInterval in Intersect.java");
 
             return new TestTrackResult(track, 0, 0); //return 0s if there is no strand data in user data
         }
@@ -58,9 +61,9 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
         int intervalCount = intervalStart.length - 1;
 
 
-        if (BackendController.runlevel == BackendController.Runlevel.DEBUG) {
+        if (logger.isDebugEnabled()) {
             if (intervalStart.length != intervalEnd.length || intervalStart.length == 0) {
-                System.err.println("Intersect (line 89) There is something wrong with the track: " + track.getName());
+                logger.warn("Intersect (line 89) There is something wrong with the track: " + track.getName());
                 return new TestTrackResult(track, 0, 0);
             }
         }
@@ -102,9 +105,9 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
         long[] intervalEnd = track.getEnds();
         String[] names = track.getIntervalName();
 
-        if (BackendController.runlevel == BackendController.Runlevel.DEBUG) {
+        if (logger.isDebugEnabled()) {
             if (intervalStart.length != intervalEnd.length || intervalStart.length == 0) {
-                System.err.println("Intersect (line 89) There is something wrong with the track: " + track.getName());
+                logger.warn("Intersect (line 89) There is something wrong with the track: " + track.getName());
                 return new TestTrackResult(track, 0, 0);
             }
         }
@@ -149,9 +152,9 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
         long[] intervalStart = track.getStarts();
         long[] intervalEnd = track.getEnds();
 
-        if (BackendController.runlevel == BackendController.Runlevel.DEBUG) {
+        if (logger.isDebugEnabled()) {
             if (intervalStart.length != intervalEnd.length || intervalStart.length == 0) {
-                System.err.println("Intersect (line 129) There is something wrong with the track: " + track.getName());
+                logger.warn("Intersect (line 129) There is something wrong with the track: " + track.getName());
                 return new TestTrackResult(track, 0, 0);
             }
         }
@@ -192,9 +195,9 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
         List<Double> resultsScores = new ArrayList<>();
 
 
-        if (BackendController.runlevel == BackendController.Runlevel.DEBUG) {
+        if (logger.isDebugEnabled()) {
             if (intervalStart.length != intervalEnd.length || intervalStart.length == 0) {
-                System.err.println("Intersect (line 180) There is something wrong with the track: " + track.getName());
+                logger.warn("Intersect (line 180) There is something wrong with the track: " + track.getName());
                 return new TestTrackResult(track, 0, 0);
             }
         }

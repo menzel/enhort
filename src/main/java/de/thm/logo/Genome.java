@@ -6,6 +6,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -29,6 +31,8 @@ final class Genome {
 
     private final Path filepath;
     private GenomeFactory.Assembly assembly;
+
+    private final Logger logger = LoggerFactory.getLogger(Genome.class);
 
     Genome(GenomeFactory.Assembly assembly, Path filepath){
         this.filepath = filepath;
@@ -81,7 +85,7 @@ final class Genome {
                     counter = 0;
                     lastChr = start.getLeft();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.error("Exception {}", e.getMessage(), e);
                 }
             }
 
@@ -131,11 +135,11 @@ final class Genome {
         }
 
         if(sequences.size() != sublist.size()){
-            System.err.println("Genome: Not enough sequences in list (Genome.java line 130)");
+            logger.warn("Genome: Not enough sequences in list (Genome.java line 130)");
         }
 
         if(sequences.stream().filter(s -> s.length() != width).count() > 0){
-            System.err.println("Genome: Some or more sequences do not have the required width (Genome.java line 134)");
+            logger.warn("Genome: Some or more sequences do not have the required width (Genome.java line 134)");
         }
 
         return sequences;
@@ -172,7 +176,7 @@ final class Genome {
         try {
             paths = Files.walk(filepath);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Exception {}", e.getMessage(), e);
             return null;
         }
 
@@ -190,14 +194,14 @@ final class Genome {
             try {
                 it = FileUtils.lineIterator(path.toFile(), "UTF-8");
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("Exception {}", e.getMessage(), e);
             }
 
             String line;
             int counter = 0;
 
             if(it == null)
-                System.err.println("it is null");
+                logger.warn("it is null");
             else while (it.hasNext()) {
 
                 line = it.nextLine();
@@ -226,7 +230,7 @@ final class Genome {
                         //String seq =  line.substring((matcher.group(1).length()), (matcher.group(1).length())  + logo_length);
 
                     } catch (NullPointerException e) {
-                        System.err.println("unknown chr " + chr + " " + chrName);
+                        logger.warn("unknown chr " + chr + " " + chrName);
                         break; //chr unknown, get next file
                     }
                 }

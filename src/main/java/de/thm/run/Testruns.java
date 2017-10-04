@@ -37,7 +37,7 @@ public class Testruns {
         try {
             analyse.timing_intersect();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception {}", e.getMessage(), e);
         }
         */
 

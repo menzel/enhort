@@ -15,6 +15,8 @@ import de.thm.spring.backend.Sessions;
 import de.thm.spring.cache.DataTableCache;
 import de.thm.spring.command.BackendCommand;
 import de.thm.spring.command.InterfaceCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -38,6 +40,7 @@ import java.util.stream.Collectors;
 public class WizardController {
 
     private static final Path basePath = new File("/tmp").toPath();
+    private final Logger logger = LoggerFactory.getLogger(WizardController.class);
 
 
     @RequestMapping(value = {"/wiz", "/wizfile", "/wizcov"}, method = RequestMethod.GET)
@@ -78,7 +81,7 @@ public class WizardController {
                     inputFilepath = basePath.resolve(uuid);
 
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.error("Exception {}", e.getMessage(), e);
                 }
 
             } else {
@@ -138,7 +141,7 @@ public class WizardController {
                 return "error";
 
             } catch (CovariantsException | SocketTimeoutException e){
-                e.printStackTrace();
+                logger.error("Exception {}", e.getMessage(), e);
             }
 
             if (collector == null) {
@@ -209,11 +212,11 @@ public class WizardController {
                 model.addAttribute("celllines", DataTableCache.getInstance(collector).getCellLines());
 
             } else {
-                System.err.println("ApplicationController: Collector for data is null");
+                logger.warn("ApplicationController: Collector for data is null");
             }
 
         } catch (CovariantsException | SocketTimeoutException | NoTracksLeftException e) {
-            e.printStackTrace();
+            logger.error("Exception {}", e.getMessage(), e);
         }
 
 

@@ -8,6 +8,8 @@ import de.thm.positionData.Sites;
 import de.thm.stat.TestResult;
 import org.apache.commons.math3.util.Pair;
 import org.apache.commons.math3.util.Precision;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.*;
@@ -30,6 +32,8 @@ public final class ResultCollector implements Serializable, Result{
     private Logo other_logo;
     private ScoredTrack hotspots;
 
+    private static final Logger logger = LoggerFactory.getLogger(ResultCollector.class);
+
     public ResultCollector(Sites bgModel, GenomeFactory.Assembly assembly, List<Track> tracks) {
         results = Collections.synchronizedList(new ArrayList<>());
         backgroundSites = bgModel;
@@ -51,7 +55,7 @@ public final class ResultCollector implements Serializable, Result{
             return r;
 
         } catch (NullPointerException e){
-            System.err.println("Null Pointer Exp in getScoredResults");
+            logger.warn("Null Pointer Exp in getScoredResults");
             return new ArrayList<>();
         }
     }
@@ -71,7 +75,7 @@ public final class ResultCollector implements Serializable, Result{
             return r;
 
         } catch (NullPointerException e){
-            System.err.println("Null Pointer Exp in getInOutResults");
+            logger.warn("Null Pointer Exp in getInOutResults");
             return new ArrayList<>();
         }
 
@@ -91,7 +95,7 @@ public final class ResultCollector implements Serializable, Result{
             return r;
 
         } catch (NullPointerException e){
-            System.err.println("Null Pointer Exp in getNamedResults");
+            logger.warn("Null Pointer Exp in getNamedResults");
             return new ArrayList<>();
         }
 
@@ -110,7 +114,7 @@ public final class ResultCollector implements Serializable, Result{
             return r;
 
         } catch (NullPointerException e){
-            System.err.println("Null Pointer Exp in getInsignificantResults");
+            logger.warn("Null Pointer Exp in getInsignificantResults");
             return new ArrayList<>();
         }
 

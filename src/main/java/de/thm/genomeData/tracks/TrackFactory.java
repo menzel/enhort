@@ -25,7 +25,7 @@ public final class TrackFactory {
     private static TrackFactory instance;
     private final List<Track> tracks;
     private List<TrackPackage> trackPackages;
-    private static final Logger logger = LoggerFactory.getLogger(TrackFactory.class);
+    private final Logger logger = LoggerFactory.getLogger(TrackFactory.class);
 
 
     /**
@@ -85,12 +85,12 @@ public final class TrackFactory {
 
         try {
             if (!exe.awaitTermination(2, TimeUnit.MINUTES)) {
-                System.err.println("Still loading track files. Stopping now");
+                logger.warn("Still loading track files. Stopping now");
                 exe.shutdownNow();
             }
 
         } catch (Exception e) {
-            System.err.println("Some threads were interrupted");
+            logger.warn("Some threads were interrupted");
         }
 
         exe.shutdownNow();

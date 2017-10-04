@@ -1,6 +1,8 @@
 package de.thm.genomeData.tracks;
 
 import de.thm.logo.GenomeFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,6 +23,8 @@ public class StrandTrack extends Track{
     private final GenomeFactory.Assembly assembly;
     private final String cellLine;
     private final String description;
+
+    private final Logger logger = LoggerFactory.getLogger(StrandTrack.class);
 
     StrandTrack(List<Long> starts, List<Long> ends, List<Character> strand, String name, String description, GenomeFactory.Assembly assembly, String cellLine) {
 
@@ -44,7 +48,7 @@ public class StrandTrack extends Track{
 
 
         if(intervalsStart.length != intervalsEnd.length || intervalsEnd.length  != this.strand.length){
-            System.err.println("In StrandTrack " + name + " some interval data is missing");
+            logger.warn("In StrandTrack " + name + " some interval data is missing");
         }
 
 
@@ -71,7 +75,7 @@ public class StrandTrack extends Track{
 
 
         if (intervalsStart.length != intervalsEnd.length || intervalsEnd.length != this.strand.length) {
-            System.err.println("In StrandTrack " + name + " some interval data is missing");
+            logger.warn("In StrandTrack " + name + " some interval data is missing");
         }
 
 

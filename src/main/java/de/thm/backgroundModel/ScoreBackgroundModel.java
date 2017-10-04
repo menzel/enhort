@@ -8,6 +8,8 @@ import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.random.MersenneTwister;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -29,6 +31,7 @@ class ScoreBackgroundModel implements Sites {
     private final GenomeFactory.Assembly assembly;
     private List<Long> positions = new ArrayList<>();
     private List<Character> strands = new ArrayList<>();
+    private final Logger logger = LoggerFactory.getLogger(ScoreBackgroundModel.class);
 
     ScoreBackgroundModel(GenomeFactory.Assembly assembly) {
         this.assembly = assembly;
@@ -334,7 +337,7 @@ class ScoreBackgroundModel implements Sites {
             try {
                 throw new Exception("Lists do not have equal length");
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error(e.toString());
             }
         }
 
@@ -413,11 +416,11 @@ class ScoreBackgroundModel implements Sites {
                 exe.awaitTermination(100, TimeUnit.SECONDS);
 
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error("Exception {}", e.getMessage(), e);
                 exe.shutdownNow();
             } finally {
                 if(!exe.isTerminated())
-                    System.err.println("Killing all smoothing tasks now");
+                    logger.warn("Killing all smoothing tasks now");
                 exe.shutdownNow();
             }
 
@@ -430,7 +433,7 @@ class ScoreBackgroundModel implements Sites {
             return newOccurence;
 
         } catch (Exception e){
-            e.printStackTrace();
+            logger.error("Exception {}", e.getMessage(), e);
         }
         return sitesOccurence;
     }

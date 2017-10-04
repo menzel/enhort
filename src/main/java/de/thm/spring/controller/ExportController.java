@@ -6,6 +6,8 @@ import de.thm.spring.backend.Session;
 import de.thm.spring.backend.Sessions;
 import de.thm.spring.backend.StatisticsCollector;
 import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +30,8 @@ import java.util.List;
 public class ExportController {
 
 
+    private final Logger logger = LoggerFactory.getLogger(ExportController.class);
+
     @RequestMapping(value = "/export/csv", method = RequestMethod.GET)
     @ResponseBody
     public FileSystemResource downloadCSV(HttpSession httpSession) {
@@ -41,7 +45,7 @@ public class ExportController {
             writer.write(currentSession.getCollector().getBarplotdataExport());
 
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Exception {}", e.getMessage(), e);
         }
 
         StatisticsCollector.getInstance().addDownloadC();
@@ -86,7 +90,7 @@ public class ExportController {
             for (String line : positions) writer.write(line);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Exception {}", e.getMessage(), e);
         }
 
         StatisticsCollector.getInstance().addDownloadC();

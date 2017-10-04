@@ -2,6 +2,8 @@ package de.thm.spring.run;
 
 import de.thm.spring.backend.BackendConnector;
 import de.thm.spring.backend.StatisticsCollector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,6 +19,8 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableAutoConfiguration
 public class Webinterface {
 
+    private static final Logger logger = LoggerFactory.getLogger(Webinterface.class);
+
     public static void main(String[] args) {
 
 
@@ -29,7 +33,7 @@ public class Webinterface {
             attachShutDownHook();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception {}", e.getMessage(), e);
             StatisticsCollector.getInstance().addErrorC();
         }
     }

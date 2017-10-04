@@ -33,18 +33,9 @@ import java.util.concurrent.*;
  */
 public final class BackendController {
 
-    public static final Runlevel runlevel;
     private static final int port = 42412;
-    private static final String prefix = "[Enhort Backend ::=]: ";
     private static final Logger logger = LoggerFactory.getLogger(BackendController.class);
 
-    static {
-        if (System.getenv("HOME").contains("menzel")) {
-            runlevel = Runlevel.DEBUG; // default DEBUG
-        } else {
-            runlevel = Runlevel.RUN;
-        }
-    }
 
     public static void main(String[] args) {
 
@@ -55,7 +46,7 @@ public final class BackendController {
             tf.loadAllTracks();
             logger.info(tf.getTrackCount()  + " Track files loaded");
 
-            if (runlevel == Runlevel.DEBUG)
+            if (logger.isDebugEnabled())
                 tf.getTracks(GenomeFactory.Assembly.hg19)
                         .parallelStream()
                         .filter(track -> !Tracks.checkTrack(track))
@@ -71,14 +62,12 @@ public final class BackendController {
             thread.run();
 
         } catch (Exception e){
-            e.printStackTrace();
+            logger.error("Exception {}", e.getMessage(), e);
             System.exit(1);
         }
 
         SiteFactoryFactory.getInstance(); // preload instance of factory
     }
-
-    public enum Runlevel {DEBUG, RUN}
 
     /**
      * Impl. for backend listener
@@ -97,11 +86,11 @@ public final class BackendController {
                 serverSocket = new ServerSocket(port);
 
             } catch (BindException b){
-                System.err.println(prefix + "Port already in use: " + port);
+                logger.warn("Port already in use: " + port);
                 System.exit(1);
 
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("Exception {}", e.getMessage(), e);
             }
 
         }
@@ -118,14 +107,14 @@ public final class BackendController {
 
                 try {
                     socket = serverSocket.accept();
-                    logger.info(prefix + "Webinterface connected");
+                    logger.info("Webinterface connected");
 
                     inStream = new ObjectInputStream(socket.getInputStream());
                     outStream = new ObjectOutputStream(socket.getOutputStream());
                     isConnected = true;
 
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.error("Exception {}", e.getMessage(), e);
                 }
 
                 //after interface is connected
@@ -160,17 +149,17 @@ public final class BackendController {
                         }
 
                     }catch(TimeoutException e){
-                        System.err.println("Timeout for " + command.hashCode());
+                        logger.warn("Timeout for " + command.hashCode());
                         f.cancel(true);
 
                     }catch (EOFException | StreamCorruptedException | SocketException e){
 
                         //do nothing here. client is disconected.
-                        logger.info(prefix + "Webinterface lost");
+                        logger.info("Webinterface lost");
                         isConnected = false;
 
                     } catch (IOException | ClassNotFoundException  | InterruptedException | ExecutionException e) {
-                        e.printStackTrace();
+                        logger.error("Exception {}", e.getMessage(), e);
                         exe.shutdownNow();
 
                         queue = new ArrayBlockingQueue<>(16);
@@ -190,12 +179,12 @@ public final class BackendController {
                             e1.printStackTrace();
                         }
                     } catch (Exception e){
-                        e.printStackTrace();
+                        logger.error("Exception {}", e.getMessage(), e);
                     }
 
                 } //close while(isConnected) loop
 
-                logger.info(prefix + "Webinterface lost");
+                logger.info("Webinterface lost");
             }
 
         }
@@ -215,26 +204,26 @@ public final class BackendController {
             public void run() { //put stuff into background thread once data is recived
                 try {
                     long time = System.currentTimeMillis();
-                    logger.info(prefix + "recieved a command " + command.hashCode());
+                    logger.info("recieved a command " + command.hashCode());
 
                     Result collector = new AnalysisHelper().runAnalysis(command);
                     outStream.writeObject(collector);
 
                     long diff = System.currentTimeMillis() - time;
-                    logger.info(prefix + "answered request " + command.hashCode() + " in " +  diff + " mils");
+                    logger.info("answered request " + command.hashCode() + " in " +  diff + " mils");
 
                 }catch (CovariantsException | NoTracksLeftException e){ //if a covariant exception is thrown return it as answer
                     try {
                         outStream.writeObject(e);
 
                     } catch (IOException e1) {
-                        System.err.println(prefix + " connection problem " + e1.getMessage());
+                        logger.warn("connection problem " + e1.getMessage());
                     }
                 } catch (IOException | ClassCastException e) {
-                    System.err.println(prefix + " connection problem " + e.getMessage());
-                    e.printStackTrace();
+                    logger.warn("connection problem " + e.getMessage());
+                    logger.error("Exception {}", e.getMessage(), e);
                 } catch (Exception e){
-                    e.printStackTrace();
+                    logger.error("Exception {}", e.getMessage(), e);
                 }
             }
         }

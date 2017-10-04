@@ -4,9 +4,10 @@ import de.thm.genomeData.sql.DBConnector;
 import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
 import de.thm.misc.PositionPreprocessor;
-import de.thm.run.BackendController;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.math3.util.Precision;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -35,6 +36,8 @@ final class FileLoader implements Runnable {
     private final String desc;
     private final TrackFactory.Type type;
     private final int linecount;
+
+    private final Logger logger = LoggerFactory.getLogger(FileLoader.class);
 
     public FileLoader(DBConnector.TrackEntry entry, List<Track> tracks) {
 
@@ -84,7 +87,7 @@ final class FileLoader implements Runnable {
                 header = reader.readLine();
 
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("Exception {}", e.getMessage(), e);
             }
 
 
@@ -100,7 +103,7 @@ final class FileLoader implements Runnable {
                 }
 
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("Exception {}", e.getMessage(), e);
             }
         }
     }
@@ -136,9 +139,9 @@ final class FileLoader implements Runnable {
                 if (Thread.currentThread().isInterrupted()) {
 
                     long diff = System.currentTimeMillis() - time;
-                    System.err.println("loaded " + Precision.round(((double) linecount / diff), 2) + "\t" + file.getName() + " of lines " + linecount + " in " + diff);
+                    logger.warn("loaded " + Precision.round(((double) linecount / diff), 2) + "\t" + file.getName() + " of lines " + linecount + " in " + diff);
 
-                    System.err.println("Interrupted loading of " + file.getName());
+                    logger.warn("Interrupted loading of " + file.getName());
                     return Optional.empty();
                 }
 
@@ -158,11 +161,11 @@ final class FileLoader implements Runnable {
                             lastChr = parts[0];
                         }
 
-                        if(BackendController.runlevel == BackendController.Runlevel.DEBUG){
+                        if(logger.isDebugEnabled()){
                             //check if start and end are on the chromosome
                             if(chrSizes.getChrSize(assembly,parts[0]) < Long.parseLong(parts[1]) ||
                                 (chrSizes.getChrSize(assembly,parts[0]) < Long.parseLong(parts[2]))){
-                                System.err.println("Start or End out of chromosome bounds (" + file.getName() + "): " + line);
+                                logger.warn("Start or End out of chromosome bounds (" + file.getName() + "): " + line);
 
                             }
 
@@ -173,20 +176,20 @@ final class FileLoader implements Runnable {
 
 
                     } catch (NullPointerException e) {
-                        System.err.println("File loader chrname " + parts[0] + " not found in file " + file.getName());
+                        logger.warn("File loader chrname " + parts[0] + " not found in file " + file.getName());
                         continue;
                     } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        System.err.println("Could not parse " + Arrays.toString(parts) + " from file " + file.getName());
+                        logger.error("Exception {}", e.getMessage(), e);
+                        logger.warn("Could not parse " + Arrays.toString(parts) + " from file " + file.getName());
                         continue;
                     }
 
                     starts.add(start);
                     ends.add(end);
 
-                    if (BackendController.runlevel == BackendController.Runlevel.DEBUG) {
+                    if (logger.isDebugEnabled()) {
                         if(starts.size() > 2 && start < starts.get(starts.size()-2)){
-                            System.err.println("Illegal position at " + line + " file " + file.getName());
+                            logger.warn("Illegal position at " + line + " file " + file.getName());
                         }
                     }
                     if (type == TrackFactory.Type.inout)
@@ -216,42 +219,42 @@ final class FileLoader implements Runnable {
 
            // Check read files //
 
-            if (BackendController.runlevel == BackendController.Runlevel.DEBUG) {
+            if (logger.isDebugEnabled()) {
 
                 if (starts.size() == 0 || starts.size() != ends.size()) {
-                    System.err.println("File has no positions or different start and end lengths: " + file.getAbsolutePath());
+                    logger.warn("File has no positions or different start and end lengths: " + file.getAbsolutePath());
                     throw new Exception("Something is wrong with this track or file: " + file.getName());
                 }
 
                 if (starts.stream().filter(Objects::isNull).count() > 0)
-                    System.err.println("List of starts is missing something for " + file.getName());
+                    logger.warn("List of starts is missing something for " + file.getName());
 
                 if (ends.stream().filter(Objects::isNull).count() > 0)
-                    System.err.println("List of ends is missing something for " + file.getName());
+                    logger.warn("List of ends is missing something for " + file.getName());
 
                 if ((type == TrackFactory.Type.named || type == TrackFactory.Type.scored) && names.stream().filter(Objects::isNull).count() > 0)
-                    System.err.println("List of names is missing something for " + file.getName());
+                    logger.warn("List of names is missing something for " + file.getName());
 
                 if (type == TrackFactory.Type.scored && scores.stream().filter(Objects::isNull).count() > 0)
-                    System.err.println("List of scores is missing something for " + file.getName());
+                    logger.warn("List of scores is missing something for " + file.getName());
 
                 if(type != TrackFactory.Type.scored && type != TrackFactory.Type.named) {
 
                     for (int i = 0; i < starts.size() - 1; i++)
                         if (starts.get(i) > starts.get(i + 1)) {
                             Pair<String, Long> pos = chrSizes.mapToChr(assembly, starts.get(i));
-                            System.err.println("Looks like this track is not sorted " + file.getName() + "(" + file.getAbsolutePath() + ")" + pos.getLeft() + " " + pos.getRight());
+                            logger.warn("Looks like this track is not sorted " + file.getName() + "(" + file.getAbsolutePath() + ")" + pos.getLeft() + " " + pos.getRight());
                         }
 
                     for (int i = 0; i < starts.size() - 1; i++)
                         if (ends.get(i) > ends.get(i + 1)) {
                             Pair<String, Long> pos = chrSizes.mapToChr(assembly, ends.get(i));
-                            System.err.println("Looks like this track is not sorted " + file.getName() + "(" + file.getAbsolutePath() + ")" + pos.getLeft() + " " + pos.getRight());
+                            logger.warn("Looks like this track is not sorted " + file.getName() + "(" + file.getAbsolutePath() + ")" + pos.getLeft() + " " + pos.getRight());
                         }
 
                     for (int i = 0; i < starts.size(); i++)
                         if (starts.get(i) > ends.get(i))
-                            System.err.println("There is an interval with larger end than start in " + file.getName() + "(" + file.getAbsolutePath() + ")");
+                            logger.warn("There is an interval with larger end than start in " + file.getName() + "(" + file.getAbsolutePath() + ")");
 
                 }
 
@@ -261,7 +264,7 @@ final class FileLoader implements Runnable {
 
 
             //long diff = System.currentTimeMillis() - time;
-            //System.err.println("loaded " + Precision.round(((double) length/diff),2) + "\t" + file.getName() + " of lines " + length + " in " +  diff);
+            //logger.warn("loaded " + Precision.round(((double) length/diff),2) + "\t" + file.getName() + " of lines " + length + " in " +  diff);
 
             switch (type) {
                 case strand:
@@ -281,8 +284,8 @@ final class FileLoader implements Runnable {
 
         } catch (Exception e) {
 
-            System.err.println("For file " + file.getName());
-            e.printStackTrace();
+            logger.warn("For file " + file.getName());
+            logger.error("Exception {}", e.getMessage(), e);
             return Optional.empty();
         }
     }

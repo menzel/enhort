@@ -4,6 +4,8 @@ import de.thm.genomeData.tracks.InOutTrack;
 import de.thm.genomeData.tracks.NamedTrack;
 import de.thm.genomeData.tracks.ScoredTrack;
 import de.thm.genomeData.tracks.TrackFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
  */
 public final class PositionPreprocessor {
 
+    private static final Logger logger = LoggerFactory.getLogger(PositionPreprocessor.class);
 
     /**
      * Preprocesses data. Join intervals which cover the same positions.
@@ -39,7 +42,7 @@ public final class PositionPreprocessor {
         List<Long> tmp = new ArrayList<>(intervalsStart);
         Collections.sort(tmp);
         if(!intervalsStart.equals(tmp)){
-            System.err.println("Interval was not sorted. Uses ./sort_bed script first");
+            logger.warn("Interval was not sorted. Uses ./sort_bed script first");
             return null;
         }
 
