@@ -142,11 +142,16 @@ public final class BackendConnector implements Runnable {
             } else throw new IllegalArgumentException("answer is not a result: " + answer.getClass());
 
         }  catch (SocketTimeoutException e){
-            logger.error("Exception {}", e.getMessage(), e);
+            logger.error("Exception {}", e.getMessage());
             throw new SocketTimeoutException("The backend took to long to respond. Maybe there are too many sites");
 
         } catch (IOException | ClassNotFoundException e) {
             isConnected = false;
+            try {
+                inputStream.close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
             logger.warn("Something went wrong in the BackendConnector. Trying to start all over again");
         } catch (Exception e){
             logger.warn("Something went wrong in the BackendConnector." + e.getMessage());
