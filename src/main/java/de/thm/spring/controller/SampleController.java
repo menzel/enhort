@@ -5,11 +5,11 @@ import de.thm.exception.NoTracksLeftException;
 import de.thm.logo.GenomeFactory;
 import de.thm.positionData.UserData;
 import de.thm.result.ResultCollector;
-import de.thm.spring.backend.BackendConnector;
 import de.thm.spring.backend.Session;
 import de.thm.spring.backend.Sessions;
 import de.thm.spring.backend.StatisticsCollector;
 import de.thm.spring.command.BackendCommand;
+import de.thm.spring.command.ExpressionCommand;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,7 +49,7 @@ public class SampleController {
 
         try {
             /////////// Run analysis ////////////
-            ResultCollector collector = (ResultCollector) BackendConnector.getInstance().runAnalysis(backendCommand);
+            ResultCollector collector = (ResultCollector) currentSession.getConnector().runAnalysis(backendCommand);
             /////////////////////////////////////
 
             if(collector != null) {
@@ -61,6 +61,9 @@ public class SampleController {
                 model.addAttribute("covariantCount", 0);
                 model.addAttribute("customTracks", currentSession.getCustomTracks());
                 model.addAttribute("bgfilename", currentSession.getBgname());
+
+                ExpressionCommand exCommand = new ExpressionCommand();
+                model.addAttribute("expressionCommand", exCommand);
 
                 stats.addAnaylseC();
                 stats.addFileC();

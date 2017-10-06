@@ -4,7 +4,6 @@ package de.thm.spring.controller;
 import de.thm.exception.CovariantsException;
 import de.thm.positionData.UserData;
 import de.thm.result.ResultCollector;
-import de.thm.spring.backend.BackendConnector;
 import de.thm.spring.backend.Session;
 import de.thm.spring.backend.Sessions;
 import de.thm.spring.backend.StatisticsCollector;
@@ -77,7 +76,7 @@ public class CovariateController {
             backendCommand.addCustomTrack(currentSession.getCustomTracks());
 
             /////////// Run analysis ////////////
-            collector = (ResultCollector) BackendConnector.getInstance().runAnalysis(backendCommand);
+            collector = (ResultCollector) currentSession.getConnector().runAnalysis(backendCommand);
             /////////////////////////////////////
 
             covariants = collector.getCovariants(command.getCovariants());

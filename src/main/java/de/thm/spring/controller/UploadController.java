@@ -8,7 +8,6 @@ import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.UserData;
 import de.thm.result.ResultCollector;
-import de.thm.spring.backend.BackendConnector;
 import de.thm.spring.backend.Session;
 import de.thm.spring.backend.Sessions;
 import de.thm.spring.backend.StatisticsCollector;
@@ -110,7 +109,7 @@ public class UploadController {
                 command.addCustomTrack(currentSession.getCustomTracks());
 
                 /////////// Run analysis ////////////
-                ResultCollector collector = (ResultCollector) BackendConnector.getInstance().runAnalysis(command);
+                ResultCollector collector = (ResultCollector) currentSession.getConnector().runAnalysis(command);
                 /////////////////////////////////////
 
                 if(collector != null) {
@@ -174,7 +173,7 @@ public class UploadController {
                 BackendCommand backendCommand = new BackendCommand(currentSession.getSites(), sitesBg);
 
                 /////////// Run analysis ////////////
-                ResultCollector collector = (ResultCollector) BackendConnector.getInstance().runAnalysis(backendCommand);
+                ResultCollector collector = (ResultCollector) currentSession.getConnector().runAnalysis(backendCommand);
                 /////////////////////////////////////
 
                 if(collector != null) {
@@ -291,7 +290,7 @@ public class UploadController {
         Session currentSession = sessionsControll.getSession(httpSession.getId());
 
         Track track;
-        Optional<Track> trackToUse  = BackendConnector.getInstance().createCustomTrack(expressionCommand);
+        Optional<Track> trackToUse  = currentSession.getConnector().createCustomTrack(expressionCommand);
 
         if(trackToUse.isPresent()) {
             track = trackToUse.get();

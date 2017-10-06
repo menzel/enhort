@@ -25,18 +25,7 @@ import java.util.Optional;
  * Created by Michael Menzel on 11/3/16.
  */
 public final class BackendConnector implements Runnable {
-    private static BackendConnector instance;
     private final Logger logger = LoggerFactory.getLogger(BackendConnector.class);
-
-    static {
-        // check if the instance is running on a local machine or ladon
-
-        if (System.getenv("HOME").contains("menzel")) {
-            instance = new BackendConnector(42412, "127.0.0.1");
-        } else {
-            instance = new BackendConnector(42412, "bioinf-ladon.mni.thm.de");
-        }
-    }
 
     private final int port;
     private final String ip;
@@ -45,13 +34,15 @@ public final class BackendConnector implements Runnable {
     private ObjectInputStream inputStream;
     private Socket socket;
 
-    private BackendConnector(int port, String ip) {
-        this.port = port;
-        this.ip = ip;
-    }
 
-    public static BackendConnector getInstance() {
-        return instance;
+    BackendConnector(){
+
+        this.port = 42412;
+
+        if (System.getenv("HOME").contains("menzel"))
+            this.ip = "127.0.0.1";
+        else
+            this.ip = "bioinf-ladon.mni.thm.de";
     }
 
     @Override

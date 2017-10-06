@@ -33,6 +33,7 @@ public final class Session {
     private String bgname = "Background";
     private UserData sitesBg;
     private UserData sites;
+    private final BackendConnector connector;
 
     Session(Path file, String key, Date date, List<Track> customTracks) {
         this.file = file;
@@ -41,6 +42,7 @@ public final class Session {
         this.customTracks = customTracks;
 
         StatisticsCollector.getInstance().addSessionC();
+        connector = new BackendConnector();
     }
 
     Session(String key, Date date) {
@@ -48,6 +50,7 @@ public final class Session {
         this.date = date;
 
         StatisticsCollector.getInstance().addSessionC();
+        connector = new BackendConnector();
     }
 
     public Path getFile() {
@@ -140,5 +143,9 @@ public final class Session {
 
     public void setSites(UserData sites) {
         this.sites = sites;
+    }
+
+    public BackendConnector getConnector() {
+        return connector;
     }
 }

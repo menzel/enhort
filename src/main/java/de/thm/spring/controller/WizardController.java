@@ -9,7 +9,6 @@ import de.thm.logo.GenomeFactory;
 import de.thm.positionData.UserData;
 import de.thm.result.DataViewResult;
 import de.thm.result.ResultCollector;
-import de.thm.spring.backend.BackendConnector;
 import de.thm.spring.backend.Session;
 import de.thm.spring.backend.Sessions;
 import de.thm.spring.cache.DataTableCache;
@@ -109,7 +108,7 @@ public class WizardController {
 
             /* Add presets */
 
-            model = loadDataTableModel(model, GenomeFactory.Assembly.hg19);
+            model = loadDataTableModel(model, GenomeFactory.Assembly.hg19, httpSession);
             model.addAttribute("page", "tracks");
 
             return "wizard";
@@ -133,7 +132,7 @@ public class WizardController {
 
             ResultCollector collector = null;
             try {
-                collector = (ResultCollector) BackendConnector.getInstance().runAnalysis(command);
+                collector = (ResultCollector) currentSession.getConnector().runAnalysis(command);
 
             } catch(NoTracksLeftException e){
 
@@ -173,13 +172,17 @@ public class WizardController {
      *
      * @return the filled model
      */
-    private Model loadDataTableModel(Model model, GenomeFactory.Assembly assembly) {
+    private Model loadDataTableModel(Model model, GenomeFactory.Assembly assembly, HttpSession httpSession) {
 
         BackendCommand command = new BackendCommand(assembly);
 
         try {
+
+            Sessions sessionsControll = Sessions.getInstance();
+            Session currentSession = sessionsControll.getSession(httpSession.getId());
+
             /////////// Run analysis ////////////
-            DataViewResult collector = (DataViewResult) BackendConnector.getInstance().runAnalysis(command);
+            DataViewResult collector = (DataViewResult) currentSession.getConnector().runAnalysis(command);
             /////////////////////////////////////
 
             if(collector != null) {
