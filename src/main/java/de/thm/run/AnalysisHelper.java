@@ -32,7 +32,7 @@ import java.util.List;
  */
 class AnalysisHelper {
 
-    private static final Logger logger = LoggerFactory.getLogger(BackendController.class);
+    private static final Logger logger = LoggerFactory.getLogger(BackendServer.class);
 
     /**
      * Converts a list of covariant names from the webinterface to a list of intervals for analysis.
@@ -82,6 +82,8 @@ class AnalysisHelper {
         int minSites = cmd.getMinBg();
 
 
+        // create background //
+        logger.debug("Create background model");
         if (cmd.isLogoCovariate()) {
             //bg = BackgroundModelFactory.createBackgroundModel(sites.getAssembly(), LogoCreator.createLogo(sites), minSites);
 
@@ -92,11 +94,13 @@ class AnalysisHelper {
         } else {
             try {
                 bg = BackgroundModelFactory.createBackgroundModel(covariants, sites, minSites, smooth);
-            } catch (TrackTypeNotAllowedExcpetion trackTypeNotAllowedExcpetion) {
-                trackTypeNotAllowedExcpetion.printStackTrace(); //TODO handle by inform user, and set some bg
+            } catch (TrackTypeNotAllowedExcpetion e) {
+                e.printStackTrace(); //TODO handle by inform user, and set some bg
             }
         }
 
+        // collect tracks for the run //
+        logger.debug("collect tracks for the run");
         if(cmd.getTracks().isEmpty()) {
 
             try {
@@ -113,12 +117,12 @@ class AnalysisHelper {
             runTracks.addAll(cmd.getCustomTracks());
 
             if(runTracks.isEmpty()) {
-                if(logger.isDebugEnabled())
-                    logger.warn("TrackFactory did not provide any tracks for given packages (" + Arrays.toString(cmd.getTracks().toArray()) + ") in AnalysisHelper");
+                logger.warn("TrackFactory did not provide any tracks for given packages (" + Arrays.toString(cmd.getTracks().toArray()) + ") in AnalysisHelper");
                 throw new NoTracksLeftException("There are no tracks available for this genome version and cell line");
             }
         }
 
+        logger.debug("executing the calculations now");
         CalcCaller multi = new CalcCaller();
         return multi.execute(runTracks, sites, bg, cmd.isCreateLogo());
     }
