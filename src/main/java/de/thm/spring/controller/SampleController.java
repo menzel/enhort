@@ -9,7 +9,6 @@ import de.thm.spring.backend.Session;
 import de.thm.spring.backend.Sessions;
 import de.thm.spring.backend.StatisticsCollector;
 import de.thm.spring.command.BackendCommand;
-import de.thm.spring.command.ExpressionCommand;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -62,27 +61,19 @@ public class SampleController {
                 model.addAttribute("customTracks", currentSession.getCustomTracks());
                 model.addAttribute("bgfilename", currentSession.getBgname());
 
-                ExpressionCommand exCommand = new ExpressionCommand();
-                model.addAttribute("expressionCommand", exCommand);
-
                 stats.addAnaylseC();
                 stats.addFileC();
 
                 return "result";
 
+            } else {
+                model.addAttribute("errorMessage", "No results from backend server. Maybe the server is down right now. Try again in a few minutes or contact an admin.");
+                return "error";
             }
 
         } catch (CovariantsException | SocketTimeoutException | NoTracksLeftException e) {
             model.addAttribute("errorMessage", e.getMessage());
             return "error";
         }
-
-
-
-
-
-
-        return "result";
-
     }
 }
