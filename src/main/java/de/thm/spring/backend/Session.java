@@ -75,14 +75,15 @@ public final class Session {
     }
 
     /**
-     * Deletes the known file
+     * Deletes the known file and close connection to backend
      */
     void delete() {
         try {
             if(file != null)
                 Files.deleteIfExists(file);
+            connector.close();
         } catch (IOException e) {
-            //logger.warn("File is not there. Could not delete");
+            // logger.warn("File is not there. Could not delete");
             // do nothing here. File seems to be unreacheable
         }
     }

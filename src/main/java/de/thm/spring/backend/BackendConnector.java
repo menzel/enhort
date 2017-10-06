@@ -220,4 +220,15 @@ public final class BackendConnector implements Runnable {
         logger.warn("No connection in createCustomTrack");
         return Optional.empty();
     }
+
+    /**
+     * Close the connection to backend (close socket)
+     */
+    public void close() {
+        try{
+            socket.close();
+        } catch (IOException e){
+            logger.error("Exception {}", e.getMessage(), e);
+        }
+    }
 }
