@@ -17,6 +17,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Connects the interface to a backend server. Sends backendCommands and recives resultCollectors.
@@ -33,6 +34,8 @@ public final class BackendConnector implements Runnable {
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
     private Socket socket;
+    private static AtomicInteger clientID = new AtomicInteger(0);
+    private int id;
 
 
     BackendConnector(){
@@ -43,12 +46,15 @@ public final class BackendConnector implements Runnable {
             this.ip = "127.0.0.1";
         else
             this.ip = "bioinf-ladon.mni.thm.de";
+
+        id = clientID.getAndIncrement();
+        this.run(); //always start the connector
     }
 
     @Override
     public void run() {
 
-        logger.info("[Enhort Webinterface]: Starting backend connection to " + this.ip);
+        logger.info("[" + id + "]: Starting backend connection to " + this.ip);
         int connectionTimeout = 20; //max tries timeout
         int tries = 0;
 
@@ -57,14 +63,14 @@ public final class BackendConnector implements Runnable {
                 socket = new Socket(ip, port);
 
                 isConnected = socket.isConnected();
-                logger.info("[Enhort Webinterface]: Created " + isConnected + " socket on port: " + port);
+                logger.info("[" + id + "]: Created " + isConnected + " socket on port: " + port);
 
                 outputStream = new ObjectOutputStream(socket.getOutputStream());
                 inputStream = new ObjectInputStream(socket.getInputStream());
                 socket.setSoTimeout(120 * 1000);
 
             } catch (IOException e) {
-                logger.warn("[Enhort Webinterface]: Cannot connect to backend: " + ip + " reason: " + e.getMessage());
+                logger.warn("[" + id + "]: Cannot connect to backend: " + ip + " reason: " + e.getMessage());
             }
             try {
                 tries++;
@@ -76,7 +82,7 @@ public final class BackendConnector implements Runnable {
                 logger.error("Exception {}", e.getMessage(), e);
             }
         }
-        logger.info("[Enhort Webinterface]: Connected to backend");
+        logger.info("[" + id + "]: Connected to backend");
 
     }
 
@@ -92,10 +98,10 @@ public final class BackendConnector implements Runnable {
 
         if (isConnected) try {
 
-            logger.info("[Enhort Webinterface]: writing command");
+            logger.info("[" + id + "]: writing command");
             outputStream.writeObject(command);
 
-            logger.info("[Enhort Webinterface]: waiting for result");
+            logger.info("[" + id + "]: waiting for result");
 
             //TODO only wait for fixed time. apply timeout
 
@@ -111,12 +117,12 @@ public final class BackendConnector implements Runnable {
                     throw (NoTracksLeftException) answer;
 
 
-                logger.info("[Enhort Webinterface]: got exception: " + ((Exception) answer).getMessage());
+                logger.info("[" + id + "]: got exception: " + ((Exception) answer).getMessage());
 
             } else if (answer instanceof ResultCollector) {
 
                 collector = (ResultCollector) answer;
-                logger.info("[Enhort Webinterface]: got result: " + collector.getResults().size());
+                logger.info("[" + id + "]: got result: " + collector.getResults().size());
                 //TODO check collector for correct answers:
 
                 checkCollector(collector);
@@ -125,7 +131,7 @@ public final class BackendConnector implements Runnable {
 
             } else if (answer instanceof DataViewResult){
                 DataViewResult result = (DataViewResult) answer;
-                logger.info("[Enhort Webinterface]: got data table: " + result.getPackages().size());
+                logger.info("[" + id + "]: got data table: " + result.getPackages().size());
 
                 return result;
 
@@ -148,7 +154,7 @@ public final class BackendConnector implements Runnable {
             logger.warn("Something went wrong in the BackendConnector." + e.getMessage());
         }
 
-        logger.info("[Enhort Webinterface]: No connection to backend");
+        logger.info("[" + id + "]: No connection to backend");
         //StatisticsCollector.getInstance().addErrorC();
 
         this.run(); //try to connect to backend again
@@ -185,11 +191,11 @@ public final class BackendConnector implements Runnable {
         if (isConnected) {
             try {
 
-                logger.info("[Enhort Webinterface]: writing command");
+                logger.info("[" + id + "]: writing command");
 
                 outputStream.writeObject(expressionCommand);
 
-                logger.info("[Enhort Webinterface]: waiting for result");
+                logger.info("[" + id + "]: waiting for result");
 
                 Object answer = inputStream.readObject();
 
@@ -197,7 +203,7 @@ public final class BackendConnector implements Runnable {
 
                 if (answer instanceof Exception) {
 
-                    logger.warn("[Enhort Webinterface]: got exception: " + ((Exception) answer).getMessage());
+                    logger.warn("[" + id + "]: got exception: " + ((Exception) answer).getMessage());
 
                 } else if (answer instanceof Track) {
 
