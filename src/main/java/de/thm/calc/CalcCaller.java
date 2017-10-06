@@ -14,8 +14,10 @@ import de.thm.stat.TestResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.Future;
 
 /**
  * Implements multithreading of the intersect call.
@@ -24,22 +26,12 @@ import java.util.concurrent.*;
  * Created by Michael Menzel on 11/1/16.
  */
 public final class CalcCaller {
-    private static final int threadCount;
 
     private final Logger logger = LoggerFactory.getLogger(CalcCaller.class);
-
-    static {
-        if(System.getenv("HOME").contains("menzel")) {
-            threadCount = 16; //local
-        } else {
-            threadCount = 64; //remote
-        }
-    }
-    private final ExecutorService exe;
+    private final ExecutorPool exe;
 
     public CalcCaller() {
-        BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(1024);
-        exe = new ThreadPoolExecutor(4, threadCount, 30L, TimeUnit.SECONDS, queue);
+        exe = ExecutorPool.getInstance();
     }
 
 
@@ -57,6 +49,9 @@ public final class CalcCaller {
         ////////////  Tracks intersect ////////////////
 
         ResultCollector collector = new ResultCollector(randomPositions, tracks.get(0).getAssembly(), tracks); // get assembly from the first track
+        logger.debug("Running the calc now");
+
+        List<Future> futures = Collections.synchronizedList(new ArrayList<>());
 
         if(measuredPositions.getPositions().size() < 1){
             return collector; // TODO inform user that there are no sites, fileformat wrong?
@@ -66,19 +61,19 @@ public final class CalcCaller {
 
             if (track instanceof InOutTrack) {
                 IntersectWrapper<InOutTrack> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, (InOutTrack) track, collector);
-                exe.execute(wrapper);
+                futures.add(exe.submit(wrapper));
             } else if (track instanceof StrandTrack) {
                 IntersectWrapper<StrandTrack> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, (StrandTrack) track, collector);
-                exe.execute(wrapper);
+                futures.add(exe.submit(wrapper));
             } else if (track instanceof ScoredTrack) {
                 IntersectWrapper<ScoredTrack> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, (ScoredTrack) track, collector);
-                exe.execute(wrapper);
+                futures.add(exe.submit(wrapper));
             } else if (track instanceof NamedTrack) {
                 IntersectWrapper<NamedTrack> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, (NamedTrack) track, collector);
-                exe.execute(wrapper);
+                futures.add(exe.submit(wrapper));
             } else if (track instanceof DistanceTrack){
                 DistanceWrapper dWrapper = new DistanceWrapper(measuredPositions, randomPositions, (DistanceTrack) track, collector);
-                exe.execute(dWrapper);
+                futures.add(exe.submit(dWrapper));
             }
         }
 
@@ -89,36 +84,32 @@ public final class CalcCaller {
         if(createLogo && measuredPositions.getAssembly().equals(GenomeFactory.Assembly.hg19)){
             String first = (measuredPositions instanceof UserData)? ((UserData) measuredPositions).getFilename(): "user data";
             LogoWrapper logoWrapper = new LogoWrapper(measuredPositions,collector, tracks.get(0).getAssembly(), first);
-            exe.execute(logoWrapper);
+            futures.add(exe.submit(logoWrapper));
 
             String second = (randomPositions instanceof UserData)? ((UserData) randomPositions).getFilename(): "random";
             LogoWrapper logoWrapper2 = new LogoWrapper(randomPositions, collector, tracks.get(0).getAssembly(), second);
-            exe.execute(logoWrapper2);
+            futures.add(exe.submit(logoWrapper2));
         }
 
         //////////// Logo ////////////////
 
         //////////// Hotspots ////////////////
         HotspotWrapper hotspotWrapper = new HotspotWrapper(measuredPositions, collector);
-        exe.execute(hotspotWrapper);
-
+        futures.add(exe.submit(hotspotWrapper));
         //////////// Hotspots ////////////////
 
 
-        exe.shutdown();
+        while(futures.stream().filter(f -> ! f.isDone()).count() > 0){
 
-        try {
-            exe.awaitTermination(2, TimeUnit.MINUTES);
-
-        } catch (InterruptedException e) {
-            logger.error("Exception {}", e.getMessage(), e);
-            exe.shutdownNow();
-            return collector;
-        } finally {
-            if(!exe.isTerminated())
-                logger.warn("Killing all tasks now");
-            exe.shutdownNow();
+            try {
+                Thread.sleep(100); //wait some time and check if the results are ready
+                logger.debug("Waiting for " +  futures.stream().filter(f -> ! f.isDone()).count() + " futures");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
+
+        futures.forEach(f -> f.cancel(true));
 
         return collector;
     }
