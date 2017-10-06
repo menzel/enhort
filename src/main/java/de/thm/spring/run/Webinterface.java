@@ -1,6 +1,5 @@
 package de.thm.spring.run;
 
-import de.thm.spring.backend.BackendConnector;
 import de.thm.spring.backend.StatisticsCollector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,11 +24,7 @@ public class Webinterface {
 
 
         try {
-            BackendConnector connector = BackendConnector.getInstance();
-            new Thread(connector).run();
-
             SpringApplication.run(Webinterface.class, args);
-
             attachShutDownHook();
 
         } catch (Exception e) {
