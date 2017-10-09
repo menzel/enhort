@@ -46,6 +46,7 @@ class ScoreBackgroundModel implements Sites {
      */
     ScoreBackgroundModel(ScoredTrack covariant, Sites sites, int minSites, double influence) {
 
+
         this(Collections.singletonList(covariant),sites, minSites, influence);
     }
 
@@ -83,9 +84,12 @@ class ScoreBackgroundModel implements Sites {
 
         sitesOccurence = smooth(sitesOccurence, tracks, smooth);
 
+
         double sum = sitesOccurence.values().parallelStream().mapToDouble(Double::doubleValue).sum();
+
         for (ScoreSet k : sitesOccurence.keySet())
             sitesOccurence.put(k, sitesOccurence.get(k) / sum);
+
 
         ScoredTrack interval = combine(tracks, sitesOccurence);
 
@@ -115,28 +119,22 @@ class ScoreBackgroundModel implements Sites {
         String[] keys = interval.getIntervalName();
         double[] intervalScore = interval.getIntervalScore();
         List<Double> newScores = new ArrayList<>();
-        long genome = ChromosomSizes.getInstance().getGenomeSize(assembly);
 
         for (int i = 0; i < intervalScore.length; i++) {
             Double p = intervalScore[i];
 
             //TODO check were the nulls were set before the arrays refactoring..
-            if (p == null) {
-                newScores.add(0d);
 
-            } else {
+            double genomeLength = lengths.get(keys[i]);
+            double length = ends[i] - starts[i];
 
-                double genomeLength = lengths.get(keys[i]);
-                double length = ends[i] - starts[i];
+            if(genomeLength != 0) { //this can happen with multiple scored tracks
 
-                if(genomeLength != 0) { //this can happen with multiple scored tracks
+                double prob = p * (length/genomeLength);
+                //prob = influence * prob + (1 - influence) * (length/genome);
 
-                    double prob = p * (length/genomeLength);
-                    //prob = influence * prob + (1 - influence) * (length/genome);
-
-                    //add probability to score list
-                    newScores.add(prob);
-                }
+                //add probability to score list
+                newScores.add(prob);
             }
         }
 
@@ -299,6 +297,7 @@ class ScoreBackgroundModel implements Sites {
         List<String> new_names = new ArrayList<>();
 
 
+        System.err.println("combine");
         // take all start and ends, combine in lists and sort
         for(ScoredTrack track: tracks){
             new_start.addAll(LongStream.of(track.getStarts()).boxed().collect(Collectors.toList()));
@@ -323,15 +322,24 @@ class ScoreBackgroundModel implements Sites {
             new_end.add(new_end.size(), ChromosomSizes.getInstance().getGenomeSize(assembly)); // and genome size as end
         }
 
-        //delete intervals with length 0
-        for(int i = 0;i < new_start.size()-1; i++){
+        System.err.println("combine");
 
-            if(new_start.get(i).equals(new_end.get(i))){
-                new_start.remove(i);
-                new_end.remove(i);
+        int j = 0; // destination idx
+
+        //delete intervals with length 0
+        //using the ForwardInPlaceRemoveManyPerformer  (https://stackoverflow.com/a/2048374/4928212)
+        for(int i = 0;i < new_start.size()-1; i++){
+            if(!new_start.get(i).equals(new_end.get(i))){
+                if(j < i) {
+                    new_start.set(j, new_start.get(i));
+                    new_end.set(j, new_end.get(i));
+                    j++;
+                }
             }
         }
 
+        new_start = new_start.subList(0,j);
+        new_end = new_end.subList(0,j);
 
         if(new_start.size() != new_end.size()){
             try {
@@ -344,6 +352,7 @@ class ScoreBackgroundModel implements Sites {
         // add enough scoreSets:
         List<ScoreSet> scoredSet = Collections.synchronizedList(new ArrayList<>());
 
+        System.err.println("combine");
         for(int i = 0 ; i < new_start.size(); i++) {
             scoredSet.add(new ScoreSet(tracks.size()));
         }
@@ -392,6 +401,7 @@ class ScoreBackgroundModel implements Sites {
             return sitesOccurence;
         }
 
+
         try {
             ScoredTrack track = tracks.get(0);
             int broadening = (int) (factor*2);
@@ -430,6 +440,7 @@ class ScoreBackgroundModel implements Sites {
             else
                 newOccurence.put(set, 0.);
 
+            System.err.println("smoothed");
             return newOccurence;
 
         } catch (Exception e){
