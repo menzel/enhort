@@ -175,13 +175,17 @@ public final class BackendConnector implements Runnable {
     }
 
     private void checkCollector(ResultCollector collector) {
+        if(collector == null)
+            logger.error("Result is null");
+        else {
 
-        if(collector.getHotspots() == null){
-            logger.warn("BackendConnector: No Hotspots");
-        }
+            if (collector.getHotspots() == null) {
+                logger.warn("BackendConnector: No Hotspots");
+            }
 
-        if(collector.getResults().size() < 1){
-            logger.warn("BackendConnector: Not Results in Collector");
+            if (collector.getResults().size() < 1) {
+                logger.warn("BackendConnector: Not Results in Collector");
+            }
         }
 
     }
