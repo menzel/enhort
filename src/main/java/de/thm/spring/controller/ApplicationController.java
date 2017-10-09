@@ -35,6 +35,7 @@ public class ApplicationController {
     public String deleteSession(Model model, HttpSession session) {
 
         Sessions sessionsControl = Sessions.getInstance();
+        sessionsControl.getSession(session.getId()).getConnector().close();
         sessionsControl.clear(session.getId());
 
         InterfaceCommand command = new InterfaceCommand();
