@@ -246,6 +246,7 @@ class ScoreBackgroundModel implements Sites {
                     .sorted()
                     .collect(Collectors.toList());
 
+
         //set random values across the track
         double prev = 0;
         int j = 0;
@@ -297,7 +298,6 @@ class ScoreBackgroundModel implements Sites {
         List<String> new_names = new ArrayList<>();
 
 
-        System.err.println("combine");
         // take all start and ends, combine in lists and sort
         for(ScoredTrack track: tracks){
             new_start.addAll(LongStream.of(track.getStarts()).boxed().collect(Collectors.toList()));
@@ -322,7 +322,6 @@ class ScoreBackgroundModel implements Sites {
             new_end.add(new_end.size(), ChromosomSizes.getInstance().getGenomeSize(assembly)); // and genome size as end
         }
 
-        System.err.println("combine");
 
         int j = 0; // destination idx
 
@@ -352,7 +351,6 @@ class ScoreBackgroundModel implements Sites {
         // add enough scoreSets:
         List<ScoreSet> scoredSet = Collections.synchronizedList(new ArrayList<>());
 
-        System.err.println("combine");
         for(int i = 0 ; i < new_start.size(); i++) {
             scoredSet.add(new ScoreSet(tracks.size()));
         }
@@ -440,7 +438,6 @@ class ScoreBackgroundModel implements Sites {
             else
                 newOccurence.put(set, 0.);
 
-            System.err.println("smoothed");
             return newOccurence;
 
         } catch (Exception e){
