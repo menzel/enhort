@@ -4,7 +4,6 @@ import de.thm.backgroundModel.BackgroundModelFactory;
 import de.thm.calc.CalcCaller;
 import de.thm.exception.CovariantsException;
 import de.thm.exception.NoTracksLeftException;
-import de.thm.exception.TrackTypeNotAllowedExcpetion;
 import de.thm.genomeData.tracks.CellLine;
 import de.thm.genomeData.tracks.Track;
 import de.thm.genomeData.tracks.TrackFactory;
@@ -32,7 +31,7 @@ import java.util.List;
  */
 class AnalysisHelper {
 
-    private static final Logger logger = LoggerFactory.getLogger(BackendServer.class);
+    private static final Logger logger = LoggerFactory.getLogger(AnalysisHelper.class);
 
     /**
      * Converts a list of covariant names from the webinterface to a list of intervals for analysis.
@@ -77,7 +76,7 @@ class AnalysisHelper {
         List<Track> covariants = getCovariants(cmd.getCovariants(), cmd.getAssembly());
         List<Track> runTracks;
         TrackFactory trackFactory = TrackFactory.getInstance();
-        Sites bg = null;
+        Sites bg;
         Double smooth = 10d; //cmd.getInfluence(); //TODO use user defined value
         int minSites = cmd.getMinBg();
 
@@ -94,8 +93,9 @@ class AnalysisHelper {
         } else {
             try {
                 bg = BackgroundModelFactory.createBackgroundModel(covariants, sites, minSites, smooth);
-            } catch (TrackTypeNotAllowedExcpetion e) {
-                e.printStackTrace(); //TODO handle by inform user, and set some bg
+            } catch (Exception e) {
+                logger.error("Error while creating the background model",e);
+                return null;
             }
         }
 
