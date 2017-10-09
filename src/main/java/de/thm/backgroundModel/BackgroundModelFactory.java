@@ -5,8 +5,11 @@ import de.thm.exception.TrackTypeNotAllowedExcpetion;
 import de.thm.genomeData.tracks.*;
 import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 /**
@@ -20,6 +23,8 @@ public final class BackgroundModelFactory {
 
     private static final int maxCovariants = 4;
     private static final int maxCovariantsInOutOnly = 10;
+    private static final ExecutorService exe = Executors.newSingleThreadExecutor();
+    private static final Logger logger = LoggerFactory.getLogger(BackgroundModelFactory.class);
 
     /**
      * Creates a random backgroundmodel of given size.
@@ -58,36 +63,19 @@ public final class BackgroundModelFactory {
      *
      * @return background model as sites object.
      */
-    public static Sites createBackgroundModel(Track track, Sites sites, int minSites, double influence) throws TrackTypeNotAllowedExcpetion {
-        if(minSites < 10000) minSites = 10000;
+    private static Sites createBackgroundModel(final Track track, final Sites sites, final int minSites, final double influence) throws TrackTypeNotAllowedExcpetion {
 
         if (track instanceof InOutTrack)
-            return new SingleTrackBackgroundModel((InOutTrack) track, sites, minSites);
+            new SingleTrackBackgroundModel((InOutTrack) track, sites, minSites);
         else if (track instanceof ScoredTrack) // put single track in a list of size one
-            return new ScoreBackgroundModel((ScoredTrack) track, sites, minSites, influence);
+            new ScoreBackgroundModel((ScoredTrack) track, sites, minSites, influence);
         else if (track instanceof NamedTrack) //convert the single track to a scored track and put in a list of size one
-            return new ScoreBackgroundModel(Tracks.cast((NamedTrack) track), sites, minSites, influence);
+           new ScoreBackgroundModel(Tracks.cast((NamedTrack) track), sites, minSites, influence);
         else if (track instanceof DistanceTrack)
-            return new DistanceBackgroundModel((DistanceTrack) track, sites, 200);
+           new DistanceBackgroundModel((DistanceTrack) track, sites, 200);
         else if (track instanceof StrandTrack)
-            return new RandomBackgroundModel(track.getAssembly(), minSites); // TODO add missing strandTrack BG model
+            new RandomBackgroundModel(track.getAssembly(), minSites); // TODO add missing strandTrack BG model
         throw new TrackTypeNotAllowedExcpetion("Type of " + track  + " unkonwn");
-    }
-
-
-
-    /**
-     * Creates a background model with a list of tracks as covariants.
-     *
-     * @param trackList - list of covariant tracks
-     * @param sites - sites to set the probabilities for the background positions
-     * @return background model as sites object.
-     *
-     * @throws CovariantsException - if there are too many covariants
-     */
-    public static Sites createBackgroundModel(List<Track> trackList, Sites sites, double influence) throws CovariantsException, TrackTypeNotAllowedExcpetion {
-        return createBackgroundModel(trackList, sites, sites.getPositionCount(), influence);
-
     }
 
     /**
@@ -101,27 +89,32 @@ public final class BackgroundModelFactory {
      */
     public static Sites createBackgroundModel(List<Track> trackList, Sites sites, int minSites, double smooth) throws CovariantsException, TrackTypeNotAllowedExcpetion {
 
-        minSites *= 1.05;
+        int finalMinSites = (int) (minSites * 1.05);
+
+        Future<?> f;
 
         if (trackList.isEmpty())
-            return createBackgroundModel(sites.getAssembly(), sites.getPositionCount());
+            f = exe.submit(() -> { createBackgroundModel(sites.getAssembly(), sites.getPositionCount());});
 
         else if (trackList.size() == 1)
-            return createBackgroundModel(trackList.get(0), sites, minSites, smooth);
+            f = exe.submit(() -> {createBackgroundModel(trackList.get(0), sites, finalMinSites, smooth);});
 
         else if (trackList.stream().allMatch(i -> i instanceof InOutTrack))
             if(trackList.size() < maxCovariantsInOutOnly) {
-                return new MultiTrackBackgroundModel(trackList, sites, minSites);
+                f = exe.submit(() -> { new MultiTrackBackgroundModel(trackList, sites, finalMinSites);});
             } else throw new CovariantsException("Too many covariants: " + trackList.size() + ". Max " + maxCovariantsInOutOnly + " are allowed");
 
         else if (trackList.size() <= maxCovariants) {
 
             if (trackList.stream().allMatch(i -> i instanceof ScoredTrack)) {
+                System.err.println("started scored track bg");
                 List<ScoredTrack> newList = trackList.stream().map(i -> (ScoredTrack) i).collect(Collectors.toList());
 
-                return new ScoreBackgroundModel(newList, sites, minSites, smooth);
+                f = exe.submit(() -> {  new ScoreBackgroundModel(newList, sites, finalMinSites, smooth);});
+                System.err.println("end scored track bg");
 
             } else {
+                System.err.println("casting started");
                 List<ScoredTrack> scoredIntervals = trackList.stream()
                         .filter(i -> i instanceof ScoredTrack)
                         .map(i -> (ScoredTrack) i)
@@ -140,11 +133,24 @@ public final class BackgroundModelFactory {
                     .map(Tracks::cast)
                     .collect(Collectors.toList()));
 
-                return new ScoreBackgroundModel(scoredIntervals, sites, minSites, smooth);
+                System.err.println("casting finished");
+
+                f = exe.submit(() -> {new ScoreBackgroundModel(scoredIntervals, sites, minSites, smooth);});
             }
 
         } else {
             throw new CovariantsException("Too many covariants. " + trackList.size() + ". Only " + maxCovariantsInOutOnly + " are allowed");
         }
+
+        try {
+           Object bg = f.get(300, TimeUnit.SECONDS);
+
+           return (Sites) bg;
+
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+            logger.error("Error while creating the background model",e);
+        }
+
+        throw new RuntimeException("Background model not created in BackgroundModelFactory");
     }
 }
