@@ -66,7 +66,6 @@ class ClientController implements Runnable{
 
             try {
 
-                logger.debug("Waiting for another client");
                 Socket socket = serverSocket.accept();
 
                 ClientHandler handler = new ClientHandler(socket);
