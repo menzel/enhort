@@ -26,7 +26,9 @@ public class ApplicationController {
      * @return index page
      */
     @RequestMapping(value = {"/welcome", "/"}, method = RequestMethod.GET)
-    public String index() {
+    public String index(HttpSession session) {
+
+        clear_session(session);
 
         return "index";
     }
@@ -34,9 +36,7 @@ public class ApplicationController {
     @RequestMapping(value = "/clear_session", method = RequestMethod.GET)
     public String deleteSession(Model model, HttpSession session) {
 
-        Sessions sessionsControl = Sessions.getInstance();
-        sessionsControl.getSession(session.getId()).getConnector().close();
-        sessionsControl.clear(session.getId());
+        clear_session(session);
 
         InterfaceCommand command = new InterfaceCommand();
         command.setOriginalFilename("");
@@ -46,6 +46,14 @@ public class ApplicationController {
         model.addAttribute("expressionCommand", new ExpressionCommand());
 
         return "index";
+    }
+
+
+    private void clear_session(HttpSession session){
+
+        Sessions sessionsControl = Sessions.getInstance();
+        sessionsControl.getSession(session.getId()).getConnector().close();
+        sessionsControl.clear(session.getId());
     }
 
 
