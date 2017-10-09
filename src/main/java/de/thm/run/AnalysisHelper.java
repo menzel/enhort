@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.*;
 
 /**
  * Wrapper for the spring gui to call the different intersects and background models.
@@ -76,28 +77,46 @@ class AnalysisHelper {
         List<Track> covariants = getCovariants(cmd.getCovariants(), cmd.getAssembly());
         List<Track> runTracks;
         TrackFactory trackFactory = TrackFactory.getInstance();
-        Sites bg;
+        final Sites[] bg = new Sites[1];
         Double smooth = 10d; //cmd.getInfluence(); //TODO use user defined value
         int minSites = cmd.getMinBg();
+        ExecutorService pool = Executors.newFixedThreadPool(1);
 
 
         // create background //
         logger.debug("Create background model");
-        if (cmd.isLogoCovariate()) {
-            //bg = BackgroundModelFactory.createBackgroundModel(sites.getAssembly(), LogoCreator.createLogo(sites), minSites);
 
-            SiteFactory factory = SiteFactoryFactory.getInstance().get(sites.getAssembly());
-            bg = factory.getByLogo(LogoCreator.createLogo(sites), minSites);
-        } else if (covariants.isEmpty()){
-            bg = BackgroundModelFactory.createBackgroundModel(sites.getAssembly(), sites.getPositionCount()); //check if minSites is larger
-        } else {
-            try {
-                bg = BackgroundModelFactory.createBackgroundModel(covariants, sites, minSites, smooth);
-            } catch (Exception e) {
-                logger.error("Error while creating the background model",e);
-                return null;
-            }
+        Runnable backgroundCreator =  () -> {
+             if (cmd.isLogoCovariate()) {
+                 //bg = BackgroundModelFactory.createBackgroundModel(sites.getAssembly(), LogoCreator.createLogo(sites), minSites);
+
+                 SiteFactory factory = SiteFactoryFactory.getInstance().get(sites.getAssembly());
+                 bg[0] = factory.getByLogo(LogoCreator.createLogo(sites), minSites);
+             } else if (covariants.isEmpty()) {
+                 bg[0] = BackgroundModelFactory.createBackgroundModel(sites.getAssembly(), sites.getPositionCount()); //check if minSites is larger
+             } else {
+                 try {
+                     bg[0] = BackgroundModelFactory.createBackgroundModel(covariants, sites, minSites, smooth);
+                 } catch (Exception e) {
+                     logger.error("Error while creating the background model", e);
+                     bg[0] = null;
+                 }
+             }
+        };
+
+        Future f = pool.submit(backgroundCreator);
+
+        try {
+            f.get(30, TimeUnit.SECONDS);
+
+        } catch (TimeoutException e) {
+            logger.debug("Timeout while creating the background model", e);
+            f.cancel(true);
+            return null;
+        } catch (InterruptedException | ExecutionException e) {
+            logger.debug("Error creating the background model", e);
         }
+
 
         // collect tracks for the run //
         logger.debug("collect tracks for the run");
@@ -124,7 +143,7 @@ class AnalysisHelper {
 
         logger.debug("executing the calculations now");
         CalcCaller multi = new CalcCaller();
-        return multi.execute(runTracks, sites, bg, cmd.isCreateLogo());
+        return multi.execute(runTracks, sites, bg[0], cmd.isCreateLogo());
     }
 
 

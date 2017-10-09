@@ -69,7 +69,8 @@ public final class TrackFactory {
         connector.connect();
 
         //List<DBConnector.TrackEntry> allTracks = connector.getAllTracks("WHERE (cellline != 'Unknown' OR filesize < 100000) and file like '%inout%' ORDER BY filesize ASC ");
-        List<DBConnector.TrackEntry> allTracks = connector.getAllTracks("WHERE (cellline != 'Unknown' OR filesize < 100000) ORDER BY filesize ASC ");
+        //List<DBConnector.TrackEntry> allTracks = connector.getAllTracks("WHERE (cellline != 'Unknown' OR filesize < 100000) ORDER BY filesize ASC ");
+        List<DBConnector.TrackEntry> allTracks = connector.getAllTracks("WHERE file like '%inout%' OR file like '%named%' ORDER BY filesize ASC ");
 
         int nThreads = 8;
         if (System.getenv("HOME").contains("menzel")) nThreads = 4;
