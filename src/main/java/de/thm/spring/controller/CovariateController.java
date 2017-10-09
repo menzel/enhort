@@ -78,13 +78,19 @@ public class CovariateController {
             /////////// Run analysis ////////////
             collector = (ResultCollector) currentSession.getConnector().runAnalysis(backendCommand);
             /////////////////////////////////////
+            if(collector != null) {
 
-            covariants = collector.getCovariants(command.getCovariants());
-            currentSession.setCovariants(covariants);
+                covariants = collector.getCovariants(command.getCovariants());
+                currentSession.setCovariants(covariants);
 
-            model.addAttribute("covariants", covariants);
-            model.addAttribute("covariantCount", covariants.size() + (command.getLogoCovariate()? 1:0));
-            model.addAttribute("customTracks", currentSession.getCustomTracks());
+                model.addAttribute("covariants", covariants);
+                model.addAttribute("covariantCount", covariants.size() + (command.getLogoCovariate() ? 1 : 0));
+                model.addAttribute("customTracks", currentSession.getCustomTracks());
+            } else {
+
+                model.addAttribute("errorMessage", "No Results from backend server: The computation took too long. Try to select a smaller set of covariates");
+                return "error";
+            }
 
 
         } catch (CovariantsException e) {
