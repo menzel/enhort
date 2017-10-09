@@ -8,7 +8,6 @@ import de.thm.logo.GenomeFactory;
 import de.thm.positionData.Sites;
 import org.junit.Before;
 import org.junit.Test;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.*;
 
@@ -217,7 +216,6 @@ public class ScoreBackgroundModelTest {
         Collection<Long> pos = model.generatePositionsByProbability(probTrack, 10);
 
         // TODO  check if rand pos generated are good
-        throw new NotImplementedException();
     }
 
 
