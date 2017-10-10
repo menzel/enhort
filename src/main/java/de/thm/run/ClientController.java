@@ -10,6 +10,7 @@ import de.thm.spring.command.ExpressionCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -136,9 +137,12 @@ class ClientController implements Runnable{
                         //return new track:
                         outStream.writeObject(track);
                     }
-
                 } catch (Exception e) {
-                    logger.error("[" + clientID + "]: " + "Exception {}", e.getMessage(), e);
+
+                    if(e instanceof EOFException)
+                        logger.info("[" + clientID + "]: " + " Disconnected");
+                    else
+                        logger.error("[" + clientID + "]: " + "Exception {}", e.getMessage(), e);
 
                     try {
                         socket.close();
