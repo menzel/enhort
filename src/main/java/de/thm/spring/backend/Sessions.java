@@ -2,6 +2,8 @@ package de.thm.spring.backend;
 
 import java.nio.file.Path;
 import java.util.*;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Holds the list of known session objects
@@ -15,10 +17,13 @@ public final class Sessions {
 
     private Sessions() {
         sessions = new HashMap<>();
+
+        // Clean up the sessions every 3 hours
+        ScheduledThreadPoolExecutor scheduler = new ScheduledThreadPoolExecutor(1);
+        scheduler.scheduleAtFixedRate(new Thread(this::cleanUp),3L,3L, TimeUnit.HOURS);
     }
 
     public static Sessions getInstance() {
-        instance.cleanUp();
         return instance;
     }
 
@@ -77,8 +82,8 @@ public final class Sessions {
      * Old means older than one day
      */
     private void cleanUp() {
-        Calendar yesterday = Calendar.getInstance();
-        yesterday.add(Calendar.DATE, -1);
+        Calendar threehoursbefore = Calendar.getInstance();
+        threehoursbefore.add(Calendar.HOUR_OF_DAY,-3);
 
         List<String> removes = new ArrayList<>(); // stores the keys of sessions to remove later
 
@@ -87,7 +92,7 @@ public final class Sessions {
             Session session = sessions.get(key);
 
             //check the age of each session
-            if (session.getDate().compareTo(yesterday.getTime()) < 0) {
+            if (session.getDate().compareTo(threehoursbefore.getTime()) < 0) {
                 removes.add(key);
                 session.delete();
             }
