@@ -70,9 +70,9 @@ public final class TrackFactory {
 
         //List<DBConnector.TrackEntry> allTracks = connector.getAllTracks("WHERE (cellline != 'Unknown' OR filesize < 100000) and file like '%inout%' ORDER BY filesize ASC ");
         //List<DBConnector.TrackEntry> allTracks = connector.getAllTracks("WHERE (cellline != 'Unknown' OR filesize < 100000) ORDER BY filesize ASC ");
-        List<DBConnector.TrackEntry> allTracks = connector.getAllTracks("WHERE file like '%inout%' OR file like '%named%' ORDER BY filesize ASC ");
+        List<DBConnector.TrackEntry> allTracks = connector.getAllTracks("WHERE file like '%inout%' OR file like '%score%' ORDER BY filesize ASC ");
 
-        int nThreads = 8;
+        int nThreads = 32;
         if (System.getenv("HOME").contains("menzel")) nThreads = 4;
         ExecutorService exe = Executors.newFixedThreadPool(nThreads);
 
@@ -91,7 +91,7 @@ public final class TrackFactory {
             }
 
         } catch (Exception e) {
-            logger.warn("Some threads were interrupted");
+            logger.warn("Some threads were interrupted loading the annotations. Loaded "  + tracks.size() + " of " + allTracks.size());
         }
 
         exe.shutdownNow();
