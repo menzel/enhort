@@ -29,7 +29,7 @@
         <th:block th:switch="${page}">
             <th:block th:case="'upload'">
                 <object id="workflowsvg" data="img/wizbar_small1.svg" type="image/svg+xml"></object>
-                <img id="wizard" src="title_logo_wizard.png">
+                <img id="wizard" src="title_logo_wizard.png"/>
 
                 <div id="wizardheader">
                    Upload File
@@ -41,7 +41,7 @@
             </th:block>
             <th:block th:case="'tracks'">
                 <object id="workflowsvg" data="img/wizbar_small2.svg" type="image/svg+xml" onclick="window.history.back();"></object>
-                <img id="wizard" src="title_logo_wizard.png">
+                <img id="wizard" src="title_logo_wizard.png"/>
 
                  <div id="wizardheader">
                    Select Annotations
@@ -54,7 +54,7 @@
             </th:block>
             <th:block th:case="'covariates'">
                 <object id="workflowsvg" data="img/wizbar_small3.svg" type="image/svg+xml" onclick="window.history.back();"></object>
-                <img id="wizard" src="title_logo_wizard.png">
+                <img id="wizard" src="title_logo_wizard.png"/>
 
                 <div id="wizardheader">
                    Select Covariates
@@ -128,23 +128,23 @@
                         Select one or more presets:
                         <div id="presets">
                             <div class="preset"><label>
-                                <input type="checkbox">
+                                <input type="checkbox"/>
                                  Suggested tracks
                             </label></div>
                             <div class="preset"><label>
-                                <input type="checkbox">
+                                <input type="checkbox"/>
                             Histone modifications
                             </label></div>
                             <div class="preset"><label>
-                                <input type="checkbox">
+                                <input type="checkbox"/>
                             Genotoxicity
                             </label></div>
                             <div class="preset"><label>
-                                <input type="checkbox">
+                                <input type="checkbox"/>
                             Genome segmentation
                             </label></div>
                             <div class="preset"><label>
-                                <input type="checkbox">
+                                <input type="checkbox"/>
                             Expression levels
                             </label></div>
 
@@ -153,9 +153,9 @@
                         <div id="datatable" class="table-responsive">
                         <table class="table table-hover">
 
-                            <col width="150">
+                            <col width="150"/>
                             <th:block th:each="track: ${trackNames}">
-                                <col width="15">
+                                <col width="15"/>
                             </th:block>
 
 
@@ -180,7 +180,7 @@
 
                                                         <th:block th:each="value,iter: ${pack.value}">
 
-                                                            <td class="row" th:if="${value != -1}"><input class="check" type="checkbox" th:field="${interfaceCommand.tracks}" th:value="${value}" th:title="${'Track '+ trackNames[iter.index] + ' for ' + cl.key}"></td>
+                                                            <td class="row" th:if="${value != -1}"><input class="check" type="checkbox" th:field="${interfaceCommand.tracks}" th:value="${value}" th:title="${'Track '+ trackNames[iter.index] + ' for ' + cl.key}"/></td>
                                                             <td class="row" th:if="${value == -1}"></td>
                                                         </th:block>
                                                     </th:block>
@@ -205,7 +205,7 @@
 
                                                             <th:block th:each="value: ${pack.value}">
 
-                                                                <td class="row" th:if="${value != -1}"><input class="check" type="checkbox" th:field="${interfaceCommand.tracks}" th:value="${value}"></td>
+                                                                <td class="row" th:if="${value != -1}"><input class="check" type="checkbox" th:field="${interfaceCommand.tracks}" th:value="${value}"/></td>
                                                                 <td class="row" th:if="${value == -1}"></td>
                                                             </th:block>
                                                         </th:block>
@@ -222,7 +222,7 @@
                         </div>
 
 
-                        Sequence Logo:<input class="check" type="checkbox" title="Sequence Logo" th:field="${interfaceCommand.logo}">
+                        Sequence Logo:<input class="check" type="checkbox" title="Sequence Logo" th:field="${interfaceCommand.logo}"/>
                     </form>
 
                 </th:block>
