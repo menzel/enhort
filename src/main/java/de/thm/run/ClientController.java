@@ -22,14 +22,18 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 /**
- * Impl. for backend listener
+ * Controlls the sockets to various clients over different sockets.
+ *
+ * The controller listens to clients and runs a new thread for each connecting client.
+ *
+ * The socket is scanned for input and an analysis started upon request
  */
 class ClientController implements Runnable{
 
     private static final Logger logger = LoggerFactory.getLogger(ClientController.class);
     private static AtomicInteger clientID = new AtomicInteger(0);
     private ServerSocket serverSocket;
-    private ThreadPoolExecutor clientExe = (ThreadPoolExecutor) Executors.newFixedThreadPool(4);
+    private ThreadPoolExecutor clientExe = (ThreadPoolExecutor) Executors.newFixedThreadPool(16);
 
     ClientController(int port) {
 

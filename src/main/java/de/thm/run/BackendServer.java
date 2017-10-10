@@ -9,11 +9,8 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- * Controlls requests from the Webinterface.
- *
- * Sets up a ServerSocket and listens on a hard coded port for input.
- *
- * Input is a BackendCommand.
+ * Startes the backend server for Enhort and loads the annotation tracks
+ * A ServerSocket is set up to listens on a hard coded port 42412 for input from the frontend
  *
  * Created by Michael Menzel on 11/3/16.
  */
@@ -40,6 +37,7 @@ public final class BackendServer {
 
         }).run();
 
+        //run an inital client controller, which will listen to clients
         ClientController server = new ClientController(port);
 
         try{

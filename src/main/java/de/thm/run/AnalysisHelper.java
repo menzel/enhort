@@ -146,7 +146,15 @@ class AnalysisHelper {
         return multi.execute(runTracks, sites, bg[0], cmd.isCreateLogo());
     }
 
-
+    /**
+     * Run analysis with based on a backend command. If no tracks are supplied a base set of tracks is used
+     *
+     * @param sites - sites to match background model against.
+     * @param cmd - command object
+     *
+     * @return Collection of Results inside a ResultCollector object
+     * @throws Exception - if anythin goes wrong
+     */
     private ResultCollector runAnalysis(Sites sites, Sites sitesBg, BackendCommand cmd) throws Exception{
 
         List<Track> runTracks;
@@ -175,6 +183,12 @@ class AnalysisHelper {
         return multi.execute(runTracks, sites, sitesBg, cmd.isCreateLogo());
     }
 
+    /**
+     * Returns the data table view for known annotations for a given assembly
+     *
+     * @param assembly - assembly number
+     * @return - Result which contains information for the data table view
+     */
     private Result returnDataTableView(GenomeFactory.Assembly assembly) {
         List<TrackPackage> packages = TrackFactory.getInstance().getTrackPackages(assembly);
 
@@ -182,6 +196,16 @@ class AnalysisHelper {
     }
 
 
+    /**
+     * Base method for running any analysis given a backend command.
+     *
+     * Based on the backend command the run method is selected and the result,
+     * either a DataViewResult or ResultCollector is returned
+     *
+     * @param command - command which sets the params and contains any information for the run
+     * @return Result of the computation
+     * @throws Exception if anythin goes wrong
+     */
     Result runAnalysis(BackendCommand command) throws Exception {
         if(command.getSites() == null){
             // return all tracks for data table overview
