@@ -2,6 +2,7 @@ package de.thm.genomeData.tracks;
 
 import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
+import de.thm.positionData.Sites;
 import org.apache.commons.math3.stat.descriptive.rank.Percentile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -474,6 +475,24 @@ public final class Tracks {
             end.add(s + range);
         }
 
-        return  TrackFactory.getInstance().createInOutTrack(start, end, track.getName() + " as inout ", track.getDescription(), track.getAssembly());
+        return TrackFactory.getInstance().createInOutTrack(start, end, track.getName() + " as inout ", track.getDescription(), track.getAssembly());
     }
+
+
+    /**
+     * Returns a track created from given sites object.
+     * The site positions mark the start, each position +1 is the end
+     *
+     * @param sites - a user sites object
+     * @return track object with the positions from the sites
+     */
+    public static Track getTrack(Sites sites){
+
+        return TrackFactory.getInstance().createInOutTrack(sites.getPositions(),
+                sites.getPositions().stream().map(p -> p+1).collect(Collectors.toList()),
+                "Sites",
+                "Sites",
+                sites.getAssembly());
+    }
+
 }
