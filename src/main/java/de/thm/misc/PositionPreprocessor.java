@@ -124,7 +124,7 @@ public final class PositionPreprocessor {
                 track.getName(),
                 track.getDescription(),
                 track.getAssembly(),
-               ""
+                track.getCellLine()
         );
 
         //tmp = Tracks.bin(tmp, 50);
