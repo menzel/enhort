@@ -3,9 +3,11 @@ package de.thm.backgroundModel;
 import de.thm.genomeData.tracks.ScoredTrack;
 import de.thm.genomeData.tracks.Track;
 import de.thm.genomeData.tracks.TrackFactory;
+import de.thm.genomeData.tracks.Tracks;
 import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.Sites;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.random.MersenneTwister;
 import org.slf4j.Logger;
@@ -59,13 +61,21 @@ class ScoreBackgroundModel implements Sites {
      * @param covariants - list of intervals to build model against.
      */
     ScoreBackgroundModel(List<ScoredTrack> covariants, Sites sites, int minSites, double smooth) {
+
         this.assembly = sites.getAssembly();
+        Track contigs = TrackFactory.getInstance().getTrackByName("Contigs", assembly);
         ScoredTrack interval = generateProbabilityInterval(sites, covariants, smooth);
 
         int count = (sites.getPositionCount() > minSites) ? sites.getPositionCount() : minSites;
+        count *= 1.15;
+
         Collection<Long> pos = generatePositionsByProbability(interval, count);
 
         positions.addAll(pos);
+        Track filteredSites = Tracks.intersect(contigs, Tracks.getTrack(this));
+
+        this.positions.clear();
+        this.positions = Arrays.asList(ArrayUtils.toObject(filteredSites.getStarts()));
     }
 
 
@@ -227,8 +237,6 @@ class ScoreBackgroundModel implements Sites {
      */
     Collection<Long> generatePositionsByProbability(ScoredTrack probabilityInterval, int siteCount) {
 
-
-        Track contigs = TrackFactory.getInstance().getTrackByName("Contigs", assembly);
 
         //probabilityInterval = Tracks.intersect(probabilityInterval, contigs);
         //TODO filter interval with contigs track
