@@ -56,7 +56,7 @@ public class AssemblyGuesser {
                 assemblies.add(assembly.toString());
 
         if (!System.getenv("HOME").contains("menzel"))
-            assemblies.forEach(a -> contigsPaths.add("contigs_" + a));
+            assemblies.forEach(a -> contigsPaths.add("/home/mmnz21/con/contigs_" + a));
         else //on local pc:
             assemblies.forEach(a -> contigsPaths.add( "../dat/" + a + "/inout/contigs"));
 
