@@ -25,7 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * Created by Michael Menzel on 11/3/16.
  */
-public final class BackendConnector implements Runnable {
+public final class BackendConnector extends Thread{
     private final Logger logger = LoggerFactory.getLogger(BackendConnector.class);
 
     private final int port;
@@ -48,14 +48,32 @@ public final class BackendConnector implements Runnable {
             this.ip = "bioinf-ladon.mni.thm.de";
 
         id = clientID.getAndIncrement();
-        this.run(); //always start the connector
     }
+
+
+    /**
+     * Connect to backend if is not already connected
+     *
+     */
+    public void connect(){
+        if (!isConnected) {
+
+            this.run();
+
+            try {
+                this.join(); // wait for the connection to finish
+            } catch (InterruptedException e) {
+                logger.error("Exception {}", e.getMessage(), e);
+            }
+        }
+    }
+
 
     @Override
     public void run() {
 
         logger.info("[" + id + "]: Starting backend connection to " + this.ip);
-        int connectionTimeout = 20; //max tries timeout
+        int connectionTimeout = 2; //max tries timeout
         int tries = 0;
 
         while (!isConnected) {
@@ -77,7 +95,7 @@ public final class BackendConnector implements Runnable {
                 if (tries >= connectionTimeout)
                     return;
 
-                Thread.sleep(1000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 logger.error("Exception {}", e.getMessage(), e);
             }
@@ -96,82 +114,76 @@ public final class BackendConnector implements Runnable {
      */
     public Result runAnalysis(BackendCommand command) throws CovariantsException, SocketTimeoutException, NoTracksLeftException {
 
-        if (isConnected) try {
-
-            logger.info("[" + id + "]: writing command");
-            outputStream.writeObject(command);
-
-            logger.info("[" + id + "]: waiting for result");
-
-            //TODO only wait for fixed time. apply timeout
-
-            Object answer = inputStream.readObject();
-
-            ResultCollector collector;
-
-            if (answer instanceof Exception) {
-
-                if (answer instanceof CovariantsException)
-                    throw (CovariantsException) answer;
-                if (answer instanceof NoTracksLeftException)
-                    throw (NoTracksLeftException) answer;
-
-
-                logger.info("[" + id + "]: got exception: " + ((Exception) answer).getMessage());
-
-            } else if (answer instanceof ResultCollector) {
-
-                collector = (ResultCollector) answer;
-                logger.info("[" + id + "]: got result: " + collector.getResults().size());
-                //TODO check collector for correct answers:
-
-                checkCollector(collector);
-
-                return collector;
-
-            } else if (answer instanceof DataViewResult){
-                DataViewResult result = (DataViewResult) answer;
-                logger.info("[" + id + "]: got data table: " + result.getPackages().size());
-
-                return result;
-
-
-            } else throw new IllegalArgumentException("answer is not a result: " + answer.getClass());
-
-        }  catch (SocketTimeoutException e){
-            logger.error("Exception {}", e.getMessage());
-            throw new SocketTimeoutException("The backend took to long to respond. Maybe there are too many sites");
-
-        } catch (IOException | ClassNotFoundException e) {
-            isConnected = false;
-            try {
-                inputStream.close();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-            logger.warn("Something went wrong in the BackendConnector. Trying to start all over again");
-        } catch (Exception e){
-            logger.warn("Something went wrong in the BackendConnector." + e.getMessage());
-        }
-
-        logger.info("[" + id + "]: No connection to backend");
-        //StatisticsCollector.getInstance().addErrorC();
-
-        this.run(); //try to connect to backend again
+        connect();
 
         if (isConnected) {
-            //TODO check for endless recursion
-
             try {
-                Thread.sleep(5000);
 
-            } catch (InterruptedException e) {
-                logger.warn("Sleep interrupted after error state. Should not be a problem.");
+                logger.info("[" + id + "]: writing command");
+                outputStream.writeObject(command);
+
+                logger.info("[" + id + "]: waiting for result");
+
+                //TODO only wait for fixed time. apply timeout
+
+                Object answer = inputStream.readObject();
+
+                ResultCollector collector;
+
+                if (answer instanceof Exception) {
+
+                    if (answer instanceof CovariantsException)
+                        throw (CovariantsException) answer;
+                    if (answer instanceof NoTracksLeftException)
+                        throw (NoTracksLeftException) answer;
+
+
+                    logger.info("[" + id + "]: got exception: " + ((Exception) answer).getMessage());
+
+                } else if (answer instanceof ResultCollector) {
+
+                    collector = (ResultCollector) answer;
+                    logger.info("[" + id + "]: got result: " + collector.getResults().size());
+                    //TODO check collector for correct answers:
+
+                    checkCollector(collector);
+
+                    return collector;
+
+                } else if (answer instanceof DataViewResult) {
+                    DataViewResult result = (DataViewResult) answer;
+                    logger.info("[" + id + "]: got data table: " + result.getPackages().size());
+
+                    return result;
+
+
+                } else throw new IllegalArgumentException("answer is not a result: " + answer.getClass());
+
+            } catch (SocketTimeoutException e) {
+                logger.error("Exception {}", e.getMessage());
+                throw new SocketTimeoutException("The backend took to long to respond. Maybe there are too many sites");
+
+            } catch (IOException | ClassNotFoundException e) {
+                isConnected = false;
+                try {
+                    inputStream.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                logger.warn("Something went wrong in the BackendConnector. Trying to start all over again");
+            } catch (Exception e) {
+                logger.warn("Something went wrong in the BackendConnector." + e.getMessage());
             }
-            return null;
-            //return runAnalysis(command); //only call run again if backend is connected.
-        } else
-            return null;
+        } else {
+
+            logger.warn("[" + id + "]: No connection to backend");
+
+
+            //this.run(); //try to connect to backend again
+            return null; //runAnalysis(command);
+        }
+
+        return null;
     }
 
     private void checkCollector(ResultCollector collector) {
@@ -191,6 +203,8 @@ public final class BackendConnector implements Runnable {
     }
 
     public Optional<Track> createCustomTrack(ExpressionCommand expressionCommand) {
+
+        connect();
 
         if (isConnected) {
             try {
@@ -236,7 +250,8 @@ public final class BackendConnector implements Runnable {
      */
     public void close() {
         try{
-            socket.close();
+            if(socket != null)
+                socket.close();
         } catch (IOException e){
             logger.error("Exception {}", e.getMessage(), e);
         }
