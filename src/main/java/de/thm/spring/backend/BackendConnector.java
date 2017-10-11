@@ -25,7 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * Created by Michael Menzel on 11/3/16.
  */
-public final class BackendConnector extends Thread{
+public final class BackendConnector {
     private final Logger logger = LoggerFactory.getLogger(BackendConnector.class);
 
     private final int port;
@@ -55,55 +55,42 @@ public final class BackendConnector extends Thread{
      * Connect to backend if is not already connected
      *
      */
-    public void connect(){
+    private void connect(){
+
         if (!isConnected) {
 
-            this.run();
+            logger.info("[" + id + "]: Starting backend connection to " + this.ip);
+            int connectionTimeout = 2; //max tries timeout
+            int tries = 0;
 
-            try {
-                this.join(); // wait for the connection to finish
-            } catch (InterruptedException e) {
-                logger.error("Exception {}", e.getMessage(), e);
+            while (!isConnected) {
+                try {
+                    socket = new Socket(ip, port);
+
+                    isConnected = socket.isConnected();
+                    logger.info("[" + id + "]: Created " + isConnected + " socket on port: " + port);
+
+                    outputStream = new ObjectOutputStream(socket.getOutputStream());
+                    inputStream = new ObjectInputStream(socket.getInputStream());
+                    socket.setSoTimeout(120 * 1000);
+
+                } catch (IOException e) {
+                    logger.warn("[" + id + "]: Cannot connect to backend: " + ip + " reason: " + e.getMessage());
+                }
+                try {
+                    tries++;
+                    if (tries >= connectionTimeout)
+                        return;
+
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    logger.error("Exception {}", e.getMessage(), e);
+                }
             }
+
+            logger.info("[" + id + "]: Connected to backend");
         }
     }
-
-
-    @Override
-    public void run() {
-
-        logger.info("[" + id + "]: Starting backend connection to " + this.ip);
-        int connectionTimeout = 2; //max tries timeout
-        int tries = 0;
-
-        while (!isConnected) {
-            try {
-                socket = new Socket(ip, port);
-
-                isConnected = socket.isConnected();
-                logger.info("[" + id + "]: Created " + isConnected + " socket on port: " + port);
-
-                outputStream = new ObjectOutputStream(socket.getOutputStream());
-                inputStream = new ObjectInputStream(socket.getInputStream());
-                socket.setSoTimeout(120 * 1000);
-
-            } catch (IOException e) {
-                logger.warn("[" + id + "]: Cannot connect to backend: " + ip + " reason: " + e.getMessage());
-            }
-            try {
-                tries++;
-                if (tries >= connectionTimeout)
-                    return;
-
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                logger.error("Exception {}", e.getMessage(), e);
-            }
-        }
-        logger.info("[" + id + "]: Connected to backend");
-
-    }
-
 
     /**
      * Implements the command pattern. Accepts a command object with data and directives to execute.
