@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
@@ -97,19 +96,21 @@ public final class SiteFactory {
      */
     public Sites getByLogo(Logo logo, int count){
 
-        List<String> seq = null;
+        List<String> seq;
 
         try {
             seq = indexTable.getSequences(logo.getConsensus().length());
         } catch (Exception e) {
             logger.error("Exception {}", e.getMessage(), e);
+            return null;
         }
 
         List<Long> pos = indexTable.getPositions();
         List<Pair<Long, String>> positions = new ArrayList<>();
 
         for (int i = 0; i < pos.size(); i++) {
-            positions.add(new ImmutablePair(pos.get(i), seq.get(i)));
+            ImmutablePair<Long, String> immutablePair = new ImmutablePair<>(pos.get(i), seq.get(i));
+            positions.add(immutablePair);
         }
 
         Collections.shuffle(positions);
@@ -170,7 +171,7 @@ public final class SiteFactory {
         Map<String, Double> scores = new HashMap<>();
 
         //calc scores for each sequence and put in a map
-        seq.stream().collect(Collectors.toSet()).forEach(s -> scores.put(s, score(logo,s)));
+        new HashSet<>(seq).forEach(s -> scores.put(s, score(logo,s)));
 
         //strech all scores by factor: 1/max_score to set highest score to 1.0
         double factor = 1/Collections.max(scores.values());
