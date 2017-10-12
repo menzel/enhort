@@ -25,6 +25,7 @@ public class DBConnector {
         String link = "jdbc:sqlite:" + path + "track.db";
 
         try {
+
             conn = DriverManager.getConnection(link);
 
         } catch (SQLException e) {
@@ -62,18 +63,15 @@ public class DBConnector {
 
     }
 
-    public Connection getConn() {
-        return conn;
-    }
-
-
-
     public List<TrackEntry> getAllTracks() {
         return getAllTracks("");
     }
 
     public List<TrackEntry> getAllTracks(String whereClause) {
         List<TrackEntry> entries = new ArrayList<>();
+
+        if(conn == null)
+            throw new RuntimeException("No connection to the database");
 
         String sql = "SELECT * FROM tracks " + whereClause;
 
