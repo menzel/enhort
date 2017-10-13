@@ -4,6 +4,8 @@ import de.thm.misc.Genome;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.PumpStreamHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.file.Path;
@@ -12,6 +14,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AssemblyGuesser {
+
+    private static final Logger logger = LoggerFactory.getLogger(AssemblyGuesser.class);
 
     /**
      * Guess the assembly using Bedtools.
@@ -61,6 +65,7 @@ public class AssemblyGuesser {
 
 
             } catch (Exception e){
+                logger.error("Exception {}", e.getMessage(), e);
                 return Genome.Assembly.Unknown;
             }
         }
