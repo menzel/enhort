@@ -1,0 +1,42 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Error</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link rel="stylesheet" media="screen" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" media="screen" href="../static/css/application.css" th:href="@{/css/application.css}" />
+
+
+</head>
+
+<body>
+
+    <div th:include="header:: bar"></div>
+
+<div class="col-sm-3 col-md-2 sidebar">
+</div>
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+    <div class="container">
+
+        <a href="/" class="btn btn-default">back</a>
+
+        <div id="error" class="bg-danger">
+            <h4>Error</h4>
+            <p th:text="${errorCode}">500</p>
+            <p th:text="${errorMessage}"></p>
+            <p th:text="${error}"></p>
+            <p th:text="${message}"></p>
+        </div>
+
+    </div>
+
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,147 @@
+/*
+* -- Global --
+*/
+
+* {
+    font-family: "Clear Sans", Helvetica, serif;
+    font-size: 18px;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+
+body{
+    padding-top: 40px;
+}
+
+body a{
+    text-decoration: none;
+    color: #333;
+    font-size:inherit;
+}
+
+a:hover{
+    text-decoration: none;
+    color: #333;
+    background-color: rgba(0, 153, 255, 0.26);
+}
+
+a:active{
+    text-decoration: none;
+    color: #333;
+    background-color: rgba(0, 153, 255, 0.26);
+}
+
+
+html {
+    overflow: -moz-scrollbars-vertical;
+    overflow-y: scroll;
+}
+
+
+
+.container{
+    margin-top: 40px;
+}
+
+
+/*
+* -- Sidebar --
+*/
+
+
+.sidebar {
+  position: fixed;
+  top: 50px;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  display: block;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: #fbfbfb;
+  border-right: 1px solid #d1d1d1;
+}
+
+.sidebar h4{
+    border-top:1px solid #eee;
+    padding-top: 5px;
+    font-weight:500;
+}
+
+.box form{
+    margin-left: -13px;
+}
+
+
+#upload_btn{
+    margin-left: 13px;
+}
+
+
+
+/*
+* -- Navbar and logos --
+*/
+
+.navbar-header{
+    margin-left: 200px;
+}
+
+
+#logo{
+    float:right;
+    height:30px;
+    margin-top: -4px;
+    margin-right:10px;
+}
+
+#logo_eihort{
+    display: block;
+    height:50px;
+    width:50px;
+    margin-top: -14px;
+    background: url(../img/En.svg);
+    -webkit-background-size: 50px 50px;
+    background-size: 50px 50px;
+    opacity: 0.9;
+}
+
+
+#logo_eihort:hover{
+    opacity: 1;
+}
+
+
+/*
+* -- Misc --
+*/
+
+.h3{
+    padding-top: 10px;
+}
+
+hr {
+    margin-top: 5px;
+}
+
+
+#error{
+    margin-bottom: 20px;
+    padding-left: 5px;
+    padding-top: 5px;
+    margin-top:50px;
+    border: 1px solid black;
+    color: #b70303;
+}
+
+.bold {
+    font-weight: 500;
+    font-size:17px;
+}
+
+.extra-margin{
+    margin-top: 10px;
+}
+
+

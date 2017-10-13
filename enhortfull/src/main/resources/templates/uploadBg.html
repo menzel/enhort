@@ -1,0 +1,29 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+
+  <body>
+      <div th:fragment="uploadbg">
+        <div class="box">
+        <h4> Upload background sites</h4>
+        <form method="POST" enctype="multipart/form-data" action="/uploadbg" id="uploadbgform">
+          <div>
+            <input type="file" name="file" id="file" class="btn"/>
+          </div>
+        </form>
+        </div>
+
+
+      <!-- auto start upload -->
+      <script>
+        document.getElementById("file").onchange = function() {
+            document.getElementById("uploadbgform").submit();
+        };
+      </script>
+
+
+      </div>
+
+  </body>
+
+</html>

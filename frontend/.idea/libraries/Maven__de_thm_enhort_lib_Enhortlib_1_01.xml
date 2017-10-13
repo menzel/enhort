@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: de.thm.enhort.lib:Enhortlib:1.01">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/de/thm/enhort/lib/Enhortlib/1.01/Enhortlib-1.01.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/de/thm/enhort/lib/Enhortlib/1.01/Enhortlib-1.01-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/de/thm/enhort/lib/Enhortlib/1.01/Enhortlib-1.01-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

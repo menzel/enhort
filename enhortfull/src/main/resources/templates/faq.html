@@ -1,0 +1,123 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Enhort - FAQ</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link rel="stylesheet" media="screen" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" media="screen" href="../static/css/faq.css" th:href="@{/css/faq.css}" />
+
+    <script src="/js/jquery-1.12.0.min.js" th:href="@{/js/jquery-1.12.0.min.js}" ></script>
+    <script src="/js/bootstrap.min.js" th:href="@{/js/bootstrap.min.js}" ></script>
+
+</head>
+
+<body style="padding-top: 100px">
+
+    <div th:include="header:: bar"></div>
+
+    <div class="col-xs-2 col-sm-3 col-md-2 sidebar">
+    </div>
+
+    <div class="col-xs-10 col-xs-offset-2 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="container row col-md-12">
+
+            <img src="title_logo.png" id="faqlogo" />
+
+            <!-- Guide -->
+            <h2>Beginner's guide</h2>
+
+            <h3>Basics</h3>
+
+            <p>Welcome to Enhort, an analyzing tool for genomic positions. Enhort accepts .bed-files, where in each line a genomic position is specified (e.g. chr7 1000 1001).
+            You can upload your .bed-file on the <a href="/">Index-Page</a> or using the <a href="/wiz">Wizard</a>. Enhort then tests your genomic positions against a set of annotations.
+            Using the wizard you can select annotations, based on your assembly number and cellline, see the section about the wizard usage below on this page. The quickstart upload uses a curated list of annotations, containing genes and gene related features, genotoxicity, accessability and a selection of histone modifications.
+            </p>
+
+            <p>
+                After submitting your data, Enhort tests your positions and an equally sized random set of positions against each annotation.
+                On the results page a list of significant annotations is shown, ordered by their effect size. Each entry corresponds to an annotation track and is clickable to show detaild information about integration counts and a description of the data.
+                The colored bars present a visual guide to compare the integration of your sites in blue and the background sites in grey.
+            </p>
+
+            <p>
+               In the basic mode the sites are adjusted to fall inside the contigs and outside of blacklisted regions as specified by Encode.
+               As an advanced usage the user can further alter the creation of the background sites. For example you already know your sites prefer genes, you can then select "known genes" as covariate using the checkbox on the right of the entry at the results page.
+               After you click the "Run again"-button on the left the background model is recreated to express the same integration counts for genes as your sites. The genes annotation then appears on the right table.
+               Multiple annotations can be selected as covariates to create a specified background model for your sites.
+            </p>
+
+            <h3>Wizard</h3>
+
+            <p>
+                The wizard guides you through the steps to create an analysis. On the first page upload your .bed-file. Based on the positions the assembly is guessed.
+                On the second page a selection of annotations can be made, based on your used cell line and the questions you have for the data.
+                For example your positions are sequenced from a hESC cell line, all specific annotations for this cell line can be selected by clicking of the cell line name on the left of the table.
+                Additionally you can select cell line indepenedent annotations such as genes or CpG islands by clicking the blue labels in the "Unknown" row.
+                After you click "continue" you can upload your own set of background sites or pre-select covariates for the background model.
+                Take a look at the previous section for information about covariates and the upcoming results page.
+            </p>
+
+            <!-- FAQ -->
+            <h2>FAQ</h2>
+
+            <h3>How is the Fold Change calculated</h3>
+            <hr/>
+            <p> If one of the counts is 0 the value is set to POSITIVE_INFINITY</p>
+            <p> In all other cases the the maximum of (maximum inside / minimum inside and maximum outside / maximum outside) is calculated.</p>
+
+            <h3>If a scored track is set as covariant, the P-value is not always exact 1</h3>
+            <hr/>
+            <p>In contrast to basic inside/outside tracks the background model creation for scored tracks works with an expectancy value. Thus the counts to do excacly match.</p>
+            <p>However, the p-value is above the 5% significant level in most cases.</p>
+
+            <h3>Why is the p-value exact 0.0?</h3>
+            <hr/>
+            <p>The p-value is calculated using the <a href="https://commons.apache.org/">Apache Commons API</a> as double values. Values smaller than the maximal precision is set to 0.</p>
+
+            <h3>What does the influence factor change?</h3>
+            <hr/>
+            <p>The influence factor changes the factor by which a background model with one or more covariants is influenced by the covariants. A value close to 1 sets the random position with the same expectancy value as the covariants have. </p>
+            <p> Close to 0 the background positions are normaly distributed as if there were no covariants.</p>
+
+            <h3>Hotspots bar</h3>
+            <hr/>
+            <p>The plot above the results table shows hotspots from integration across the genome with colors. The hotspots were calculated with a sliding window across the genome where the count of integration sites inside the window was countd</p>
+            <p>Colors in the plot repesent the integration frequency, blue bars show the region with the highest integration count while white bars represent no or very few integration sites.</p>
+            <p>High contrast shows there are hotspots, even distributed colors show the absence of hotspots.</p>
+
+            <h3>How to download background positions?</h3>
+            <hr/>
+            <p>After a run 'Background positions' under 'Information' in the left bar is a link leading to the data.</p>
+
+            <h3>How can there be more positions displayed in covariates in comparison to the Information on the left?</h3>
+            <hr/>
+            <p>The Information-Panel on the left shows the minimal positions count which is sent to the backend server. However, depending on the background model the count of positions needs to be increased to fit a certain distribution. The Information value remains unchanged by that.</p>
+
+            <h3>Which algorithm creates the pseudorandom numbers?</h3>
+            <hr/>
+            <p>The application uses the <a href="http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html"> Mersenne Twister Algorithm</a>.</p>
+
+
+            <h3>Where does the name/ logo come from</h3>
+            <hr/>
+            <p> The name is an alteration of Eihort. A monster created by the author H.P. Lovecraft. </p>
+            <p> Eihort (The Pale Beast) is a huge, pale, gelatinous, oval-shaped monstrosity covered in myriads of eyes and supported by thousands of bony, fleshless legs.</p>
+            <p> Whenever Eihort encounters a human, it makes a bargain with them. If the human declines, Eihort kills the human. If the human accepts, Eihort implants a undeveloped brood into their body. When the brood hatches it will kill the human host. According to the Revelations of Glaaki, after the fall of humanity, Eihort's brood will be born into light and replace humanity.</p>
+            <p>From <a href="http://lovecraft.wikia.com/wiki/Eihort">http://lovecraft.wikia.com/wiki/Eihort</a></p>
+
+            <p>The base image is taken from <a href="http://draguunthor.deviantart.com/art/Mythos-Minis-143564593">here</a>.</p>
+            <p>Credit goes to Draguunthor.</p>
+
+            <h3>Cite</h3>
+            <hr/>
+            <p>There is no published paper yet.</p>
+            <p>However, there was a poster presentation at <a href="https://www.gcb2016.de/home">GCB 2016</a>. A .pdf version of the poster can be found here: <a th:href="@{files/GCB_Enhort_Poster.pdf}">GCB 2016 Poster</a></p>
+
+        </div>
+    </div>
+</body>
+</html>

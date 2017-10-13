@@ -1,0 +1,205 @@
+@import "application.css";
+/*
+* -- Plots --
+*/
+
+.box{
+    margin-bottom: 20px;
+}
+
+.bars{
+    min-width: 200px;
+}
+
+.bar{
+    height: 10px;
+    margin-top: 3px;
+}
+
+.measured{
+    background-color: #337ab7;
+}
+
+.expected{
+    background-color: RGBA(85, 85, 85, 0.41);
+}
+
+.nameplot{
+    width:400px;
+    height:200px;
+}
+
+
+/*
+* -- Table --
+*/
+
+table{
+    margin-top: 10px;
+}
+
+table td .accordion-toggle{
+    overflow:hidden;
+    white-space:nowrap;
+}
+
+.hiddenRow{
+    padding: 0 !important;
+}
+
+.fixed {
+    table-layout:fixed;
+}
+.fixed td {
+    overflow: hidden;
+}
+
+th{
+    font-weight:500;
+    font-size: 17px;
+}
+
+.desc{
+    font-size: 16px;
+}
+
+/*
+* -- Buttons left --
+*/
+
+.add{
+    font-size: 30px;
+}
+
+.fileinfo p{
+    margin-bottom: 0;
+    overflow: hidden;
+}
+
+.fileinfo input{
+    margin-left:50px;
+    width:80px;
+    border: none;
+}
+
+.fileinfo .file_positions{
+    margin-left: 95px;
+}
+
+#rerun{
+    margin-top:10px;
+}
+
+.bottom{
+    margin-top: 11px;
+}
+
+#savebtn{
+    color: rgba(51,51,51,0.8);
+}
+
+/* btn hovers: */
+
+#savebtn:hover:before{
+    content: "Download results";
+}
+
+#changetracksbtn:hover:before{
+    content: "Change tracks";
+}
+
+#settingsbtn:hover:before{
+    content: "Settings";
+}
+
+#plotbtn:hover:before{
+    content: "Barplot";
+}
+
+#clearbtn:hover:before{
+    content: "Clear session";
+}
+
+
+a span .glyphicon{
+    color: inherit;
+}
+
+label{
+    font-weight: 400;
+}
+
+#hotspots{
+    height:10px;
+    transition:height 0.5s;
+    float: left;
+    width: 98.5%;
+}
+
+#hotspot_info{
+    float: left;
+    font-size:10px;
+    color: #7493af;
+}
+
+#hotspots:hover{
+    height:80px;
+}
+
+.hotspot{
+    width: 0.16%;
+    height:inherit;
+    float: left;
+}
+
+#italic {
+    font-style: italic;
+    font-size: 8pt;
+}
+
+
+/*
+* -- sequence logo
+*/
+
+#sequencelogo{
+    display: block;
+    width: 90%;
+    height:170px;
+    font: 10px Arial;
+}
+
+.axis path, .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.letter-A {
+    fill: rgba(0, 128, 0, 0.58);
+    font-weight: bold;
+}
+.letter-C {
+    fill: rgba(0, 0, 255, 0.71);
+    font-weight: bold;
+}
+.letter-T {
+    fill: rgba(255, 0, 0, 0.74);
+    font-weight: bold;
+}
+.letter-G {
+    fill: rgba(255, 255, 0, 0.8);
+    font-weight: bold;
+}
+
+/*
+* -- Misc --
+*/
+
+
+#new{
+    width: 500px;
+    margin-top: 170px;
+    margin-left: inherit;
+    padding: 5px
+}

@@ -1,0 +1,26 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+
+  <body>
+      <div th:fragment="upload">
+      <div class="box">
+        <form method="POST" enctype="multipart/form-data" action="/upload" id="uploadform">
+          <div>
+            <input type="file" name="file" id="file" class="inputfile"/>
+             <label for="file" class="right">Quick start:<br/> Upload a bed file <span class="glyphicon glyphicon-upload"></span></label>
+          </div>
+        </form>
+      </div>
+
+      <!-- auto start upload -->
+      <script>
+        document.getElementById("file").onchange = function() {
+            document.getElementById("uploadform").submit();
+        };
+      </script>
+      </div>
+
+  </body>
+
+</html>
