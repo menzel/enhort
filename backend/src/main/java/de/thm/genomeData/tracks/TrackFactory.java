@@ -115,8 +115,6 @@ public final class TrackFactory {
             }
         }
 
-        logger.info("There are " + trackPackages.stream().filter(t -> t.getName() == "").count() + " packages without a name");
-
         this.tracks.addAll(tracks);
     }
 

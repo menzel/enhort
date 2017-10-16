@@ -42,10 +42,9 @@ public class SingleTrackBackgroundModelTest {
 
         InOutTrack base = mockTrack(starts, ends);
 
-        SingleTrackBackgroundModel model = new SingleTrackBackgroundModel(Genome.Assembly.hg19);
 
         //create random sites INSIDE the base track
-        List<Long> sites = new ArrayList<>(model.randPositions(3000, base));
+        List<Long> sites = new ArrayList<>(SingleTrackBackgroundModel.randPositions(3000, base));
         sites = sites.stream().distinct().collect(Collectors.toList());
 
         Intersect<InOutTrack> intersect = new Intersect<>();
@@ -83,10 +82,9 @@ public class SingleTrackBackgroundModelTest {
 
         InOutTrack base = mockTrack(starts, ends);
 
-        SingleTrackBackgroundModel model = new SingleTrackBackgroundModel(Genome.Assembly.hg19);
 
         //create random sites INSIDE the base track
-        List<Long> sites = new ArrayList<>(model.randPositions(count, base));
+        List<Long> sites = new ArrayList<>(SingleTrackBackgroundModel.randPositions(count, base));
 
         Intersect<InOutTrack> intersect = new Intersect<>();
         Sites sitesObject = mock(Sites.class);
@@ -125,7 +123,6 @@ public class SingleTrackBackgroundModelTest {
 
         InOutTrack base = mockTrack(starts, ends);
 
-        SingleTrackBackgroundModel model = new SingleTrackBackgroundModel(Genome.Assembly.hg19);
 
         //mock contigs track
         Track contigs = mock(InOutTrack.class);
@@ -138,7 +135,7 @@ public class SingleTrackBackgroundModelTest {
         Track filteredInvertTrack = Tracks.intersect(Tracks.invert(base), contigs);
 
         //create random sites INSIDE the base track
-        List<Long> sites = new ArrayList<>(model.randPositions(count, filteredInvertTrack));
+        List<Long> sites = new ArrayList<>(SingleTrackBackgroundModel.randPositions(count, filteredInvertTrack));
 
         Intersect<InOutTrack> intersect = new Intersect<>();
         Sites sitesObject = mock(Sites.class);

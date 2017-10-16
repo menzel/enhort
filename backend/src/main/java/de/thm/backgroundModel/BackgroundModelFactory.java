@@ -25,7 +25,6 @@ public final class BackgroundModelFactory {
     private static final int maxCovariants = 4;
     private static final int maxCovariantsInOutOnly = 10;
     private static final ExecutorService exe = Executors.newSingleThreadExecutor();
-    private static final Logger logger = LoggerFactory.getLogger(BackgroundModelFactory.class);
 
     /**
      * Creates a random backgroundmodel of given size.
@@ -37,7 +36,7 @@ public final class BackgroundModelFactory {
         if(positionCount < 10000)
             positionCount = 10000;
 
-        return new RandomBackgroundModel(assembly, positionCount);
+        return RandomBackgroundModel.createRandomBackgroundModel(assembly, positionCount);
     }
 
 
@@ -67,15 +66,15 @@ public final class BackgroundModelFactory {
     private static Sites createBackgroundModel(final Track track, final Sites sites, final int minSites, final double influence) throws TrackTypeNotAllowedExcpetion {
 
         if (track instanceof InOutTrack)
-            return new SingleTrackBackgroundModel((InOutTrack) track, sites, minSites);
+            return SingleTrackBackgroundModel.singleTrackBackgroundModel((InOutTrack) track, sites, minSites);
         else if (track instanceof ScoredTrack) // put single track in a list of size one
-            return new ScoreBackgroundModel((ScoredTrack) track, sites, minSites, influence);
+            return ScoreBackgroundModel.scoreBackgroundModel((ScoredTrack) track, sites, minSites, influence);
         else if (track instanceof NamedTrack) //convert the single track to a scored track and put in a list of size one
-           return new ScoreBackgroundModel(Tracks.cast((NamedTrack) track), sites, minSites, influence);
+           return ScoreBackgroundModel.scoreBackgroundModel(Tracks.cast((NamedTrack) track), sites, minSites, influence);
         else if (track instanceof DistanceTrack)
-           return new DistanceBackgroundModel((DistanceTrack) track, sites, 200);
+           return DistanceBackgroundModel.distanceBackgroundModel((DistanceTrack) track, sites, 200);
         else if (track instanceof StrandTrack)
-            return new RandomBackgroundModel(track.getAssembly(), minSites); // TODO add missing strandTrack BG model
+            return RandomBackgroundModel.createRandomBackgroundModel(track.getAssembly(), minSites); // TODO add missing strandTrack BG model
         throw new TrackTypeNotAllowedExcpetion("Type of " + track  + " unkonwn");
     }
 
@@ -99,7 +98,7 @@ public final class BackgroundModelFactory {
 
         else if (trackList.stream().allMatch(i -> i instanceof InOutTrack))
             if(trackList.size() < maxCovariantsInOutOnly) {
-                return new MultiTrackBackgroundModel(trackList, sites, minSites);
+                return MultiTrackBackgroundModel.multiTrackBackgroundModel(trackList, sites, minSites);
             } else throw new CovariantsException("Too many covariants: " + trackList.size() + ". Max " + maxCovariantsInOutOnly + " are allowed");
 
         else if (trackList.size() <= maxCovariants) {
@@ -107,7 +106,7 @@ public final class BackgroundModelFactory {
             if (trackList.stream().allMatch(i -> i instanceof ScoredTrack)) {
                 List<ScoredTrack> newList = trackList.stream().map(i -> (ScoredTrack) i).collect(Collectors.toList());
 
-                return new ScoreBackgroundModel(newList, sites, minSites, smooth);
+                return ScoreBackgroundModel.scoreBackgroundModel(newList, sites, minSites, smooth);
 
             } else {
                 List<ScoredTrack> scoredIntervals = trackList.stream()
@@ -129,7 +128,7 @@ public final class BackgroundModelFactory {
                     .collect(Collectors.toList()));
 
 
-                return new ScoreBackgroundModel(scoredIntervals, sites, minSites, smooth);
+                return ScoreBackgroundModel.scoreBackgroundModel(scoredIntervals, sites, minSites, smooth);
             }
 
         } else {

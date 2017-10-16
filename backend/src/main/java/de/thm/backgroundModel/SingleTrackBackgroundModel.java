@@ -21,20 +21,7 @@ import java.util.List;
  * <p>
  * Created by Michael Menzel on 6/1/16.
  */
-class SingleTrackBackgroundModel implements Sites {
-
-    private final Genome.Assembly assembly;
-    private transient MersenneTwister rand;
-    private List<Long> positions = new ArrayList<>();
-    private List<Character> strands = new ArrayList<>();
-
-    /**
-     * Contstructor
-     */
-    SingleTrackBackgroundModel(Genome.Assembly assembly) {
-        this.assembly = assembly;
-    }
-
+class SingleTrackBackgroundModel {
 
     /**
      * Constructor for running sites against one interval
@@ -42,11 +29,12 @@ class SingleTrackBackgroundModel implements Sites {
      * @param track - interval to search against
      * @param sites    - sites to search
      */
-    SingleTrackBackgroundModel(InOutTrack track, Sites sites, int minSites) {
+    static BackgroundModel singleTrackBackgroundModel(InOutTrack track, Sites sites, int minSites) {
+
+        List<Long> positions = new ArrayList<>();
 
         Intersect calc = new Intersect();
         TestTrackResult result = calc.searchSingleInterval(track, sites);
-        assembly = sites.getAssembly();
 
         // TODO: factor is wrong, seems to be always 1
         int factor = (sites.getPositionCount() < minSites)? minSites/ sites.getPositionCount(): 1;
@@ -57,6 +45,8 @@ class SingleTrackBackgroundModel implements Sites {
         positions.addAll(randPositions(result.getOut() * factor, Tracks.intersect(Tracks.invert(track), contigs)));
 
         Collections.sort(positions); //sort again here after merging outside and inside positions
+
+        return new BackgroundModel(positions, sites.getAssembly());
     }
 
     /**
@@ -69,8 +59,9 @@ class SingleTrackBackgroundModel implements Sites {
      *
      * @return Collection of random positions
      */
-    Collection<Long> randPositions(int siteCount, Track track) {
+    static Collection<Long> randPositions(int siteCount, Track track) {
 
+        MersenneTwister rand;
         rand  = new MersenneTwister();
 
         long maxValue = Tracks.sumOfIntervals(track);
@@ -109,33 +100,4 @@ class SingleTrackBackgroundModel implements Sites {
         return sites;
     }
 
-    @Override
-    public void addPositions(Collection<Long> values) {
-        this.positions.addAll(values);
-    }
-
-    @Override
-    public List<Long> getPositions() {
-        return this.positions;
-    }
-
-    @Override
-    public void setPositions(List<Long> positions) {
-        this.positions = positions;
-    }
-
-    @Override
-    public List<Character> getStrands() {
-        return strands;
-    }
-
-    @Override
-    public int getPositionCount() {
-        return this.positions.size();
-    }
-
-    @Override
-    public Genome.Assembly getAssembly() {
-        return this.assembly;
-    }
 }

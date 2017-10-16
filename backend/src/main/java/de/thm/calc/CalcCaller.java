@@ -1,5 +1,6 @@
 package de.thm.calc;
 
+import de.thm.backgroundModel.BackgroundModel;
 import de.thm.genomeData.tracks.*;
 import de.thm.logo.GenomeFactory;
 import de.thm.misc.ChromosomSizes;
@@ -49,7 +50,7 @@ public final class CalcCaller {
 
         ////////////  Tracks intersect ////////////////
 
-        ResultCollector collector = new ResultCollector(randomPositions, tracks.get(0).getAssembly(), tracks); // get assembly from the first track
+        ResultCollector collector = new ResultCollector((BackgroundModel) randomPositions, tracks.get(0).getAssembly(), tracks); // get assembly from the first track
         logger.debug("Running the calc now");
 
         List<Future> futures = Collections.synchronizedList(new ArrayList<>());

@@ -3,6 +3,7 @@ package de.thm.positionData;
 import de.thm.misc.Genome;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
+import org.apache.commons.exec.ExecuteStreamHandler;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +42,7 @@ public class AssemblyGuesser {
         if (!System.getenv("HOME").contains("menzel"))
             assemblies.forEach(a -> contigsPaths.add("/home/mmnz21/con/contigs_" + a));
         else //on local pc:
-            assemblies.forEach(a -> contigsPaths.add( "../dat/" + a + "/inout/contigs"));
+            assemblies.forEach(a -> contigsPaths.add( "/home/menzel/Desktop/THM/promotion/enhort/dat/" + a + "/inout/contigs"));
 
         Pattern p = Pattern.compile("[\r\n]");
 
@@ -52,7 +53,7 @@ public class AssemblyGuesser {
 
                 ByteArrayOutputStream stdout = new ByteArrayOutputStream();
                 ByteArrayOutputStream stderr = new ByteArrayOutputStream();
-                PumpStreamHandler psh = new PumpStreamHandler(stdout, stderr);
+                ExecuteStreamHandler psh = new PumpStreamHandler(stdout, stderr);
 
                 exe.setStreamHandler(psh);
                 exe.execute(CommandLine.parse(command));
@@ -64,7 +65,7 @@ public class AssemblyGuesser {
                 counts.add(lines);
 
 
-            } catch (Exception e){
+            } catch (Throwable e){
                 logger.error("Exception {}", e.getMessage(), e);
                 return Genome.Assembly.Unknown;
             }

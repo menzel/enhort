@@ -28,42 +28,24 @@ import java.util.stream.LongStream;
  * <p>
  * Created by Michael Menzel on 17/2/16.
  */
-class ScoreBackgroundModel implements Sites {
+class ScoreBackgroundModel {
 
-    private final Genome.Assembly assembly;
-    private List<Long> positions = new ArrayList<>();
-    private List<Character> strands = new ArrayList<>();
-    private final Logger logger = LoggerFactory.getLogger(ScoreBackgroundModel.class);
+    private static final Logger logger = LoggerFactory.getLogger(ScoreBackgroundModel.class);
 
-    ScoreBackgroundModel(Genome.Assembly assembly) {
-        this.assembly = assembly;
+    static BackgroundModel scoreBackgroundModel(ScoredTrack covariant, Sites sites, int minSites, double smooth) {
+
+        return scoreBackgroundModel(Collections.singletonList(covariant), sites, minSites, smooth);
     }
-
-
-     /**
-     * Constructor
-     *
-     * @param sites      - sites to build model against.
-     * @param covariant - single covariant
-     */
-    ScoreBackgroundModel(ScoredTrack covariant, Sites sites, int minSites, double influence) {
-
-
-        this(Collections.singletonList(covariant),sites, minSites, influence);
-    }
-
 
     /**
-     * Constructor
-     *
      *
      * @param sites      - sites to build model against.
      * @param covariants - list of intervals to build model against.
      */
-    ScoreBackgroundModel(List<ScoredTrack> covariants, Sites sites, int minSites, double smooth) {
+    static BackgroundModel scoreBackgroundModel(List<ScoredTrack> covariants, Sites sites, int minSites, double smooth) {
 
-        this.assembly = sites.getAssembly();
-        Track contigs = TrackFactory.getInstance().getTrackByName("Contigs", assembly);
+        ArrayList<Long> positions = new ArrayList<>();
+        Track contigs = TrackFactory.getInstance().getTrackByName("Contigs", sites.getAssembly());
         ScoredTrack interval = generateProbabilityInterval(sites, covariants, smooth);
 
         int count = (sites.getPositionCount() > minSites) ? sites.getPositionCount() : minSites;
@@ -72,10 +54,12 @@ class ScoreBackgroundModel implements Sites {
         Collection<Long> pos = generatePositionsByProbability(interval, count);
 
         positions.addAll(pos);
-        Track filteredSites = Tracks.intersect(contigs, Tracks.getTrack(this));
+        Track filteredSites = Tracks.intersect(contigs, Tracks.getTrack(new BackgroundModel(positions, sites.getAssembly())));
 
-        this.positions.clear();
-        this.positions = Arrays.asList(ArrayUtils.toObject(filteredSites.getStarts()));
+        positions.clear();
+        positions.addAll(Arrays.asList(ArrayUtils.toObject(filteredSites.getStarts())));
+
+        return new BackgroundModel(positions, sites.getAssembly());
     }
 
 
@@ -87,7 +71,7 @@ class ScoreBackgroundModel implements Sites {
      * @param tracks - list of tracks as covariants.
      * @return new interval with probability scores.
      */
-    ScoredTrack generateProbabilityInterval(Sites sites, List<ScoredTrack> tracks, double smooth) {
+    static ScoredTrack generateProbabilityInterval(Sites sites, List<ScoredTrack> tracks, double smooth) {
 
 
         Map<ScoreSet, Double> sitesOccurence = fillOccurenceMap(tracks, sites);
@@ -179,7 +163,7 @@ class ScoreBackgroundModel implements Sites {
      * @param sites     - positions to look up.
      * @return map(Score, Count) to score combination to  probablity
      */
-    Map<ScoreSet, Double> fillOccurenceMap(List<ScoredTrack> tracks, Sites sites) {
+    static Map<ScoreSet, Double> fillOccurenceMap(List<ScoredTrack> tracks, Sites sites) {
         Map<ScoreSet, Double> map = new HashMap<>(); //holds the conversion between score and probability
         Map<Track, Integer> indices = new HashMap<>(); //indices of the tracks during calc
 
@@ -235,7 +219,7 @@ class ScoreBackgroundModel implements Sites {
      * @param siteCount           - count of sites to be generated inside
      * @return collection of positions inside the interval
      */
-    Collection<Long> generatePositionsByProbability(ScoredTrack probabilityInterval, int siteCount) {
+    static Collection<Long> generatePositionsByProbability(ScoredTrack probabilityInterval, int siteCount) {
 
 
         //probabilityInterval = Tracks.intersect(probabilityInterval, contigs);
@@ -298,12 +282,13 @@ class ScoreBackgroundModel implements Sites {
      *
      * @return Interval of type GenomeInterval
      */
-    ScoredTrack combine(List<ScoredTrack> tracks, Map<ScoreSet, Double> score_map) {
+    static ScoredTrack combine(List<ScoredTrack> tracks, Map<ScoreSet, Double> score_map) {
 
         List<Long> new_start = new ArrayList<>();
         List<Long> new_end = new ArrayList<>();
         List<Double> new_score = new ArrayList<>();
         List<String> new_names = new ArrayList<>();
+        Genome.Assembly assembly = tracks.get(0).getAssembly();
 
 
         // take all start and ends, combine in lists and sort
@@ -399,7 +384,7 @@ class ScoreBackgroundModel implements Sites {
      * @param tracks - tracks used to calc sitesOcc
      * @param factor  - factor by which the smoothing is applied
      */
-    Map<ScoreSet, Double> smooth(Map<ScoreSet, Double> sitesOccurence, List<ScoredTrack> tracks, double factor) {
+    static Map<ScoreSet, Double> smooth(Map<ScoreSet, Double> sitesOccurence, List<ScoredTrack> tracks, double factor) {
 
         //TODO. do multidimensional smoothing or decrease dimensions
 
@@ -454,40 +439,10 @@ class ScoreBackgroundModel implements Sites {
         return sitesOccurence;
     }
 
-    @Override
-    public void addPositions(Collection<Long> values) {
-        this.positions.addAll(values);
-    }
-
-    @Override
-    public List<Long> getPositions() {
-        return this.positions;
-    }
-
-    @Override
-    public void setPositions(List<Long> positions) {
-        this.positions = positions;
-    }
-
-    @Override
-    public List<Character> getStrands() {
-        return strands;
-    }
-
-    @Override
-    public int getPositionCount() {
-        return this.positions.size();
-    }
-
-    @Override
-    public Genome.Assembly getAssembly() {
-        return this.assembly;
-    }
-
     /**
      * Inner wrapper to multithread the smoothing over present scores
      */
-    private final class SmoothWrapper implements Runnable {
+    private final static class SmoothWrapper implements Runnable {
 
         private final List<Double> possibleScores;
         private final Map<ScoreSet, Double> sitesOccurence;
@@ -531,7 +486,7 @@ class ScoreBackgroundModel implements Sites {
     /**
      *  Inner runner class to generate a list of scores (scoreSet) for each interval in the combined track
      */
-    private class createScoreSet implements Runnable {
+    private static class createScoreSet implements Runnable {
 
         private final List<ScoreSet> scoredSet;
         private final List<Long> new_start;

@@ -17,7 +17,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Test for bg model occurenceMap
+ * Test for bg ScoreBackgroundModel occurenceMap
  * Created by menzel on 8/25/16.
  */
 public class ScoreBackgroundModelTest {
@@ -25,7 +25,6 @@ public class ScoreBackgroundModelTest {
     private List<ScoredTrack> tracks;
     private Sites sites;
     private Map<ScoreSet, Double> expected;
-    private ScoreBackgroundModel model;
 
 
 
@@ -50,7 +49,7 @@ public class ScoreBackgroundModelTest {
         List<ScoredTrack> tracks = new ArrayList<>();
         tracks.add(track);
 
-        Map<ScoreSet, Double> newOcc =  model.smooth(occ, tracks, 2.);
+        Map<ScoreSet, Double> newOcc =  ScoreBackgroundModel.smooth(occ, tracks, 2.);
 
         //for(ScoreSet s: newOcc.keySet()) System.out.println(s.getScores()[0] + " old: " + occ.get(s) + " new: " +  newOcc.get(s));
 
@@ -94,7 +93,6 @@ public class ScoreBackgroundModelTest {
         factory.addTrack(contigs);
         //end mock contigs track
 
-        model = new ScoreBackgroundModel(Genome.Assembly.hg19);
 
         ///// Create Tracks /////////
 
@@ -177,9 +175,9 @@ public class ScoreBackgroundModelTest {
     @Test
     public void generateProbabilityInterval() throws Exception {
 
-        /////// call bg model ////////
+        /////// call bg ScoreBackgroundModel ////////
 
-        ScoredTrack probTrack = model.generateProbabilityInterval(sites, tracks, 0);
+        ScoredTrack probTrack = ScoreBackgroundModel.generateProbabilityInterval(sites, tracks, 0);
 
 
         ///////// Create expected probabilites /////////
@@ -212,8 +210,8 @@ public class ScoreBackgroundModelTest {
     @Test
     public void generatePositionsByProbability() throws Exception {
 
-        ScoredTrack probTrack = model.generateProbabilityInterval(sites, tracks, 0);
-        Collection<Long> pos = model.generatePositionsByProbability(probTrack, 10);
+        ScoredTrack probTrack = ScoreBackgroundModel.generateProbabilityInterval(sites, tracks, 0);
+        Collection<Long> pos = ScoreBackgroundModel.generatePositionsByProbability(probTrack, 10);
 
         // TODO  check if rand pos generated are good
     }
@@ -226,10 +224,10 @@ public class ScoreBackgroundModelTest {
     public void combine() throws Exception {
 
 
-        /////// call bg model ////////
+        /////// call bg ScoreBackgroundModel ////////
 
 
-        ScoredTrack result = model.combine(tracks, expected);
+        ScoredTrack result = ScoreBackgroundModel.combine(tracks, expected);
 
 
         ///////// Create expected Track /////////
@@ -293,9 +291,9 @@ public class ScoreBackgroundModelTest {
     @Test
     public void fillOccurenceMap() throws Exception {
 
-        /////// call bg model ////////
+        /////// call bg ScoreBackgroundModel ////////
 
-        Map<ScoreSet, Double> result = model.fillOccurenceMap(tracks, sites);
+        Map<ScoreSet, Double> result = ScoreBackgroundModel.fillOccurenceMap(tracks, sites);
 
         /////// check result //////////
 

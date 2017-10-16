@@ -40,8 +40,9 @@ public class ControllerHelper {
         cmd.setAssembly(cmd.getAssembly() == null? "hg19": cmd.getAssembly()); //set assembly nr if there was none set in the previous run
         model.addAttribute("interfaceCommand", cmd);
 
-        cmd.setMinBg(collector.getBgCount());
-        model.addAttribute("bgCount", collector.getBgCount());
+        //cmd.setMinBg(collector.getBgCount());
+        cmd.setMinBg(10000);
+        model.addAttribute("bgCount", 42);
         model.addAttribute("sigTrackCount", inout.size() + score.size() + name.size());
         model.addAttribute("trackCount", collector.getTrackCount());
 
@@ -82,7 +83,7 @@ public class ControllerHelper {
             filename = filename.length() > 18 ? filename.substring(0, 15) + ".." : filename;
         command.setOriginalFilename(filename);
 
-        command.setMinBg(collector.getBgCount());
+        //command.setMinBg(collector.getBgCount());
 
         setModel(model, collector, command, new ArrayList<>());
 

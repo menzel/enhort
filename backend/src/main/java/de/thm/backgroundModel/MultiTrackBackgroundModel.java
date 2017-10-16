@@ -17,12 +17,8 @@ import java.util.stream.Collectors;
  * <p>
  * Created by Michael Menzel on 13/1/16.
  */
-class MultiTrackBackgroundModel implements Sites {
+class MultiTrackBackgroundModel {
 
-    private final Genome.Assembly assembly;
-    private transient AppearanceTable appearanceTable; // is transient so it won't be serialized and sent to webinterface
-    private List<Long> positions = new ArrayList<>();
-    private List<Character> strands = new ArrayList<>();
 
     /**
      * Constructor. Creates a Bg Model with covariants according the given intervals and positions.
@@ -30,21 +26,17 @@ class MultiTrackBackgroundModel implements Sites {
      * @param tracks         - covariants
      * @param inputPositions - positions to match against
      */
-    MultiTrackBackgroundModel(List<Track> tracks, Sites inputPositions, int minSites) {
+    static BackgroundModel multiTrackBackgroundModel(List<Track> tracks, Sites inputPositions, int minSites) {
 
-        this.assembly = inputPositions.getAssembly();
-        appearanceTable = new AppearanceTable(minSites);
+        List<Long> positions = new ArrayList<>();
+
+        AppearanceTable appearanceTable = new AppearanceTable(minSites);
         appearanceTable.fillTable(tracks, inputPositions);
+
         positions.addAll(randPositions(appearanceTable, tracks));
-    }
 
-    /**
-     * Empty constructor for testing
-     */
-    MultiTrackBackgroundModel() {
-       assembly = Genome.Assembly.hg19;
+        return new BackgroundModel(positions, tracks.get(0).getAssembly());
     }
-
 
     /**
      * Generates random positions for a given appearance table and the intervals.
@@ -54,10 +46,11 @@ class MultiTrackBackgroundModel implements Sites {
      * @param tracks          - intervals to match against
      * @return list of positions which are spread by the same appearance values
      */
-    Collection<Long> randPositions(AppearanceTable appearanceTable, List<Track> tracks) {
+    static Collection<Long> randPositions(AppearanceTable appearanceTable, List<Track> tracks) {
 
         List<Long> sites = new ArrayList<>();
-        SingleTrackBackgroundModel better = new SingleTrackBackgroundModel(this.assembly);
+        Genome.Assembly assembly = tracks.get(0).getAssembly();
+
         Track contigs = TrackFactory.getInstance().getTrackByName("Contigs", assembly);
 
         // set the positions for each combination of tracks
@@ -75,50 +68,16 @@ class MultiTrackBackgroundModel implements Sites {
             Track track = Tracks.intersect(currentTracks);
 
             //TODO check if sum of intervals is too small and add some pseudocount
-            sites.addAll(better.randPositions(count, Tracks.intersect(track, contigs)));
+            sites.addAll(SingleTrackBackgroundModel.randPositions(count, Tracks.intersect(track, contigs)));
         }
 
         // set outside positions
         int count = appearanceTable.getAppearance("[]");
         Track outs = Tracks.intersect(tracks.stream().map(Tracks::invert).collect(Collectors.toList()));
-        sites.addAll(better.randPositions(count, Tracks.intersect(outs, contigs)));
+        sites.addAll(SingleTrackBackgroundModel.randPositions(count, Tracks.intersect(outs, contigs)));
 
         Collections.sort(sites);
 
         return sites;
-    }
-
-    AppearanceTable getAppearanceTable() {
-        return appearanceTable;
-    }
-
-    @Override
-    public void addPositions(Collection<Long> values) {
-        this.positions.addAll(values);
-    }
-
-    @Override
-    public List<Long> getPositions() {
-        return this.positions;
-    }
-
-    @Override
-    public void setPositions(List<Long> positions) {
-        this.positions = positions;
-    }
-
-    @Override
-    public List<Character> getStrands() {
-        return strands;
-    }
-
-    @Override
-    public int getPositionCount() {
-        return this.positions.size();
-    }
-
-    @Override
-    public Genome.Assembly getAssembly() {
-        return this.assembly;
     }
 }

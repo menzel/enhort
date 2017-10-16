@@ -21,18 +21,13 @@ import java.util.stream.Collectors;
  *
  * Created by menzel on 10/10/16.
  */
-class DistanceBackgroundModel implements Sites {
-
-    private final Genome.Assembly assembly;
-    private final transient MersenneTwister rand;
-    private List<Long> positions;
-    private List<Character> strands = new ArrayList<>();
+class DistanceBackgroundModel {
 
 
-    DistanceBackgroundModel(DistanceTrack track, Sites sites, int standardDeviation){
-        this.assembly = sites.getAssembly();
 
-        rand  = new MersenneTwister();
+    static BackgroundModel distanceBackgroundModel(DistanceTrack track, Sites sites, int standardDeviation){
+        List<Long> positions;
+
 
         //generate positions inside
         List<Long> distHist  = generateDistanceHist(track, sites);
@@ -40,20 +35,25 @@ class DistanceBackgroundModel implements Sites {
         positions = generatePositions(distHist, track, count, standardDeviation);
 
         //generate outside positions
-        SingleTrackBackgroundModel outsideModel = new SingleTrackBackgroundModel(sites.getAssembly());
         InOutTrack ousideTrack = Tracks.invert(Tracks.convertByRange(track, 5000));
-        positions.addAll(outsideModel.randPositions(sites.getPositionCount()- distHist.size(), ousideTrack));
+        positions.addAll(SingleTrackBackgroundModel.randPositions(sites.getPositionCount()- distHist.size(), ousideTrack));
 
         Collections.sort(positions);
+
+        return new BackgroundModel(positions, sites.getAssembly());
     }
 
-    private List<Long> generatePositions(List<Long> distances, Track track, int count, int standardDeviation) {
+    private static List<Long> generatePositions(List<Long> distances, Track track, int count, int standardDeviation) {
+
+        MersenneTwister rand;
+        rand  = new MersenneTwister();
 
         List<Long> positions = new ArrayList<>();
         List<Long> upstream = distances.parallelStream().filter(i -> i < 0).sorted().collect(Collectors.toList());
         List<Long> downstream = distances.parallelStream().filter(i -> i >= 0).sorted().collect(Collectors.toList());
         Collections.reverse(downstream); // reverse downstream list to begin with the farest distances to the postion. upstream is already in order
         NormalDistribution nd = new NormalDistribution(0,standardDeviation);
+
 
         int i = 0;
 
@@ -97,7 +97,7 @@ class DistanceBackgroundModel implements Sites {
         return positions;
     }
 
-    private List<Long> generateDistanceHist(Track track, Sites sites) {
+    private static List<Long> generateDistanceHist(Track track, Sites sites) {
         Distances dist = new Distances();
         List<Long> distances = new ArrayList<>();
 
@@ -106,34 +106,4 @@ class DistanceBackgroundModel implements Sites {
         return distances.parallelStream().filter(i -> i < 5000 && i > -5000).collect(Collectors.toList());
     }
 
-
-    @Override
-    public void addPositions(Collection<Long> values) {
-        positions.addAll(values);
-    }
-
-    @Override
-    public List<Long> getPositions() {
-        return this.positions;
-    }
-
-    @Override
-    public void setPositions(List<Long> positions) {
-        this.positions = positions;
-    }
-
-    @Override
-    public List<Character> getStrands() {
-        return strands;
-    }
-
-    @Override
-    public int getPositionCount() {
-        return positions.size();
-    }
-
-    @Override
-    public Genome.Assembly getAssembly() {
-        return this.assembly;
-    }
 }

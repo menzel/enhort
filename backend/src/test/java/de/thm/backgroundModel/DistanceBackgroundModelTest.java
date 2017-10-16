@@ -78,7 +78,7 @@ public class DistanceBackgroundModelTest {
 
         };
 
-        DistanceBackgroundModel model = new DistanceBackgroundModel(track1,sites,1);
+        BackgroundModel model = DistanceBackgroundModel.distanceBackgroundModel(track1,sites,1);
         Distances dist = new Distances();
 
         ///////// compare with expected results //////////////

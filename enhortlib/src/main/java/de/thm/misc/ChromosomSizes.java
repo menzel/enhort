@@ -3,6 +3,8 @@ package de.thm.misc;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,12 +24,17 @@ public final class ChromosomSizes {
     private final Map<Genome.Assembly, Map<String, Long>> offsets = new HashMap<>();
     private final Map<Genome.Assembly, Long> genomeSize = new HashMap<>();
 
+    private static final Logger logger = LoggerFactory.getLogger(ChromosomSizes.class);
+
     /**
      * Private Constructor
      */
     private ChromosomSizes() {
 
-        chromosomeSizes = getChrSizesFromFile("chrSizes.csv");
+        chromosomeSizes = getChrSizesFromFile("/home/menzel/Desktop/THM/lfba/enhort/repo/backend/target/chrSizes.csv");
+
+
+        //chromosomeSizes = getChrSizesFromFile("/home/mmnz21/enhort/chrSizes.csv");
 
         for(Genome.Assembly assembly: chromosomeSizes.keySet()) {
             Map<String, Integer> hg = chromosomeSizes.get(assembly);

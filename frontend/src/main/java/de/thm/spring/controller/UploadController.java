@@ -320,7 +320,7 @@ public class UploadController {
 
         if (collector != null) {
             Path position_file= currentSession.getFile();
-            UserData data = new UserData(collector.getBackgroundSites().getAssembly(), position_file);
+            UserData data = new UserData(collector.getAssembly(), position_file);
 
             List<TestResult> covariants = currentSession.getCovariants();
 
