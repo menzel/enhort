@@ -75,8 +75,6 @@ class AnalysisHelper {
      */
     private ResultCollector runAnalysis(Sites sites, BackendCommand cmd) throws CovariantsException, NoTracksLeftException {
         List<Track> covariants = getCovariants(cmd.getCovariants(), cmd.getAssembly());
-        List<Track> runTracks;
-        TrackFactory trackFactory = TrackFactory.getInstance();
         final Sites[] bg = new Sites[1];
         Double smooth = 10d; //cmd.getInfluence(); //TODO use user defined value
         int minSites = cmd.getMinBg();
@@ -117,33 +115,7 @@ class AnalysisHelper {
             logger.debug("Error creating the background model", e);
         }
 
-
-        // collect tracks for the run //
-        logger.debug("collect tracks for the run");
-        if(cmd.getTracks().isEmpty()) {
-
-            try {
-                runTracks = trackFactory.getTracksByCompilation("basic", cmd.getAssembly());
-            } catch (RuntimeException e){
-                runTracks = trackFactory.getTracksByName(Arrays.asList("Known genes", "CpG Islands" ,"Exons", "Introns"), Genome.Assembly.hg19);
-            }
-
-
-        } else {
-            runTracks = trackFactory.getTracksById(cmd.getTracks());
-
-            //check and apply custom tracks
-            runTracks.addAll(cmd.getCustomTracks());
-
-            if(runTracks.isEmpty()) {
-                logger.warn("TrackFactory did not provide any tracks for given packages (" + Arrays.toString(cmd.getTracks().toArray()) + ") in AnalysisHelper");
-                throw new NoTracksLeftException("There are no tracks available for this genome version and cell line");
-            }
-        }
-
-        logger.debug("executing the calculations now");
-        CalcCaller multi = new CalcCaller();
-        return multi.execute(runTracks, sites, bg[0], cmd.isCreateLogo());
+        return runAnalysis(sites, bg[0], cmd);
     }
 
     /**
@@ -153,9 +125,9 @@ class AnalysisHelper {
      * @param cmd - command object
      *
      * @return Collection of Results inside a ResultCollector object
-     * @throws Exception - if anythin goes wrong
+     * @throws NoTracksLeftException - if there are no tracks using this cmd
      */
-    private ResultCollector runAnalysis(Sites sites, Sites sitesBg, BackendCommand cmd) throws Exception{
+    private ResultCollector runAnalysis(Sites sites, Sites sitesBg, BackendCommand cmd) throws NoTracksLeftException{
 
         List<Track> runTracks;
         TrackFactory trackFactory = TrackFactory.getInstance();
@@ -178,6 +150,8 @@ class AnalysisHelper {
                 throw new NoTracksLeftException("There are no tracks available for this genome version and cell line" );
             }
         }
+
+        logger.debug("executing the calculations now");
 
         CalcCaller multi = new CalcCaller();
         return multi.execute(runTracks, sites, sitesBg, cmd.isCreateLogo());
