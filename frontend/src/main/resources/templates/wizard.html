@@ -168,6 +168,9 @@
                                 </tr>
                             </thead>
 
+                            <th:block th:if="${#lists.isEmpty(celllines)}">
+                                No annotation data from the backend server, please try again in a few minutes.
+                            </th:block>
 
                             <tbody>
                                 <th:block th:each="cl: ${celllines}">
