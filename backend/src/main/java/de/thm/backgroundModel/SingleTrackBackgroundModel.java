@@ -6,7 +6,6 @@ import de.thm.genomeData.tracks.InOutTrack;
 import de.thm.genomeData.tracks.Track;
 import de.thm.genomeData.tracks.TrackFactory;
 import de.thm.genomeData.tracks.Tracks;
-import de.thm.misc.Genome;
 import de.thm.positionData.Sites;
 import org.apache.commons.math3.random.MersenneTwister;
 
@@ -29,7 +28,7 @@ class SingleTrackBackgroundModel {
      * @param track - interval to search against
      * @param sites    - sites to search
      */
-    static BackgroundModel singleTrackBackgroundModel(InOutTrack track, Sites sites, int minSites) {
+    static BackgroundModel create(InOutTrack track, Sites sites, int minSites) {
 
         List<Long> positions = new ArrayList<>();
 

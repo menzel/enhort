@@ -26,7 +26,7 @@ class MultiTrackBackgroundModel {
      * @param tracks         - covariants
      * @param inputPositions - positions to match against
      */
-    static BackgroundModel multiTrackBackgroundModel(List<Track> tracks, Sites inputPositions, int minSites) {
+    static BackgroundModel create(List<Track> tracks, Sites inputPositions, int minSites) {
 
         List<Long> positions = new ArrayList<>();
 

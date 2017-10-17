@@ -19,7 +19,7 @@ class RandomBackgroundModel {
      * @param assembly - assembly of the generated sites
      * @param count - of sites to be generated
      */
-    static BackgroundModel createRandomBackgroundModel(Genome.Assembly assembly, int count) {
+    static BackgroundModel create(Genome.Assembly assembly, int count) {
 
         List<Character> strands = new ArrayList<>();
 

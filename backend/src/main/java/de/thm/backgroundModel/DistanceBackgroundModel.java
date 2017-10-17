@@ -5,13 +5,11 @@ import de.thm.genomeData.tracks.DistanceTrack;
 import de.thm.genomeData.tracks.InOutTrack;
 import de.thm.genomeData.tracks.Track;
 import de.thm.genomeData.tracks.Tracks;
-import de.thm.misc.Genome;
 import de.thm.positionData.Sites;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.random.MersenneTwister;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,9 +23,8 @@ class DistanceBackgroundModel {
 
 
 
-    static BackgroundModel distanceBackgroundModel(DistanceTrack track, Sites sites, int standardDeviation){
+    static BackgroundModel create(DistanceTrack track, Sites sites, int standardDeviation){
         List<Long> positions;
-
 
         //generate positions inside
         List<Long> distHist  = generateDistanceHist(track, sites);

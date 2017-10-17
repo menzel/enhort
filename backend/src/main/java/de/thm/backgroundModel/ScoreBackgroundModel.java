@@ -34,7 +34,7 @@ class ScoreBackgroundModel {
 
     static BackgroundModel scoreBackgroundModel(ScoredTrack covariant, Sites sites, int minSites, double smooth) {
 
-        return scoreBackgroundModel(Collections.singletonList(covariant), sites, minSites, smooth);
+        return create(Collections.singletonList(covariant), sites, minSites, smooth);
     }
 
     /**
@@ -42,7 +42,7 @@ class ScoreBackgroundModel {
      * @param sites      - sites to build model against.
      * @param covariants - list of intervals to build model against.
      */
-    static BackgroundModel scoreBackgroundModel(List<ScoredTrack> covariants, Sites sites, int minSites, double smooth) {
+    static BackgroundModel create(List<ScoredTrack> covariants, Sites sites, int minSites, double smooth) {
 
         ArrayList<Long> positions = new ArrayList<>();
         Track contigs = TrackFactory.getInstance().getTrackByName("Contigs", sites.getAssembly());
