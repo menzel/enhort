@@ -49,7 +49,6 @@ public final class TrackFactory {
     /**
      * Public method to load a single track by given path
      *
-     * @param path to track
      * @throws IOException if something goes wrong while loading the track
      */
     public void loadTrack(DBConnector.TrackEntry entry) {
@@ -64,13 +63,18 @@ public final class TrackFactory {
     public void loadAllTracks() {
 
         final List<Track> tracks = Collections.synchronizedList(new ArrayList<>());
+        List<DBConnector.TrackEntry> allTracks = null;
 
         DBConnector connector  = new DBConnector();
         connector.connect();
 
-        //List<DBConnector.TrackEntry> allTracks = connector.getAllTracks("WHERE (cellline != 'Unknown' OR filesize < 100000) and file like '%inout%' ORDER BY filesize ASC ");
+        if (System.getenv("HOME").contains("menzel")) {
+            allTracks = connector.getAllTracks("WHERE file like '%inout%' OR file like '%score%' ORDER BY filesize ASC ");
+        } else {
+            allTracks = connector.getAllTracks("WHERE (cellline != 'Unknown' OR filesize < 100000) OR file like '%inout%' ORDER BY filesize ASC ");
+        }
+
         //List<DBConnector.TrackEntry> allTracks = connector.getAllTracks("WHERE (cellline != 'Unknown' OR filesize < 100000) ORDER BY filesize ASC ");
-        List<DBConnector.TrackEntry> allTracks = connector.getAllTracks("WHERE file like '%inout%' OR file like '%score%' ORDER BY filesize ASC ");
 
         int nThreads = 32;
         if (System.getenv("HOME").contains("menzel")) nThreads = 4;
@@ -192,7 +196,6 @@ public final class TrackFactory {
      * If any given Id does not exists no error is thrown.
      *
      * @param trackIds - list of ids (as String)
-     * @param assembly - assembly number
      * @return
      */
     public List<Track> getTracksById(List<String> trackIds) {
@@ -299,7 +302,6 @@ public final class TrackFactory {
      * @param starts      - list of start positions
      * @param name        - name of track
      * @param description - description of track
-     * @param hg19
      * @return new track with all given parameters
      */
     public DistanceTrack createDistanceTrack(List<Long> starts, String name, String description, Genome.Assembly assembly) {
