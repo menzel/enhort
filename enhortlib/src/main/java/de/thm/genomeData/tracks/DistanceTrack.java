@@ -14,7 +14,7 @@ import java.util.List;
 public class DistanceTrack extends Track{
 
     private final int uid = UID.incrementAndGet();
-    private final long[] intervalsStart;
+    private transient final long[] intervalsStart;
     private final String name;
     private final Genome.Assembly assembly;
     private final String cellLine;

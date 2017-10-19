@@ -14,8 +14,8 @@ import java.util.List;
 public class InOutTrack extends Track {
 
     private final int uid = UID.incrementAndGet();
-    private final long[] intervalsStart;
-    private final long[] intervalsEnd;
+    private transient final long[] intervalsStart;
+    private transient final long[] intervalsEnd;
     private final String name;
     private final String description;
 

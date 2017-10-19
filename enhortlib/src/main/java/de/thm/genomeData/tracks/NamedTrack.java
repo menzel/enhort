@@ -18,9 +18,9 @@ public class NamedTrack extends Track {
     private final Genome.Assembly assembly;
     private final String cellLine;
     private final String description;
-    private final long[] intervalsStart;
-    private final long[] intervalsEnd;
-    private final String[] intervalName;
+    private final transient long[] intervalsStart;
+    private final transient long[] intervalsEnd;
+    private final transient String[] intervalName;
 
     NamedTrack(long[] starts, long[] ends, String[] names, String name, String description, Genome.Assembly assembly, String cellLine) {
 

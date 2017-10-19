@@ -14,10 +14,10 @@ import java.util.List;
 public class ScoredTrack extends Track {
 
     private final int uid = UID.incrementAndGet();
-    private final long[] intervalsStart;
-    private final long[] intervalsEnd;
-    private final String[] intervalName;
-    private final double[] intervalScore;
+    private transient final long[] intervalsStart;
+    private transient final long[] intervalsEnd;
+    private transient final String[] intervalName;
+    private transient final double[] intervalScore;
     private final String name;
     private final Genome.Assembly assembly;
     private final String cellLine;
