@@ -15,11 +15,12 @@ import de.thm.stat.TestResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.thm.misc.Genome;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
 /**
  * Implements multithreading of the intersect call.
@@ -44,7 +45,7 @@ public final class CalcCaller {
      * @param tracks         map of tracks with <K,V> <Name, Interval reference>
      * @param measuredPositions - positions supplied from outside
      * @param randomPositions   - positions created by a background model
-     * @return Collector of all results computed by the differen threads
+     * @return Collector of all results computed by the different threads
      */
     public ResultCollector execute(List<Track> tracks, Sites measuredPositions, Sites randomPositions, boolean createLogo) {
 
@@ -84,12 +85,12 @@ public final class CalcCaller {
         //////////// Logo ////////////////
 
         if(createLogo && measuredPositions.getAssembly().equals(Genome.Assembly.hg19)){
-            String first = "";//TODO FIX measuredPositions.getFilename();
+            String first = "Measured sites";//TODO FIX measuredPositions.getFilename();
             LogoWrapper logoWrapper = new LogoWrapper(measuredPositions,collector, tracks.get(0).getAssembly(), first);
             futures.add(exe.submit(logoWrapper));
 
             //String second = randomPositions.getFilename();
-            String second = "";//TODO FIX measuredPositions.getFilename();
+            String second = "Random sites";//TODO FIX measuredPositions.getFilename();
             LogoWrapper logoWrapper2 = new LogoWrapper(randomPositions, collector, tracks.get(0).getAssembly(), second);
             futures.add(exe.submit(logoWrapper2));
         }
@@ -257,7 +258,14 @@ public final class CalcCaller {
         public void run() {
             Hotspot hotspot = new Hotspot();
             ScoredTrack hotspots = hotspot.findHotspots(measuredPositions, (int) (ChromosomSizes.getInstance().getGenomeSize(measuredPositions.getAssembly())/60));
-            collector.addHotspot(hotspots);
+
+            List<Double> hs = Arrays.stream(hotspots.getIntervalScore()).boxed().collect(Collectors.toList());
+
+            double factor = 50 / Collections.max(hs);
+            // change score by calc relative score to 50 (where 50 is the max), add 50 to have values ranging from 50 to 100. Then invert values to have highest values as 50% and lowest values as 100%
+            // The calculated score is used as 'x' in hsl(100,100,x). Where the third param is the lightness
+
+            collector.addHotspots(hs.stream().map(i -> i * factor + 50).map(i -> (100 - i) + 50).map(Double::intValue).collect(Collectors.toList()));
         }
     }
 }
