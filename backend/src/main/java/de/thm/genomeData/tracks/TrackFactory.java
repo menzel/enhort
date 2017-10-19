@@ -69,15 +69,14 @@ public final class TrackFactory {
         connector.connect();
 
         if (System.getenv("HOME").contains("menzel")) {
-            allTracks = connector.getAllTracks("WHERE file like '%inout%' OR file like '%score%' ORDER BY filesize ASC ");
+            allTracks = connector.getAllTracks("WHERE file like '%inout%' OR file like '%score%' ORDER BY filesize ASC");
         } else {
             allTracks = connector.getAllTracks("WHERE (cellline != 'Unknown' OR filesize < 100000) OR file like '%inout%' ORDER BY filesize ASC ");
         }
 
         //List<DBConnector.TrackEntry> allTracks = connector.getAllTracks("WHERE (cellline != 'Unknown' OR filesize < 100000) ORDER BY filesize ASC ");
 
-        int nThreads = 32;
-        if (System.getenv("HOME").contains("menzel")) nThreads = 4;
+        int nThreads = (System.getenv("HOME").contains("menzel")) ?  4 : 32;
         ExecutorService exe = Executors.newFixedThreadPool(nThreads);
 
         for(DBConnector.TrackEntry entry: allTracks){
