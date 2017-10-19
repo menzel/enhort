@@ -1,7 +1,6 @@
 package de.thm.result;
 
 import de.thm.backgroundModel.BackgroundModel;
-import de.thm.genomeData.tracks.ScoredTrack;
 import de.thm.genomeData.tracks.Track;
 import de.thm.logo.Logo;
 import de.thm.misc.Genome;
@@ -26,12 +25,12 @@ import java.util.stream.Collectors;
 public final class ResultCollector implements Serializable, Result{
 
     private final List<TestResult> results;
-    private final transient BackgroundModel backgroundSites;
+    private final BackgroundModel backgroundSites;
     private final Genome.Assembly assembly;
     private List<String> tracks; //keeps a list of all known packages for the gui to display
     private Logo logo;
     private Logo other_logo;
-    private ScoredTrack hotspots;
+    private List<Integer> hotspots;
 
     private static final Logger logger = LoggerFactory.getLogger(ResultCollector.class);
 
@@ -388,11 +387,11 @@ public final class ResultCollector implements Serializable, Result{
         return Precision.round(sum/values.size()*10,2);
     }
 
-    public void addHotspot(ScoredTrack hotspots) {
+    public void addHotspots(List<Integer> hotspots) {
         this.hotspots = hotspots;
     }
 
-    public ScoredTrack getHotspots() {
+    public List<Integer> getHotspots() {
         return hotspots;
     }
 

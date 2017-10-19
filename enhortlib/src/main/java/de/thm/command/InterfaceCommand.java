@@ -24,7 +24,7 @@ public final class InterfaceCommand {
     private String assembly;
     private boolean logoCovariate;
     private boolean logo;
-    private double[] hotspots;
+    private List<Integer> hotspots;
     private Sites sitesBg;
     private boolean showall;
 
@@ -112,20 +112,11 @@ public final class InterfaceCommand {
     }
 
     public List<Integer> getHotspots() {
-        if(hotspots != null) {
-            List<Double> hs = Arrays.stream(hotspots).boxed().collect(Collectors.toList());
-
-            double factor = 50 / Collections.max(hs);
-            // change score by calc relative score to 50 (where 50 is the max), add 50 to have values ranging from 50 to 100. Then invert values to have highest values as 50% and lowest values as 100%
-            // The calculated score is used as 'x' in hsl(100,100,x). Where the third param is the lightness
-            return hs.stream().map(i -> i * factor + 50).map(i -> (100 - i) + 50).map(Double::intValue).collect(Collectors.toList());
-        } else {
-            return null;
-        }
+        return hotspots;
     }
 
-    public void setHotspots(ScoredTrack hotspots) {
-        this.hotspots = hotspots.getIntervalScore();
+    public void setHotspots(List<Integer> hotspots) {
+        this.hotspots = hotspots;
     }
 
     public Sites getSitesBg() {
