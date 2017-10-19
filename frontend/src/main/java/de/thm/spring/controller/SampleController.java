@@ -29,8 +29,16 @@ public class SampleController {
     @RequestMapping(value = "/sample", method = RequestMethod.GET)
     public String sampledata(Model model, HttpSession httpSession){
 
-        String path = "/home/menzel/Desktop/THM/lfba/enhort/";
-        String samplefilepath = path+"/HIV-hg19.bed";
+        String samplefilepath;
+
+        if(System.getenv("HOME").contains("menzel")) {
+            String path = "/home/menzel/Desktop/THM/lfba/enhort";
+            samplefilepath = path+"/HIV-hg19.bed";
+        } else {
+            String path = "/home/mmnz21/enhort";
+            samplefilepath = path+"/HIV-hg19.bed";
+        }
+
 
         //TODO set file for big server
 
