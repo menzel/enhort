@@ -24,7 +24,7 @@ public final class InterfaceCommand {
     private String assembly;
     private boolean logoCovariate;
     private boolean logo;
-    private ScoredTrack hotspots;
+    private double[] hotspots;
     private Sites sitesBg;
     private boolean showall;
 
@@ -113,7 +113,7 @@ public final class InterfaceCommand {
 
     public List<Integer> getHotspots() {
         if(hotspots != null) {
-            List<Double> hs = Arrays.stream(hotspots.getIntervalScore()).boxed().collect(Collectors.toList());
+            List<Double> hs = Arrays.stream(hotspots).boxed().collect(Collectors.toList());
 
             double factor = 50 / Collections.max(hs);
             // change score by calc relative score to 50 (where 50 is the max), add 50 to have values ranging from 50 to 100. Then invert values to have highest values as 50% and lowest values as 100%
@@ -125,7 +125,7 @@ public final class InterfaceCommand {
     }
 
     public void setHotspots(ScoredTrack hotspots) {
-        this.hotspots = hotspots;
+        this.hotspots = hotspots.getIntervalScore();
     }
 
     public Sites getSitesBg() {
