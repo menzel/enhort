@@ -169,7 +169,10 @@
                             </thead>
 
                             <th:block th:if="${#lists.isEmpty(celllines)}">
-                                No annotation data from the backend server, please try again in a few minutes.
+
+                                <div id="error" class="bg-danger">
+                                    No annotation data from the backend server, please try again in a few minutes.
+                                </div>
                             </th:block>
 
                             <tbody>
