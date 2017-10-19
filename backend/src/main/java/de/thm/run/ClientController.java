@@ -118,7 +118,7 @@ class ClientController implements Runnable{
                     if (command instanceof BackendCommand) {
 
                         long time = System.currentTimeMillis();
-                        logger.info("[" + clientID + "]: " + "recieved a command " + command.hashCode());
+                        logger.info("[" + clientID + "]: " + "received a command " + command.hashCode());
 
                         Result collector = new AnalysisHelper().runAnalysis((BackendCommand) command);
 
