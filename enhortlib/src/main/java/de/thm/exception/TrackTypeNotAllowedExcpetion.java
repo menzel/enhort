@@ -5,7 +5,7 @@ package de.thm.exception;
  *
  * Created by Michael Menzel on 15/2/16.
  */
-public final class TrackTypeNotAllowedExcpetion extends RuntimeException{
+public final class TrackTypeNotAllowedExcpetion extends IllegalArgumentException{
 
     public TrackTypeNotAllowedExcpetion(String s) {
         super(s);
