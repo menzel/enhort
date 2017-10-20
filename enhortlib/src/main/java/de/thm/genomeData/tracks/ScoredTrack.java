@@ -11,27 +11,19 @@ import java.util.List;
  *
  * Created by Michael Menzel on 25/2/16.
  */
-public class ScoredTrack extends Track {
+public class ScoredTrack extends AbstractTrack {
 
-    private final int uid = UID.incrementAndGet();
-    private transient final long[] intervalsStart;
-    private transient final long[] intervalsEnd;
     private transient final String[] intervalName;
     private transient final double[] intervalScore;
-    private final String name;
-    private final Genome.Assembly assembly;
-    private final String cellLine;
-    private final String description;
 
     ScoredTrack(long[] starts, long[] ends, String[] names, double[] scores, String name, String description, Genome.Assembly assembly, String cellLine) {
 
-        if (starts != null) {
-            intervalsStart = starts;
-        } else intervalsStart = new long[0];
-
-        if (ends != null) {
-            intervalsEnd = ends;
-        } else intervalsEnd = new long[0];
+        super(starts,
+                ends,
+                name,
+                description,
+                assembly,
+                cellLine);
 
         if (names != null) {
             intervalName = names;
@@ -41,25 +33,16 @@ public class ScoredTrack extends Track {
             intervalScore = scores;
         } else intervalScore = new double[0];
 
-        this.description = description;
-        this.name = name;
-        this.assembly = assembly;
-        this.cellLine = cellLine;
     }
 
     ScoredTrack(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String description, Genome.Assembly assembly, String cellLine) {
 
-        if (starts != null) {
-            intervalsStart = new long[starts.size()];
-            for (int i = 0; i < starts.size(); i++)
-                intervalsStart[i] = starts.get(i);
-        } else intervalsStart = new long[0];
-
-        if (ends != null) {
-            intervalsEnd = new long[ends.size()];
-            for (int i = 0; i < ends.size(); i++)
-                intervalsEnd[i] = ends.get(i);
-        } else intervalsEnd= new long[0];
+        super(starts.stream().mapToLong(l->l).toArray(),
+                ends.stream().mapToLong(l->l).toArray(),
+                name,
+                description,
+                assembly,
+                cellLine);
 
         if (names != null) {
             intervalName = new String[names.size()];
@@ -72,11 +55,6 @@ public class ScoredTrack extends Track {
             for (int i = 0; i < scores.size(); i++)
                 intervalScore[i] = scores.get(i);
         } else intervalScore = new double[0];
-
-        this.description = description;
-        this.name = name;
-        this.assembly = assembly;
-        this.cellLine = cellLine;
     }
 
     @Override
@@ -91,9 +69,9 @@ public class ScoredTrack extends Track {
         return new ScoredTrack(
                 this.getStarts(),
                 this.getEnds(),
-                this.getIntervalName(),
-                this.getIntervalScore(),
-                name,
+                this.intervalName,
+                this.intervalScore,
+                this.getName(),
                 description,
                 assembly,
                 cellLine
@@ -116,19 +94,7 @@ public class ScoredTrack extends Track {
 
     @Override
     public int hashCode() {
-        int result = uid;
-        result = 31 * result + intervalsEnd.length;
-        return result;
-    }
-
-    @Override
-    public long[] getStarts() {
-        return this.intervalsStart;
-    }
-
-    @Override
-    public long[] getEnds() {
-        return this.intervalsEnd;
+        return 31 * uid + intervalsEnd.length;
     }
 
     public String[] getIntervalName() {
@@ -139,25 +105,4 @@ public class ScoredTrack extends Track {
         return intervalScore;
     }
 
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-
-    @Override
-    public Genome.Assembly getAssembly() {
-        return this.assembly;
-    }
-
-    @Override
-    public String getCellLine() {
-        return this.cellLine;
-    }
-
-    @Override
-    public String getDescription() {
-        return description;
-    }
 }

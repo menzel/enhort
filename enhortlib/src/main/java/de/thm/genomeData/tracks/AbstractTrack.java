@@ -4,7 +4,7 @@ package de.thm.genomeData.tracks;
 import de.thm.misc.Genome;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Abstract skeletal class.
@@ -12,28 +12,23 @@ import java.util.List;
  * Created by Michael Menzel on 24/2/16.
  */
 @SuppressWarnings("unused")
-public abstract class AbstractTrack extends Track {
+public abstract class AbstractTrack implements Track {
 
+    private static final AtomicInteger UID = new AtomicInteger(1);
     private static final long serialVersionUID = 30624951L;
-    private final int uid = UID.incrementAndGet();
+    final int uid = UID.incrementAndGet();
 
-    private transient final long[] intervalsStart;
-    private transient final long[] intervalsEnd;
-    private final String name;
-    private final String description;
-    private final Genome.Assembly assembly;
-    private final String cellLine;
+    transient final long[] intervalsStart;
+    transient final long[] intervalsEnd;
+    final String name;
+    final String description;
+    final Genome.Assembly assembly;
+    final String cellLine;
 
-    AbstractTrack(List<Long> starts, List<Long> ends, String name, String description, Genome.Assembly assembly, String cellLine) {
+    AbstractTrack(long[] starts, long[] ends, String name, String description, Genome.Assembly assembly, String cellLine) {
 
-        intervalsStart = new long[starts.size()];
-        intervalsEnd = new long[ends.size()];
-
-        for (int i = 0; i < starts.size(); i++)
-            intervalsStart[i] = starts.get(i);
-        for (int i = 0; i < ends.size(); i++)
-            intervalsEnd[i] = ends.get(i);
-
+        this.intervalsStart = starts;
+        this.intervalsEnd = ends;
         this.name = name;
         this.description = description;
         this.assembly = assembly;
@@ -48,6 +43,12 @@ public abstract class AbstractTrack extends Track {
     public long[] getEnds() {
         return intervalsEnd;
     }
+
+    @Override
+    public long[] getStarts() {
+        return intervalsStart;
+    }
+
 
     @Override
     public int getUid() {
@@ -71,32 +72,11 @@ public abstract class AbstractTrack extends Track {
 
 
     @Override
-    public String getCellLine() {
-        return cellLine;
-    }
-
-
-
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Track)) return false;
-
-        Track track = (Track) o;
-
-        if (!Arrays.equals(intervalsStart, track.getStarts())) return false;
-        if (!Arrays.equals(intervalsEnd, track.getEnds())) return false;
-        return !((description != null) ? !description.equals(track.getDescription()) : (track.getDescription() != null));
-
+    public String getCellLine() { return cellLine;
     }
 
     @Override
-    public int hashCode() {
-        int result = uid;
-        result = 31 * result + intervalsStart.length;
-        result = 31 * result + intervalsEnd.length;
-        return result;
+    public String toString(){
+        return name;
     }
 }

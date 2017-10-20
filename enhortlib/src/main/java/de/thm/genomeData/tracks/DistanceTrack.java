@@ -2,6 +2,7 @@ package de.thm.genomeData.tracks;
 
 
 import de.thm.misc.Genome;
+import org.apache.commons.math3.analysis.function.Abs;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,76 +12,25 @@ import java.util.List;
  *
  * Created by menzel on 9/23/16.
  */
-public class DistanceTrack extends Track{
-
-    private final int uid = UID.incrementAndGet();
-    private transient final long[] intervalsStart;
-    private final String name;
-    private final Genome.Assembly assembly;
-    private final String cellLine;
-    private final String description;
+public class DistanceTrack extends AbstractTrack {
 
     DistanceTrack(long[] starts, String name, String description, Genome.Assembly assembly, String cellLine) {
 
-        if (starts != null) {
-            intervalsStart = starts;
-        } else intervalsStart = new long[0];
-
-        this.description = description;
-        this.name = name;
-        this.assembly = assembly;
-        this.cellLine = cellLine;
+        super(starts, new long[0], name, description, assembly, cellLine);
     }
-
-
 
 
     DistanceTrack(List<Long> starts, String name, String description, Genome.Assembly assembly, String cellLine) {
 
-        if(starts != null) {
-            intervalsStart = new long[starts.size()];
-            for (int i = 0; i < starts.size(); i++)
-                intervalsStart[i] = starts.get(i);
-        } else intervalsStart = new long[0];
-
-        this.description = description;
-        this.name = name;
-        this.assembly = assembly;
-        this.cellLine = cellLine;
+        super(starts.stream().mapToLong(l->l).toArray(),
+                new long[0],
+                name,
+                description,
+                assembly,
+                cellLine);
     }
 
-
-    @Override
-    public int getUid() {
-        return uid;
-    }
-
-    @Override
-    public Track clone() {
-        return null;
-    }
-
-    @Override
-    public long[] getStarts() {
-        return this.intervalsStart;
-    }
-
-    @Override
-    public long[] getEnds() {
-        return getStarts();
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public String getDescription() {
-        return description;
-    }
-
-    @Override
+   @Override
     public int hashCode() {
         int result = uid;
         result = 31 * result + intervalsStart.length;
@@ -99,12 +49,7 @@ public class DistanceTrack extends Track{
     }
 
     @Override
-    public Genome.Assembly getAssembly() {
-        return assembly;
-    }
-
-    @Override
-    public String getCellLine() {
-        return cellLine;
+    public Track clone() {
+        return new DistanceTrack(intervalsStart, name, description, assembly, cellLine);
     }
 }

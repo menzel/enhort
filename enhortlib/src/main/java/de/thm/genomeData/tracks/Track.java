@@ -14,36 +14,29 @@ import java.util.concurrent.atomic.AtomicInteger;
  * <p>
  * Created by Michael Menzel on 23/2/16.
  */
-public abstract class Track implements Serializable, Cloneable {
+public interface  Track extends Serializable, Cloneable {
 
-    static final AtomicInteger UID = new AtomicInteger(1);
-    public static long serialVersionUID = 606249588L;
+    long serialVersionUID = 606249588L;
 
-    public abstract Genome.Assembly getAssembly();
+    Genome.Assembly getAssembly();
 
-    public abstract String getCellLine();
+    String getCellLine();
 
-    public abstract String getDescription();
+    String getDescription();
 
-    public abstract String getName();
+    String getName();
 
-    public abstract long[] getStarts();
+    long[] getStarts();
 
-    public abstract long[] getEnds();
+    long[] getEnds();
 
-    public abstract int getUid();
+    int getUid();
 
-    @Override
-    public abstract Track clone();
+    Track clone();
 
-    @Override
-    public abstract int hashCode();
+    int hashCode();
 
-    @Override
-    public abstract boolean equals(Object o);
+    boolean equals(Object o);
 
-    @Override
-    public String toString() {
-        return getName();
-    }
+    String toString();
 }

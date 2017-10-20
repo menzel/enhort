@@ -11,55 +11,28 @@ import java.util.List;
  *
  * Created by Michael Menzel on 26/2/16.
  */
-public class NamedTrack extends Track {
+public class NamedTrack extends AbstractTrack{
 
-    private final int uid = UID.incrementAndGet();
-    private final String name;
-    private final Genome.Assembly assembly;
-    private final String cellLine;
-    private final String description;
-    private final transient long[] intervalsStart;
-    private final transient long[] intervalsEnd;
     private final transient String[] intervalName;
 
     NamedTrack(long[] starts, long[] ends, String[] names, String name, String description, Genome.Assembly assembly, String cellLine) {
 
-        intervalsStart = starts;
-        intervalsEnd = ends;
+        super(starts, ends, name, description, assembly, cellLine);
 
         this.intervalName = names;
-        this.description = description;
-        this.name = name;
-        this.assembly = assembly;
-        this.cellLine = cellLine;
     }
 
     NamedTrack(List<Long> starts, List<Long> ends, List<String> names, String name, String description, Genome.Assembly assembly, String cellLine) {
 
+        super(starts.stream().mapToLong(l->l).toArray(),
+                ends.stream().mapToLong(l->l).toArray(),
+                name,
+                description,
+                assembly,
+                cellLine);
 
-        intervalsStart = new long[starts.size()];
-        intervalsEnd = new long[ends.size()];
         this.intervalName = new String[names.size()];
-
-        for (int i = 0; i < starts.size(); i++)
-            intervalsStart[i] = starts.get(i);
-        for (int i = 0; i < ends.size(); i++)
-            intervalsEnd[i] = ends.get(i);
-        for (int i = 0; i < names.size(); i++)
-            intervalName[i] = names.get(i);
-
-        this.description = description;
-        this.name = name;
-        this.assembly = assembly;
-        this.cellLine = cellLine;
     }
-
-
-    @Override
-    public int getUid() {
-        return uid;
-    }
-
 
     @Override
     public Track clone() {
@@ -92,41 +65,5 @@ public class NamedTrack extends Track {
         int result = uid;
         result = 31 * result + intervalsEnd.length;
         return result;
-    }
-
-
-    @Override
-    public Genome.Assembly getAssembly() {
-        return assembly;
-    }
-
-    @Override
-    public String getCellLine() {
-        return cellLine;
-    }
-
-
-    @Override
-    public long[] getStarts() {
-        return intervalsStart;
-    }
-
-    @Override
-    public long[] getEnds() {
-        return intervalsEnd;
-    }
-
-    public String[] getIntervalName() {
-        return intervalName;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public String getDescription() {
-        return description;
     }
 }

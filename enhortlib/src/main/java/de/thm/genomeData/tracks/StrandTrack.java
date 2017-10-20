@@ -13,32 +13,20 @@ import java.util.List;
  *
  * Created by menzel on 2/21/17.
  */
-public class StrandTrack extends Track {
+public class StrandTrack extends AbstractTrack {
 
-    private final int uid = UID.incrementAndGet();
-    private final long[] intervalsStart;
-    private final long[] intervalsEnd;
     private final char[] strand; //should only contain  - + o  (o for both strands)
-    private final String name;
-    private final Genome.Assembly assembly;
-    private final String cellLine;
-    private final String description;
 
     private final Logger logger = LoggerFactory.getLogger(StrandTrack.class);
 
     StrandTrack(List<Long> starts, List<Long> ends, List<Character> strand, String name, String description, Genome.Assembly assembly, String cellLine) {
 
-        if (starts != null) {
-            intervalsStart = new long[starts.size()];
-            for (int i = 0; i < starts.size(); i++)
-                intervalsStart[i] = starts.get(i);
-        } else intervalsStart = new long[0];
-
-        if (ends != null) {
-            intervalsEnd = new long[ends.size()];
-            for (int i = 0; i < ends.size(); i++)
-                intervalsEnd[i] = ends.get(i);
-        } else intervalsEnd= new long[0];
+        super(starts.stream().mapToLong(l->l).toArray(),
+                ends.stream().mapToLong(l->l).toArray(),
+                name,
+                description,
+                assembly,
+                cellLine);
 
         if (strand != null) {
             this.strand = new char[strand.size()];
@@ -46,28 +34,15 @@ public class StrandTrack extends Track {
                 this.strand[i] = strand.get(i);
         } else this.strand = new char[0];
 
-
         if(intervalsStart.length != intervalsEnd.length || intervalsEnd.length  != this.strand.length){
             logger.warn("In StrandTrack " + name + " some interval data is missing");
         }
-
-
-        this.description = description;
-        this.name = name;
-        this.assembly = assembly;
-        this.cellLine = cellLine;
     }
 
 
     StrandTrack(long[] starts, long[] ends, char[] strand, String name, String description, Genome.Assembly assembly, String cellLine) {
 
-        if (starts != null) {
-            this.intervalsStart = starts;
-        } else intervalsStart = new long[0];
-
-        if (ends != null) {
-            intervalsEnd = ends;
-        } else intervalsEnd = new long[0];
+        super(starts, ends, name, description, assembly, cellLine);
 
         if (strand != null) {
             this.strand = strand;
@@ -77,20 +52,8 @@ public class StrandTrack extends Track {
         if (intervalsStart.length != intervalsEnd.length || intervalsEnd.length != this.strand.length) {
             logger.warn("In StrandTrack " + name + " some interval data is missing");
         }
-
-
-        this.description = description;
-        this.name = name;
-        this.assembly = assembly;
-        this.cellLine = cellLine;
     }
 
-
-
-    @Override
-    public int getUid() {
-        return uid;
-    }
 
 
     @Override
@@ -126,40 +89,8 @@ public class StrandTrack extends Track {
         return result;
     }
 
-    @Override
-    public long[] getStarts() {
-        return this.intervalsStart;
-    }
-
-    @Override
-    public long[] getEnds() {
-        return this.intervalsEnd;
-    }
-
-
     public char[] getStrands() {
         return strand;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-
-    @Override
-    public Genome.Assembly getAssembly() {
-        return this.assembly;
-    }
-
-    @Override
-    public String getCellLine() {
-        return this.cellLine;
-    }
-
-    @Override
-    public String getDescription() {
-        return description;
     }
 
     public InOutTrack getInOut() {

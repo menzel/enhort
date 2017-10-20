@@ -11,84 +11,27 @@ import java.util.List;
  *
  * Created by Michael Menzel on 25/2/16.
  */
-public class InOutTrack extends Track {
-
-    private final int uid = UID.incrementAndGet();
-    private transient final long[] intervalsStart;
-    private transient final long[] intervalsEnd;
-    private final String name;
-    private final String description;
-
-    private final Genome.Assembly assembly;
-    private final String cellLine;
+public class InOutTrack extends AbstractTrack {
 
 
-    InOutTrack(long[] intervalsStart, long[] intervalsEnd, String name, String description, Genome.Assembly assembly, String cellLine) {
-        this.intervalsStart = intervalsStart;
-        this.intervalsEnd = intervalsEnd;
+    InOutTrack(long[] starts, long[] ends, String name, String description, Genome.Assembly assembly, String cellLine) {
 
-        this.description = description;
-        this.name = name;
-        this.assembly = assembly;
-        this.cellLine = cellLine;
+        super(starts, ends, name, description, assembly, cellLine);
     }
 
     InOutTrack(List<Long> starts, List<Long> ends, String name, String description, Genome.Assembly assembly, String cellLine) {
 
-        intervalsStart =  new long[starts.size()];
-        intervalsEnd = new long[ends.size()];
-
-        for (int i = 0; i < starts.size(); i++)
-            intervalsStart[i] = starts.get(i);
-        for (int i = 0; i < ends.size(); i++)
-            intervalsEnd[i] = ends.get(i);
-
-        this.description = description;
-        this.name = name;
-        this.assembly = assembly;
-        this.cellLine = cellLine;
-    }
-
-
-    @Override
-    public int getUid() {
-        return uid;
+        super(starts.stream().mapToLong(l->l).toArray(),
+                ends.stream().mapToLong(l->l).toArray(),
+                name,
+                description,
+                assembly,
+                cellLine);
     }
 
     @Override
     public Track clone() {
         return new InOutTrack(intervalsStart, intervalsEnd, this.getName(), this.getDescription(), this.assembly, this.cellLine);
-    }
-
-    @Override
-    public long[] getStarts() {
-        return this.intervalsStart;
-    }
-
-
-    @Override
-    public long[] getEnds() {
-        return this.intervalsEnd;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public Genome.Assembly getAssembly() {
-        return this.assembly;
-    }
-
-    @Override
-    public String getCellLine() {
-        return this.cellLine;
-    }
-
-    @Override
-    public String getDescription() {
-        return description;
     }
 
     @Override
