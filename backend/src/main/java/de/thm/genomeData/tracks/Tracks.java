@@ -421,8 +421,7 @@ public final class Tracks {
 
         if (intervalEnd.length != intervalStart.length) {
 
-            if (logger.isDebugEnabled())
-                logger.warn("Different start and ends lenght in" + track.getName());
+            logger.warn("Different start and ends lenght in" + track.getName());
             return false;
         }
 
@@ -434,19 +433,16 @@ public final class Tracks {
             Long end = intervalEnd[i];
 
             if (start > end) {
-                if (logger.isDebugEnabled())
-                    logger.warn("Start larger than end " + track.getName());
+                logger.warn("Start larger than end " + track.getName());
                 return false;
             }
             if (start < lastEnd) {
-                if (logger.isDebugEnabled())
-                    logger.warn("next start is smaller than last end " + track.getName());
+                logger.warn("next start is smaller than last end " + track.getName());
                 return false;
             }
 
             if (lastStart > start) {
-                if (logger.isDebugEnabled())
-                    logger.warn("overlapping starts " + track.getName());
+                logger.warn("overlapping starts " + track.getName());
                 return false;
             }
 
