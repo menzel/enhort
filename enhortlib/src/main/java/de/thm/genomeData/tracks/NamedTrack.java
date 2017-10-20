@@ -31,7 +31,7 @@ public class NamedTrack extends AbstractTrack{
                 assembly,
                 cellLine);
 
-        this.intervalName = new String[names.size()];
+        this.intervalName = names.toArray(new String[0]);
     }
 
     @Override
@@ -48,6 +48,9 @@ public class NamedTrack extends AbstractTrack{
         );
     }
 
+    public String[] getIntervalName() {
+        return intervalName;
+    }
 
     @Override
     public boolean equals(Object o) {
