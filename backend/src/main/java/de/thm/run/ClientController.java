@@ -55,7 +55,7 @@ class ClientController implements Runnable{
                 if(clientExe.getActiveCount() > 0)
                     logger.debug("currently connected to " + clientExe.getActiveCount() + " clients");
                 try {
-                    Thread.sleep(1000 * 10);
+                    Thread.sleep(1000 * 60); //sleep 1 minute
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
