@@ -1,5 +1,6 @@
 package de.thm.stat;
 
+import de.thm.backgroundModel.BackgroundModel;
 import de.thm.misc.Genome;
 import de.thm.positionData.Sites;
 import de.thm.result.ResultCollector;
@@ -22,7 +23,7 @@ public class ResultCollectorTest {
 
     @BeforeClass
     public static void setUp() throws Exception {
-        Sites sites = mock(Sites.class);
+        BackgroundModel sites = mock(BackgroundModel.class);
         when(sites.getPositionCount()).thenReturn(42);
         r = new ResultCollector(sites, Genome.Assembly.hg19, new ArrayList<>());
 

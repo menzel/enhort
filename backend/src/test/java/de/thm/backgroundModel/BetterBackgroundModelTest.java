@@ -60,7 +60,7 @@ public class BetterBackgroundModelTest {
         factory.addTrack(contigs);
         //end mock contigs track
 
-        BackgroundModel better = SingleTrackBackgroundModel.singleTrackBackgroundModel(track , sites, sites.getPositionCount());
+        BackgroundModel better = SingleTrackBackgroundModel.create(track , sites, sites.getPositionCount());
 
         Intersect sect = new Intersect<>();
 
