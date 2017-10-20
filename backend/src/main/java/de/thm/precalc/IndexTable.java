@@ -49,15 +49,15 @@ class IndexTable {
      * @param l - length of the sequences to return
      * @return list of sequences with the length of l as list
      */
-    List<String> getSequences(int l) throws Exception {
+    List<String> getSequences(int l) throws IllegalArgumentException{
         if(l < 2)
-            throw new Exception("IndexTable: the sequence length should be larger than 2 it is " + l);
+            throw new IllegalArgumentException("IndexTable: the sequence length should be larger than 2 it is " + l);
 
         int start = sequences.get(0).length()/2 - l/2;
         int end = sequences.get(0).length()/2 + l/2;
 
         if(start < 0 || end < 0)
-            throw new Exception("start and end should be positive");
+            throw new IllegalArgumentException("start and end should be positive");
 
         return sequences.stream().map(i -> i.substring(start,end)).collect(Collectors.toList());
     }

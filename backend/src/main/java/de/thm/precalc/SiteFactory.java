@@ -100,7 +100,7 @@ public final class SiteFactory {
 
         try {
             seq = indexTable.getSequences(logo.getConsensus().length());
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             logger.error("Exception {}", e.getMessage(), e);
             return null;
         }

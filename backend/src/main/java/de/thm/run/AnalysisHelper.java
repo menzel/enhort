@@ -180,7 +180,7 @@ class AnalysisHelper {
      * @return Result of the computation
      * @throws Exception if anythin goes wrong
      */
-    Result runAnalysis(BackendCommand command) throws Exception {
+    Result runAnalysis(BackendCommand command) throws NoTracksLeftException, CovariantsException {
         if(command.getSites() == null){
             // return all tracks for data table overview
             return returnDataTableView(command.getAssembly());
