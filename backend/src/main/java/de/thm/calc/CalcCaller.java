@@ -151,12 +151,10 @@ public final class CalcCaller {
             TestTrackResult result2 = intersec2.searchTrack(track, randomPos);
 
             IndependenceTest tester = new IndependenceTest();
-            EffectSize effectSize = new EffectSize();
 
             TestResult statTestResult = tester.test(result1, result2, track);
-            effectSize.test(result1, result2);
 
-            if(statTestResult !=null)
+            if(statTestResult != null)
                 collector.addResult(statTestResult);
         }
     }
