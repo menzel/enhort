@@ -32,7 +32,7 @@ public final class ChromosomSizes {
     private ChromosomSizes() {
 
         if(System.getenv("HOME").contains("menzel")) {
-            chromosomeSizes = getChrSizesFromFile("/home/menzel/Desktop/THM/lfba/enhort/repo/backend/target/chrSizes.csv");
+            chromosomeSizes = getChrSizesFromFile("/home/menzel/Desktop/THM/lfba/enhort/repo/backend/chrSizes.csv");
         } else {
             chromosomeSizes = getChrSizesFromFile("/home/mmnz21/enhort/chrSizes.csv");
         }
