@@ -12,7 +12,7 @@ import java.util.concurrent.*;
 public class ExecutorPool {
 
     private static final int threadCount;
-    private static ExecutorPool instance;
+    private volatile static ExecutorPool instance;
 
     static {
         if(System.getenv("HOME").contains("menzel")) {

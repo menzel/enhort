@@ -15,16 +15,15 @@ import java.util.stream.Collectors;
  * Created by menzel on 7/17/17.
  */
 public class CellLine {
-    private static CellLine instance;
+    private volatile static CellLine instance;
     private SortedMap<String, List<String>> names; // all cell line names
     private final Logger logger = LoggerFactory.getLogger(CellLine.class);
 
     private CellLine(){
-        names = new TreeMap<>();
         load();
     }
 
-    public static CellLine getInstance(){
+    public synchronized static CellLine getInstance() {
         if(instance  == null)
             instance = new CellLine();
         return instance;
@@ -33,8 +32,7 @@ public class CellLine {
     /**
      * loads the cells file
      */
-    private void load() {
-
+    private synchronized void load() {
 
         DBConnector connector = new DBConnector();
         connector.connect();
@@ -60,7 +58,7 @@ public class CellLine {
      * @return list of cell lines as Strings
      */
     public Map<String, List<String>> getCelllines() {
-        return names;
+        return new TreeMap<>(names);
     }
 
 
@@ -71,7 +69,7 @@ public class CellLine {
      * @param cellline - name of the cell line as string
      * @return real name of the cell line
      */
-    public String check(String cellline) throws RuntimeException{
+    public String check(String cellline) throws IllegalArgumentException {
 
         //TODO impl check
         return cellline;

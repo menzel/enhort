@@ -22,9 +22,9 @@ import java.util.stream.Collectors;
  */
 public final class TrackFactory {
 
-    private static TrackFactory instance;
+    private volatile static TrackFactory instance;
     private final List<Track> tracks;
-    private List<TrackPackage> trackPackages;
+    private final List<TrackPackage> trackPackages;
     private final Logger logger = LoggerFactory.getLogger(TrackFactory.class);
 
 
@@ -69,7 +69,7 @@ public final class TrackFactory {
         connector.connect();
 
         if (System.getenv("HOME").contains("menzel")) {
-            allTracks = connector.getAllTracks("WHERE file like '%inout%' OR file like '%score%' ORDER BY filesize ASC");
+            allTracks = connector.getAllTracks("WHERE file like '%inout%' OR file like '%name%' ORDER BY filesize ASC");
         } else {
             allTracks = connector.getAllTracks("WHERE (cellline != 'Unknown' OR filesize < 100000) OR file like '%inout%' ORDER BY filesize ASC ");
         }
