@@ -364,7 +364,7 @@ public final class ResultCollector implements Serializable, Result{
         return null;
     }
 
-    public void addLogo(Logo logo) {
+    public synchronized void addLogo(Logo logo) {
         if(this.logo != null)
             this.other_logo = logo;
         else

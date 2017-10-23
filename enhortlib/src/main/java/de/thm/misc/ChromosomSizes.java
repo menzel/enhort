@@ -18,7 +18,7 @@ import java.util.stream.Stream;
  */
 public final class ChromosomSizes {
 
-    private static ChromosomSizes instance;
+    private static volatile ChromosomSizes instance;
     private final Map<Genome.Assembly, Map<String, Integer>> chromosomeSizes;
     private final SortedMap<Genome.Assembly, List<String>> names = new TreeMap<> ();
     private final Map<Genome.Assembly, Map<String, Long>> offsets = new HashMap<>();
@@ -31,6 +31,7 @@ public final class ChromosomSizes {
      */
     private ChromosomSizes() {
 
+        //TODO use db again?
         if(System.getenv("HOME").contains("menzel")) {
             chromosomeSizes = getChrSizesFromFile("/home/menzel/Desktop/THM/lfba/enhort/repo/backend/chrSizes.csv");
         } else {
