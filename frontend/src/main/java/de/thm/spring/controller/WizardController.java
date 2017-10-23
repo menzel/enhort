@@ -13,6 +13,7 @@ import de.thm.result.DataViewResult;
 import de.thm.result.ResultCollector;
 import de.thm.spring.backend.Session;
 import de.thm.spring.backend.Sessions;
+import de.thm.spring.backend.StatisticsCollector;
 import de.thm.spring.cache.DataTableCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +35,8 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static de.thm.spring.controller.ControllerHelper.setModel;
+
 
 @Controller
 public class WizardController {
@@ -42,7 +45,7 @@ public class WizardController {
     private final Logger logger = LoggerFactory.getLogger(WizardController.class);
 
 
-    @RequestMapping(value = {"/wiz", "/wizfile", "/wizcov"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/wiz", "/wizcov"}, method = RequestMethod.GET)
     public String wizard(Model model, HttpSession httpSession){
 
         model.addAttribute("page", "upload");
@@ -52,11 +55,29 @@ public class WizardController {
         currentSession.setSites(null); // reset old session
 
 
-        InterfaceCommand command = new InterfaceCommand();
-        model.addAttribute("interfaceCommand", command);
+        InterfaceCommand interfaceCommand = new InterfaceCommand();
+        model.addAttribute("interfaceCommand", interfaceCommand);
 
         return "wizard";
     }
+
+
+    @RequestMapping(value = "/wizfile", method = RequestMethod.GET)
+    public String wizard_get(Model model, HttpSession httpSession, @ModelAttribute InterfaceCommand interfaceCommand) {
+
+        Sessions sessionsControll = Sessions.getInstance();
+        Session currentSession = sessionsControll.getSession(httpSession.getId());
+
+        if(currentSession.getCollector() != null)
+            interfaceCommand.setTracks(currentSession.getCollector().getTracks());
+
+        model.addAttribute("interfaceCommand", interfaceCommand);
+        model = loadDataTableModel(model, Genome.Assembly.hg19, httpSession);
+        model.addAttribute("page", "tracks");
+
+        return "wizard";
+    }
+
 
     @RequestMapping(value = "/wizfile", method = RequestMethod.POST)
     public String wizard1(Model model, HttpSession httpSession, @RequestParam("file") MultipartFile file, @ModelAttribute InterfaceCommand interfaceCommand) {
@@ -116,13 +137,15 @@ public class WizardController {
         return "error";
     }
 
-    @RequestMapping(value = "/wizcov", method = RequestMethod.POST)
-    public String wizard2(Model model, HttpSession httpSession, @RequestParam("file") MultipartFile file, @ModelAttribute InterfaceCommand interfaceCommand){
+    @RequestMapping(value = "/wizresult", method = RequestMethod.POST)
+    public String wizard2(Model model, HttpSession httpSession, @ModelAttribute InterfaceCommand interfaceCommand){
+
+        StatisticsCollector stats = StatisticsCollector.getInstance();
 
         Sessions sessionsControll = Sessions.getInstance();
         Session currentSession = sessionsControll.getSession(httpSession.getId());
 
-        if(interfaceCommand.getTracks().size() > 0) { // serve covariates page:
+        if(interfaceCommand.getTracks().size() > 0) {
 
             interfaceCommand.setAssembly(currentSession.getSites().getAssembly().toString());
             interfaceCommand.setSites(currentSession.getSites());
@@ -131,6 +154,7 @@ public class WizardController {
             BackendCommand command = new BackendCommand(interfaceCommand);
 
             ResultCollector collector = null;
+
             try {
                 collector = (ResultCollector) currentSession.getConnector().runAnalysis(command);
 
@@ -148,6 +172,15 @@ public class WizardController {
                 return "error";
             }
 
+
+            setModel(model, collector, currentSession.getSites(), currentSession.getOriginalFilename());
+            model.addAttribute("covariants", new ArrayList<>());
+            model.addAttribute("covariantCount", 0);
+            model.addAttribute("customTracks", currentSession.getCustomTracks());
+
+            stats.addAnaylseC();
+            stats.addFileC();
+
             currentSession.setCollector(collector);
 
             model.addAttribute("interfaceCommand", interfaceCommand);
@@ -159,8 +192,7 @@ public class WizardController {
 
             //TODO
 
-            return "wizard";
-
+            return "result";
         }
         return "error";
     }

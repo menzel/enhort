@@ -24,45 +24,25 @@
 <div th:include="header:: bar"></div>
 
 <div class="col-xs-10 col-xs-offset-2 col-sm-6 col-sm-offset-2 col-md-7 col-md-offset-2 main">
+
+    <img id="wizard" src="title_logo_wizard.png"/>
+    <label class="coll"><span class="glyphicon glyphicon-info-sign"></span></label>
+
     <div class="container row col-md-12">
 
         <th:block th:switch="${page}">
             <th:block th:case="'upload'">
-                <object id="workflowsvg" data="img/wizbar_small1.svg" type="image/svg+xml"></object>
-                <img id="wizard" src="title_logo_wizard.png"/>
 
                 <div id="wizardheader">
                    Upload File
-                    <div class="right">
-                        Step 1 of 3
-                    </div>
                 </div>
 
             </th:block>
             <th:block th:case="'tracks'">
-                <object id="workflowsvg" data="img/wizbar_small2.svg" type="image/svg+xml" onclick="window.history.back();"></object>
-                <img id="wizard" src="title_logo_wizard.png"/>
 
                  <div id="wizardheader">
                    Select Annotations
-                    <div class="right">
-                        Step 2 of 3
-                    </div>
                  </div>
-
-
-            </th:block>
-            <th:block th:case="'covariates'">
-                <object id="workflowsvg" data="img/wizbar_small3.svg" type="image/svg+xml" onclick="window.history.back();"></object>
-                <img id="wizard" src="title_logo_wizard.png"/>
-
-                <div id="wizardheader">
-                   Select Covariates
-                    <div class="right">
-                        Step 3 of 3
-                    </div>
-                </div>
-
             </th:block>
         </th:block>
 
@@ -90,9 +70,7 @@
 
                 <th:block th:case="'tracks'">
 
-                    <form method="POST" enctype="multipart/form-data" action="/wizcov" id="uploadform" th:object="${interfaceCommand}">
-
-                        <input style="display: none" type="file" name="file" id="file"/>
+                    <form method="POST" action="/wizresult" id="uploadform" th:object="${interfaceCommand}">
 
                         <div id="header_out">
                             <!-- Assembly -->
@@ -127,10 +105,6 @@
 
                         Select one or more presets:
                         <div id="presets">
-                            <div class="preset"><label>
-                                <input type="checkbox"/>
-                                 Suggested tracks
-                            </label></div>
                             <div class="preset"><label>
                                 <input type="checkbox"/>
                             Histone modifications
@@ -232,78 +206,13 @@
                     </form>
 
                 </th:block>
-
-
-                <th:block th:case="'covariates'">
-
-
-                    <form method="POST" action="/covariate" id="uploadform">
-
-                        <input th:value="${interfaceCommand.assembly}" th:field="*{interfaceCommand.assembly}"
-                               type="hidden"/>
-                        <input th:value="${interfaceCommand.tracks}" th:field="*{interfaceCommand.tracks}"
-                               type="hidden"/>
-                        <input th:value="${interfaceCommand.logo}" th:field="*{interfaceCommand.logo}"
-                               type="hidden"/>
-
-                        <button type="button" onclick="window.history.back();" class="btn btn-default">Back</button>
-
-                        <button onclick="this.disabled=true;this.form.submit();" class="btn btn-primary right">Continue</button>
-
-                        <h4>Skip this step if you want a random background. Otherwise upload a file with background sites:</h4>
-
-                        <input type="file" name="file" id="file" class="btn"/>
-
-                        <hr/>
-                        <h3>-Or-</h3>
-
-                        <h4>choose Covariates to adapt the background model:</h4>
-
-                        <table class="table table-hover fixed covariates">
-
-                            <thead><tr>
-                                <th th:text="${'Significant tracks' + ' (' + sigTrackCount + '/' + trackCount + ')'}"
-                                    data-toggle="tooltip" data-placement="right" title="Count of significant tracks vs all tracks">
-                                    Significant Tracks
-                                </th>
-
-                                <th data-toggle="tooltip" data-placement="right" title="P-value computed by chi-square-test">P Value
-                                </th>
-                                <th>Effect Size</th>
-                                <th>Relative Integration<span style="font-size: 10px;"> <span
-                                        style="color: #337ab7; font-size: 13px;">Data</span> vs. <span
-                                        style="color: #555; font-size: 13px;"> Background</span></span></th>
-                                <th>Covariate</th>
-                            </tr></thead>
-
-
-                            <th:block th:each="result: ${tracks}">
-                                <tr>
-                                    <td th:text="${result.name}"></td>
-                                    <td th:text="${result.pValue}"></td>
-                                    <td th:text="${result.effectSize}"></td>
-                                    <td class="bars">
-                                        <div class="bar measured" th:style="'width: ' + ${result.percentInM} + '%;'"></div>
-                                        <div class="bar expected" th:style="'width: ' + ${result.percentInE} + '%;'"></div>
-                                    </td>
-                                    <td><input th:field="*{interfaceCommand.covariants}" th:value="${result.id}"
-                                               type="checkbox"/></td>
-                                </tr>
-                            </th:block>
-                        </table>
-
-                        <!-- Covariates -->
-
-                        <button onclick="this.disabled=true;this.form.submit();" class="btn btn-primary right">Continue</button>
-                    </form>
-                </th:block>
-
             </th:block>
+
+
         </div>
 
     </div>
 
-    <label class="coll"><span class="glyphicon glyphicon-info-sign"></span></label>
     <div>
 
 </div>
