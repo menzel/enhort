@@ -1,15 +1,13 @@
 package de.thm.calc;
 
-import de.thm.backgroundModel.BackgroundModel;
 import de.thm.genomeData.tracks.*;
 import de.thm.logo.GenomeFactory;
-import de.thm.misc.ChromosomSizes;
-import de.thm.misc.Genome;
 import de.thm.logo.Logo;
 import de.thm.logo.LogoCreator;
+import de.thm.misc.ChromosomSizes;
+import de.thm.misc.Genome;
 import de.thm.positionData.Sites;
 import de.thm.result.ResultCollector;
-import de.thm.stat.EffectSize;
 import de.thm.stat.IndependenceTest;
 import de.thm.stat.TestResult;
 import org.slf4j.Logger;
@@ -51,8 +49,7 @@ public final class CalcCaller {
 
         ////////////  Tracks intersect ////////////////
 
-        ResultCollector collector = new ResultCollector((BackgroundModel) randomPositions, tracks.get(0).getAssembly(), tracks); // get assembly from the first track
-        logger.debug("Running the calc now");
+        ResultCollector collector = new ResultCollector(randomPositions, tracks.get(0).getAssembly(), tracks); // get assembly from the first track
 
         List<Future> futures = Collections.synchronizedList(new ArrayList<>());
 
