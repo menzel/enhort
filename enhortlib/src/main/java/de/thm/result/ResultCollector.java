@@ -1,6 +1,5 @@
 package de.thm.result;
 
-import de.thm.backgroundModel.BackgroundModel;
 import de.thm.genomeData.tracks.Track;
 import de.thm.logo.Logo;
 import de.thm.misc.Genome;
@@ -25,7 +24,7 @@ import java.util.stream.Collectors;
 public final class ResultCollector implements Serializable, Result{
 
     private final List<TestResult> results;
-    private final BackgroundModel backgroundSites;
+    private final Sites backgroundSites;
     private final Genome.Assembly assembly;
     private List<String> tracks; //keeps a list of all known packages for the gui to display
     private Logo logo;
@@ -34,7 +33,7 @@ public final class ResultCollector implements Serializable, Result{
 
     private static final Logger logger = LoggerFactory.getLogger(ResultCollector.class);
 
-    public ResultCollector(BackgroundModel bgModel, Genome.Assembly assembly, List<Track> tracks) {
+    public ResultCollector(Sites bgModel, Genome.Assembly assembly, List<Track> tracks) {
         results = Collections.synchronizedList(new ArrayList<>());
         backgroundSites = bgModel;
         this.tracks = tracks.stream().map(t -> String.valueOf(t.getUid())).collect(Collectors.toList());
