@@ -42,7 +42,7 @@ public class ControllerHelper {
 
         //cmd.setMinBg(collector.getBgCount());
         cmd.setMinBg(10000);
-        model.addAttribute("bgCount", 42);
+        model.addAttribute("bgCount", collector.getBackgroundSites().getPositionCount());
         model.addAttribute("sigTrackCount", inout.size() + score.size() + name.size());
         model.addAttribute("trackCount", collector.getTrackCount());
 

@@ -45,7 +45,7 @@ public class WizardController {
     private final Logger logger = LoggerFactory.getLogger(WizardController.class);
 
 
-    @RequestMapping(value = {"/wiz", "/wizcov"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/wiz", "/wizcov", "/wizresult"}, method = RequestMethod.GET)
     public String wizard(Model model, HttpSession httpSession){
 
         model.addAttribute("page", "upload");
@@ -182,6 +182,7 @@ public class WizardController {
             stats.addFileC();
 
             currentSession.setCollector(collector);
+            interfaceCommand.setMinBg(10000);
 
             model.addAttribute("interfaceCommand", interfaceCommand);
             model.addAttribute("tracks", currentSession.getCollector().getInOutResults(false));
