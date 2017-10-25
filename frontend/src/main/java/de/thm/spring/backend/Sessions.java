@@ -1,6 +1,5 @@
 package de.thm.spring.backend;
 
-import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -31,19 +30,18 @@ public final class Sessions {
      * Creates a session and adds it to the list of known sessions.
      *
      * @param key  - http session key
-     * @param file - input file of the user
      * @return new Session object
      */
-    public Session addSession(String key, Path file) {
+    public Session addSession(String key) {
         if (sessions.containsKey(key)) { //only renew the file and keep the rest:
 
-            Session renew = new Session(file, key, sessions.get(key).getDate(), sessions.get(key).getCustomTracks());
+            Session renew = new Session(key, sessions.get(key).getDate(), sessions.get(key).getCustomTracks());
             sessions.put(key, renew);
 
 
         } else {
 
-            Session session = new Session(file, key, new Date(), new ArrayList<>());
+            Session session = new Session(key, new Date(), new ArrayList<>());
             sessions.put(key, session);
         }
 

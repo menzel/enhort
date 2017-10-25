@@ -5,9 +5,6 @@ import de.thm.positionData.UserData;
 import de.thm.result.ResultCollector;
 import de.thm.stat.TestResult;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +22,6 @@ public final class Session {
 
     private final String key;
     private final Date date;
-    private Path file;
     private ResultCollector collector;
     private String originalFilename;
     private List<TestResult> covariants;
@@ -35,8 +31,7 @@ public final class Session {
     private UserData sites;
     private final BackendConnector connector;
 
-    Session(Path file, String key, Date date, List<Track> customTracks) {
-        this.file = file;
+    Session(String key, Date date, List<Track> customTracks) {
         this.key = key;
         this.date = date;
         this.customTracks = customTracks;
@@ -53,10 +48,6 @@ public final class Session {
         connector = new BackendConnector();
     }
 
-    public Path getFile() {
-        return file;
-    }
-
     public String getKey() {
         return key;
     }
@@ -68,7 +59,6 @@ public final class Session {
     @Override
     public String toString() {
         return "Session{" +
-                "file=" + file +
                 ", key='" + key + '\'' +
                 ", date=" + date +
                 '}';
@@ -78,14 +68,7 @@ public final class Session {
      * Deletes the known file and close connection to backend
      */
     void delete() {
-        try {
-            if(file != null)
-                Files.deleteIfExists(file);
-            connector.close();
-        } catch (IOException e) {
-            // logger.warn("File is not there. Could not delete");
-            // do nothing here. File seems to be unreacheable
-        }
+        connector.close();
     }
 
     public void addCustomTrack(Track track){
