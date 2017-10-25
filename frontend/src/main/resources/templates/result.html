@@ -298,9 +298,11 @@
             </div>
             <div class="col-md-4">
 
-                <div class="bg-info" th:if="${bgfilename != 'Background'}"> Background sites are taken from the uploaded file <span th:text="${bgfilename}"></span></div>
+                <div class="bg-info" th:if="${bgfilename != 'Background'}">
+                    Background sites are taken from the uploaded file <span th:text="${bgfilename}"></span>
+                </div>
 
-                <table class="table table-hover fixed">
+                <table class="table table-hover fixed" th:if="${bgfilename == 'Background'}">
 
                     <col width="400px"/>
                     <col width="30px"/>
