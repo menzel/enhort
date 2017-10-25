@@ -93,8 +93,15 @@ public class UploadController {
 
                 Path inputFilepath = basePath.resolve(uuid);
 
-                Session currentSession = sessionControll.addSession(httpSession.getId(), inputFilepath);
+                Session currentSession = sessionControll.addSession(httpSession.getId());
                 UserData data = new UserData(AssemblyGuesser.guessAssembly(inputFilepath),inputFilepath);
+
+                try {
+                    Files.deleteIfExists(inputFilepath);
+                } catch (IOException e) {
+                    // logger.warn("File is not there. Could not delete");
+                    // do nothing here. File seems to be unreacheable
+                }
 
                 if(data.getPositionCount() < 1){
                     model.addAttribute("errorMessage", "There were no positions in the file '" + file.getOriginalFilename() + "' you uploaded." +
@@ -227,6 +234,7 @@ public class UploadController {
 
         Pattern interval = Pattern.compile("(chr(\\d{1,2}|X|Y))\\s(\\d*)\\s(\\d*)");
         ChromosomSizes chrSizes = ChromosomSizes.getInstance();
+        Genome.Assembly assembly = Genome.Assembly.hg19;
 
          if (!file.isEmpty()) {
              try {
@@ -250,18 +258,20 @@ public class UploadController {
                         String line = (String) it.next();
                         Matcher line_matcher = interval.matcher(line);
                         if (line_matcher.matches()) {
-                            start.add(Long.parseLong(line_matcher.group(3)) + chrSizes.offset(Genome.Assembly.hg19, line_matcher.group(1)));
-                            end.add(Long.parseLong(line_matcher.group(4)) + chrSizes.offset(Genome.Assembly.hg19, line_matcher.group(1)));
+                            start.add(Long.parseLong(line_matcher.group(3)) + chrSizes.offset(assembly, line_matcher.group(1)));
+                            end.add(Long.parseLong(line_matcher.group(4)) + chrSizes.offset(assembly, line_matcher.group(1)));
                         }
                     }
 
                     lines.close();
 
-                    Files.delete(path);
+                    Files.deleteIfExists(path);
                     //TODO do not write file which needs to be deleted after anyway
 
                     //Track track = TrackFactory.getInstance().createInOutTrack(start,end,name,name, Genome.Assembly.hg19);
                     //TODO fix use w/out track factory
+
+                    //InOutTrack track = new InOutTrack(start, end, name,"Uploaded track", assembly, "Unknown");
 
                     //currentSession.addCustomTrack(track);
 
@@ -319,8 +329,7 @@ public class UploadController {
         model.addAttribute("expressionCommand", exCommand);
 
         if (collector != null) {
-            Path position_file= currentSession.getFile();
-            UserData data = new UserData(collector.getAssembly(), position_file);
+            UserData data = currentSession.getSites();
 
             List<TestResult> covariants = currentSession.getCovariants();
 
