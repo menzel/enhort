@@ -33,8 +33,12 @@
             <h3>Basics</h3>
 
             <p>Welcome to Enhort, an analyzing tool for genomic positions. Enhort accepts .bed-files, where in each line a genomic position is specified (e.g. chr7 1000 1001).
-            You can upload your .bed-file on the <a href="/">Index-Page</a> or using the <a href="/wiz">Wizard</a>. Enhort then tests your genomic positions against a set of annotations.
-            Using the wizard you can select annotations, based on your assembly number and cellline, see the section about the wizard usage below on this page. The quickstart upload uses a curated list of annotations, containing genes and gene related features, genotoxicity, accessability and a selection of histone modifications.
+                You can upload your .bed-file on the <a href="/">Index-Page</a> or using the <a href="/wiz">Guided
+                    Analysis</a>. Enhort then tests your genomic positions against a set of annotations.
+                Using the Guided Analysis you can select annotations, based on your assembly number and cellline, see
+                the section about the Guided Analysis usage below on this page. The quickstart upload uses a curated
+                list of annotations, containing genes and gene related features, genotoxicity, accessability and a
+                selection of histone modifications.
             </p>
 
             <p>
@@ -50,15 +54,17 @@
                Multiple annotations can be selected as covariates to create a specified background model for your sites.
             </p>
 
-            <h3>Wizard</h3>
+            <h3>Guided Analysis</h3>
 
             <p>
-                The wizard guides you through the steps to create an analysis. On the first page upload your .bed-file. Based on the positions the assembly is guessed.
+                The <a href="/wiz">Guided Analysis</a> you through the steps to create an analysis. On the first page
+                upload your .bed-file. Based on the positions the assembly is guessed.
                 On the second page a selection of annotations can be made, based on your used cell line and the questions you have for the data.
                 For example your positions are sequenced from a hESC cell line, all specific annotations for this cell line can be selected by clicking of the cell line name on the left of the table.
-                Additionally you can select cell line indepenedent annotations such as genes or CpG islands by clicking the blue labels in the "Unknown" row.
-                After you click "continue" you can upload your own set of background sites or pre-select covariates for the background model.
-                Take a look at the previous section for information about covariates and the upcoming results page.
+                Additionally you can select cell line independent annotations such as genes or CpG islands by clicking
+                the blue labels in the "Unknown" row.
+                Subsequently the selected annotations are used to compare a random background model against your
+                uploaded positions, as explained above.
             </p>
 
             <!-- FAQ -->
@@ -72,7 +78,7 @@
             <h3>If a scored track is set as covariant, the P-value is not always exact 1</h3>
             <hr/>
             <p>In contrast to basic inside/outside tracks the background model creation for scored tracks works with an expectancy value. Thus the counts to do excacly match.</p>
-            <p>However, the p-value is above the 5% significant level in most cases.</p>
+            above<p>However, the p-value is above the 5% significant level in most cases.</p>
 
             <h3>Why is the p-value exact 0.0?</h3>
             <hr/>
