@@ -3,12 +3,11 @@
       xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
-    <title>Enhort - Wizard</title>
+    <title>Enhort - Guided Analysis</title>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
     <link rel="stylesheet" media="screen" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" media="screen" href="../static/css/faq.css" th:href="@{/css/faq.css}"/>
     <link rel="stylesheet" media="screen" href="../static/css/result.css" th:href="@{/css/result.css}"/>
     <link rel="stylesheet" media="screen" href="../static/css/celllinetree.css" th:href="@{/css/celllinetree.css}"/>
     <link rel="stylesheet" media="screen" href="../static/css/wizard.css" th:href="@{/css/wizard.css}"/>
@@ -72,25 +71,21 @@
 
                     <form method="POST" action="/wizresult" id="uploadform" th:object="${interfaceCommand}">
 
+                        <div id="file"><!-- prevent js type error null --></div>
+
                         <div id="header_out">
                             <!-- Assembly -->
 
                             <div id="header_in1">
-                                <p style="float: left;">
-                                    The annotations are based on
-                                </p>
-
-                                <div class="dropdown show">
-                                    <a class="btn btn-secondary dropdown-toggle" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span th:text="${interfaceCommand.assembly}"></span>
-                                        <span class="caret"></span>
-                                    </a>
-
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <a class="dropdown-item" href="#">hg18</a>
-                                        <a class="dropdown-item" href="#">hg19</a>
-                                        <a class="dropdown-item" href="#">hg38</a>
-                                    </div>
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle" type="button"
+                                            data-toggle="dropdown"><span th:text="${interfaceCommand.assembly}"></span>
+                                        <span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">hg18</a></li>
+                                        <li><a href="#">hg19</a></li>
+                                        <li><a href="#">hg38</a></li>
+                                    </ul>
                                 </div>
                             </div>
 
