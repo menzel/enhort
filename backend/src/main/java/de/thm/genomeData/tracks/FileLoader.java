@@ -1,8 +1,8 @@
 package de.thm.genomeData.tracks;
 
 import de.thm.genomeData.sql.DBConnector;
-import de.thm.misc.Genome;
 import de.thm.misc.ChromosomSizes;
+import de.thm.misc.Genome;
 import de.thm.misc.PositionPreprocessor;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.math3.util.Precision;
@@ -63,7 +63,7 @@ final class FileLoader implements Runnable {
     @Override
     public void run() {
 
-        Optional<Track> track = initTrackfromFile(path.toFile());
+        Optional<Track> track = readBedFile(path.toFile());
         track.ifPresent(tracks::add);
     }
 
@@ -114,7 +114,7 @@ final class FileLoader implements Runnable {
      *
      * @param file - file to parse
      */
-    private Optional<Track> initTrackfromFile(File file) {
+    private Optional<Track> readBedFile(File file) {
 
         ChromosomSizes chrSizes = ChromosomSizes.getInstance();
 

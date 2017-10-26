@@ -5,7 +5,6 @@ import de.thm.misc.Genome;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -48,8 +47,6 @@ public final class TrackFactory {
 
     /**
      * Public method to load a single track by given path
-     *
-     * @throws IOException if something goes wrong while loading the track
      */
     public void loadTrack(DBConnector.TrackEntry entry) {
         FileLoader loader = new FileLoader(entry, tracks);
@@ -63,13 +60,13 @@ public final class TrackFactory {
     public void loadAllTracks() {
 
         final List<Track> tracks = Collections.synchronizedList(new ArrayList<>());
-        List<DBConnector.TrackEntry> allTracks = null;
+        List<DBConnector.TrackEntry> allTracks;
 
         DBConnector connector  = new DBConnector();
         connector.connect();
 
         if (System.getenv("HOME").contains("menzel")) {
-            allTracks = connector.getAllTracks("WHERE file like '%inout%' OR file like '%name%' ORDER BY filesize ASC");
+            allTracks = connector.getAllTracks("WHERE file like '%inout%' ORDER BY filesize ASC");
         } else {
             allTracks = connector.getAllTracks("WHERE (cellline != 'Unknown' OR filesize < 100000) OR file like '%inout%' ORDER BY filesize ASC ");
         }
@@ -149,7 +146,7 @@ public final class TrackFactory {
      */
     public List<Track> getTracksByPackage(String name, Genome.Assembly assembly) {
         for (TrackPackage pack : trackPackages) {
-            if (pack.getName() == name && pack.getAssembly() == assembly)
+            if (pack.getName().equals(name) && pack.getAssembly() == assembly)
                 return pack.getTrackList();
         }
         throw new RuntimeException("No TrackPackage with that name (" + name + ") and assembly (" + assembly + ")");
@@ -165,7 +162,7 @@ public final class TrackFactory {
         return null; //TODO FIX this.trackPackages.stream().filter(i -> i.getAssembly() == assembly).map(TrackPackage::getName).map(Enum::toString).collect(Collectors.toList());
     }
 
-    public List<TrackPackage> getTrackPackages(Genome.Assembly assembly) {
+    public List<TrackPackage> getTrackPackages() {
         return this.trackPackages;
     }
 
@@ -195,11 +192,11 @@ public final class TrackFactory {
      * If any given Id does not exists no error is thrown.
      *
      * @param trackIds - list of ids (as String)
-     * @return
+     * @return list of tracks for the given ids
      */
     public List<Track> getTracksById(List<String> trackIds) {
 
-        List<Integer> ids = trackIds.stream().map(n -> Integer.parseInt(n)).collect(Collectors.toList());
+        List<Integer> ids = trackIds.stream().map(Integer::parseInt).collect(Collectors.toList());
         return tracks.parallelStream().filter(track -> ids.contains(track.getUid())).collect(Collectors.toList());
     }
 
