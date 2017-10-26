@@ -25,7 +25,6 @@
 <div class="col-xs-10 col-xs-offset-2 col-sm-6 col-sm-offset-2 col-md-7 col-md-offset-2 main">
 
     <img id="wizard" src="title_logo_wizard.png"/>
-    <label class="coll"><span class="glyphicon glyphicon-info-sign"></span></label>
 
     <div class="container row col-md-12">
 
@@ -34,14 +33,26 @@
 
                 <div id="wizardheader">
                    Upload File
+
+                    <span class="glyphicon glyphicon-info-sign wizinfo" data-toggle="tooltip"
+                          data-placement="bottom"
+                          title="Please upload a file in the .bed-file format containing a set of genomic positions."></span>
+
                 </div>
+
 
             </th:block>
             <th:block th:case="'tracks'">
 
                  <div id="wizardheader">
                    Select Annotations
+
+                     <span class="glyphicon glyphicon-info-sign wizinfo" data-toggle="tooltip"
+                           data-placement="bottom"
+                           title="On this page you can select a set of genomic annotations. Your uploaded sites will be tested against each of the selected annotations.
+                            Results will be displayed on the next page."></span>
                  </div>
+
             </th:block>
         </th:block>
 
@@ -273,6 +284,19 @@
 
         document.getElementById("counter").innerHTML = "0 tracks selected";
     }
+
+</script>
+
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip({
+            container: 'body'
+
+        });
+    });
+
+    $('.checked').prop('checked', true);
 
 </script>
 

@@ -7,11 +7,10 @@
     margin-top: 10px;
 }
 
-#info{
-    margin-top: 130px;
-    background-color: rgba(51, 122, 183, 0.48);
-    height:100%;
-    width:500px;
+.wizinfo {
+    font-size: 19px;
+    color: white;
+    float: right;
 }
 
 img {
