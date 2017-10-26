@@ -162,8 +162,14 @@ public final class TrackFactory {
         return null; //TODO FIX this.trackPackages.stream().filter(i -> i.getAssembly() == assembly).map(TrackPackage::getName).map(Enum::toString).collect(Collectors.toList());
     }
 
-    public List<TrackPackage> getTrackPackages() {
-        return this.trackPackages;
+    /**
+     * Get all track packages by given assembly
+     *
+     * @param assembly - number of the assembly
+     * @return a list of track packages that have the given assembly
+     */
+    public List<TrackPackage> getTrackPackages(Genome.Assembly assembly) {
+        return this.trackPackages.stream().filter(i -> i.getAssembly() == assembly).collect(Collectors.toList());
     }
 
 
