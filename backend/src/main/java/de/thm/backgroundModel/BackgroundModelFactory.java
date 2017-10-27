@@ -1,6 +1,6 @@
 package de.thm.backgroundModel;
 
-import de.thm.exception.CovariantsException;
+import de.thm.exception.CovariatesException;
 import de.thm.exception.TrackTypeNotAllowedExcpetion;
 import de.thm.genomeData.tracks.*;
 import de.thm.misc.Genome;
@@ -66,9 +66,9 @@ public final class BackgroundModelFactory {
      * @param sites - sites to set the probabilities for the background positions
      * @param minSites - minimum expected sites count
      * @return background model as sites object.
-     * @throws CovariantsException - if there are too many covariants
+     * @throws CovariatesException - if there are too many covariants
      */
-    public static Sites createBackgroundModel(List<Track> trackList, Sites sites, int minSites, double smooth) throws CovariantsException, TrackTypeNotAllowedExcpetion {
+    public static Sites createBackgroundModel(List<Track> trackList, Sites sites, int minSites, double smooth) throws CovariatesException, TrackTypeNotAllowedExcpetion {
 
 
         if (trackList.isEmpty())
@@ -80,7 +80,8 @@ public final class BackgroundModelFactory {
         else if (trackList.stream().allMatch(i -> i instanceof InOutTrack))
             if(trackList.size() < maxCovariantsInOutOnly) {
                 return MultiTrackBackgroundModel.create(trackList, sites, minSites);
-            } else throw new CovariantsException("Too many covariants: " + trackList.size() + ". Max " + maxCovariantsInOutOnly + " are allowed");
+            } else
+                throw new CovariatesException("Too many covariants: " + trackList.size() + ". Max " + maxCovariantsInOutOnly + " are allowed");
 
         else if (trackList.size() <= maxCovariants) {
 
@@ -113,7 +114,7 @@ public final class BackgroundModelFactory {
             }
 
         } else {
-            throw new CovariantsException("Too many covariants. " + trackList.size() + ". Only " + maxCovariantsInOutOnly + " are allowed");
+            throw new CovariatesException("Too many covariants. " + trackList.size() + ". Only " + maxCovariantsInOutOnly + " are allowed");
         }
     }
 }

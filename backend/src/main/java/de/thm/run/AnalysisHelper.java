@@ -3,14 +3,14 @@ package de.thm.run;
 import de.thm.backgroundModel.BackgroundModelFactory;
 import de.thm.calc.CalcCaller;
 import de.thm.command.BackendCommand;
-import de.thm.exception.CovariantsException;
+import de.thm.exception.CovariatesException;
 import de.thm.exception.NoTracksLeftException;
 import de.thm.genomeData.tracks.CellLine;
 import de.thm.genomeData.tracks.Track;
 import de.thm.genomeData.tracks.TrackFactory;
 import de.thm.genomeData.tracks.TrackPackage;
-import de.thm.misc.Genome;
 import de.thm.logo.LogoCreator;
+import de.thm.misc.Genome;
 import de.thm.positionData.Sites;
 import de.thm.precalc.SiteFactory;
 import de.thm.precalc.SiteFactoryFactory;
@@ -71,9 +71,9 @@ class AnalysisHelper {
      * @param sites - sites to match background model against.
      * @param cmd - covariant command object
      * @return Collection of Results inside a ResultCollector object
-     * @throws CovariantsException - if too many covariants are supplied or an impossible combination
+     * @throws CovariatesException - if too many covariants are supplied or an impossible combination
      */
-    private ResultCollector runAnalysis(Sites sites, BackendCommand cmd) throws CovariantsException, NoTracksLeftException {
+    private ResultCollector runAnalysis(Sites sites, BackendCommand cmd) throws CovariatesException, NoTracksLeftException {
         List<Track> covariants = getCovariants(cmd.getCovariants(), cmd.getAssembly());
         final Sites[] bg = new Sites[1];
         Double smooth = 10d; //cmd.getInfluence(); //TODO use user defined value
@@ -178,9 +178,10 @@ class AnalysisHelper {
      *
      * @param command - command which sets the params and contains any information for the run
      * @return Result of the computation
-     * @throws Exception if anythin goes wrong
+     * @throws NoTracksLeftException if there are no tracks for the given filters
+     * @throws CovariatesException if the number or combination of covariates is impossible
      */
-    Result runAnalysis(BackendCommand command) throws NoTracksLeftException, CovariantsException {
+    Result runAnalysis(BackendCommand command) throws NoTracksLeftException, CovariatesException {
         if(command.getSites() == null){
             // return all tracks for data table overview
             return returnDataTableView(command.getAssembly());
