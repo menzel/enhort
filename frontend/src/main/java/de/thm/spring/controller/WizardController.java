@@ -72,7 +72,7 @@ public class WizardController {
             interfaceCommand.setTracks(currentSession.getCollector().getTracks());
 
         model.addAttribute("interfaceCommand", interfaceCommand);
-        model = loadDataTableModel(model, Genome.Assembly.hg19, httpSession);
+        model = loadDataTableModel(model, currentSession.getSites().getAssembly(), httpSession);
         model.addAttribute("page", "tracks");
 
         return "wizard";
@@ -129,7 +129,9 @@ public class WizardController {
 
             /* Add presets */
 
-            model = loadDataTableModel(model, Genome.Assembly.hg19, httpSession);
+            model = loadDataTableModel(model, assembly, httpSession);
+
+            model.addAttribute("interfaceCommand", interfaceCommand);
             model.addAttribute("page", "tracks");
 
             return "wizard";
