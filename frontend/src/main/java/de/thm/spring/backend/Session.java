@@ -65,7 +65,7 @@ public final class Session {
     }
 
     /**
-     * Deletes the known file and close connection to backend
+     * Close connection to backend
      */
     void delete() {
         connector.close();

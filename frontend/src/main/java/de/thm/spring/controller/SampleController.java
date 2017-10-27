@@ -1,7 +1,7 @@
 package de.thm.spring.controller;
 
 import de.thm.command.BackendCommand;
-import de.thm.exception.CovariantsException;
+import de.thm.exception.CovariatesException;
 import de.thm.exception.NoTracksLeftException;
 import de.thm.misc.Genome;
 import de.thm.positionData.UserData;
@@ -79,7 +79,7 @@ public class SampleController {
                 return "error";
             }
 
-        } catch (CovariantsException | SocketTimeoutException | NoTracksLeftException e) {
+        } catch (CovariatesException | SocketTimeoutException | NoTracksLeftException e) {
             model.addAttribute("errorMessage", e.getMessage());
             return "error";
         }

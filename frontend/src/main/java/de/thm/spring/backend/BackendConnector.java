@@ -2,7 +2,7 @@ package de.thm.spring.backend;
 
 import de.thm.command.BackendCommand;
 import de.thm.command.ExpressionCommand;
-import de.thm.exception.CovariantsException;
+import de.thm.exception.CovariatesException;
 import de.thm.exception.NoTracksLeftException;
 import de.thm.genomeData.tracks.Track;
 import de.thm.result.DataViewResult;
@@ -97,9 +97,9 @@ public final class BackendConnector {
      *
      * @param command - data and directives
      * @return Results of the executed commnads
-     * @throws CovariantsException - if too many or impossible combination of covariants is given
+     * @throws CovariatesException - if too many or impossible combination of covariants is given
      */
-    public Result runAnalysis(BackendCommand command) throws CovariantsException, SocketTimeoutException, NoTracksLeftException {
+    public Result runAnalysis(BackendCommand command) throws CovariatesException, SocketTimeoutException, NoTracksLeftException {
 
         connect();
 
@@ -119,8 +119,8 @@ public final class BackendConnector {
 
                 if (answer instanceof Exception) {
 
-                    if (answer instanceof CovariantsException)
-                        throw (CovariantsException) answer;
+                    if (answer instanceof CovariatesException)
+                        throw (CovariatesException) answer;
                     if (answer instanceof NoTracksLeftException)
                         throw (NoTracksLeftException) answer;
 

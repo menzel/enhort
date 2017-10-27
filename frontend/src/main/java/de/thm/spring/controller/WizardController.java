@@ -2,7 +2,7 @@ package de.thm.spring.controller;
 
 import de.thm.command.BackendCommand;
 import de.thm.command.InterfaceCommand;
-import de.thm.exception.CovariantsException;
+import de.thm.exception.CovariatesException;
 import de.thm.exception.NoTracksLeftException;
 import de.thm.genomeData.tracks.Track;
 import de.thm.genomeData.tracks.TrackPackage;
@@ -165,7 +165,7 @@ public class WizardController {
                 model.addAttribute("message", "There are no tracks for this combination of cell lines and packages");
                 return "error";
 
-            } catch (CovariantsException | SocketTimeoutException e){
+            } catch (CovariatesException | SocketTimeoutException e) {
                 logger.error("Exception {}", e.getMessage(), e);
             }
 
@@ -253,7 +253,7 @@ public class WizardController {
                 logger.warn("ApplicationController: Collector for data is null");
             }
 
-        } catch (CovariantsException | SocketTimeoutException | NoTracksLeftException | ClassCastException e) {
+        } catch (CovariatesException | SocketTimeoutException | NoTracksLeftException | ClassCastException e) {
             logger.error("Exception {}", e.getMessage(), e);
         }
 

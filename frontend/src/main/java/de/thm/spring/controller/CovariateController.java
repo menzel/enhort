@@ -2,14 +2,14 @@ package de.thm.spring.controller;
 
 
 import de.thm.command.BackendCommand;
-import de.thm.exception.CovariantsException;
+import de.thm.command.ExpressionCommand;
+import de.thm.command.InterfaceCommand;
+import de.thm.exception.CovariatesException;
 import de.thm.positionData.UserData;
 import de.thm.result.ResultCollector;
 import de.thm.spring.backend.Session;
 import de.thm.spring.backend.Sessions;
 import de.thm.spring.backend.StatisticsCollector;
-import de.thm.command.ExpressionCommand;
-import de.thm.command.InterfaceCommand;
 import de.thm.stat.TestResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -93,7 +93,7 @@ public class CovariateController {
             }
 
 
-        } catch (CovariantsException e) {
+        } catch (CovariatesException e) {
             model.addAttribute("errorMessage", "Too many covariants, a max of " + "10 covariants is allowed.");
             collector = currentSession.getCollector();
 
