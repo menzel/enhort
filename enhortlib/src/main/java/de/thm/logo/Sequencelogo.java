@@ -15,7 +15,7 @@ import java.util.Map;
  *
  * Created by menzel on 11/9/16.
  */
-public final class Logo implements Serializable{
+public final class Sequencelogo implements Serializable, Logo {
 
     private final List<List<Map<String, String>>> heights = new ArrayList<>(); // list_(alle Pos)( list_(letters) ({letter: bits}))
     private String name;
@@ -85,9 +85,9 @@ public final class Logo implements Serializable{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Logo logo = (Logo) o;
+        Sequencelogo sequencelogo = (Sequencelogo) o;
 
-        return heights.equals(logo.heights);
+        return heights.equals(sequencelogo.heights);
 
     }
 
