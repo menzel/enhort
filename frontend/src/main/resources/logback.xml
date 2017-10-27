@@ -5,7 +5,7 @@
 
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
         <!-- daily rollover -->
-        <fileNamePattern>${user.home}/logs/enhort.%d{yyyy-MM-dd-HH}.log</fileNamePattern>
+      <fileNamePattern>${user.home}/logs/enhort.%d{yyyy-MM-dd}.log</fileNamePattern>
         <maxHistory>50</maxHistory>
     </rollingPolicy>
 
