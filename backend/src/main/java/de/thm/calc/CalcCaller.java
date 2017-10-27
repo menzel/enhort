@@ -79,7 +79,7 @@ public final class CalcCaller {
 
         ////////////  Tracks intersect ////////////////
 
-        //////////// Logo ////////////////
+        //////////// Sequencelogo ////////////////
 
         if(createLogo && measuredPositions.getAssembly().equals(Genome.Assembly.hg19)){
             String first = "Measured sites";//TODO FIX measuredPositions.getFilename();
@@ -92,7 +92,7 @@ public final class CalcCaller {
             futures.add(exe.submit(logoWrapper2));
         }
 
-        //////////// Logo ////////////////
+        //////////// Sequencelogo ////////////////
 
         //////////// Hotspots ////////////////
         HotspotWrapper hotspotWrapper = new HotspotWrapper(measuredPositions, collector);
@@ -232,10 +232,10 @@ public final class CalcCaller {
             int width = 12;//TODO use user set value
             int count = 300;//TODO use user set value
 
-            Logo logo = LogoCreator.createLogo(genome.getSequence(assembly, measuredPos, width, count));
-            logo.setName(name);
+            Logo sequencelogo = LogoCreator.createLogo(genome.getSequence(assembly, measuredPos, width, count));
+            sequencelogo.setName(name);
 
-            collector.addLogo(logo);
+            collector.addLogo(sequencelogo);
         }
     }
 
