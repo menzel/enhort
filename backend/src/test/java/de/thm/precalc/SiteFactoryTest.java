@@ -7,10 +7,11 @@ import de.thm.genomeData.tracks.InOutTrack;
 import de.thm.genomeData.tracks.Track;
 import de.thm.genomeData.tracks.TrackFactory;
 import de.thm.logo.GenomeFactory;
-import de.thm.misc.Genome;
 import de.thm.logo.Logo;
 import de.thm.logo.LogoCreator;
+import de.thm.logo.Sequencelogo;
 import de.thm.misc.ChromosomSizes;
+import de.thm.misc.Genome;
 import de.thm.positionData.Sites;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -64,7 +65,7 @@ public class SiteFactoryTest {
         sequences.add("CTAA");
         sequences.add("CCAT");
 
-        Logo logo = LogoCreator.createLogo(sequences);
+        Logo sequencelogo = LogoCreator.createLogo(sequences);
 
 
         List<String> seq = new ArrayList<>();
@@ -72,7 +73,7 @@ public class SiteFactoryTest {
         seq.add("GGGG");
         seq.add("GGAG");
 
-        Map<String,Double> results =  factory.calculateScores(logo, seq);
+        Map<String, Double> results = factory.calculateScores(sequencelogo, seq);
 
         assertEquals(1.0, results.get("CCAT"), 0.1);
         assertEquals(0.0, results.get("GGGG"), 0.1);
@@ -82,8 +83,8 @@ public class SiteFactoryTest {
         sequences2.add("TA");
         sequences2.add("TA");
 
-        Logo logo2 = LogoCreator.createLogo(sequences2);
-        assertEquals(1., factory.score(logo2, "TA"), 0.1);
+        Logo sequencelogo2 = LogoCreator.createLogo(sequences2);
+        assertEquals(1., factory.score(sequencelogo2, "TA"), 0.1);
     }
 
     //@Test // is disabled because in SiteCreator.java (line 33) the init of the index table is disalbed, too. But it should work
@@ -142,9 +143,9 @@ public class SiteFactoryTest {
         sequences = sequences.stream().map(String::toUpperCase).map(i -> i.substring(2,10)).collect(Collectors.toList());
 
 
-        Logo logo = LogoCreator.createLogo(sequences);
+        Logo sequencelogo = LogoCreator.createLogo(sequences);
 
-        List<Long> sites = factory.getByLogo(logo, 100000).getPositions();
+        List<Long> sites = factory.getByLogo(sequencelogo, 100000).getPositions();
         List<String> sitesNew = new ArrayList<>();
 
 
@@ -183,9 +184,9 @@ public class SiteFactoryTest {
         sequences.add("AATTATTT");
         sequences.add("AATGAAAT");
 
-        Logo logo = LogoCreator.createLogo(sequences);
+        Logo sequencelogo = LogoCreator.createLogo(sequences);
 
-        List<Long> sites = factory.getByLogo(logo, 10).getPositions();
+        List<Long> sites = factory.getByLogo(sequencelogo, 10).getPositions();
         List<String> seq = GenomeFactory.getInstance().getSequence(Genome.Assembly.hg19, sites,4, Integer.MAX_VALUE);
         Logo newLogo = LogoCreator.createLogo(seq);
 
@@ -210,9 +211,9 @@ public class SiteFactoryTest {
         sequences.add("AATT");
         sequences.add("AATG");
 
-        Logo logo = LogoCreator.createLogo(sequences);
+        Logo sequencelogo = LogoCreator.createLogo(sequences);
 
-        List<Long> sites = factory.getByLogo(logo, 100).getPositions();
+        List<Long> sites = factory.getByLogo(sequencelogo, 100).getPositions();
         List<String> seq = GenomeFactory.getInstance().getSequence(Genome.Assembly.hg19, sites,4, Integer.MAX_VALUE);
         Logo newLogo = LogoCreator.createLogo(seq);
 
@@ -223,8 +224,8 @@ public class SiteFactoryTest {
     @Test
     public void getSitesByLogo() throws Exception {
 
-        //mock logo
-        Logo logo = new Logo();
+        //mock sequencelogo
+        Logo sequencelogo = new Sequencelogo();
 
         Map<String, Double> a = new HashMap<>();
         Map<String, Double> b = new HashMap<>();
@@ -233,10 +234,10 @@ public class SiteFactoryTest {
         a.put("A",0.5);
         b.put("A",2d);
 
-        logo.add(a);
-        logo.add(b);
+        sequencelogo.add(a);
+        sequencelogo.add(b);
 
-        List<Long> sites = factory.getByLogo(logo, 10).getPositions();
+        List<Long> sites = factory.getByLogo(sequencelogo, 10).getPositions();
         List<String> seq = GenomeFactory.getInstance().getSequence(Genome.Assembly.hg19, sites,4, Integer.MAX_VALUE);
 
         assert seq != null;
@@ -244,9 +245,9 @@ public class SiteFactoryTest {
 
         Logo newLogo = LogoCreator.createLogo(seq);
 
-        //compare newLogo and logo
+        //compare newLogo and sequencelogo
 
-        //System.out.println(logo.getConsensus());
+        //System.out.println(sequencelogo.getConsensus());
         //System.out.println(newLogo.getConsensus());
     }
 }

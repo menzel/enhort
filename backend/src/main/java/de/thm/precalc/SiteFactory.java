@@ -1,8 +1,8 @@
 package de.thm.precalc;
 
 import de.thm.genomeData.tracks.Track;
-import de.thm.misc.Genome;
 import de.thm.logo.Logo;
+import de.thm.misc.Genome;
 import de.thm.positionData.Sites;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -87,19 +87,19 @@ public final class SiteFactory {
 
 
     /**
-     * Returns count positions that have a similar logo together as the given logo.
+     * Returns count positions that have a similar sequencelogo together as the given sequencelogo.
      *
-     * @param logo - logo to fit sites to
+     * @param sequencelogo - sequencelogo to fit sites to
      * @param count - count of positions to return
      *
-     * @return positions with a logo similar to logo
+     * @return positions with a sequencelogo similar to sequencelogo
      */
-    public Sites getByLogo(Logo logo, int count){
+    public Sites getByLogo(Logo sequencelogo, int count) {
 
         List<String> seq;
 
         try {
-            seq = indexTable.getSequences(logo.getConsensus().length());
+            seq = indexTable.getSequences(sequencelogo.getConsensus().length());
         } catch (IllegalArgumentException e) {
             logger.error("Exception {}", e.getMessage(), e);
             return null;
@@ -117,7 +117,7 @@ public final class SiteFactory {
 
         List<Long> new_pos = new ArrayList<>(); // newly generated positions
         MersenneTwister rand = new MersenneTwister();
-        Map<String, Double> scores = calculateScores(logo, seq);
+        Map<String, Double> scores = calculateScores(sequencelogo, seq);
 
         double sum = scores.values().stream().mapToDouble(d -> d).sum();
         List<Double> rands = new ArrayList<>();
@@ -161,17 +161,17 @@ public final class SiteFactory {
      * Calculates the scores for a given list of sequences using the score function
      * Result values are streched to by the factor 1/max to have the highest value to be 1.0
      *
-     * @param logo - logo to match against
+     * @param sequencelogo - sequencelogo to match against
      * @param seq - sequences to score
      *
      * @return scores as a map of sequences to scores
      */
-    Map<String,Double> calculateScores(Logo logo, List<String> seq) {
+    Map<String, Double> calculateScores(Logo sequencelogo, List<String> seq) {
 
         Map<String, Double> scores = new HashMap<>();
 
         //calc scores for each sequence and put in a map
-        new HashSet<>(seq).forEach(s -> scores.put(s, score(logo,s)));
+        new HashSet<>(seq).forEach(s -> scores.put(s, score(sequencelogo, s)));
 
         //strech all scores by factor: 1/max_score to set highest score to 1.0
         double factor = 1/Collections.max(scores.values());
@@ -200,14 +200,14 @@ public final class SiteFactory {
     }
 
     /**
-     * Scores a sequence against a logo. Returns a similarity values between 0.0 and 1.0 (inclusive)
+     * Scores a sequence against a sequencelogo. Returns a similarity values between 0.0 and 1.0 (inclusive)
      *
-     * @param logo - logo to match against
+     * @param sequencelogo - sequencelogo to match against
      * @param sequence - sequence to match
      *
      * @return similarity from 0.0 to 1.0
      */
-    Double score(Logo logo, String sequence) {
+    Double score(Logo sequencelogo, String sequence) {
         double score = 1.0;
         sequence = sequence.toLowerCase();
         double pseudocount = Double.MIN_VALUE;
@@ -215,7 +215,7 @@ public final class SiteFactory {
         //remove all seq that have 'n' positons, because those screw up the score calc. TODO multiply some really number for 'n' bases
         if(sequence.contains("n")) return 0.0;
 
-        List<List<Map<String, String>>> values =  logo.getValues();
+        List<List<Map<String, String>>> values = sequencelogo.getValues();
 
         int i = 0; // sequence position counter
 

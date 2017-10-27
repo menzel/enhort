@@ -1,7 +1,7 @@
 package de.thm.misc;
 
-import de.thm.logo.Logo;
 import de.thm.logo.LogoCreator;
+import de.thm.logo.Sequencelogo;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class LogoCreatorTest {
         sequences.add("AATT");
         sequences.add("AATT");
 
-        Logo result = new Logo();
+        Sequencelogo result = new Sequencelogo();
 
         Map<String, Double> a = new HashMap<>();
         a.put("a", 2d);

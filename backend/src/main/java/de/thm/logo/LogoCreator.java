@@ -1,6 +1,5 @@
 package de.thm.logo;
 
-import de.thm.misc.Genome;
 import de.thm.positionData.Sites;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +34,7 @@ public final class LogoCreator {
      * @return heights for a logo
      */
     public static Logo createLogo(List<String> sequences){
-        Logo logo = new Logo();
+        Sequencelogo sequencelogo = new Sequencelogo();
         int l = sequences.get(0).length();
 
         if(sequences.stream().filter(s -> s.length() != l).count() > 0) {
@@ -52,10 +51,10 @@ public final class LogoCreator {
                             .collect(Collectors.joining());
 
             //information content:
-            logo.add(getHeights(bases));
+            sequencelogo.add(getHeights(bases));
         }
 
-        return logo;
+        return sequencelogo;
 
     }
 
