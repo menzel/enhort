@@ -8,10 +8,7 @@ import de.thm.result.ResultCollector;
 import de.thm.stat.TestResult;
 import org.springframework.ui.Model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ControllerHelper {
 
@@ -26,7 +23,25 @@ public class ControllerHelper {
 
         List<TestResult> inout = collector.getInOutResults(cmd.isShowall());
         inout.removeAll(covariants);
-        model.addAttribute("results_inout", inout);
+
+        // packs
+        Map<String, List<TestResult>> results = new HashMap<>();
+        Map<String, Double> combinedEffectSizes = new HashMap<>();
+
+        inout.forEach(r -> results.put(r.getTrack().getPack(), new ArrayList<>()));
+        inout.forEach(r -> results.get(r.getTrack().getPack()).add(r));
+
+        results.keySet().forEach(key ->
+                combinedEffectSizes.put(key,
+                        results.get(key).stream()
+                                .map(TestResult::getEffectSize)
+                                .sorted(Comparator.reverseOrder())
+                                .findFirst()
+                                .get()));
+
+        model.addAttribute("results", results);
+        model.addAttribute("efs", combinedEffectSizes);
+        // packs
 
         List<TestResult> score = collector.getScoredResults(cmd.isShowall());
         score.removeAll(covariants);
@@ -37,15 +52,6 @@ public class ControllerHelper {
         model.addAttribute("results_named", name);
 
         model.addAttribute("insig_results", collector.getInsignificantResults());
-
-        // packs
-        Map<String, List<TestResult>> results = new HashMap<>();
-        collector.getResults().forEach(r -> results.put(r.getTrack().getPack(), new ArrayList<>()));
-        collector.getResults().forEach(r -> results.get(r.getTrack().getPack()).add(r));
-
-        model.addAttribute("results", results);
-        // packs
-
 
         cmd.setHotspots(collector.getHotspots());
         cmd.setAssembly(cmd.getAssembly() == null? "hg19": cmd.getAssembly()); //set assembly nr if there was none set in the previous run
