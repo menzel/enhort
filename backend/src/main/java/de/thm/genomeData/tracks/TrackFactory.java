@@ -286,15 +286,15 @@ public final class TrackFactory {
      * @return new track with all given parameters
      */
     public InOutTrack createInOutTrack(List<Long> starts, List<Long> ends, String name, String description, Genome.Assembly assembly) {
-        return new InOutTrack(starts, ends, name, description, assembly, "");
+        return new InOutTrack(starts, ends, name, description, assembly, "", "None");
     }
 
     public InOutTrack createInOutTrack(List<Long> starts, List<Long> ends, String name, String description, Genome.Assembly assembly, String cellLine) {
-        return new InOutTrack(starts, ends, name, description, assembly, cellLine);
+        return new InOutTrack(starts, ends, name, description, assembly, cellLine, "None");
     }
 
     public Track createInOutTrack(long[] starts, long[] ends, String ex, String description, Genome.Assembly assembly) {
-        return new InOutTrack(starts, ends, ex, description, assembly, "");
+        return new InOutTrack(starts, ends, ex, description, assembly, "", "None");
     }
 
 

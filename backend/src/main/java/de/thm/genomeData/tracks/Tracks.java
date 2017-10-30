@@ -1,7 +1,7 @@
 package de.thm.genomeData.tracks;
 
-import de.thm.misc.Genome;
 import de.thm.misc.ChromosomSizes;
+import de.thm.misc.Genome;
 import de.thm.positionData.Sites;
 import org.apache.commons.math3.stat.descriptive.rank.Percentile;
 import org.slf4j.Logger;
@@ -163,7 +163,8 @@ public final class Tracks {
                 name,
                 desc,
                 intv1.getAssembly(),
-                intv1.getCellLine());
+                intv1.getCellLine(),
+                intv1.getPack());
     }
 
 
@@ -294,7 +295,7 @@ public final class Tracks {
         String name = intv1.getName() + "_" + intv2.getName();
         String desc = intv1.getDescription() + "_" + intv2.getDescription();
 
-        return new InOutTrack(result_start, result_end, name, desc, intv1.getAssembly(), intv2.getCellLine());
+        return new InOutTrack(result_start, result_end, name, desc, intv1.getAssembly(), intv2.getCellLine(), intv1.getPack());
     }
 
 
@@ -367,7 +368,7 @@ public final class Tracks {
         else
             ends.add(ChromosomSizes.getInstance().getGenomeSize(assembly));
 
-        return new InOutTrack(starts, ends, track.getName(), track.getDescription(), track.getAssembly(), track.getCellLine());
+        return new InOutTrack(starts, ends, track.getName(), track.getDescription(), track.getAssembly(), track.getCellLine(), track.getPack());
     }
 
     /**

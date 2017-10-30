@@ -35,6 +35,7 @@ final class FileLoader implements Runnable {
     private final String name;
     private final String desc;
     private final TrackFactory.Type type;
+    private final String pack;
     private final int linecount;
 
     private final Logger logger = LoggerFactory.getLogger(FileLoader.class);
@@ -53,10 +54,11 @@ final class FileLoader implements Runnable {
         this.path = basePath.resolve(new File(entry.getFilepath()).toPath());
         this.assembly = Genome.Assembly.valueOf(entry.getAssembly());
         this.cellline = (entry.getCellline() == null || entry.getCellline().equals("")) ? "Unknown" : entry.getCellline();
-        this.name =entry.getName();
+        this.name = entry.getName();
         this.type = TrackFactory.Type.valueOf(entry.getType());
         this.desc = entry.getDescription();
         this.linecount = entry.getFilesize();
+        this.pack = entry.getPack();
 
     }
 
@@ -271,7 +273,7 @@ final class FileLoader implements Runnable {
                     return Optional.of(new StrandTrack(starts, ends, strands, name, desc, assembly, cellline));
                 case inout:
                     //return PositionPreprocessor.preprocessData(new InOutTrack(starts, ends, name, description));
-                    return Optional.of(new InOutTrack(starts, ends, name, desc, assembly, cellline));
+                    return Optional.of(new InOutTrack(starts, ends, name, desc, assembly, cellline, pack));
                 case scored:
                     return Optional.of(PositionPreprocessor.preprocessData(new ScoredTrack(starts, ends, names, scores, name, desc, assembly, cellline)));
                 case named:

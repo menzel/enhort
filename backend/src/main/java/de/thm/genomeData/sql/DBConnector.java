@@ -87,7 +87,8 @@ public class DBConnector {
                         rs.getString("type"),
                         rs.getString("assembly"),
                         rs.getString("cellline"),
-                        rs.getInt("filesize"));
+                        rs.getInt("filesize"),
+                        rs.getString("package"));
 
                 entries.add(entry);
             }
@@ -173,9 +174,9 @@ public class DBConnector {
     }
 
 
-    public TrackEntry createTrackEntry(String name, String description, String filepath, String type, String assembly, String cellline, int filesize){
+    public TrackEntry createTrackEntry(String name, String description, String filepath, String type, String assembly, String cellline, int filesize, String pack) {
 
-        return new TrackEntry(name, description,filepath,type, assembly,cellline,filesize);
+        return new TrackEntry(name, description, filepath, type, assembly, cellline, filesize, pack);
     }
 
 
@@ -189,9 +190,10 @@ public class DBConnector {
         private String type;
         private String assembly;
         private String cellline;
+        private String pack;
         private int filesize;
 
-        TrackEntry(String name, String description, String filepath, String type, String assembly, String cellline, int filesize) {
+        TrackEntry(String name, String description, String filepath, String type, String assembly, String cellline, int filesize, String pack) {
             this.name = name;
             this.description = description;
             this.filepath = filepath;
@@ -199,6 +201,7 @@ public class DBConnector {
             this.assembly = assembly;
             this.cellline = cellline;
             this.filesize = filesize;
+            this.pack = pack;
         }
 
         public String getName() {
@@ -227,6 +230,10 @@ public class DBConnector {
 
         public int getFilesize() {
             return filesize;
+        }
+
+        public String getPack() {
+            return pack;
         }
     }
 }
