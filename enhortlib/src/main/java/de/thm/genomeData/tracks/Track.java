@@ -1,8 +1,8 @@
 package de.thm.genomeData.tracks;
+
 import de.thm.misc.Genome;
 
 import java.io.Serializable;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Interface for interval data. Holds lists of start and stop positions of intervals as well as their names and scores.
@@ -31,6 +31,8 @@ public interface  Track extends Serializable, Cloneable {
     long[] getEnds();
 
     int getUid();
+
+    String getPack();
 
     Track clone();
 

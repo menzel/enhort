@@ -3,7 +3,6 @@ package de.thm.genomeData.tracks;
 
 import de.thm.misc.Genome;
 
-import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -25,7 +24,9 @@ public abstract class AbstractTrack implements Track {
     final Genome.Assembly assembly;
     final String cellLine;
 
-    AbstractTrack(long[] starts, long[] ends, String name, String description, Genome.Assembly assembly, String cellLine) {
+    final String pack;
+
+    AbstractTrack(long[] starts, long[] ends, String name, String description, Genome.Assembly assembly, String cellLine, String pack) {
 
         this.intervalsStart = starts;
         this.intervalsEnd = ends;
@@ -33,7 +34,19 @@ public abstract class AbstractTrack implements Track {
         this.description = description;
         this.assembly = assembly;
         this.cellLine = cellLine;
+        this.pack = pack;
     }
+
+    AbstractTrack(long[] starts, long[] ends, String name, String description, Genome.Assembly assembly, String cellLine) {
+        this.intervalsStart = starts;
+        this.intervalsEnd = ends;
+        this.name = name;
+        this.description = description;
+        this.assembly = assembly;
+        this.cellLine = cellLine;
+        this.pack = "None";
+    }
+
 
 
     @Override
@@ -79,4 +92,9 @@ public abstract class AbstractTrack implements Track {
     public String toString(){
         return name;
     }
+
+    public String getPack() {
+        return pack;
+    }
+
 }

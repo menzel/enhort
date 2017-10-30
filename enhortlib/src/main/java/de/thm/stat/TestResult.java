@@ -1,6 +1,9 @@
 package de.thm.stat;
 
 import de.thm.calc.TestTrackResult;
+import de.thm.genomeData.tracks.InOutTrack;
+import de.thm.genomeData.tracks.NamedTrack;
+import de.thm.genomeData.tracks.ScoredTrack;
 import de.thm.genomeData.tracks.Track;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.math3.util.Precision;
@@ -19,8 +22,6 @@ public class TestResult implements Serializable{
 
     private final double pValue;
     private final double effectSize;
-    private final String name;
-    private final String description;
     private final int measuredIn;
     private final int measuredOut;
     private final int expectedIn;
@@ -29,10 +30,9 @@ public class TestResult implements Serializable{
     private final List<Double> scoresExp;
     private final Map<String, Integer> namesMea;
     private final Map<String, Integer> namesExp;
-    private final int id;
-    private final Type type;
+    private final Track track;
 
-    public TestResult(double pValue, TestTrackResult measured, TestTrackResult expected, double effectSize, Track usedInterval, Type type) {
+    public TestResult(double pValue, TestTrackResult measured, TestTrackResult expected, double effectSize, Track track) {
 
         DecimalFormat format = new DecimalFormat("0.00E00");
         String v = format.format(pValue);
@@ -62,12 +62,7 @@ public class TestResult implements Serializable{
         this.expectedIn = expected.getIn();
         this.expectedOut = expected.getOut();
 
-        this.name = usedInterval.getName();
-        this.description = usedInterval.getDescription();
-
-        this.id = usedInterval.getUid();
-        this.type = type;
-
+        this.track = track;
     }
 
     public double getpValue() {
@@ -107,19 +102,14 @@ public class TestResult implements Serializable{
     }
 
     public String toString() {
-        String name = (this.name != null) ? this.name : Integer.toString(this.id);
         return "Fold change Ratio: " + effectSize + "\n" +
                 "mea in " + measuredIn + " out " + measuredOut + "\n" +
                 "exp in " + expectedIn + " out " + expectedOut + "\n" +
-                name + " p-value: " + pValue +
                 "\n=====\n";
     }
 
     public String getName() {
-        if (name == null || name.equals("")) {
-            return "track_" + id;
-        }
-        return name;
+        return track.getName();
     }
 
     public double getEffectSize() {
@@ -127,15 +117,25 @@ public class TestResult implements Serializable{
     }
 
     public String getDescription() {
-        return description;
+        return track.getDescription();
     }
 
     public int getId() {
-        return id;
+        return this.track.getUid();
     }
 
     public Type getType() {
-        return this.type;
+        if (track instanceof InOutTrack)
+            return Type.inout;
+        if (track instanceof ScoredTrack)
+            return Type.score;
+        if (track instanceof NamedTrack)
+            return Type.name;
+        return null;
+    }
+
+    public Track getTrack() {
+        return track;
     }
 
     public List<Double> getScoresMea() {

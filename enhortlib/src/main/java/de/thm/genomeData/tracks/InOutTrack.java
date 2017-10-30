@@ -14,24 +14,25 @@ import java.util.List;
 public class InOutTrack extends AbstractTrack {
 
 
-    InOutTrack(long[] starts, long[] ends, String name, String description, Genome.Assembly assembly, String cellLine) {
+    InOutTrack(long[] starts, long[] ends, String name, String description, Genome.Assembly assembly, String cellLine, String pack) {
 
-        super(starts, ends, name, description, assembly, cellLine);
+        super(starts, ends, name, description, assembly, cellLine, pack);
     }
 
-    InOutTrack(List<Long> starts, List<Long> ends, String name, String description, Genome.Assembly assembly, String cellLine) {
+    InOutTrack(List<Long> starts, List<Long> ends, String name, String description, Genome.Assembly assembly, String cellLine, String pack) {
 
         super(starts.stream().mapToLong(l->l).toArray(),
                 ends.stream().mapToLong(l->l).toArray(),
                 name,
                 description,
                 assembly,
-                cellLine);
+                cellLine,
+                pack);
     }
 
     @Override
     public Track clone() {
-        return new InOutTrack(intervalsStart, intervalsEnd, this.getName(), this.getDescription(), this.assembly, this.cellLine);
+        return new InOutTrack(intervalsStart, intervalsEnd, this.getName(), this.getDescription(), this.assembly, this.cellLine, this.pack);
     }
 
     @Override

@@ -94,6 +94,6 @@ public class StrandTrack extends AbstractTrack {
     }
 
     public InOutTrack getInOut() {
-        return new InOutTrack(intervalsStart, intervalsEnd, this.name, this.description, this.assembly, this.cellLine);
+        return new InOutTrack(intervalsStart, intervalsEnd, this.name, this.description, this.assembly, this.cellLine, this.pack);
     }
 }
