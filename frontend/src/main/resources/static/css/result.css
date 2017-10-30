@@ -63,6 +63,27 @@ th{
     font-size: 16px;
 }
 
+.tracktable {
+    margin-left: 10px;
+}
+
+.dattable {
+    margin-left: 10px;
+}
+
+.packrow {
+    border-left: 2px solid #000046;
+}
+
+.trackrow {
+    border-left: 2px solid #0000d5;
+}
+
+.datrow {
+    border-left: 2px solid #769fff;
+}
+
+
 /*
 * -- Buttons left --
 */

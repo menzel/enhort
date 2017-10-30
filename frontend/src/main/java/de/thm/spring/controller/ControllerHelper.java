@@ -9,7 +9,9 @@ import de.thm.stat.TestResult;
 import org.springframework.ui.Model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ControllerHelper {
 
@@ -35,6 +37,15 @@ public class ControllerHelper {
         model.addAttribute("results_named", name);
 
         model.addAttribute("insig_results", collector.getInsignificantResults());
+
+        // packs
+        Map<String, List<TestResult>> results = new HashMap<>();
+        collector.getResults().forEach(r -> results.put(r.getTrack().getPack(), new ArrayList<>()));
+        collector.getResults().forEach(r -> results.get(r.getTrack().getPack()).add(r));
+
+        model.addAttribute("results", results);
+        // packs
+
 
         cmd.setHotspots(collector.getHotspots());
         cmd.setAssembly(cmd.getAssembly() == null? "hg19": cmd.getAssembly()); //set assembly nr if there was none set in the previous run
