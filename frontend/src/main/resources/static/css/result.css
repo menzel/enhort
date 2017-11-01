@@ -59,6 +59,14 @@ th{
     font-size: 17px;
 }
 
+table .tracktable tr td {
+    border: 0;
+}
+
+.table .tracktable tr {
+    border-bottom: 1px solid #ddd;
+}
+
 .desc{
     font-size: 16px;
 }
@@ -73,6 +81,7 @@ th{
 
 .packrow {
     border-left: 2px solid #000046;
+    background-color: rgba(242, 242, 245, 0.52);
 }
 
 .trackrow {
@@ -83,7 +92,31 @@ th{
     border-left: 2px solid #769fff;
 }
 
+.ballgroup {
+    width: 100%;
+    height: 20px;
+    margin-top: 5px;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+}
 
+.ballbar {
+    height: 1px;
+    float: left;
+    background-color: black;
+    margin-top: 8px;
+}
+
+.ball {
+    height: 17px;
+    width: 17px;
+    float: left;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: #337ab7;
+}
+
+getPackages
 /*
 * -- Buttons left --
 */
@@ -172,6 +205,19 @@ label{
     height:inherit;
     float: left;
 }
+
+#radarChart {
+    height: 400px;
+    width: 400px;
+    float: left;
+}
+
+#scatterChart {
+    height: 400px;
+    width: 400px;
+    float: left;
+}
+
 
 #italic {
     font-style: italic;

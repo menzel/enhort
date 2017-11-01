@@ -17,6 +17,8 @@
     <script src="/js/d3.min.js" th:href="@{/js/d3.min.js}"></script>
     <script src="/js/result.js" th:href="@{/js/result.js}"></script>
 
+    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+
 </head>
 <body>
 
@@ -120,13 +122,18 @@
                     </th:block>
 
                 </div>
-                <span id="hotspot_info" class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
-                      data-placement="right"
-                      title="Hotspots across the genome. Lighter bars represent less integration sites while the highest integration site is shown in darker blue. See FAQ for more information."></span>
+                <div id="plots">
+                    <span id="hotspot_info" class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+                          data-placement="right"
+                          title="Hotspots across the genome. Lighter bars represent less integration sites while the highest integration site is shown in darker blue. See FAQ for more information."></span>
 
 
-                <form method="POST" action="#" th:action="@{/covariate}" th:object="${interfaceCommand}"
-                      id="covariate_form"></form>
+                    <form method="POST" action="#" th:action="@{/covariate}" th:object="${interfaceCommand}"
+                          id="covariate_form"></form>
+
+                    <div id="radarChart"></div>
+                    <div id="scatterChart"></div>
+                </div>
 
                 <table class="table table-hover fixed">
 
@@ -137,19 +144,6 @@
                     <col width="30px"/>
 
 
-                    <thead>
-                    <th th:text="${'Significant tracks' + ' (' + sigTrackCount + '/' + trackCount + ')'}"
-                        data-toggle="tooltip" data-placement="right" title="Count of significant tracks vs all tracks">
-                        Significant Tracks
-                    </th>
-
-                    <th data-toggle="tooltip" data-placement="right" title="P-value computed by chi-square-test">P Value
-                    </th>
-                    <th>Effect Size</th>
-                    <th>Relative Integration<span style="font-size: 10px;"> <span
-                            style="color: #337ab7; font-size: 13px;">Data</span> vs. <span
-                            style="color: #555; font-size: 13px;"> Background</span></span></th>
-                    </thead>
                     <tbody>
 
                     <!-- Sequencelogo Entry -->
@@ -194,7 +188,16 @@
                                 data-toggle="collapse" class="accordion-toggle">
                             </td>
                             <td></td>
-                            <td th:text="${efs.get(package.key)}"></td>
+                            <td th:text="${efs.get(package.key).middle}"></td>
+                            <td class="hammer">
+
+                                <div class="ballgroup">
+                                    <div class="ballbar"
+                                         th:style="'margin-left:' + ${efs.get(package.key).left} + 'px;width:' + ${efs.get(package.key).right - efs.get(package.key).left} + 'px'"></div>
+                                    <div class="ball"></div>
+                                </div>
+
+                            </td>
                             <td></td>
                         </tr>
 
@@ -202,7 +205,24 @@
                             <td colspan="5" class="hiddenRow">
                                 <div class="accordion-body collapse"
                                      th:id="${#strings.replace('outer_'+package.key,' ','_')}">
+
                                     <table class="table tracktable">
+
+                                        <tr>
+                                            <td data-toggle="tooltip" data-placement="right"
+                                                title="Count of significant tracks vs all tracks">
+                                                Significant Tracks
+                                            </td>
+
+                                            <td data-toggle="tooltip" data-placement="right"
+                                                title="P-value computed by chi-square-test">P Value
+                                            </td>
+                                            <td>Effect Size</td>
+                                            <td>Relative Integration<span style="font-size: 10px;"> <span
+                                                    style="color: #337ab7; font-size: 13px;">Data</span> vs. <span
+                                                    style="color: #555; font-size: 13px;"> Background</span></span></td>
+                                        </tr>
+
 
                                         <th:block th:each="result: ${package.value}">
                                             <tr class="trackrow">
@@ -539,6 +559,140 @@
         setSequenceLogo([[${sequencelogo}]], "#sequencelogo");
         setSequenceLogo([[${sequencelogo2}]], "#sequencelogo2");
     }
+
+</script>
+
+
+<script th:inline="javascript" async="async">
+    /*<![CDATA[*/
+    'use strict';
+
+    var efs = [[${efs}]];
+
+    var vals = [];
+    var labels = [];
+    var max = efs['Genetic'].middle;
+
+    for (var pack in efs) {
+        vals.push(Math.round(efs[pack].middle / (max / 100)));
+        labels.push(pack)
+    }
+
+    var myConfig = {
+        "type": "radar",
+        "plot": {
+            "aspect": "area"
+        },
+        "scale-k": {
+            "labels": labels,
+            "item": {
+                "font-color": "black",
+                "font-family": "Georgia",
+                "font-size": 14
+            },
+            "guide": {
+                "line-color": "blue",
+                "line-width": 1,
+                "line-style": "solid",
+                "background-color": "#f0f0f5 #e0e0eb"
+            }
+        },
+        "scale-v": {
+            "visible": true
+        },
+        "series": [{
+            "values": vals,
+            text: 'HIV',
+            backgroundColor: 'blue'
+        }],
+        lineColor: '#53a534'
+    };
+
+    zingchart.render({
+        id: 'radarChart',
+        data: myConfig,
+        height: '100%',
+        width: '100%'
+    });
+
+</script>
+
+
+<script th:inline="javascript" async="async">
+    /*<![CDATA[*/
+    'use strict';
+
+    var size = 10;
+
+    var myConfig1 = {
+        "type": "bubble",
+        "tooltip": {
+            "text": "Sites '%kl' '%kt'"
+        },
+        "series": [{
+            "values": [
+                [-1, -3, size, 'hiv_cd4_centralmemory_sherrill-mix_13'],
+                [4, 3, size, 'xmrv_cd4_roth_11'],
+                [1, 1, size, 'aav1-lpl_muscle_kaeppel_13'],
+                [-1, -4, size, 'hiv_cd34_trobridge_06'],
+                [-2, -6, size, 'hiv_cd4_wang_09'],
+                [2, 3, size, 'aav5_fibro_hueser'],
+                [-1, -4, size, 'hiv_pbmc_mitchell_04'],
+                [-1, -3, size, 'hiv_cd4_active_pace_12'],
+                [-17, 8, size, 'hiv_macrophage_barr_06'],
+                [-1, 1, size, 'sb_cd4_gogol-doering_16'],
+                [-1, -3, size, 'hiv_cd4_resting_pace_12'],
+                [1, 5, size, 'pb_cd4_gogol-doering'],
+                [-1, -5, size, 'hiv_cd4_activated_brady_09'],
+                [2, 1, size, 'aav_fibro_miller'],
+                [3, 3, size, 'aav2wt_fibro_hueser_14'],
+                [1, 1, size, 'aav2r_fibro_hueser_14'],
+                [5, 4, size, 'mlv_cd4_roth_11'],
+                [2, 3, size, 'fv_fibro_trobridge_06'],
+                [2, 2, size, 'aav_fibro_miller_05_reanalyzed'],
+                [0, 1, size, 'random'],
+                [-1, -5, size, 'hiv_cd4_resting_brady_09'],
+                [-1, -3, size, 'hiv_imr90_mitchell_04'],
+                [4, 5, size, 'fv_cd34_trobridge_06'],
+                [-1, -5, size, 'hiv_cd4_blc-2_shan_11']
+            ],
+            "text": "Blue"
+        }, {
+            "values": [[0, -3, size, 'Your Data']],
+            "text": "Red"
+        }],
+        scaleY: {
+            lineColor: "none",
+            tick: {
+                visible: false
+            },
+            guide: {
+                visible: true
+            },
+            item: {
+                visible: false
+            }
+        },
+        scaleX: {
+            lineColor: "none",
+            tick: {
+                visible: false
+            },
+            guide: {
+                visible: true
+            },
+            item: {
+                visible: false
+            }
+        }
+    };
+
+    zingchart.render({
+        id: 'scatterChart',
+        data: myConfig1,
+        height: "100%",
+        width: "100%"
+    });
 
 </script>
 

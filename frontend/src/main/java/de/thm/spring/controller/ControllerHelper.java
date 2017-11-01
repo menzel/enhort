@@ -6,9 +6,14 @@ import de.thm.logo.Logo;
 import de.thm.positionData.UserData;
 import de.thm.result.ResultCollector;
 import de.thm.stat.TestResult;
+import org.apache.commons.lang3.tuple.ImmutableTriple;
+import org.apache.commons.lang3.tuple.Triple;
 import org.springframework.ui.Model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ControllerHelper {
 
@@ -26,18 +31,21 @@ public class ControllerHelper {
 
         // packs
         Map<String, List<TestResult>> results = new HashMap<>();
-        Map<String, Double> combinedEffectSizes = new HashMap<>();
+        Map<String, Triple<Double, Double, Double>> combinedEffectSizes = new HashMap<>();
 
         inout.forEach(r -> results.put(r.getTrack().getPack(), new ArrayList<>()));
         inout.forEach(r -> results.get(r.getTrack().getPack()).add(r));
 
-        results.keySet().forEach(key ->
-                combinedEffectSizes.put(key,
-                        results.get(key).stream()
-                                .map(TestResult::getEffectSize)
-                                .sorted(Comparator.reverseOrder())
-                                .findFirst()
-                                .get()));
+        double maxOverall = collector.getInOutResults(cmd.isShowall()).stream().map(TestResult::getEffectSize).max(Double::compareTo).get();
+
+        results.keySet().forEach(key -> {
+            double max = results.get(key).stream().map(TestResult::getEffectSize).max(Double::compareTo).get();
+            double left = results.get(key).stream().map(TestResult::getEffectSize).min(Double::compareTo).get();
+            double right = (max / maxOverall) * 145; // 145 for 150px column width in the result table
+            left = (left / maxOverall) * 145; // 145 for 150px column width in the result table
+
+            combinedEffectSizes.put(key, new ImmutableTriple<>(left, max, right));
+        });
 
         model.addAttribute("results", results);
         model.addAttribute("efs", combinedEffectSizes);
