@@ -66,7 +66,12 @@ public final class TrackFactory {
         connector.connect();
 
         if (System.getenv("HOME").contains("menzel")) {
-            allTracks = connector.getAllTracks("WHERE file like '%inout%' ORDER BY filesize ASC");
+            allTracks = connector.getAllTracks("WHERE file like '%inout%' ORDER BY filesize ASC LIMIT 10");
+            allTracks.addAll(connector.getAllTracks("WHERE name like '%tf%' LIMIT 10"));
+            allTracks.addAll(connector.getAllTracks("WHERE file like '%repeat%' LIMIT 10"));
+            allTracks.addAll(connector.getAllTracks("WHERE file like '%broad%' LIMIT 10"));
+            allTracks.addAll(connector.getAllTracks("WHERE file like '%rest%' LIMIT 5"));
+            allTracks.addAll(connector.getAllTracks("WHERE name like '%contigs%'"));
         } else {
             allTracks = connector.getAllTracks("WHERE (cellline != 'Unknown' OR filesize < 100000) OR file like '%inout%' ORDER BY filesize ASC ");
         }
