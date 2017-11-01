@@ -68,7 +68,7 @@ public class DataTableCache {
     }
 
     private static Integer hashCollector(DataViewResult collector) {
-        return collector.getCellLines().size() + collector.getCellLines().size() + collector.getAssembly().hashCode();
+        return collector.getCellLines().size() + collector.getPackages().size() + collector.getAssembly().hashCode();
     }
 
     public Map<String, List<String>> getCellLines(){
