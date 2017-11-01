@@ -180,6 +180,16 @@
                     </th:block>
                     <!-- Sequencelogo Entry END -->
 
+                    <tr>
+                        <td data-toggle="tooltip" data-placement="right"
+                            title="TODO">
+                            Annotation package
+                        </td>
+
+                        <td></td>
+                        <td>Max effect size</td>
+                        <td>Value plot</td>
+                    </tr>
 
                     <th:block th:each="package: ${results}">
                         <tr class="packrow">
@@ -604,8 +614,7 @@
             "values": vals,
             text: 'HIV',
             backgroundColor: 'blue'
-        }],
-        lineColor: '#53a534'
+        }]
     };
 
     zingchart.render({
@@ -622,44 +631,47 @@
     /*<![CDATA[*/
     'use strict';
 
-    var size = 10;
+    var size = 5;
 
     var myConfig1 = {
         "type": "bubble",
         "tooltip": {
-            "text": "Sites '%kl' '%kt'"
+            "text": "%data-filenames"
         },
         "series": [{
             "values": [
-                [-1, -3, size, 'hiv_cd4_centralmemory_sherrill-mix_13'],
-                [4, 3, size, 'xmrv_cd4_roth_11'],
-                [1, 1, size, 'aav1-lpl_muscle_kaeppel_13'],
-                [-1, -4, size, 'hiv_cd34_trobridge_06'],
-                [-2, -6, size, 'hiv_cd4_wang_09'],
-                [2, 3, size, 'aav5_fibro_hueser'],
-                [-1, -4, size, 'hiv_pbmc_mitchell_04'],
-                [-1, -3, size, 'hiv_cd4_active_pace_12'],
-                [-17, 8, size, 'hiv_macrophage_barr_06'],
-                [-1, 1, size, 'sb_cd4_gogol-doering_16'],
-                [-1, -3, size, 'hiv_cd4_resting_pace_12'],
-                [1, 5, size, 'pb_cd4_gogol-doering'],
-                [-1, -5, size, 'hiv_cd4_activated_brady_09'],
-                [2, 1, size, 'aav_fibro_miller'],
-                [3, 3, size, 'aav2wt_fibro_hueser_14'],
-                [1, 1, size, 'aav2r_fibro_hueser_14'],
-                [5, 4, size, 'mlv_cd4_roth_11'],
-                [2, 3, size, 'fv_fibro_trobridge_06'],
-                [2, 2, size, 'aav_fibro_miller_05_reanalyzed'],
-                [0, 1, size, 'random'],
-                [-1, -5, size, 'hiv_cd4_resting_brady_09'],
-                [-1, -3, size, 'hiv_imr90_mitchell_04'],
-                [4, 5, size, 'fv_cd34_trobridge_06'],
-                [-1, -5, size, 'hiv_cd4_blc-2_shan_11']
+                [-1, -3, size],
+                [4, 3, size],
+                [1, 1, size],
+                [-1, -4, size],
+                [-2, -6, size],
+                [2, 3, size],
+                [-1, -4, size],
+                [-1, -3, size],
+                [-17, 8, size],
+                [-1, 1, size],
+                [-1, -3, size],
+                [1, 5, size],
+                [-1, -5, size],
+                [2, 1, size],
+                [3, 3, size],
+                [1, 1, size],
+                [5, 4, size],
+                [2, 3, size],
+                [2, 2, size],
+                [0, 1, size],
+                [-1, -5, size],
+                [-1, -3, size],
+                [4, 5, size],
+                [-1, -5, size]
             ],
-            "text": "Blue"
+            "text": "Blue",
+            "data-filenames": ['sites.hiv.cd4_centralmemory.sherrill-mix_13', 'sites.xmrv.cd4.roth_11', 'sites.aav1-lpl.muscle.kaeppel_13', 'sites.hiv.cd34.trobridge_06', 'sites.hiv.cd4.wang_09', 'sites.aav5.fibro.hueser', 'sites.hiv.pbmc.mitchell_04', 'sites.hiv.cd4_active.pace_12', 'sites.hiv.macrophage.barr_06', 'sites.sb.cd4.gogol-doering_16', 'sites.hiv.cd4_resting.pace_12', 'sites.pb.cd4.gogol-doering', 'sites.hiv.cd4_activated.brady_09', 'sites.aav.fibro.miller', 'sites.aav2wt.fibro.hueser_14', 'sites.aav2r.fibro.hueser_14', 'sites.mlv.cd4.roth_11', 'sites.fv.fibro.trobridge_06', 'sites.aav.fibro.miller_05_reanalyzed', 'sites.random', 'sites.hiv.cd4_resting.brady_09', 'sites.hiv.imr90.mitchell_04', 'sites.fv.cd34.trobridge_06', 'sites.hiv.cd4_blc-2.shan_11']
+
         }, {
-            "values": [[0, -3, size, 'Your Data']],
-            "text": "Red"
+            "values": [[-8, -3, size, 'Your Data']],
+            "text": "Red",
+            "data-filenames": ['Your positions']
         }],
         scaleY: {
             lineColor: "none",
