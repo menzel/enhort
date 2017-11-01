@@ -59,12 +59,16 @@ th{
     font-size: 17px;
 }
 
-table .tracktable tr td {
-    border: 0;
+.container .table td {
+    border: none;
 }
 
-.table .tracktable tr {
-    border-bottom: 1px solid #ddd;
+.container .table tr {
+    border-bottom: 1px solid white;
+}
+
+.container .table .hiddenRow td {
+    border-top: 1px solid #ddd;
 }
 
 .desc{
