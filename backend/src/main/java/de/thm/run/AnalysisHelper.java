@@ -134,9 +134,10 @@ class AnalysisHelper {
 
         if(cmd.getTracks().isEmpty()) {
             try {
-                runTracks = trackFactory.getTracksByCompilation("basic", cmd.getAssembly());
+                runTracks = trackFactory.getTracks(cmd.getAssembly());
             } catch (RuntimeException e){
                 runTracks = trackFactory.getTracksByName(Arrays.asList("Known genes", "CpG Islands" ,"Exons", "Introns"), Genome.Assembly.hg19);
+                logger.warn("Error getting tracks {}", e);
             }
 
         } else {
