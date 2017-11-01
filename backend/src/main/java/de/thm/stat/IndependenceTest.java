@@ -53,12 +53,12 @@ public final class IndependenceTest implements Test{
         if (measuredScore.length < 2 || expectedScore.length < 2) {
             logger.warn("Not enough data to compute independence test");
             double effectSize = effectSizeTester.test(testTrackResultA, testTrackResultB);
-            return new TestResult(Double.NaN, testTrackResultA, testTrackResultB, effectSize, track, TestResult.Type.score);
+            return new TestResult(Double.NaN, testTrackResultA, testTrackResultB, effectSize, track);
         }
 
         double effectSize = effectSizeTester.test(testTrackResultA, testTrackResultB);
 
-        return new TestResult(kolmoTester.kolmogorovSmirnovTest(measuredScore, expectedScore), testTrackResultA, testTrackResultB, effectSize, track, TestResult.Type.score);
+        return new TestResult(kolmoTester.kolmogorovSmirnovTest(measuredScore, expectedScore), testTrackResultA, testTrackResultB, effectSize, track);
     }
 
 
@@ -80,7 +80,7 @@ public final class IndependenceTest implements Test{
         double effectSize = effectSizeTester.test(testTrackResultA, testTrackResultB);
 
         try {
-            return new TestResult(tester.chiSquareTest(prepareLists(measured, expected)), testTrackResultA, testTrackResultB, effectSize, track, TestResult.Type.name);
+            return new TestResult(tester.chiSquareTest(prepareLists(measured, expected)), testTrackResultA, testTrackResultB, effectSize, track);
         } catch (Exception e){
             //There is a dimension mismatch error in the chiSquareTester if there is only one 'name' inside the results
             logger.warn("IndependenceTest Exception: " + e.getMessage() + " for " + track.getName());
@@ -113,7 +113,7 @@ public final class IndependenceTest implements Test{
         else if (track instanceof InOutTrack || track instanceof StrandTrack){
 
             double effectSize = effectSizeTester.test(testTrackResultA, testTrackResultB);
-            return new TestResult(tester.chiSquareTest(counts), testTrackResultA, testTrackResultB, effectSize, track, TestResult.Type.inout);
+            return new TestResult(tester.chiSquareTest(counts), testTrackResultA, testTrackResultB, effectSize, track);
 
         } else {
             throw new TrackTypeNotAllowedExcpetion("Unknown track type for test in IndependenceTest");
