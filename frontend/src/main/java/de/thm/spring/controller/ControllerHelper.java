@@ -11,7 +11,6 @@ import org.apache.commons.lang3.tuple.Triple;
 import org.springframework.ui.Model;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ControllerHelper {
 
@@ -56,7 +55,7 @@ public class ControllerHelper {
         double[][] pca_values = new double[pca.size()][2];
         List<String> pca_names = new ArrayList<>(pca.keySet());
 
-        for(int i = 0; i < pca_names.size(); i++) pca_values[i] = pca.get(pca_names.get(i));
+        for (int i = 0; i < pca_names.size(); i++) pca_values[i] = pca.get(pca_names.get(i));
 
         model.addAttribute("pca_names", pca_names);
         model.addAttribute("pca", pca_values);
