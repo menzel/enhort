@@ -32,6 +32,7 @@ public final class ResultCollector implements Serializable, Result{
     private List<Integer> hotspots;
 
     private static final Logger logger = LoggerFactory.getLogger(ResultCollector.class);
+    private SortedMap<String, double[]> pca;
 
     public ResultCollector(Sites bgModel, Genome.Assembly assembly, List<Track> tracks) {
         results = Collections.synchronizedList(new ArrayList<>());
@@ -396,5 +397,13 @@ public final class ResultCollector implements Serializable, Result{
 
     public Genome.Assembly getAssembly() {
         return assembly;
+    }
+
+    public void setPCA(SortedMap<String, double[]> pca){
+        this.pca = pca;
+    }
+
+    public SortedMap<String, double[]> getPca() {
+        return pca;
     }
 }

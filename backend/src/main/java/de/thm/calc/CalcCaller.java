@@ -112,6 +112,12 @@ public final class CalcCaller {
 
         futures.forEach(f -> f.cancel(true));
 
+        //////////// PCA ////////////////
+        PCA pca = new PCA();
+        pca.createBedPCA(collector);
+        //////////// PCA ////////////////
+
+
         return collector;
     }
 

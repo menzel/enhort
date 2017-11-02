@@ -10,10 +10,8 @@ import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
 import org.springframework.ui.Model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ControllerHelper {
 
@@ -49,7 +47,21 @@ public class ControllerHelper {
 
         model.addAttribute("results", results);
         model.addAttribute("efs", combinedEffectSizes);
+
         // packs
+
+        // pca
+
+        SortedMap<String, double[]> pca = collector.getPca();
+        double[][] pca_values = new double[pca.size()][2];
+        List<String> pca_names = new ArrayList<>(pca.keySet());
+
+        for(int i = 0; i < pca_names.size(); i++) pca_values[i] = pca.get(pca_names.get(i));
+
+        model.addAttribute("pca_names", pca_names);
+        model.addAttribute("pca", pca_values);
+
+        // pca
 
         List<TestResult> score = collector.getScoredResults(cmd.isShowall());
         score.removeAll(covariants);

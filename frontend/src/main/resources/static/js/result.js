@@ -3,7 +3,7 @@
 */
 
 
-function plotBubble() {
+function plotBubble(names, pca) {
 
     var size = 5;
 
@@ -13,37 +13,12 @@ function plotBubble() {
             "text": "%data-filenames"
         },
         "series": [{
-            "values": [
-                [-1, -3, size],
-                [4, 3, size],
-                [1, 1, size],
-                [-1, -4, size],
-                [-2, -6, size],
-                [2, 3, size],
-                [-1, -4, size],
-                [-1, -3, size],
-                [-17, 8, size],
-                [-1, 1, size],
-                [-1, -3, size],
-                [1, 5, size],
-                [-1, -5, size],
-                [2, 1, size],
-                [3, 3, size],
-                [1, 1, size],
-                [5, 4, size],
-                [2, 3, size],
-                [2, 2, size],
-                [0, 1, size],
-                [-1, -5, size],
-                [-1, -3, size],
-                [4, 5, size],
-                [-1, -5, size]
-            ],
+            "values": pca,
             "text": "Blue",
-            "data-filenames": ['sites.hiv.cd4_centralmemory.sherrill-mix_13', 'sites.xmrv.cd4.roth_11', 'sites.aav1-lpl.muscle.kaeppel_13', 'sites.hiv.cd34.trobridge_06', 'sites.hiv.cd4.wang_09', 'sites.aav5.fibro.hueser', 'sites.hiv.pbmc.mitchell_04', 'sites.hiv.cd4_active.pace_12', 'sites.hiv.macrophage.barr_06', 'sites.sb.cd4.gogol-doering_16', 'sites.hiv.cd4_resting.pace_12', 'sites.pb.cd4.gogol-doering', 'sites.hiv.cd4_activated.brady_09', 'sites.aav.fibro.miller', 'sites.aav2wt.fibro.hueser_14', 'sites.aav2r.fibro.hueser_14', 'sites.mlv.cd4.roth_11', 'sites.fv.fibro.trobridge_06', 'sites.aav.fibro.miller_05_reanalyzed', 'sites.random', 'sites.hiv.cd4_resting.brady_09', 'sites.hiv.imr90.mitchell_04', 'sites.fv.cd34.trobridge_06', 'sites.hiv.cd4_blc-2.shan_11']
+            "data-filenames": names
 
         }, {
-            "values": [[-8, -3, size, 'Your Data']],
+            "values": [[0, 0]],
             "text": "Red",
             "data-filenames": ['Your positions']
         }],
