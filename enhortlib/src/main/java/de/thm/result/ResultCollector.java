@@ -399,7 +399,7 @@ public final class ResultCollector implements Serializable, Result{
         return assembly;
     }
 
-    public void setPCA(SortedMap<String, double[]> pca){
+    public void setPCA(SortedMap<String, double[]> pca) {
         this.pca = pca;
     }
 
