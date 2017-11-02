@@ -16,9 +16,7 @@
     <script src="/js/bootstrap.min.js" th:href="@{/js/bootstrap.min.js}"></script>
     <script src="/js/d3.min.js" th:href="@{/js/d3.min.js}"></script>
     <script src="/js/result.js" th:href="@{/js/result.js}"></script>
-
-    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
-
+    <script src="/js/zingchart.min.js" th:href="@{/js/zingchart.min.js}"></script>
 </head>
 <body>
 
@@ -182,13 +180,13 @@
 
                     <tr>
                         <td data-toggle="tooltip" data-placement="right"
-                            title="TODO">
-                            Annotation package
+                            title="">
+                            Annotation group
                         </td>
 
                         <td></td>
                         <td>Max effect size</td>
-                        <td>Value plot</td>
+                        <td>Value distribution</td>
                     </tr>
 
                     <th:block th:each="package: ${results}">
@@ -217,6 +215,12 @@
                                      th:id="${#strings.replace('outer_'+package.key,' ','_')}">
 
                                     <table class="table tracktable">
+
+                                        <col width="120px"/>
+                                        <col width="90px"/>
+                                        <col width="90px"/>
+                                        <col width="140px"/>
+                                        <col width="20px"/>
 
                                         <tr>
                                             <td data-toggle="tooltip" data-placement="right"
@@ -301,29 +305,76 @@
                         </tr>
                     </th:block>
 
-                    <th:block th:each="result: ${results_score}">
-                        <tr th:attr="data-target=${#strings.replace('#accordion_'+result.id,'.','_')}"
-                            data-toggle="collapse" class="accordion-toggle">
-                            <td th:text="${result.name}"></td>
-                            <td th:text="${result.pValue}"></td>
-                            <td th:text="${result.effectSize}"></td>
-                            <td th:id="${'plot_'+result.id}"></td>
-                            <th:block th:if="${not #strings.startsWith(result.name,'FOOBAR Distance from')}">
-                                <!-- only display a checkbox for covariates if it is not a _distance_ track -->
-                                <td><input th:field="*{interfaceCommand.covariants}" th:value="${result.id}"
-                                           type="checkbox"
-                                           form="covariate_form"/></td>
-                            </th:block>
-                        </tr>
-                        <tr>
-                            <td colspan="5" class="hiddenRow">
-                                <div class="accordion-body collapse"
-                                     th:id="${#strings.replace('accordion_'+result.id,'.','_')}">
-                                    <div class="desc" th:text="${result.description}"></div>
-                                </div>
-                            </td>
-                        </tr>
-                    </th:block>
+
+                    <tr class="packrow">
+                        <td data-target="#scored_body" data-toggle="collapse" class="accordion-toggle">
+                            Scored
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="5" class="hiddenRow">
+                            <div class="accordion-body collapse"
+                                 th:id="scored_body">
+                                <table class="table tracktable">
+
+                                    <col width="120px"/>
+                                    <col width="90px"/>
+                                    <col width="90px"/>
+                                    <col width="140px"/>
+                                    <col width="20px"/>
+
+                                    <tr>
+                                        <td data-toggle="tooltip" data-placement="right"
+                                            title="TODO">
+                                            Significant Tracks
+                                        </td>
+
+                                        <td data-toggle="tooltip" data-placement="right"
+                                            title="P-value computed by chi-square-test">P Value
+                                        </td>
+                                        <td>Effect Size</td>
+                                        <td>Relative Integration<span style="font-size: 10px;"> <span
+                                                style="color: #337ab7; font-size: 13px;">Data</span> vs. <span
+                                                style="color: #555; font-size: 13px;"> Background</span></span></td>
+                                    </tr>
+
+                                    <th:block th:each="result: ${results_score}">
+                                        <tr th:attr="data-target=${#strings.replace('#accordion_'+result.id,'.','_')}"
+                                            data-toggle="collapse" class="accordion-toggle">
+                                            <td th:text="${result.name}"></td>
+                                            <td th:text="${result.pValue}"></td>
+                                            <td th:text="${result.effectSize}"></td>
+                                            <td th:id="${'plot_'+result.id}"></td>
+                                            <th:block
+                                                    th:if="${not #strings.startsWith(result.name,'FOOBAR Distance from')}">
+                                                <!-- only display a checkbox for covariates if it is not a _distance_ track -->
+                                                <td><input th:field="*{interfaceCommand.covariants}"
+                                                           th:value="${result.id}"
+                                                           type="checkbox"
+                                                           form="covariate_form"/></td>
+                                            </th:block>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="5" class="hiddenRow">
+                                                <div class="accordion-body collapse"
+                                                     th:id="${#strings.replace('accordion_'+result.id,'.','_')}">
+                                                    <div class="desc" th:text="${result.description}"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </th:block>
+
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+
+
                     <th:block th:each="result: ${results_named}">
                         <tr th:attr="data-target=${#strings.replace('#accordion_'+result.id,'.','_')}"
                             data-toggle="collapse" class="accordion-toggle">
@@ -577,134 +628,8 @@
     /*<![CDATA[*/
     'use strict';
 
-    var efs = [[${efs}]];
-
-    var vals = [];
-    var labels = [];
-    var max = efs['Genetic'].middle;
-
-    for (var pack in efs) {
-        vals.push(Math.round(efs[pack].middle / (max / 100)));
-        labels.push(pack)
-    }
-
-    var myConfig = {
-        "type": "radar",
-        "plot": {
-            "aspect": "area"
-        },
-        "scale-k": {
-            "labels": labels,
-            "item": {
-                "font-color": "black",
-                "font-family": "Georgia",
-                "font-size": 14
-            },
-            "guide": {
-                "line-color": "blue",
-                "line-width": 1,
-                "line-style": "solid",
-                "background-color": "#f0f0f5 #e0e0eb"
-            }
-        },
-        "scale-v": {
-            "visible": true
-        },
-        "series": [{
-            "values": vals,
-            text: 'HIV',
-            backgroundColor: 'blue'
-        }]
-    };
-
-    zingchart.render({
-        id: 'radarChart',
-        data: myConfig,
-        height: '100%',
-        width: '100%'
-    });
-
-</script>
-
-
-<script th:inline="javascript" async="async">
-    /*<![CDATA[*/
-    'use strict';
-
-    var size = 5;
-
-    var myConfig1 = {
-        "type": "bubble",
-        "tooltip": {
-            "text": "%data-filenames"
-        },
-        "series": [{
-            "values": [
-                [-1, -3, size],
-                [4, 3, size],
-                [1, 1, size],
-                [-1, -4, size],
-                [-2, -6, size],
-                [2, 3, size],
-                [-1, -4, size],
-                [-1, -3, size],
-                [-17, 8, size],
-                [-1, 1, size],
-                [-1, -3, size],
-                [1, 5, size],
-                [-1, -5, size],
-                [2, 1, size],
-                [3, 3, size],
-                [1, 1, size],
-                [5, 4, size],
-                [2, 3, size],
-                [2, 2, size],
-                [0, 1, size],
-                [-1, -5, size],
-                [-1, -3, size],
-                [4, 5, size],
-                [-1, -5, size]
-            ],
-            "text": "Blue",
-            "data-filenames": ['sites.hiv.cd4_centralmemory.sherrill-mix_13', 'sites.xmrv.cd4.roth_11', 'sites.aav1-lpl.muscle.kaeppel_13', 'sites.hiv.cd34.trobridge_06', 'sites.hiv.cd4.wang_09', 'sites.aav5.fibro.hueser', 'sites.hiv.pbmc.mitchell_04', 'sites.hiv.cd4_active.pace_12', 'sites.hiv.macrophage.barr_06', 'sites.sb.cd4.gogol-doering_16', 'sites.hiv.cd4_resting.pace_12', 'sites.pb.cd4.gogol-doering', 'sites.hiv.cd4_activated.brady_09', 'sites.aav.fibro.miller', 'sites.aav2wt.fibro.hueser_14', 'sites.aav2r.fibro.hueser_14', 'sites.mlv.cd4.roth_11', 'sites.fv.fibro.trobridge_06', 'sites.aav.fibro.miller_05_reanalyzed', 'sites.random', 'sites.hiv.cd4_resting.brady_09', 'sites.hiv.imr90.mitchell_04', 'sites.fv.cd34.trobridge_06', 'sites.hiv.cd4_blc-2.shan_11']
-
-        }, {
-            "values": [[-8, -3, size, 'Your Data']],
-            "text": "Red",
-            "data-filenames": ['Your positions']
-        }],
-        scaleY: {
-            lineColor: "none",
-            tick: {
-                visible: false
-            },
-            guide: {
-                visible: true
-            },
-            item: {
-                visible: false
-            }
-        },
-        scaleX: {
-            lineColor: "none",
-            tick: {
-                visible: false
-            },
-            guide: {
-                visible: true
-            },
-            item: {
-                visible: false
-            }
-        }
-    };
-
-    zingchart.render({
-        id: 'scatterChart',
-        data: myConfig1,
-        height: "100%",
-        width: "100%"
-    });
+    plotRadar([[${efs}]]);
+    plotBubble();
 
 </script>
 
