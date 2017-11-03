@@ -200,7 +200,7 @@
 
                     <th:block th:each="package: ${results}">
                         <tr class="packrow">
-                            <td th:text="${package.key}"
+                            <td th:text="${package.key + ' (' + #lists.size(package.value) +')'}"
                                 th:attr="data-target=${#strings.replace('#outer_'+package.key,' ','_')}"
                                 data-toggle="collapse" class="accordion-toggle">
                             </td>
@@ -311,8 +311,8 @@
                     <!-- Annotation table scored -->
 
                     <tr class="packrow">
-                        <td data-target="#scored_body" data-toggle="collapse" class="accordion-toggle">
-                            Expression Scores
+                        <td th:text="${'Expression Scores (' + #lists.size(results_score) +')'}"
+                            data-target="#scored_body" data-toggle="collapse" class="accordion-toggle">
                         </td>
                         <td></td>
                         <td></td>
