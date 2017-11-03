@@ -8,7 +8,7 @@ function plotBubble(names, pca) {
     var size = 5;
 
     var myConfig1 = {
-        "type": "bubble",
+        "type": "scatter",
         "tooltip": {
             "text": "%data-filenames"
         },
