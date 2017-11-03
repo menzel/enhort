@@ -192,10 +192,6 @@ th{
     content: "Settings";
 }
 
-#plotbtn:hover:before{
-    content: "Barplot";
-}
-
 #clearbtn:hover:before{
     content: "Clear session";
 }

@@ -83,10 +83,6 @@
                 <span class="glyphicon glyphicon-save-file" aria-hidden="true"></span>
             </a>
 
-            <a id="plotbtn" class="btn btn-default extra-margin" href="plot">
-                <span class="glyphicon glyphicon-signal" aria-hidden="true"></span>
-            </a>
-
         </div>
 
         <button id="rerun" type="submit" onclick="this.disabled=true;this.form.submit();" class="btn btn-primary"
@@ -612,6 +608,10 @@
 
             <!-- Tab 3 -->
             <div id="nav3" class="tab-pane fade ">
+
+                <div id="barplot" style="width: 1200px; height: 800px;">
+                </div>
+
             </div>
 
         </div>
@@ -734,6 +734,44 @@
 
     plotRadar([[${efs}]]);
     plotBubble([[${pca_names}]], [[${pca}]]);
+
+</script>
+
+<script th:inline="javascript" async="async">
+
+    var bars = [[${bardata}]];
+
+    var stuff = [{
+        title: "Significant annotations",
+        x: bars.first,
+        y: bars.second,
+        type: 'bar',
+        shapes: [
+            {
+                type: 'line',
+                x0: 0,
+                y0: 1,
+                x1: 1000,
+                y1: 1,
+                line: {
+                    color: 'rgb(0,0,0)',
+                    width: 4,
+                    dash: 'dot'
+                }
+            }]
+    }];
+
+    var layout = {
+        xaxis: {
+            autorange: true
+        },
+        yaxis: {
+            type: 'log',
+            autorange: true
+        }
+    };
+
+    Plotly.newPlot('barplot', stuff, layout);
 
 </script>
 
