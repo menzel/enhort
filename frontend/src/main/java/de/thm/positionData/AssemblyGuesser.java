@@ -10,7 +10,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,8 +49,10 @@ public class AssemblyGuesser {
         Pattern p = Pattern.compile("[\r\n]");
 
         for(String filename: contigsPaths) {
+
+            String command = "bedtools intersect -v -a " + file.toAbsolutePath() + " -b " + filename;
+
             try {
-                String command = "bedtools intersect -v -a "+ file.toAbsolutePath() + " -b " + filename;
                 DefaultExecutor exe = new DefaultExecutor();
 
                 ByteArrayOutputStream stdout = new ByteArrayOutputStream();
@@ -64,9 +68,8 @@ public class AssemblyGuesser {
                 while(m.find()) lines++;
                 counts.add(lines);
 
-
-            } catch (Throwable e){
-                logger.error("Exception {}", e.getMessage(), e);
+            } catch (Exception | Error e) {
+                logger.error("Exception running" + command + " {}", e.getMessage(), e);
                 return Genome.Assembly.Unknown;
             }
         }
