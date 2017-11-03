@@ -73,10 +73,16 @@ public final class TrackFactory {
             allTracks.addAll(connector.getAllTracks("WHERE file like '%rest%' LIMIT 5"));
             allTracks.addAll(connector.getAllTracks("WHERE name like '%contigs%'"));
         } else {
-            allTracks = connector.getAllTracks("WHERE (cellline != 'Unknown' OR filesize < 100000) OR file like '%inout%' ORDER BY filesize ASC ");
+            allTracks = connector.getAllTracks("WHERE cellline != 'Unknown' OR file like '%inout%' ORDER BY filesize ASC ");
+            allTracks.addAll(connector.getAllTracks("WHERE name like '%tf%'"));
+            allTracks.addAll(connector.getAllTracks("WHERE file like '%repeat%'"));
+            allTracks.addAll(connector.getAllTracks("WHERE file like '%broad%'"));
+            allTracks.addAll(connector.getAllTracks("WHERE file like '%rest%'"));
+            allTracks.addAll(connector.getAllTracks("WHERE name like '%contigs%'"));
         }
 
-        //List<DBConnector.TrackEntry> allTracks = connector.getAllTracks("WHERE (cellline != 'Unknown' OR filesize < 100000) ORDER BY filesize ASC ");
+        // filter doubled tracks
+        allTracks = allTracks.stream().filter(DBConnector.distinctByKey(DBConnector.TrackEntry::getName)).collect(Collectors.toList());
 
         int nThreads = (System.getenv("HOME").contains("menzel")) ?  4 : 32;
         ExecutorService exe = Executors.newFixedThreadPool(nThreads);

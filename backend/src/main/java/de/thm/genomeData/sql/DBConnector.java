@@ -6,6 +6,9 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class DBConnector {
     private Connection conn;
@@ -180,6 +183,11 @@ public class DBConnector {
     }
 
 
+    public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
+        Map<Object, String> seen = new ConcurrentHashMap<>();
+        return t -> seen.put(keyExtractor.apply(t), "") == null;
+    }
+
     /**
      * Inner Class for Object mapping
      */
@@ -235,5 +243,7 @@ public class DBConnector {
         public String getPack() {
             return pack;
         }
+
     }
+
 }
