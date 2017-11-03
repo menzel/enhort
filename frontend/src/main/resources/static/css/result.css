@@ -34,6 +34,18 @@
 }
 
 /*
+* -- Nav tabs--
+*/
+
+.nav-tabs {
+    margin-bottom: 20px;
+}
+
+.nav-tabs li a {
+    font-size: 12px;
+}
+
+/*
 * -- Table --
 */
 
@@ -218,6 +230,35 @@ label{
     width: 0.16%;
     height:inherit;
     float: left;
+}
+
+.hotspot2 {
+    float: left;
+    height: 200px;
+    width: 0.17%;
+}
+
+#hotspotsfull {
+    width: 1400px;
+    height: 200px;
+}
+
+#chrsizes {
+    width: 1400px;
+}
+
+.chrbar {
+    height: 10px;
+    border-right: 1px solid black;
+    float: left;
+}
+
+.chrbar div {
+    -moz-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+    margin-top: -25px;
+    transform-origin: -2% 124%;
 }
 
 #radarChart {

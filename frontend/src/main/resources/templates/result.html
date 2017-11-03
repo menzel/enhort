@@ -107,7 +107,18 @@
 <div class="col-xs-10 col-xs-offset-2 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
     <div class="container row col-md-12">
-        <th:block th:if="${ran}">
+
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="pill" href="#nav1">Overview</a></li>
+            <li><a data-toggle="pill" href="#nav2">Hotspots</a></li>
+            <li><a data-toggle="pill" href="#nav3">Detailed Views</a></li>
+        </ul>
+
+        <div class="tab-content">
+
+            <!-- Tab 1 -->
+            <div id="nav1" class="tab-pane fade in active">
+                <th:block th:if="${ran}">
 
             <div class="col-md-8">
 
@@ -576,6 +587,35 @@
 
 
         </th:block>
+            </div>
+
+            <!-- Tab 2 -->
+            <div id="nav2" class="tab-pane fade ">
+                <div id="hotspotsfull">
+
+                    <th:block th:if="${interfaceCommand.hotspots != null}">
+                        <th:block th:each="pixel: ${interfaceCommand.hotspots}">
+                            <div class="hotspot2" th:style="'background-color:hsl(231,100%,' + ${pixel} + '%)'"></div>
+                        </th:block>
+                    </th:block>
+                </div>
+
+                <div id="chrsizes">
+                    <th:block th:each="size,iter: ${chrsizes}">
+                        <div class="chrbar" th:style="'width:' +${size} + '%'">
+                            <div th:text="${chrnames[iter.index]}"></div>
+                        </div>
+                    </th:block>
+
+                </div>
+            </div>
+
+            <!-- Tab 3 -->
+            <div id="nav3" class="tab-pane fade ">
+                bar
+            </div>
+
+        </div>
     </div><!-- /.container -->
 
     <!-- Modal for add/upload track -->
