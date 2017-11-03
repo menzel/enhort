@@ -74,8 +74,16 @@ th{
     border-top: 1px solid #ddd;
 }
 
+.trackbox {
+    border: 1px solid #ddd;
+    margin: 15px;
+    padding: 15px;
+}
+
 .desc{
     font-size: 16px;
+    margin-bottom: 5px;
+    margin-left: 10px;
 }
 
 .tracktable {
