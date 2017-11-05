@@ -108,6 +108,8 @@
             <li class="active"><a data-toggle="pill" href="#nav1">Overview</a></li>
             <li><a data-toggle="pill" href="#nav2">Hotspots</a></li>
             <li><a data-toggle="pill" href="#nav3">Detailed Views</a></li>
+            <li><a data-toggle="pill" href="#nav4">R export</a></li>
+            <li><a data-toggle="pill" href="#nav5">Data export</a></li>
         </ul>
 
         <div class="tab-content">
@@ -213,12 +215,17 @@
                             </td>
                             <td></td>
                             <td th:text="${efs.get(package.key).middle}"></td>
-                            <td class="hammer">
 
-                                <div class="ballgroup">
-                                    <div class="ballbar"
+                            <td>
+
+                                <div class="boxplot">
+                                    <div class="sd" style="width:20px;margin-left:40px"
                                          th:style="'margin-left:' + ${efs.get(package.key).left} + 'px;width:' + ${efs.get(package.key).right - efs.get(package.key).left} + 'px'"></div>
-                                    <div class="ball"></div>
+
+                                    <div class="boxplotbar" style="width:110px;">
+                                        <div class="boxplotmean" style="margin-left:70px"></div>
+                                    </div>
+                                    <div class="sd" style="width:30px"></div>
                                 </div>
 
                             </td>
@@ -613,6 +620,29 @@
                 </div>
 
             </div>
+
+            <!-- Tab 4 -->
+            <div id="nav4" class="tab-pane fade ">
+
+                <div id="rexport">
+                    <label>
+                        Copy this code and run it on your machine using R to generate a barplot of the results of your
+                        analysis: <br>
+                        <textarea th:text="${rcode}">
+                    </textarea>
+                    </label>
+                </div>
+
+            </div>
+
+            <!-- Tab 4 -->
+            <div id="nav5" class="tab-pane fade ">
+
+                <div id="csvexport">
+                </div>
+
+            </div>
+
 
         </div>
     </div><!-- /.container -->

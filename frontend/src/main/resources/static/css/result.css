@@ -120,7 +120,7 @@ th{
     border-left: 2px solid #769fff;
 }
 
-.ballgroup {
+.boxplot {
     width: 100%;
     height: 20px;
     margin-top: 5px;
@@ -128,21 +128,29 @@ th{
     border-right: 1px solid #ddd;
 }
 
-.ballbar {
-    height: 1px;
+.boxplotbar {
+    height: 20px;
+    width: 10px;
     float: left;
-    background-color: black;
-    margin-top: 8px;
-}
-
-.ball {
-    height: 17px;
-    width: 17px;
-    float: left;
-    border: 1px solid black;
-    border-radius: 10px;
+    border: 1px solid gray;
     background-color: #337ab7;
 }
+
+.sd {
+    height: 2px;
+    width: 10px;
+    margin-top: 9px;
+    float: left;
+    background-color: #4b4b4b;
+}
+
+.boxplotmean {
+    height: 18px;
+    width: 2px;
+    background-color: #4b4b4b;
+    float: left;
+}
+
 
 /*
 * -- Buttons left --
