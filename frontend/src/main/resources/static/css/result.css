@@ -43,6 +43,7 @@
 
 .nav-tabs li a {
     font-size: 12px;
+    outline: 0;
 }
 
 /*
