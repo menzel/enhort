@@ -215,7 +215,7 @@
                                 data-toggle="collapse" class="accordion-toggle">
                             </td>
                             <td></td>
-                            <td th:text="${perc.get(package.key).get(2)}"></td>
+                            <td th:text="${perc.get(package.key).get(4)}"></td>
 
                             <td>
 
@@ -331,12 +331,12 @@
                     <!-- Annotation table scored -->
 
 
-                    <tr class="packrow" th:with="f=${(1/maxES)*145}, min=${perc.get('Scored').get(0)}">>
+                    <tr class="packrow" th:with="f=${(1/maxES)*145}, min=${perc.get('Scored').get(0)}">
                         <td th:text="${'Expression Scores (' + #lists.size(results_score) +')'}"
                             data-target="#scored_body" data-toggle="collapse" class="accordion-toggle">
                         </td>
                         <td></td>
-                        <td th:text="${perc.get('Scored').get(2)}"></td>
+                        <td th:text="${perc.get('Scored').get(4)}"></td>
                         <td>
                             <div class="boxplot">
                                 <div class="sd"
@@ -416,12 +416,12 @@
 
                     <!-- Annotation table named -->
 
-                    <tr class="packrow" th:with="f=${(1/maxES)*145}, min=${perc.get('Named').get(0)}">>
+                    <tr class="packrow" th:with="f=${(1/maxES)*145}, min=${perc.get('Named').get(0)}">
                         <td th:text="${'Named (' + #lists.size(results_named) +')'}"
                             data-target="#named_body" data-toggle="collapse" class="accordion-toggle">
                         </td>
                         <td></td>
-                        <td th:text="${perc.get('Named').get(2)}"></td>
+                        <td th:text="${perc.get('Named').get(4)}"></td>
                         <td>
                             <div class="boxplot">
                                 <div class="sd"
