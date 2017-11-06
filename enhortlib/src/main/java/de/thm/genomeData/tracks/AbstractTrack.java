@@ -26,6 +26,9 @@ public abstract class AbstractTrack implements Track {
 
     final String pack;
 
+    String source;
+    String sourceurl;
+
     AbstractTrack(long[] starts, long[] ends, String name, String description, Genome.Assembly assembly, String cellLine, String pack) {
 
         this.intervalsStart = starts;
@@ -70,7 +73,20 @@ public abstract class AbstractTrack implements Track {
 
     @Override
     public String getDescription() {
-        return description;
+        String desc;
+
+        if (description.length() < 2) {
+            if (cellLine.equals("Unknown"))
+                desc = "The track " + name + " is not cell line specific (" + assembly + ").";
+            else
+                desc = "The track " + name + " is taken from the cell line " + cellLine + " (" + assembly + ").";
+        } else {
+            desc = description + "<br> Cell line " + cellLine + " (" + assembly + ").";
+        }
+
+        desc += "<br> The original data source is " + ((source.length() == 0) ? "not specified." : source) + ((sourceurl.length() == 0) ? "" : " " + sourceurl + ".");
+
+        return desc;
     }
 
     @Override
