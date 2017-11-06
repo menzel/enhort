@@ -43,6 +43,12 @@ public final class EffectSize {
      */
     double foldChange(double in, double out, double in1, double out1) {
 
+        //pseudocount
+        in += 1;
+        out += 1;
+        in1 += 1;
+        out1 += 1;
+
         double sum = in+out;
         in = in/sum;
         out = out/sum;
@@ -50,9 +56,6 @@ public final class EffectSize {
         sum = in1+out1;
         in1 = in1/sum;
         out1 = out1/sum;
-
-        if(in1 == 0 || out1 == 0 || out  == 0 || in == 0)
-            return Double.POSITIVE_INFINITY;
 
         // the maximum of ( maximum inside / minimum inside and maximum outside / maximum outside) -- inverts values smaller than 1
         return max(max(in,in1) / min(in,in1), max(out,out1) / min(out,out1));
