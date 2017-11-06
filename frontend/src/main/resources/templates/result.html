@@ -166,10 +166,8 @@
                     <th:block th:if="${ran}">
                         <th:block th:if="${interfaceCommand.logo}">
                             <th:block th:if="${not interfaceCommand.logoCovariate}">
-                                <tr>
-                                    <td data-target="#sequencelogodiv" data-toggle="collapse" class="accordion-toggle">
-                                        Sequence Logo
-                                    </td>
+                                <tr data-target="#sequencelogodiv" data-toggle="collapse" class="accordion-toggle">
+                                    <td> Sequence Logo</td>
                                     <td></td>
                                     <td th:text="${sl_effect}"></td>
                                     <td colspan="1"></td>
@@ -212,10 +210,11 @@
 
                     <th:block th:each="package: ${results}"
                               th:with="f=${(1/maxES)*145}, min=${perc.get(package.key).get(0)}">
-                        <tr class="packrow">
-                            <td th:text="${package.key + ' (' + #lists.size(package.value) +')'}"
-                                th:attr="data-target=${#strings.replace('#outer_'+package.key,' ','_')}"
-                                data-toggle="collapse" class="accordion-toggle">
+                        <tr class="packrow accordion-toggle"
+                            th:attr="data-target=${#strings.replace('#outer_'+package.key,' ','_')}"
+                            data-toggle="collapse">
+
+                            <td th:text="${package.key + ' (' + #lists.size(package.value) +')'}">
                             </td>
                             <td></td>
                             <td th:text="${perc.get(package.key).get(4)}"></td>
@@ -333,9 +332,9 @@
                     <!-- Annotation table scored -->
 
 
-                    <tr class="packrow" th:with="f=${(1/maxES)*145}, min=${perc.get('Scored').get(0)}">
-                        <td th:text="${'Expression Scores (' + #lists.size(results_score) +')'}"
-                            data-target="#scored_body" data-toggle="collapse" class="accordion-toggle">
+                    <tr class="packrow accordion-toggle" th:with="f=${(1/maxES)*145}, min=${perc.get('Scored').get(0)}"
+                        data-target="#scored_body" data-toggle="collapse">
+                        <td th:text="${'Expression Scores (' + #lists.size(results_score) +')'}">
                         </td>
                         <td></td>
                         <td th:text="${perc.get('Scored').get(4)}"></td>
@@ -418,9 +417,9 @@
 
                     <!-- Annotation table named -->
 
-                    <tr class="packrow" th:with="f=${(1/maxES)*145}, min=${perc.get('Named').get(0)}">
-                        <td th:text="${'Named (' + #lists.size(results_named) +')'}"
-                            data-target="#named_body" data-toggle="collapse" class="accordion-toggle">
+                    <tr class="packrow accordion-toggle" th:with="f=${(1/maxES)*145}, min=${perc.get('Named').get(0)}"
+                        data-target="#named_body" data-toggle="collapse">
+                        <td th:text="${'Named (' + #lists.size(results_named) +')'}">
                         </td>
                         <td></td>
                         <td th:text="${perc.get('Named').get(4)}"></td>
