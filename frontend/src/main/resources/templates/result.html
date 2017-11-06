@@ -207,25 +207,31 @@
                         <td>Value distribution</td>
                     </tr>
 
-                    <th:block th:each="package: ${results}">
+                    <th:block th:each="package: ${results}"
+                              th:with="f=${(1/maxES)*145}, min=${perc.get(package.key).get(0)}">
                         <tr class="packrow">
                             <td th:text="${package.key + ' (' + #lists.size(package.value) +')'}"
                                 th:attr="data-target=${#strings.replace('#outer_'+package.key,' ','_')}"
                                 data-toggle="collapse" class="accordion-toggle">
                             </td>
                             <td></td>
-                            <td th:text="${efs.get(package.key).middle}"></td>
+                            <td th:text="${perc.get(package.key).get(2)}"></td>
 
                             <td>
 
                                 <div class="boxplot">
-                                    <div class="sd" style="width:20px;margin-left:40px"
-                                         th:style="'margin-left:' + ${efs.get(package.key).left} + 'px;width:' + ${efs.get(package.key).right - efs.get(package.key).left} + 'px'"></div>
+                                    <div class="sd"
+                                         th:style="'margin-left:' + ${min*f} + 'px;width:' + ${(perc.get(package.key).get(1)-min)*f} + 'px'"></div>
 
-                                    <div class="boxplotbar" style="width:110px;">
-                                        <div class="boxplotmean" style="margin-left:70px"></div>
+
+                                    <div class="boxplotbar"
+                                         th:style="'width:' + ${(perc.get(package.key).get(3)-min)*f} + 'px'">
+                                        <div class="boxplotmean"
+                                             th:style="'margin-left:' + ${(perc.get(package.key).get(2)-min)*f} + 'px'"></div>
                                     </div>
-                                    <div class="sd" style="width:30px"></div>
+
+                                    <div class="sd"
+                                         th:style="'width:' + ${(perc.get(package.key).get(4)-perc.get(package.key).get(3))*f} + 'px'"></div>
                                 </div>
 
                             </td>
@@ -236,6 +242,7 @@
                             <td colspan="5" class="hiddenRow">
                                 <div class="accordion-body collapse"
                                      th:id="${#strings.replace('outer_'+package.key,' ','_')}">
+                                    <div th:text="${perc.get(package.key)}"></div>
 
                                     <table class="table tracktable">
 
@@ -762,7 +769,7 @@
     /*<![CDATA[*/
     'use strict';
 
-    plotRadar([[${efs}]]);
+    plotRadar([[${perc}]]);
     plotBubble([[${pca_names}]], [[${pca}]]);
 
 </script>

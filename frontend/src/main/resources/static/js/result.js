@@ -62,7 +62,7 @@ function plotRadar(efs) {
     var labels = [];
 
     for (var pack in efs) {
-        vals.push(efs[pack].middle);
+        vals.push(efs[pack][2]);
         labels.push(pack)
     }
 

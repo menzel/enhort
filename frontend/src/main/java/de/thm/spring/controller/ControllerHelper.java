@@ -3,14 +3,16 @@ package de.thm.spring.controller;
 import de.thm.command.ExpressionCommand;
 import de.thm.command.InterfaceCommand;
 import de.thm.logo.Logo;
+import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.UserData;
 import de.thm.result.ResultCollector;
 import de.thm.stat.TestResult;
-import org.apache.commons.lang3.tuple.ImmutableTriple;
-import org.apache.commons.lang3.tuple.Triple;
+import org.apache.commons.math3.stat.descriptive.rank.Percentile;
+import org.apache.commons.math3.util.Precision;
 import org.springframework.ui.Model;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ControllerHelper {
 
@@ -26,9 +28,17 @@ public class ControllerHelper {
         List<TestResult> inout = collector.getInOutResults(cmd.isShowall());
         inout.removeAll(covariants);
 
+        // r export page
+
+        String rcode = "ARRRRR";
+
+        model.addAttribute("rcode", rcode);
+
+        // r export page
+
         // packs
         Map<String, List<TestResult>> results = new HashMap<>();
-        Map<String, Triple<Double, Double, Double>> combinedEffectSizes = new HashMap<>();
+        Map<String, List<Double>> percentiles = new HashMap<>();
 
         inout.forEach(r -> results.put(r.getTrack().getPack(), new ArrayList<>()));
         inout.forEach(r -> results.get(r.getTrack().getPack()).add(r));
@@ -36,16 +46,28 @@ public class ControllerHelper {
         double maxOverall = collector.getInOutResults(cmd.isShowall()).stream().map(TestResult::getEffectSize).max(Double::compareTo).get();
 
         results.keySet().forEach(key -> {
-            double max = results.get(key).stream().map(TestResult::getEffectSize).max(Double::compareTo).get();
-            double left = results.get(key).stream().map(TestResult::getEffectSize).min(Double::compareTo).get();
-            double right = (max / maxOverall) * 145; // 145 for 150px column width in the result table
-            left = (left / maxOverall) * 145; // 145 for 150px column width in the result table
+            Percentile p = new Percentile();
 
-            combinedEffectSizes.put(key, new ImmutableTriple<>(left, max, right));
+            p.setData(results.get(key).stream()
+                    .map(TestResult::getEffectSize)
+                    .mapToDouble(Double::doubleValue)
+                    .toArray());
+
+            List<Double> vals = new ArrayList<>();
+
+            vals.add(p.evaluate(1));
+            vals.add(p.evaluate(25));
+            vals.add(Precision.round(p.evaluate(50), 2));
+            vals.add(p.evaluate(75));
+            vals.add(p.evaluate(100));
+
+            percentiles.put(key, vals);
         });
 
+        model.addAttribute("perc", percentiles);
+        model.addAttribute("maxES", maxOverall);
+
         model.addAttribute("results", results);
-        model.addAttribute("efs", combinedEffectSizes);
 
         // packs
 
@@ -61,6 +83,29 @@ public class ControllerHelper {
         model.addAttribute("pca", pca_values);
 
         // pca
+
+        // hotspots page
+
+        long genomeSize = ChromosomSizes.getInstance().getGenomeSize(collector.getAssembly());
+        String[] chrnames = new String[]{"chr1", "chr2", "chr3", "chr4", "chr5", "chr6", "chr7", "chr8", "chr9", "chr10", "chr11", "chr12", "chr13", "chr14", "chr15", "chr16", "chr17", "chr18", "chr19", "chr20", "chr21", "chr22", "chrX", "chrY"};
+
+        List<Double> chrsizes = Arrays.stream(chrnames)
+                .map(chr -> ChromosomSizes.getInstance().getChrSize(collector.getAssembly(), chr))
+                .map(l -> (double) l)
+                .map(len -> (len / genomeSize) * 100)
+                .collect(Collectors.toList());
+
+        model.addAttribute("chrnames", chrnames);
+        model.addAttribute("chrsizes", chrsizes);
+
+        // hotspots page
+
+
+        // barplot page
+        org.apache.commons.math3.util.Pair<List<String>, List<Double>> data = collector.getBarplotdata();
+        model.addAttribute("bardata", data);
+
+        // barplot page
 
         List<TestResult> score = collector.getScoredResults(cmd.isShowall());
         score.removeAll(covariants);
