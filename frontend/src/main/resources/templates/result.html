@@ -120,32 +120,35 @@
 
             <div class="col-md-8">
 
-                <div id="hotspots">
+                <a data-toggle="pill" href="#nav2">
+                    <div id="hotspots" data-toggle="tooltip"
+                         data-placement="right"
+                         title="Hotspots across the genome. Click to enlarge.">
 
-                    <th:block th:if="${interfaceCommand.hotspots != null}">
-                        <th:block th:each="pixel: ${interfaceCommand.hotspots}">
-                            <div class="hotspot" th:style="'background-color:hsl(231,100%,' + ${pixel} + '%);'"></div>
+                        <th:block th:if="${interfaceCommand.hotspots != null}">
+                            <th:block th:each="pixel: ${interfaceCommand.hotspots}">
+                                <div class="hotspot"
+                                     th:style="'background-color:hsl(231,100%,' + ${pixel} + '%);'"></div>
+                            </th:block>
                         </th:block>
-                    </th:block>
 
-                </div>
+                    </div>
+                </a>
+
                 <div id="plots">
-                    <span id="hotspot_info" class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
-                          data-placement="right"
-                          title="Hotspots across the genome. Lighter bars represent less integration sites while the highest integration site is shown in darker blue. See FAQ for more information."></span>
-
-
-                    <form method="POST" action="#" th:action="@{/covariate}" th:object="${interfaceCommand}"
-                          id="covariate_form"></form>
 
                     <div id="radarChart"></div>
                     <div id="scatterChart"></div>
+
                 </div>
 
 
                 <!-- Top plots end-->
 
                 <!-- Result table -->
+
+                <form method="POST" action="#" th:action="@{/covariate}" th:object="${interfaceCommand}"
+                      id="covariate_form"></form>
 
                 <table class="table table-hover fixed">
 
@@ -299,17 +302,16 @@
                                                             <table class="table dattable">
                                                                 <thead>
                                                                 <th></th>
-                                                                <th class="bold">In</th>
-                                                                <th class="bold">Out</th>
+                                                                <th>In</th>
+                                                                <th>Out</th>
                                                                 </thead>
                                                                 <tr class="datrow">
-                                                                    <td class="bold"
-                                                                        th:text="${interfaceCommand.originalFilename}"></td>
+                                                                    <td th:text="${interfaceCommand.originalFilename}"></td>
                                                                     <td th:text="${result.measuredIn + ' (' + result.percentInM + '%)'}"></td>
                                                                     <td th:text="${result.measuredOut+ ' (' + result.percentOutM+ '%)'}"></td>
                                                                 </tr>
                                                                 <tr class="datrow">
-                                                                    <td class="bold" th:text="${bgfilename}"></td>
+                                                                    <td th:text="${bgfilename}"></td>
                                                                     <td th:text="${result.expectedIn+ ' (' + result.percentInE + '%)'}"></td>
                                                                     <td th:text="${result.expectedOut+ ' (' + result.percentOutE+ '%)'}"></td>
                                                                 </tr>
@@ -584,17 +586,17 @@
 
                                                 <thead>
                                                 <th></th>
-                                                <th class="bold">In</th>
-                                                <th class="bold">Out</th>
+                                                <th>In</th>
+                                                <th>Out</th>
                                                 </thead>
                                                 <tr class="">
-                                                    <td class="bold"
+                                                    <td
                                                         th:text="${interfaceCommand.originalFilename}"></td>
                                                     <td th:text="${cov.measuredIn + ' (' + cov.percentInM + '%)'}"></td>
                                                     <td th:text="${cov.measuredOut+ ' (' + cov.percentOutM+ '%)'}"></td>
                                                 </tr>
                                                 <tr class="">
-                                                    <td class="bold" th:text="${bgfilename}"></td>
+                                                    <td th:text="${bgfilename}"></td>
                                                     <td th:text="${cov.expectedIn+ ' (' + cov.percentInE + '%)'}"></td>
                                                     <td th:text="${cov.expectedOut+ ' (' + cov.percentOutE+ '%)'}"></td>
                                                 </tr>
@@ -649,6 +651,9 @@
                     </th:block>
 
                 </div>
+
+                Each blue bar represents the relative count of integration sites in this part of the genome. Lighter
+                bars show few, and darker bars show an increased count of sites.
             </div>
 
             <!-- Tab 3 -->
@@ -795,13 +800,17 @@
 
 </script>
 
-
 <script th:inline="javascript" async="async">
     /*<![CDATA[*/
     'use strict';
 
     plotRadar([[${perc}]]);
-    plotBubble([[${pca_names}]], [[${pca}]]);
+
+    if ([[${#lists.isEmpty(covariants)}]]) {
+        plotBubble([[${pca_names}]], [[${pca}]]);
+    } else {
+
+    }
 
 </script>
 
