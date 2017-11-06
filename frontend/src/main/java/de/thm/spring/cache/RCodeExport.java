@@ -68,9 +68,8 @@ public class RCodeExport {
 
     private static String getData(ResultCollector collector) {
 
-        List<TestResult> results = collector.getResults().stream()
-                .sorted((t1, t2) -> (t2.getTrack().getPack().compareTo(t1.getTrack().getPack())))
-                .filter(testResult -> testResult.getpValue() < 0.05 / collector.getResults().size())
+        List<TestResult> results = collector.getInOutResults(true).stream()
+                .sorted((t1, t2) -> (t2.getTrack().getPack().compareTo(t1.getTrack().getPack()))) //sort by package
                 .collect(Collectors.toList());
 
         String pval = "c(" + results.stream().map(TestResult::getpValue).map(Object::toString).collect(Collectors.joining(", ")) + "),";
