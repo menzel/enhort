@@ -38,7 +38,7 @@ class Hotspot {
         List<Double> score = new ArrayList<>(size);
         List<Long> positions = sites.getPositions();
 
-        for(long i = 0; i < (genomeSize - windowSize) && i < (positions.get(positions.size() - 1) + windowSize); i+=windowSize/10){
+        for (long i = 0; i < (genomeSize - windowSize) && i < (positions.get(positions.size() - 1) + windowSize); i += windowSize) {
             // find sites between i and i + windowSize
 
             long finalI = i;

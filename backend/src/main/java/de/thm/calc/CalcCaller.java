@@ -258,7 +258,7 @@ public final class CalcCaller {
         @Override
         public void run() {
             Hotspot hotspot = new Hotspot();
-            ScoredTrack hotspots = hotspot.findHotspots(measuredPositions, (int) (ChromosomSizes.getInstance().getGenomeSize(measuredPositions.getAssembly())/60));
+            ScoredTrack hotspots = hotspot.findHotspots(measuredPositions, (int) (ChromosomSizes.getInstance().getGenomeSize(measuredPositions.getAssembly()) / 200));
 
             List<Double> hs = Arrays.stream(hotspots.getIntervalScore()).boxed().collect(Collectors.toList());
 
