@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -51,18 +50,6 @@ public class ExportController {
         StatisticsCollector.getInstance().addDownloadC();
         return new FileSystemResource(output);
     }
-
-
-    @RequestMapping(value = "/plot", method = RequestMethod.GET)
-    public String plot(Model model, HttpSession httpSession) {
-        Session currentSession = Sessions.getInstance().getSession(httpSession.getId());
-
-        org.apache.commons.math3.util.Pair<List<String>, List<Double>> data = currentSession.getCollector().getBarplotdata();
-        model.addAttribute("data", data);
-
-        return "plot";
-    }
-
 
     @RequestMapping(value = "/export/bg", method = RequestMethod.GET)
     @ResponseBody
