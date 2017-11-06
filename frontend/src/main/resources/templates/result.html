@@ -316,7 +316,7 @@
                                                                 </tr>
                                                             </table>
                                                         </div>
-                                                        <div class="desc" th:text="${result.description}"></div>
+                                                        <div class="desc" th:utext="${result.description}"></div>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -404,7 +404,7 @@
                                             <td colspan="5" class="hiddenRow">
                                                 <div class="accordion-body collapse"
                                                      th:id="${#strings.replace('accordion_'+result.id,'.','_')}">
-                                                    <div class="desc" th:text="${result.description}"></div>
+                                                    <div class="desc" th:utext="${result.description}"></div>
                                                 </div>
                                             </td>
                                         </tr>
@@ -490,7 +490,7 @@
                                                         <div th:value="${result.namesMea}"></div>
                                                         <div th:value="${result.namesExp}"></div>
                                                     </div>
-                                                    <div class="desc" th:text="${result.description}"></div>
+                                                    <div class="desc" th:utext="${result.description}"></div>
                                                 </div>
                                             </td>
                                         </tr>
