@@ -232,7 +232,7 @@ label{
 }
 
 .hotspot{
-    width: 0.16%;
+    width: 0.5%;
     height:inherit;
     float: left;
 }
@@ -240,7 +240,7 @@ label{
 .hotspot2 {
     float: left;
     height: 200px;
-    width: 0.17%;
+    width: 0.5%;
 }
 
 #hotspotsfull {
@@ -250,6 +250,7 @@ label{
 
 #chrsizes {
     width: 1400px;
+    margin-bottom: 100px;
 }
 
 .chrbar {
