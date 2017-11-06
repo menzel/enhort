@@ -3,7 +3,7 @@
 */
 
 * {
-    font-family: "Clear Sans", Helvetica, serif;
+    font-family: "Clear Sans", Helvetica, sans-serif;
     font-size: 15px;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
