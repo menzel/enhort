@@ -6,6 +6,7 @@ import de.thm.logo.Logo;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.UserData;
 import de.thm.result.ResultCollector;
+import de.thm.spring.cache.RCodeExport;
 import de.thm.stat.TestResult;
 import org.apache.commons.math3.stat.descriptive.rank.Percentile;
 import org.apache.commons.math3.util.Precision;
@@ -30,7 +31,7 @@ public class ControllerHelper {
 
         // r export page
 
-        String rcode = "ARRRRR";
+        String rcode = RCodeExport.barplot(collector);
 
         model.addAttribute("rcode", rcode);
 
@@ -66,7 +67,6 @@ public class ControllerHelper {
 
         model.addAttribute("perc", percentiles);
         model.addAttribute("maxES", maxOverall);
-
         model.addAttribute("results", results);
 
         // packs

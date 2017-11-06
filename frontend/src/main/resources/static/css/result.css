@@ -330,3 +330,8 @@ label{
     margin-left: inherit;
     padding: 5px
 }
+
+#rexport textarea {
+    width: 800px;
+    height: 800px;
+}
