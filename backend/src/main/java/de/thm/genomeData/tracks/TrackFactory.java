@@ -66,7 +66,7 @@ public final class TrackFactory {
         connector.connect();
 
         if (System.getenv("HOME").contains("menzel")) {
-            allTracks = connector.getAllTracks("WHERE file like '%inout%' ORDER BY filesize ASC LIMIT 10");
+            allTracks = connector.getAllTracks("WHERE file like '%inout%' ORDER BY filesize ASC LIMIT 20");
             allTracks.addAll(connector.getAllTracks("WHERE name like '%tf%' LIMIT 10"));
             allTracks.addAll(connector.getAllTracks("WHERE file like '%repeat%' LIMIT 10"));
             allTracks.addAll(connector.getAllTracks("WHERE file like '%broad%' LIMIT 10"));
@@ -79,6 +79,9 @@ public final class TrackFactory {
             allTracks.addAll(connector.getAllTracks("WHERE file like '%broad%'"));
             allTracks.addAll(connector.getAllTracks("WHERE file like '%rest%'"));
             allTracks.addAll(connector.getAllTracks("WHERE name like '%contigs%'"));
+            allTracks.addAll(connector.getAllTracks("WHERE type = 'scored'"));
+            allTracks.addAll(connector.getAllTracks("WHERE type = 'distance'"));
+            allTracks.addAll(connector.getAllTracks("WHERE type = 'named'"));
         }
 
         // filter doubled tracks
