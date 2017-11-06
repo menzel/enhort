@@ -44,30 +44,42 @@ public class ControllerHelper {
         inout.forEach(r -> results.put(r.getTrack().getPack(), new ArrayList<>()));
         inout.forEach(r -> results.get(r.getTrack().getPack()).add(r));
 
+        // use copy of the results map for display, because scored and named tracks are appended here (and those are send to the interface separately)
+        model.addAttribute("results", new HashMap<>(results));
+
         double maxOverall = collector.getInOutResults(cmd.isShowall()).stream().map(TestResult::getEffectSize).max(Double::compareTo).get();
 
-        results.keySet().forEach(key -> {
-            Percentile p = new Percentile();
+        results.put("Scored", collector.getScoredResults(cmd.isShowall()));
+        results.put("Named", collector.getNamedResults(cmd.isShowall()));
 
-            p.setData(results.get(key).stream()
-                    .map(TestResult::getEffectSize)
-                    .mapToDouble(Double::doubleValue)
-                    .toArray());
+        results.keySet().forEach(key -> { //iterate over the packages
 
-            List<Double> vals = new ArrayList<>();
+            if (results.get(key).size() == 0) // set 0's if there aren't any values for this package
+                percentiles.put(key, Arrays.asList(0d, 0d, 0d, 0d, 0d));
 
-            vals.add(p.evaluate(1));
-            vals.add(p.evaluate(25));
-            vals.add(Precision.round(p.evaluate(50), 2));
-            vals.add(p.evaluate(75));
-            vals.add(p.evaluate(100));
+            else {
+                Percentile p = new Percentile();
 
-            percentiles.put(key, vals);
+                p.setData(results.get(key).stream()
+                        .map(TestResult::getEffectSize)
+                        .mapToDouble(Double::doubleValue)
+                        .toArray());
+
+                List<Double> vals = new ArrayList<>();
+
+
+                vals.add(p.evaluate(1));
+                vals.add(p.evaluate(25));
+                vals.add(Precision.round(p.evaluate(50), 2));
+                vals.add(p.evaluate(75));
+                vals.add(p.evaluate(100));
+
+                percentiles.put(key, vals);
+            }
         });
 
         model.addAttribute("perc", percentiles);
         model.addAttribute("maxES", maxOverall);
-        model.addAttribute("results", results);
 
         // packs
 

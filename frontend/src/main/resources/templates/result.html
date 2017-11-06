@@ -4,7 +4,7 @@
 
 <head lang="en">
 
-    <title>Enhort</title>
+    <title>Enhort - Genomic Position Profiling</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
     <link rel="stylesheet" media="screen" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
@@ -242,7 +242,6 @@
                             <td colspan="5" class="hiddenRow">
                                 <div class="accordion-body collapse"
                                      th:id="${#strings.replace('outer_'+package.key,' ','_')}">
-                                    <div th:text="${perc.get(package.key)}"></div>
 
                                     <table class="table tracktable">
 
@@ -331,13 +330,29 @@
 
                     <!-- Annotation table scored -->
 
-                    <tr class="packrow">
+
+                    <tr class="packrow" th:with="f=${(1/maxES)*145}, min=${perc.get('Scored').get(0)}">>
                         <td th:text="${'Expression Scores (' + #lists.size(results_score) +')'}"
                             data-target="#scored_body" data-toggle="collapse" class="accordion-toggle">
                         </td>
                         <td></td>
-                        <td></td>
-                        <td></td>
+                        <td th:text="${perc.get('Scored').get(2)}"></td>
+                        <td>
+                            <div class="boxplot">
+                                <div class="sd"
+                                     th:style="'margin-left:' + ${min*f} + 'px;width:' + ${(perc.get('Scored').get(1)-min)*f} + 'px'"></div>
+
+                                <div class="boxplotbar"
+                                     th:style="'width:' + ${(perc.get('Scored').get(3)-min)*f} + 'px'">
+                                    <div class="boxplotmean"
+                                         th:style="'margin-left:' + ${(perc.get('Scored').get(2)-min)*f} + 'px'"></div>
+                                </div>
+
+                                <div class="sd"
+                                     th:style="'width:' + ${(perc.get('Scored').get(4)-perc.get('Scored').get(3))*f} + 'px'"></div>
+                            </div>
+
+                        </td>
                         <td></td>
                     </tr>
 
@@ -401,14 +416,30 @@
 
                     <!-- Annotation table named -->
 
-                    <tr class="packrow">
-                        <td data-target="#named_body" data-toggle="collapse" class="accordion-toggle">
-                            Named tracks
+                    <tr class="packrow" th:with="f=${(1/maxES)*145}, min=${perc.get('Named').get(0)}">>
+                        <td th:text="${'Named (' + #lists.size(results_named) +')'}"
+                            data-target="#named_body" data-toggle="collapse" class="accordion-toggle">
                         </td>
                         <td></td>
+                        <td th:text="${perc.get('Named').get(2)}"></td>
+                        <td>
+                            <div class="boxplot">
+                                <div class="sd"
+                                     th:style="'margin-left:' + ${min*f} + 'px;width:' + ${(perc.get('Named').get(1)-min)*f} + 'px'"></div>
+
+                                <div class="boxplotbar"
+                                     th:style="'width:' + ${(perc.get('Named').get(3)-min)*f} + 'px'">
+                                    <div class="boxplotmean"
+                                         th:style="'margin-left:' + ${(perc.get('Named').get(2)-min)*f} + 'px'"></div>
+                                </div>
+
+                                <div class="sd"
+                                     th:style="'width:' + ${(perc.get('Named').get(4)-perc.get('Named').get(3))*f} + 'px'"></div>
+                            </div>
+
+                        </td>
                         <td></td>
-                        <td></td>
-                        <td></td>
+
                     </tr>
 
                     <tr>
