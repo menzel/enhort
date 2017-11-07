@@ -40,17 +40,21 @@ public class AssemblyGuesser {
 
         DefaultExecutor exe = new DefaultExecutor();
 
+        // space to tabs
         String spaceToTab = "sed -i 's/[[:blank:]]+/\\t/g' " + file.toAbsolutePath();
         try {
             exe.execute(CommandLine.parse(spaceToTab));
         } catch (IOException e) {
             logger.error("Exception running " + spaceToTab + " {}", e.getMessage(), e);
         }
+        // space to tabs
 
+        // get a list of all assemblies
         for(Genome.Assembly assembly: Genome.Assembly.values())
             if(assembly != Genome.Assembly.Unknown)
                 assemblies.add(assembly.toString());
 
+        // get contigs file for each assembly
         if (!System.getenv("HOME").contains("menzel"))
             assemblies.forEach(a -> contigsPaths.add("/home/mmnz21/con/contigs_" + a));
         else //on local pc:
@@ -58,6 +62,7 @@ public class AssemblyGuesser {
 
         Pattern p = Pattern.compile("[\r\n]");
 
+        // run bedtools on each contigs file
         for(String filename: contigsPaths) {
 
             String command = "bedtools intersect -v -a " + file.toAbsolutePath() + " -b " + filename;
@@ -83,6 +88,7 @@ public class AssemblyGuesser {
             }
         }
 
+        // get genome version number for the min of counts of sites outside
         for (int i = 0; i < counts.size(); i++)
             if ((int) counts.get(i) == Collections.min(counts))
                 return Genome.Assembly.valueOf(assemblies.get(i));
