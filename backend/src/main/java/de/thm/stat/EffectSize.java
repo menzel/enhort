@@ -1,6 +1,7 @@
 package de.thm.stat;
 
 import de.thm.calc.TestTrackResult;
+import org.apache.commons.math3.util.FastMath;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -58,6 +59,6 @@ public final class EffectSize {
         out1 = out1/sum;
 
         // the maximum of ( maximum inside / minimum inside and maximum outside / maximum outside) -- inverts values smaller than 1
-        return max(max(in,in1) / min(in,in1), max(out,out1) / min(out,out1));
+        return FastMath.log10(max(max(in, in1) / min(in, in1), max(out, out1) / min(out, out1)));
     }
 }
