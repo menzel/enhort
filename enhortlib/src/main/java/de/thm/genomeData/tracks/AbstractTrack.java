@@ -26,8 +26,8 @@ public abstract class AbstractTrack implements Track {
 
     final String pack;
 
-    String source;
-    String sourceurl;
+    String source = "";
+    String sourceurl = "";
 
     AbstractTrack(long[] starts, long[] ends, String name, String description, Genome.Assembly assembly, String cellLine, String pack) {
 
