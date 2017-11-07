@@ -131,8 +131,10 @@ public final class ResultCollector implements Serializable, Result{
         List<String> names = new ArrayList<>();
         List<Double> effecsizes = new ArrayList<>();
 
+        Double pval = 0.05 / results.size();
+
         results.stream()
-        .filter(testResult -> testResult.getpValue() < 0.05)
+                .filter(testResult -> testResult.getpValue() < pval)
         .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
         .forEach(result ->{
             names.add(result.getName());
