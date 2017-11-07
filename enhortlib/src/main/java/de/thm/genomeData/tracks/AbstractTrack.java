@@ -76,7 +76,7 @@ public abstract class AbstractTrack implements Track {
         String desc;
 
         if (description.length() < 2) {
-            if (cellLine.equals("Unknown"))
+            if (cellLine.contains("Unknown"))
                 desc = "The track " + name + " is not cell line specific (" + assembly + ").";
             else
                 desc = "The track " + name + " is taken from the cell line " + cellLine + " (" + assembly + ").";
