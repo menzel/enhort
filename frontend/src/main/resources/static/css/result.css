@@ -343,8 +343,12 @@ label{
 
 #histogram {
     float: right;
+    height: 800px;
+    min-width: 600px;
 }
 
 #barplot {
     float: left;
+    height: 800px;
+    min-width: 600px;
 }

@@ -31,7 +31,7 @@ function plotHistogram(results) {
     }
 
     var layout = {
-        barmode: "overlay",
+        barmode: "stack",
         title: "Histogram of effect sizes by annotation group",
         xaxis: {title: "Effect size"},
         yaxis: {title: "Count"}

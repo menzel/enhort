@@ -658,10 +658,10 @@
             <!-- Tab 3  Detailed -->
             <div id="nav3" class="tab-pane fade ">
 
-                <div id="barplot" style="width: 600px; height: 800px;">
+                <div id="barplot">
                 </div>
 
-                <div id="histogram" style="width: 600px; height: 800px;">
+                <div id="histogram">
                 </div>
 
             </div>
@@ -821,7 +821,6 @@
     var bars = [[${bardata}]];
 
     var stuff = [{
-        title: "Significant annotations",
         x: bars.first,
         y: bars.second,
         type: 'bar',
@@ -841,11 +840,11 @@
     }];
 
     var layout = {
+        title: "Significant annotations by log fold change",
         xaxis: {
             autorange: true
         },
         yaxis: {
-            type: 'log',
             autorange: true
         }
     };
