@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,6 +38,15 @@ public class AssemblyGuesser {
         List<Integer> counts = new ArrayList<>();
         List<String> assemblies = new ArrayList<>();
 
+        DefaultExecutor exe = new DefaultExecutor();
+
+        String spaceToTab = "sed -i 's/[[:blank:]]+/\\t/g' " + file.toAbsolutePath();
+        try {
+            exe.execute(CommandLine.parse(spaceToTab));
+        } catch (IOException e) {
+            logger.error("Exception running " + spaceToTab + " {}", e.getMessage(), e);
+        }
+
         for(Genome.Assembly assembly: Genome.Assembly.values())
             if(assembly != Genome.Assembly.Unknown)
                 assemblies.add(assembly.toString());
@@ -53,7 +63,6 @@ public class AssemblyGuesser {
             String command = "bedtools intersect -v -a " + file.toAbsolutePath() + " -b " + filename;
 
             try {
-                DefaultExecutor exe = new DefaultExecutor();
 
                 ByteArrayOutputStream stdout = new ByteArrayOutputStream();
                 ByteArrayOutputStream stderr = new ByteArrayOutputStream();
@@ -69,7 +78,7 @@ public class AssemblyGuesser {
                 counts.add(lines);
 
             } catch (Exception | Error e) {
-                logger.error("Exception running" + command + " {}", e.getMessage(), e);
+                logger.error("Exception running " + command + " {}", e.getMessage(), e);
                 return Genome.Assembly.Unknown;
             }
         }
