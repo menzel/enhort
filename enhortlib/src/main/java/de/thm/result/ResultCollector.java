@@ -129,23 +129,21 @@ public final class ResultCollector implements Serializable, Result{
 
 
         List<String> names = new ArrayList<>();
-        List<Double> effecsizes = new ArrayList<>();
+        List<Double> effectsizes = new ArrayList<>();
 
         Double pval = 0.05 / results.size();
 
         results.stream()
                 .filter(testResult -> testResult.getpValue() < pval)
-        .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
-        .forEach(result ->{
-            names.add(result.getName());
+                .filter(testResult -> testResult.getMeasuredIn() >= (testResult.getMeasuredIn() + testResult.getMeasuredOut()) / 200
+                        && testResult.getExpectedIn() >= (testResult.getExpectedIn() + testResult.getExpectedOut()) / 200)
+                .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
+                .forEach(result -> {
+                    names.add(result.getName());
+                    effectsizes.add(result.getEffectSize());
+                });
 
-            if (result.getPercentInE() > result.getPercentInM()) // if less in data than expected
-                effecsizes.add(1 / result.getEffectSize()); // invert value
-             else effecsizes.add(result.getEffectSize());
-
-        });
-
-        return new Pair<>(names, effecsizes);
+        return new Pair<>(names, effectsizes);
     }
 
 
@@ -309,7 +307,18 @@ public final class ResultCollector implements Serializable, Result{
     }
 
     public List<TestResult> getResults() {
-        return this.results;
+        return getResults(true);
+    }
+
+    public List<TestResult> getResults(boolean isShowall) {
+        if (isShowall)
+            return this.results;
+        else
+            return this.results.stream()
+                    .filter(testResult -> testResult.getpValue() < 0.05 / results.size())
+                    .filter(testResult -> testResult.getMeasuredIn() >= (testResult.getMeasuredIn() + testResult.getMeasuredOut()) / 200
+                            && testResult.getExpectedIn() >= (testResult.getExpectedIn() + testResult.getExpectedOut()) / 200)
+                    .collect(Collectors.toList());
     }
 
     /**
