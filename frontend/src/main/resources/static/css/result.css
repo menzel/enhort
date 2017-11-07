@@ -336,3 +336,15 @@ label{
     width: 800px;
     height: 800px;
 }
+
+/*
+* Detailed View
+ */
+
+#histogram {
+    float: right;
+}
+
+#barplot {
+    float: left;
+}

@@ -45,7 +45,7 @@
         <div class="box">
             <h4>Data</h4>
 
-            <a id="changetracksbtn" class="btn btn-default" href="/wizfile">
+            <a id="changetracksbtn" class="btn btn-default" href="/wizfile" th:if="${bgfilename != 'Background'}">
                 <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
             </a>
 
@@ -114,7 +114,7 @@
 
         <div class="tab-content">
 
-            <!-- Tab 1 -->
+            <!-- Tab 1 Overview -->
             <div id="nav1" class="tab-pane fade in active">
                 <th:block th:if="${ran}">
 
@@ -631,7 +631,7 @@
         </th:block>
             </div>
 
-            <!-- Tab 2 -->
+            <!-- Tab 2 Hotspots -->
             <div id="nav2" class="tab-pane fade ">
                 <div id="hotspotsfull">
 
@@ -655,15 +655,18 @@
                 bars show few, and darker bars show an increased count of sites.
             </div>
 
-            <!-- Tab 3 -->
+            <!-- Tab 3  Detailed -->
             <div id="nav3" class="tab-pane fade ">
 
-                <div id="barplot" style="width: 1200px; height: 800px;">
+                <div id="barplot" style="width: 600px; height: 800px;">
+                </div>
+
+                <div id="histogram" style="width: 600px; height: 800px;">
                 </div>
 
             </div>
 
-            <!-- Tab 4 -->
+            <!-- Tab 4 R export -->
             <div id="nav4" class="tab-pane fade ">
 
                 <div id="rexport">
@@ -677,7 +680,7 @@
 
             </div>
 
-            <!-- Tab 4 -->
+            <!-- Tab 5 ??? -->
             <div id="nav5" class="tab-pane fade ">
 
                 <div id="csvexport">
@@ -849,6 +852,13 @@
 
     Plotly.newPlot('barplot', stuff, layout);
 
+</script>
+
+<script th:inline="javascript" async="async">
+    /*<![CDATA[*/
+    'use strict';
+
+    plotHistogram([[${results}]]);
 </script>
 
 </body>

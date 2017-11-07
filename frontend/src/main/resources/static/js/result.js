@@ -3,6 +3,45 @@
 */
 
 
+function plotHistogram(results) {
+    var data = [];
+
+    for (var pack in results) {
+
+        var vals = [];
+        for (var v in results[pack]) {
+            vals.push(results[pack][v].effectSize)
+        }
+
+        data.push({
+            x: vals,
+            name: pack,
+            autobinx: true,
+            histnorm: "count",
+            marker: {
+                color: '#' + Math.random().toString(16).substr(-6),
+                line: {
+                    color: "rgba(255, 100, 102, 1)",
+                    width: 1
+                }
+            },
+            opacity: 0.5,
+            type: "histogram"
+        });
+    }
+
+    var layout = {
+        barmode: "overlay",
+        title: "Histogram of effect sizes by annotation group",
+        xaxis: {title: "Effect size"},
+        yaxis: {title: "Count"}
+    };
+
+    Plotly.newPlot('histogram', data, layout);
+
+}
+
+
 function plotBubble(names, pca) {
 
     var size = 5;
