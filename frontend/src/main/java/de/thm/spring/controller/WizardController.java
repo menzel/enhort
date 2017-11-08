@@ -186,6 +186,7 @@ public class WizardController {
             currentSession.setCollector(collector);
             interfaceCommand.setMinBg(10000);
             interfaceCommand.setOriginalFilename(currentSession.getOriginalFilename());
+            interfaceCommand.setHotspots(collector.getHotspots());
 
             model.addAttribute("interfaceCommand", interfaceCommand);
             model.addAttribute("tracks", currentSession.getCollector().getInOutResults(false));
