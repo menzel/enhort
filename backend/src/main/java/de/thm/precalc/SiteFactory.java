@@ -1,5 +1,6 @@
 package de.thm.precalc;
 
+import de.thm.backgroundModel.BackgroundModel;
 import de.thm.genomeData.tracks.Track;
 import de.thm.logo.Logo;
 import de.thm.misc.Genome;
@@ -82,7 +83,7 @@ public final class SiteFactory {
 
         }
 
-        return new PrecalcBackgroundModel(assembly, positions);
+        return new BackgroundModel(positions, assembly);
     }
 
 
@@ -153,7 +154,7 @@ public final class SiteFactory {
 
         Collections.sort(new_pos); // dont forget to sort the sites here.
 
-        return new PrecalcBackgroundModel(assembly, new_pos);
+        return new BackgroundModel(new_pos, assembly);
     }
 
     /**
