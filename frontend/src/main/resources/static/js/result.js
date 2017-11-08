@@ -5,12 +5,22 @@
 
 function plotHistogram(results) {
     var data = [];
+    var trackcount = 0;
+    var max = 0;
+    var maxname = "";
 
     for (var pack in results) {
 
         var vals = [];
         for (var v in results[pack]) {
-            vals.push(results[pack][v].effectSize)
+            var es = results[pack][v].effectSize;
+            vals.push(es);
+            trackcount += 1;
+
+            if (es > max) {
+                max = es;
+                maxname = results[pack][v].track.name;
+            }
         }
 
         data.push({
@@ -36,6 +46,10 @@ function plotHistogram(results) {
         xaxis: {title: "Effect size"},
         yaxis: {title: "Count"}
     };
+
+    document.getElementById("histogramdesc").innerHTML = "The histogram shows the distribution" +
+        "of log-fold-change values between your uploaded sites and the background model. " +
+        "There are " + Object.keys(results).length + " packages containing " + trackcount + " tracks.";
 
     Plotly.newPlot('histogram', data, layout);
 

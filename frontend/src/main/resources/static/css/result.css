@@ -342,13 +342,27 @@ label{
  */
 
 #histogram {
-    float: right;
     height: 800px;
     min-width: 600px;
 }
 
 #barplot {
-    float: left;
     height: 800px;
     min-width: 600px;
+}
+
+#histogramdesc {
+    width: 700px;
+}
+
+#barplotdesc {
+    width: 700px;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
 }

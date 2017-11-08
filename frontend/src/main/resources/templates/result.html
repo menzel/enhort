@@ -658,10 +658,16 @@
             <!-- Tab 3  Detailed -->
             <div id="nav3" class="tab-pane fade ">
 
-                <div id="barplot">
+                <div class="left">
+                    <div id="barplot">
+                    </div>
+                    <div id="barplotdesc"></div>
                 </div>
 
-                <div id="histogram">
+                <div class="right">
+                    <div id="histogram">
+                    </div>
+                    <div id="histogramdesc"></div>
                 </div>
 
             </div>
@@ -820,6 +826,8 @@
 
     var bars = [[${bardata}]];
 
+    console.log(bars);
+
     var stuff = [{
         x: bars.first,
         y: bars.second,
@@ -848,6 +856,12 @@
             autorange: true
         }
     };
+
+    document.getElementById("barplotdesc").innerHTML = "The barplot shows each log fold change from one track as one bar, sorted by the log fold change from left to right.<br>" +
+        "The height of the bar represents the difference between the sites and the background model regarding this annotation. " +
+        "The log fold change of " + bars.first[0] + " has a fold change of " + bars.second[0] + "<br>" +
+        "The highest significant difference between your sites and the random background are in relation to the tracks " + bars.first[0] + ", " +
+        bars.first[1] + " and " + bars.first[2];
 
     Plotly.newPlot('barplot', stuff, layout);
 
