@@ -47,7 +47,7 @@ public class ControllerHelper {
         // use copy of the results map for display, because scored and named tracks are appended here (and those are send to the interface separately)
         model.addAttribute("results", new HashMap<>(results));
 
-        double maxOverall = collector.getInOutResults(cmd.isShowall()).stream().map(TestResult::getEffectSize).max(Double::compareTo).get();
+        double maxOverall = collector.getResults(cmd.isShowall()).stream().map(TestResult::getEffectSize).max(Double::compareTo).get();
 
         results.put("Scored", collector.getScoredResults(cmd.isShowall()));
         results.put("Named", collector.getNamedResults(cmd.isShowall()));
