@@ -7,7 +7,7 @@ function plotHistogram(results) {
     var data = [];
     var trackcount = 0;
     var max = 0;
-    var maxname = "";
+    var min = 100;
 
     for (var pack in results) {
 
@@ -17,10 +17,8 @@ function plotHistogram(results) {
             vals.push(es);
             trackcount += 1;
 
-            if (es > max) {
-                max = es;
-                maxname = results[pack][v].track.name;
-            }
+            if (es > max) max = es;
+            if (es < min) min = es;
         }
 
         data.push({
@@ -49,7 +47,8 @@ function plotHistogram(results) {
 
     document.getElementById("histogramdesc").innerHTML = "The histogram shows the distribution" +
         "of log-fold-change values between your uploaded sites and the background model. " +
-        "There are " + Object.keys(results).length + " packages containing " + trackcount + " tracks.";
+        "There are " + Object.keys(results).length + " packages containing " + trackcount + " tracks." +
+        "With log-fold-change values ranging between " + min + " and " + max + ".";
 
     Plotly.newPlot('histogram', data, layout);
 
