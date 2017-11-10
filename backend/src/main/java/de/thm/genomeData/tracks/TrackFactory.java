@@ -117,13 +117,13 @@ public final class TrackFactory {
         for(Track track: tracks){
             if(trackPackagesNames.contains(track.getCellLine())){
                 //if the package exist add the track
-                trackPackages.get(trackPackagesNames.indexOf(track.getCellLine())).add(track);
+                trackPackages.get(trackPackagesNames.indexOf(track.getCellLine() + "_" + track.getAssembly())).add(track);
 
             } else {
                 //if the package for this cell line does not exist create a new package and then add the track
-                TrackPackage trackPackage = new TrackPackage(track.getCellLine(), track.getAssembly(), track.getCellLine());
+                TrackPackage trackPackage = new TrackPackage(track.getCellLine() + "_" + track.getAssembly(), track.getAssembly(), track.getCellLine());
                 this.trackPackages.add(trackPackage);
-                trackPackagesNames.add(track.getCellLine());
+                trackPackagesNames.add(trackPackage.getName());
 
                 trackPackage.add(track);
             }
