@@ -41,4 +41,8 @@ public interface  Track extends Serializable, Cloneable {
     boolean equals(Object o);
 
     String toString();
+
+    String getSource();
+
+    String getSourceurl();
 }

@@ -26,8 +26,8 @@ public abstract class AbstractTrack implements Track {
 
     final String pack;
 
-    String source = "";
-    String sourceurl = "";
+    String source = "UCSC Genome Browser";
+    String sourceurl = "http://www.ucsc.edu";
 
     AbstractTrack(long[] starts, long[] ends, String name, String description, Genome.Assembly assembly, String cellLine, String pack) {
 
@@ -113,8 +113,15 @@ public abstract class AbstractTrack implements Track {
         return pack;
     }
 
-    @Override
+    public String getSource() {
+        return source;
+    }
 
+    public String getSourceurl() {
+        return sourceurl;
+    }
+
+    @Override
     public int hashCode() {
         int result = uid;
         result = 31 * result * name.hashCode();
