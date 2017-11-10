@@ -39,9 +39,6 @@ public class SampleController {
             samplefilepath = path+"/HIV-hg19.bed";
         }
 
-
-        //TODO set file for big server
-
         Sessions sessionControll = Sessions.getInstance();
         Session currentSession = sessionControll.getSession(httpSession.getId());
         StatisticsCollector stats = StatisticsCollector.getInstance();
