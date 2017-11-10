@@ -36,14 +36,6 @@ public class InOutTrack extends AbstractTrack {
     }
 
     @Override
-    public int hashCode() {
-        int result = uid;
-        result = 31 * result + intervalsEnd.length;
-        result = 31 * result + intervalsStart.length;
-        return result;
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof InOutTrack)) return false;

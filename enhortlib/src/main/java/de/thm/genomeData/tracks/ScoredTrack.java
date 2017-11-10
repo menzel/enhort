@@ -92,10 +92,6 @@ public class ScoredTrack extends AbstractTrack {
         return !(description != null ? !description.equals(interval.description) : interval.description != null);
     }
 
-    public int hashCode() {
-        return 31 * uid + intervalsEnd.length;
-    }
-
     public String[] getIntervalName() {
         return intervalName;
     }

@@ -2,7 +2,6 @@ package de.thm.genomeData.tracks;
 
 
 import de.thm.misc.Genome;
-import org.apache.commons.math3.analysis.function.Abs;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,13 +27,6 @@ public class DistanceTrack extends AbstractTrack {
                 description,
                 assembly,
                 cellLine);
-    }
-
-   @Override
-    public int hashCode() {
-        int result = uid;
-        result = 31 * result + intervalsStart.length;
-        return result;
     }
 
     @Override

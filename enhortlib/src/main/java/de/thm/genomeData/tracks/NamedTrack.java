@@ -62,11 +62,4 @@ public class NamedTrack extends AbstractTrack{
         if (!Arrays.equals(intervalsEnd, interval.intervalsEnd)) return false;
         return Arrays.equals(intervalName, interval.intervalName) && !(description != null ? !description.equals(interval.description) : interval.description != null);
     }
-
-    @Override
-    public int hashCode() {
-        int result = uid;
-        result = 31 * result + intervalsEnd.length;
-        return result;
-    }
 }

@@ -82,13 +82,6 @@ public class StrandTrack extends AbstractTrack {
         return !(description != null ? !description.equals(interval.description) : interval.description != null);
     }
 
-    @Override
-    public int hashCode() {
-        int result = uid;
-        result = 31 * result + intervalsEnd.length;
-        return result;
-    }
-
     public char[] getStrands() {
         return strand;
     }

@@ -113,4 +113,11 @@ public abstract class AbstractTrack implements Track {
         return pack;
     }
 
+    @Override
+
+    public int hashCode() {
+        int result = uid;
+        result = 31 * result * name.hashCode();
+        return result;
+    }
 }
