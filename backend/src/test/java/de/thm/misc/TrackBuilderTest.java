@@ -3,7 +3,6 @@ package de.thm.misc;
 import de.thm.genomeData.tracks.Track;
 import de.thm.genomeData.tracks.TrackFactory;
 import de.thm.genomeData.tracks.Tracks;
-import de.thm.misc.Genome;
 import org.junit.Test;
 
 import java.util.ArrayList;

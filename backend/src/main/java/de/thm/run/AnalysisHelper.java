@@ -140,7 +140,8 @@ class AnalysisHelper {
                 logger.warn("Error getting tracks {}", e);
             }
 
-        } else {
+        } else { // if there is a list of track ids given by command
+
             runTracks = trackFactory.getTracksById(cmd.getTracks());
 
             //check and apply custom tracks
@@ -151,8 +152,6 @@ class AnalysisHelper {
                 throw new NoTracksLeftException("There are no tracks available for this genome version and cell line" );
             }
         }
-
-        logger.debug("executing the calculations now");
 
         CalcCaller multi = new CalcCaller();
         return multi.execute(runTracks, sites, sitesBg, cmd.isCreateLogo());

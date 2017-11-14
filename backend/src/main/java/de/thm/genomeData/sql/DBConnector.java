@@ -1,5 +1,6 @@
 package de.thm.genomeData.sql;
 
+import de.thm.genomeData.tracks.TrackEntry;
 import de.thm.misc.Genome;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,7 +92,8 @@ public class DBConnector {
                         rs.getString("assembly"),
                         rs.getString("cellline"),
                         rs.getInt("filesize"),
-                        rs.getString("package"));
+                        rs.getString("package"),
+                        rs.getInt("id"));
 
                 entries.add(entry);
             }
@@ -176,74 +178,10 @@ public class DBConnector {
         return celllines;
     }
 
-
-    public TrackEntry createTrackEntry(String name, String description, String filepath, String type, String assembly, String cellline, int filesize, String pack) {
-
-        return new TrackEntry(name, description, filepath, type, assembly, cellline, filesize, pack);
-    }
-
-
     public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
         Map<Object, String> seen = new ConcurrentHashMap<>();
         return t -> seen.put(keyExtractor.apply(t), "") == null;
     }
 
-    /**
-     * Inner Class for Object mapping
-     */
-    public class TrackEntry {
-        private String name;
-        private String description;
-        private String filepath;
-        private String type;
-        private String assembly;
-        private String cellline;
-        private String pack;
-        private int filesize;
-
-        TrackEntry(String name, String description, String filepath, String type, String assembly, String cellline, int filesize, String pack) {
-            this.name = name;
-            this.description = description;
-            this.filepath = filepath;
-            this.type = type;
-            this.assembly = assembly;
-            this.cellline = cellline;
-            this.filesize = filesize;
-            this.pack = pack;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public String getFilepath() {
-            return filepath;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public String getAssembly() {
-            return assembly;
-        }
-
-        public String getCellline() {
-            return cellline;
-        }
-
-        public int getFilesize() {
-            return filesize;
-        }
-
-        public String getPack() {
-            return pack;
-        }
-
-    }
 
 }

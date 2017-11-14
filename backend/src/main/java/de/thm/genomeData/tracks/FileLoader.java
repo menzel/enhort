@@ -1,6 +1,5 @@
 package de.thm.genomeData.tracks;
 
-import de.thm.genomeData.sql.DBConnector;
 import de.thm.misc.ChromosomSizes;
 import de.thm.misc.Genome;
 import de.thm.misc.PositionPreprocessor;
@@ -31,16 +30,13 @@ final class FileLoader implements Runnable {
 
     private final Path path;
     private final Genome.Assembly assembly;
-    private final String cellline;
-    private final String name;
-    private final String desc;
     private final TrackFactory.Type type;
-    private final String pack;
     private final int linecount;
 
     private final Logger logger = LoggerFactory.getLogger(FileLoader.class);
+    private final TrackEntry trackEntry;
 
-    public FileLoader(DBConnector.TrackEntry entry, List<Track> tracks) {
+    public FileLoader(TrackEntry entry, List<Track> tracks) {
 
 
         Path basePath;
@@ -53,13 +49,9 @@ final class FileLoader implements Runnable {
         this.tracks = tracks;
         this.path = basePath.resolve(new File(entry.getFilepath()).toPath());
         this.assembly = Genome.Assembly.valueOf(entry.getAssembly());
-        this.cellline = (entry.getCellline() == null || entry.getCellline().equals("")) ? "Unknown" : entry.getCellline();
-        this.name = entry.getName();
         this.type = TrackFactory.Type.valueOf(entry.getType());
-        this.desc = entry.getDescription();
         this.linecount = entry.getFilesize();
-        this.pack = entry.getPack();
-
+        this.trackEntry = entry;
     }
 
     @Override
@@ -270,16 +262,16 @@ final class FileLoader implements Runnable {
 
             switch (type) {
                 case strand:
-                    return Optional.of(new StrandTrack(starts, ends, strands, name, desc, assembly, cellline));
+                    return Optional.of(new StrandTrack(starts, ends, strands, trackEntry));
                 case inout:
                     //return PositionPreprocessor.preprocessData(new InOutTrack(starts, ends, name, description));
-                    return Optional.of(new InOutTrack(starts, ends, name, desc, assembly, cellline, pack));
+                    return Optional.of(new InOutTrack(starts, ends, trackEntry));
                 case scored:
-                    return Optional.of(PositionPreprocessor.preprocessData(new ScoredTrack(starts, ends, names, scores, name, desc, assembly, cellline)));
+                    return Optional.of(PositionPreprocessor.preprocessData(new ScoredTrack(starts, ends, names, scores, trackEntry)));
                 case named:
-                    return Optional.of(PositionPreprocessor.preprocessData(new NamedTrack(starts, ends, names, name, desc, assembly, cellline)));
+                    return Optional.of(PositionPreprocessor.preprocessData(new NamedTrack(starts, ends, names, trackEntry)));
                 case distance:
-                    return Optional.of(new DistanceTrack(starts, "Distance from " + name, desc, assembly, cellline));
+                    return Optional.of(new DistanceTrack(starts, trackEntry));
                 default:
                     throw new Exception("Something is wrong with this track or file: " + file.getName());
             }

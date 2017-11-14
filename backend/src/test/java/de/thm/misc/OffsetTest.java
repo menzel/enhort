@@ -1,9 +1,8 @@
 package de.thm.misc;
 
-import de.thm.genomeData.sql.DBConnector;
 import de.thm.genomeData.tracks.Track;
+import de.thm.genomeData.tracks.TrackEntry;
 import de.thm.genomeData.tracks.TrackFactory;
-import de.thm.misc.Genome;
 import org.junit.Test;
 
 public class OffsetTest {
@@ -12,7 +11,8 @@ public class OffsetTest {
     public void testOffset() throws Exception {
 
         TrackFactory tf = TrackFactory.getInstance();
-        DBConnector.TrackEntry entry = (new DBConnector()).createTrackEntry("foo", "", "hg19/inout/contigs", "inout", "hg19", "", 20);
+
+        TrackEntry entry = new TrackEntry("foo", "desc", "hg19/inout/contigs", "inout", "hg19", "", 20, "", 42);
         tf.loadTrack(entry);
 
         Track track = tf.getTrackByName("foo", Genome.Assembly.hg19);

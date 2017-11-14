@@ -157,14 +157,13 @@ public final class Tracks {
 
         String name = intv1.getName() + "_" + intv2.getName();
         String desc = intv1.getDescription() + "_" + intv2.getDescription();
+        String cellLine;
+        if (intv1.getCellLine().equals(intv2.getCellLine()))
+            cellLine = intv1.getCellLine();
+        else
+            cellLine = "Hybrid";
 
-        return new InOutTrack(result_start,
-                result_end,
-                name,
-                desc,
-                intv1.getAssembly(),
-                intv1.getCellLine(),
-                intv1.getPack());
+        return new InOutTrack(result_start, result_end, new TrackEntry(name, desc, intv1.getAssembly().toString(), cellLine, intv1.getPack()));
     }
 
 
@@ -295,7 +294,13 @@ public final class Tracks {
         String name = intv1.getName() + "_" + intv2.getName();
         String desc = intv1.getDescription() + "_" + intv2.getDescription();
 
-        return new InOutTrack(result_start, result_end, name, desc, intv1.getAssembly(), intv2.getCellLine(), intv1.getPack());
+        String cellLine;
+        if (intv1.getCellLine().equals(intv2.getCellLine()))
+            cellLine = intv1.getCellLine();
+        else
+            cellLine = "Hybrid";
+
+        return new InOutTrack(result_start, result_end, new TrackEntry(name, desc, intv1.getAssembly().toString(), cellLine, ""));
     }
 
 
@@ -338,7 +343,7 @@ public final class Tracks {
             }
         }
 
-        return new ScoredTrack(intervalStart, intervalEnd, names, intervalScore_n, interval.getName(), interval.getDescription(), interval.getAssembly(), interval.getCellLine());
+        return new ScoredTrack(intervalStart, intervalEnd, names, intervalScore_n, new TrackEntry(interval.getName(), interval.getDescription(), interval.getAssembly().toString(), interval.getCellLine(), interval.getPack()));
     }
 
 
@@ -368,7 +373,7 @@ public final class Tracks {
         else
             ends.add(ChromosomSizes.getInstance().getGenomeSize(assembly));
 
-        return new InOutTrack(starts, ends, track.getName(), track.getDescription(), track.getAssembly(), track.getCellLine(), track.getPack());
+        return new InOutTrack(starts, ends, new TrackEntry(track.getName(), track.getDescription(), track.getAssembly().toString(), track.getCellLine(), track.getPack()));
     }
 
     /**

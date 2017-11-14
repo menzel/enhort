@@ -5,10 +5,7 @@ import de.thm.misc.Genome;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -25,6 +22,7 @@ public final class TrackFactory {
     private final List<Track> tracks;
     private final List<TrackPackage> trackPackages;
     private final Logger logger = LoggerFactory.getLogger(TrackFactory.class);
+    private Map<String, TrackEntry> trackEntries = new HashMap<>();
 
 
     /**
@@ -48,9 +46,30 @@ public final class TrackFactory {
     /**
      * Public method to load a single track by given path
      */
-    public void loadTrack(DBConnector.TrackEntry entry) {
+    public void loadTrack(TrackEntry entry) {
         FileLoader loader = new FileLoader(entry, tracks);
         loader.run();
+    }
+
+
+    /**
+     * Public method to load a single track by given path
+     */
+    public void loadTracks(List<TrackEntry> entries) {
+        List<Track> newTracks = loadByEntries(entries, Integer.MAX_VALUE);
+
+        int n = 0; // index over known tracks
+
+        for (Track a : this.tracks) {
+            for (Track b : newTracks) {
+                if (a.getUid() == b.getUid()) {
+                    this.tracks.set(n, b);
+                }
+            }
+            n++;
+        }
+
+        //TODO check if tra
     }
 
     /**
@@ -59,8 +78,7 @@ public final class TrackFactory {
      */
     public void loadAllTracks() {
 
-        final List<Track> tracks = Collections.synchronizedList(new ArrayList<>());
-        List<DBConnector.TrackEntry> allTracks;
+        List<TrackEntry> allTracks;
 
         DBConnector connector  = new DBConnector();
         connector.connect();
@@ -84,32 +102,7 @@ public final class TrackFactory {
             allTracks.addAll(connector.getAllTracks("WHERE type = 'named'"));
         }
 
-        // filter doubled tracks
-        allTracks = allTracks.stream().filter(DBConnector.distinctByKey(DBConnector.TrackEntry::getName)).collect(Collectors.toList());
-
-        int nThreads = (System.getenv("HOME").contains("menzel")) ?  4 : 32;
-        ExecutorService exe = Executors.newFixedThreadPool(nThreads);
-
-        for(DBConnector.TrackEntry entry: allTracks){
-
-            FileLoader loader = new FileLoader(entry, tracks);
-            exe.execute(loader);
-        }
-
-        exe.shutdown();
-
-        try {
-            if (!exe.awaitTermination(2, TimeUnit.MINUTES)) {
-                logger.warn("Still loading track files. Stopping now");
-                exe.shutdownNow();
-            }
-
-        } catch (Exception e) {
-            logger.warn("Some threads were interrupted loading the annotations. Loaded "  + tracks.size() + " of " + allTracks.size());
-        }
-
-        exe.shutdownNow();
-
+        this.tracks.addAll(loadByEntries(allTracks, 20));
 
         //TODO use DB:
         List<String> trackPackagesNames = new ArrayList<>();
@@ -129,7 +122,64 @@ public final class TrackFactory {
             }
         }
 
-        this.tracks.addAll(tracks);
+        allTracks.forEach(e -> trackEntries.put(e.getName(), e));
+    }
+
+    private List<Track> loadByEntries(List<TrackEntry> allTracks, int preloadLimit) {
+
+        final List<Track> tracks = Collections.synchronizedList(new ArrayList<>());
+
+        // filter doubled tracks
+        allTracks = allTracks.stream().filter(DBConnector.distinctByKey(TrackEntry::getName)).collect(Collectors.toList());
+
+        int nThreads = (System.getenv("HOME").contains("menzel")) ? 4 : 32;
+        ExecutorService exe = Executors.newFixedThreadPool(nThreads);
+
+        int i = 0;
+        for (TrackEntry entry : allTracks) {
+
+            if (i++ < preloadLimit) {
+                FileLoader loader = new FileLoader(entry, tracks);
+                exe.execute(loader);
+            } else {
+                List<Long> starts = Collections.emptyList();
+                List<Long> ends = Collections.emptyList();
+
+                switch (entry.getType()) {
+                    case "inout":
+                        tracks.add(new InOutTrack(starts, ends, entry));
+                        break;
+                    case "Named":
+                        tracks.add(new NamedTrack(starts, ends, new ArrayList<>(), entry));
+                        break;
+                    case "Scored":
+                        tracks.add(new ScoredTrack(starts, ends, new ArrayList<>(), new ArrayList<>(), entry));
+                        break;
+                    default:
+                        logger.error("TrackEntry " + entry + " of type " + entry.getType() + " could not be used.");
+                        break;
+                }
+            }
+        }
+
+        exe.shutdown();
+
+        try {
+            int timeout = (System.getenv("HOME").contains("menzel")) ? 1 : 5;
+
+            if (!exe.awaitTermination(timeout, TimeUnit.MINUTES)) {
+                logger.warn("Still loading track files. Stopping now");
+                exe.shutdownNow();
+            }
+
+        } catch (Exception e) {
+            logger.warn("Some threads were interrupted loading the annotations. Loaded " + tracks.size() + " of " + allTracks.size());
+        }
+
+        exe.shutdownNow();
+
+
+        return tracks;
     }
 
     /**
@@ -140,15 +190,20 @@ public final class TrackFactory {
      */
     public List<Track> getTracks(Genome.Assembly assembly) {
 
-        List<Track> tracks = new ArrayList<>();
+        // find unloaded tracks
+        List<Track> todo = this.tracks.stream()
+                .filter(track -> track.getStarts().length < 1) // filter those without data
+                .filter(track -> track.getAssembly().equals(assembly))
+                .collect(Collectors.toList());
 
-        for (Track track : this.tracks) {
-            if (track.getAssembly() == null || (track.getAssembly() != null && track.getAssembly().equals(assembly))) {
-                tracks.add(track);
-            }
-        }
+        // Check if the tracks are all loaded, reload if not
+        loadTracks(todo.parallelStream()
+                .map(track -> trackEntries.get(track.getName()))  // get entry by track name
+                .collect(Collectors.toList()));
 
-        return tracks;
+        return this.tracks.stream()
+                .filter(track -> track.getAssembly().equals(assembly))
+                .collect(Collectors.toList());
     }
 
 
@@ -209,6 +264,8 @@ public final class TrackFactory {
     /**
      * Returns a list of tracks by given list of Ids (as list of Strings).
      *
+     * If the track is not loaded yet the track FileLoader is invoked.
+     *
      * If any given Id does not exists no error is thrown.
      *
      * @param trackIds - list of ids (as String)
@@ -216,8 +273,26 @@ public final class TrackFactory {
      */
     public List<Track> getTracksById(List<String> trackIds) {
 
-        List<Integer> ids = trackIds.stream().map(Integer::parseInt).collect(Collectors.toList());
-        return tracks.parallelStream().filter(track -> ids.contains(track.getUid())).collect(Collectors.toList());
+        // Get list of ids
+        List<Integer> ids = trackIds.stream()
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
+
+        // Get list of tracks from ids
+        List<Track> tmpTracks = tracks.parallelStream()
+                .filter(track -> ids.contains(track.getUid()))
+                .collect(Collectors.toList());
+
+        // Check if the tracks are all loaded, reload if not
+        loadTracks(tmpTracks.parallelStream()
+                .filter(track -> track.getStarts().length < 1) // filter those without data
+                .map(track -> trackEntries.get(track.getName()))  // get entry by track name
+                .collect(Collectors.toList()));
+
+        // Get probably updated tracks.
+        return tracks.parallelStream()
+                .filter(track -> ids.contains(track.getUid()))
+                .collect(Collectors.toList());
     }
 
 
@@ -278,14 +353,14 @@ public final class TrackFactory {
      * @return new track with all given parameters
      */
     public ScoredTrack createScoredTrack(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String description) {
-        return new ScoredTrack(starts, ends, names, scores, name, description, Genome.Assembly.Unknown, "");
+        return new ScoredTrack(starts, ends, names, scores, new TrackEntry(name, description, "Unknown", "", ""));
     }
 
     public ScoredTrack createScoredTrack(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String description, Genome.Assembly assembly, String cellLine) {
-        return new ScoredTrack(starts, ends, names, scores, name, description, assembly, cellLine);
+        return new ScoredTrack(starts, ends, names, scores, new TrackEntry(name, description, assembly.toString(), cellLine, ""));
     }
 
-    public ScoredTrack createScoredTrack(long[] starts, long[] ends, String[] names, double[] scores, String name, String description, Genome.Assembly assembly) {
+    public ScoredTrack createScoredTrack(long[] starts, long[] ends, String[] names, double[] scores, String name, String description, Genome.Assembly assembly, int id) {
         return new ScoredTrack(starts, ends, names, scores, name, description, assembly, "");
     }
 
@@ -300,15 +375,15 @@ public final class TrackFactory {
      * @return new track with all given parameters
      */
     public InOutTrack createInOutTrack(List<Long> starts, List<Long> ends, String name, String description, Genome.Assembly assembly) {
-        return new InOutTrack(starts, ends, name, description, assembly, "", "None");
+        return new InOutTrack(starts, ends, new TrackEntry(name, description, assembly.toString(), "None", ""));
     }
 
     public InOutTrack createInOutTrack(List<Long> starts, List<Long> ends, String name, String description, Genome.Assembly assembly, String cellLine) {
-        return new InOutTrack(starts, ends, name, description, assembly, cellLine, "None");
+        return new InOutTrack(starts, ends, new TrackEntry(name, description, assembly.toString(), cellLine, ""));
     }
 
     public Track createInOutTrack(long[] starts, long[] ends, String ex, String description, Genome.Assembly assembly) {
-        return new InOutTrack(starts, ends, ex, description, assembly, "", "None");
+        return new InOutTrack(starts, ends, ex, description, assembly, "");
     }
 
 
@@ -321,19 +396,19 @@ public final class TrackFactory {
      * @return new track with all given parameters
      */
     public DistanceTrack createDistanceTrack(List<Long> starts, String name, String description, Genome.Assembly assembly) {
-        return new DistanceTrack(starts, name, description, assembly, "");
+        return new DistanceTrack(starts, new TrackEntry(name, description, assembly.toString(), "None", ""));
     }
 
     public DistanceTrack createDistanceTrack(List<Long> starts, String name, String description, Genome.Assembly assembly, String cellLine) {
-        return new DistanceTrack(starts, name, description, assembly, cellLine);
+        return new DistanceTrack(starts, new TrackEntry(name, description, assembly.toString(), cellLine, ""));
     }
 
     public NamedTrack createNamedTrack(List<Long> starts, List<Long> ends, List<String> names, String name, String description, Genome.Assembly assembly, String cellLine) {
-        return new NamedTrack(starts, ends, names, name, description, assembly, cellLine);
+        return new NamedTrack(starts, ends, names, new TrackEntry(name, description, assembly.toString(), cellLine, ""));
     }
 
     public StrandTrack createStrandTrack(List<Long> start, List<Long> end, List<Character> strands, String name, String desc, Genome.Assembly assembly, String cellLine) {
-        return new StrandTrack(start, end, strands, name, desc, assembly, cellLine);
+        return new StrandTrack(start, end, strands, new TrackEntry(name, desc, assembly.toString(), cellLine, ""));
     }
 
     public int getTrackCount() {
@@ -344,6 +419,11 @@ public final class TrackFactory {
     public void addTrack(Track track) {
         this.tracks.add(track);
     }
+
+    public Map<String, TrackEntry> getTrackEntries() {
+        return trackEntries;
+    }
+
 
 
     enum Type {inout, named, distance, strand, scored}
