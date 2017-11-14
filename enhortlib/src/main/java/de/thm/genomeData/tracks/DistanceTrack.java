@@ -15,18 +15,13 @@ public class DistanceTrack extends AbstractTrack {
 
     DistanceTrack(long[] starts, String name, String description, Genome.Assembly assembly, String cellLine) {
 
-        super(starts, new long[0], name, description, assembly, cellLine);
+        super(starts, new long[0], name, "Distance from " + name, assembly, cellLine);
     }
 
 
-    DistanceTrack(List<Long> starts, String name, String description, Genome.Assembly assembly, String cellLine) {
+    DistanceTrack(List<Long> starts, TrackEntry trackEntry) {
 
-        super(starts.stream().mapToLong(l->l).toArray(),
-                new long[0],
-                name,
-                description,
-                assembly,
-                cellLine);
+        super(starts.stream().mapToLong(l -> l).toArray(), new long[0], trackEntry);
     }
 
     @Override

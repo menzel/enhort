@@ -17,6 +17,8 @@ public abstract class AbstractTrack implements Track {
     private static final long serialVersionUID = 30624951L;
     final int uid = UID.incrementAndGet();
 
+    final int id;
+
     transient final long[] intervalsStart;
     transient final long[] intervalsEnd;
     final String name;
@@ -29,15 +31,16 @@ public abstract class AbstractTrack implements Track {
     String source = "UCSC Genome Browser";
     String sourceurl = "http://www.ucsc.edu";
 
-    AbstractTrack(long[] starts, long[] ends, String name, String description, Genome.Assembly assembly, String cellLine, String pack) {
+    AbstractTrack(long[] starts, long[] ends, TrackEntry entry) {
 
         this.intervalsStart = starts;
         this.intervalsEnd = ends;
-        this.name = name;
-        this.description = description;
-        this.assembly = assembly;
-        this.cellLine = cellLine;
-        this.pack = pack;
+        this.name = entry.getName();
+        this.description = entry.getDescription();
+        this.assembly = Genome.Assembly.valueOf(entry.getAssembly());
+        this.cellLine = (entry.getCellline() == null || entry.getCellline().equals("")) ? "Unknown" : entry.getCellline();
+        this.pack = entry.getPack();
+        this.id = entry.getId();
     }
 
     AbstractTrack(long[] starts, long[] ends, String name, String description, Genome.Assembly assembly, String cellLine) {
@@ -47,7 +50,9 @@ public abstract class AbstractTrack implements Track {
         this.description = description;
         this.assembly = assembly;
         this.cellLine = cellLine;
+
         this.pack = "None";
+        this.id = -1;
     }
 
 
@@ -68,7 +73,7 @@ public abstract class AbstractTrack implements Track {
 
     @Override
     public int getUid() {
-        return uid;
+        return id;
     }
 
     @Override

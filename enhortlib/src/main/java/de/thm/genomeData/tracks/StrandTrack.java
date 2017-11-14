@@ -19,14 +19,11 @@ public class StrandTrack extends AbstractTrack {
 
     private final Logger logger = LoggerFactory.getLogger(StrandTrack.class);
 
-    StrandTrack(List<Long> starts, List<Long> ends, List<Character> strand, String name, String description, Genome.Assembly assembly, String cellLine) {
+    StrandTrack(List<Long> starts, List<Long> ends, List<Character> strand, TrackEntry entry) {
 
         super(starts.stream().mapToLong(l->l).toArray(),
                 ends.stream().mapToLong(l->l).toArray(),
-                name,
-                description,
-                assembly,
-                cellLine);
+                entry);
 
         if (strand != null) {
             this.strand = new char[strand.size()];
@@ -66,8 +63,7 @@ public class StrandTrack extends AbstractTrack {
                 name,
                 description,
                 assembly,
-                cellLine
-        );
+                cellLine);
     }
 
 
@@ -87,6 +83,6 @@ public class StrandTrack extends AbstractTrack {
     }
 
     public InOutTrack getInOut() {
-        return new InOutTrack(intervalsStart, intervalsEnd, this.name, this.description, this.assembly, this.cellLine, this.pack);
+        return new InOutTrack(intervalsStart, intervalsEnd, this.name, this.description, this.assembly, this.cellLine);
     }
 }

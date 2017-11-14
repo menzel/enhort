@@ -22,14 +22,11 @@ public class NamedTrack extends AbstractTrack{
         this.intervalName = names;
     }
 
-    NamedTrack(List<Long> starts, List<Long> ends, List<String> names, String name, String description, Genome.Assembly assembly, String cellLine) {
+    NamedTrack(List<Long> starts, List<Long> ends, List<String> names, TrackEntry entry) {
 
         super(starts.stream().mapToLong(l->l).toArray(),
                 ends.stream().mapToLong(l->l).toArray(),
-                name,
-                description,
-                assembly,
-                cellLine);
+                entry);
 
         this.intervalName = names.toArray(new String[0]);
     }

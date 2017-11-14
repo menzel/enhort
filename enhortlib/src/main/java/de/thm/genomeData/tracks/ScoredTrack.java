@@ -35,14 +35,11 @@ public class ScoredTrack extends AbstractTrack {
 
     }
 
-    ScoredTrack(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String description, Genome.Assembly assembly, String cellLine) {
+    ScoredTrack(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, TrackEntry entry) {
 
         super(starts.stream().mapToLong(l->l).toArray(),
                 ends.stream().mapToLong(l->l).toArray(),
-                name,
-                description,
-                assembly,
-                cellLine);
+                entry);
 
         if (names != null) {
             intervalName = new String[names.size()];
@@ -74,8 +71,7 @@ public class ScoredTrack extends AbstractTrack {
                 this.getName(),
                 description,
                 assembly,
-                cellLine
-        );
+                cellLine);
     }
 
 
