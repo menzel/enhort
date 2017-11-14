@@ -16,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.concurrent.Callable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -25,8 +26,7 @@ import java.util.stream.Stream;
  *
  * Created by menzel on 10/13/16.
  */
-final class FileLoader implements Runnable {
-    private final List<Track> tracks; //reference to the syncronized list created in the FileLoader
+class FileLoader implements Callable<Optional<Track>> {
 
     private final Path path;
     private final Genome.Assembly assembly;
@@ -36,7 +36,7 @@ final class FileLoader implements Runnable {
     private final Logger logger = LoggerFactory.getLogger(FileLoader.class);
     private final TrackEntry trackEntry;
 
-    public FileLoader(TrackEntry entry, List<Track> tracks) {
+    public FileLoader(TrackEntry entry) {
 
 
         Path basePath;
@@ -46,7 +46,6 @@ final class FileLoader implements Runnable {
             basePath = new File("/home/mmnz21/dat/").toPath();
         }
 
-        this.tracks = tracks;
         this.path = basePath.resolve(new File(entry.getFilepath()).toPath());
         this.assembly = Genome.Assembly.valueOf(entry.getAssembly());
         this.type = TrackFactory.Type.valueOf(entry.getType());
@@ -54,13 +53,24 @@ final class FileLoader implements Runnable {
         this.trackEntry = entry;
     }
 
+
+    /**
+     * Invoked when the Task is executed, the call method must be overridden and
+     * implemented by subclasses. The call method actually performs the
+     * background thread logic. Only the updateProgress, updateMessage, updateValue and
+     * updateTitle methods of Task may be called from code within this method.
+     * Any other interaction with the Task from the background thread will result
+     * in runtime exceptions.
+     *
+     * @return The result of the background work, if any.
+     * @throws Exception an unhandled exception which occurred during the
+     *                   background operation
+     */
     @Override
-    public void run() {
+    public Optional<Track> call() throws Exception {
 
-        Optional<Track> track = readBedFile(path.toFile());
-        track.ifPresent(tracks::add);
+        return readBedFile(path.toFile());
     }
-
 
     /**
      * Overwrites the bed file with new (preprocessed) positions
@@ -136,7 +146,7 @@ final class FileLoader implements Runnable {
                     logger.warn("loaded " + Precision.round(((double) linecount / diff), 2) + "\t" + file.getName() + " of lines " + linecount + " in " + diff);
 
                     logger.warn("Interrupted loading of " + file.getName());
-                    return Optional.empty();
+                    return createTrackStub();
                 }
 
                 String line = it.next();
@@ -283,4 +293,30 @@ final class FileLoader implements Runnable {
             return Optional.empty();
         }
     }
+
+    private Optional<Track> createTrackStub() {
+
+        List<Long> starts = Collections.emptyList();
+        List<Long> ends = Collections.emptyList();
+        List<String> names = Collections.emptyList();
+        List<Double> scores = Collections.emptyList();
+        List<Character> strands = Collections.emptyList();
+
+        switch (type) {
+            case strand:
+                return Optional.of(new StrandTrack(starts, ends, strands, trackEntry));
+            case inout:
+                return Optional.of(new InOutTrack(starts, ends, trackEntry));
+            case scored:
+                return Optional.of(PositionPreprocessor.preprocessData(new ScoredTrack(starts, ends, names, scores, trackEntry)));
+            case named:
+                return Optional.of(PositionPreprocessor.preprocessData(new NamedTrack(starts, ends, names, trackEntry)));
+            case distance:
+                return Optional.of(new DistanceTrack(starts, trackEntry));
+            default:
+                return Optional.empty();
+        }
+
+    }
+
 }

@@ -6,9 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 /**
@@ -44,19 +42,25 @@ public final class TrackFactory {
 
 
     /**
-     * Public method to load a single track by given path
+     * Public method to load a single track by TrackEntry and adds them to the global visible track list
      */
     public void loadTrack(TrackEntry entry) {
-        FileLoader loader = new FileLoader(entry, tracks);
-        loader.run();
+        FileLoader loader = new FileLoader(entry);
+
+        try {
+            loader.call().ifPresent(this.tracks::add);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
     /**
-     * Public method to load a single track by given path
+     * Public method to load a list of tracks by TrackEntry and adds them to the global visible track list
      */
     public void loadTracks(List<TrackEntry> entries) {
-        List<Track> newTracks = loadByEntries(entries, Integer.MAX_VALUE);
+        List<Track> newTracks = loadByEntries(entries);
 
         int n = 0; // index over known tracks
 
@@ -102,7 +106,7 @@ public final class TrackFactory {
             allTracks.addAll(connector.getAllTracks("WHERE type = 'named'"));
         }
 
-        this.tracks.addAll(loadByEntries(allTracks, 20));
+        this.tracks.addAll(loadByEntries(allTracks));
 
         //TODO use DB:
         List<String> trackPackagesNames = new ArrayList<>();
@@ -125,61 +129,59 @@ public final class TrackFactory {
         allTracks.forEach(e -> trackEntries.put(e.getName(), e));
     }
 
-    private List<Track> loadByEntries(List<TrackEntry> allTracks, int preloadLimit) {
-
-        final List<Track> tracks = Collections.synchronizedList(new ArrayList<>());
+    /**
+     * Loads all tracks given by TrackEntry objects.
+     * <p>
+     * Stops after a timeout of a few minutes.
+     * <p>
+     * Returns a list of Track objects, which can either be a stub (without data) or with data.
+     *
+     * @param allTracks - tracks to load
+     * @return list of tracks
+     */
+    private List<Track> loadByEntries(List<TrackEntry> allTracks) {
 
         // filter doubled tracks
         allTracks = allTracks.stream().filter(DBConnector.distinctByKey(TrackEntry::getName)).collect(Collectors.toList());
 
         int nThreads = (System.getenv("HOME").contains("menzel")) ? 4 : 32;
         ExecutorService exe = Executors.newFixedThreadPool(nThreads);
+        CompletionService<Track> completionService = new ExecutorCompletionService<>(exe);
 
-        int i = 0;
+        List<Future<Optional<Track>>> futures = new ArrayList<>();
+
         for (TrackEntry entry : allTracks) {
 
-            if (i++ < preloadLimit) {
-                FileLoader loader = new FileLoader(entry, tracks);
-                exe.execute(loader);
-            } else {
-                List<Long> starts = Collections.emptyList();
-                List<Long> ends = Collections.emptyList();
-
-                switch (entry.getType()) {
-                    case "inout":
-                        tracks.add(new InOutTrack(starts, ends, entry));
-                        break;
-                    case "Named":
-                        tracks.add(new NamedTrack(starts, ends, new ArrayList<>(), entry));
-                        break;
-                    case "Scored":
-                        tracks.add(new ScoredTrack(starts, ends, new ArrayList<>(), new ArrayList<>(), entry));
-                        break;
-                    default:
-                        logger.error("TrackEntry " + entry + " of type " + entry.getType() + " could not be used.");
-                        break;
-                }
-            }
+            FileLoader loader = new FileLoader(entry);
+            Future<Optional<Track>> t = exe.submit(loader);
+            futures.add(t);
         }
 
         exe.shutdown();
 
         try {
-            int timeout = (System.getenv("HOME").contains("menzel")) ? 1 : 5;
 
-            if (!exe.awaitTermination(timeout, TimeUnit.MINUTES)) {
-                logger.warn("Still loading track files. Stopping now");
-                exe.shutdownNow();
-            }
+            int timeout = (System.getenv("HOME").contains("menzel")) ? 1 : 5;
+            completionService.poll(timeout, TimeUnit.MINUTES);
+
+            logger.warn("Still loading track files. Stopping now");
 
         } catch (Exception e) {
             logger.warn("Some threads were interrupted loading the annotations. Loaded " + tracks.size() + " of " + allTracks.size());
         }
 
-        exe.shutdownNow();
+        List<Track> local = new ArrayList<>();
 
+        futures.stream().filter(Future::isDone).forEach(f -> {
+            try {
+                f.get().ifPresent(local::add);
 
-        return tracks;
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        });
+
+        return local;
     }
 
     /**
