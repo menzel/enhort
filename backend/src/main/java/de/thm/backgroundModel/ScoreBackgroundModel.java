@@ -4,8 +4,8 @@ import de.thm.genomeData.tracks.ScoredTrack;
 import de.thm.genomeData.tracks.Track;
 import de.thm.genomeData.tracks.TrackFactory;
 import de.thm.genomeData.tracks.Tracks;
-import de.thm.misc.Genome;
 import de.thm.misc.ChromosomSizes;
+import de.thm.misc.Genome;
 import de.thm.positionData.Sites;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.math3.distribution.NormalDistribution;
@@ -150,8 +150,7 @@ class ScoreBackgroundModel {
                 newScores.stream().mapToDouble(d -> d).toArray(),
                 interval.getName(),
                 interval.getDescription(),
-                sites.getAssembly()
-        );
+                sites.getAssembly());
     }
 
 

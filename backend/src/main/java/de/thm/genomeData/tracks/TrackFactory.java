@@ -360,7 +360,7 @@ public final class TrackFactory {
         return new ScoredTrack(starts, ends, names, scores, new TrackEntry(name, description, assembly.toString(), cellLine, ""));
     }
 
-    public ScoredTrack createScoredTrack(long[] starts, long[] ends, String[] names, double[] scores, String name, String description, Genome.Assembly assembly, int id) {
+    public ScoredTrack createScoredTrack(long[] starts, long[] ends, String[] names, double[] scores, String name, String description, Genome.Assembly assembly) {
         return new ScoredTrack(starts, ends, names, scores, name, description, assembly, "");
     }
 
