@@ -132,11 +132,11 @@ class AnalysisHelper {
         List<Track> runTracks;
         TrackFactory trackFactory = TrackFactory.getInstance();
 
-        if(cmd.getTracks().isEmpty()) {
+        if (cmd.getTracks().isEmpty() || !sites.getCellline().equals("Unknown")) {
             try {
-                runTracks = trackFactory.getTracks(cmd.getAssembly());
-            } catch (RuntimeException e){
-                runTracks = trackFactory.getTracksByName(Arrays.asList("Known genes", "CpG Islands" ,"Exons", "Introns"), Genome.Assembly.hg19);
+                runTracks = trackFactory.getTracksByCellline(sites.getCellline(), sites.getAssembly());
+            } catch (RuntimeException e) {
+                runTracks = trackFactory.getTracksByName(Arrays.asList("Known genes", "CpG Islands", "Exons", "Introns"), Genome.Assembly.hg19);
                 logger.warn("Error getting tracks {}", e);
             }
 

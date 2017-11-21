@@ -10,10 +10,7 @@ import de.thm.result.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -114,6 +111,10 @@ class ClientController implements Runnable{
             while (!socket.isClosed()) {
                 try {
                     Command command = (Command) inStream.readObject();
+
+                    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("/tmp/in"));
+                    oos.writeObject(command);
+                    oos.close();
 
                     if (command instanceof BackendCommand) {
 

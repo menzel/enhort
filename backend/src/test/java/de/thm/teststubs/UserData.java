@@ -107,6 +107,11 @@ public class UserData implements Sites {
         return this.assembly;
     }
 
+    @Override
+    public String getCellline() {
+        return "Unknown";
+    }
+
     public List<Character> getStrands() {
         return this.strand;
     }

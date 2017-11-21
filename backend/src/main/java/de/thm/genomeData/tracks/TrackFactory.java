@@ -112,7 +112,7 @@ public final class TrackFactory {
         List<String> trackPackagesNames = new ArrayList<>();
 
         for(Track track: tracks){
-            if(trackPackagesNames.contains(track.getCellLine())){
+            if (trackPackagesNames.contains(track.getCellLine() + "_" + track.getAssembly())) {
                 //if the package exist add the track
                 trackPackages.get(trackPackagesNames.indexOf(track.getCellLine() + "_" + track.getAssembly())).add(track);
 
@@ -161,8 +161,8 @@ public final class TrackFactory {
 
         try {
 
-            int timeout = (System.getenv("HOME").contains("menzel")) ? 1 : 5;
-            completionService.poll(timeout, TimeUnit.MINUTES);
+            int timeout = (System.getenv("HOME").contains("menzel")) ? 30 : 600;
+            completionService.poll(timeout, TimeUnit.SECONDS);
 
             logger.warn("Still loading track files. Stopping now");
 
@@ -181,6 +181,16 @@ public final class TrackFactory {
             }
         });
 
+        /*
+        new Thread(() -> futures.forEach(f -> {
+            try{
+                f.get().ifPresent(local::add);
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        })).start();
+        */
+
         return local;
     }
 
@@ -192,17 +202,6 @@ public final class TrackFactory {
      */
     public List<Track> getTracks(Genome.Assembly assembly) {
 
-        // find unloaded tracks
-        List<Track> todo = this.tracks.stream()
-                .filter(track -> track.getStarts().length < 1) // filter those without data
-                .filter(track -> track.getAssembly().equals(assembly))
-                .collect(Collectors.toList());
-
-        // Check if the tracks are all loaded, reload if not
-        loadTracks(todo.parallelStream()
-                .map(track -> trackEntries.get(track.getName()))  // get entry by track name
-                .collect(Collectors.toList()));
-
         return this.tracks.stream()
                 .filter(track -> track.getAssembly().equals(assembly))
                 .collect(Collectors.toList());
@@ -212,15 +211,16 @@ public final class TrackFactory {
     /**
      * Returns a list of tracks that belong to the given package.
      *
-     * @param name - name of the package
-     * @return list of tracks with package name
+     * @param  cellline -  of the package
+     * @return list of tracks with package
      */
-    public List<Track> getTracksByPackage(String name, Genome.Assembly assembly) {
+    public List<Track> getTracksByCellline(String cellline, Genome.Assembly assembly) {
+
         for (TrackPackage pack : trackPackages) {
-            if (pack.getName().equals(name) && pack.getAssembly() == assembly)
+            if (pack.getCellLine().compareToIgnoreCase(cellline) == 0 && pack.getAssembly() == assembly)
                 return pack.getTrackList();
         }
-        throw new RuntimeException("No TrackPackage with that name (" + name + ") and assembly (" + assembly + ")");
+        throw new RuntimeException("No TrackPackage with that  (" + cellline + ") and assembly (" + assembly + ")");
     }
 
 
@@ -230,7 +230,7 @@ public final class TrackFactory {
      * @return list of all packages names
      */
     public List<String> getTrackPackageNames(Genome.Assembly assembly) {
-        return null; //TODO FIX this.trackPackages.stream().filter(i -> i.getAssembly() == assembly).map(TrackPackage::getName).map(Enum::toString).collect(Collectors.toList());
+        return this.trackPackages.stream().filter(i -> i.getAssembly() == assembly).map(TrackPackage::getName).collect(Collectors.toList());
     }
 
     /**
@@ -279,17 +279,6 @@ public final class TrackFactory {
         List<Integer> ids = trackIds.stream()
                 .map(Integer::parseInt)
                 .collect(Collectors.toList());
-
-        // Get list of tracks from ids
-        List<Track> tmpTracks = tracks.parallelStream()
-                .filter(track -> ids.contains(track.getUid()))
-                .collect(Collectors.toList());
-
-        // Check if the tracks are all loaded, reload if not
-        loadTracks(tmpTracks.parallelStream()
-                .filter(track -> track.getStarts().length < 1) // filter those without data
-                .map(track -> trackEntries.get(track.getName()))  // get entry by track name
-                .collect(Collectors.toList()));
 
         // Get probably updated tracks.
         return tracks.parallelStream()
