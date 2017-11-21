@@ -20,20 +20,32 @@ import java.util.stream.Stream;
  */
 public class UserData implements Sites {
 
-    private final Genome.Assembly assembly;
-    private List<Long> positions = new ArrayList<>();
-    private List<Character> strand = new ArrayList<>();
     private String filename;
+    private transient final Logger logger = LoggerFactory.getLogger(UserData.class);
 
-    private final Logger logger = LoggerFactory.getLogger(UserData.class);
+    private final List<Long> positions;
+    private final Genome.Assembly assembly;
+    private final List<Character> strands = new ArrayList<>();
+    private final String cellline;
+
+
+    public UserData(Genome.Assembly assembly, List<Long> positions, String cellline) {
+        this.assembly = assembly;
+        this.positions = positions;
+        this.cellline = cellline;
+    }
 
     /**
      * Constructor
      *
      * @param path - file to load positions from
+     * @param cellline - cellline
      */
-    public UserData(Genome.Assembly assembly, Path path) {
+    public UserData(Genome.Assembly assembly, Path path, String cellline) {
         this.assembly = assembly;
+        this.cellline = cellline;
+        this.positions = new ArrayList<>();
+
         loadPositionsFromFile(path);
 
         if (path.toFile().getName().length() > 37)
@@ -64,7 +76,7 @@ public class UserData implements Sites {
                 if (line_matcher.matches()) {
 
                     if(line_matcher.group(7) != null)
-                        strand.add(line_matcher.group(7).charAt(0));
+                        strands.add(line_matcher.group(7).charAt(0));
 
                     positions.add(Long.parseLong(line_matcher.group(3)) + chrSizes.offset(assembly, line_matcher.group(1)));
                 }
@@ -81,6 +93,14 @@ public class UserData implements Sites {
         Collections.sort(positions);
     }
 
+    public String getFilename() {
+        return this.filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
     @Override
     public void addPositions(Collection<Long> values) {
         this.positions.addAll(values);
@@ -93,7 +113,12 @@ public class UserData implements Sites {
 
     @Override
     public void setPositions(List<Long> positions) {
-        this.positions = positions;
+        // do nothing
+    }
+
+    @Override
+    public List<Character> getStrands() {
+        return this.strands;
     }
 
     @Override
@@ -106,15 +131,10 @@ public class UserData implements Sites {
         return this.assembly;
     }
 
-    public List<Character> getStrands() {
-        return this.strand;
-    }
-
-    public String getFilename() {
-        return this.filename;
-    }
-
-    public void setFilename(String filename) {
-        this.filename = filename;
+    @Override
+    public String getCellline() {
+        if (cellline == null)
+            return "Unknown";
+        return this.cellline;
     }
 }

@@ -12,12 +12,12 @@ import java.util.List;
  * <p>
  * Created by Michael Menzel on 23/2/16.
  */
-@SuppressWarnings("unused")
 public abstract class AbstractSites implements Sites {
 
-    private List<Long> positions = new ArrayList<>();
-    private Genome.Assembly assembly;
-    private List<Character> strand = new ArrayList<>();
+    public List<Long> positions;
+    public Genome.Assembly assembly;
+    public List<Character> strands = new ArrayList<>();
+    public String cellline;
 
     @Override
     public void addPositions(Collection<Long> values) {
@@ -41,12 +41,20 @@ public abstract class AbstractSites implements Sites {
 
     @Override
     public List<Character> getStrands() {
-        return this.strand;
+        return this.strands;
     }
 
     @Override
     public Genome.Assembly getAssembly() {
         return this.assembly;
     }
+
+    @Override
+    public String getCellline() {
+        if (cellline == null)
+            return "Unknown";
+        return this.cellline;
+    }
+
 }
 

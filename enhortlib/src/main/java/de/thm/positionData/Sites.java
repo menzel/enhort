@@ -25,4 +25,6 @@ public interface Sites extends Serializable {
     int getPositionCount();
 
     Genome.Assembly getAssembly();
+
+    String getCellline();
 }
