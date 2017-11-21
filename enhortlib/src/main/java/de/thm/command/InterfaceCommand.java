@@ -1,13 +1,9 @@
 package de.thm.command;
 
-import de.thm.genomeData.tracks.ScoredTrack;
 import de.thm.positionData.Sites;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Command object to send from controller to view.
@@ -27,6 +23,7 @@ public final class InterfaceCommand {
     private List<Integer> hotspots;
     private Sites sitesBg;
     private boolean showall;
+    private String cellline;
 
     public InterfaceCommand() {
         covariants = new ArrayList<>();
@@ -141,5 +138,13 @@ public final class InterfaceCommand {
 
     public void setTracks(List<String> tracks) {
         this.tracks = tracks;
+    }
+
+    public String getCellline() {
+        return cellline;
+    }
+
+    public void setCellline(String cellline) {
+        this.cellline = cellline;
     }
 }
