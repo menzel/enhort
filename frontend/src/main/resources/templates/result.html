@@ -72,7 +72,20 @@
                 <th:block th:if="${#lists.isEmpty(covariants)}">
                     <div th:include="uploadBg:: uploadbg"></div>
                 </th:block>
+
+                <div class="form-group">
+                    <label for="cellline">Select cell line:</label>
+                    <select class="form-control" id="cellline" name="cellline" th:field="*{interfaceCommand.cellline}"
+                            form="covariate_form">
+                        <option th:value="Unknown">Unknown</option>
+                        <option th:value="helas3">HeLa-S3</option>
+                        <option th:value="hESC">hESC</option>
+                        <option th:value="iPS">iPS</option>
+                    </select>
+                </div>
+
             </th:block>
+
 
         </div>
 
