@@ -49,10 +49,11 @@ public class CovariateController {
             return "error";
         }
 
+        //TODO remove redudnant infos from InterfaceCommand
+
         ResultCollector collector;
         List<TestResult> covariants = new ArrayList<>();
         StatisticsCollector stats = StatisticsCollector.getInstance();
-        command.setSites(data);
         command.setAssembly(data.getAssembly().toString());
 
         //command.setCreateLogo(false);
@@ -70,6 +71,10 @@ public class CovariateController {
         command.setTracks(currentSession.getCollector().getTracks()); // get tracks from last collector
         command.setAssembly(data.getAssembly().toString());
 
+        UserData newUserData = new UserData(data.getAssembly(), data.getPositions(), command.getCellline());
+        currentSession.setSites(newUserData);
+        command.setSites(newUserData);
+
         try {
 
             BackendCommand backendCommand = new BackendCommand(command);
@@ -78,6 +83,7 @@ public class CovariateController {
             /////////// Run analysis ////////////
             collector = (ResultCollector) currentSession.getConnector().runAnalysis(backendCommand);
             /////////////////////////////////////
+
             if(collector != null) {
 
                 covariants = collector.getCovariants(command.getCovariants());

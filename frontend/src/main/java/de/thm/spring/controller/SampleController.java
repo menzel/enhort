@@ -45,7 +45,7 @@ public class SampleController {
 
         Path file = new File(samplefilepath).toPath();
 
-        UserData userSites = new UserData(Genome.Assembly.hg19, file);
+        UserData userSites = new UserData(Genome.Assembly.hg19, file, "Unknown");
         currentSession.setSites(userSites);
         currentSession.setOriginalFilename("HIV");
 
