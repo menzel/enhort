@@ -3,7 +3,9 @@ package de.thm.result;
 
 import de.thm.misc.Genome;
 
-public interface Result {
+import java.io.Serializable;
+
+public interface Result extends Serializable {
 
     Genome.Assembly getAssembly();
 }

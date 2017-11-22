@@ -4,7 +4,6 @@ import de.thm.genomeData.tracks.Track;
 import de.thm.misc.Genome;
 import de.thm.positionData.Sites;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,7 +13,7 @@ import java.util.List;
  *
  * Created by Michael Menzel on 11/3/16.
  */
-public final class BackendCommand implements Serializable, Command{
+public final class BackendCommand implements Command {
     private final List<String> covariants; //list of ids of tracks that are used as covariant
     private final int minBg; //minimum of expected background positions
     private final List<Track> customTracks;

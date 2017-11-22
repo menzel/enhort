@@ -1,11 +1,9 @@
 package de.thm.command;
 
-import java.io.Serializable;
-
 /**
  * Created by menzel on 10/18/16.
  */
-public final class ExpressionCommand implements Serializable, Command{
+public final class ExpressionCommand implements Command {
     private String expression = "";
 
     public String getExpression() {

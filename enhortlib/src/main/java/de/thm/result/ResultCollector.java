@@ -10,7 +10,6 @@ import org.apache.commons.math3.util.Precision;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -21,7 +20,7 @@ import java.util.stream.Collectors;
  * <p>
  * Created by Michael Menzel on 26/1/16.
  */
-public final class ResultCollector implements Serializable, Result{
+public final class ResultCollector implements Result {
 
     private final List<TestResult> results;
     private final Sites backgroundSites;
