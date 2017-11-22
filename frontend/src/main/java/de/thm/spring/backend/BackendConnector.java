@@ -8,9 +8,11 @@ import de.thm.genomeData.tracks.Track;
 import de.thm.result.DataViewResult;
 import de.thm.result.Result;
 import de.thm.result.ResultCollector;
+import de.thm.security.Crypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.crypto.SealedObject;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -103,17 +105,20 @@ public final class BackendConnector {
 
         connect();
 
+        String secret = "UOziBurnfxzcgy9CNU5HAb6a19k0SVAP";
+
         if (isConnected) {
             try {
 
                 logger.info("[" + id + "]: writing command");
-                outputStream.writeObject(command);
+
+                outputStream.writeObject(Crypt.encrypt(command, secret));
 
                 logger.info("[" + id + "]: waiting for result");
 
                 //TODO only wait for fixed time. apply timeout
 
-                Object answer = inputStream.readObject();
+                Object answer = Crypt.decrypt((SealedObject) inputStream.readObject(), secret);
 
                 ResultCollector collector;
 
