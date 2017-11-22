@@ -8,8 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Strand track, which is a inout track with strand (sense antisenes -+) information
- * The strand data is + -  or 'o' for both strands
+ * Strand track, which is a inout track with strands (sense antisenes -+) information
+ * The strands data is + -  or 'o' for both strands
  *
  * Created by menzel on 2/21/17.
  */
