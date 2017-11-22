@@ -7,9 +7,11 @@ import de.thm.command.ExpressionCommand;
 import de.thm.genomeData.tracks.Track;
 import de.thm.misc.TrackBuilder;
 import de.thm.result.Result;
+import de.thm.security.Crypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.crypto.SealedObject;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -111,9 +113,12 @@ class ClientController implements Runnable{
         @Override
         public void run() {
 
+            String secret = "UOziBurnfxzcgy9CNU5HAb6a19k0SVAP";
+
             while (!socket.isClosed()) {
                 try {
-                    Command command = (Command) inStream.readObject();
+
+                    Command command = (Command) Crypt.decrypt((SealedObject) inStream.readObject(), secret);
 
                     if (command instanceof BackendCommand) {
 
@@ -122,7 +127,7 @@ class ClientController implements Runnable{
 
                         Result collector = new AnalysisHelper().runAnalysis((BackendCommand) command);
 
-                        outStream.writeObject(collector);
+                        outStream.writeObject(Crypt.encrypt(collector, secret));
 
                         long diff = System.currentTimeMillis() - time;
                         logger.info("[" + clientID + "]: " + "answered request " + command.hashCode() + " in " + diff + " mils");
