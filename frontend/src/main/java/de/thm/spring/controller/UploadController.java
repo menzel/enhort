@@ -94,7 +94,7 @@ public class UploadController {
                 Path inputFilepath = basePath.resolve(uuid);
 
                 Session currentSession = sessionControll.addSession(httpSession.getId());
-                UserData data = new UserData(AssemblyGuesser.guessAssembly(inputFilepath),inputFilepath);
+                UserData data = new UserData(AssemblyGuesser.guessAssembly(inputFilepath), inputFilepath, "Unknown");
 
                 try {
                     Files.deleteIfExists(inputFilepath);
@@ -171,7 +171,7 @@ public class UploadController {
 
                 Path inputFilepath = basePath.resolve(uuid);
                 Genome.Assembly assembly = currentSession.getSites().getAssembly();
-                UserData sitesBg = new UserData(assembly, inputFilepath);
+                UserData sitesBg = new UserData(assembly, inputFilepath, "none");
 
                 currentSession.setBgSites(sitesBg);
                 currentSession.setBgFilename(bgname);

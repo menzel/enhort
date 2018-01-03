@@ -114,7 +114,7 @@ public class WizardController {
             if(assembly == Genome.Assembly.Unknown)
                 assembly = Genome.Assembly.hg19; // reset unknown to hg19
 
-            UserData data = new UserData(assembly, inputFilepath);
+            UserData data = new UserData(assembly, inputFilepath, "Unknown");
             currentSession.setSites(data);
             currentSession.setOriginalFilename(file.getOriginalFilename());
             interfaceCommand.setAssembly(data.getAssembly().toString());
