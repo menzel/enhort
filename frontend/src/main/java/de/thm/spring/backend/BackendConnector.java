@@ -113,7 +113,7 @@ public final class BackendConnector {
      * @return Results of the executed commnads
      * @throws CovariatesException - if too many or impossible combination of covariants is given
      */
-    public Result runAnalysis(BackendCommand command) throws SocketTimeoutException {
+    public Result runAnalysis(BackendCommand command) throws SocketTimeoutException, CovariatesException, NoTracksLeftException {
 
         connect();
 
@@ -175,9 +175,6 @@ public final class BackendConnector {
                 }
                 logger.error("Exception {}", e.getMessage(), e);
                 logger.warn("Something went wrong in the BackendConnector. Trying to start all over again");
-            } catch (Exception e) {
-                logger.error("Exception {}", e.getMessage(), e);
-                logger.warn("Something went wrong in the BackendConnector." + e.getMessage());
             }
         } else {
 
