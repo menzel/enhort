@@ -12,13 +12,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.crypto.SealedObject;
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Files;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -94,6 +92,8 @@ class ClientController implements Runnable{
         private Socket socket;
         private int clientID;
 
+        private String secret;
+
         ClientHandler(Socket socket) {
 
             this.socket = socket;
@@ -108,12 +108,17 @@ class ClientController implements Runnable{
                 logger.error("[" + clientID + "]: " + "Exception {}", e.getMessage(), e);
             }
 
+
+            try {
+                secret = Files.readAllLines(new File("key.dat").toPath()).get(0);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
 
         @Override
         public void run() {
-
-            String secret = "UOziBurnfxzcgy9CNU5HAb6a19k0SVAP";
 
             while (!socket.isClosed()) {
                 try {
