@@ -13,11 +13,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.crypto.SealedObject;
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.nio.file.Files;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -39,6 +41,8 @@ public final class BackendConnector {
     private static AtomicInteger clientID = new AtomicInteger(0);
     private int id;
 
+    private String secret; // = "UOziBurnfxzcgy9CNU5HAb6a19k0SVAP";
+
 
     BackendConnector(){
 
@@ -50,6 +54,14 @@ public final class BackendConnector {
             this.ip = "bioinf-ladon.mni.thm.de";
 
         id = clientID.getAndIncrement();
+
+
+        try {
+            secret = Files.readAllLines(new File("key.dat").toPath()).get(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 
@@ -101,11 +113,10 @@ public final class BackendConnector {
      * @return Results of the executed commnads
      * @throws CovariatesException - if too many or impossible combination of covariants is given
      */
-    public Result runAnalysis(BackendCommand command) throws CovariatesException, SocketTimeoutException, NoTracksLeftException {
+    public Result runAnalysis(BackendCommand command) throws SocketTimeoutException {
 
         connect();
 
-        String secret = "UOziBurnfxzcgy9CNU5HAb6a19k0SVAP";
 
         if (isConnected) {
             try {
