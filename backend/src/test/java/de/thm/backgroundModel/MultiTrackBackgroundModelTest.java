@@ -6,8 +6,8 @@ import de.thm.calc.TestTrackResult;
 import de.thm.genomeData.tracks.InOutTrack;
 import de.thm.genomeData.tracks.Track;
 import de.thm.genomeData.tracks.TrackFactory;
-import de.thm.misc.Genome;
 import de.thm.misc.ChromosomSizes;
+import de.thm.misc.Genome;
 import de.thm.positionData.Sites;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -131,6 +131,11 @@ public class MultiTrackBackgroundModelTest {
              @Override
              public Genome.Assembly getAssembly() {
                  return Genome.Assembly.hg19;
+             }
+
+             @Override
+             public String getCellline() {
+                 return null;
              }
          };
 
@@ -322,6 +327,11 @@ public class MultiTrackBackgroundModelTest {
              @Override
              public Genome.Assembly getAssembly() {
                  return Genome.Assembly.hg19;
+             }
+
+             @Override
+             public String getCellline() {
+                 return null;
              }
          };
 

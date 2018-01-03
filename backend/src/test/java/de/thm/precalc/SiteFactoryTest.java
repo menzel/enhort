@@ -125,6 +125,11 @@ public class SiteFactoryTest {
             public Genome.Assembly getAssembly() {
                 return Genome.Assembly.hg19;
             }
+
+            @Override
+            public String getCellline() {
+                return null;
+            }
         };
 
         Intersect<InOutTrack> intersect = new Intersect<>();

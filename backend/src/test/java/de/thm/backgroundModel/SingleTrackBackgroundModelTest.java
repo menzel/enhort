@@ -2,15 +2,19 @@ package de.thm.backgroundModel;
 
 import de.thm.calc.Intersect;
 import de.thm.calc.TestTrackResult;
-import de.thm.genomeData.tracks.InOutTrack;
-import de.thm.genomeData.tracks.Track;
-import de.thm.genomeData.tracks.TrackFactory;
-import de.thm.genomeData.tracks.Tracks;
+import de.thm.genomeData.tracks.*;
+import de.thm.misc.ChromosomSizes;
 import de.thm.misc.Genome;
 import de.thm.positionData.Sites;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 
+import java.io.BufferedWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +30,28 @@ import static org.mockito.Mockito.when;
  * Created by menzel on 6/21/17.
  */
 public class SingleTrackBackgroundModelTest {
+
+    public void generateInGenes() throws Exception {
+
+        TrackEntry te = new TrackEntry("Known genes", "desc", "hg19/inout/knownGenes.bed", "inout", "hg19", "", 20, "", 42);
+        TrackFactory.getInstance().loadTrack(te);
+
+        Track t = TrackFactory.getInstance().getTrackByName("Known genes", Genome.Assembly.hg19);
+
+        Collection<Long> sites = SingleTrackBackgroundModel.randPositions(100000, t);
+
+        Path path = Paths.get("/home/menzel/allInGenes.bed");
+
+        try (BufferedWriter writer = Files.newBufferedWriter(path)) {
+
+            for (Long site : sites) {
+                Pair<String, Long> p = ChromosomSizes.getInstance().mapToChr(Genome.Assembly.hg19, site);
+                writer.write(p.getLeft() + "\t" + p.getRight() + "\t" + p.getRight() + 1 + "\n");
+            }
+        }
+    }
+
+
     @Test
     public void randPositions() throws Exception {
 

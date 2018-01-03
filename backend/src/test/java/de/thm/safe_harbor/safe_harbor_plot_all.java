@@ -47,9 +47,9 @@ public class safe_harbor_plot_all {
 
         List<Track> tracks = new ArrayList<>();
 
-        tracks.addAll(TrackFactory.getInstance().getTracksByPackage("Basic", Genome.Assembly.hg19));
-        tracks.addAll(TrackFactory.getInstance().getTracksByPackage("Cancer", Genome.Assembly.hg19));
-        tracks.addAll(TrackFactory.getInstance().getTracksByPackage("safe_harbor", Genome.Assembly.hg19));
+        tracks.addAll(TrackFactory.getInstance().getTracksByCellline("Basic", Genome.Assembly.hg19));
+        tracks.addAll(TrackFactory.getInstance().getTracksByCellline("Cancer", Genome.Assembly.hg19));
+        tracks.addAll(TrackFactory.getInstance().getTracksByCellline("safe_harbor", Genome.Assembly.hg19));
 
 
         // run analysis for each file and print

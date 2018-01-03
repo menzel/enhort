@@ -2,8 +2,8 @@ package de.thm.calc;
 
 import de.thm.genomeData.tracks.InOutTrack;
 import de.thm.genomeData.tracks.TrackFactory;
-import de.thm.misc.Genome;
 import de.thm.misc.ChromosomSizes;
+import de.thm.misc.Genome;
 import de.thm.positionData.Sites;
 import org.junit.Before;
 import org.junit.Test;
@@ -103,6 +103,11 @@ public class TestTrackSimpleTest {
             public Genome.Assembly getAssembly() {
                 return Genome.Assembly.hg19;
             }
+
+            @Override
+            public String getCellline() {
+                return null;
+            }
         };
 
         TestTrackResult testTrackResult = testTrack.searchTrack(intv,sites);
@@ -161,6 +166,11 @@ public class TestTrackSimpleTest {
             @Override
             public Genome.Assembly getAssembly() {
                 return Genome.Assembly.hg19;
+            }
+
+            @Override
+            public String getCellline() {
+                return null;
             }
         };
 
@@ -225,6 +235,11 @@ public class TestTrackSimpleTest {
             @Override
             public Genome.Assembly getAssembly() {
                 return Genome.Assembly.hg19;
+            }
+
+            @Override
+            public String getCellline() {
+                return null;
             }
         };
 

@@ -51,8 +51,8 @@ public class TrackFactoryTest {
 
     @Test
     public void getTracksByPackage() throws Exception {
-        //assertEquals(trackCounter, tf.getTracksByPackage(TrackPackage.PackageName.Basic, Genome.Assembly.hg19).size());
-        //assertEquals(trackCounter, tf.getTracksByPackage("Basic", Genome.Assembly.hg19).size());
+        //assertEquals(trackCounter, tf.getTracksByCellline(TrackPackage.PackageName.Basic, Genome.Assembly.hg19).size());
+        //assertEquals(trackCounter, tf.getTracksByCellline("Basic", Genome.Assembly.hg19).size());
     }
 
     @Test

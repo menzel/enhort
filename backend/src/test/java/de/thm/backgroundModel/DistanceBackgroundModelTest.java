@@ -76,6 +76,11 @@ public class DistanceBackgroundModelTest {
                 return Genome.Assembly.hg19;
             }
 
+            @Override
+            public String getCellline() {
+                return null;
+            }
+
         };
 
         BackgroundModel model = DistanceBackgroundModel.create(track1,sites,1);

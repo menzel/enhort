@@ -4,7 +4,6 @@ import de.thm.misc.Genome;
 import de.thm.positionData.Sites;
 import org.junit.Test;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -104,6 +103,11 @@ public class GenomeSequenceTest {
               @Override
               public Genome.Assembly getAssembly() {
                   return Genome.Assembly.hg19;
+              }
+
+              @Override
+              public String getCellline() {
+                  return null;
               }
           };
 
