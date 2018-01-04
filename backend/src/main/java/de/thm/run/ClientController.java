@@ -36,6 +36,8 @@ class ClientController implements Runnable{
     private ServerSocket serverSocket;
     private ThreadPoolExecutor clientExe = (ThreadPoolExecutor) Executors.newFixedThreadPool(16);
 
+    private String secret;
+
     ClientController(int port) {
 
         try {
@@ -92,7 +94,6 @@ class ClientController implements Runnable{
         private Socket socket;
         private int clientID;
 
-        private String secret;
 
         ClientHandler(Socket socket) {
 
@@ -101,8 +102,8 @@ class ClientController implements Runnable{
             logger.info("[" + clientID + "]: " + " Webinterface connected ");
 
             try {
-                inStream = new ObjectInputStream((socket.getInputStream()));
-                outStream = new ObjectOutputStream((socket.getOutputStream()));
+                inStream = new ObjectInputStream(socket.getInputStream());
+                outStream = new ObjectOutputStream(socket.getOutputStream());
 
             } catch (IOException e) {
                 logger.error("[" + clientID + "]: " + "Exception {}", e.getMessage(), e);
@@ -110,7 +111,7 @@ class ClientController implements Runnable{
 
 
             try {
-                secret = Files.readAllLines(new File("key.dat").toPath()).get(0);
+                secret = Files.readAllLines(new File("/home/mmnz21/enhort/key.dat").toPath()).get(0);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -119,6 +120,7 @@ class ClientController implements Runnable{
 
         @Override
         public void run() {
+
 
             while (!socket.isClosed()) {
                 try {
@@ -147,6 +149,8 @@ class ClientController implements Runnable{
 
                         //return new track:
                         outStream.writeObject(track);
+                    } else {
+                        throw new IllegalArgumentException("Command is not a Backend or ExpressionCommand");
                     }
                 } catch (Exception e) {
 
