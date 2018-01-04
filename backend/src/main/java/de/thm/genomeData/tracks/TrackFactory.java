@@ -161,7 +161,7 @@ public final class TrackFactory {
 
         try {
 
-            int timeout = (System.getenv("HOME").contains("menzel")) ? 30 : 600;
+            int timeout = (System.getenv("HOME").contains("menzel")) ? 30 : 60;
             completionService.poll(timeout, TimeUnit.SECONDS);
 
             logger.warn("Still loading track files. Stopping now");

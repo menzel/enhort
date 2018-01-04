@@ -225,7 +225,7 @@ class FileLoader implements Callable<Optional<Track>> {
 
             if (logger.isDebugEnabled()) {
 
-                if (starts.size() == 0 || starts.size() != ends.size()) {
+                if (starts.size() == 0 || (type != TrackFactory.Type.distance && starts.size() != ends.size())) {
                     logger.warn("File has no positions or different start and end lengths: " + file.getAbsolutePath());
                     throw new Exception("Something is wrong with this track or file: " + file.getName());
                 }
