@@ -12,6 +12,9 @@ import de.thm.security.Crypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SealedObject;
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +23,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.nio.file.Files;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -40,8 +45,7 @@ public final class BackendConnector {
     private Socket socket;
     private static AtomicInteger clientID = new AtomicInteger(0);
     private int id;
-
-    private String secret; // = "UOziBurnfxzcgy9CNU5HAb6a19k0SVAP";
+    private String secret;
 
 
     BackendConnector(){
@@ -57,7 +61,7 @@ public final class BackendConnector {
 
 
         try {
-            secret = Files.readAllLines(new File("key.dat").toPath()).get(0);
+            secret = Files.readAllLines(new File("/home/mmnz21/enhort/key.dat").toPath()).get(0);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -117,66 +121,65 @@ public final class BackendConnector {
 
         connect();
 
+        if (isConnected) try {
 
-        if (isConnected) {
+            logger.info("[" + id + "]: writing command");
+
+            Object ob = Crypt.encrypt(command, secret);
+            outputStream.writeObject(ob);
+
+            logger.info("[" + id + "]: waiting for result");
+
+            //TODO only wait for fixed time. apply timeout
+
+            Object answer = Crypt.decrypt((SealedObject) inputStream.readObject(), secret);
+
+            ResultCollector collector;
+
+            if (answer instanceof Exception) {
+
+                if (answer instanceof CovariatesException)
+                    throw (CovariatesException) answer;
+                if (answer instanceof NoTracksLeftException)
+                    throw (NoTracksLeftException) answer;
+
+
+                logger.info("[" + id + "]: got exception: " + ((Exception) answer).getMessage());
+
+            } else if (answer instanceof ResultCollector) {
+
+                collector = (ResultCollector) answer;
+                logger.info("[" + id + "]: got result: " + collector.getResults().size());
+                //TODO check collector for correct answers:
+
+                checkCollector(collector);
+
+                return collector;
+
+            } else if (answer instanceof DataViewResult) {
+                DataViewResult result = (DataViewResult) answer;
+                logger.info("[" + id + "]: got data table: " + result.getPackages().size());
+
+                return result;
+
+
+            } else throw new IllegalArgumentException("answer is not a result: " + answer.getClass());
+
+        } catch (SocketTimeoutException e) {
+            logger.error("Exception {}", e.getMessage());
+            throw new SocketTimeoutException("The backend took to long to respond. Maybe there are too many sites");
+
+        } catch (IOException | ClassNotFoundException | NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException e) {
+            isConnected = false;
             try {
-
-                logger.info("[" + id + "]: writing command");
-
-                outputStream.writeObject(Crypt.encrypt(command, secret));
-
-                logger.info("[" + id + "]: waiting for result");
-
-                //TODO only wait for fixed time. apply timeout
-
-                Object answer = Crypt.decrypt((SealedObject) inputStream.readObject(), secret);
-
-                ResultCollector collector;
-
-                if (answer instanceof Exception) {
-
-                    if (answer instanceof CovariatesException)
-                        throw (CovariatesException) answer;
-                    if (answer instanceof NoTracksLeftException)
-                        throw (NoTracksLeftException) answer;
-
-
-                    logger.info("[" + id + "]: got exception: " + ((Exception) answer).getMessage());
-
-                } else if (answer instanceof ResultCollector) {
-
-                    collector = (ResultCollector) answer;
-                    logger.info("[" + id + "]: got result: " + collector.getResults().size());
-                    //TODO check collector for correct answers:
-
-                    checkCollector(collector);
-
-                    return collector;
-
-                } else if (answer instanceof DataViewResult) {
-                    DataViewResult result = (DataViewResult) answer;
-                    logger.info("[" + id + "]: got data table: " + result.getPackages().size());
-
-                    return result;
-
-
-                } else throw new IllegalArgumentException("answer is not a result: " + answer.getClass());
-
-            } catch (SocketTimeoutException e) {
-                logger.error("Exception {}", e.getMessage());
-                throw new SocketTimeoutException("The backend took to long to respond. Maybe there are too many sites");
-
-            } catch (IOException | ClassNotFoundException e) {
-                isConnected = false;
-                try {
-                    inputStream.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-                logger.error("Exception {}", e.getMessage(), e);
-                logger.warn("Something went wrong in the BackendConnector. Trying to start all over again");
+                inputStream.close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
             }
-        } else {
+            logger.error("Exception {}", e.getMessage(), e);
+            logger.warn("Something went wrong in the BackendConnector. Trying to start all over again");
+        }
+        else {
 
             logger.warn("[" + id + "]: No connection to backend");
 
