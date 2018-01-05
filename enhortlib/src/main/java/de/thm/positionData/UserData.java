@@ -29,10 +29,19 @@ public class UserData implements Sites {
     private final String cellline;
 
 
+    public UserData(Genome.Assembly assembly, List<Long> positions, String cellline, String filename) {
+        this.assembly = assembly;
+        this.positions = positions;
+        this.cellline = cellline;
+        this.filename = filename;
+    }
+
+
     public UserData(Genome.Assembly assembly, List<Long> positions, String cellline) {
         this.assembly = assembly;
         this.positions = positions;
         this.cellline = cellline;
+        this.filename = "";
     }
 
     /**
