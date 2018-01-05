@@ -113,7 +113,9 @@ class ClientController implements Runnable{
             try {
                 secret = Files.readAllLines(new File("/home/mmnz21/enhort/key.dat").toPath()).get(0);
             } catch (IOException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
+                logger.info("using local key");
+                secret = "abcddferti5iwiei";
             }
 
         }
@@ -148,7 +150,7 @@ class ClientController implements Runnable{
                         ///////////////////////
 
                         //return new track:
-                        outStream.writeObject(track);
+                        outStream.writeObject(Crypt.encrypt(track, secret));
                     } else {
                         throw new IllegalArgumentException("Command is not a Backend or ExpressionCommand");
                     }
