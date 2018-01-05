@@ -10,37 +10,23 @@ import java.security.NoSuchAlgorithmException;
 
 public class Crypt {
 
-    public static SealedObject encrypt(Serializable object, String secret) {
+    public static SealedObject encrypt(Serializable object, String secret) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IOException, IllegalBlockSizeException {
 
-        try {
-            Key key = new SecretKeySpec(secret.getBytes(), "AES");
-            Cipher c = Cipher.getInstance("AES");
+        Key key = new SecretKeySpec(secret.getBytes(), "AES");
+        Cipher c = Cipher.getInstance("AES");
 
-            c.init(Cipher.ENCRYPT_MODE, key);
+        c.init(Cipher.ENCRYPT_MODE, key);
 
-            return new SealedObject(object, c);
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException | IOException | InvalidKeyException e) {
-            System.err.println("Error encryption: " + e.getMessage());
-            e.printStackTrace();
-        }
-        return null;
+        return new SealedObject(object, c);
+
     }
 
 
-    public static Object decrypt(SealedObject container, String secret) {
+    public static Object decrypt(SealedObject container, String secret) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IOException, IllegalBlockSizeException, BadPaddingException, ClassNotFoundException {
+        Key key = new SecretKeySpec(secret.getBytes(), "AES");
+        Cipher c = Cipher.getInstance("AES");
+        c.init(Cipher.DECRYPT_MODE, key);
 
-        try {
-            Key key = new SecretKeySpec(secret.getBytes(), "AES");
-            Cipher c = Cipher.getInstance("AES");
-            c.init(Cipher.DECRYPT_MODE, key);
-
-            return container.getObject(c);
-
-        } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | ClassNotFoundException | IOException e) {
-            System.err.println("Error in decryption: " + e.getMessage());
-            e.printStackTrace();
-        }
-
-        return null;
+        return container.getObject(c);
     }
 }
