@@ -186,7 +186,7 @@ public class ScoreBackgroundModelTest {
 
         expectedScores.add(0.0);
         expectedScores.add(0.0);
-        //expectedScores.add(0.0);
+        expectedScores.add(0.0);
         expectedScores.add(0.0);
         expectedScores.add(0.0);
         expectedScores.add(0.049);
@@ -196,7 +196,7 @@ public class ScoreBackgroundModelTest {
         expectedScores.add(0.25);
         expectedScores.add(0.02);
         expectedScores.add(0.08);
-        //expectedScores.add(1.6151E-9);
+        expectedScores.add(1.6151E-9);
         expectedScores.add(0.499);
 
 
