@@ -45,7 +45,7 @@ public class ScoreBackgroundModelTest {
             scores.add(d);
         }
 
-        ScoredTrack track = mockTrack(null, null, null, scores);
+        ScoredTrack track = mockTrack(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), scores);
         List<ScoredTrack> tracks = new ArrayList<>();
         tracks.add(track);
 
@@ -186,7 +186,7 @@ public class ScoreBackgroundModelTest {
 
         expectedScores.add(0.0);
         expectedScores.add(0.0);
-        expectedScores.add(0.0);
+        //expectedScores.add(0.0);
         expectedScores.add(0.0);
         expectedScores.add(0.0);
         expectedScores.add(0.049);
@@ -196,7 +196,7 @@ public class ScoreBackgroundModelTest {
         expectedScores.add(0.25);
         expectedScores.add(0.02);
         expectedScores.add(0.08);
-        expectedScores.add(1.6151E-9);
+        //expectedScores.add(1.6151E-9);
         expectedScores.add(0.499);
 
 
@@ -304,7 +304,7 @@ public class ScoreBackgroundModelTest {
 
     private ScoredTrack mockTrack(List<Long> start, List<Long> end, List<String> names, List<Double> scores) {
 
-        return  TrackFactory.getInstance().createScoredTrack(start, end, names, scores,"name", "desc");
+        return TrackFactory.getInstance().createScoredTrack(start, end, names, scores, "name", "desc", Genome.Assembly.hg19, "None");
     }
 
 
