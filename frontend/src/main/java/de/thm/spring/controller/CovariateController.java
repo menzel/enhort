@@ -59,6 +59,7 @@ public class CovariateController {
         //command.setCreateLogo(false);
         // remove uuid from filename for display and set it to the old InterfaceCommand, because it will be sent to the View again:
         String filename = data.getFilename(); //file.toFile().getName().substring(0, file.toFile().getName().length()-37);
+
         filename = filename.length() > 18 ? filename.substring(0, 15) + ".." : filename;
         command.setOriginalFilename(filename);
 
@@ -71,9 +72,13 @@ public class CovariateController {
         command.setTracks(currentSession.getCollector().getTracks()); // get tracks from last collector
         command.setAssembly(data.getAssembly().toString());
 
-        UserData newUserData = new UserData(data.getAssembly(), data.getPositions(), command.getCellline());
-        currentSession.setSites(newUserData);
-        command.setSites(newUserData);
+        // create a new user data object in case the cell line was changed
+        if (!command.getCellline().equals(data.getCellline())) {
+            data = new UserData(data.getAssembly(), data.getPositions(), command.getCellline(), filename);
+        }
+
+        currentSession.setSites(data);
+        command.setSites(data);
 
         try {
 
