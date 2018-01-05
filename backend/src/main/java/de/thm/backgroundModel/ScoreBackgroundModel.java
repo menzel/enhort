@@ -319,13 +319,13 @@ class ScoreBackgroundModel {
 
         //delete intervals with length 0
         //using the ForwardInPlaceRemoveManyPerformer  (https://stackoverflow.com/a/2048374/4928212)
-        for(int i = 0;i < new_start.size()-1; i++){
+        for (int i = 0; i < new_start.size(); i++) {
             if(!new_start.get(i).equals(new_end.get(i))){
                 if(j < i) {
                     new_start.set(j, new_start.get(i));
                     new_end.set(j, new_end.get(i));
-                    j++;
                 }
+                j++;
             }
         }
 
