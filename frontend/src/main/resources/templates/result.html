@@ -77,10 +77,10 @@
                     <label for="cellline">Select cell line:</label>
                     <select class="form-control" id="cellline" name="cellline" th:field="*{interfaceCommand.cellline}"
                             form="covariate_form">
-                        <option th:value="Unknown">Unknown</option>
-                        <option th:value="helas3">HeLa-S3</option>
-                        <option th:value="hESC">hESC</option>
-                        <option th:value="iPS">iPS</option>
+
+                        <th:block th:each="cellline: ${knownCellLines}">
+                            <option th:value="${cellline}" th:text="${cellline}"></option>
+                        </th:block>
                     </select>
                 </div>
 
@@ -748,7 +748,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" form="covariate_form">Run again</button>
+                    <button type="submit" class="btn btn-primary" id="submit" form="covariate_form">Run again</button>
+                    <span id="runnotice"></span>
                 </div>
             </div>
         </div>

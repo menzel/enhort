@@ -2,6 +2,7 @@ package de.thm.spring.controller;
 
 import de.thm.command.ExpressionCommand;
 import de.thm.command.InterfaceCommand;
+import de.thm.genomeData.tracks.Track;
 import de.thm.logo.Logo;
 import de.thm.misc.ChromosomSizes;
 import de.thm.positionData.UserData;
@@ -138,6 +139,12 @@ public class ControllerHelper {
 
         //cmd.setMinBg(collector.getBgCount());
         cmd.setMinBg(10000);
+
+        model.addAttribute("knownCellLines", collector.getResults().stream()
+                .map(TestResult::getTrack)
+                .map(Track::getCellLine)
+                .collect(Collectors.toSet()));
+
         model.addAttribute("bgCount", collector.getBackgroundSites().getPositionCount());
         model.addAttribute("sigTrackCount", inout.size() + score.size() + name.size());
         model.addAttribute("trackCount", collector.getTrackCount());
