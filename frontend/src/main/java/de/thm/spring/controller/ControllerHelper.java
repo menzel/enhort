@@ -140,10 +140,14 @@ public class ControllerHelper {
         //cmd.setMinBg(collector.getBgCount());
         cmd.setMinBg(10000);
 
-        model.addAttribute("knownCellLines", collector.getResults().stream()
+        Set<String> celllines = collector.getResults().stream()
                 .map(TestResult::getTrack)
                 .map(Track::getCellLine)
-                .collect(Collectors.toSet()));
+                .collect(Collectors.toSet());
+
+        celllines.add("Unknown");
+
+        model.addAttribute("knownCellLines", celllines);
 
         model.addAttribute("bgCount", collector.getBackgroundSites().getPositionCount());
         model.addAttribute("sigTrackCount", inout.size() + score.size() + name.size());
