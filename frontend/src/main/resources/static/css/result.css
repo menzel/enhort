@@ -179,6 +179,11 @@ th{
     margin-top:10px;
 }
 
+#runnotice {
+    color: grey;
+    float: left;
+}
+
 .bottom{
     margin-top: 11px;
 }

@@ -106,7 +106,7 @@
             <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>
         </a>
 
-
+        <span id="runnotice"></span>
 
     </th:block>
 
@@ -744,18 +744,11 @@
                             Disable P Value filter
                         </label>
                         </p>
-                        <p>
-                            <a href="export/bg"><span>Download background positions<span
-                                    class="glyphicon glyphicon-link"></span></span></a>
-                        </p>
-
-
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary" id="submit" form="covariate_form">Run again</button>
-                    <span id="runnotice"></span>
                 </div>
             </div>
         </div>
@@ -783,6 +776,14 @@
         </th:block>
     </th:block>
 </div>
+
+<script>
+
+    document.getElementById("rerun").onclick = function (ev) {
+        document.getElementById("runnotice").innerText = "Please wait for the computation to finish"
+    };
+
+</script>
 
 <script th:inline="javascript" async="async">
     /*<![CDATA[*/
