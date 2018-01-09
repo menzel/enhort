@@ -108,52 +108,37 @@ function plotBubble(names, pca) {
     });
 }
 
+
 function plotRadar(efs) {
 
-    var vals = [];
-    var labels = [];
+    var colorscale = d3.scale.category10();
+
+
+    var input = [];
 
     for (var pack in efs) {
-        vals.push(efs[pack][4]);
-        labels.push(pack)
+        input.push({axis: pack, value: efs[pack][4]})
     }
 
-    var myConfig = {
-        "type": "radar",
-        "plot": {
-            "aspect": "area"
-        },
-        "scale-k": {
-            "labels": labels,
-            "item": {
-                "font-color": "black",
-                "font-family": "Georgia",
-                "font-size": 14
-            },
-            "guide": {
-                "line-color": "blue",
-                "line-width": 1,
-                "line-style": "solid",
-                "background-color": "#f0f0f5"
-            }
-        },
-        "scale-v": {
-            "visible": true
-        },
-        "series": [{
-            "values": vals,
-            text: 'HIV',
-            backgroundColor: 'blue'
-        }]
+    //Legend titles
+    var LegendOptions = ['Name TODO '];
+
+    //Data
+    var d = [input];
+
+    //Options for the Radar chart, other than default
+    var mycfg = {
+        w: 300,
+        h: 300,
+        ExtraWidthX: 100
     };
 
-    zingchart.render({
-        id: 'radarChart',
-        data: myConfig,
-        height: '100%',
-        width: '100%'
-    });
+    //Call function to draw the Radar chart
+    //Will expect that data is in %'s
+    RadarChart.draw("#radarChart", d, mycfg);
+
 }
+
 
 function plotNames(results) {
     var limit = 0.2; /* Limit for fold change of named track plot */
