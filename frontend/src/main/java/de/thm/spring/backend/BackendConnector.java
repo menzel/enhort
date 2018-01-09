@@ -63,7 +63,8 @@ public final class BackendConnector {
         try {
             secret = Files.readAllLines(new File("/home/mmnz21/enhort/key.dat").toPath()).get(0);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.info("using unsafe hard-coded key");
+            secret = "abcddferti5iwiei";
         }
 
     }
