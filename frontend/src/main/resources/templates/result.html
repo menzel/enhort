@@ -98,7 +98,7 @@
 
         </div>
 
-        <button id="rerun" type="submit" onclick="this.disabled=true;this.form.submit();" class="btn btn-primary"
+        <button id="rerun" type="submit" class="btn btn-primary"
                 form="covariate_form">Run again
         </button>
 
@@ -179,7 +179,8 @@
                     <th:block th:if="${ran}">
                         <th:block th:if="${interfaceCommand.logo}">
                             <th:block th:if="${not interfaceCommand.logoCovariate}">
-                                <tr data-target="#sequencelogodiv" data-toggle="collapse" class="accordion-toggle">
+                                <tr id="seqlogorow" data-target="#sequencelogodiv" data-toggle="collapse"
+                                    class="accordion-toggle">
                                     <td> Sequence Logo</td>
                                     <td></td>
                                     <td th:text="${sl_effect}"></td>
@@ -779,8 +780,15 @@
 
 <script>
 
-    document.getElementById("rerun").onclick = function (ev) {
-        document.getElementById("runnotice").innerText = "Please wait for the computation to finish"
+    var rerun = document.getElementById("rerun");
+
+    rerun.onclick = function (ev) {
+
+        rerun.disabled = true;
+
+        document.getElementById("runnotice").innerText = "Please wait for the computation to finish";
+
+        this.form.submit();
     };
 
 </script>
