@@ -56,7 +56,7 @@ public final class BackendCommand implements Command {
         this.customTracks = new ArrayList<>();
         this.assembly = Genome.Assembly.valueOf(command.getAssembly());
         this.logoCovariate = command.getLogoCovariate();
-        this.createLogo  = command.getLogo();
+        this.createLogo = command.getLogo() || this.logoCovariate;
         this.sitesBg = command.getSitesBg();
         this.tracks =  command.getTracks();
     }
