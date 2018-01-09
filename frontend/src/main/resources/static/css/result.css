@@ -295,6 +295,15 @@ label{
 * -- sequence logo
 */
 
+#seqlogorow {
+    border-left: 2px solid #ff5100;
+    background-color: whitesmoke;
+}
+
+#seqlogorow:hover {
+    background-color: #f5f5f5;
+}
+
 #sequencelogo{
     display: block;
     width: 90%;
