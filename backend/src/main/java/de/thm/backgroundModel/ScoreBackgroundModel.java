@@ -347,12 +347,9 @@ class ScoreBackgroundModel {
             scoredSet.add(new ScoreSet(tracks.size()));
         }
 
-
-
-
-
         // fill scores sets in a thread for each track
         for(ScoredTrack track: tracks){
+            // takes very long: TODO check for named track
             Runnable runner = new createScoreSet(tracks.indexOf(track), track, scoredSet, new_start, new_end);
             Thread one = new Thread(runner);
             one.run();
@@ -398,8 +395,7 @@ class ScoreBackgroundModel {
             Map<ScoreSet, Double> newOccurence = new HashMap<>();
 
             //get possible scores
-            List<Double> possibleScores = Arrays.stream(track.getIntervalScore()).boxed().distinct().collect(Collectors.toList());
-            Collections.sort(possibleScores);
+            List<Double> possibleScores = Arrays.stream(track.getIntervalScore()).boxed().distinct().sorted().collect(Collectors.toList());
             NormalDistribution nd = new NormalDistribution(0,factor);
 
             BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(possibleScores.size());
