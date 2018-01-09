@@ -232,7 +232,7 @@ public class UploadController {
         String name = file.getOriginalFilename();
         String uuid = name + "-" + UUID.randomUUID();
 
-        Pattern interval = Pattern.compile("(chr(\\d{1,2}|X|Y))\\s(\\d*)\\s(\\d*)");
+        Pattern interval = Pattern.compile("(chr(\\d{1,2}|X|Y))\\s(\\d*)\\s(\\d*).*");
         ChromosomSizes chrSizes = ChromosomSizes.getInstance();
         Genome.Assembly assembly = Genome.Assembly.hg19;
 
