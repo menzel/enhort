@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static de.thm.spring.controller.ControllerHelper.setModel;
@@ -75,6 +76,7 @@ public class CovariateController {
         // create a new user data object in case the cell line was changed
         if (!command.getCellline().equals(data.getCellline())) {
             data = new UserData(data.getAssembly(), data.getPositions(), command.getCellline(), filename);
+            command.setTracks(Collections.emptyList());
         }
 
         currentSession.setSites(data);
