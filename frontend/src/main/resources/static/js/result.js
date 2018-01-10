@@ -53,90 +53,87 @@ function plotHistogram(results) {
     Plotly.newPlot('histogram', data, layout);
 
 }
-
-
 function plotBubble(names, pca) {
 
-    var size = 5;
+    x = [];
+    y = [];
+    text = [];
 
-    var myConfig1 = {
-        "type": "scatter",
-        "tooltip": {
-            "text": "%data-filenames"
-        },
-        "series": [{
-            "values": pca,
-            "text": "Blue",
-            "data-filenames": names
+    for (var i = 0; i < pca.length - 1; i++) {
+        x.push(pca[i][0]);
+        y.push(pca[i][1]);
+        text.push(names[i])
+    }
 
-        }, {
-            "values": [[0, 0]],
-            "text": "Red",
-            "data-filenames": ['Your positions']
-        }],
-        scaleY: {
-            lineColor: "none",
-            tick: {
-                visible: false
-            },
-            guide: {
-                visible: true
-            },
-            item: {
-                visible: false
-            }
-        },
-        scaleX: {
-            lineColor: "none",
-            tick: {
-                visible: false
-            },
-            guide: {
-                visible: true
-            },
-            item: {
-                visible: false
-            }
-        }
+    var trace1 = {
+        x: x,
+        y: y,
+        mode: 'markers',
+        type: 'scatter',
+        hoverinfo: "text",
+        text: text,
+        marker: {size: 12}
     };
 
-    zingchart.render({
-        id: 'scatterChart',
-        data: myConfig1,
-        height: "100%",
-        width: "100%"
-    });
-}
+    var trace2 = {
+        x: [pca[pca.length - 1][0]],
+        y: [pca[pca.length - 1][1]],
+        mode: 'markers',
+        type: 'scatter',
+        hoverinfo: "text",
+        text: ["Your sites"],
+        marker: {size: 12}
+    };
 
+    var data = [trace1, trace2];
+
+    var layout = {
+        autosize: false,
+        width: 400,
+        height: 400,
+        showlegend: false,
+        xaxis: {
+            autorange: true,
+            showgrid: true,
+            zeroline: false,
+            showline: false,
+            autotick: true,
+            ticks: '',
+            showticklabels: false
+        },
+        yaxis: {
+            autorange: true,
+            showgrid: true,
+            zeroline: false,
+            showline: false,
+            autotick: true,
+            ticks: '',
+            showticklabels: false
+        },
+        title: '2D PCA Plot'
+    };
+
+    Plotly.newPlot('scatterChart', data, layout, {displayModeBar: false});
+
+}
 
 function plotRadar(efs) {
 
-    var colorscale = d3.scale.category10();
-
-
-    var input = [];
+    var max = [];
+    var average = [];
 
     for (var pack in efs) {
-        input.push({axis: pack, value: efs[pack][4]})
+        max.push({axis: pack, value: efs[pack][4]});
+        average.push({axis: pack, value: efs[pack][2]})
     }
 
-    //Legend titles
-    var LegendOptions = ['Name TODO '];
-
-    //Data
-    var d = [input];
-
-    //Options for the Radar chart, other than default
-    var mycfg = {
-        w: 300,
-        h: 300,
+    var options = {
+        w: 350,
+        h: 350,
         ExtraWidthX: 100
     };
 
-    //Call function to draw the Radar chart
-    //Will expect that data is in %'s
-    RadarChart.draw("#radarChart", d, mycfg);
-
+    RadarChart.draw("#radarChart", [max, average], options);
 }
 
 
