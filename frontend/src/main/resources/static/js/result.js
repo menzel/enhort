@@ -53,7 +53,8 @@ function plotHistogram(results) {
     Plotly.newPlot('histogram', data, layout);
 
 }
-function plotBubble(names, pca) {
+
+function plotScatter(names, pca) {
 
     x = [];
     y = [];
@@ -109,8 +110,7 @@ function plotBubble(names, pca) {
             autotick: true,
             ticks: '',
             showticklabels: false
-        },
-        title: '2D PCA Plot'
+        }
     };
 
     Plotly.newPlot('scatterChart', data, layout, {displayModeBar: false});
@@ -118,6 +118,7 @@ function plotBubble(names, pca) {
 }
 
 function plotRadar(efs) {
+    // from http://bl.ocks.org/nbremer/6506614
 
     var max = [];
     var average = [];
