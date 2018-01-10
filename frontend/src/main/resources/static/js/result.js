@@ -69,21 +69,29 @@ function plotScatter(names, pca) {
     var trace1 = {
         x: x,
         y: y,
-        mode: 'markers',
+        mode: 'markers+text',
         type: 'scatter',
-        hoverinfo: "text",
+        hoverinfo: "none",
         text: text,
-        marker: {size: 12}
+        marker: {
+            size: 12,
+            color: '#c8c8c8'
+        },
+        textposition: 'bottom'
     };
 
     var trace2 = {
         x: [pca[pca.length - 1][0]],
         y: [pca[pca.length - 1][1]],
-        mode: 'markers',
+        mode: 'markers+text',
         type: 'scatter',
-        hoverinfo: "text",
+        hoverinfo: "none",
         text: ["Your sites"],
-        marker: {size: 12}
+        marker: {
+            size: 12,
+            color: '#337ab7'
+        },
+        textposition: 'bottom'
     };
 
     var data = [trace1, trace2];
@@ -110,6 +118,10 @@ function plotScatter(names, pca) {
             autotick: true,
             ticks: '',
             showticklabels: false
+        },
+        font: {
+            size: 12,
+            color: '#000'
         }
     };
 
@@ -127,14 +139,60 @@ function plotRadar(efs) {
         max.push({axis: pack, value: efs[pack][4]});
         average.push({axis: pack, value: efs[pack][2]})
     }
+    w = 350;
 
     var options = {
-        w: 350,
+        w: w,
         h: 350,
         ExtraWidthX: 100
     };
 
+
     RadarChart.draw("#radarChart", [max, average], options);
+
+    var colorscale = d3.scale.category10();
+    var labels = ['Max', 'Average'];
+
+    //Initiate Legend
+    var legend = d3.select("#radarChart svg").append("g")
+        .attr("class", "legend")
+        .attr("height", 100)
+        .attr("width", 200)
+        .attr('transform', 'translate(90,20)')
+    ;
+    //Create colour squares
+    legend.selectAll('rect')
+        .data(labels)
+        .enter()
+        .append("rect")
+        .attr("x", 12)
+        .attr("y", function (d, i) {
+            return i * 20;
+        })
+        .attr("width", 10)
+        .attr("height", 10)
+        .style("fill", function (d, i) {
+            return colorscale(i);
+        })
+    ;
+    //Create text next to squares
+    legend.selectAll('text')
+        .data(labels)
+        .enter()
+        .append("text")
+        .attr("x", 25)
+        .attr("y", function (d, i) {
+            return i * 20 + 9;
+        })
+        .style("font-size", "12px")
+        .attr("fill", "#737373")
+        .text(function (d) {
+            return d;
+        })
+    ;
+
+
+
 }
 
 
