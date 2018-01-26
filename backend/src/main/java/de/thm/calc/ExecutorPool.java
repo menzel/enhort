@@ -62,7 +62,7 @@ public class ExecutorPool {
         try {
             f.get(2, TimeUnit.MINUTES);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
-            logger.warn("Stopped a thread after timeout");
+            logger.warn("Stopped a thread after Exception " + e.toString());
         }
 
         return f;

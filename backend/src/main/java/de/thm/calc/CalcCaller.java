@@ -13,10 +13,7 @@ import de.thm.stat.TestResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
@@ -157,8 +154,8 @@ public final class CalcCaller {
 
             TestResult statTestResult = tester.test(result1, result2, track);
 
-            if(statTestResult != null)
-                collector.addResult(statTestResult);
+            Objects.requireNonNull(statTestResult);
+            collector.addResult(statTestResult);
         }
     }
 

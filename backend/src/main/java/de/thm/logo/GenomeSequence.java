@@ -92,7 +92,7 @@ final class GenomeSequence {
 
 
             long first = start.getRight() - width / 2;
-            assert it != null;
+            Objects.requireNonNull(it);
 
             while (it.hasNext() || counter > first) { //TODO check overflow of 'it' on large numbers in GenomeFacotry
 
