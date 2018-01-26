@@ -278,12 +278,20 @@ label{
     float: left;
 }
 
+#radarChart svg {
+    overflow: visible;
+}
+
+
 #scatterChart {
     height: 400px;
     width: 400px;
     float: left;
 }
 
+#scatterChart * {
+    overflow: visible;
+}
 
 #italic {
     font-style: italic;
