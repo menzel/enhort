@@ -1,12 +1,13 @@
 package de.thm.genomeData;
 
 import de.thm.genomeData.tracks.*;
-import de.thm.misc.Genome;
 import de.thm.misc.ChromosomSizes;
+import de.thm.misc.Genome;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
@@ -183,7 +184,7 @@ public class TracksTest {
         expectedEnds.add(80L);
         expectedEnds.add(110L);
 
-        assert result != null;
+        Objects.requireNonNull(result);
         assertArrayEquals(expectedStarts.stream().mapToLong(l -> l).toArray(), result.getStarts());
         assertArrayEquals(expectedEnds.stream().mapToLong(l -> l).toArray(), result.getEnds());
 
