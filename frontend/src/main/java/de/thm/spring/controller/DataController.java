@@ -1,6 +1,7 @@
 package de.thm.spring.controller;
 
 import de.thm.command.BackendCommand;
+import de.thm.command.Command;
 import de.thm.exception.CovariatesException;
 import de.thm.exception.NoTracksLeftException;
 import de.thm.genomeData.tracks.Track;
@@ -51,7 +52,7 @@ public class DataController {
             return "error";
         }
 
-        BackendCommand command = new BackendCommand(assembly);
+        BackendCommand command = new BackendCommand(assembly, Command.Task.GET_TRACKS);
 
         try {
             /////////// Run analysis ////////////

@@ -1,6 +1,7 @@
 package de.thm.spring.controller;
 
 import de.thm.command.BackendCommand;
+import de.thm.command.Command;
 import de.thm.command.InterfaceCommand;
 import de.thm.exception.CovariatesException;
 import de.thm.exception.NoTracksLeftException;
@@ -153,7 +154,7 @@ public class WizardController {
             interfaceCommand.setSites(currentSession.getSites());
             interfaceCommand.setPositionCount(currentSession.getSites().getPositionCount());
 
-            BackendCommand command = new BackendCommand(interfaceCommand);
+            BackendCommand command = new BackendCommand(interfaceCommand, Command.Task.ANALZYE_SINGLE);
 
             ResultCollector collector = null;
 
@@ -211,7 +212,7 @@ public class WizardController {
      */
     private Model loadDataTableModel(Model model, Genome.Assembly assembly, HttpSession httpSession) {
 
-        BackendCommand command = new BackendCommand(assembly);
+        BackendCommand command = new BackendCommand(assembly, Command.Task.GET_TRACKS);
 
         try {
 

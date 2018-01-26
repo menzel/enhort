@@ -2,6 +2,7 @@ package de.thm.spring.controller;
 
 
 import de.thm.command.BackendCommand;
+import de.thm.command.Command;
 import de.thm.command.ExpressionCommand;
 import de.thm.command.InterfaceCommand;
 import de.thm.genomeData.tracks.Track;
@@ -110,7 +111,7 @@ public class UploadController {
                 }
 
                 currentSession.setSites(data);
-                BackendCommand command = new BackendCommand(data);
+                BackendCommand command = new BackendCommand(data, Command.Task.ANALZYE_SINGLE);
 
                 command.addCustomTrack(currentSession.getCustomTracks());
 
@@ -176,7 +177,7 @@ public class UploadController {
                 currentSession.setBgSites(sitesBg);
                 currentSession.setBgFilename(bgname);
 
-                BackendCommand backendCommand = new BackendCommand(currentSession.getSites(), sitesBg);
+                BackendCommand backendCommand = new BackendCommand(currentSession.getSites(), sitesBg, Command.Task.ANALZYE_SINGLE);
 
                 /////////// Run analysis ////////////
                 ResultCollector collector = (ResultCollector) currentSession.getConnector().runAnalysis(backendCommand);

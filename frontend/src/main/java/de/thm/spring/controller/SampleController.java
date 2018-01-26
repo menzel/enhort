@@ -1,6 +1,7 @@
 package de.thm.spring.controller;
 
 import de.thm.command.BackendCommand;
+import de.thm.command.Command;
 import de.thm.exception.CovariatesException;
 import de.thm.exception.NoTracksLeftException;
 import de.thm.misc.Genome;
@@ -49,7 +50,7 @@ public class SampleController {
         currentSession.setSites(userSites);
         currentSession.setOriginalFilename("HIV");
 
-        BackendCommand backendCommand = new BackendCommand(userSites);
+        BackendCommand backendCommand = new BackendCommand(userSites, Command.Task.ANALZYE_SINGLE);
 
         try {
             /////////// Run analysis ////////////

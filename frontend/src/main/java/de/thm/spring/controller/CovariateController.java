@@ -2,6 +2,7 @@ package de.thm.spring.controller;
 
 
 import de.thm.command.BackendCommand;
+import de.thm.command.Command;
 import de.thm.command.ExpressionCommand;
 import de.thm.command.InterfaceCommand;
 import de.thm.exception.CovariatesException;
@@ -84,7 +85,7 @@ public class CovariateController {
 
         try {
 
-            BackendCommand backendCommand = new BackendCommand(command);
+            BackendCommand backendCommand = new BackendCommand(command, Command.Task.ANALZYE_SINGLE);
             backendCommand.addCustomTrack(currentSession.getCustomTracks());
 
             /////////// Run analysis ////////////
