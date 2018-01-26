@@ -80,7 +80,6 @@ class AnalysisHelper {
         int minSites = cmd.getMinBg();
         ExecutorService pool = Executors.newFixedThreadPool(1);
 
-
         // create background //
         logger.debug("Create background model");
 
@@ -105,7 +104,7 @@ class AnalysisHelper {
         Future f = pool.submit(backgroundCreator);
 
         try {
-            f.get(30, TimeUnit.SECONDS);
+            f.get(60, TimeUnit.SECONDS);
 
         } catch (TimeoutException e) {
             logger.debug("Timeout while creating the background model", e);
@@ -115,7 +114,7 @@ class AnalysisHelper {
             logger.debug("Error creating the background model", e);
         }
 
-        return runAnalysis(sites, bg[0], cmd);
+        return runAnalysisWithBg(sites, bg[0], cmd);
     }
 
     /**
@@ -127,7 +126,7 @@ class AnalysisHelper {
      * @return Collection of Results inside a ResultCollector object
      * @throws NoTracksLeftException - if there are no tracks using this cmd
      */
-    private ResultCollector runAnalysis(Sites sites, Sites sitesBg, BackendCommand cmd) throws NoTracksLeftException{
+    private ResultCollector runAnalysisWithBg(Sites sites, Sites sitesBg, BackendCommand cmd) throws NoTracksLeftException {
 
         List<Track> runTracks;
         TrackFactory trackFactory = TrackFactory.getInstance();
@@ -136,8 +135,12 @@ class AnalysisHelper {
             try {
                 runTracks = trackFactory.getTracksByCellline(sites.getCellline(), sites.getAssembly());
             } catch (RuntimeException e) {
-                runTracks = trackFactory.getTracksByName(Arrays.asList("Known genes", "CpG Islands", "Exons", "Introns"), Genome.Assembly.hg19);
-                logger.warn("Error getting tracks {}", e);
+                try {
+                    runTracks = trackFactory.getTracksByName(Arrays.asList("Known genes", "CpG Islands", "Exons", "Introns"), Genome.Assembly.hg19);
+                    logger.warn("Error getting tracks {}", e);
+                } catch (RuntimeException e1) {
+                    runTracks = trackFactory.getTracks(Genome.Assembly.GRCh38);
+                }
             }
 
         } else { // if there is a list of track ids given by command
@@ -182,13 +185,22 @@ class AnalysisHelper {
      * @throws CovariatesException if the number or combination of covariates is impossible
      */
     Result runAnalysis(BackendCommand command) throws NoTracksLeftException, CovariatesException {
-        if(command.getSites() == null){
-            // return all tracks for data table overview
-            return returnDataTableView(command.getAssembly());
+        switch (command.getTask()) {
+            case GET_TRACKS:
+                return returnDataTableView(command.getAssembly());
 
-        }else if(command.getSitesBg() != null){
-            return runAnalysis(command.getSites(), command.getSitesBg(), command);
+            case ANALYZE_BATCH:
+                //TODO
+                return null;
+
+            case ANALZYE_SINGLE:
+                if (command.getSitesBg() != null) {
+                    return runAnalysisWithBg(command.getSites(), command.getSitesBg(), command);
+                }
+                return runAnalysis(command.getSites(), command);
+
+            default:
+                throw new RuntimeException("Task not runnable " + command.getTask());
         }
-        return runAnalysis(command.getSites(), command);
     }
 }
