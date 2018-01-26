@@ -8,4 +8,5 @@ import java.io.Serializable;
  * Created by menzel on 10/18/16.
  */
 public interface Command extends Serializable {
+    enum Task {GET_TRACKS, ANALZYE_SINGLE, ANALYZE_BATCH}
 }

@@ -23,9 +23,10 @@ public final class BackendCommand implements Command {
     private final boolean logoCovariate;
     private final boolean createLogo;
     private List<String> tracks;
+    private final Task task;
 
 
-    public BackendCommand(Sites sites) {
+    public BackendCommand(Sites sites, Task task) {
         this.covariants = new ArrayList<>();
         this.sites = sites;
         this.minBg = sites.getPositionCount() < 10000 ? 10000: sites.getPositionCount();
@@ -35,9 +36,10 @@ public final class BackendCommand implements Command {
         this.createLogo = false;
         this.sitesBg = null;
         this.tracks = Collections.emptyList();
+        this.task = task;
     }
 
-    public BackendCommand(Sites sites, Sites sitesBg) {
+    public BackendCommand(Sites sites, Sites sitesBg, Task task) {
         this.sitesBg = sitesBg;
         this.sites = sites;
         this.covariants = new ArrayList<>();
@@ -47,9 +49,10 @@ public final class BackendCommand implements Command {
         this.logoCovariate = false;
         this.createLogo = false;
         this.tracks = Collections.emptyList();
+        this.task = task;
     }
 
-    public BackendCommand(InterfaceCommand command) {
+    public BackendCommand(InterfaceCommand command, Task task) {
         this.covariants = command.getCovariants();
         this.minBg = command.getMinBg();
         this.sites = command.getSites();
@@ -59,6 +62,7 @@ public final class BackendCommand implements Command {
         this.createLogo = command.getLogo() || this.logoCovariate;
         this.sitesBg = command.getSitesBg();
         this.tracks =  command.getTracks();
+        this.task = task;
     }
 
     /**
@@ -67,7 +71,7 @@ public final class BackendCommand implements Command {
      *
      * @param assembly - assembly number to get
      */
-    public BackendCommand(Genome.Assembly assembly) {
+    public BackendCommand(Genome.Assembly assembly, Task task) {
         this.assembly = assembly;
 
         this.covariants = new ArrayList<>();
@@ -78,6 +82,7 @@ public final class BackendCommand implements Command {
         this.createLogo = false;
         this.sitesBg = null;
         this.tracks = Collections.emptyList();
+        this.task = task;
     }
 
     public void addCustomTrack(List<Track> track){
@@ -108,5 +113,9 @@ public final class BackendCommand implements Command {
 
     public List<String> getTracks() {
         return tracks;
+    }
+
+    public Task getTask() {
+        return task;
     }
 }
