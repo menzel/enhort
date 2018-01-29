@@ -210,15 +210,18 @@ public class ControllerHelper {
     }
 
     /**
-     * Reads the user data for a given filename (+ UUID) and uploaded multipart file.
+     * Reads the user data for a given uploaded multipart file.
      * Returns the generated user sites
      *
-     * @param filenameWithUUID - filename (with uuid to prevent name clash between users)
      * @param file             - file from form submit
      * @return User sites with the given data
      * @throws IllegalArgumentException if the file was empty
      */
-    public static UserData getUserData(String filenameWithUUID, MultipartFile file) throws IllegalArgumentException {
+    public static UserData getUserData(MultipartFile file) throws IllegalArgumentException {
+
+
+        String name = file.getOriginalFilename();
+        String filenameWithUUID = name + "-" + UUID.randomUUID();
 
         if (!file.isEmpty()) {
             try {

@@ -77,13 +77,12 @@ public class UploadController {
     public String handleFileUpload(Model model, @RequestParam("file") MultipartFile file, HttpSession httpSession) {
 
         String name = file.getOriginalFilename();
-        String uuid = name + "-" + UUID.randomUUID();
 
         Sessions sessionControll = Sessions.getInstance();
         StatisticsCollector stats = StatisticsCollector.getInstance();
 
         try {
-            UserData data = ControllerHelper.getUserData(uuid, file);
+            UserData data = ControllerHelper.getUserData(file);
 
             if (data.getPositionCount() < 1) {
                 model.addAttribute("errorMessage", "There were no positions in the file '" + file.getOriginalFilename() + "' you uploaded." +
@@ -132,8 +131,6 @@ public class UploadController {
     @RequestMapping(value = "/uploadbg", method = RequestMethod.POST)
     public String handleBackgroundUpload(Model model, @RequestParam("file") MultipartFile bgFile, HttpSession httpSession) {
 
-        String bgname = bgFile.getOriginalFilename();
-        String uuid = bgname + "-" + UUID.randomUUID();
 
         Sessions sessionControll = Sessions.getInstance();
         Session currentSession = sessionControll.getSession(httpSession.getId());
@@ -142,9 +139,11 @@ public class UploadController {
         String name = currentSession.getOriginalFilename();
 
         try {
-            UserData sitesBg = ControllerHelper.getUserData(uuid, bgFile); //new UserData(assembly, inputFilepath, "none");
+            UserData sitesBg = ControllerHelper.getUserData(bgFile); //new UserData(assembly, inputFilepath, "none");
 
             currentSession.setBgSites(sitesBg);
+
+            String bgname = bgFile.getOriginalFilename();
             currentSession.setBgFilename(bgname);
 
             BackendCommand backendCommand = new BackendCommand(currentSession.getSites(), sitesBg, Command.Task.ANALZYE_SINGLE);

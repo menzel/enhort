@@ -8,7 +8,6 @@ import de.thm.exception.NoTracksLeftException;
 import de.thm.genomeData.tracks.Track;
 import de.thm.genomeData.tracks.TrackPackage;
 import de.thm.misc.Genome;
-import de.thm.positionData.AssemblyGuesser;
 import de.thm.positionData.UserData;
 import de.thm.result.DataViewResult;
 import de.thm.result.ResultCollector;
@@ -28,8 +27,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.net.SocketTimeoutException;
-import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import static de.thm.spring.controller.ControllerHelper.setModel;
@@ -82,16 +83,7 @@ public class WizardController {
 
         if(currentSession.getSites() == null) {
 
-            String name = file.getOriginalFilename();
-            String uuid = name + "-" + UUID.randomUUID();
-
-            Path inputFilepath = ControllerHelper.basePath.resolve(uuid);
-            Genome.Assembly assembly = AssemblyGuesser.guessAssembly(inputFilepath);
-
-            if(assembly == Genome.Assembly.Unknown)
-                assembly = Genome.Assembly.hg19; // reset unknown to hg19
-
-            UserData data = ControllerHelper.getUserData(uuid, file); //new UserData(assembly, inputFilepath, "Unknown");
+            UserData data = ControllerHelper.getUserData(file);
 
             currentSession.setSites(data);
             currentSession.setOriginalFilename(file.getOriginalFilename());
@@ -107,7 +99,7 @@ public class WizardController {
 
             /* Add presets */
 
-            model = loadDataTableModel(model, assembly, httpSession);
+            model = loadDataTableModel(model, data.getAssembly(), httpSession);
 
             model.addAttribute("interfaceCommand", interfaceCommand);
             model.addAttribute("page", "tracks");
