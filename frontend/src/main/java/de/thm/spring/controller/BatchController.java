@@ -25,6 +25,27 @@ import java.util.stream.Collectors;
 @Controller
 public class BatchController {
 
+    /**
+     * Generates a pair of effect size and a * for the pvalue significance for the heatmap plot.
+     * Effect size is set to negative if less sites are measured inside as expected
+     *
+     * @param test -test result for one track
+     * @return pair of effect size and *** for p value to plot in heatmap
+     */
+    private Pair<Double, String> getHeatmapPair(TestResult test) {
+        double pval = 0.05;
+
+        Double left;
+        if (test.getMeasuredIn() < test.getExpectedIn())
+            left = -test.getEffectSize();
+        else left = test.getEffectSize();
+
+        String right = test.getpValue() < pval ? test.getpValue() < pval / 5 ? "**" : "*" : "";
+
+        return new ImmutablePair<>(left, right);
+    }
+
+
     @RequestMapping(value = {"/batch"}, method = RequestMethod.GET)
     public String index() {
         return "batch";
@@ -37,7 +58,6 @@ public class BatchController {
         Sessions sessionControll = Sessions.getInstance();
         Session currentSession = sessionControll.addSession(httpSession.getId());
         List<String> names = new ArrayList<>();
-        double pval = 0.05;
 
         Comparator<TestResult> byTrack = Comparator.comparingInt(t -> t.getTrack().getUid());
 
@@ -60,7 +80,7 @@ public class BatchController {
 
                 List<Pair<Double, String>> tmp = ((ResultCollector) c).getResults().stream()
                         .sorted(byTrack)
-                        .map(track -> new ImmutablePair<>(track.getEffectSize(), track.getpValue() < pval ? "*" : ""))
+                        .map(this::getHeatmapPair)
                         .collect(Collectors.toList());
 
                 results.put(names.get(i++), tmp);
