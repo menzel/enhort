@@ -83,8 +83,8 @@ public class AssemblyGuesser {
                 counts.add(lines);
 
             } catch (Exception | Error e) {
-                logger.error("Exception running " + command + " {}", e.getMessage(), e);
-                return Genome.Assembly.Unknown;
+                logger.error("Exception running " + command + e.getMessage());
+                return Genome.Assembly.hg19;
             }
         }
 
