@@ -5,6 +5,7 @@ import de.thm.command.ExpressionCommand;
 import de.thm.exception.CovariatesException;
 import de.thm.exception.NoTracksLeftException;
 import de.thm.genomeData.tracks.Track;
+import de.thm.result.BatchResult;
 import de.thm.result.DataViewResult;
 import de.thm.result.Result;
 import de.thm.result.ResultCollector;
@@ -156,6 +157,13 @@ public final class BackendConnector {
                 checkCollector(collector);
 
                 return collector;
+            } else if (answer instanceof BatchResult) {
+
+
+                BatchResult result = (BatchResult) answer;
+                logger.info("[" + id + "]: got result: " + result.getResults().size());
+
+                return result;
 
             } else if (answer instanceof DataViewResult) {
                 DataViewResult result = (DataViewResult) answer;
