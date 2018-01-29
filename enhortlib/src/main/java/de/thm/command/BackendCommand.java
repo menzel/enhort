@@ -22,8 +22,23 @@ public final class BackendCommand implements Command {
     private final Genome.Assembly assembly;
     private final boolean logoCovariate;
     private final boolean createLogo;
-    private List<String> tracks;
+    private final List<String> tracks;
+    private final List<Sites> batchSites;
     private final Task task;
+
+    public BackendCommand(List<Sites> sites, Task task) {
+        this.covariants = new ArrayList<>();
+        this.sites = null;
+        this.minBg = sites.get(0).getPositionCount() < 10000 ? 10000 : sites.get(0).getPositionCount();
+        this.customTracks = new ArrayList<>();
+        this.assembly = sites.get(0).getAssembly();
+        this.logoCovariate = false;
+        this.createLogo = false;
+        this.sitesBg = null;
+        this.tracks = Collections.emptyList();
+        this.task = task;
+        batchSites = sites;
+    }
 
 
     public BackendCommand(Sites sites, Task task) {
@@ -37,6 +52,7 @@ public final class BackendCommand implements Command {
         this.sitesBg = null;
         this.tracks = Collections.emptyList();
         this.task = task;
+        batchSites = null;
     }
 
     public BackendCommand(Sites sites, Sites sitesBg, Task task) {
@@ -50,6 +66,7 @@ public final class BackendCommand implements Command {
         this.createLogo = false;
         this.tracks = Collections.emptyList();
         this.task = task;
+        batchSites = null;
     }
 
     public BackendCommand(InterfaceCommand command, Task task) {
@@ -63,6 +80,7 @@ public final class BackendCommand implements Command {
         this.sitesBg = command.getSitesBg();
         this.tracks =  command.getTracks();
         this.task = task;
+        batchSites = null;
     }
 
     /**
@@ -83,6 +101,7 @@ public final class BackendCommand implements Command {
         this.sitesBg = null;
         this.tracks = Collections.emptyList();
         this.task = task;
+        batchSites = null;
     }
 
     public void addCustomTrack(List<Track> track){
@@ -117,5 +136,9 @@ public final class BackendCommand implements Command {
 
     public Task getTask() {
         return task;
+    }
+
+    public List<Sites> getBatchSites() {
+        return batchSites;
     }
 }
