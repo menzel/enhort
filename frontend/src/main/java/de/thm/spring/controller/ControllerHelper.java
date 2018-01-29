@@ -209,16 +209,25 @@ public class ControllerHelper {
         model.addAttribute("expressionCommand", exCommand);
     }
 
-    public static UserData getUserData(String uuid, MultipartFile file) throws IllegalArgumentException {
+    /**
+     * Reads the user data for a given filename (+ UUID) and uploaded multipart file.
+     * Returns the generated user sites
+     *
+     * @param filenameWithUUID - filename (with uuid to prevent name clash between users)
+     * @param file             - file from form submit
+     * @return User sites with the given data
+     * @throws IllegalArgumentException if the file was empty
+     */
+    public static UserData getUserData(String filenameWithUUID, MultipartFile file) throws IllegalArgumentException {
 
         if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
-                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(ControllerHelper.basePath.resolve(uuid).toFile()));
+                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(ControllerHelper.basePath.resolve(filenameWithUUID).toFile()));
                 stream.write(bytes);
                 stream.close();
 
-                Path inputFilepath = basePath.resolve(uuid);
+                Path inputFilepath = basePath.resolve(filenameWithUUID);
 
                 UserData data = new UserData(AssemblyGuesser.guessAssembly(inputFilepath), inputFilepath, "Unknown");
 

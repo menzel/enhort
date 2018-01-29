@@ -27,10 +27,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.nio.file.Path;
 import java.util.*;
@@ -42,7 +38,6 @@ import static de.thm.spring.controller.ControllerHelper.setModel;
 @Controller
 public class WizardController {
 
-    private static final Path basePath = new File("/tmp").toPath();
     private final Logger logger = LoggerFactory.getLogger(WizardController.class);
 
 
@@ -90,32 +85,14 @@ public class WizardController {
             String name = file.getOriginalFilename();
             String uuid = name + "-" + UUID.randomUUID();
 
-            Path inputFilepath = null;
-
-            if (!file.isEmpty()) {
-                try {
-                    byte[] bytes = file.getBytes();
-                    BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(basePath.resolve(uuid).toFile()));
-                    stream.write(bytes);
-                    stream.close();
-
-                    inputFilepath = basePath.resolve(uuid);
-
-                } catch (IOException e) {
-                    logger.error("Exception {}", e.getMessage(), e);
-                }
-
-            } else {
-                model.addAttribute("message", "Upload failed. The file was empty.");
-                return "error";
-            }
-
+            Path inputFilepath = ControllerHelper.basePath.resolve(uuid);
             Genome.Assembly assembly = AssemblyGuesser.guessAssembly(inputFilepath);
 
             if(assembly == Genome.Assembly.Unknown)
                 assembly = Genome.Assembly.hg19; // reset unknown to hg19
 
-            UserData data = new UserData(assembly, inputFilepath, "Unknown");
+            UserData data = ControllerHelper.getUserData(uuid, file); //new UserData(assembly, inputFilepath, "Unknown");
+
             currentSession.setSites(data);
             currentSession.setOriginalFilename(file.getOriginalFilename());
             interfaceCommand.setAssembly(data.getAssembly().toString());
