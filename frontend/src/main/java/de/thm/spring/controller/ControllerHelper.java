@@ -5,6 +5,7 @@ import de.thm.command.InterfaceCommand;
 import de.thm.genomeData.tracks.Track;
 import de.thm.logo.Logo;
 import de.thm.misc.ChromosomSizes;
+import de.thm.positionData.AssemblyGuesser;
 import de.thm.positionData.UserData;
 import de.thm.result.ResultCollector;
 import de.thm.spring.cache.RCodeExport;
@@ -12,11 +13,20 @@ import de.thm.stat.TestResult;
 import org.apache.commons.math3.stat.descriptive.rank.Percentile;
 import org.apache.commons.math3.util.Precision;
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class ControllerHelper {
+
+    public static final Path basePath = new File("/tmp").toPath();
 
     /**
      * Set params for model with known interfaceCommand
@@ -197,5 +207,35 @@ public class ControllerHelper {
 
         ExpressionCommand exCommand = new ExpressionCommand();
         model.addAttribute("expressionCommand", exCommand);
+    }
+
+    public static UserData getUserData(String uuid, MultipartFile file) throws IllegalArgumentException {
+
+        if (!file.isEmpty()) {
+            try {
+                byte[] bytes = file.getBytes();
+                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(ControllerHelper.basePath.resolve(uuid).toFile()));
+                stream.write(bytes);
+                stream.close();
+
+                Path inputFilepath = basePath.resolve(uuid);
+
+                UserData data = new UserData(AssemblyGuesser.guessAssembly(inputFilepath), inputFilepath, "Unknown");
+
+                try {
+                    Files.deleteIfExists(inputFilepath);
+                } catch (IOException e) {
+                    // do nothing here. File seems to be unreacheable
+                }
+
+                return data;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Error reading file " + file + " " + e);
+            }
+
+        } else throw new IllegalArgumentException("Upload failed. No file selected or the file was empty.");
+
     }
 }

@@ -8,7 +8,6 @@ import de.thm.command.InterfaceCommand;
 import de.thm.genomeData.tracks.Track;
 import de.thm.misc.ChromosomSizes;
 import de.thm.misc.Genome;
-import de.thm.positionData.AssemblyGuesser;
 import de.thm.positionData.UserData;
 import de.thm.result.ResultCollector;
 import de.thm.spring.backend.Session;
@@ -26,7 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -48,7 +46,6 @@ import static de.thm.spring.controller.ControllerHelper.setModel;
 @Controller
 public class UploadController {
 
-    private static final Path basePath = new File("/tmp").toPath();
     private final Logger logger = LoggerFactory.getLogger(UploadController.class);
 
     @RequestMapping(value = "/upload", method = RequestMethod.GET)
@@ -85,65 +82,46 @@ public class UploadController {
         Sessions sessionControll = Sessions.getInstance();
         StatisticsCollector stats = StatisticsCollector.getInstance();
 
-        if (!file.isEmpty()) {
-            try {
-                byte[] bytes = file.getBytes();
-                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(basePath.resolve(uuid).toFile()));
-                stream.write(bytes);
-                stream.close();
+        try {
+            UserData data = ControllerHelper.getUserData(uuid, file);
 
-                Path inputFilepath = basePath.resolve(uuid);
-
-                Session currentSession = sessionControll.addSession(httpSession.getId());
-                UserData data = new UserData(AssemblyGuesser.guessAssembly(inputFilepath), inputFilepath, "Unknown");
-
-                try {
-                    Files.deleteIfExists(inputFilepath);
-                } catch (IOException e) {
-                    // logger.warn("File is not there. Could not delete");
-                    // do nothing here. File seems to be unreacheable
-                }
-
-                if(data.getPositionCount() < 1){
-                    model.addAttribute("errorMessage", "There were no positions in the file '" + file.getOriginalFilename() + "' you uploaded." +
-                            "Make sure your file is in .bed format, where each line contains a position e.g. chr1\\t10\\t100 (where \\t is a tab)");
-                    return "error";
-                }
-
-                currentSession.setSites(data);
-                BackendCommand command = new BackendCommand(data, Command.Task.ANALZYE_SINGLE);
-
-                command.addCustomTrack(currentSession.getCustomTracks());
-
-                /////////// Run analysis ////////////
-                ResultCollector collector = (ResultCollector) currentSession.getConnector().runAnalysis(command);
-                /////////////////////////////////////
-
-                if(collector != null) {
-
-                    currentSession.setCollector(collector);
-                    currentSession.setOriginalFilename(name);
-
-                    setModel(model, collector, data, name);
-                    model.addAttribute("covariants", new ArrayList<>());
-                    model.addAttribute("covariantCount", 0);
-                    model.addAttribute("customTracks", currentSession.getCustomTracks());
-
-                    stats.addAnaylseC();
-                    stats.addFileC();
-
-                    return "result";
-                }
-
-            } catch (Exception e) {
-                model.addAttribute("errorMessage", e.getMessage());
+            if (data.getPositionCount() < 1) {
+                model.addAttribute("errorMessage", "There were no positions in the file '" + file.getOriginalFilename() + "' you uploaded." +
+                        "Make sure your file is in .bed format, where each line contains a position e.g. chr1\\t10\\t100 (where \\t is a tab)");
                 return "error";
             }
 
-        } else {
-            model.addAttribute("errorMessage", "Upload failed. No file was selected.");
+            Session currentSession = sessionControll.addSession(httpSession.getId());
+            currentSession.setSites(data);
+            BackendCommand command = new BackendCommand(data, Command.Task.ANALZYE_SINGLE);
+
+            command.addCustomTrack(currentSession.getCustomTracks());
+
+            /////////// Run analysis ////////////
+            ResultCollector collector = (ResultCollector) currentSession.getConnector().runAnalysis(command);
+            /////////////////////////////////////
+
+            if (collector != null) {
+
+                currentSession.setCollector(collector);
+                currentSession.setOriginalFilename(name);
+
+                setModel(model, collector, data, name);
+                model.addAttribute("covariants", new ArrayList<>());
+                model.addAttribute("covariantCount", 0);
+                model.addAttribute("customTracks", currentSession.getCustomTracks());
+
+                stats.addAnaylseC();
+                stats.addFileC();
+
+                return "result";
+            }
+
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
             return "error";
         }
+
 
         model.addAttribute("errorMessage", "No results from backend server. Maybe the server is down right now. Try again in a few minutes or contact an admin.");
         return "error";
@@ -163,49 +141,36 @@ public class UploadController {
 
         String name = currentSession.getOriginalFilename();
 
-        if (!bgFile.isEmpty()) {
-            try {
-                byte[] bytes = bgFile.getBytes();
-                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(basePath.resolve(uuid).toFile()));
-                stream.write(bytes);
-                stream.close();
+        try {
+            UserData sitesBg = ControllerHelper.getUserData(uuid, bgFile); //new UserData(assembly, inputFilepath, "none");
 
-                Path inputFilepath = basePath.resolve(uuid);
-                Genome.Assembly assembly = currentSession.getSites().getAssembly();
-                UserData sitesBg = new UserData(assembly, inputFilepath, "none");
+            currentSession.setBgSites(sitesBg);
+            currentSession.setBgFilename(bgname);
 
-                currentSession.setBgSites(sitesBg);
-                currentSession.setBgFilename(bgname);
+            BackendCommand backendCommand = new BackendCommand(currentSession.getSites(), sitesBg, Command.Task.ANALZYE_SINGLE);
 
-                BackendCommand backendCommand = new BackendCommand(currentSession.getSites(), sitesBg, Command.Task.ANALZYE_SINGLE);
+            /////////// Run analysis ////////////
+            ResultCollector collector = (ResultCollector) currentSession.getConnector().runAnalysis(backendCommand);
+            /////////////////////////////////////
 
-                /////////// Run analysis ////////////
-                ResultCollector collector = (ResultCollector) currentSession.getConnector().runAnalysis(backendCommand);
-                /////////////////////////////////////
+            if (collector != null) {
 
-                if(collector != null) {
+                currentSession.setCollector(collector);
 
-                    currentSession.setCollector(collector);
+                setModel(model, collector, currentSession.getSites(), name);
+                model.addAttribute("covariants", new ArrayList<>());
+                model.addAttribute("covariantCount", 0);
+                model.addAttribute("customTracks", currentSession.getCustomTracks());
+                model.addAttribute("bgfilename", currentSession.getBgname());
 
-                    setModel(model, collector, currentSession.getSites(), name);
-                    model.addAttribute("covariants", new ArrayList<>());
-                    model.addAttribute("covariantCount", 0);
-                    model.addAttribute("customTracks", currentSession.getCustomTracks());
-                    model.addAttribute("bgfilename", currentSession.getBgname());
+                stats.addAnaylseC();
+                stats.addFileC();
 
-                    stats.addAnaylseC();
-                    stats.addFileC();
-
-                    return "result";
-                }
-
-            } catch (Exception e) {
-                model.addAttribute("errorMessage", e.getMessage() + e.toString());
-                return "error";
+                return "result";
             }
 
-        } else {
-            model.addAttribute("errorMessage", "You failed to upload " + name + " because the file was empty.");
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage() + e.toString());
             return "error";
         }
 
@@ -240,11 +205,11 @@ public class UploadController {
          if (!file.isEmpty()) {
              try {
                  byte[] bytes = file.getBytes();
-                 BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(basePath.resolve(uuid).toFile()));
+                 BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(ControllerHelper.basePath.resolve(uuid).toFile()));
                  stream.write(bytes);
                  stream.close();
 
-                 Path path = basePath.resolve(uuid);
+                 Path path = ControllerHelper.basePath.resolve(uuid);
 
                  List<Long> start = new ArrayList<>();
                  List<Long> end = new ArrayList<>();
