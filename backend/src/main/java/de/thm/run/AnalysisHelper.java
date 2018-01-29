@@ -14,6 +14,7 @@ import de.thm.misc.Genome;
 import de.thm.positionData.Sites;
 import de.thm.precalc.SiteFactory;
 import de.thm.precalc.SiteFactoryFactory;
+import de.thm.result.BatchResult;
 import de.thm.result.DataViewResult;
 import de.thm.result.Result;
 import de.thm.result.ResultCollector;
@@ -160,6 +161,33 @@ class AnalysisHelper {
         return multi.execute(runTracks, sites, sitesBg, cmd.isCreateLogo());
     }
 
+
+    /**
+     * Runs a batch analysis (multiple user sites against the same background)
+     *
+     * @param batchSites - list of user uploaded site
+     * @param command    - command parameters
+     * @return BatchResult - list of ResultCollectors for each site object from batch sites in the same order
+     */
+    private BatchResult batchAnalysis(List<Sites> batchSites, BackendCommand command) {
+
+        Sites bg = BackgroundModelFactory.createBackgroundModel(batchSites.get(0).getAssembly(), command.getMinBg());
+        BatchResult results = new BatchResult();
+
+
+        for (Sites sites : batchSites) {
+            try {
+                results.addResult(runAnalysisWithBg(sites, bg, command));
+            } catch (NoTracksLeftException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return results;
+    }
+
+
+
     /**
      * Returns the data table view for known annotations for a given assembly
      *
@@ -190,8 +218,7 @@ class AnalysisHelper {
                 return returnDataTableView(command.getAssembly());
 
             case ANALYZE_BATCH:
-                //TODO
-                return null;
+                return batchAnalysis(command.getBatchSites(), command);
 
             case ANALZYE_SINGLE:
                 if (command.getSitesBg() != null) {
@@ -203,4 +230,5 @@ class AnalysisHelper {
                 throw new RuntimeException("Task not runnable " + command.getTask());
         }
     }
+
 }
