@@ -107,10 +107,14 @@
             x: xValues,
             y: yValues,
             z: zValues,
+            zmin: -1,
+            zmax: 1,
             type: 'heatmap',
             colorscale: 'RdBu',
             showscale: false,
-            autoscale: true
+            autoscale: true,
+            hoverinfo: 'all'
+
         }];
 
         var layout = {
