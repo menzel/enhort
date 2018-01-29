@@ -1,0 +1,155 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+
+<head lang="en">
+
+    <title>Enhort - Genomic Position Profiling</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link rel="stylesheet" media="screen" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" media="screen" href="../static/css/batch.css" th:href="@{/css/batch.css}"/>
+
+    <script src="/js/jquery-1.12.0.min.js" th:href="@{/js/jquery-1.12.0.min.js}"></script>
+    <script src="/js/bootstrap.min.js" th:href="@{/js/bootstrap.min.js}"></script>
+    <script src="/js/plotly-latest.min.js" th:href="@{/js/plotly-latest.min.js}"></script>
+    <script src="/js/d3.min.js" th:href="@{/js/d3.min.js}"></script>
+
+</head>
+<body>
+
+<div th:include="header:: bar"></div>
+
+<div id="new" class="bg-info"></div>
+
+<div class="container">
+
+    <div class="box">
+
+        <th:block th:if="not ${ran}">
+            <form method="post" id="uploadForm" action="" enctype="multipart/form-data">
+                <table class="span10">
+                    <tr>
+                        <td>
+                            <input type="file" name="file[]" multiple="multiple"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <button class="btn btn-primary" type="submit" id="startButton">Start</button>
+                            <button class="btn" id="cancelButton">Cancel</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+
+
+        </th:block>
+    </div>
+
+
+    <th:block th:if="${ran}">
+
+        <div id="results">
+            <div id="myDiv"></div>
+        </div>
+
+
+    </th:block>
+
+
+</div>
+
+</body>
+
+
+<th:block th:if="${ran}">
+    <script th:inline="javascript" async="async">
+        /*<![CDATA[*/
+        'use strict';
+
+        var results = [[${results}]];
+        var yValues = [[${tracks}]]; //track names
+
+        var xValues = []; // .bed filenames
+        var zValues = []; // effect sizes
+        var pValues = []; // p values
+
+        for (var v in results) {
+            xValues.push(v);
+
+            var tmpZ = [];
+            var tmpP = [];
+
+            for (var i = 0; i < results[v].length; i++) {
+                tmpZ.push(results[v][i].left);
+                tmpP.push(results[v][i].right);
+            }
+
+            zValues.push(tmpZ);
+            pValues.push(tmpP);
+        }
+
+        // transpose effect size table, from TODO
+        zValues = zValues[0].map(function (col, c) {
+            // For each column, iterate all rows
+            return zValues.map(function (row, r) {
+                return zValues[r][c];
+            });
+        });
+        // end transpose
+
+        console.log(xValues);
+        console.log(yValues);
+        console.log(zValues);
+
+        var data = [{
+            x: xValues,
+            y: yValues,
+            z: zValues,
+            type: 'heatmap',
+            colorscale: 'RdBu',
+            showscale: false,
+            autoscale: true
+        }];
+
+        var layout = {
+            width: 900,
+            height: 1500,
+            autoscale: true,
+            annotations: [],
+            xaxis: {
+                ticks: '',
+                side: 'top'
+            },
+            yaxis: {
+                ticks: '',
+                ticksuffix: ' '
+            }
+        };
+
+        for (var i = 0; i < yValues.length; i++) {
+            for (var j = 0; j < xValues.length; j++) {
+                var textColor = 'white';
+                var result = {
+                    xref: 'x1',
+                    yref: 'y1',
+                    x: xValues[j],
+                    y: yValues[i],
+                    text: zValues[i][j] + " " + pValues[j][i], // inverted i and j because pValues is not transposed
+                    font: {
+                        family: 'Arial',
+                        size: 12,
+                        color: textColor
+                    },
+                    showarrow: false
+                };
+                layout.annotations.push(result);
+            }
+        }
+
+        Plotly.newPlot('myDiv', data, layout);
+
+    </script>
+</th:block>
+</html>

@@ -1,0 +1,14 @@
+@import "application.css";
+
+#results {
+    margin-top: 100px;
+}
+
+#myDiv {
+    width: 900px;
+    height: 1500px;
+}
+
+#container * {
+    overflow: visible !important;
+}
