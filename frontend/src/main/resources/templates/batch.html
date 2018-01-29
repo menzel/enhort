@@ -27,20 +27,12 @@
     <div class="box">
 
         <th:block th:if="not ${ran}">
+            Please select two or more .bed-files for comparison:
+
             <form method="post" id="uploadForm" action="" enctype="multipart/form-data">
-                <table class="span10">
-                    <tr>
-                        <td>
-                            <input type="file" name="file[]" multiple="multiple"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">
-                            <button class="btn btn-primary" type="submit" id="startButton">Start</button>
-                            <button class="btn" id="cancelButton">Cancel</button>
-                        </td>
-                    </tr>
-                </table>
+                <input type="file" name="file[]" multiple="multiple"/>
+                <button class="btn btn-primary" type="submit" id="startButton">Start</button>
+                <button class="btn" id="cancelButton">Cancel</button>
             </form>
 
 
@@ -53,7 +45,6 @@
         <div id="results">
             <div id="myDiv"></div>
         </div>
-
 
     </th:block>
 
