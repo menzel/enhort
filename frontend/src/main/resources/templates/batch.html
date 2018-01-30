@@ -24,30 +24,42 @@
 
 <div class="container">
 
-    <div class="box">
+    <div class="row">
 
         <th:block th:if="not ${ran}">
-            Please select two or more .bed-files for comparison:
 
-            <form method="post" id="uploadForm" action="" enctype="multipart/form-data">
-                <input type="file" name="file[]" multiple="multiple"/>
-                <button class="btn btn-primary" type="submit" id="startButton">Start</button>
-                <button class="btn" id="cancelButton">Cancel</button>
-            </form>
+            <div class="col-md-8 col-lg-8">
+                Please select two or more .bed-files for comparison:
 
+                <form method="post" id="uploadForm" action="" enctype="multipart/form-data">
+                    <input type="file" name="file[]" multiple="multiple"/>
+                    <button class="btn btn-primary" type="submit" id="startButton">Start</button>
+                    <button class="btn" id="cancelButton">Cancel</button>
+                </form>
+
+            </div>
+
+            <div class="col-md-2 col-lg-2">
+            </div>
 
         </th:block>
-    </div>
-
 
     <th:block th:if="${ran}">
 
-        <div id="results">
-            <div id="myDiv"></div>
+        <div class="col-md-8 col-lg-8">
+
+            <div id="results">
+                <div id="heatmapDiv"></div>
+            </div>
+        </div>
+
+        <div class="col-md-2 col-lg-2">
+            <span class="glyphicon glyphicon-question-sign" id="legend"></span>
         </div>
 
     </th:block>
 
+    </div>
 
 </div>
 
@@ -66,6 +78,7 @@
         var zValues = []; // effect sizes
         var pValues = []; // p values
 
+        /* Split list of pairs into two lists for effect sizes and * for p values */
         for (var v in results) {
             xValues.push(v);
 
@@ -81,7 +94,8 @@
             pValues.push(tmpP);
         }
 
-        // transpose effect size table, from TODO
+
+        // transpose effect size table, from https://stackoverflow.com/a/38325654
         zValues = zValues[0].map(function (col, c) {
             // For each column, iterate all rows
             return zValues.map(function (row, r) {
@@ -113,6 +127,9 @@
             height: 1500,
             autoscale: true,
             annotations: [],
+            margin: {
+                l: 80
+            },
             xaxis: {
                 ticks: '',
                 side: 'top'
@@ -143,7 +160,7 @@
             }
         }
 
-        Plotly.newPlot('myDiv', data, layout);
+        Plotly.newPlot('heatmapDiv', data, layout);
 
     </script>
 </th:block>

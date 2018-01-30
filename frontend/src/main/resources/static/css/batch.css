@@ -1,14 +1,23 @@
 @import "application.css";
 
 #results {
-    margin-top: 100px;
+    margin-top: 50px;
 }
 
-#myDiv {
-    width: 900px;
+#heatmapDiv {
+    width: 1000px;
     height: 1500px;
 }
 
 #container * {
     overflow: visible !important;
+}
+
+svg .main-svg {
+    overflow: visible !important;
+}
+
+#legend:hover:after {
+    content: url(../img/legend.png);
+    display: block;
 }
