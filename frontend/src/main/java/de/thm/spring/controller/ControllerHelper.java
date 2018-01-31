@@ -42,7 +42,7 @@ public class ControllerHelper {
 
         // r export page
 
-        String rcode = RCodeExport.barplot(collector);
+        String rcode = RCodeExport.barplot(collector, cmd.getOriginalFilename());
 
         model.addAttribute("rcode", rcode);
 
