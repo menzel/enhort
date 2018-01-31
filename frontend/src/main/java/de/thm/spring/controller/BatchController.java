@@ -36,8 +36,8 @@ public class BatchController {
         double pval = 0.05;
 
         Double left;
-        if (test.getMeasuredIn() < test.getExpectedIn())
-            left = -test.getEffectSize();
+        if (test.getPercentInM() < test.getPercentInE())
+            left = -1 * test.getEffectSize();
         else left = test.getEffectSize();
 
         String right = test.getpValue() < pval ? test.getpValue() < pval / 5 ? "**" : "*" : "";
