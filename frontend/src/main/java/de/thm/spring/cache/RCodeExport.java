@@ -15,12 +15,10 @@ public class RCodeExport {
     private final static String code = "\n"
             + "colnames(dat) <- c('p value','effect size','count positions measured inside','count positions expected inside ','percent positions measured inside','percent positions expected inside')\n"
             + "\n"
-            + "filename <- 'of your Sites'\n"
-            + "\n"
             + "#### Barplot ####\n"
             + "\n"
             + "#bottom, left, top and right margins\n"
-            + "par(mar=c(15,5,5,5))\n"
+            + "#par(mar=c(15,5,5,5))\n"
             + "\n"
             + "perc <- as.matrix(rbind(dat$`percent positions measured inside`,dat$`percent positions expected inside`))\n"
             + "colnames(perc) <- row.names(dat)\n"
@@ -46,7 +44,7 @@ public class RCodeExport {
             + "\n"
             + "\n"
             + "#### Legend ####-\n"
-            + "legend('topright', legend=c(paste('Inside counts ',filename), 'Inside counts random', '* Significant', 'Percent values'), fill=c('blue','gray','red', 'coral'),bty='n')\n"
+            + "legend('topright', legend=c('% inside _filename_', '% inside control', '* Significant', 'Percent values'), fill=c('blue','gray','red', 'coral'),bty='n')\n"
             + "\n"
             + "\n"
             + "#### Vertical percent values ####\n"
@@ -57,14 +55,16 @@ public class RCodeExport {
      * Extracts data from the given collector to generate R plot code
      *
      * @param collector - collector to extract results from
+     * @param filename - name of the file uploaded by the user to set for r plot legend
+     *
      * @return fully working r code for users to run locally containing the results given by the collector
      */
-    public static String barplot(ResultCollector collector) {
+    public static String barplot(ResultCollector collector, String filename) {
 
         String data = getData(collector);
-        return data + code;
-
+        return data + code.replace("_filename_", filename);
     }
+
 
     private static String getData(ResultCollector collector) {
 
