@@ -44,7 +44,7 @@ public class RCodeExport {
             + "\n"
             + "\n"
             + "#### Legend ####-\n"
-            + "legend('topright', legend=c('% inside _filename_', '% inside control', '* Significant', 'Percent values'), fill=c('blue','gray','red', 'coral'),bty='n')\n"
+            + "legend('topright', legend=c('% inside _filename_', '% inside control', '*  p value < 0.05', 'Percent values'), fill=c('blue','gray','red', 'coral'),bty='n')\n"
             + "\n"
             + "\n"
             + "#### Vertical percent values ####\n"
