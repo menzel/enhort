@@ -3,6 +3,7 @@ package de.thm.spring.cache;
 import de.thm.result.ResultCollector;
 import de.thm.stat.TestResult;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,7 @@ public class RCodeExport {
             + "#### Barplot ####\n"
             + "\n"
             + "#bottom, left, top and right margins\n"
-            + "#par(mar=c(15,5,5,5))\n"
+            + "par(mar=c(15,5,5,5))\n"
             + "\n"
             + "perc <- as.matrix(rbind(dat$`percent positions measured inside`,dat$`percent positions expected inside`))\n"
             + "colnames(perc) <- row.names(dat)\n"
@@ -67,9 +68,13 @@ public class RCodeExport {
 
 
     private static String getData(ResultCollector collector) {
+        Comparator<TestResult> byPackage = (t1, t2) -> (t1.getTrack().getPack().compareTo(t2.getTrack().getPack()));
+        Comparator<TestResult> byName = (t1, t2) -> (t1.getTrack().getName().compareTo(t2.getTrack().getName()));
+
+        Comparator<TestResult> resultComp = byPackage.thenComparing(byName);
 
         List<TestResult> results = collector.getInOutResults(true).stream()
-                .sorted((t1, t2) -> (t2.getTrack().getPack().compareTo(t1.getTrack().getPack()))) //sort by package
+                .sorted(resultComp)
                 .collect(Collectors.toList());
 
         String pval = "c(" + results.stream().map(TestResult::getpValue).map(Object::toString).collect(Collectors.joining(", ")) + "),";
