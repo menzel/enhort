@@ -50,7 +50,7 @@ public class RCodeExport {
             + "\n"
             + "#### Vertical percent values, delete or comment out both lines to remove from plot ####\n"
             + "percVals <- lapply(perc, function(x) paste(toString(x[1]),'%'))\n"
-            + "text(mp, apply(perc, 1:2, function(x) max(x-5,10)), percVals,col='coral',srt=90)\n"
+            + "text(mp, apply(perc, 1:2, function(x) max(x-5,20)), percVals,col='coral',srt=90)\n"
             + "\n"
             + "\n"
             + "### column number warning ####\n"
