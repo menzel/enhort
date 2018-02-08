@@ -60,6 +60,7 @@ public class BatchController {
         List<String> names = new ArrayList<>();
 
         Comparator<TestResult> byTrack = Comparator.comparingInt(t -> t.getTrack().getUid());
+        Comparator<TestResult> byPackage = Comparator.comparing(t -> t.getTrack().getPack());
 
         for (MultipartFile mf : files) {
             batchSites.add(ControllerHelper.getUserData(mf));
@@ -73,7 +74,8 @@ public class BatchController {
             BatchResult batch = (BatchResult) currentSession.getConnector().runAnalysis(command);
             /////////////////////////////////////
 
-            Map<String, List<Pair<Double, String>>> results = new HashMap<>(); // effect size, p value
+
+            SortedMap<String, List<Pair<Double, String>>> results = new TreeMap<>(); // effect size, p value
 
             int i = 0;
             for (Result c : batch.getResults()) {
