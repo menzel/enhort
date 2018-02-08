@@ -19,6 +19,9 @@ public class BatchResult implements Result {
 
     @Override
     public Genome.Assembly getAssembly() {
-        return null;
+        if (results.stream().map(Result::getAssembly).distinct().count() > 1)
+            throw new RuntimeException("Assembly versions differ for list of results in batch result");
+
+        return results.get(0).getAssembly();
     }
 }
