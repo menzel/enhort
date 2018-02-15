@@ -29,12 +29,21 @@
         <th:block th:if="not ${ran}">
 
             <div class="col-md-8 col-lg-8">
-                Please select two or more .bed-files for comparison:
 
                 <form method="post" id="uploadForm" action="" enctype="multipart/form-data">
-                    <input type="file" name="file[]" multiple="multiple"/>
+                    <label for="files">Upload 2 or more .bed-files for analysis</label>
+                    <input type="file" id="files" name="file[]" multiple="multiple"/>
+
+                    <br>
+                    <br>
+
+                    <label for="background">(Optional) Upload a custom .bed-file with control sites</label>
+                    <input type="file" id="background" name="background" multiple="multiple"/>
+
+                    <br>
+                    <br>
+
                     <button class="btn btn-primary" type="submit" id="startButton">Start</button>
-                    <button class="btn" id="cancelButton">Cancel</button>
                 </form>
 
             </div>
@@ -45,16 +54,15 @@
         </th:block>
 
     <th:block th:if="${ran}">
+        <div class="col-md-2 col-lg-2">
+            <span id="legend" class="glyphicon glyphicon-question-sign"></span>
+        </div>
 
         <div class="col-md-8 col-lg-8">
 
             <div id="results">
                 <div id="heatmapDiv"></div>
             </div>
-        </div>
-
-        <div class="col-md-2 col-lg-2">
-            <span class="glyphicon glyphicon-question-sign" id="legend"></span>
         </div>
 
     </th:block>
@@ -137,6 +145,14 @@
             yaxis: {
                 ticks: '',
                 ticksuffix: ' '
+            },
+            yaxis2: {
+                overlaying: 'y',
+                side: 'right',
+                tickmode: 'array',
+                tickvals: [0, 1, 2],
+                ticktext: ["Genetic", "Restriction enzymes", "Repeats"],
+                tickangle: '-90'
             }
         };
 
