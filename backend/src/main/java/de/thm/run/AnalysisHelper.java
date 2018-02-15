@@ -170,10 +170,14 @@ class AnalysisHelper {
      * @return BatchResult - list of ResultCollectors for each site object from batch sites in the same order
      */
     private BatchResult batchAnalysis(List<Sites> batchSites, BackendCommand command) {
+        Sites bg;
 
-        Sites bg = BackgroundModelFactory.createBackgroundModel(batchSites.get(0).getAssembly(), command.getMinBg());
+        if (command.getSitesBg() == null)
+            bg = BackgroundModelFactory.createBackgroundModel(batchSites.get(0).getAssembly(), command.getMinBg());
+        else
+            bg = command.getSitesBg();
+
         BatchResult results = new BatchResult();
-
 
         for (Sites sites : batchSites) {
             try {
