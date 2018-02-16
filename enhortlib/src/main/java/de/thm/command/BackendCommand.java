@@ -1,5 +1,6 @@
 package de.thm.command;
 
+import de.thm.genomeData.tracks.SerializeableInOutTrack;
 import de.thm.genomeData.tracks.Track;
 import de.thm.misc.Genome;
 import de.thm.positionData.Sites;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Backend command object to send data from interface to backend.
@@ -21,7 +23,7 @@ import java.util.Objects;
 public final class BackendCommand implements Command {
     private final List<String> covariants; //list of ids of tracks that are used as covariant
     private final int minBg; //minimum of expected background positions
-    private final List<Track> customTracks;
+    private final List<SerializeableInOutTrack> customTracks;
     private final Sites sites;
     private final Sites sitesBg;
     private final Genome.Assembly assembly;
@@ -50,6 +52,35 @@ public final class BackendCommand implements Command {
         this.task = builder.task;
     }
 
+    public void addCustomTrack(List<SerializeableInOutTrack> track) {
+        this.customTracks.addAll(track);
+    }
+
+
+    /**
+     * Constructor to get all tracks from bg.
+     * Used by the data table view
+     *
+     * @param assembly - assembly number to get
+     */
+    public BackendCommand(Genome.Assembly assembly, Task task) {
+        this.assembly = assembly;
+
+        this.covariants = new ArrayList<>();
+        this.sites = null;
+        this.minBg = 0;
+        this.customTracks = new ArrayList<>();
+        this.logoCovariate = false;
+        this.createLogo = false;
+        this.sitesBg = null;
+        this.tracks = Collections.emptyList();
+        this.task = task;
+        batchSites = null;
+    }
+
+    public List<Track> getCustomTracks() {
+        return customTracks.stream().map(SerializeableInOutTrack::getInOut).collect(Collectors.toList());
+    }
 
     /**
      * Inner class for builder pattern
@@ -63,7 +94,7 @@ public final class BackendCommand implements Command {
         // Optional params
         private List<String> covariants = Collections.emptyList(); //list of ids of tracks that are used as covariant
         private int minBg = 10000; //minimum of expected background positions
-        private List<Track> customTracks = Collections.emptyList();
+        private List<SerializeableInOutTrack> customTracks = Collections.emptyList();
         private Sites sites = null;
         private Sites sitesBg = null;
         private boolean logoCovariate = false;
@@ -116,7 +147,7 @@ public final class BackendCommand implements Command {
             return this;
         }
 
-        public Builder customTracks(List<Track> val) {
+        public Builder customTracks(List<SerializeableInOutTrack> val) {
             this.customTracks = val;
             return this;
         }
@@ -153,34 +184,6 @@ public final class BackendCommand implements Command {
             return this;
         }
     }
-
-
-    /**
-     * Constructor to get all tracks from bg.
-     * Used by the data table view
-     *
-     * @param assembly - assembly number to get
-     */
-    public BackendCommand(Genome.Assembly assembly, Task task) {
-        this.assembly = assembly;
-
-        this.covariants = new ArrayList<>();
-        this.sites = null;
-        this.minBg =  0;
-        this.customTracks = new ArrayList<>();
-        this.logoCovariate = false;
-        this.createLogo = false;
-        this.sitesBg = null;
-        this.tracks = Collections.emptyList();
-        this.task = task;
-        batchSites = null;
-    }
-
-    public void addCustomTrack(List<Track> track){
-        this.customTracks.addAll(track);
-    }
-
-    public List<Track> getCustomTracks() { return customTracks; }
 
     public List<String> getCovariants() { return covariants; }
 
