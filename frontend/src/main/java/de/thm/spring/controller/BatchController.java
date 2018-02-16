@@ -69,7 +69,7 @@ public class BatchController {
             names.add(mf.getOriginalFilename());
         }
 
-        if (!Objects.isNull(bg)) {
+        if (!Objects.isNull(bg) && !bg.isEmpty()) {
             background = ControllerHelper.getUserData(bg);
             command = new BackendCommand.Builder(Command.Task.ANALYZE_BATCH, batchSites.get(0).getAssembly()).batchSites(batchSites).sitesBg(background).build();
 
