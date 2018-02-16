@@ -148,14 +148,15 @@ class AnalysisHelper {
 
             runTracks = trackFactory.getTracksById(cmd.getTracks());
 
-            //check and apply custom tracks
-            runTracks.addAll(cmd.getCustomTracks());
 
             if(runTracks.isEmpty()){
                 logger.warn("TrackFactory did not provide any tracks for given packages (" + Arrays.toString(cmd.getTracks().toArray()) + ") in AnalysisHelper");
                 throw new NoTracksLeftException("There are no tracks available for this genome version and cell line" );
             }
         }
+
+        // always add custom tracks to run
+        runTracks.addAll(cmd.getCustomTracks());
 
         CalcCaller multi = new CalcCaller();
         return multi.execute(runTracks, sites, sitesBg, cmd.isCreateLogo());
@@ -165,11 +166,12 @@ class AnalysisHelper {
     /**
      * Runs a batch analysis (multiple user sites against the same background)
      *
-     * @param batchSites - list of user uploaded site
      * @param command    - command parameters
      * @return BatchResult - list of ResultCollectors for each site object from batch sites in the same order
      */
-    private BatchResult batchAnalysis(List<Sites> batchSites, BackendCommand command) {
+    private BatchResult batchAnalysis(BackendCommand command) {
+
+        List<Sites> batchSites = command.getBatchSites();
         Sites bg;
 
         if (command.getSitesBg() == null)
@@ -222,12 +224,11 @@ class AnalysisHelper {
                 return returnDataTableView(command.getAssembly());
 
             case ANALYZE_BATCH:
-                return batchAnalysis(command.getBatchSites(), command);
+                return batchAnalysis(command);
 
             case ANALZYE_SINGLE:
-                if (command.getSitesBg() != null) {
+                if (command.getSitesBg() != null)
                     return runAnalysisWithBg(command.getSites(), command.getSitesBg(), command);
-                }
                 return runAnalysis(command.getSites(), command);
 
             default:
