@@ -50,7 +50,8 @@ public class SampleController {
         currentSession.setSites(userSites);
         currentSession.setOriginalFilename("HIV");
 
-        BackendCommand backendCommand = new BackendCommand(userSites, Command.Task.ANALZYE_SINGLE);
+        BackendCommand backendCommand = //new BackendCommand(userSites, Command.Task.ANALZYE_SINGLE);
+                new BackendCommand.Builder(Command.Task.ANALZYE_SINGLE, userSites.getAssembly()).sites(userSites).build();
 
         try {
             /////////// Run analysis ////////////

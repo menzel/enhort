@@ -6,6 +6,7 @@ import de.thm.command.Command;
 import de.thm.command.ExpressionCommand;
 import de.thm.command.InterfaceCommand;
 import de.thm.exception.CovariatesException;
+import de.thm.misc.Genome;
 import de.thm.positionData.UserData;
 import de.thm.result.ResultCollector;
 import de.thm.spring.backend.Session;
@@ -85,8 +86,16 @@ public class CovariateController {
 
         try {
 
-            BackendCommand backendCommand = new BackendCommand(command, Command.Task.ANALZYE_SINGLE);
-            backendCommand.addCustomTrack(currentSession.getCustomTracks());
+            BackendCommand backendCommand = //new BackendCommand(command, Command.Task.ANALZYE_SINGLE);
+                    new BackendCommand.Builder(Command.Task.ANALZYE_SINGLE, Genome.Assembly.valueOf(command.getAssembly()))
+                            .minBg(command.getMinBg())
+                            .sites(command.getSites())
+                            .logoCovariate(command.getLogoCovariate())
+                            .sitesBg(command.getSitesBg())
+                            .createLogo(command.getLogo() || command.getLogoCovariate())
+                            .customTracks(currentSession.getCustomTracks())
+                            .build();
+
 
             /////////// Run analysis ////////////
             collector = (ResultCollector) currentSession.getConnector().runAnalysis(backendCommand);

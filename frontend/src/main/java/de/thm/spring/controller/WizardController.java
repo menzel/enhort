@@ -119,11 +119,16 @@ public class WizardController {
 
         if(interfaceCommand.getTracks().size() > 0) {
 
-            interfaceCommand.setAssembly(currentSession.getSites().getAssembly().toString());
-            interfaceCommand.setSites(currentSession.getSites());
             interfaceCommand.setPositionCount(currentSession.getSites().getPositionCount());
 
-            BackendCommand command = new BackendCommand(interfaceCommand, Command.Task.ANALZYE_SINGLE);
+            BackendCommand command = //new BackendCommand(interfaceoCommand, Command.Task.ANALZYE_SINGLE);
+                    new BackendCommand.Builder(Command.Task.ANALZYE_SINGLE, currentSession.getSites().getAssembly())
+                            .sites(currentSession.getSites())
+                            .logoCovariate(interfaceCommand.getLogoCovariate())
+                            .sitesBg(interfaceCommand.getSitesBg())
+                            .createLogo(interfaceCommand.getLogo() || interfaceCommand.getLogoCovariate())
+                            .customTracks(currentSession.getCustomTracks())
+                            .build();
 
             ResultCollector collector = null;
 
@@ -181,7 +186,8 @@ public class WizardController {
      */
     private Model loadDataTableModel(Model model, Genome.Assembly assembly, HttpSession httpSession) {
 
-        BackendCommand command = new BackendCommand(assembly, Command.Task.GET_TRACKS);
+        BackendCommand command = // new BackendCommand(assembly, Command.Task.GET_TRACKS);
+                new BackendCommand.Builder(Command.Task.GET_TRACKS, assembly).build();
 
         try {
 

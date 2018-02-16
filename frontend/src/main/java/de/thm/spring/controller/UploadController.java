@@ -92,7 +92,8 @@ public class UploadController {
 
             Session currentSession = sessionControll.addSession(httpSession.getId());
             currentSession.setSites(data);
-            BackendCommand command = new BackendCommand(data, Command.Task.ANALZYE_SINGLE);
+            BackendCommand command = //new BackendCommand(data, Command.Task.ANALZYE_SINGLE);
+                    new BackendCommand.Builder(Command.Task.ANALZYE_SINGLE, data.getAssembly()).sites(data).build();
 
             command.addCustomTrack(currentSession.getCustomTracks());
 
@@ -146,7 +147,8 @@ public class UploadController {
             String bgname = bgFile.getOriginalFilename();
             currentSession.setBgFilename(bgname);
 
-            BackendCommand backendCommand = new BackendCommand(currentSession.getSites(), sitesBg, Command.Task.ANALZYE_SINGLE);
+            BackendCommand backendCommand = // new BackendCommand(currentSession.getSites(), sitesBg, Command.Task.ANALZYE_SINGLE);
+                    new BackendCommand.Builder(Command.Task.ANALZYE_SINGLE, currentSession.getSites().getAssembly()).sites(currentSession.getSites()).sitesBg(sitesBg).build();
 
             /////////// Run analysis ////////////
             ResultCollector collector = (ResultCollector) currentSession.getConnector().runAnalysis(backendCommand);

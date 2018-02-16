@@ -52,12 +52,14 @@ public class BatchController {
     }
 
     @RequestMapping(value = {"/batch"}, method = RequestMethod.POST)
-    public String runBatch(Model model, @RequestParam("file[]") List<MultipartFile> files, HttpSession httpSession) {
+    public String runBatch(Model model, @RequestParam("file[]") List<MultipartFile> files, @RequestParam("background") MultipartFile bg, HttpSession httpSession) {
 
         List<Sites> batchSites = new ArrayList<>();
         Sessions sessionControll = Sessions.getInstance();
         Session currentSession = sessionControll.addSession(httpSession.getId());
         List<String> names = new ArrayList<>();
+        Sites background;
+        BackendCommand command;
 
         Comparator<TestResult> byTrack = Comparator.comparingInt(t -> t.getTrack().getUid());
         Comparator<TestResult> byPackage = Comparator.comparing(t -> t.getTrack().getPack());
@@ -67,7 +69,12 @@ public class BatchController {
             names.add(mf.getOriginalFilename());
         }
 
-        BackendCommand command = new BackendCommand(batchSites, Command.Task.ANALYZE_BATCH);
+        if (!Objects.isNull(bg)) {
+            background = ControllerHelper.getUserData(bg);
+            command = new BackendCommand.Builder(Command.Task.ANALYZE_BATCH, batchSites.get(0).getAssembly()).batchSites(batchSites).sitesBg(background).build();
+
+        } else
+            command = new BackendCommand.Builder(Command.Task.ANALYZE_BATCH, batchSites.get(0).getAssembly()).batchSites(batchSites).build();
 
         try {
             /////////// Run analysis ////////////

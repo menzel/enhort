@@ -52,7 +52,8 @@ public class DataController {
             return "error";
         }
 
-        BackendCommand command = new BackendCommand(assembly, Command.Task.GET_TRACKS);
+        BackendCommand command = //new BackendCommand(assembly, Command.Task.GET_TRACKS);
+                new BackendCommand.Builder(Command.Task.GET_TRACKS, assembly).build();
 
         try {
             /////////// Run analysis ////////////
