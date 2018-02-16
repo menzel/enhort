@@ -44,6 +44,9 @@ public final class EffectSize {
      */
     double foldChange(double in, double out, double in1, double out1) {
 
+        if (in == 0 && in1 == 0 || out == 0 && out1 == 0)
+            return 0;
+
         //pseudocount
         in += 1;
         out += 1;
