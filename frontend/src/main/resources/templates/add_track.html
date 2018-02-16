@@ -18,12 +18,16 @@
               <div class="modal-body">
                 <div>
 
-                  <h3>Upload track</h3>
+                    <h3>Upload a custom track as .bed-file (Up to 20 mb)</h3>
                   <form method="POST" enctype="multipart/form-data" action="/upload_track">
                     <input type="file" name="file" id="file" class="btn"/>
                     <button class="btn btn-default">Upload</button>
                   </form>
                 </div>
+
+                  <br>
+                  <br>
+                  <br>
 
 
                 <form action="#" th:action="@{/trackbuilder}" th:object="${expressionCommand}" method="post" id="create_track">
