@@ -67,6 +67,7 @@ public class SampleController {
                 model.addAttribute("covariantCount", 0);
                 model.addAttribute("customTracks", currentSession.getCustomTracks());
                 model.addAttribute("bgfilename", currentSession.getBgname());
+                model.addAttribute("customTracks", currentSession.getCustomTracks());
 
                 stats.addAnaylseC();
                 stats.addFileC();
