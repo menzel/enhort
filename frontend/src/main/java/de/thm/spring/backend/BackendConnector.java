@@ -4,7 +4,7 @@ import de.thm.command.BackendCommand;
 import de.thm.command.ExpressionCommand;
 import de.thm.exception.CovariatesException;
 import de.thm.exception.NoTracksLeftException;
-import de.thm.genomeData.tracks.Track;
+import de.thm.genomeData.tracks.SerializeableInOutTrack;
 import de.thm.result.BatchResult;
 import de.thm.result.DataViewResult;
 import de.thm.result.Result;
@@ -216,7 +216,7 @@ public final class BackendConnector {
 
     }
 
-    public Optional<Track> createCustomTrack(ExpressionCommand expressionCommand) {
+    public Optional<SerializeableInOutTrack> createCustomTrack(ExpressionCommand expressionCommand) {
 
         connect();
 
@@ -231,15 +231,15 @@ public final class BackendConnector {
 
                 Object answer = inputStream.readObject();
 
-                Track track;
+                SerializeableInOutTrack track;
 
                 if (answer instanceof Exception) {
 
                     logger.warn("[" + id + "]: got exception: " + ((Exception) answer).getMessage());
 
-                } else if (answer instanceof Track) {
+                } else if (answer instanceof SerializeableInOutTrack) {
 
-                    track = (Track) answer;
+                    track = (SerializeableInOutTrack) answer;
 
                     return Optional.of(track);
 

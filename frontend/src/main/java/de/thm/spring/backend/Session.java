@@ -1,6 +1,6 @@
 package de.thm.spring.backend;
 
-import de.thm.genomeData.tracks.Track;
+import de.thm.genomeData.tracks.SerializeableInOutTrack;
 import de.thm.positionData.UserData;
 import de.thm.result.ResultCollector;
 import de.thm.stat.TestResult;
@@ -25,13 +25,13 @@ public final class Session {
     private ResultCollector collector;
     private String originalFilename;
     private List<TestResult> covariants;
-    private List<Track> customTracks = new ArrayList<>();
+    private List<SerializeableInOutTrack> customTracks = new ArrayList<>();
     private String bgname = "Background";
     private UserData sitesBg;
     private UserData sites;
     private final BackendConnector connector;
 
-    Session(String key, Date date, List<Track> customTracks) {
+    Session(String key, Date date, List<SerializeableInOutTrack> customTracks) {
         this.key = key;
         this.date = date;
         this.customTracks = customTracks;
@@ -71,11 +71,11 @@ public final class Session {
         connector.close();
     }
 
-    public void addCustomTrack(Track track){
+    public void addCustomTrack(SerializeableInOutTrack track) {
         customTracks.add(track);
     }
 
-    public List<Track> getCustomTracks(){
+    public List<SerializeableInOutTrack> getCustomTracks() {
         return this.customTracks;
     }
 
