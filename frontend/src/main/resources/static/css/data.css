@@ -54,16 +54,20 @@
     margin-top: 150px;
 }
 
+.noborder {
+    border: none !important;
+}
+
 .trackname{
     overflow: hidden;
     width:200px;
     font-weight:normal;
     font-size: 13px;
-    margin-left: -17px;
-    padding-left: 5px;
+    margin-left: -25px;
     margin-top:-2px;
     border-bottom: 1px solid #ccc;
     cursor: pointer;
+    padding-left: 10px;
 }
 
 .square{
@@ -111,6 +115,7 @@
 .table tbody tr .row{
     padding: 0;
     height:15px;
+    display: table-cell !important;
 }
 
 .table .clrow{

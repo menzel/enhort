@@ -24,7 +24,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-10">
+        <div class="col-11">
 
 
         <th:block th:switch="${page}">
@@ -108,27 +108,6 @@
                         <hr />
                         <div id="counter">0 tracks selected</div>
 
-                        Select one or more presets:
-                        <div id="presets">
-                            <div class="preset"><label>
-                                <input type="checkbox"/>
-                            Histone modifications
-                            </label></div>
-                            <div class="preset"><label>
-                                <input type="checkbox"/>
-                            Genotoxicity
-                            </label></div>
-                            <div class="preset"><label>
-                                <input type="checkbox"/>
-                            Genome segmentation
-                            </label></div>
-                            <div class="preset"><label>
-                                <input type="checkbox"/>
-                            Expression levels
-                            </label></div>
-
-                        </div>
-
                         <div id="datatable" class="table-responsive">
                         <table class="table table-hover">
 
@@ -140,7 +119,7 @@
 
                             <thead>
                                 <tr>
-                                    <th><!-- Cell line column--></th>
+                                    <th class="noborder"><!-- Cell line column--></th>
                                     <th:block th:each="track: ${trackNames}">
                                         <th class="colheader"><div class="trackname" th:text="${track}" th:title="${track}"></div></th>
                                     </th:block>
@@ -218,7 +197,7 @@
 
     </div>
 
-        <div class="col-2">
+        <div class="col-1">
             <img id="wizard" src="title_logo_wizard.png"/>
         </div>
 

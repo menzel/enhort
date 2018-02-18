@@ -35,13 +35,13 @@
 
 
 .sidebar {
-  bottom: 0;
+    bottom: 0;
     top: -45px;
-  left: 0;
-    padding-top: 30px;
-  overflow-x: hidden;
-  background-color: #fbfbfb;
-  border-right: 1px solid #d1d1d1;
+    left: 0;
+    padding-top: 20px;
+    overflow-x: hidden;
+    background-color: #fbfbfb;
+    border-right: 1px solid #d1d1d1;
 }
 
 .sidebar h3 {
