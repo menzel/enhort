@@ -2,8 +2,12 @@
 
 #frame{
     margin-top: 120px;
-    width:900px;
-    height:700px;
+    min-width: 900px;
+    min-height: 700px;
+}
+
+.row {
+    max-width: 100%;
 }
 
 #upper{
@@ -54,6 +58,7 @@
 
 #centerlogo{
     height:150px;
+    margin-top: 150px;
 }
 
 #wizard {
