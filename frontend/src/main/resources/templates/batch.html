@@ -55,7 +55,7 @@
 
     <th:block th:if="${ran}">
         <div class="col-md-2 col-lg-2">
-            <span id="legend" class="glyphicon glyphicon-question-sign"></span>
+            <span id="legend">(?)</span>
         </div>
 
         <div class="col-md-8 col-lg-8">
@@ -131,8 +131,6 @@
         }];
 
         var layout = {
-            width: 900,
-            height: 1500,
             autoscale: true,
             annotations: [],
             margin: {
