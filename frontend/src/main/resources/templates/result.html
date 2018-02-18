@@ -22,8 +22,8 @@
 
 <div th:include="header:: bar"></div>
 
-<div class="container-fluid h-100">
-    <div class="row h-100">
+<div class="container-fluid">
+    <div class="row">
 
         <div class="sidebar col-2">
 
@@ -53,7 +53,7 @@
             </a>
 
 
-            <a id="settingsbtn" class="btn btn-outline-secondary" data-target="#settings">
+            <a id="settingsbtn" class="btn btn-outline-secondary" data-target="#settings" data-toggle="modal">
                 Settings
             </a>
 
@@ -755,6 +755,7 @@
 
         <!-- Modal for add/upload track -->
         <div th:include="add_track:: add_track"></div>
+
 
         <!-- Modal Settings -->
         <div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
