@@ -3,18 +3,10 @@
     padding: 5px;
 }
 
-.container{
-    margin-top: 10px;
-}
-
 .wizinfo {
     font-size: 19px;
     color: white;
     float: right;
-}
-
-img {
-    margin-bottom: 30px;
 }
 
 .right {

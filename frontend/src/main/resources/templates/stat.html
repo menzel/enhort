@@ -16,80 +16,70 @@
 
 </head>
 
-<body style="padding-top: 100px">
+<body>
 
     <div th:include="header:: bar"></div>
 
-    <div class="col-sm-3 col-md-2 sidebar">
+    <div class="main col-10">
+
+
+        <table class="table table-hover table-condensed table-striped">
+            <thead>
+            </thead>
+            <tbody>
+
+            <tr>
+                <td>Program version</td>
+                <td th:text="${version}"></td>
+            </tr>
+
+            <tr>
+                <td>Files uploaded</td>
+                <td th:text="${fileCount}"></td>
+            </tr>
+            <tr>
+                <td>Analysis count</td>
+                <td th:text="${analyseCount}"></td>
+            </tr>
+            <tr>
+                <td>Sessions count</td>
+                <td th:text="${sessionCount}"></td>
+            </tr>
+
+            <tr>
+                <td>Downloaded results</td>
+                <td th:text="${downloadCount}"></td>
+            </tr>
+
+            <tr>
+                <td>Current active sessions</td>
+                <td th:text="${current_session_count}"></td>
+            </tr>
+
+            <tr>
+                <td>Start of log</td>
+                <td th:text="${creationDate}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+
+        <hr/>
+        <h4>Sessions:</h4>
+
+        <table class="table table-hover table-condensed table-striped">
+
+            <th:block th:each="session: ${sessions}">
+
+                <tr>
+                    <td th:text="${session.date}"></td>
+                </tr>
+
+            </th:block>
+
+        </table>
+
     </div>
 
-
-
-    <div class="col-sm-9 col-sm-offset-3 col-md-9 col-md-offset-3 main">
-
-        <div class="container row col-md-12">
-
-            <div class="container row col-md-12">
-
-                <table class="table table-hover table-condensed table-striped">
-                    <thead>
-                    </thead>
-                    <tbody>
-
-                        <tr>
-                            <td>Program version</td>
-                            <td th:text="${version}"></td>
-                        </tr>
-
-                        <tr>
-                            <td>Files uploaded</td>
-                            <td th:text="${fileCount}"></td>
-                        </tr>
-                        <tr>
-                            <td>Analysis count</td>
-                            <td th:text="${analyseCount}"></td>
-                        </tr>
-                        <tr>
-                            <td>Sessions count</td>
-                            <td th:text="${sessionCount}"></td>
-                        </tr>
-
-                        <tr>
-                            <td>Downloaded results</td>
-                            <td th:text="${downloadCount}"></td>
-                        </tr>
-
-                        <tr>
-                            <td>Current active sessions</td>
-                            <td th:text="${current_session_count}"></td>
-                        </tr>
-
-                        <tr>
-                            <td>Start of log</td>
-                            <td th:text="${creationDate}"></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-
-                <hr/>
-                <h4>Sessions:</h4>
-
-                <table class="table table-hover table-condensed table-striped">
-
-                    <th:block th:each="session: ${sessions}">
-
-                        <tr>
-                            <td th:text="${session.date}"></td>
-                        </tr>
-
-                    </th:block>
-
-                </table>
-
-            </div>
-
-        </div>
-    </div>
 </body>
 </html>

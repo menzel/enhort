@@ -22,12 +22,15 @@
 
 <div th:include="header:: bar"></div>
 
-<div class="col-xs-2 col-sm-2 col-md-2 sidebar">
+<div class="container-fluid">
+    <div class="row h-100">
+
+        <div class="sidebar col-2">
 
     <th:block th:if="${ran}">
 
         <div class="box">
-            <h4>Info</h4>
+            <h3>Info</h3>
 
 
             <div class="fileinfo">
@@ -43,27 +46,29 @@
         </div>
 
         <div class="box">
-            <h4>Data</h4>
+            <h3>Data</h3>
 
-            <a id="changetracksbtn" class="btn btn-default" href="/wizfile" th:if="${bgfilename == 'Background'}">
-                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+            <a class="btn btn-outline-secondary" href="/wizfile" th:if="${bgfilename == 'Background'}">
+                Change tracks
             </a>
 
 
-            <a id="settingsbtn" class="btn btn-default" data-toggle="modal" data-target="#settings">
-                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+            <a id="settingsbtn" class="btn btn-outline-secondary" data-target="#settings">
+                Settings
             </a>
 
             <div class="box">
 
                 <th:block th:if="${not #lists.isEmpty(customTracks)}">
-                    <h4> Custom tracks </h4>
-                </th:block>
+                    <h3> Custom tracks </h3>
 
-                <th:block th:each="track: ${customTracks}">
-                    <div class="checkbox">
-                        <span th:text="${track.name}"></span>
-                    </div>
+                    <th:block th:each="track: ${customTracks}">
+                        <div class="checkbox">
+                            <span th:text="${track.name}"></span>
+                        </div>
+                    </th:block>
+
+                    <span class="runnotice">Run again to test your sites against the custom tracks</span>
                 </th:block>
 
             </div>
@@ -90,10 +95,10 @@
         </div>
 
         <div class="box">
-            <h4>Results</h4>
+            <h3>Results</h3>
 
-            <a id="savebtn" class="btn btn-default extra-margin" href="export/csv">
-                <span class="glyphicon glyphicon-save-file" aria-hidden="true"></span>
+            <a id="savebtn" class="btn btn-outline-secondary" href="export/csv">
+                Download results
             </a>
 
         </div>
@@ -102,670 +107,694 @@
                 form="covariate_form">Run again
         </button>
 
-        <a id="clearbtn" class="btn btn-default bottom" href="clear_session">
-            <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>
+        <a id="clearbtn" class="btn btn-outline-secondary bottom" href="clear_session">
+            Clear
         </a>
 
-        <span id="runnotice"></span>
+        <span id="runnotice" class="runnotice"></span>
 
     </th:block>
 
 </div>
 
-
-<div class="col-xs-10 col-xs-offset-2 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-
-    <div class="container row col-md-12">
-
-        <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="pill" href="#nav1">Overview</a></li>
-            <li><a data-toggle="pill" href="#nav2">Hotspots</a></li>
-            <li><a data-toggle="pill" href="#nav3">Detailed Views</a></li>
-            <li><a data-toggle="pill" href="#nav4">R export</a></li>
-            <li><a data-toggle="pill" href="#nav5">Data export</a></li>
-        </ul>
-
-        <div class="tab-content">
-
-            <!-- Tab 1 Overview -->
-            <div id="nav1" class="tab-pane fade in active">
-                <th:block th:if="${ran}">
-
-            <div class="col-md-8">
-
-                <a data-toggle="pill" href="#nav2">
-                    <div id="hotspots" data-toggle="tooltip"
-                         data-placement="right"
-                         title="Hotspots across the genome. Click to enlarge.">
-
-                        <th:block th:if="${interfaceCommand.hotspots != null}">
-                            <th:block th:each="pixel: ${interfaceCommand.hotspots}">
-                                <div class="hotspot"
-                                     th:style="'background-color:hsl(231,100%,' + ${pixel} + '%);'"></div>
-                            </th:block>
-                        </th:block>
-
-                    </div>
-                </a>
-
-                <div id="plots">
+        <div class="col-10">
 
 
-                    <div id="radarChart"></div>
-                    <div id="scatterChart"></div>
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item active"><a class="nav-link active" data-toggle="tab" href="#nav1">Overview</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav2">Hotspots</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav3">Detailed Views</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav4">R export</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav5">Data export</a></li>
+            </ul>
 
-                </div>
+            <div class="tab-content">
 
-
-                <!-- Top plots end-->
-
-                <!-- Result table -->
-
-                <form method="POST" action="#" th:action="@{/covariate}" th:object="${interfaceCommand}"
-                      id="covariate_form"></form>
-
-                <table class="table table-hover fixed">
-
-                    <col width="160px"/>
-                    <col width="50px"/>
-                    <col width="70px"/>
-                    <col width="150px"/>
-                    <col width="30px"/>
-
-
-
-                    <tbody>
-
-                    <!-- Sequencelogo Entry -->
+                <!-- Tab 1 Overview -->
+                <div id="nav1" class="tab-pane fade show active">
                     <th:block th:if="${ran}">
-                        <th:block th:if="${interfaceCommand.logo}">
-                            <th:block th:if="${not interfaceCommand.logoCovariate}">
-                                <tr id="seqlogorow" data-target="#sequencelogodiv" data-toggle="collapse"
-                                    class="accordion-toggle">
-                                    <td> Sequence Logo</td>
-                                    <td></td>
-                                    <td th:text="${sl_effect}"></td>
-                                    <td colspan="1"></td>
-                                    <td><input th:field="${interfaceCommand.logoCovariate}" type="checkbox"
-                                               form="covariate_form"/></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="5" class="hiddenRow">
-                                        <div class="accordion-body collapse" id="sequencelogodiv">
-
-                                            <div id="sequencelogo"></div>
-                                            <p th:text="${sequencelogo_name}"></p>
-
-                                            <div id="sequencelogo2"></div>
-                                            <p th:text="${sequencelogo2_name}"></p>
-                                            The SequenceLogo with a width of 12 bases calculated using 3000 integration
-                                            sites taken from the
-                                            dataset.
-                                        </div>
-                                    </td>
-                                </tr>
-                            </th:block>
-                        </th:block>
-                    </th:block>
-                    <!-- Sequencelogo Entry END -->
 
 
-                    <!-- Annotation table -->
-                    <!-- Annotation table inout -->
-                    <tr>
-                        <td data-toggle="tooltip" data-placement="right"
-                            title="">
-                            Annotation group
-                        </td>
+                        <div class="row">
+                            <div class="col-8">
 
-                        <td></td>
-                        <td>Max effect size</td>
-                        <td>Value distribution</td>
-                    </tr>
+                                <a data-toggle="pill" href="#nav2">
+                                    <div id="hotspots" data-toggle="tooltip"
+                                         data-placement="right"
+                                         title="Hotspots across the genome. Click to enlarge.">
 
-                    <th:block th:each="package: ${results}"
-                              th:with="f=${(1/maxES)*145}, min=${perc.get(package.key).get(0)}">
-                        <tr class="packrow accordion-toggle"
-                            th:attr="data-target=${#strings.replace('#outer_'+package.key,' ','_')}"
-                            data-toggle="collapse">
+                                        <th:block th:if="${interfaceCommand.hotspots != null}">
+                                            <th:block th:each="pixel: ${interfaceCommand.hotspots}">
+                                                <div class="hotspot"
+                                                     th:style="'background-color:hsl(231,100%,' + ${pixel} + '%);'"></div>
+                                            </th:block>
+                                        </th:block>
 
-                            <td th:text="${package.key + ' (' + #lists.size(package.value) +')'}">
-                            </td>
-                            <td></td>
-                            <td th:text="${perc.get(package.key).get(4)}"></td>
-
-                            <td>
-
-                                <div class="boxplot">
-                                    <div class="sd"
-                                         th:style="'margin-left:' + ${min*f} + 'px;width:' + ${(perc.get(package.key).get(1)-min)*f} + 'px'"></div>
-
-                                    <div class="boxplotbar"
-                                         th:title="${'The effect sizes for the annotation group ' + package.key + ' range from ' + perc.get(package.key).get(0) + ' to ' + perc.get(package.key).get(4) + ' with an average of ' + perc.get(package.key).get(2)}"
-                                         th:style="'width:' + ${(perc.get(package.key).get(3)-min)*f} + 'px'">
-                                        <div class="boxplotmean"
-                                             th:style="'margin-left:' + ${(perc.get(package.key).get(2)-min)*f} + 'px'"></div>
                                     </div>
+                                </a>
 
-                                    <div class="sd"
-                                         th:style="'width:' + ${(perc.get(package.key).get(4)-perc.get(package.key).get(3))*f} + 'px'"></div>
+                                <div id="plots">
+
+
+                                    <div id="radarChart"></div>
+                                    <div id="scatterChart"></div>
+
                                 </div>
 
-                            </td>
-                            <td></td>
-                        </tr>
 
-                        <tr>
-                            <td colspan="5" class="hiddenRow">
-                                <div class="accordion-body collapse"
-                                     th:id="${#strings.replace('outer_'+package.key,' ','_')}">
+                                <!-- Top plots end-->
 
-                                    <table class="table tracktable">
+                                <!-- Result table -->
 
-                                        <col width="120px"/>
-                                        <col width="90px"/>
-                                        <col width="90px"/>
-                                        <col width="140px"/>
-                                        <col width="20px"/>
+                                <form method="POST" action="#" th:action="@{/covariate}" th:object="${interfaceCommand}"
+                                      id="covariate_form"></form>
 
-                                        <tr>
-                                            <td data-toggle="tooltip" data-placement="right"
-                                                title="Count of significant tracks vs all tracks">
-                                                Significant Tracks
+                                <table class="table table-hover fixed">
+
+                                    <col width="160px"/>
+                                    <col width="50px"/>
+                                    <col width="70px"/>
+                                    <col width="150px"/>
+                                    <col width="30px"/>
+
+
+                                    <tbody>
+
+                                    <!-- Sequencelogo Entry -->
+                                    <th:block th:if="${ran}">
+                                        <th:block th:if="${interfaceCommand.logo}">
+                                            <th:block th:if="${not interfaceCommand.logoCovariate}">
+                                                <tr id="seqlogorow" data-target="#sequencelogodiv"
+                                                    data-toggle="collapse"
+                                                    class="accordion-toggle">
+                                                    <td> Sequence Logo</td>
+                                                    <td></td>
+                                                    <td th:text="${sl_effect}"></td>
+                                                    <td colspan="1"></td>
+                                                    <td><input th:field="${interfaceCommand.logoCovariate}"
+                                                               type="checkbox"
+                                                               form="covariate_form"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="5" class="hiddenRow">
+                                                        <div class="accordion-body collapse" id="sequencelogodiv">
+
+                                                            <div id="sequencelogo"></div>
+                                                            <p th:text="${sequencelogo_name}"></p>
+
+                                                            <div id="sequencelogo2"></div>
+                                                            <p th:text="${sequencelogo2_name}"></p>
+                                                            The SequenceLogo with a width of 12 bases calculated using
+                                                            3000 integration
+                                                            sites taken from the
+                                                            dataset.
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </th:block>
+                                        </th:block>
+                                    </th:block>
+                                    <!-- Sequencelogo Entry END -->
+
+
+                                    <!-- Annotation table -->
+                                    <!-- Annotation table inout -->
+                                    <tr>
+                                        <td data-toggle="tooltip" data-placement="right"
+                                            title="">
+                                            Annotation group
+                                        </td>
+
+                                        <td></td>
+                                        <td>Max effect size</td>
+                                        <td>Value distribution</td>
+                                    </tr>
+
+                                    <th:block th:each="package: ${results}"
+                                              th:with="f=${(1/maxES)*145}, min=${perc.get(package.key).get(0)}">
+                                        <tr class="packrow accordion-toggle"
+                                            th:attr="data-target=${#strings.replace('#outer_'+package.key,' ','_')}"
+                                            data-toggle="collapse">
+
+                                            <td th:text="${package.key + ' (' + #lists.size(package.value) +')'}">
                                             </td>
+                                            <td></td>
+                                            <td th:text="${perc.get(package.key).get(4)}"></td>
 
-                                            <td data-toggle="tooltip" data-placement="right"
-                                                title="P-value computed by chi-square-test">P Value
+                                            <td>
+
+                                                <div class="boxplot">
+                                                    <div class="sd"
+                                                         th:style="'margin-left:' + ${min*f} + 'px;width:' + ${(perc.get(package.key).get(1)-min)*f} + 'px'"></div>
+
+                                                    <div class="boxplotbar"
+                                                         th:title="${'The effect sizes for the annotation group ' + package.key + ' range from ' + perc.get(package.key).get(0) + ' to ' + perc.get(package.key).get(4) + ' with an average of ' + perc.get(package.key).get(2)}"
+                                                         th:style="'width:' + ${(perc.get(package.key).get(3)-min)*f} + 'px'">
+                                                        <div class="boxplotmean"
+                                                             th:style="'margin-left:' + ${(perc.get(package.key).get(2)-min)*f} + 'px'"></div>
+                                                    </div>
+
+                                                    <div class="sd"
+                                                         th:style="'width:' + ${(perc.get(package.key).get(4)-perc.get(package.key).get(3))*f} + 'px'"></div>
+                                                </div>
+
                                             </td>
-                                            <td>Effect Size</td>
-                                            <td>Relative Integration<span style="font-size: 10px;"> <span
-                                                    style="color: #337ab7; font-size: 13px;">Data</span> vs. <span
-                                                    style="color: #555; font-size: 13px;"> Background</span></span></td>
+                                            <td></td>
                                         </tr>
 
+                                        <tr>
+                                            <td colspan="5" class="hiddenRow">
+                                                <div class="accordion-body collapse"
+                                                     th:id="${#strings.replace('outer_'+package.key,' ','_')}">
 
-                                        <th:block th:each="result: ${package.value}">
-                                            <tr class="trackrow">
+                                                    <table class="table tracktable">
 
-                                                <td th:if="${result.track.cellLine != 'Unknown'}"
-                                                    th:text="${result.name + ' (' + result.track.cellLine + ')'}"
-                                                    th:attr="data-target=${#strings.replace('#accordion_' + result.id,'.','_')}"
-                                                    data-toggle="collapse" class="accordion-toggle"></td>
-                                                <td th:if="${result.track.cellLine == 'Unknown'}"
-                                                    th:text="${result.name}"
-                                                    th:attr="data-target=${#strings.replace('#accordion_' + result.id,'.','_')}"
-                                                    data-toggle="collapse" class="accordion-toggle"></td>
+                                                        <col width="120px"/>
+                                                        <col width="90px"/>
+                                                        <col width="90px"/>
+                                                        <col width="140px"/>
+                                                        <col width="20px"/>
 
-                                                <td th:text="${result.pValue}"></td>
-                                                <td th:text="${result.effectSize}"></td>
-                                                <td class="bars">
-                                                    <div class="bar measured"
-                                                         th:style="'width: ' + ${result.percentInM} + '%;'"></div>
-                                                    <div class="bar expected"
-                                                         th:style="'width: ' + ${result.percentInE} + '%;'"></div>
-                                                </td>
-                                                <td><input th:field="*{interfaceCommand.covariants}"
-                                                           th:value="${result.id}" type="checkbox"
-                                                           form="covariate_form"/></td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="5" class="hiddenRow">
-                                                    <div class="accordion-body collapse trackbox"
-                                                         th:id="${#strings.replace('accordion_'+result.id,'.','_')}">
+                                                        <tr>
+                                                            <td data-toggle="tooltip" data-placement="right"
+                                                                title="Count of significant tracks vs all tracks">
+                                                                Significant Tracks
+                                                            </td>
+
+                                                            <td data-toggle="tooltip" data-placement="right"
+                                                                title="P-value computed by chi-square-test">P Value
+                                                            </td>
+                                                            <td>Effect Size</td>
+                                                            <td>Relative Integration<span
+                                                                    style="font-size: 10px;"> <span
+                                                                    style="color: #337ab7; font-size: 13px;">Data</span> vs. <span
+                                                                    style="color: #555; font-size: 13px;"> Background</span></span>
+                                                            </td>
+                                                        </tr>
+
+
+                                                        <th:block th:each="result: ${package.value}">
+                                                            <tr class="trackrow">
+
+                                                                <td th:if="${result.track.cellLine != 'Unknown'}"
+                                                                    th:text="${result.name + ' (' + result.track.cellLine + ')'}"
+                                                                    th:attr="data-target=${#strings.replace('#accordion_' + result.id,'.','_')}"
+                                                                    data-toggle="collapse"
+                                                                    class="accordion-toggle"></td>
+                                                                <td th:if="${result.track.cellLine == 'Unknown'}"
+                                                                    th:text="${result.name}"
+                                                                    th:attr="data-target=${#strings.replace('#accordion_' + result.id,'.','_')}"
+                                                                    data-toggle="collapse"
+                                                                    class="accordion-toggle"></td>
+
+                                                                <td th:text="${result.pValue}"></td>
+                                                                <td th:text="${result.effectSize}"></td>
+                                                                <td class="bars">
+                                                                    <div class="bar measured"
+                                                                         th:style="'width: ' + ${result.percentInM} + '%;'"></div>
+                                                                    <div class="bar expected"
+                                                                         th:style="'width: ' + ${result.percentInE} + '%;'"></div>
+                                                                </td>
+                                                                <td><input th:field="*{interfaceCommand.covariants}"
+                                                                           th:value="${result.id}" type="checkbox"
+                                                                           form="covariate_form"/></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="5" class="hiddenRow">
+                                                                    <div class="accordion-body collapse trackbox"
+                                                                         th:id="${#strings.replace('accordion_'+result.id,'.','_')}">
+                                                                        <div>
+                                                                            <table class="table dattable">
+                                                                                <thead>
+                                                                                <th></th>
+                                                                                <th>In</th>
+                                                                                <th>Out</th>
+                                                                                </thead>
+                                                                                <tr class="datrow">
+                                                                                    <td th:text="${interfaceCommand.originalFilename}"></td>
+                                                                                    <td th:text="${result.measuredIn + ' (' + result.percentInM + '%)'}"></td>
+                                                                                    <td th:text="${result.measuredOut+ ' (' + result.percentOutM+ '%)'}"></td>
+                                                                                </tr>
+                                                                                <tr class="datrow">
+                                                                                    <td th:text="${bgfilename}"></td>
+                                                                                    <td th:text="${result.expectedIn+ ' (' + result.percentInE + '%)'}"></td>
+                                                                                    <td th:text="${result.expectedOut+ ' (' + result.percentOutE+ '%)'}"></td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </div>
+                                                                        <div class="desc"
+                                                                             th:utext="${result.description}"></div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+
+                                                        </th:block>
+                                                    </table>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                    </th:block>
+
+                                    <!-- Annotation table scored -->
+
+                                    <th:block th:if="${not #lists.isEmpty(results_score)}">
+
+                                        <tr class="packrow accordion-toggle"
+                                            th:with="f=${(1/maxES)*145}, min=${perc.get('Scored').get(0)}"
+                                            data-target="#scored_body" data-toggle="collapse">
+                                            <td th:text="${'Expression Scores (' + #lists.size(results_score) +')'}">
+                                            </td>
+                                            <td></td>
+                                            <td th:text="${perc.get('Scored').get(4)}"></td>
+                                            <td>
+                                                <div class="boxplot">
+                                                    <div class="sd"
+                                                         th:style="'margin-left:' + ${min*f} + 'px;width:' + ${(perc.get('Scored').get(1)-min)*f} + 'px'"></div>
+
+                                                    <div class="boxplotbar"
+                                                         th:title="${'The effect sizes for the Scored values range from ' + perc.get('Scored').get(0) + ' to ' + perc.get('Scored').get(4) + ' with an average of ' + perc.get('Scored').get(2)}"
+                                                         th:style="'width:' + ${(perc.get('Scored').get(3)-min)*f} + 'px'">
+                                                        <div class="boxplotmean"
+                                                             th:style="'margin-left:' + ${(perc.get('Scored').get(2)-min)*f} + 'px'"></div>
+                                                    </div>
+
+                                                    <div class="sd"
+                                                         th:style="'width:' + ${(perc.get('Scored').get(4)-perc.get('Scored').get(3))*f} + 'px'"></div>
+                                                </div>
+
+                                            </td>
+                                            <td></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="5" class="hiddenRow">
+                                                <div class="accordion-body collapse"
+                                                     th:id="scored_body">
+                                                    <table class="table tracktable">
+
+                                                        <col width="120px"/>
+                                                        <col width="90px"/>
+                                                        <col width="90px"/>
+                                                        <col width="140px"/>
+                                                        <col width="20px"/>
+
+                                                        <tr>
+                                                            <td data-toggle="tooltip" data-placement="right"
+                                                                title="TODO">
+                                                                Significant Tracks
+                                                            </td>
+
+                                                            <td data-toggle="tooltip" data-placement="right"
+                                                                title="P-value computed by chi-square-test">P Value
+                                                            </td>
+                                                            <td>Effect Size</td>
+                                                            <td>Relative Integration<span
+                                                                    style="font-size: 10px;"> <span
+                                                                    style="color: #337ab7; font-size: 13px;">Data</span> vs. <span
+                                                                    style="color: #555; font-size: 13px;"> Background</span></span>
+                                                            </td>
+                                                        </tr>
+
+                                                        <th:block th:each="result: ${results_score}">
+                                                            <tr th:attr="data-target=${#strings.replace('#accordion_'+result.id,'.','_')}"
+                                                                data-toggle="collapse" class="accordion-toggle">
+                                                                <td th:text="${result.name}"></td>
+                                                                <td th:text="${result.pValue}"></td>
+                                                                <td th:text="${result.effectSize}"></td>
+                                                                <td th:id="${'plot_'+result.id}"></td>
+                                                                <th:block
+                                                                        th:if="${not #strings.startsWith(result.name,'FOOBAR Distance from')}">
+                                                                    <!-- only display a checkbox for covariates if it is not a _distance_ track -->
+                                                                    <td><input th:field="*{interfaceCommand.covariants}"
+                                                                               th:value="${result.id}"
+                                                                               type="checkbox"
+                                                                               form="covariate_form"/></td>
+                                                                </th:block>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="5" class="hiddenRow">
+                                                                    <div class="accordion-body collapse"
+                                                                         th:id="${#strings.replace('accordion_'+result.id,'.','_')}">
+                                                                        <div class="desc"
+                                                                             th:utext="${result.description}"></div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </th:block>
+
+                                                    </table>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                    </th:block>
+                                    <!-- Annotation table named -->
+
+                                    <th:block th:if="${not #lists.isEmpty(results_named)}">
+
+                                        <tr class="packrow accordion-toggle"
+                                            th:with="f=${(1/maxES)*145}, min=${perc.get('Named').get(0)}"
+                                            data-target="#named_body" data-toggle="collapse">
+                                            <td th:text="${'Named (' + #lists.size(results_named) +')'}">
+                                            </td>
+                                            <td></td>
+                                            <td th:text="${perc.get('Named').get(4)}"></td>
+                                            <td>
+                                                <div class="boxplot">
+                                                    <div class="sd"
+                                                         th:style="'margin-left:' + ${min*f} + 'px;width:' + ${(perc.get('Named').get(1)-min)*f} + 'px'"></div>
+                                                    <div class="boxplotbar"
+                                                         th:title="${'The effect sizes for the Scored values range from ' + perc.get('Named').get(0) + ' to ' + perc.get('Named').get(4) + ' with an average of ' + perc.get('Named').get(2)}"
+                                                         th:style="'width:' + ${(perc.get('Named').get(3)-min)*f} + 'px'">
+                                                        <div class="boxplotmean"
+                                                             th:style="'margin-left:' + ${(perc.get('Named').get(2)-min)*f} + 'px'"></div>
+                                                    </div>
+
+                                                    <div class="sd"
+                                                         th:style="'width:' + ${(perc.get('Named').get(4)-perc.get('Named').get(3))*f} + 'px'"></div>
+                                                </div>
+
+                                            </td>
+                                            <td></td>
+
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="5" class="hiddenRow">
+                                                <div class="accordion-body collapse" id=named_body>
+
+                                                    <table class="table tracktable">
+
+                                                        <col width="120px"/>
+                                                        <col width="90px"/>
+                                                        <col width="90px"/>
+                                                        <col width="140px"/>
+                                                        <col width="20px"/>
+
+                                                        <tr>
+                                                            <td data-toggle="tooltip" data-placement="right"
+                                                                title="TODO">
+                                                                Significant Tracks
+                                                            </td>
+
+                                                            <td data-toggle="tooltip" data-placement="right"
+                                                                title="P-value computed by chi-square-test">P Value
+                                                            </td>
+                                                            <td>Effect Size</td>
+                                                            <td>Relative Integration<span
+                                                                    style="font-size: 10px;"> <span
+                                                                    style="color: #337ab7; font-size: 13px;">Data</span> vs. <span
+                                                                    style="color: #555; font-size: 13px;"> Background</span></span>
+                                                            </td>
+                                                        </tr>
+
+
+                                                        <th:block th:each="result: ${results_named}">
+                                                            <tr th:attr="data-target=${#strings.replace('#accordion_'+result.id,'.','_')}"
+                                                                data-toggle="collapse" class="accordion-toggle">
+                                                                <td th:text="${result.name}"></td>
+                                                                <td th:text="${result.pValue}"></td>
+                                                                <td th:text="${result.effectSize}"></td>
+                                                                <td th:id="${result.id}"></td>
+                                                                <td><input th:field="*{interfaceCommand.covariants}"
+                                                                           th:value="${result.id}"
+                                                                           type="checkbox"
+                                                                           form="covariate_form"/></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="5" class="hiddenRow">
+                                                                    <div class="accordion-body collapse"
+                                                                         th:id="${#strings.replace('accordion_'+result.id,'.','_')}">
+                                                                        <div class="nameplot"
+                                                                             th:id="${'nameplot_'+result.id}">
+                                                                            <div th:value="${result.namesMea}"></div>
+                                                                            <div th:value="${result.namesExp}"></div>
+                                                                        </div>
+                                                                        <div class="desc"
+                                                                             th:utext="${result.description}"></div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </th:block>
+                                                    </table>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                    </th:block>
+
+                                    </tbody>
+                                </table>
+
+
+                                <!-- Result table end -->
+
+                                <th:block th:if="${ran}">
+                                    <tr> <!-- create or upload custom track button -->
+                                        <td class="add" colspan="5" data-placement="right" title="Upload custom track"
+                                            data-toggle="tooltip">
+                                            <button type="button" class="btn btn-default" data-toggle="modal"
+                                                    data-target="#add_track">
+                                                &#43;
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </th:block>
+
+
+                            </div>
+                            <div class="col-4">
+
+                                <!-- Covariates column (right) -->
+
+                                <div class="bg-info" th:if="${bgfilename != 'Background'}">
+                                    Background sites are taken from the uploaded file <span
+                                        th:text="${bgfilename}"></span>
+                                </div>
+
+                                <table class="table table-hover fixed" th:if="${bgfilename == 'Background'}">
+
+                                    <col width="400px"/>
+                                    <col width="30px"/>
+                                    <thead>
+                                    <th th:text="${'Covariates' + ' (' + covariantCount + ')'}">Covariates</th>
+                                    </thead>
+                                    <tbody>
+
+                                    <th:block th:if="${interfaceCommand.logoCovariate}">
+                                        <tr>
+                                            <td data-target="#sequencelogodiv" data-toggle="collapse"
+                                                class="accordion-toggle">
+                                                Sequence Logo
+                                            </td>
+                                            <td><input th:field="${interfaceCommand.logoCovariate}" type="checkbox"
+                                                       form="covariate_form"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="5" class="hiddenRow">
+                                                <div class="accordion-body collapse" id="sequencelogodiv">
+
+                                                    <div id="sequencelogo"></div>
+                                                    <p th:text="${sequencelogo_name}"></p>
+
+                                                    <div id="sequencelogo2"></div>
+                                                    <p th:text="${sequencelogo2_name}"></p>
+
+                                                    The Sequence or Weblogo with a width of 12 bases of 3000 sequences
+                                                    taken from the
+                                                    dataset.
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                    </th:block>
+
+
+                                    <th:block th:each="cov: ${covariants}">
+                                        <tr>
+                                            <td th:text="${cov.name}"
+                                                th:attr="data-target=${#strings.replace('#accordion_cov_' + cov.id,'.','_')}"
+                                                data-toggle="collapse" class="accordion-toggle"></td>
+                                            <td><input th:field="*{interfaceCommand.covariants}" th:value="${cov.id}"
+                                                       type="checkbox"
+                                                       form="covariate_form" class="checked" checked="checked"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="hiddenRow">
+                                                <div class="accordion-body collapse"
+                                                     th:id="${#strings.replace('accordion_cov_' + cov.id,'.','_')}">
+                                                    <div>
                                                         <div>
-                                                            <table class="table dattable">
+                                                            <table class="table">
+
+
                                                                 <thead>
                                                                 <th></th>
                                                                 <th>In</th>
                                                                 <th>Out</th>
                                                                 </thead>
-                                                                <tr class="datrow">
-                                                                    <td th:text="${interfaceCommand.originalFilename}"></td>
-                                                                    <td th:text="${result.measuredIn + ' (' + result.percentInM + '%)'}"></td>
-                                                                    <td th:text="${result.measuredOut+ ' (' + result.percentOutM+ '%)'}"></td>
+                                                                <tr class="">
+                                                                    <td
+                                                                            th:text="${interfaceCommand.originalFilename}"></td>
+                                                                    <td th:text="${cov.measuredIn + ' (' + cov.percentInM + '%)'}"></td>
+                                                                    <td th:text="${cov.measuredOut+ ' (' + cov.percentOutM+ '%)'}"></td>
                                                                 </tr>
-                                                                <tr class="datrow">
+                                                                <tr class="">
                                                                     <td th:text="${bgfilename}"></td>
-                                                                    <td th:text="${result.expectedIn+ ' (' + result.percentInE + '%)'}"></td>
-                                                                    <td th:text="${result.expectedOut+ ' (' + result.percentOutE+ '%)'}"></td>
+                                                                    <td th:text="${cov.expectedIn+ ' (' + cov.percentInE + '%)'}"></td>
+                                                                    <td th:text="${cov.expectedOut+ ' (' + cov.percentOutE+ '%)'}"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>P Value</td>
+                                                                    <td th:text="${cov.pValue}"></td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="3" th:id="${'plot_'+cov.id}"></td>
+                                                                    <td colspan="3" th:id="${'nameplot_'+cov.id}"></td>
                                                                 </tr>
                                                             </table>
+
                                                         </div>
-                                                        <div class="desc" th:utext="${result.description}"></div>
                                                     </div>
-                                                </td>
-                                            </tr>
-
-                                        </th:block>
-                                    </table>
-                                </div>
-                            </td>
-                        </tr>
-
-                    </th:block>
-
-                    <!-- Annotation table scored -->
-
-                    <th:block th:if="${not #lists.isEmpty(results_score)}">
-
-                        <tr class="packrow accordion-toggle" th:with="f=${(1/maxES)*145}, min=${perc.get('Scored').get(0)}"
-                            data-target="#scored_body" data-toggle="collapse">
-                            <td th:text="${'Expression Scores (' + #lists.size(results_score) +')'}">
-                            </td>
-                            <td></td>
-                            <td th:text="${perc.get('Scored').get(4)}"></td>
-                            <td>
-                                <div class="boxplot">
-                                    <div class="sd"
-                                         th:style="'margin-left:' + ${min*f} + 'px;width:' + ${(perc.get('Scored').get(1)-min)*f} + 'px'"></div>
-
-                                    <div class="boxplotbar"
-                                         th:title="${'The effect sizes for the Scored values range from ' + perc.get('Scored').get(0) + ' to ' + perc.get('Scored').get(4) + ' with an average of ' + perc.get('Scored').get(2)}"
-                                         th:style="'width:' + ${(perc.get('Scored').get(3)-min)*f} + 'px'">
-                                        <div class="boxplotmean"
-                                             th:style="'margin-left:' + ${(perc.get('Scored').get(2)-min)*f} + 'px'"></div>
-                                    </div>
-
-                                    <div class="sd"
-                                         th:style="'width:' + ${(perc.get('Scored').get(4)-perc.get('Scored').get(3))*f} + 'px'"></div>
-                                </div>
-
-                            </td>
-                            <td></td>
-                        </tr>
-
-                        <tr>
-                            <td colspan="5" class="hiddenRow">
-                                <div class="accordion-body collapse"
-                                     th:id="scored_body">
-                                    <table class="table tracktable">
-
-                                        <col width="120px"/>
-                                        <col width="90px"/>
-                                        <col width="90px"/>
-                                        <col width="140px"/>
-                                        <col width="20px"/>
-
-                                        <tr>
-                                            <td data-toggle="tooltip" data-placement="right"
-                                                title="TODO">
-                                                Significant Tracks
+                                                </div>
                                             </td>
 
-                                            <td data-toggle="tooltip" data-placement="right"
-                                                title="P-value computed by chi-square-test">P Value
-                                            </td>
-                                            <td>Effect Size</td>
-                                            <td>Relative Integration<span style="font-size: 10px;"> <span
-                                                    style="color: #337ab7; font-size: 13px;">Data</span> vs. <span
-                                                    style="color: #555; font-size: 13px;"> Background</span></span></td>
-                                        </tr>
 
-                                        <th:block th:each="result: ${results_score}">
-                                            <tr th:attr="data-target=${#strings.replace('#accordion_'+result.id,'.','_')}"
-                                                data-toggle="collapse" class="accordion-toggle">
-                                                <td th:text="${result.name}"></td>
-                                                <td th:text="${result.pValue}"></td>
-                                                <td th:text="${result.effectSize}"></td>
-                                                <td th:id="${'plot_'+result.id}"></td>
-                                                <th:block
-                                                        th:if="${not #strings.startsWith(result.name,'FOOBAR Distance from')}">
-                                                    <!-- only display a checkbox for covariates if it is not a _distance_ track -->
-                                                    <td><input th:field="*{interfaceCommand.covariants}"
-                                                               th:value="${result.id}"
-                                                               type="checkbox"
-                                                               form="covariate_form"/></td>
-                                                </th:block>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="5" class="hiddenRow">
-                                                    <div class="accordion-body collapse"
-                                                         th:id="${#strings.replace('accordion_'+result.id,'.','_')}">
-                                                        <div class="desc" th:utext="${result.description}"></div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </th:block>
-
-                                    </table>
-                                </div>
-                            </td>
-                        </tr>
-
-                    </th:block>
-                    <!-- Annotation table named -->
-
-                    <th:block th:if="${not #lists.isEmpty(results_named)}">
-
-                        <tr class="packrow accordion-toggle" th:with="f=${(1/maxES)*145}, min=${perc.get('Named').get(0)}"
-                            data-target="#named_body" data-toggle="collapse">
-                            <td th:text="${'Named (' + #lists.size(results_named) +')'}">
-                            </td>
-                            <td></td>
-                            <td th:text="${perc.get('Named').get(4)}"></td>
-                            <td>
-                                <div class="boxplot">
-                                    <div class="sd"
-                                         th:style="'margin-left:' + ${min*f} + 'px;width:' + ${(perc.get('Named').get(1)-min)*f} + 'px'"></div>
-                                    <div class="boxplotbar"
-                                         th:title="${'The effect sizes for the Scored values range from ' + perc.get('Named').get(0) + ' to ' + perc.get('Named').get(4) + ' with an average of ' + perc.get('Named').get(2)}"
-                                         th:style="'width:' + ${(perc.get('Named').get(3)-min)*f} + 'px'">
-                                        <div class="boxplotmean"
-                                             th:style="'margin-left:' + ${(perc.get('Named').get(2)-min)*f} + 'px'"></div>
-                                    </div>
-
-                                    <div class="sd"
-                                         th:style="'width:' + ${(perc.get('Named').get(4)-perc.get('Named').get(3))*f} + 'px'"></div>
-                                </div>
-
-                            </td>
-                            <td></td>
-
-                        </tr>
-
-                        <tr>
-                            <td colspan="5" class="hiddenRow">
-                                <div class="accordion-body collapse" id=named_body>
-
-                                    <table class="table tracktable">
-
-                                        <col width="120px"/>
-                                        <col width="90px"/>
-                                        <col width="90px"/>
-                                        <col width="140px"/>
-                                        <col width="20px"/>
-
-                                        <tr>
-                                            <td data-toggle="tooltip" data-placement="right"
-                                                title="TODO">
-                                                Significant Tracks
-                                            </td>
-
-                                            <td data-toggle="tooltip" data-placement="right"
-                                                title="P-value computed by chi-square-test">P Value
-                                            </td>
-                                            <td>Effect Size</td>
-                                            <td>Relative Integration<span style="font-size: 10px;"> <span
-                                                    style="color: #337ab7; font-size: 13px;">Data</span> vs. <span
-                                                    style="color: #555; font-size: 13px;"> Background</span></span></td>
                                         </tr>
 
 
-                                        <th:block th:each="result: ${results_named}">
-                                            <tr th:attr="data-target=${#strings.replace('#accordion_'+result.id,'.','_')}"
-                                                data-toggle="collapse" class="accordion-toggle">
-                                                <td th:text="${result.name}"></td>
-                                                <td th:text="${result.pValue}"></td>
-                                                <td th:text="${result.effectSize}"></td>
-                                                <td th:id="${result.id}"></td>
-                                                <td><input th:field="*{interfaceCommand.covariants}" th:value="${result.id}"
-                                                           type="checkbox"
-                                                           form="covariate_form"/></td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="5" class="hiddenRow">
-                                                    <div class="accordion-body collapse"
-                                                         th:id="${#strings.replace('accordion_'+result.id,'.','_')}">
-                                                        <div class="nameplot" th:id="${'nameplot_'+result.id}">
-                                                            <div th:value="${result.namesMea}"></div>
-                                                            <div th:value="${result.namesExp}"></div>
-                                                        </div>
-                                                        <div class="desc" th:utext="${result.description}"></div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </th:block>
-                                    </table>
-                                </div>
-                            </td>
-                        </tr>
+                                    </th:block>
 
-                    </th:block>
+                                    </tbody>
 
-                    </tbody>
-                </table>
+                                </table>
 
-
-                <!-- Result table end -->
-
-                <th:block th:if="${ran}">
-                    <tr> <!-- create or upload custom track button -->
-                        <td class="add" colspan="5" data-placement="right" title="Upload custom track"
-                            data-toggle="tooltip">
-                            <button type="button" class="btn btn-default" data-toggle="modal"
-                                    data-target="#add_track">
-                                &#43;
-                            </button>
-                        </td>
-                    </tr>
-                </th:block>
-
-
-            </div>
-            <div class="col-md-4">
-
-                <!-- Covariates column (right) -->
-
-                <div class="bg-info" th:if="${bgfilename != 'Background'}">
-                    Background sites are taken from the uploaded file <span th:text="${bgfilename}"></span>
-                </div>
-
-                <table class="table table-hover fixed" th:if="${bgfilename == 'Background'}">
-
-                    <col width="400px"/>
-                    <col width="30px"/>
-                    <thead>
-                    <th th:text="${'Covariates' + ' (' + covariantCount + ')'}">Covariates</th>
-                    </thead>
-                    <tbody>
-
-                    <th:block th:if="${interfaceCommand.logoCovariate}">
-                        <tr>
-                            <td data-target="#sequencelogodiv" data-toggle="collapse" class="accordion-toggle">
-                                Sequence Logo
-                            </td>
-                            <td><input th:field="${interfaceCommand.logoCovariate}" type="checkbox"
-                                       form="covariate_form"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="5" class="hiddenRow">
-                                <div class="accordion-body collapse" id="sequencelogodiv">
-
-                                    <div id="sequencelogo"></div>
-                                    <p th:text="${sequencelogo_name}"></p>
-
-                                    <div id="sequencelogo2"></div>
-                                    <p th:text="${sequencelogo2_name}"></p>
-
-                                    The Sequence or Weblogo with a width of 12 bases of 3000 sequences taken from the
-                                    dataset.
-                                </div>
-                            </td>
-                        </tr>
-
-                    </th:block>
-
-
-                    <th:block th:each="cov: ${covariants}">
-                        <tr>
-                            <td th:text="${cov.name}"
-                                th:attr="data-target=${#strings.replace('#accordion_cov_' + cov.id,'.','_')}"
-                                data-toggle="collapse" class="accordion-toggle"></td>
-                            <td><input th:field="*{interfaceCommand.covariants}" th:value="${cov.id}" type="checkbox"
-                                       form="covariate_form" class="checked" checked="checked"/></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" class="hiddenRow">
-                                <div class="accordion-body collapse"
-                                     th:id="${#strings.replace('accordion_cov_' + cov.id,'.','_')}">
-                                    <div>
-                                        <div>
-                                            <table class="table">
-
-
-                                                <thead>
-                                                <th></th>
-                                                <th>In</th>
-                                                <th>Out</th>
-                                                </thead>
-                                                <tr class="">
-                                                    <td
-                                                        th:text="${interfaceCommand.originalFilename}"></td>
-                                                    <td th:text="${cov.measuredIn + ' (' + cov.percentInM + '%)'}"></td>
-                                                    <td th:text="${cov.measuredOut+ ' (' + cov.percentOutM+ '%)'}"></td>
-                                                </tr>
-                                                <tr class="">
-                                                    <td th:text="${bgfilename}"></td>
-                                                    <td th:text="${cov.expectedIn+ ' (' + cov.percentInE + '%)'}"></td>
-                                                    <td th:text="${cov.expectedOut+ ' (' + cov.percentOutE+ '%)'}"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>P Value</td>
-                                                    <td th:text="${cov.pValue}"></td>
-                                                    <td></td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="3" th:id="${'plot_'+cov.id}"></td>
-                                                    <td colspan="3" th:id="${'nameplot_'+cov.id}"></td>
-                                                </tr>
-                                            </table>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-
-
-                        </tr>
-
-
-                    </th:block>
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-
-        </th:block>
-            </div>
-
-            <!-- Tab 2 Hotspots -->
-            <div id="nav2" class="tab-pane fade ">
-                <div id="hotspotsfull">
-
-                    <th:block th:if="${interfaceCommand.hotspots != null}">
-                        <th:block th:each="pixel: ${interfaceCommand.hotspots}">
-                            <div class="hotspot2" th:style="'background-color:hsl(231,100%,' + ${pixel} + '%)'"
-                                 title='The color value represents the relative site count in this section'></div>
-                        </th:block>
-                    </th:block>
-                </div>
-
-                <div id="chrsizes">
-                    <th:block th:each="size,iter: ${chrsizes}">
-                        <div class="chrbar" th:style="'width:' +${size} + '%'">
-                            <div th:text="${chrnames[iter.index]}"></div>
+                            </div>
                         </div>
+
+
                     </th:block>
-
                 </div>
 
-                Each blue bar represents the relative count of integration sites in this part of the genome. Lighter
-                bars show few, and darker bars show an increased count of sites.
-            </div>
+                <!-- Tab 2 Hotspots -->
+                <div id="nav2" class="tab-pane fade">
+                    <div id="hotspotsfull">
 
-            <!-- Tab 3  Detailed -->
-            <div id="nav3" class="tab-pane fade ">
-
-                <div class="left">
-                    <div id="barplot">
+                        <th:block th:if="${interfaceCommand.hotspots != null}">
+                            <th:block th:each="pixel: ${interfaceCommand.hotspots}">
+                                <div class="hotspot2" th:style="'background-color:hsl(231,100%,' + ${pixel} + '%)'"
+                                     title='The color value represents the relative site count in this section'></div>
+                            </th:block>
+                        </th:block>
                     </div>
-                    <div id="barplotdesc"></div>
-                </div>
 
-                <div class="right">
-                    <div id="histogram">
+                    <div id="chrsizes">
+                        <th:block th:each="size,iter: ${chrsizes}">
+                            <div class="chrbar" th:style="'width:' +${size} + '%'">
+                                <div th:text="${chrnames[iter.index]}"></div>
+                            </div>
+                        </th:block>
+
                     </div>
-                    <div id="histogramdesc"></div>
+
+                    Each blue bar represents the relative count of integration sites in this part of the genome. Lighter
+                    bars show few, and darker bars show an increased count of sites.
                 </div>
 
-            </div>
+                <!-- Tab 3  Detailed -->
+                <div id="nav3" class="tab-pane fade ">
 
-            <!-- Tab 4 R export -->
-            <div id="nav4" class="tab-pane fade ">
+                    <div class="left">
+                        <div id="barplot">
+                        </div>
+                        <div id="barplotdesc"></div>
+                    </div>
 
-                <div id="rexport">
-                    <label>
-                        Copy this code and run it on your machine using R to generate a barplot of the results of your
-                        analysis: <br>
-                        <textarea th:text="${rcode}">
-                    </textarea>
-                    </label>
+                    <div class="right">
+                        <div id="histogram">
+                        </div>
+                        <div id="histogramdesc"></div>
+                    </div>
+
                 </div>
 
-            </div>
+                <!-- Tab 4 R export -->
+                <div id="nav4" class="tab-pane fade ">
 
-            <!-- Tab 5 ??? -->
-            <div id="nav5" class="tab-pane fade ">
-
-                <div id="csvexport">
-                </div>
-
-                <a class="btn btn-default" href="export/bg"><span>Download background positions as .bed-file</span></a>
-
-
-                <a class="btn btn-default" href="export/csv"> <span>Download results as .csv-file</span></a>
-
-
-            </div>
-
-
-        </div>
-    </div><!-- /.container -->
-
-    <!-- Modal for add/upload track -->
-    <div th:include="add_track:: add_track"></div>
-
-    <!-- Modal Settings -->
-    <div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Settings</h4>
-                </div>
-                <div class="modal-body">
-                    <div>
-                        <p>
+                    <div id="rexport">
                         <label>
-                            <input th:field="*{interfaceCommand.showall}" type="checkbox" form="covariate_form"/>
-                            Disable P Value filter
+                            Copy this code and run it on your machine using R to generate a barplot of the results of your
+                            analysis: <br>
+                            <textarea th:text="${rcode}">
+                    </textarea>
                         </label>
-                        </p>
                     </div>
+
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="submit" form="covariate_form">Run again</button>
+
+                <!-- Tab 5 ??? -->
+                <div id="nav5" class="tab-pane fade ">
+
+                    <div id="csvexport">
+                    </div>
+
+                    <a class="btn btn-secondary"
+                       href="export/bg"><span>Download background positions as .bed-file</span></a>
+
+                    <a class="btn btn-secondary" href="export/csv"> <span>Download results as .csv-file</span></a>
+
+
+                </div>
+
+
+            </div>
+        </div><!-- /.container -->
+
+        <!-- Modal for add/upload track -->
+        <div th:include="add_track:: add_track"></div>
+
+        <!-- Modal Settings -->
+        <div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h3 class="modal-title" id="myModalLabel">Settings</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <p>
+                                <label>
+                                    <input th:field="*{interfaceCommand.showall}" type="checkbox"
+                                           form="covariate_form"/>
+                                    Disable P Value filter
+                                </label>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="submit" form="covariate_form">Run again
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!--End settings modeal -->
+        <!--End settings modeal -->
 
-    <th:block th:if="${ran == null}">
-        <div id="new" class="bg-info">
-            <h3> New to Enhort? </h3>
-            <p>Go to <a href="/faq">FAQ</a> and find out how to work with the application.</p>
-            <p>Or begin using Enhort with the <a href="/wiz">wizard</a></p>
+        <th:block th:if="${ran == null}">
+            <div id="new" class="bg-info">
+                <h3> New to Enhort? </h3>
+                <p>Go to <a href="/faq">FAQ</a> and find out how to work with the application.</p>
+                <p>Or begin using Enhort with the <a href="/wiz">wizard</a></p>
 
-            <p>If you know what you are doing upload a file and get started.</p>
-        </div>
-    </th:block>
+                <p>If you know what you are doing upload a file and get started.</p>
+            </div>
+        </th:block>
 
 
     <th:block th:if="${ran != null}">
@@ -777,6 +806,8 @@
             </div>
         </th:block>
     </th:block>
+
+    </div>
 </div>
 
 <script>
@@ -789,7 +820,7 @@
 
         document.getElementById("runnotice").innerText = "Please wait for the computation to finish";
 
-        this.form.submit();
+        this.form.submit.click();
     };
 
 </script>

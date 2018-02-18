@@ -179,7 +179,7 @@ th{
     margin-top:10px;
 }
 
-#runnotice {
+.runnotice {
     color: grey;
     float: left;
 }
@@ -190,24 +190,6 @@ th{
 
 #savebtn{
     color: rgba(51,51,51,0.8);
-}
-
-/* btn hovers: */
-
-#savebtn:hover:before{
-    content: "Download results";
-}
-
-#changetracksbtn:hover:before{
-    content: "Change tracks";
-}
-
-#settingsbtn:hover:before{
-    content: "Settings";
-}
-
-#clearbtn:hover:before{
-    content: "Clear session";
 }
 
 

@@ -12,19 +12,21 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Add or create custom track</h4>
+                  <span class="modal-title" id="myModalLabel">Add or create custom track</span>
               </div>
               <div class="modal-body">
-                <div>
 
-                    <h3>Upload a custom track as .bed-file (Up to 20 mb)</h3>
+                <div>
+                    <span>Upload a custom track as .bed-file (Up to 20 mb)</span>
+
                   <form method="POST" enctype="multipart/form-data" action="/upload_track">
                     <input type="file" name="file" id="file" class="btn"/>
                     <button class="btn btn-default">Upload</button>
                   </form>
+
                 </div>
 
+                  <!--
                   <br>
                   <br>
                   <br>
@@ -43,11 +45,12 @@
                       </th:block>
                   </table>
 
+                -->
 
               </div>
 
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-outline-default" data-dismiss="modal">Cancel</button>
               </div>
             </div>
           </div>

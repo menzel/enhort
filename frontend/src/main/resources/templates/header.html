@@ -7,8 +7,10 @@
   <script src="/js/bootstrap.min.js" th:href="@{/js/bootstrap.min.js}" ></script>
 
     <div th:fragment="bar">
+        <!--
         <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="navbar-header">
+
+            <div class="navbar navbar-collapse">
               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
@@ -22,7 +24,7 @@
             </a>
 
             </div>
-            <div id="navbar" class="collapse navbar-collapse">
+            <div id="navbar" class="navbar navbar-inverse bg-inverse">
               <ul class="nav navbar-nav">
                   <li><a href="/wiz">Guided Analysis</a></li>
                   <li><a href="/batch">Batch Analysis</a></li>
@@ -35,7 +37,41 @@
             <a class="navbar-brand navbar-right" rel="home" href="/" title="logo">
                 <img id="logo" src="/THM_Logo_RGB.gif"/>
             </a>
-          </div>
+          </div>-->
+
+        <nav class="navbar navbar-expand-lg navbar-dark py-0 mb-5"
+             style="background-color: #252525; padding-left: 200px">
+
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                    data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <a class="navbar-brand" href="/">Enhort</a>
+
+            <a class="navbar-brand" rel="home" href="/" title="logo">
+                <div id="logo_eihort"></div>
+            </a>
+
+            <div class="collapse navbar-collapse">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link active" href="/wiz">Guided Analysis</a>
+                    <a class="nav-item nav-link" href="/batch">Batch analysis</a>
+                    <a class="nav-item nav-link" href="/data">Data Table</a>
+                    <a class="nav-item nav-link" href="/statistics">Statistics</a>
+                    <a class="nav-item nav-link" href="/faq">FAQ</a>
+                    <a class="nav-item nav-link" href="/contact">Contact</a>
+                </div>
+            </div>
+
+
+            <a class="navbar-brand navbar-right" rel="home" href="/" title="logo">
+                <img id="logo" src="/THM_Logo_RGB.gif"/>
+            </a>
+
+        </nav>
+
 
         </nav>
     </div>

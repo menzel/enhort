@@ -18,16 +18,14 @@
 
 </head>
 
-<body style="padding-top: 100px">
+<body>
 
 <div th:include="header:: bar"></div>
 
-<img id="wizard" src="title_logo_wizard.png"/>
+<div class="container">
+    <div class="row">
+        <div class="col-10">
 
-<div class="col-xs-10 col-xs-offset-2 col-sm-6 col-sm-offset-2 col-md-7 col-md-offset-2 main">
-
-
-    <div class="container row col-md-12">
 
         <th:block th:switch="${page}">
             <th:block th:case="'upload'">
@@ -220,9 +218,11 @@
 
     </div>
 
-    <div>
+        <div class="col-2">
+            <img id="wizard" src="title_logo_wizard.png"/>
+        </div>
 
-</div>
+    </div>
 </div>
 
 <script>
