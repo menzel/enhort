@@ -5,7 +5,7 @@ import de.thm.command.BackendCommand;
 import de.thm.command.Command;
 import de.thm.command.ExpressionCommand;
 import de.thm.command.InterfaceCommand;
-import de.thm.genomeData.tracks.Track;
+import de.thm.genomeData.tracks.SerializeableInOutTrack;
 import de.thm.misc.ChromosomSizes;
 import de.thm.misc.Genome;
 import de.thm.positionData.UserData;
@@ -63,6 +63,8 @@ public class UploadController {
             setModel(model, collector, currentSession.getSites(), currentSession.getOriginalFilename());
             model.addAttribute("covariants", covariants);
             model.addAttribute("covariantCount", covariants.size() + (iCommand.getLogoCovariate()? 1:0));
+            model.addAttribute("customTracks", currentSession.getCustomTracks());
+
             return "result";
 
         }
@@ -232,15 +234,17 @@ public class UploadController {
 
                     lines.close();
 
-                    Files.deleteIfExists(path);
                     //TODO do not write file which needs to be deleted after anyway
+                    Files.deleteIfExists(path);
 
-                    //Track track = TrackFactory.getInstance().createInOutTrack(start,end,name,name, Genome.Assembly.hg19);
-                    //TODO fix use w/out track factory
+                    SerializeableInOutTrack track = new SerializeableInOutTrack(start.stream().mapToLong(l -> l).toArray(),
+                            end.stream().mapToLong(l -> l).toArray(),
+                            name,
+                            "Custom track",
+                            assembly,
+                            "Unknown");
 
-                    //InOutTrack track = new InOutTrack(start, end, name,"Uploaded track", assembly, "Unknown");
-
-                    //currentSession.addCustomTrack(track);
+                    currentSession.addCustomTrack(track);
 
                 } catch (IOException e) {
                     logger.error("Exception {}", e.getMessage(), e);
@@ -266,8 +270,8 @@ public class UploadController {
         Sessions sessionsControll = Sessions.getInstance();
         Session currentSession = sessionsControll.getSession(httpSession.getId());
 
-        Track track;
-        Optional<Track> trackToUse  = currentSession.getConnector().createCustomTrack(expressionCommand);
+        SerializeableInOutTrack track;
+        Optional<SerializeableInOutTrack> trackToUse = currentSession.getConnector().createCustomTrack(expressionCommand);
 
         if(trackToUse.isPresent()) {
             track = trackToUse.get();
