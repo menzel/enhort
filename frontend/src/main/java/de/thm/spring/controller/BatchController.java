@@ -2,6 +2,7 @@ package de.thm.spring.controller;
 
 import de.thm.command.BackendCommand;
 import de.thm.command.Command;
+import de.thm.misc.Genome;
 import de.thm.positionData.Sites;
 import de.thm.result.BatchResult;
 import de.thm.result.Result;
@@ -52,7 +53,11 @@ public class BatchController {
     }
 
     @RequestMapping(value = {"/batch"}, method = RequestMethod.POST)
-    public String runBatch(Model model, @RequestParam("file[]") List<MultipartFile> files, @RequestParam("background") MultipartFile bg, HttpSession httpSession) {
+    public String runBatch(Model model,
+                           @RequestParam("file[]") List<MultipartFile> files,
+                           @RequestParam("background") MultipartFile bg,
+                           @RequestParam("assembly") String assem,
+                           HttpSession httpSession) {
 
         List<Sites> batchSites = new ArrayList<>();
         Sessions sessionControll = Sessions.getInstance();
@@ -60,6 +65,7 @@ public class BatchController {
         List<String> names = new ArrayList<>();
         Sites background;
         BackendCommand command;
+        Genome.Assembly assembly = Genome.Assembly.valueOf(assem);
 
         Comparator<TestResult> byTrack = Comparator.comparingInt(t -> t.getTrack().getUid());
         Comparator<TestResult> byPackage = Comparator.comparing(t -> t.getTrack().getPack());
@@ -71,10 +77,10 @@ public class BatchController {
 
         if (!Objects.isNull(bg) && !bg.isEmpty()) {
             background = ControllerHelper.getUserData(bg);
-            command = new BackendCommand.Builder(Command.Task.ANALYZE_BATCH, batchSites.get(0).getAssembly()).batchSites(batchSites).sitesBg(background).build();
+            command = new BackendCommand.Builder(Command.Task.ANALYZE_BATCH, assembly).batchSites(batchSites).sitesBg(background).build();
 
         } else
-            command = new BackendCommand.Builder(Command.Task.ANALYZE_BATCH, batchSites.get(0).getAssembly()).batchSites(batchSites).build();
+            command = new BackendCommand.Builder(Command.Task.ANALYZE_BATCH, assembly).batchSites(batchSites).build();
 
         try {
             /////////// Run analysis ////////////
