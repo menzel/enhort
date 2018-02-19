@@ -38,6 +38,12 @@ class FileLoader implements Callable<Optional<Track>> {
 
     public FileLoader(TrackEntry entry) {
 
+        /*
+           basePath = new File("/home/menzel/Desktop/THM/lfba/enhort/dat/stefan").toPath();
+        } else {
+            basePath = new File("/permData/gogol/mmnz21/enhort/").toPath();
+        }
+         */
 
         Path basePath;
         if (System.getenv("HOME").contains("menzel")) {
@@ -133,7 +139,8 @@ class FileLoader implements Callable<Optional<Track>> {
         try (Stream<String> lines = Files.lines(file.toPath(), StandardCharsets.UTF_8)) {
             Iterator<String> it = lines.iterator();
 
-            Pattern entry = Pattern.compile("chr(\\d{1,2}|X|Y)\\s(\\d*)\\s(\\d*).*");
+            Pattern entry = Pattern.compile("chr(\\d{1,2}|X|Y)\\s(\\d*)\\s(\\S*).*");
+            //Pattern entry = Pattern.compile("chr(\\d{1,2}|X|Y).*");
 
             String lastChr = "";
             long offset = 0; //remember offset
@@ -230,16 +237,16 @@ class FileLoader implements Callable<Optional<Track>> {
                     throw new Exception("Something is wrong with this track or file: " + file.getName());
                 }
 
-                if (starts.stream().filter(Objects::isNull).count() > 0)
+                if (starts.stream().anyMatch(Objects::isNull))
                     logger.warn("List of starts is missing something for " + file.getName());
 
-                if (ends.stream().filter(Objects::isNull).count() > 0)
+                if (ends.stream().anyMatch(Objects::isNull))
                     logger.warn("List of ends is missing something for " + file.getName());
 
-                if ((type == TrackFactory.Type.named || type == TrackFactory.Type.scored) && names.stream().filter(Objects::isNull).count() > 0)
+                if ((type == TrackFactory.Type.named || type == TrackFactory.Type.scored) && names.stream().anyMatch(Objects::isNull))
                     logger.warn("List of names is missing something for " + file.getName());
 
-                if (type == TrackFactory.Type.scored && scores.stream().filter(Objects::isNull).count() > 0)
+                if (type == TrackFactory.Type.scored && scores.stream().anyMatch(Objects::isNull))
                     logger.warn("List of scores is missing something for " + file.getName());
 
                 if(type != TrackFactory.Type.scored && type != TrackFactory.Type.named) {

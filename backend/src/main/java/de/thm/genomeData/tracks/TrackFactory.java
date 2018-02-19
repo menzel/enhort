@@ -88,11 +88,17 @@ public final class TrackFactory {
         connector.connect();
 
         if (System.getenv("HOME").contains("menzel")) {
-            allTracks = connector.getAllTracks("WHERE file like '%inout%' ORDER BY filesize ASC LIMIT 20");
-            allTracks.addAll(connector.getAllTracks("WHERE name like '%tf%' LIMIT 10"));
-            allTracks.addAll(connector.getAllTracks("WHERE file like '%repeat%' LIMIT 10"));
-            allTracks.addAll(connector.getAllTracks("WHERE file like '%broad%' LIMIT 10"));
-            allTracks.addAll(connector.getAllTracks("WHERE file like '%rest%' LIMIT 5"));
+
+            /*
+            allTracks = connector.getAllTracks("WHERE directory like '%a549%' AND genome_assembly like '%38%'");
+            */
+
+            allTracks = connector.getAllTracks("WHERE file like '%inout%' ORDER BY filesize ASC");
+            allTracks.addAll(connector.getAllTracks("WHERE file like '%integ%' ORDER BY filesize ASC"));
+            //allTracks.addAll(connector.getAllTracks("WHERE name like '%tf%'"));
+            //allTracks.addAll(connector.getAllTracks("WHERE file like '%repeat%'"));
+            //allTracks.addAll(connector.getAllTracks("WHERE file like '%broad%' LIMIT 100"));
+            //allTracks.addAll(connector.getAllTracks("WHERE file like '%rest%' LIMIT 5"));
             allTracks.addAll(connector.getAllTracks("WHERE name like '%contigs%'"));
         } else {
             allTracks = connector.getAllTracks("WHERE cellline != 'Unknown' OR file like '%inout%' ORDER BY filesize ASC ");
@@ -161,7 +167,7 @@ public final class TrackFactory {
 
         try {
 
-            int timeout = (System.getenv("HOME").contains("menzel")) ? 30 : 60;
+            int timeout = (System.getenv("HOME").contains("menzel")) ? 60 : 60;
             completionService.poll(timeout, TimeUnit.SECONDS);
 
             logger.warn("Still loading track files. Stopping now");

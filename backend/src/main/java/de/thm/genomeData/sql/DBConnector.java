@@ -28,6 +28,7 @@ public class DBConnector {
 
         String link = "jdbc:sqlite:" + path + "track.db";
 
+        //String link = "jdbc:sqlite:" + path + "stefan.db";
         try {
 
             conn = DriverManager.getConnection(link);
@@ -83,6 +84,28 @@ public class DBConnector {
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
+
+            /*
+
+
+            while(rs.next()){
+                TrackEntry entry = new TrackEntry(rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getString("directory") + "/" + rs.getString("bed_filename"),
+                        //rs.getString("type"),
+                        "inout",
+                        rs.getString("genome_assembly"),
+                        rs.getString("cell_line"),
+                        rs.getInt("lines"),
+                        "nopackage",
+                        // rs.getString("package"),
+                        rs.getInt("id"));
+                entries.add(entry);
+            }
+
+
+                 */
+
 
             while(rs.next()){
                 TrackEntry entry = new TrackEntry(rs.getString("name"),

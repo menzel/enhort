@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="trackdb">
-  <database-model serializer="dbm" rdbms="SQLITE" format-version="4.4">
+  <database-model serializer="dbm" rdbms="SQLITE" format-version="4.7">
     <root id="1"/>
     <schema id="2" parent="1" name="main">
       <Current>1</Current>
@@ -31,7 +31,6 @@
     <index id="15" parent="6" name="sqlite_autoindex_celllines_1">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>name</ColNames>
-      <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
     <key id="16" parent="6">
@@ -57,8 +56,6 @@
       <NameSurrogate>1</NameSurrogate>
       <ColNames>assembly
 chrNumber</ColNames>
-      <ColumnCollations>
-</ColumnCollations>
       <Unique>1</Unique>
     </index>
     <key id="21" parent="7">
@@ -138,18 +135,24 @@ chrNumber</ColNames>
       <DataType>INTEGER|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="39" parent="11">
+    <column id="39" parent="11" name="package">
+      <Position>8</Position>
+      <DataType>TEXT|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&quot;None&quot;</DefaultExpression>
+    </column>
+    <key id="40" parent="11">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="40" parent="12" name="trackName">
+    <column id="41" parent="12" name="trackName">
       <DataType>TEXT|0</DataType>
     </column>
-    <column id="41" parent="12" name="compilationName">
+    <column id="42" parent="12" name="compilationName">
       <Position>1</Position>
       <DataType>TEXT|0</DataType>
     </column>
-    <column id="42" parent="12" name="assembly">
+    <column id="43" parent="12" name="assembly">
       <Position>2</Position>
       <DataType>TEXT|0</DataType>
     </column>
