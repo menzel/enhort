@@ -71,7 +71,7 @@
         <div class="col-md-8 col-lg-8">
 
             <div id="results">
-                <div id="heatmapDiv"></div>
+                <div id="heatmapDiv" th:style="${'height:'+ #lists.size(tracks) * 50 + 'px'}"></div>
             </div>
         </div>
 
@@ -153,15 +153,15 @@
             yaxis: {
                 ticks: '',
                 ticksuffix: ' '
-            },
+            }/*,
             yaxis2: {
                 overlaying: 'y',
                 side: 'right',
                 tickmode: 'array',
                 tickvals: [0, 1, 2],
-                /*ticktext: ["Genetic", "Restriction enzymes", "Repeats"],*/
+                ticktext: ["Genetic", "Restriction enzymes", "Repeats"],
                 tickangle: '-90'
-            }
+            }*/
         };
 
         for (var i = 0; i < yValues.length; i++) {

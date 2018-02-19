@@ -6,7 +6,7 @@
 
 #heatmapDiv {
     width: 1000px;
-    height: 2000px;
+    min-height: 800px;
 }
 
 #container * {
