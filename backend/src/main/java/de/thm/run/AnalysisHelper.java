@@ -134,7 +134,7 @@ class AnalysisHelper {
 
         if (cmd.getTracks().isEmpty() || !sites.getCellline().equals("Unknown")) {
             try {
-                runTracks = trackFactory.getTracksByCellline(sites.getCellline(), sites.getAssembly());
+                runTracks = trackFactory.getTracksByCellline(sites.getCellline(), cmd.getAssembly());
             } catch (RuntimeException e) {
                 try {
                     runTracks = trackFactory.getTracksByName(Arrays.asList("Known genes", "CpG Islands", "Exons", "Introns"), Genome.Assembly.hg19);
@@ -175,7 +175,7 @@ class AnalysisHelper {
         Sites bg;
 
         if (command.getSitesBg() == null)
-            bg = BackgroundModelFactory.createBackgroundModel(batchSites.get(0).getAssembly(), command.getMinBg());
+            bg = BackgroundModelFactory.createBackgroundModel(command.getAssembly(), command.getMinBg());
         else
             bg = command.getSitesBg();
 
