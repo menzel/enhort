@@ -15,6 +15,7 @@ import de.thm.spring.backend.Session;
 import de.thm.spring.backend.Sessions;
 import de.thm.spring.backend.StatisticsCollector;
 import de.thm.spring.cache.DataTableCache;
+import de.thm.stat.TestResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -121,10 +122,15 @@ public class WizardController {
 
             interfaceCommand.setPositionCount(currentSession.getSites().getPositionCount());
 
-            BackendCommand command = //new BackendCommand(interfaceoCommand, Command.Task.ANALZYE_SINGLE);
+            BackendCommand command =
                     new BackendCommand.Builder(Command.Task.ANALZYE_SINGLE, currentSession.getSites().getAssembly())
                             .sites(currentSession.getSites())
                             .tracks(interfaceCommand.getTracks())
+                            .covariants(currentSession.getCovariants().stream()
+                                    .map(TestResult::getTrack)
+                                    .map(Track::getUid)
+                                    .map(String::valueOf)
+                                    .collect(Collectors.toList()))
                             .logoCovariate(interfaceCommand.getLogoCovariate())
                             .sitesBg(interfaceCommand.getSitesBg())
                             .createLogo(interfaceCommand.getLogo() || interfaceCommand.getLogoCovariate())
@@ -152,8 +158,10 @@ public class WizardController {
 
 
             setModel(model, collector, currentSession.getSites(), currentSession.getOriginalFilename());
-            model.addAttribute("covariants", new ArrayList<>());
-            model.addAttribute("covariantCount", 0);
+
+            List<TestResult> covariants = currentSession.getCovariants();
+            model.addAttribute("covariants", covariants);
+            model.addAttribute("covariantCount", covariants.size());
             model.addAttribute("customTracks", currentSession.getCustomTracks());
 
             stats.addAnaylseC();

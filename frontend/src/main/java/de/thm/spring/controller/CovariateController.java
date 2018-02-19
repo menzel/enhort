@@ -89,6 +89,8 @@ public class CovariateController {
             BackendCommand backendCommand = //new BackendCommand(command, Command.Task.ANALZYE_SINGLE);
                     new BackendCommand.Builder(Command.Task.ANALZYE_SINGLE, Genome.Assembly.valueOf(command.getAssembly()))
                             .minBg(command.getMinBg())
+                            .tracks(command.getTracks())
+                            .covariants(command.getCovariants())
                             .sites(command.getSites())
                             .logoCovariate(command.getLogoCovariate())
                             .sitesBg(command.getSitesBg())
