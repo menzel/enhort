@@ -124,6 +124,7 @@ public class WizardController {
             BackendCommand command = //new BackendCommand(interfaceoCommand, Command.Task.ANALZYE_SINGLE);
                     new BackendCommand.Builder(Command.Task.ANALZYE_SINGLE, currentSession.getSites().getAssembly())
                             .sites(currentSession.getSites())
+                            .tracks(interfaceCommand.getTracks())
                             .logoCovariate(interfaceCommand.getLogoCovariate())
                             .sitesBg(interfaceCommand.getSitesBg())
                             .createLogo(interfaceCommand.getLogo() || interfaceCommand.getLogoCovariate())
