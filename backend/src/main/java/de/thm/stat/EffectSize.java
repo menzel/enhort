@@ -32,36 +32,56 @@ public final class EffectSize {
      * The maximum of ( maximum inside / minimum inside and maximum outside / maximum outside)
      * This inverts values smaller than 1 and returns the max fold change for in or outside counts
      *
-     * @param in - count inside of first set
-     * @param out -  count outside of first set
-     * @param in1 - count insideof second set
-     * @param out1 - count outside of second set
+     * @param a_in - count inside of first set
+     * @param a_out -  count outside of first set
+     * @param b_in - count insideof second set
+     * @param b_out - count outside of second set
      *
      * Params should be whole numbers
      * They are converted implicitly to ensure double precision for the return value
      *
      * @return fold change
      */
-    double foldChange(double in, double out, double in1, double out1) {
+    double foldChange(int a_in, int a_out, int b_in, int b_out) {
 
-        if (in == 0 && in1 == 0 || out == 0 && out1 == 0)
-            return 0;
+        if (a_in == 0 && b_in == 0 || a_out == 0 && b_out == 0)
+            return 0.0;
 
+        // first add relative pseudocounts
+        double s0 = a_in + a_out;
+        double s1 = b_in + b_out;
+
+        int delta = (int) Math.round((max(s0, s1) / min(s0, s1)));
+
+        int pc_a = (s0 > s1) ? delta : 1;
+        int pc_b = (s0 < s1) ? delta : 1;
+
+        a_in += pc_a;
+        a_out += pc_a;
+        b_in += pc_b;
+        b_out += pc_b;
+
+        // recalc sums because the counts changed
+        s0 = a_in + a_out;
+        s1 = b_in + b_out;
+
+        double in_a = a_in / s0;
+        double out_a = a_out / s0;
+
+        double in_b = b_in / s1;
+        double out_b = b_out / s1;
+
+        /*
         //pseudocount
-        in += 1;
-        out += 1;
-        in1 += 1;
-        out1 += 1;
+        in_a = Double.isNaN(in_a) || in_a == 0? Double.MIN_VALUE: in_a;
+        in_b = Double.isNaN(in_b) || in_b == 0? Double.MIN_VALUE: in_b;
 
-        double sum = in+out;
-        in = in/sum;
-        out = out/sum;
+        out_a = Double.isNaN(out_a) || out_a == 0? Double.MIN_VALUE: out_a;
+        out_b = Double.isNaN(out_b) || out_b == 0? Double.MIN_VALUE: out_b;
+        */
 
-        sum = in1+out1;
-        in1 = in1/sum;
-        out1 = out1/sum;
 
-        // the maximum of ( maximum inside / minimum inside and maximum outside / maximum outside) -- inverts values smaller than 1
-        return FastMath.log10(max(max(in, in1) / min(in, in1), max(out, out1) / min(out, out1)));
+        // the maximum of ( maximum inside / minimum inside and maximum outside / minimum outside) -- inverts values smaller than 1
+        return FastMath.log10(max(max(in_a, in_b) / min(in_a, in_b), max(out_a, out_b) / min(out_a, out_b)));
     }
 }
