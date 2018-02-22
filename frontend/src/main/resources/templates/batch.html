@@ -28,7 +28,7 @@
 
         <th:block th:if="not ${ran}">
 
-            <div class="col-md-8 col-lg-8">
+            <div class="col-8">
                 <div id="">
 
                     <form method="post" id="uploadForm" action="" enctype="multipart/form-data">
@@ -58,21 +58,88 @@
 
             </div>
 
-            <div class="col-md-2 col-lg-2">
+            <div class="col-2">
             </div>
 
         </th:block>
 
     <th:block th:if="${ran}">
-        <div class="col-md-2 col-lg-2">
-            <span id="legend">(?)</span>
-        </div>
 
-        <div class="col-md-8 col-lg-8">
+        <div class="col-12">
 
-            <div id="results">
-                <div id="heatmapDiv" th:style="${'height:'+ #lists.size(tracks) * 50 + 'px'}"></div>
+
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item active"><a class="nav-link active" data-toggle="tab" href="#nav1">Heatmap</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav2">Hotspots</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav3">Info</a></li>
+            </ul>
+
+            <div class="tab-content">
+
+                <!-- Tab 1 Overview -->
+                <div id="nav1" class="tab-pane fade show active">
+
+                    <span id="legend">(?)</span>
+
+                    <div id="results">
+                        <div id="heatmapDiv" th:style="${'height:'+ #lists.size(tracks) * 50 + 'px'}"></div>
+                    </div>
+                </div>
+
+                <!-- Tab 2 Hotspots -->
+                <div id="nav2" class="tab-pane fade">
+
+                    <div id="hotspots">
+                        <th:block th:each="track, iter: ${hotspots}">
+                            <div class="hotspots_inner">
+                                <div class="hotspot_name" th:text="${names[iter.index]}"></div>
+                                <th:block th:each="pixel: ${track}">
+                                    <div class="hotspot"
+                                         th:style="'background-color:hsl(231,100%,' + ${pixel} + '%);'"></div>
+                                </th:block>
+                            </div>
+                        </th:block>
+
+
+                        <div id="chrsizes">
+                            <th:block th:each="size,iter: ${chrsizes}">
+                                <div class="chrbar" th:style="'width:' +${size} + '%'">
+                                    <div th:text="${chrnames[iter.index]}"></div>
+                                </div>
+                            </th:block>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- Tab 2 Info -->
+                <div id="nav3" class="tab-pane fade">
+
+                    <table class="table table-hover table-condensed table-striped">
+                        <tr>
+                            <th>Name</th>
+                            <th>Number of sites<br></th>
+                            <th></th>
+                        </tr>
+                        <th:block th:each="name: ${names}">
+                            <tr>
+                                <td th:text="${name}"></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </th:block>
+                        <tr>
+                            <td>Background sites</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+
             </div>
+
         </div>
 
     </th:block>

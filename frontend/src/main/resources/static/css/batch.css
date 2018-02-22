@@ -26,9 +26,9 @@
 
 #hotspots {
     height: 50px;
-    transition: height 0.5s;
+    margin-top: 30px;
     float: left;
-    width: 98.5%;
+    width: 100%;
 }
 
 .hotspot {
@@ -44,7 +44,7 @@
 }
 
 .hotspot_name {
-    float: left;
+    position: absolute;
 }
 
 #chrsizes {
@@ -64,5 +64,9 @@
     transform: rotate(90deg);
     margin-top: -25px;
     transform-origin: -2% 100%;
+}
+
+#nav3 table {
+    margin-top: 50px;
 }
 
