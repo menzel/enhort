@@ -24,3 +24,45 @@
     z-index: 1000;
 }
 
+#hotspots {
+    height: 50px;
+    transition: height 0.5s;
+    float: left;
+    width: 98.5%;
+}
+
+.hotspot {
+    width: 0.5%;
+    height: inherit;
+    float: left;
+}
+
+.hotspots_inner {
+    margin-bottom: 10px;
+    width: inherit;
+    height: inherit;
+}
+
+.hotspot_name {
+    float: left;
+}
+
+#chrsizes {
+    width: inherit;
+    margin-bottom: 100px;
+}
+
+.chrbar {
+    height: 10px;
+    border-right: 1px solid black;
+    float: left;
+}
+
+.chrbar div {
+    -moz-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+    margin-top: -25px;
+    transform-origin: -2% 100%;
+}
+

@@ -90,8 +90,27 @@ public class BatchController {
 
             SortedMap<String, List<Pair<Double, String>>> results = new TreeMap<>(); // effect size, p value
 
+
+            List<List<Integer>> hotspots = new ArrayList<>();
+
             int i = 0;
             for (Result c : batch.getResults()) {
+
+                ResultCollector current = (ResultCollector) c;
+
+                /*
+                System.out.print(names.get(i) + ":\n");
+
+                //TODO get to GUI, put into heatmap
+                for(TestResult tr: foo.getResults()){
+                    System.out.println(tr.getTrack().getName() + " fold change: " + tr.getEffectSize()
+                            + " In sites: " + tr.getMeasuredIn() + " In control: " + tr.getExpectedIn()
+                            + " Out sites: " + tr.getMeasuredOut() + " Out control: " + tr.getExpectedOut());
+                }
+                System.out.println();
+                */
+
+                hotspots.add(current.getHotspots());
 
                 List<Pair<Double, String>> tmp = ((ResultCollector) c).getResults().stream()
                         .sorted(byTrack)
@@ -108,6 +127,10 @@ public class BatchController {
                     .map(r -> r.getTrack().getName())
                     .collect(Collectors.toList()));
 
+            model.addAttribute("hotspots", hotspots);
+            model.addAttribute("names", names);
+
+            ControllerHelper.setHotspotBoundaries(model, batch.getResults().get(0).getAssembly());
 
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());

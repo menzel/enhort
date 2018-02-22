@@ -5,6 +5,7 @@ import de.thm.command.InterfaceCommand;
 import de.thm.genomeData.tracks.Track;
 import de.thm.logo.Logo;
 import de.thm.misc.ChromosomSizes;
+import de.thm.misc.Genome;
 import de.thm.positionData.AssemblyGuesser;
 import de.thm.positionData.UserData;
 import de.thm.result.ResultCollector;
@@ -111,18 +112,9 @@ public class ControllerHelper {
         // pca
 
         // hotspots page
+        setHotspotBoundaries(model, collector.getAssembly());
 
-        long genomeSize = ChromosomSizes.getInstance().getGenomeSize(collector.getAssembly());
-        String[] chrnames = new String[]{"chr1", "chr2", "chr3", "chr4", "chr5", "chr6", "chr7", "chr8", "chr9", "chr10", "chr11", "chr12", "chr13", "chr14", "chr15", "chr16", "chr17", "chr18", "chr19", "chr20", "chr21", "chr22", "chrX", "chrY"};
-
-        List<Double> chrsizes = Arrays.stream(chrnames)
-                .map(chr -> ChromosomSizes.getInstance().getChrSize(collector.getAssembly(), chr))
-                .map(l -> (double) l)
-                .map(len -> (len / genomeSize) * 100)
-                .collect(Collectors.toList());
-
-        model.addAttribute("chrnames", chrnames);
-        model.addAttribute("chrsizes", chrsizes);
+        cmd.setHotspots(collector.getHotspots());
 
         // hotspots page
 
@@ -143,12 +135,11 @@ public class ControllerHelper {
 
         model.addAttribute("insig_results", collector.getInsignificantResults());
 
-        cmd.setHotspots(collector.getHotspots());
-        cmd.setAssembly(cmd.getAssembly() == null? "hg19": cmd.getAssembly()); //set assembly nr if there was none set in the previous run
         model.addAttribute("interfaceCommand", cmd);
 
         //cmd.setMinBg(collector.getBgCount());
         cmd.setMinBg(10000);
+        cmd.setAssembly(cmd.getAssembly() == null ? "hg19" : cmd.getAssembly()); //set assembly nr if there was none set in the previous run
 
         Set<String> celllines = collector.getResults().stream()
                 .map(TestResult::getTrack)
@@ -180,6 +171,28 @@ public class ControllerHelper {
 
         model.addAttribute("bgfilename", "Background");
     }
+
+    /**
+     * Sets the boundaries (sizes) for the chromosomes for the given assembly on the given model
+     *
+     * @param model    - model to set values
+     * @param assembly - assembly number to get sizes from
+     */
+    public static void setHotspotBoundaries(Model model, Genome.Assembly assembly) {
+
+        long genomeSize = ChromosomSizes.getInstance().getGenomeSize(assembly);
+        String[] chrnames = new String[]{"chr1", "chr2", "chr3", "chr4", "chr5", "chr6", "chr7", "chr8", "chr9", "chr10", "chr11", "chr12", "chr13", "chr14", "chr15", "chr16", "chr17", "chr18", "chr19", "chr20", "chr21", "chr22", "chrX", "chrY"};
+
+        List<Double> chrsizes = Arrays.stream(chrnames)
+                .map(chr -> ChromosomSizes.getInstance().getChrSize(assembly, chr))
+                .map(l -> (double) l)
+                .map(len -> (len / genomeSize) * 100)
+                .collect(Collectors.toList());
+
+        model.addAttribute("chrnames", chrnames);
+        model.addAttribute("chrsizes", chrsizes);
+    }
+
 
     /**
      * Set params for model
