@@ -67,6 +67,11 @@ public class BatchController {
         BackendCommand command;
         Genome.Assembly assembly = Genome.Assembly.valueOf(assem);
 
+        if (files.size() > 30) {
+            model.addAttribute("errorMessage", "Too many files, please upload not more than 30 .bed-files");
+            return "error";
+        }
+
         Comparator<TestResult> byTrack = Comparator.comparingInt(t -> t.getTrack().getUid());
         Comparator<TestResult> byPackage = Comparator.comparing(t -> t.getTrack().getPack());
 
