@@ -93,23 +93,22 @@ public class BatchController {
             BatchResult batch = (BatchResult) currentSession.getConnector().runAnalysis(command);
             /////////////////////////////////////
 
+            // organize results for display //
 
-            SortedMap<String, List<Pair<Double, String>>> results = new TreeMap<>(); // effect size, p value
+            SortedMap<String, List<Pair<Double, String>>> results = new TreeMap<>(); // map of results for heatmap effect size, p value
             List<List<Integer>> hotspots = new ArrayList<>();
+
+            ResultCollector first = (ResultCollector) Objects.requireNonNull(batch).getResults().get(0);
+
+            // sizes for site count info table
             List<Integer> sizes = batchSites.stream().map(Sites::getPositionCount).collect(Collectors.toList());
-            sizes.add(((ResultCollector) batch.getResults().get(0)).getBgCount());
-
-            List<String> tracklist = ((ResultCollector) batch.getResults().get(0)).getResults().stream()
-                    .sorted(byTrack)
-                    .map(r -> r.getTrack().getName())
-                    .collect(Collectors.toList());
-
+            sizes.add(first.getBgCount());
 
             // integration counts for heatmap hover
             List<List<List<Number>>> integration_counts = new ArrayList<>();
             List<List<Number>> inner = Stream.generate(ArrayList<Number>::new).limit(batch.getResults().size()).collect(Collectors.toList());
 
-            for (int y = 0; y < ((ResultCollector) batch.getResults().get(0)).getResults().size(); y++) {
+            for (int y = 0; y < first.getResults().size(); y++) {
                 integration_counts.add(new ArrayList<>(inner));
             }
 
@@ -152,8 +151,16 @@ public class BatchController {
                 results.put(names.get(i++), tmp);
             }
 
-            model.addAttribute("results", results);
+
+            List<String> tracklist = first.getResults().stream()
+                    .sorted(byTrack)
+                    .map(r -> r.getTrack().getName())
+                    .collect(Collectors.toList());
+
+
+            // add to model
             model.addAttribute("ran", true);
+            model.addAttribute("results", results);
 
             model.addAttribute("tracks", tracklist);
 
@@ -165,7 +172,6 @@ public class BatchController {
             ControllerHelper.setHotspotBoundaries(model, batch.getResults().get(0).getAssembly());
 
         } catch (Exception e) {
-            e.printStackTrace();
             model.addAttribute("errorMessage", e.getMessage());
             return "error";
         }
