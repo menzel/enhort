@@ -124,10 +124,10 @@
                             <th>Number of sites<br></th>
                             <th></th>
                         </tr>
-                        <th:block th:each="name: ${names}">
+                        <th:block th:each="name, iter: ${names}">
                             <tr>
                                 <td th:text="${name}"></td>
-                                <td></td>
+                                <td th:text="${sizes[iter.index]}"></td>
                                 <td></td>
                             </tr>
                         </th:block>
@@ -164,6 +164,9 @@
         var zValues = []; // effect sizes
         var pValues = []; // p values
 
+        var counts = [[${integration_counts}]]; //track names
+        console.log(counts);
+
         /* Split list of pairs into two lists for effect sizes and * for p values */
         for (var v in results) {
             xValues.push(v);
@@ -190,9 +193,28 @@
         });
         // end transpose
 
-        console.log(xValues);
-        console.log(yValues);
-        console.log(zValues);
+        var hovers = [];
+
+
+        for (var idx = 0; idx < zValues.length; idx++) { // iterate over tracks
+
+            var val = zValues[idx];
+            var tmp = [];
+
+            for (var idy = 0; idy < val.length; idy++) { // iterate over files
+                tmp.push("File: " + xValues[idy] +
+                    "<br>Track: " + yValues[idx] +
+                    "<br>Fold change: " + val[idy] +
+                    "<br>P Value: " + counts[idx][idy][8] +
+                    "<br><br>" +
+                    "<b>" + xValues[idy] + "</b> <i> Inside: </i> " + counts[idx][idy][0] + "(" + counts[idx][idy][4] + "%)" + "<i> Outside: </i>" + counts[idx][idy][1] + "(" + counts[idx][idy][5] + "%)" + "<br>" +
+                    "<b>Background</b> <i> Inside: </i> " + counts[idx][idy][2] + "(" + counts[idx][idy][6] + "%)" + "<i> Outside: </i>" + counts[idx][idy][3] + "(" + counts[idx][idy][7] + "%)" + "<br>");
+            }
+
+            hovers.push(tmp);
+        }
+
+        console.log(hovers);
 
         var data = [{
             x: xValues,
@@ -204,7 +226,9 @@
             colorscale: 'RdBu',
             showscale: false,
             autoscale: true,
-            hoverinfo: 'all'
+            text: hovers,
+            hoverinfo: 'text',
+            align: "right"
 
         }];
 

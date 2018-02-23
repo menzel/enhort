@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 public class BatchController {
@@ -94,26 +95,52 @@ public class BatchController {
 
 
             SortedMap<String, List<Pair<Double, String>>> results = new TreeMap<>(); // effect size, p value
-
-
             List<List<Integer>> hotspots = new ArrayList<>();
+            List<Integer> sizes = batchSites.stream().map(Sites::getPositionCount).collect(Collectors.toList());
+            sizes.add(((ResultCollector) batch.getResults().get(0)).getBgCount());
+
+            List<String> tracklist = ((ResultCollector) batch.getResults().get(0)).getResults().stream()
+                    .sorted(byTrack)
+                    .map(r -> r.getTrack().getName())
+                    .collect(Collectors.toList());
+
+
+            // integration counts for heatmap hover
+            List<List<List<Number>>> integration_counts = new ArrayList<>();
+            List<List<Number>> inner = Stream.generate(ArrayList<Number>::new).limit(batch.getResults().size()).collect(Collectors.toList());
+
+            for (int y = 0; y < ((ResultCollector) batch.getResults().get(0)).getResults().size(); y++) {
+                integration_counts.add(new ArrayList<>(inner));
+            }
 
             int i = 0;
             for (Result c : batch.getResults()) {
 
                 ResultCollector current = (ResultCollector) c;
+                List<TestResult> sortedResults = new ArrayList<>(current.getResults());
+                sortedResults.sort(byTrack);
 
-                /*
-                System.out.print(names.get(i) + ":\n");
+                for (int trackN = 0; trackN < sortedResults.size(); trackN++) {
+                    TestResult tr = sortedResults.get(trackN);
+                    List<Number> tmp = new ArrayList<>();
 
-                //TODO get to GUI, put into heatmap
-                for(TestResult tr: foo.getResults()){
-                    System.out.println(tr.getTrack().getName() + " fold change: " + tr.getEffectSize()
-                            + " In sites: " + tr.getMeasuredIn() + " In control: " + tr.getExpectedIn()
-                            + " Out sites: " + tr.getMeasuredOut() + " Out control: " + tr.getExpectedOut());
+                    tmp.add(tr.getMeasuredIn());
+                    tmp.add(tr.getMeasuredOut());
+                    tmp.add(tr.getExpectedIn());
+                    tmp.add(tr.getExpectedOut());
+
+                    tmp.add(tr.getPercentInM());
+                    tmp.add(tr.getPercentOutM());
+                    tmp.add(tr.getPercentInE());
+                    tmp.add(tr.getPercentOutE());
+
+                    tmp.add(tr.getpValue());
+
+                    integration_counts.get(trackN) // track number
+                            .set(i, tmp); //i  -> file number}
                 }
-                System.out.println();
-                */
+                // end integration counts
+
 
                 hotspots.add(current.getHotspots());
 
@@ -127,17 +154,18 @@ public class BatchController {
 
             model.addAttribute("results", results);
             model.addAttribute("ran", true);
-            model.addAttribute("tracks", ((ResultCollector) batch.getResults().get(0)).getResults().stream()
-                    .sorted(byTrack)
-                    .map(r -> r.getTrack().getName())
-                    .collect(Collectors.toList()));
+
+            model.addAttribute("tracks", tracklist);
 
             model.addAttribute("hotspots", hotspots);
             model.addAttribute("names", names);
+            model.addAttribute("sizes", sizes);
+            model.addAttribute("integration_counts", integration_counts);
 
             ControllerHelper.setHotspotBoundaries(model, batch.getResults().get(0).getAssembly());
 
         } catch (Exception e) {
+            e.printStackTrace();
             model.addAttribute("errorMessage", e.getMessage());
             return "error";
         }
