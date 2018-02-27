@@ -246,8 +246,6 @@ function plotNames(results) {
         var data = [trace1, trace2];
 
         var layout = {
-            width: 600,
-            height: 200,
             barmode: 'group',
             xaxis: {
                 autorange: true,
