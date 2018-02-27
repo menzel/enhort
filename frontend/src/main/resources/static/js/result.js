@@ -197,28 +197,25 @@ function plotRadar(efs) {
 
 
 function plotNames(results) {
-    var limit = 0.2; /* Limit for fold change of named track plot */
+    // var limit = 0.2; /* Limit for fold change of named track plot */
 
     for (var j = 0; j < results.length; j++) {
         var result = results[j];
 
-
         var y1 = [];
         var y2 = [];
+
+        var bgcount = result.expectedIn + result.expectedOut;
+        var posCount = result.measuredIn + result.measuredOut;
 
         for (var key in result.namesExp) {
 
             if (result.namesMea.hasOwnProperty(key)) {
 
-                var effectSize = result.namesExp[key] / result.namesMea[key];
+                //var effectSize = result.namesExp[key] / result.namesMea[key];
 
-                var bgcount = result.expectedIn + result.expectedOut;
-                var posCount = result.measuredIn + result.measuredOut;
-
-                if (effectSize >= 1.0 + limit || effectSize <= 1.0 - limit) {
-                    y1.push(result.namesExp[key] / bgcount);
-                    y2.push(result.namesMea[key] / posCount);
-                }
+                y1.push(result.namesExp[key] / bgcount);
+                y2.push(result.namesMea[key] / posCount);
             }
         }
 
