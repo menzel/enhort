@@ -94,8 +94,7 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
     }
 
 
-
-    TestTrackResult searchSingleInterval(NamedTrack track, Sites pos) {
+    public TestTrackResult searchSingleInterval(NamedTrack track, Sites pos) {
 
         int out = 0;
         int in = 0;

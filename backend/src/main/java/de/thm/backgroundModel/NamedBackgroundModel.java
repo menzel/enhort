@@ -35,6 +35,9 @@ class NamedBackgroundModel {
             lengths.set(pos, lengths.get(pos) + track.getEnds()[i] - track.getStarts()[i]);
         }
 
+        // generate list of probabilities for each interval
+        // the prob is calculated by the fraction of the length of the single interval over the length of all intervals with this name,
+        // times the probability for this name
         List<Double> probs = new ArrayList<>();
         for (int i = 0; i < track.getStarts().length; i++) {
             double currLength = track.getEnds()[i] - track.getStarts()[i];
