@@ -51,7 +51,7 @@ public final class BackgroundModelFactory {
         else if (track instanceof ScoredTrack) // put single track in a list of size one
             return ScoreBackgroundModel.scoreBackgroundModel((ScoredTrack) track, sites, minSites, influence);
         else if (track instanceof NamedTrack) //convert the single track to a scored track and put in a list of size one
-           return ScoreBackgroundModel.scoreBackgroundModel(Tracks.cast((NamedTrack) track), sites, minSites, influence);
+            return NamedBackgroundModel.create(sites, minSites, (NamedTrack) track);
         else if (track instanceof DistanceTrack)
            return DistanceBackgroundModel.create((DistanceTrack) track, sites, 200);
         else if (track instanceof StrandTrack)

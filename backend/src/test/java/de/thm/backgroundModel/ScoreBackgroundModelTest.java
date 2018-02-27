@@ -308,4 +308,8 @@ public class ScoreBackgroundModelTest {
     }
 
 
+    @Test
+    public void testCreateScoreSet() {
+
+    }
 }
