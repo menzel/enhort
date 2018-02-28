@@ -116,7 +116,9 @@ public class DBConnector {
                         rs.getString("cellline"),
                         rs.getInt("filesize"),
                         rs.getString("package"),
-                        rs.getInt("id"));
+                        rs.getInt("id"),
+                        "UCSC Genome Browser",
+                        "http://www.ucsc.edu");
 
                 entries.add(entry);
             }
