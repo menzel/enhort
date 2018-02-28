@@ -28,8 +28,8 @@ public abstract class AbstractTrack implements Track {
 
     final String pack;
 
-    String source = "UCSC Genome Browser";
-    String sourceurl = "http://www.ucsc.edu";
+    final String source;
+    final String sourceurl;
 
     AbstractTrack(long[] starts, long[] ends, TrackEntry entry) {
 
@@ -41,6 +41,8 @@ public abstract class AbstractTrack implements Track {
         this.cellLine = (entry.getCellline() == null || entry.getCellline().equals("")) ? "Unknown" : entry.getCellline();
         this.pack = entry.getPack();
         this.id = entry.getId();
+        this.source = entry.getSource();
+        this.sourceurl = entry.getSourceURL();
     }
 
     AbstractTrack(long[] starts, long[] ends, String name, String description, Genome.Assembly assembly, String cellLine) {
@@ -53,6 +55,8 @@ public abstract class AbstractTrack implements Track {
 
         this.pack = "None";
         this.id = -1;
+        this.source = "local";
+        this.sourceurl = "local";
     }
 
 

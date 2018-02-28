@@ -11,6 +11,10 @@ public class TrackEntry {
     private String assembly;
     private String cellline;
     private String pack;
+
+    private String sourceURL;
+    private String source;
+
     private int filesize;
     private int dbID;
 
@@ -23,7 +27,7 @@ public class TrackEntry {
     }
 
 
-    public TrackEntry(String name, String description, String filepath, String type, String assembly, String cellline, int filesize, String pack, int dbID) {
+    public TrackEntry(String name, String description, String filepath, String type, String assembly, String cellline, int filesize, String pack, int dbID, String source, String sourceURL) {
         this.name = name;
         this.description = description;
         this.filepath = filepath;
@@ -33,6 +37,8 @@ public class TrackEntry {
         this.filesize = filesize;
         this.pack = pack;
         this.dbID = dbID;
+        this.source = source;
+        this.sourceURL = sourceURL;
     }
 
     public String getName() {
@@ -69,5 +75,13 @@ public class TrackEntry {
 
     public int getId() {
         return dbID;
+    }
+
+    public String getSourceURL() {
+        return sourceURL;
+    }
+
+    public String getSource() {
+        return source;
     }
 }

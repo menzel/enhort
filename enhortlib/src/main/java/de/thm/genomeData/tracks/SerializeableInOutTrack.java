@@ -16,8 +16,6 @@ public class SerializeableInOutTrack implements Track {
 
     final String pack;
 
-    String source = "UCSC Genome Browser";
-    String sourceurl = "http://www.ucsc.edu";
 
     public SerializeableInOutTrack(long[] starts, long[] ends, String name, String description, Genome.Assembly assembly, String cellLine) {
         this.intervalsStart = starts;
@@ -87,11 +85,11 @@ public class SerializeableInOutTrack implements Track {
     }
 
     public String getSource() {
-        return source;
+        return "local";
     }
 
     public String getSourceurl() {
-        return sourceurl;
+        return "local";
     }
 
     @Override
