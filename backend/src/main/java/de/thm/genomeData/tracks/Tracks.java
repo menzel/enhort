@@ -158,7 +158,7 @@ public final class Tracks {
         String name = intv1.getName() + "_" + intv2.getName();
         String desc = intv1.getDescription() + "_" + intv2.getDescription();
         String cellLine;
-        if (intv1.getCellLine().equals(intv2.getCellLine()))
+        if (intv1.getCellLine() != null && intv2.getCellLine() != null && intv1.getCellLine().equals(intv2.getCellLine()))
             cellLine = intv1.getCellLine();
         else
             cellLine = "Hybrid";
