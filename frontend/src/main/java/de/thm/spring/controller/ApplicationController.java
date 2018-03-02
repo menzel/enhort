@@ -62,12 +62,16 @@ public class ApplicationController {
     public String error(HttpServletRequest request, Model model) {
         model.addAttribute("errorCode", request.getAttribute("javax.servlet.error.status_code"));
         Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
-        String errorMessage = null;
+        String errorMessage = "";
 
         StatisticsCollector.getInstance().addErrorC();
 
         if (throwable != null) {
             errorMessage = throwable.getMessage();
+        }
+
+        if (errorMessage.equals("null") || errorMessage.length() == 0) {
+            errorMessage = throwable.getClass().getCanonicalName();
         }
 
         model.addAttribute("errorMessage", errorMessage);
