@@ -73,8 +73,9 @@ public class BatchController {
             return "error";
         }
 
-        Comparator<TestResult> byTrack = Comparator.comparingInt(t -> t.getTrack().getUid());
         Comparator<TestResult> byPackage = Comparator.comparing(t -> t.getTrack().getPack());
+        Comparator<TestResult> byTrack = byPackage.thenComparing(Comparator.comparing(t -> t.getTrack().getName()));
+        //TODO test sorting
 
         for (MultipartFile mf : files) {
             batchSites.add(ControllerHelper.getUserData(mf));
@@ -118,10 +119,17 @@ public class BatchController {
                 ResultCollector current = (ResultCollector) c;
                 List<TestResult> sortedResults = new ArrayList<>(current.getResults());
                 sortedResults.sort(byTrack);
+                // System.out.println(names.get(i));
 
                 for (int trackN = 0; trackN < sortedResults.size(); trackN++) {
                     TestResult tr = sortedResults.get(trackN);
                     List<Number> tmp = new ArrayList<>();
+
+
+                    //System.out.println(tr.getTrack().getName() + " fold change: " + tr.getEffectSize()
+                    //       + " In sites: " + tr.getMeasuredIn() + " In control: " + tr.getExpectedIn()
+                    //       + " Out sites: " + tr.getMeasuredOut() + " Out control: " + tr.getExpectedOut());
+
 
                     tmp.add(tr.getMeasuredIn());
                     tmp.add(tr.getMeasuredOut());
