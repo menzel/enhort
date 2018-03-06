@@ -34,8 +34,8 @@ public class BatchController {
      * @param test -test result for one track
      * @return pair of effect size and *** for p value to plot in heatmap
      */
-    private Pair<Double, String> getHeatmapPair(TestResult test) {
-        double pval = 0.05;
+    private Pair<Double, String> getHeatmapPair(TestResult test, int n) {
+        double pval = 0.05 / n;
 
         Double left;
         if (test.getPercentInM() < test.getPercentInE())
@@ -75,6 +75,7 @@ public class BatchController {
 
         Comparator<TestResult> byPackage = Comparator.comparing(t -> t.getTrack().getPack());
         Comparator<TestResult> byTrack = byPackage.thenComparing(Comparator.comparing(t -> t.getTrack().getName()));
+        Comparator<String> byIndex = Comparator.comparing(names::indexOf); // sort by index of names of user uploaded bed file names
         //TODO test sorting
 
         for (MultipartFile mf : files) {
@@ -96,7 +97,7 @@ public class BatchController {
 
             // organize results for display //
 
-            SortedMap<String, List<Pair<Double, String>>> results = new TreeMap<>(); // map of results for heatmap effect size, p value
+            SortedMap<String, List<Pair<Double, String>>> results = new TreeMap<>(byIndex); // map of results for heatmap effect size, p value
             List<List<Integer>> hotspots = new ArrayList<>();
 
             ResultCollector first = (ResultCollector) Objects.requireNonNull(batch).getResults().get(0);
@@ -119,16 +120,17 @@ public class BatchController {
                 ResultCollector current = (ResultCollector) c;
                 List<TestResult> sortedResults = new ArrayList<>(current.getResults());
                 sortedResults.sort(byTrack);
-                // System.out.println(names.get(i));
+                System.out.println(names.get(i));
 
                 for (int trackN = 0; trackN < sortedResults.size(); trackN++) {
                     TestResult tr = sortedResults.get(trackN);
                     List<Number> tmp = new ArrayList<>();
 
 
-                    //System.out.println(tr.getTrack().getName() + " fold change: " + tr.getEffectSize()
-                    //       + " In sites: " + tr.getMeasuredIn() + " In control: " + tr.getExpectedIn()
-                    //       + " Out sites: " + tr.getMeasuredOut() + " Out control: " + tr.getExpectedOut());
+                    System.out.println(tr.getTrack().getName() + " fold change: " + tr.getEffectSize()
+                            + " In sites: " + tr.getMeasuredIn() + " In control: " + tr.getExpectedIn()
+                            + " Out sites: " + tr.getMeasuredOut() + " Out control: " + tr.getExpectedOut()
+                            + " fc: " + tr.getEffectSize());
 
 
                     tmp.add(tr.getMeasuredIn());
@@ -151,12 +153,14 @@ public class BatchController {
 
                 hotspots.add(current.getHotspots());
 
-                List<Pair<Double, String>> tmp = ((ResultCollector) c).getResults().stream()
-                        .sorted(byTrack)
-                        .map(this::getHeatmapPair)
+                List<Pair<Double, String>> tmp = sortedResults.stream()
+                        .map(result -> getHeatmapPair(result, names.size()))
                         .collect(Collectors.toList());
 
+
+                //((ResultCollector) c).getResults();
                 results.put(names.get(i++), tmp);
+                System.out.println();
             }
 
 
@@ -168,6 +172,8 @@ public class BatchController {
 
             // add to model
             model.addAttribute("ran", true);
+
+            //List<List<Pair<Double, String>>> result_list = names.stream().map(results::get).collect(Collectors.toList());
             model.addAttribute("results", results);
 
             model.addAttribute("tracks", tracklist);
