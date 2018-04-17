@@ -18,16 +18,51 @@ public class TrackEntry {
     private int filesize;
     private int dbID;
 
-    public TrackEntry(String name, String description, String assembly, String cellline, String pack) {
+    public TrackEntry(String name,
+                      String description,
+                      String assembly,
+                      String cellline,
+                      String pack) {
+
         this.name = name;
         this.description = description;
         this.assembly = assembly;
         this.cellline = cellline;
         this.pack = pack;
+        this.source = "";
+        this.sourceURL = "";
     }
 
 
-    public TrackEntry(String name, String description, String filepath, String type, String assembly, String cellline, int filesize, String pack, int dbID, String source, String sourceURL) {
+    public TrackEntry(String name,
+                      String description,
+                      String assembly,
+                      String cellline,
+                      String pack,
+                      String source,
+                      String sourceURL) {
+
+        this.name = name;
+        this.description = description;
+        this.assembly = assembly;
+        this.cellline = cellline;
+        this.pack = pack;
+        this.source = source;
+        this.sourceURL = sourceURL;
+    }
+
+
+    public TrackEntry(String name,
+                      String description,
+                      String filepath,
+                      String type,
+                      String assembly,
+                      String cellline,
+                      int filesize,
+                      String pack,
+                      int dbID,
+                      String source,
+                      String sourceURL) {
         this.name = name;
         this.description = description;
         this.filepath = filepath;

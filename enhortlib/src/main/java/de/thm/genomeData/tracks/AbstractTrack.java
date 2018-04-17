@@ -18,6 +18,7 @@ public abstract class AbstractTrack implements Track {
     final int uid = UID.incrementAndGet();
 
     final int id;
+    final int dbid;
 
     transient final long[] intervalsStart;
     transient final long[] intervalsEnd;
@@ -43,6 +44,7 @@ public abstract class AbstractTrack implements Track {
         this.id = entry.getId();
         this.source = entry.getSource();
         this.sourceurl = entry.getSourceURL();
+        this.dbid = entry.getId();
     }
 
     AbstractTrack(long[] starts, long[] ends, String name, String description, Genome.Assembly assembly, String cellLine) {
@@ -55,6 +57,7 @@ public abstract class AbstractTrack implements Track {
 
         this.pack = "None";
         this.id = -1;
+        this.dbid = -1;
         this.source = "local";
         this.sourceurl = "local";
     }
@@ -72,6 +75,11 @@ public abstract class AbstractTrack implements Track {
     @Override
     public long[] getStarts() {
         return intervalsStart;
+    }
+
+    @Override
+    public int getDbid() {
+        return dbid;
     }
 
 
@@ -93,7 +101,9 @@ public abstract class AbstractTrack implements Track {
             desc = description + "<br> Cell line " + cellLine + " (" + assembly + ").";
         }
 
-        desc += "<br> The original data source is " + ((source.length() == 0) ? "not specified." : source) + ((sourceurl.length() == 0) ? "" : " " + sourceurl + ".");
+        desc += "<br> The original data source is " +
+                ((source.length() == 0) ? "not specified." : source) +
+                ((sourceurl.length() == 0) ? "" : " " + sourceurl + ".");
 
         return desc;
     }

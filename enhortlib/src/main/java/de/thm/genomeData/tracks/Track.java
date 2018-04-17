@@ -32,6 +32,8 @@ public interface  Track extends Serializable, Cloneable {
 
     int getUid();
 
+    int getDbid();
+
     String getPack();
 
     Track clone();

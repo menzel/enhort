@@ -6,6 +6,7 @@ public class SerializeableInOutTrack implements Track {
 
     private static final long serialVersionUID = 30624952L;
     final int id;
+    final int dbid;
 
     final long[] intervalsStart;
     final long[] intervalsEnd;
@@ -27,6 +28,7 @@ public class SerializeableInOutTrack implements Track {
 
         this.pack = "None";
         this.id = -1;
+        this.dbid = -1;
     }
 
     public InOutTrack getInOut() {
@@ -52,6 +54,11 @@ public class SerializeableInOutTrack implements Track {
     @Override
     public int getUid() {
         return id;
+    }
+
+    @Override
+    public int getDbid() {
+        return this.dbid;
     }
 
     @Override
