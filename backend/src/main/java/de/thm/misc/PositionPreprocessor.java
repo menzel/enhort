@@ -123,6 +123,8 @@ public final class PositionPreprocessor {
                 newScore,
                 track.getName(),
                 track.getDescription(),
+                track.getSource(),
+                track.getSourceurl(),
                 track.getAssembly(),
                 track.getCellLine()
         );
