@@ -82,6 +82,6 @@ public final class EffectSize {
 
 
         // the maximum of ( maximum inside / minimum inside and maximum outside / minimum outside) -- inverts values smaller than 1
-        return FastMath.log10(max(max(in_a, in_b) / min(in_a, in_b), max(out_a, out_b) / min(out_a, out_b)));
+        return FastMath.log(2, max(max(in_a, in_b) / min(in_a, in_b), max(out_a, out_b) / min(out_a, out_b)));
     }
 }
