@@ -114,6 +114,26 @@ public final class CalcCaller {
         pca.createBedPCA(collector);
         //////////// PCA ////////////////
 
+        //////////// circ plot ////////////////
+        List<Track> top10 = collector.getResults().stream()
+                .filter(t -> t.getTrack() instanceof InOutTrack)
+                .filter(t -> t.getpValue() < 0.05)
+                .sorted(Comparator.comparingDouble(TestResult::getEffectSize))
+                .map(TestResult::getTrack)
+                .collect(Collectors.toList())
+                .subList(0, 10);
+
+        PositionalIntersect positionalIntersect = new PositionalIntersect();
+
+        //TODO use threads
+        for (Track t : top10) {
+            collector.addResult(positionalIntersect.searchTrack((InOutTrack) t, measuredPositions));
+        }
+
+
+        //////////// circ plot ////////////////
+
+
 
         return collector;
     }
