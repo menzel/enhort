@@ -19,16 +19,17 @@ public class DBConnector {
     public void connect(){
         final String path;
         conn = null;
+        String link;
 
         if (System.getenv("HOME").contains("menzel")) {
             path = "/home/menzel/Desktop/THM/lfba/enhort/";
+            link = "jdbc:sqlite:" + path + "stefan.db";
         } else {
             path = "/home/mmnz21/enhort/";
+            link = "jdbc:sqlite:" + path + "stefan.db";
+
         }
 
-        String link = "jdbc:sqlite:" + path + "track.db";
-
-        //String link = "jdbc:sqlite:" + path + "stefan.db";
         try {
 
             conn = DriverManager.getConnection(link);
@@ -79,7 +80,8 @@ public class DBConnector {
         if(conn == null)
             throw new RuntimeException("No connection to the database");
 
-        String sql = "SELECT * FROM tracks " + whereClause;
+        String sql = "SELECT * FROM enhort_view " + whereClause;
+        //TODO use view
 
         try {
             Statement stmt = conn.createStatement();
@@ -87,41 +89,44 @@ public class DBConnector {
 
             /*
 
+            if (System.getenv("HOME").contains("menzel")) {
+                while (rs.next()) {
+                    TrackEntry entry = new TrackEntry(
+                            rs.getString("name"),
+                            rs.getString("description"),
+                            rs.getString("file"),
+                            rs.getString("type"),
+                            rs.getString("assembly"),
+                            rs.getString("cellline"),
+                            rs.getInt("filesize"),
+                            rs.getString("package"),
+                            rs.getInt("id"),
+                            "UCSC Genome Browser",
+                            "http://www.ucsc.edu");
 
-            while(rs.next()){
+                    entries.add(entry);
+                }
+            } else {
+
+                */
+
+            while (rs.next()) {
                 TrackEntry entry = new TrackEntry(rs.getString("name"),
                         rs.getString("description"),
                         rs.getString("directory") + "/" + rs.getString("bed_filename"),
-                        //rs.getString("type"),
-                        "inout",
+                        "inout", //TODO get from db
                         rs.getString("genome_assembly"),
                         rs.getString("cell_line"),
                         rs.getInt("lines"),
-                        "nopackage",
-                        // rs.getString("package"),
-                        rs.getInt("id"));
-                entries.add(entry);
-            }
-
-
-                 */
-
-
-            while(rs.next()){
-                TrackEntry entry = new TrackEntry(rs.getString("name"),
-                        rs.getString("description"),
-                        rs.getString("file"),
-                        rs.getString("type"),
-                        rs.getString("assembly"),
-                        rs.getString("cellline"),
-                        rs.getInt("filesize"),
-                        rs.getString("package"),
+                        rs.getString("category"),
                         rs.getInt("id"),
-                        "UCSC Genome Browser",
-                        "http://www.ucsc.edu");
-
+                        rs.getString("project"),
+                        rs.getString("url")
+                );
                 entries.add(entry);
             }
+
+            //}
 
         } catch (SQLException e) {
             logger.error("Exception {}", e.getMessage(), e);
@@ -156,7 +161,7 @@ public class DBConnector {
      *
      * @return cell lines as Sorted map, with parents/childrens
      */
-    public SortedMap<String,List<String>> getAllCellLines() {
+    public SortedMap<String, List<String>> getAllCellLinesOLD() {
 
         SortedMap<String, List<String>> celllines = new TreeMap<>();
 
@@ -164,7 +169,7 @@ public class DBConnector {
         try {
 
             // get all cellliens without children
-            String parents = "SELECT name FROM celllines WHERE parent = ''";
+            String parents = "SELECT name FROM cell_lines WHERE parent = ''";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(parents);
 
@@ -173,7 +178,7 @@ public class DBConnector {
             }
 
             // get celllines with children
-            String children = "SELECT name, parent FROM celllines WHERE parent != '' ORDER BY parent";
+            String children = "SELECT name, parent FROM cell_lines WHERE parent != '' ORDER BY parent";
             stmt = conn.createStatement();
             rs = stmt.executeQuery(children);
 
@@ -203,10 +208,39 @@ public class DBConnector {
         return celllines;
     }
 
+
+    /**
+     * Returns all cell lines from the db
+     *
+     * @return cell lines as Sorted map, with parents/childrens
+     */
+    public SortedMap<String, List<String>> getAllCellLines() {
+
+        SortedMap<String, List<String>> celllines = new TreeMap<>();
+
+
+        try {
+
+            // get all cellliens without children
+            String parents = "SELECT cell_line FROM cell_lines";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(parents);
+
+            while (rs.next()) {
+                celllines.put(rs.getString("cell_line"), null);
+            }
+
+        } catch (SQLException e) {
+            logger.error("Exception {}", e.getMessage(), e);
+        }
+
+        return celllines;
+    }
+
+
+
     public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
         Map<Object, String> seen = new ConcurrentHashMap<>();
         return t -> seen.put(keyExtractor.apply(t), "") == null;
     }
-
-
 }

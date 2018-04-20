@@ -1,6 +1,7 @@
 package de.thm.genomeData.tracks;
 
 import de.thm.genomeData.sql.DBConnector;
+import de.thm.misc.ChromosomSizes;
 import de.thm.misc.Genome;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,25 +94,22 @@ public final class TrackFactory {
             allTracks = connector.getAllTracks("WHERE directory like '%a549%' AND genome_assembly like '%38%'");
             */
 
-            allTracks = connector.getAllTracks("WHERE file like '%inout%' ORDER BY filesize ASC");
-            allTracks.addAll(connector.getAllTracks("WHERE file like '%integ%' ORDER BY filesize ASC"));
+            allTracks = connector.getAllTracks(" WHERE cell_line like '%cd%' AND genome_assembly = 'hg19' ORDER BY lines ASC");
+            //allTracks.addAll(connector.getAllTracks("WHERE file like '%inout%' ORDER BY filesize ASC"));
+            //allTracks.addAll(connector.getAllTracks("WHERE type = 'named'"));
             //allTracks.addAll(connector.getAllTracks("WHERE name like '%tf%'"));
             //allTracks.addAll(connector.getAllTracks("WHERE file like '%repeat%'"));
-            //allTracks.addAll(connector.getAllTracks("WHERE file like '%broad%' LIMIT 100"));
-            //allTracks.addAll(connector.getAllTracks("WHERE file like '%rest%' LIMIT 5"));
-            allTracks.addAll(connector.getAllTracks("WHERE name like '%contigs%'"));
+            //allTracks.addAll(connector.getAllTracks("WHERE file like '%broad%'"));
+            //allTracks.addAll(connector.getAllTracks("WHERE file like '%rest%'"));
+            //allTracks.addAll(connector.getAllTracks("WHERE name like '%contigs%'"));
+            //allTracks.addAll(connector.getAllTracks("WHERE file like '%score%'"));
+            //allTracks.addAll(connector.getAllTracks("WHERE type = 'scored'"));
         } else {
-            allTracks = connector.getAllTracks("WHERE cellline != 'Unknown' OR file like '%inout%' ORDER BY filesize ASC ");
-            allTracks.addAll(connector.getAllTracks("WHERE name like '%tf%'"));
-            allTracks.addAll(connector.getAllTracks("WHERE file like '%repeat%'"));
-            allTracks.addAll(connector.getAllTracks("WHERE file like '%broad%'"));
-            allTracks.addAll(connector.getAllTracks("WHERE file like '%rest%'"));
-            allTracks.addAll(connector.getAllTracks("WHERE name like '%contigs%'"));
-            allTracks.addAll(connector.getAllTracks("WHERE type = 'scored'"));
-            allTracks.addAll(connector.getAllTracks("WHERE type = 'distance'"));
-            allTracks.addAll(connector.getAllTracks("WHERE type = 'named'"));
+            allTracks = connector.getAllTracks(" ORDER BY lines ASC LIMIT 500");
+            //  allTracks.addAll(connector.getAllTracks("WHERE name like '%contigs%'"));
         }
 
+        logger.info("Trying to load " + allTracks.size() + " tracks");
         this.tracks.addAll(loadByEntries(allTracks));
 
         //TODO use DB:
@@ -148,9 +146,9 @@ public final class TrackFactory {
     private List<Track> loadByEntries(List<TrackEntry> allTracks) {
 
         // filter doubled tracks
-        allTracks = allTracks.stream().filter(DBConnector.distinctByKey(TrackEntry::getName)).collect(Collectors.toList());
+        // allTracks = allTracks.stream().filter(DBConnector.distinctByKey(TrackEntry::getName)).collect(Collectors.toList());
 
-        int nThreads = (System.getenv("HOME").contains("menzel")) ? 4 : 32;
+        int nThreads = (System.getenv("HOME").contains("menzel")) ? 8 : 32;
         ExecutorService exe = Executors.newFixedThreadPool(nThreads);
         CompletionService<Track> completionService = new ExecutorCompletionService<>(exe);
 
@@ -166,8 +164,7 @@ public final class TrackFactory {
         exe.shutdown();
 
         try {
-
-            int timeout = (System.getenv("HOME").contains("menzel")) ? 60 : 60;
+            int timeout = (System.getenv("HOME").contains("menzel")) ? 60 : 60 * 10;
             completionService.poll(timeout, TimeUnit.SECONDS);
 
             logger.warn("Still loading track files. Stopping now");
@@ -250,9 +247,26 @@ public final class TrackFactory {
     }
 
 
+    /**
+     * Returns track by given database id
+     *
+     * @param dbid - database id of track to return
+     * @return track with id
+     */
+    public Track getTrackByDbId(int dbid) {
+
+        for (Track track : tracks) {
+            if (track.getDbid() == dbid) {
+                return track;
+            }
+        }
+
+        throw new RuntimeException("Track not found by id: " + dbid);
+    }
+
 
     /**
-     * Returns track by given id
+     * Returns track by given local id
      *
      * @param id - id of track to return
      * @return track with id
@@ -303,10 +317,12 @@ public final class TrackFactory {
      */
     public Track getTrackByName(String name, Genome.Assembly assembly) {
 
-        for (Track track : tracks) {
-            if (track.getAssembly().equals(assembly) && track.getName().toLowerCase().equals(name.toLowerCase()))
-                return track;
-        }
+        if (name.equals("Contigs"))
+
+            for (Track track : tracks) {
+                if (track.getAssembly().equals(assembly) && track.getName().toLowerCase().equals(name.toLowerCase()))
+                    return track;
+            }
 
         throw new RuntimeException("Could not find track " + name + ". Some parts might not be working correct. " +
                 "Please check the track file and name");
@@ -349,9 +365,14 @@ public final class TrackFactory {
      * @param description - description of track
      * @return new track with all given parameters
      */
+    public ScoredTrack createScoredTrack(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String description, String source, String sourceURL, Genome.Assembly assembly, String cellLine) {
+        return new ScoredTrack(starts, ends, names, scores, new TrackEntry(name, description, assembly.toString(), cellLine, "", source, sourceURL));
+    }
+
     public ScoredTrack createScoredTrack(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String description) {
         return new ScoredTrack(starts, ends, names, scores, new TrackEntry(name, description, "Unknown", "", ""));
     }
+
 
     public ScoredTrack createScoredTrack(List<Long> starts, List<Long> ends, List<String> names, List<Double> scores, String name, String description, Genome.Assembly assembly, String cellLine) {
         return new ScoredTrack(starts, ends, names, scores, new TrackEntry(name, description, assembly.toString(), cellLine, ""));
@@ -383,6 +404,9 @@ public final class TrackFactory {
         return new InOutTrack(starts, ends, ex, description, assembly, "");
     }
 
+    public InOutTrack createEmptyTrack(Genome.Assembly assembly) {
+        return new InOutTrack(new long[]{0}, new long[]{ChromosomSizes.getInstance().getGenomeSize(assembly)}, "", "", assembly, "");
+    }
 
     /**
      * Factory method for distance tracks. Creates a new track based on input.
@@ -407,6 +431,7 @@ public final class TrackFactory {
     public StrandTrack createStrandTrack(List<Long> start, List<Long> end, List<Character> strands, String name, String desc, Genome.Assembly assembly, String cellLine) {
         return new StrandTrack(start, end, strands, new TrackEntry(name, desc, assembly.toString(), cellLine, ""));
     }
+
 
     public int getTrackCount() {
         return tracks.size();
