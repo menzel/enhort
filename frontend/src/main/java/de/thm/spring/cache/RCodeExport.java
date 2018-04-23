@@ -41,7 +41,7 @@ public class RCodeExport {
             + "text(mp[1,] + 0.5, apply(perc,2,max)+2, stars,col='red', cex=2)\n"
             + "\n"
             + "#Or plot the p value for each two bars:\n"
-            + "#text(mp[1,] + 0.5, apply(perc,2,max)+2, pvals,col='red')\n"
+            + "#text(mp[1,] + 0.5, apply(perc,2,max)+4, pvals,col='red')\n"
             + "\n"
             + "\n"
             + "#### Legend ####-\n"
