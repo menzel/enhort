@@ -54,80 +54,6 @@ function plotHistogram(results) {
 
 }
 
-function plotScatter(names, pca) {
-
-    x = [];
-    y = [];
-    text = [];
-
-    for (var i = 0; i < pca.length - 1; i++) {
-        x.push(pca[i][0]);
-        y.push(pca[i][1]);
-        text.push(names[i])
-    }
-
-    var trace1 = {
-        x: x,
-        y: y,
-        mode: 'markers+text',
-        type: 'scatter',
-        hoverinfo: "none",
-        text: text,
-        marker: {
-            size: 12,
-            color: '#c8c8c8'
-        },
-        textposition: 'bottom'
-    };
-
-    var trace2 = {
-        x: [pca[pca.length - 1][0]],
-        y: [pca[pca.length - 1][1]],
-        mode: 'markers+text',
-        type: 'scatter',
-        hoverinfo: "none",
-        text: ["Your sites"],
-        marker: {
-            size: 12,
-            color: '#337ab7'
-        },
-        textposition: 'bottom'
-    };
-
-    var data = [trace1, trace2];
-
-    var layout = {
-        autosize: false,
-        width: 400,
-        height: 400,
-        showlegend: false,
-        xaxis: {
-            autorange: true,
-            showgrid: true,
-            zeroline: false,
-            showline: false,
-            autotick: true,
-            ticks: '',
-            showticklabels: false
-        },
-        yaxis: {
-            autorange: true,
-            showgrid: true,
-            zeroline: false,
-            showline: false,
-            autotick: true,
-            ticks: '',
-            showticklabels: false
-        },
-        font: {
-            size: 12,
-            color: '#000'
-        }
-    };
-
-    Plotly.newPlot('scatterChart', data, layout, {displayModeBar: false});
-
-}
 
 function plotRadar(efs) {
     // from http://bl.ocks.org/nbremer/6506614
@@ -271,7 +197,7 @@ function plotNames(results) {
 }
 
 
-function plot(results) {
+function plot_scores(results) {
     var buttons_s = {};
 
     for (var j = 0; j < results.length; j++) {

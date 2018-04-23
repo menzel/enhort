@@ -17,6 +17,8 @@
     <script src="/js/d3.min.js" th:href="@{/js/d3.min.js}"></script>
     <script src="/js/result.js" th:href="@{/js/result.js}"></script>
     <script src="/js/radar.js" th:href="@{/js/radar.js}"></script>
+    <script src="/js/circos.js" th:href="@{/js/circos.js}"></script>
+    <script src="/js/circos_plot.js" th:href="@{/js/circos_plot.js}"></script>
 </head>
 <body>
 
@@ -124,6 +126,7 @@
                 <li class="nav-item active"><a class="nav-link active" data-toggle="tab" href="#nav1">Overview</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav2">Hotspots</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav3">Detailed Views</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav6">Circos</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav4">R export</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav5">Data export</a></li>
             </ul>
@@ -157,7 +160,7 @@
 
 
                                     <div id="radarChart"></div>
-                                    <div id="scatterChart"></div>
+                                    <div id='circos_chart'></div>
 
                                 </div>
 
@@ -707,6 +710,13 @@
                 </div>
 
                 <!-- Tab 3  Detailed -->
+                <div id="nav6" class="tab-pane fade ">
+                    <div id="circos_names"></div>
+                    <div id="circos_chart_large"></div>
+                </div>
+
+
+                <!-- Tab 3  Detailed -->
                 <div id="nav3" class="tab-pane fade ">
 
                     <div class="left">
@@ -852,6 +862,7 @@
 
 </script>
 
+
 <script th:inline="javascript" async="async">
     /*<![CDATA[*/
     'use strict';
@@ -864,8 +875,8 @@
 
 
     if ([[${results_score}]] !== null) {
-        plot([[${results_score}]]);
-        plot([[${covariants}]]);
+        plot_scores([[${results_score}]]);
+        plot_scores([[${covariants}]]);
     }
 
     /*]]>*/
@@ -884,13 +895,6 @@
     'use strict';
 
     plotRadar([[${perc}]]);
-
-    if ([[${#lists.isEmpty(covariants)}]]) {
-        plotScatter([[${pca_names}]], [[${pca}]]);
-    } else {
-        //TODO find alternative plot
-    }
-
 </script>
 
 <script th:inline="javascript" async="async">
@@ -941,6 +945,22 @@
     'use strict';
 
     plotHistogram([[${results}]]);
+</script>
+
+<script th:inline="javascript" async="async">
+    /*<![CDATA[*/
+    'use strict';
+
+    var hotspots = [[${interfaceCommand.hotspots}]];
+    var names = [[${circ_result_names}]];
+    var counts = [[${circ_results}]];
+
+    plot_circos(hotspots, names, counts, 420, '#circos_chart');
+    plot_circos(hotspots, names, counts, 800, '#circos_chart_large');
+
+    document.getElementById("circos_names").innerText = "Each circle shows where integration sites hit an annotated region," +
+        " the regions are: " + names.slice(0, 5) + " from outer to inner. The color strength represents the integration count." +
+        "The inner circle shows the integrations counts";
 </script>
 
 </body>
