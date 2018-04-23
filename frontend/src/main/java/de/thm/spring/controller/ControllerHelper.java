@@ -1,5 +1,6 @@
 package de.thm.spring.controller;
 
+import de.thm.calc.TestTrackResult;
 import de.thm.command.ExpressionCommand;
 import de.thm.command.InterfaceCommand;
 import de.thm.genomeData.tracks.Track;
@@ -124,6 +125,26 @@ public class ControllerHelper {
         model.addAttribute("bardata", data);
 
         // barplot page
+
+
+        // circ plot
+
+        List<List<Double>> circResults = collector.getPositionalResults().stream()
+                .map(TestTrackResult::getResultScores)
+                .collect(Collectors.toList());
+
+        List<String> circResultNames = collector.getPositionalResults().stream()
+                .map(r -> r.getUsedTrack().getName())
+                .collect(Collectors.toList());
+
+        Collections.reverse(circResults);
+        Collections.reverse(circResultNames);
+
+
+        model.addAttribute("circ_results", circResults);
+        model.addAttribute("circ_result_names", circResultNames);
+
+        // circ plot
 
         List<TestResult> score = collector.getScoredResults(cmd.isShowall());
         score.removeAll(covariants);
