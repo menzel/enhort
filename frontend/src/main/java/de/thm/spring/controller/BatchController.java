@@ -76,7 +76,6 @@ public class BatchController {
         Comparator<TestResult> byPackage = Comparator.comparing(t -> t.getTrack().getPack());
         Comparator<TestResult> byTrack = byPackage.thenComparing(Comparator.comparing(t -> t.getTrack().getName()));
         Comparator<String> byIndex = Comparator.comparing(names::indexOf); // sort by index of names of user uploaded bed file names
-        //TODO test sorting
 
         for (MultipartFile mf : files) {
             batchSites.add(ControllerHelper.getUserData(mf));
@@ -127,8 +126,7 @@ public class BatchController {
                     List<Number> tmp = new ArrayList<>();
 
 
-                    System.out.println(tr.getTrack().getName() + " fold change: " + tr.getEffectSize()
-                            + " In sites: " + tr.getMeasuredIn() + " In control: " + tr.getExpectedIn()
+                    System.out.println(tr.getTrack().getName() + " fold change: " + tr.getEffectSize() + " In sites: " + tr.getMeasuredIn() + " In control: " + tr.getExpectedIn()
                             + " Out sites: " + tr.getMeasuredOut() + " Out control: " + tr.getExpectedOut()
                             + " fc: " + tr.getEffectSize());
 
@@ -172,12 +170,8 @@ public class BatchController {
 
             // add to model
             model.addAttribute("ran", true);
-
-            //List<List<Pair<Double, String>>> result_list = names.stream().map(results::get).collect(Collectors.toList());
             model.addAttribute("results", results);
-
             model.addAttribute("tracks", tracklist);
-
             model.addAttribute("hotspots", hotspots);
             model.addAttribute("names", names);
             model.addAttribute("sizes", sizes);
