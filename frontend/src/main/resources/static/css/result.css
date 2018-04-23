@@ -264,15 +264,15 @@ label{
     overflow: visible;
 }
 
-
-#scatterChart {
+#circos_chart {
     height: 400px;
     width: 400px;
     float: left;
 }
 
-#scatterChart * {
+#circos_chart * {
     overflow: visible;
+    font-size: 10px !important;
 }
 
 #italic {

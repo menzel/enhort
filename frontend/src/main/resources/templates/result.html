@@ -125,8 +125,8 @@
             <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item active"><a class="nav-link active" data-toggle="tab" href="#nav1">Overview</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav2">Hotspots</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav3">Detailed Views</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav6">Circos</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav3">Detailed Views</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav4">R export</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav5">Data export</a></li>
             </ul>
@@ -160,7 +160,10 @@
 
 
                                     <div id="radarChart"></div>
-                                    <div id='circos_chart'></div>
+
+                                    <a data-toggle="pill" href="#nav6">
+                                        <div id='circos_chart'></div>
+                                    </a>
 
                                 </div>
 
@@ -959,8 +962,10 @@
     plot_circos(hotspots, names, counts, 800, '#circos_chart_large');
 
     document.getElementById("circos_names").innerText = "Each circle shows where integration sites hit an annotated region," +
-        " the regions are: " + names.slice(0, 5) + " from outer to inner. The color strength represents the integration count." +
-        "The inner circle shows the integrations counts";
+        " the regions are most significant for the given sites: " + names.slice(0, 6) + " from outer to inner. " +
+        "The color strength represents the number of integrations for this annotation in this region." +
+        "The inner circle shows the integrations counts, a dot on the inner line is a relative low integration, a dot on the " +
+        "outer line shows a high integration count at this position.";
 </script>
 
 </body>
