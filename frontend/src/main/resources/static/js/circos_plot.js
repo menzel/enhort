@@ -1,7 +1,7 @@
 function plot_circos(hotspots, names, counts, width, div_id) {
 
 
-    var chromosomes = [
+    let chromosomes = [
         {"id": "chr1", "label": "chr1", "len": 249250621, "color": "white"},
         {"id": "chr2", "label": "chr2", "len": 243199373, "color": "white"},
         {"id": "chr3", "label": "chr3", "len": 198022430, "color": "white"},
@@ -29,17 +29,17 @@ function plot_circos(hotspots, names, counts, width, div_id) {
     ];
 
 
-    var blocks = [];
-    var blocksize = 15478387;
+    let blocks = [];
+    let blocksize = 15478387;
 
-    var chrmap = {};
-    var sum = 0;
+    let chrmap = {};
+    let sum = 0;
 
     // get chromosome for given position
     function getchr(pos) {
-        var chrpos = 0;
+        let chrpos = 0;
 
-        for (var i = 0; i < 24; i++) {
+        for (let i = 0; i < 24; i++) {
             chrpos += chromosomes[i]['len'];
 
             if (pos < chrpos) {
@@ -51,15 +51,15 @@ function plot_circos(hotspots, names, counts, width, div_id) {
     }
 
     // cum sum for chromosomes
-    for (var i = 0; i < 24; i += 1) {
+    for (let i = 0; i < 24; i += 1) {
         chrmap[chromosomes[i]['id']] = sum;
         sum += chromosomes[i]['len'];
     }
 
     // create blocks list
-    for (var i = 0; i < 200; i += 1) {
-        var pos = i * blocksize;
-        var chr = getchr(pos);
+    for (let i = 0; i < 200; i += 1) {
+        let pos = i * blocksize;
+        let chr = getchr(pos);
         blocks.push({
             block_id: chr,
             start: pos - chrmap[chr],
@@ -69,7 +69,7 @@ function plot_circos(hotspots, names, counts, width, div_id) {
         });
     }
 
-    var snp250 = blocks.map(function (d) {
+    let snp250 = blocks.map(function (d) {
         return {
             block_id: d.block_id,
             position: (parseInt(d.start) + parseInt(d.end)) / 2,
@@ -77,13 +77,13 @@ function plot_circos(hotspots, names, counts, width, div_id) {
         }
     });
 
-    var circosHighlight = new Circos({
+    let circosHighlight = new Circos({
         container: div_id,
         width: width,
         height: width,
     });
 
-    var colors = [
+    let colors = [
         'rgba(227,123,64,',
         'rgba(70,178,157,',
         'rgba(222,91,73,',
@@ -92,7 +92,7 @@ function plot_circos(hotspots, names, counts, width, div_id) {
         'rgba(137,178,85,',
     ];
 
-    var plot = circosHighlight
+    let plot = circosHighlight
         .layout(
             chromosomes,
             {
@@ -125,9 +125,7 @@ function plot_circos(hotspots, names, counts, width, div_id) {
         innerRadius: 0.53,
         outerRadius: 0.6,
         color: function (d) {
-            return colors[5] + counts[5][(d.start + chrmap[d.block_id]) / blocksize] / Math.max(...counts[5];
-        )
-            +')';
+            return colors[5] + counts[5][(d.start + chrmap[d.block_id]) / blocksize] / Math.max(...counts[5]) + ')';
         },
         tooltipContent: function (d) {
             return names[5];
@@ -138,9 +136,7 @@ function plot_circos(hotspots, names, counts, width, div_id) {
         innerRadius: 0.61,
         outerRadius: 0.68,
         color: function (d) {
-            return colors[4] + counts[4][(d.start + chrmap[d.block_id]) / blocksize] / Math.max(...counts[4];
-        )
-            +')';
+            return colors[4] + counts[4][(d.start + chrmap[d.block_id]) / blocksize] / Math.max(...counts[4]) + ')';
         },
         tooltipContent: function (d) {
             return names[4];
@@ -152,9 +148,7 @@ function plot_circos(hotspots, names, counts, width, div_id) {
         innerRadius: 0.69,
         outerRadius: 0.76,
         color: function (d) {
-            return colors[3] + counts[3][(d.start + chrmap[d.block_id]) / blocksize] / Math.max(...counts[3];
-        )
-            +')';
+            return colors[3] + counts[3][(d.start + chrmap[d.block_id]) / blocksize] / Math.max(...counts[3]) + ')';
         },
         tooltipContent: function (d) {
             return names[3];
@@ -166,9 +160,7 @@ function plot_circos(hotspots, names, counts, width, div_id) {
         innerRadius: 0.77,
         outerRadius: 0.84,
         color: function (d) {
-            return colors[2] + counts[2][(d.start + chrmap[d.block_id]) / blocksize] / Math.max(...counts[2];
-        )
-            +')';
+            return colors[2] + counts[2][(d.start + chrmap[d.block_id]) / blocksize] / Math.max(...counts[2]) + ')';
         },
         tooltipContent: function (d) {
             return names[2];
@@ -179,9 +171,7 @@ function plot_circos(hotspots, names, counts, width, div_id) {
         innerRadius: 0.85,
         outerRadius: 0.92,
         color: function (d) {
-            return colors[1] + counts[1][(d.start + chrmap[d.block_id]) / blocksize] / Math.max(...counts[1];
-        )
-            +')';
+            return colors[1] + counts[1][(d.start + chrmap[d.block_id]) / blocksize] / Math.max(...counts[1]) + ')';
         },
         tooltipContent: function (d) {
             return names[1];
@@ -192,9 +182,7 @@ function plot_circos(hotspots, names, counts, width, div_id) {
         innerRadius: 0.93,
         outerRadius: 1.0,
         color: function (d) {
-            return colors[0] + counts[0][(d.start + chrmap[d.block_id]) / blocksize] / Math.max(...counts[0];
-        )
-            +')';
+            return colors[0] + counts[0][(d.start + chrmap[d.block_id]) / blocksize] / Math.max(...counts[0]) + ')';
         },
         tooltipContent: function (d) {
             return names[0];

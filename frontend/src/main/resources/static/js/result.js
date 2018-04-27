@@ -4,16 +4,16 @@
 
 
 function plotHistogram(results) {
-    var data = [];
-    var trackcount = 0;
-    var max = 0;
-    var min = 100;
+    const data = [];
+    let trackcount = 0;
+    let max = 0;
+    let min = 100;
 
-    for (var pack in results) {
+    for (let pack in results) {
 
-        var vals = [];
-        for (var v in results[pack]) {
-            var es = results[pack][v].effectSize;
+        let vals = [];
+        for (let v in results[pack]) {
+            let es = results[pack][v].effectSize;
             vals.push(es);
             trackcount += 1;
 
@@ -38,7 +38,7 @@ function plotHistogram(results) {
         });
     }
 
-    var layout = {
+    let layout = {
         barmode: "stack",
         title: "Histogram of effect sizes by annotation group",
         xaxis: {title: "Effect size"},
@@ -58,16 +58,16 @@ function plotHistogram(results) {
 function plotRadar(efs) {
     // from http://bl.ocks.org/nbremer/6506614
 
-    var max = [];
-    var average = [];
+    let max = [];
+    let average = [];
 
-    for (var pack in efs) {
+    for (let pack in efs) {
         max.push({axis: pack, value: efs[pack][4]});
         average.push({axis: pack, value: efs[pack][2]})
     }
     w = 350;
 
-    var options = {
+    let options = {
         w: w,
         h: 350,
         ExtraWidthX: 100
@@ -76,11 +76,11 @@ function plotRadar(efs) {
 
     RadarChart.draw("#radarChart", [max, average], options);
 
-    var colorscale = d3.scale.category10();
-    var labels = ['Max', 'Average'];
+    let colorscale = d3.scale.category10();
+    let labels = ['Max', 'Average'];
 
     //Initiate Legend
-    var legend = d3.select("#radarChart svg").append("g")
+    let legend = d3.select("#radarChart svg").append("g")
         .attr("class", "legend")
         .attr("height", 100)
         .attr("width", 200)
@@ -123,22 +123,22 @@ function plotRadar(efs) {
 
 
 function plotNames(results) {
-    // var limit = 0.2; /* Limit for fold change of named track plot */
+    // let limit = 0.2; /* Limit for fold change of named track plot */
 
-    for (var j = 0; j < results.length; j++) {
-        var result = results[j];
+    for (let j = 0; j < results.length; j++) {
+        let result = results[j];
 
-        var y1 = [];
-        var y2 = [];
+        let y1 = [];
+        let y2 = [];
 
-        var bgcount = result.expectedIn + result.expectedOut;
-        var posCount = result.measuredIn + result.measuredOut;
+        let bgcount = result.expectedIn + result.expectedOut;
+        let posCount = result.measuredIn + result.measuredOut;
 
-        for (var key in result.namesExp) {
+        for (let key in result.namesExp) {
 
             if (result.namesMea.hasOwnProperty(key)) {
 
-                //var effectSize = result.namesExp[key] / result.namesMea[key];
+                //let effectSize = result.namesExp[key] / result.namesMea[key];
 
                 y1.push(result.namesExp[key] / bgcount);
                 y2.push(result.namesMea[key] / posCount);
@@ -150,7 +150,7 @@ function plotNames(results) {
             continue;
         }
 
-        var trace1 = {
+        let trace1 = {
             x: Object.keys(result.namesExp),
             y: y1,
             name: 'Expected',
@@ -158,7 +158,7 @@ function plotNames(results) {
             marker: {color: 'rgb(140,140,140)'},
         };
 
-        var trace2 = {
+        let trace2 = {
             x: Object.keys(result.namesMea),
             y: y2,
             name: 'Measured',
@@ -166,9 +166,9 @@ function plotNames(results) {
             marker: {color: 'rgb(51,122,183)'},
         };
 
-        var data = [trace1, trace2];
+        let data = [trace1, trace2];
 
-        var layout = {
+        let layout = {
             barmode: 'group',
             xaxis: {
                 autorange: true,
@@ -198,18 +198,18 @@ function plotNames(results) {
 
 
 function plot_scores(results) {
-    var buttons_s = {};
+    let buttons_s = {};
 
-    for (var j = 0; j < results.length; j++) {
+    for (let j = 0; j < results.length; j++) {
 
-        var x0 = results[j].scoresMea;
-        var x1 = results[j].scoresExp;
+        let x0 = results[j].scoresMea;
+        let x1 = results[j].scoresExp;
 
         if (x0 === null || x0.length < 3 || x1.length < 3) {
             break;
         }
 
-        var measured = {
+        let measured = {
             x: x0,
             marker: {color: 'rgb(51,122,183)'},
             opacity: 0.75,
@@ -217,16 +217,16 @@ function plot_scores(results) {
             name: "measured"
         };
 
-        var expected = {
+        let expected = {
             x: x1,
             opacity: 0.75,
             marker: {color: 'rgb(140,140,140)'},
             type: 'histogram',
             name: "expected"
         };
-        var data_s = [measured, expected];
+        let data_s = [measured, expected];
 
-        var layout_s = {
+        let layout_s = {
             autosize: false,
             width: 400,
             height: 100,
@@ -262,27 +262,27 @@ function plot_scores(results) {
 
 
 function setSequenceLogo(logo, div) {
-    var basewidth = document.body.offsetWidth/3;
+    let basewidth = document.body.offsetWidth / 3;
 
-    var margin = {top: 10, right: 20, bottom: 30, left: 50},
+    let margin = {top: 10, right: 20, bottom: 30, left: 50},
         width = basewidth - margin.left - margin.right,
         height = 150 - margin.top - margin.bottom;
 
-    var x = d3.scale.ordinal()
+    let x = d3.scale.ordinal()
         .rangeRoundBands([0, width], .1);
 
-    var y = d3.scale.linear()
+    let y = d3.scale.linear()
         .range([height, 0]);
 
-    var xAxis = d3.svg.axis()
+    let xAxis = d3.svg.axis()
         .scale(x)
         .orient("bottom");
 
-    var yAxis = d3.svg.axis()
+    let yAxis = d3.svg.axis()
         .scale(y)
         .orient("left");
 
-    var svg = d3.select(div).append("svg")
+    let svg = d3.select(div).append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
@@ -290,10 +290,10 @@ function setSequenceLogo(logo, div) {
 
     sequencelogoFont();
 
-    var data = JSON.parse(logo);
+    let data = JSON.parse(logo);
 
     data.forEach(function (d) {
-        var y0 = 0;
+        let y0 = 0;
         d.bits = d.map(function (entry) {
             return {bits: entry.bits, letter: entry.letter, y0: y0, y1: y0 += +entry.bits};
         });
@@ -305,7 +305,7 @@ function setSequenceLogo(logo, div) {
         return i;
     }));
 
-    var maxBits = d3.max(data, function (d) {
+    let maxBits = d3.max(data, function (d) {
         return d.bitTotal
     });
 
@@ -326,7 +326,7 @@ function setSequenceLogo(logo, div) {
         .style("text-anchor", "end")
         .text("Bits");
 
-    var column = svg.selectAll(".sequence-column")
+    let column = svg.selectAll(".sequence-column")
         .data(data)
         .enter()
         .append("g")
@@ -335,7 +335,7 @@ function setSequenceLogo(logo, div) {
         })
         .attr("class", "sequence-column");
 
-    var capHeightAdjust = 1.6; // approximation to bring cap-height to full font size
+    let capHeightAdjust = 1.6; // approximation to bring cap-height to full font size
 
     column
         .selectAll("text")
@@ -367,7 +367,7 @@ function setSequenceLogo(logo, div) {
 
 
     function sequencelogoFont() {
-        var font = svg.append("defs").append("font")
+        let font = svg.append("defs").append("font")
             .attr("id", "sequencelogo")
             .attr("horiz-adv-x", "1000")
             .attr("vert-adv-y", "1000");
