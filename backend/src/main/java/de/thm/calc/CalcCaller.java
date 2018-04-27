@@ -114,14 +114,20 @@ public final class CalcCaller {
         pca.createBedPCA(collector);
         //////////// PCA ////////////////
 
+
         //////////// circ plot ////////////////
         List<Track> top10 = collector.getResults().stream()
                 .filter(t -> t.getTrack() instanceof InOutTrack)
-                .filter(t -> t.getpValue() < 0.05)
+                .filter(t -> t.getpValue() < 0.05 / tracks.size())
+                .filter(t -> !t.getTrack().getName().equals("Blacklisted Regions"))
+                .filter(testResult -> testResult.getMeasuredIn() >= (testResult.getMeasuredIn() + testResult.getMeasuredOut()) / 200
+                        && testResult.getExpectedIn() >= (testResult.getExpectedIn() + testResult.getExpectedOut()) / 200)
                 .sorted(Comparator.comparingDouble(TestResult::getEffectSize))
                 .map(TestResult::getTrack)
-                .collect(Collectors.toList())
-                .subList(0, 10);
+                .collect(Collectors.toList());
+
+        top10 = top10.subList(top10.size() - 7, top10.size() - 1);
+        // logger.info("top list: " + Arrays.toString(top10.stream().map(Track::getName).toArray()));
 
         PositionalIntersect positionalIntersect = new PositionalIntersect();
 
@@ -130,10 +136,7 @@ public final class CalcCaller {
             collector.addResult(positionalIntersect.searchTrack((InOutTrack) t, measuredPositions));
         }
 
-
         //////////// circ plot ////////////////
-
-
 
         return collector;
     }
