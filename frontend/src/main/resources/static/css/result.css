@@ -268,11 +268,12 @@ label{
     height: 400px;
     width: 400px;
     float: left;
+    margin-top: 8px;
 }
 
 #circos_chart * {
     overflow: visible;
-    font-size: 10px !important;
+    font-size: 8px !important;
 }
 
 #italic {
