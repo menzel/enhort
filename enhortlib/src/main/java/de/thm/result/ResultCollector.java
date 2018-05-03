@@ -1,5 +1,6 @@
 package de.thm.result;
 
+import de.thm.calc.TestTrackResult;
 import de.thm.genomeData.tracks.Track;
 import de.thm.logo.Logo;
 import de.thm.misc.Genome;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 public final class ResultCollector implements Result {
 
     private final List<TestResult> results;
+    private final List<TestTrackResult> positionalResults;
     private final Sites backgroundSites;
     private final Genome.Assembly assembly;
     private List<String> tracks; //keeps a list of all known packages for the gui to display
@@ -35,6 +37,7 @@ public final class ResultCollector implements Result {
 
     public ResultCollector(Sites bgModel, Genome.Assembly assembly, List<Track> tracks) {
         results = Collections.synchronizedList(new ArrayList<>());
+        positionalResults = Collections.synchronizedList(new ArrayList<>());
         backgroundSites = bgModel;
         this.tracks = tracks.stream().map(t -> String.valueOf(t.getUid())).collect(Collectors.toList());
         this.assembly = assembly;
@@ -309,6 +312,11 @@ public final class ResultCollector implements Result {
         return getResults(true);
     }
 
+    public List<TestTrackResult> getPositionalResults() {
+        return positionalResults;
+    }
+
+
     public List<TestResult> getResults(boolean isShowall) {
         if (isShowall)
             return this.results;
@@ -327,6 +335,16 @@ public final class ResultCollector implements Result {
      */
     public void addResult(TestResult result) {
         this.results.add(result);
+    }
+
+
+    /**
+     * Add positional results for circ plot
+     *
+     * @param result - result to add
+     */
+    public void addResult(TestTrackResult result) {
+        this.positionalResults.add(result);
     }
 
 

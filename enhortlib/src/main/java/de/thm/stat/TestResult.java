@@ -102,7 +102,7 @@ public class TestResult implements Serializable{
     }
 
     public String toString() {
-        return "Fold change Ratio: " + effectSize + "\n" +
+        return track.getName() + " Fold change Ratio: " + effectSize + "\n" +
                 "mea in " + measuredIn + " out " + measuredOut + "\n" +
                 "exp in " + expectedIn + " out " + expectedOut + "\n" +
                 "\n=====\n";
