@@ -116,7 +116,8 @@ public final class CalcCaller {
 
 
         //////////// circ plot ////////////////
-        List<Track> top10 = collector.getResults().stream()
+
+        List<Track> top10 = collector.getResults().stream() // filter tracks, only check the highest scoring ones
                 .filter(t -> t.getTrack() instanceof InOutTrack)
                 .filter(t -> t.getpValue() < 0.05 / tracks.size())
                 .filter(t -> !t.getTrack().getName().equals("Blacklisted Regions"))
@@ -126,12 +127,10 @@ public final class CalcCaller {
                 .map(TestResult::getTrack)
                 .collect(Collectors.toList());
 
-        top10 = top10.subList(top10.size() - 7, top10.size() - 1);
-        // logger.info("top list: " + Arrays.toString(top10.stream().map(Track::getName).toArray()));
+        top10 = top10.subList(top10.size() - 7, top10.size() - 1); // take top 6 tracks
 
         PositionalIntersect positionalIntersect = new PositionalIntersect();
 
-        //TODO use threads
         for (Track t : top10) {
             collector.addResult(positionalIntersect.searchTrack((InOutTrack) t, measuredPositions));
         }
