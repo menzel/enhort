@@ -57,6 +57,7 @@ public class BatchController {
     public String runBatch(Model model,
                            @RequestParam("file[]") List<MultipartFile> files,
                            @RequestParam("background") MultipartFile bg,
+                           @RequestParam("package") List<String> packages,
                            @RequestParam("assembly") String assem,
                            HttpSession httpSession) {
 
@@ -84,10 +85,10 @@ public class BatchController {
 
         if (!Objects.isNull(bg) && !bg.isEmpty()) {
             background = ControllerHelper.getUserData(bg);
-            command = new BackendCommand.Builder(Command.Task.ANALYZE_BATCH, assembly).batchSites(batchSites).sitesBg(background).build();
+            command = new BackendCommand.Builder(Command.Task.ANALYZE_BATCH, assembly).batchSites(batchSites).packages(packages).sitesBg(background).build();
 
         } else
-            command = new BackendCommand.Builder(Command.Task.ANALYZE_BATCH, assembly).batchSites(batchSites).build();
+            command = new BackendCommand.Builder(Command.Task.ANALYZE_BATCH, assembly).packages(packages).batchSites(batchSites).build();
 
         try {
             /////////// Run analysis ////////////
