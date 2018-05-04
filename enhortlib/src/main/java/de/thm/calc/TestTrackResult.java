@@ -2,6 +2,7 @@ package de.thm.calc;
 
 import de.thm.genomeData.tracks.Track;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +11,7 @@ import java.util.Map;
  * <p>
  * Created by Michael Menzel on 8/12/15.
  */
-public final class TestTrackResult {
+public final class TestTrackResult implements Serializable {
 
 
     private final Map<String, Integer> resultNames;
