@@ -24,7 +24,11 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.*;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Wrapper for the spring gui to call the different intersects and background models.
@@ -118,6 +122,17 @@ class AnalysisHelper {
         return runAnalysisWithBg(sites, bg[0], cmd);
     }
 
+    static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
+        Map<Object, String> seen = new ConcurrentHashMap<>();
+        return t -> seen.put(keyExtractor.apply(t), "") == null;
+    }
+
+    private ResultCollector runAnalysisWithBg(Sites sites, Sites sitesBg, List<Track> tracks, boolean createLogo) throws NoTracksLeftException {
+
+        CalcCaller multi = new CalcCaller();
+        return multi.execute(tracks, sites, sitesBg, createLogo);
+    }
+
     /**
      * Run analysis with based on a backend command. If no tracks are supplied a base set of tracks is used
      *
@@ -140,7 +155,7 @@ class AnalysisHelper {
                     runTracks = trackFactory.getTracksByName(Arrays.asList("Known genes", "CpG Islands", "Exons", "Introns"), Genome.Assembly.hg19);
                     logger.warn("Error getting tracks {}", e);
                 } catch (RuntimeException e1) {
-                    runTracks = trackFactory.getTracks(Genome.Assembly.GRCh38);
+                    runTracks = trackFactory.getTracks(Genome.Assembly.hg19);
                 }
             }
 
@@ -158,10 +173,9 @@ class AnalysisHelper {
         // always add custom tracks to run
         runTracks.addAll(cmd.getCustomTracks());
 
-        CalcCaller multi = new CalcCaller();
-        return multi.execute(runTracks, sites, sitesBg, cmd.isCreateLogo());
-    }
+        return runAnalysisWithBg(sites, sitesBg, runTracks, cmd.isCreateLogo());
 
+    }
 
     /**
      * Runs a batch analysis (multiple user sites against the same background)
@@ -181,9 +195,19 @@ class AnalysisHelper {
 
         BatchResult results = new BatchResult();
 
+        // get tracks by given packages
+        List<String> packages = TrackFactory.getInstance().getPackNames(command.getAssembly()).stream()
+                .filter(p -> command.getPackages().stream()
+                        .anyMatch(p::contains))
+                .collect(Collectors.toList());
+
+        List<Track> tracks = new ArrayList<>(TrackFactory.getInstance().getTracksByPackage(packages, command.getAssembly()));
+
+        tracks = tracks.stream().filter(distinctByKey(Track::getName)).collect(Collectors.toList());
+
         for (Sites sites : batchSites) {
             try {
-                results.addResult(runAnalysisWithBg(sites, bg, command));
+                results.addResult(runAnalysisWithBg(sites, bg, tracks, false));
             } catch (NoTracksLeftException e) {
                 e.printStackTrace();
             }
@@ -191,7 +215,6 @@ class AnalysisHelper {
 
         return results;
     }
-
 
 
     /**

@@ -20,6 +20,7 @@ public final class TrackFactory {
     private volatile static TrackFactory instance;
     private final List<Track> tracks;
     private final List<TrackPackage> trackPackages;
+    private final Set<String> packNames = new HashSet<>();
     private final Logger logger = LoggerFactory.getLogger(TrackFactory.class);
     private Map<String, TrackEntry> trackEntries = new HashMap<>();
 
@@ -90,19 +91,17 @@ public final class TrackFactory {
 
         if (System.getenv("HOME").contains("menzel")) {
 
-            /*
-            allTracks = connector.getAllTracks("WHERE directory like '%a549%' AND genome_assembly like '%38%'");
-            */
+            allTracks = connector.getAllTracks("WHERE file like '%inout%'");
 
-            allTracks = connector.getAllTracks(" WHERE cell_line like '%cd%' AND genome_assembly = 'hg19' ORDER BY lines ASC");
-            //allTracks.addAll(connector.getAllTracks("WHERE file like '%inout%' ORDER BY filesize ASC"));
-            //allTracks.addAll(connector.getAllTracks("WHERE type = 'named'"));
-            //allTracks.addAll(connector.getAllTracks("WHERE name like '%tf%'"));
-            //allTracks.addAll(connector.getAllTracks("WHERE file like '%repeat%'"));
-            //allTracks.addAll(connector.getAllTracks("WHERE file like '%broad%'"));
-            //allTracks.addAll(connector.getAllTracks("WHERE file like '%rest%'"));
-            //allTracks.addAll(connector.getAllTracks("WHERE name like '%contigs%'"));
-            //allTracks.addAll(connector.getAllTracks("WHERE file like '%score%'"));
+            //allTracks = connector.getAllTracks(" WHERE genome_assembly = 'hg19' ORDER BY lines ASC LIMIT 3000");
+            allTracks.addAll(connector.getAllTracks("WHERE type = 'named'"));
+            allTracks.addAll(connector.getAllTracks("WHERE name like '%tf%'"));
+            allTracks.addAll(connector.getAllTracks("WHERE file like '%repeat%'"));
+            allTracks.addAll(connector.getAllTracks("WHERE file like '%broad%'"));
+            allTracks.addAll(connector.getAllTracks("WHERE file like '%rest%'"));
+            allTracks.addAll(connector.getAllTracks("WHERE file like '%dist%'"));
+            allTracks.addAll(connector.getAllTracks("WHERE name like '%contigs%'"));
+            allTracks.addAll(connector.getAllTracks("WHERE file like '%score%'"));
             //allTracks.addAll(connector.getAllTracks("WHERE type = 'scored'"));
         } else {
             allTracks = connector.getAllTracks(" ORDER BY lines ASC LIMIT 500");
@@ -116,6 +115,9 @@ public final class TrackFactory {
         List<String> trackPackagesNames = new ArrayList<>();
 
         for(Track track: tracks){
+
+            packNames.add(track.getPack());
+
             if (trackPackagesNames.contains(track.getCellLine() + "_" + track.getAssembly())) {
                 //if the package exist add the track
                 trackPackages.get(trackPackagesNames.indexOf(track.getCellLine() + "_" + track.getAssembly())).add(track);
@@ -345,6 +347,24 @@ public final class TrackFactory {
                 "Please check the track file and name");
     }
 
+    public Set<String> getPackNames(Genome.Assembly assembly) {
+        return packNames;
+    }
+
+    public List<Track> getTracksByPackage(List<String> packages, Genome.Assembly assembly) {
+        List<Track> returnTracks = new ArrayList<>();
+
+        for (Track track : tracks) {
+            if (track.getAssembly().equals(assembly) && packages.stream().anyMatch(p -> p.equals(track.getPack())))
+                returnTracks.add(track);
+        }
+
+        if (!returnTracks.isEmpty())
+            return returnTracks;
+
+        throw new RuntimeException("Could not find tracks for packages" + Arrays.toString(packages.toArray()) + ". Some parts might not be working correct. " +
+                "Please check the names");
+    }
 
 
     public List<Track> getTracksByCompilation(String name, Genome.Assembly assembly) {
