@@ -32,6 +32,7 @@ public final class BackendCommand implements Command {
     private final List<String> tracks;
     private final List<Sites> batchSites;
     private final Task task;
+    private final List<String> packages;
 
     /**
      * Build using the builder pattern
@@ -50,6 +51,7 @@ public final class BackendCommand implements Command {
         this.tracks = builder.tracks;
         this.batchSites = builder.batchSites;
         this.task = builder.task;
+        this.packages = builder.packages;
     }
 
     public void addCustomTrack(List<SerializeableInOutTrack> track) {
@@ -76,10 +78,55 @@ public final class BackendCommand implements Command {
         this.tracks = Collections.emptyList();
         this.task = task;
         batchSites = null;
+        packages = null;
     }
 
     public List<Track> getCustomTracks() {
         return customTracks.stream().map(SerializeableInOutTrack::getInOut).collect(Collectors.toList());
+    }
+
+    public List<String> getPackages() {
+        return packages;
+    }
+
+    public List<String> getCovariants() {
+        return covariants;
+    }
+
+    public Sites getSites() {
+        return sites;
+    }
+
+    public int getMinBg() {
+        return minBg;
+    }
+
+    public Genome.Assembly getAssembly() {
+        return assembly;
+    }
+
+    public boolean isLogoCovariate() {
+        return logoCovariate;
+    }
+
+    public boolean isCreateLogo() {
+        return createLogo;
+    }
+
+    public Sites getSitesBg() {
+        return sitesBg;
+    }
+
+    public List<String> getTracks() {
+        return tracks;
+    }
+
+    public Task getTask() {
+        return task;
+    }
+
+    public List<Sites> getBatchSites() {
+        return batchSites;
     }
 
     /**
@@ -101,6 +148,7 @@ public final class BackendCommand implements Command {
         private boolean createLogo = false;
         private List<String> tracks = Collections.emptyList();
         private List<Sites> batchSites = Collections.emptyList();
+        private List<String> packages;
 
 
         public Builder(Task task, Genome.Assembly assembly) {
@@ -162,6 +210,12 @@ public final class BackendCommand implements Command {
             return this;
         }
 
+        public Builder packages(List<String> packages) {
+            this.packages = packages;
+            return this;
+        }
+
+
 
         public Builder logoCovariate(boolean val) {
             this.logoCovariate = val;
@@ -183,37 +237,5 @@ public final class BackendCommand implements Command {
             this.batchSites = val;
             return this;
         }
-    }
-
-    public List<String> getCovariants() { return covariants; }
-
-    public Sites getSites() { return sites; }
-
-    public int getMinBg() { return minBg; }
-
-    public Genome.Assembly getAssembly() { return assembly; }
-
-    public boolean isLogoCovariate() {
-        return logoCovariate;
-    }
-
-    public boolean isCreateLogo() {
-        return createLogo;
-    }
-
-    public Sites getSitesBg() {
-        return sitesBg;
-    }
-
-    public List<String> getTracks() {
-        return tracks;
-    }
-
-    public Task getTask() {
-        return task;
-    }
-
-    public List<Sites> getBatchSites() {
-        return batchSites;
     }
 }
