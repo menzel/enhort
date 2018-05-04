@@ -290,15 +290,7 @@
             yaxis: {
                 ticks: '',
                 ticksuffix: ' '
-            }/*,
-            yaxis2: {
-                overlaying: 'y',
-                side: 'right',
-                tickmode: 'array',
-                tickvals: [0, 1, 2],
-                ticktext: ["Genetic", "Restriction enzymes", "Repeats"],
-                tickangle: '-90'
-            }*/
+            }
         };
 
         for (var i = 0; i < yValues.length; i++) {
@@ -321,7 +313,7 @@
             }
         }
 
-        Plotly.newPlot('heatmapDiv', data, layout);
+        Plotly.newPlot('heatmapDiv', data, layout, {displayModeBar: false});
 
     </script>
 </th:block>
