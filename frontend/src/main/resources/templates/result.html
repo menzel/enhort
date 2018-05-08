@@ -125,7 +125,6 @@
             <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item active"><a class="nav-link active" data-toggle="tab" href="#nav1">Overview</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav2">Hotspots</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav6">Circos</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav3">Detailed Views</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav4">R export</a></li>
                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav5">Data export</a></li>
@@ -161,9 +160,7 @@
 
                                     <div id="radarChart"></div>
 
-                                    <a data-toggle="pill" href="#nav6">
-                                        <div id='circos_chart'></div>
-                                    </a>
+                                    <div id="circos_chart"></div>
 
                                 </div>
 
@@ -712,12 +709,6 @@
                     bars show few, and darker bars show an increased count of sites.
                 </div>
 
-                <!-- Tab 3  Detailed -->
-                <div id="nav6" class="tab-pane fade ">
-                    <div id="circos_names"></div>
-                    <div id="circos_chart_large"></div>
-                </div>
-
 
                 <!-- Tab 3  Detailed -->
                 <div id="nav3" class="tab-pane fade ">
@@ -728,10 +719,13 @@
                         <div id="barplotdesc"></div>
                     </div>
 
-                    <div class="right">
-                        <div id="histogram">
-                        </div>
-                        <div id="histogramdesc"></div>
+                    <div>
+                        <h6>Positional intersect of the most significant tracks</h6>
+                        <br/>
+                        <br/>
+
+                        <div id='circos_chart_large'></div>
+                        <div id="circos_names"></div>
                     </div>
 
                 </div>
@@ -930,6 +924,9 @@
         },
         yaxis: {
             autorange: true
+        },
+        margin: {
+            b: 150
         }
     };
 
@@ -958,8 +955,8 @@
     var names = [[${circ_result_names}]];
     var counts = [[${circ_results}]];
 
-    plot_circos(hotspots, names, counts, 420, '#circos_chart');
-    plot_circos(hotspots, names, counts, 800, '#circos_chart_large');
+    plot_circos(hotspots, names, counts, 420, 'circos_chart');
+    plot_circos(hotspots, names, counts, 700, 'circos_chart_large');
 
     document.getElementById("circos_names").innerText = "Each circle shows where integration sites hit an annotated region," +
         " the regions are most significant for the given sites: " + names.slice(0, 6) + " from outer to inner. " +
