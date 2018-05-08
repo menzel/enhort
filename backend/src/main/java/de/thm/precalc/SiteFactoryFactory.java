@@ -16,7 +16,15 @@ public final class SiteFactoryFactory {
 
     private SiteFactoryFactory(){
         factories = new HashMap<>();
-        factories.put(Genome.Assembly.hg19, new SiteFactory(Genome.Assembly.hg19, 100000));
+
+        int n;
+        if (System.getenv("HOME").contains("menzel")) {
+            n = 100000;
+        } else {
+            n = 3 * 1000 * 1000;
+        }
+
+        factories.put(Genome.Assembly.hg19, new SiteFactory(Genome.Assembly.hg19, n));
     }
 
     public static SiteFactoryFactory getInstance(){
