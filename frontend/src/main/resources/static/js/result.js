@@ -3,58 +3,6 @@
 */
 
 
-function plotHistogram(results) {
-    const data = [];
-    let trackcount = 0;
-    let max = 0;
-    let min = 100;
-
-    for (let pack in results) {
-
-        let vals = [];
-        for (let v in results[pack]) {
-            let es = results[pack][v].effectSize;
-            vals.push(es);
-            trackcount += 1;
-
-            if (es > max) max = es;
-            if (es < min) min = es;
-        }
-
-        data.push({
-            x: vals,
-            name: pack,
-            autobinx: true,
-            histnorm: "count",
-            marker: {
-                color: '#' + Math.random().toString(16).substr(-6),
-                line: {
-                    color: "rgba(255, 100, 102, 1)",
-                    width: 1
-                }
-            },
-            opacity: 0.5,
-            type: "histogram"
-        });
-    }
-
-    let layout = {
-        barmode: "stack",
-        title: "Histogram of effect sizes by annotation group",
-        xaxis: {title: "Effect size"},
-        yaxis: {title: "Count"}
-    };
-
-    document.getElementById("histogramdesc").innerHTML = "The histogram shows the distribution" +
-        "of log-fold-change values between your uploaded sites and the background model. " +
-        "There are " + Object.keys(results).length + " packages containing " + trackcount + " tracks." +
-        "With log-fold-change values ranging between " + min + " and " + max + ".";
-
-    Plotly.newPlot('histogram', data, layout);
-
-}
-
-
 function plotRadar(efs) {
     // from http://bl.ocks.org/nbremer/6506614
 
