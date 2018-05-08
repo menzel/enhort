@@ -127,6 +127,8 @@ public final class CalcCaller {
                 .map(TestResult::getTrack)
                 .collect(Collectors.toList());
 
+        if (top.size() == 0)
+            return collector;
 
         top = top.subList(Math.max(top.size() - 7, 0), top.size() - 1); // take top 6 tracks
 
