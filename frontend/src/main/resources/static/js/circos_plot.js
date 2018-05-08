@@ -1,6 +1,5 @@
 function plot_circos(hotspots, names, counts, width, div_id) {
 
-
     let chromosomes = [
         {"id": "chr1", "label": "1", "len": 249250621, "color": "white"},
         {"id": "chr2", "label": "2", "len": 243199373, "color": "white"},
@@ -78,7 +77,7 @@ function plot_circos(hotspots, names, counts, width, div_id) {
     });
 
     let circosHighlight = new Circos({
-        container: div_id,
+        container: "#" + div_id,
         width: width,
         height: width,
     });
@@ -102,7 +101,7 @@ function plot_circos(hotspots, names, counts, width, div_id) {
                 labels: {
                     display: true,
                     size: '7px',
-                    radialOffset: 9
+                    radialOffset: 6
                 },
                 ticks: {display: false}
             });
