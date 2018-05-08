@@ -5,6 +5,10 @@ import de.thm.stat.TestResult;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 
@@ -81,6 +85,7 @@ public class RCodeExport {
 
         List<TestResult> results = collector.getInOutResults(true).stream()
                 .sorted(resultComp)
+                .filter(distinctByKey(TestResult::getTrack))
                 .collect(Collectors.toList());
 
         String pval = "c(" + results.stream().map(TestResult::getpValue).map(Object::toString).collect(Collectors.joining(", ")) + "),";
@@ -96,5 +101,11 @@ public class RCodeExport {
 
         return String.join("\n", var, pval, es, meaIn, exIn, meaInP, exInP, ")\n", header);
     }
+
+    private static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
+        Map<Object, String> seen = new ConcurrentHashMap<>();
+        return t -> seen.put(keyExtractor.apply(t), "") == null;
+    }
+
 }
 
