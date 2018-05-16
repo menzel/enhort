@@ -726,9 +726,11 @@
                 <div id="nav4" class="tab-pane fade ">
 
                     <div id="rexport">
+                        <div id="rcodewarning" class="badge badge-danger"></div>
+                        <br>
                         <label>
                             Copy this code and run it on your machine using R to generate a barplot of the results of your
-                            analysis. You can select the displayed annotations by clicking 'change tracks' on the
+                            analysis. You can select a subset of tracks by clicking 'change tracks' on the
                             left.<br>
                             <textarea th:text="${rcode}">
                     </textarea>
@@ -813,6 +815,17 @@
     </div>
 </div>
 
+<script th:inline="javascript" async="async">
+    /*<![CDATA[*/
+    'use strict';
+
+    if ([[${visible_track_count}]] > 20) {
+        document.getElementById("rcodewarning").innerText = "There are too many tracks selected to display them" +
+            "in a single barplot. Please select less tracks by clicking 'Change tracks' on the left."
+    }
+</script>
+
+
 <script>
 
     var rerun = document.getElementById("rerun");
@@ -890,6 +903,7 @@
 <script th:inline="javascript" async="async">
 
     var bars = [[${bardata}]];
+
 
     var stuff = [{
         x: bars.first,
