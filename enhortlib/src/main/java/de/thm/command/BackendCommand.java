@@ -21,6 +21,8 @@ import java.util.stream.Collectors;
  * Created by Michael Menzel on 11/3/16.
  */
 public final class BackendCommand implements Command {
+    private final long serialVersionUID = 917124312121L;
+
     private final List<String> covariants; //list of ids of tracks that are used as covariant
     private final int minBg; //minimum of expected background positions
     private final List<SerializeableInOutTrack> customTracks;
