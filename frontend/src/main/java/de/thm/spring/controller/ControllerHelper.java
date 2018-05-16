@@ -65,8 +65,8 @@ public class ControllerHelper {
                 .max(Double::compareTo)
                 .orElse(1d);
 
-        results.put("Scored", collector.getScoredResults(cmd.isShowall()));
-        results.put("Named", collector.getNamedResults(cmd.isShowall()));
+        // results.put("Scored", collector.getScoredResults(cmd.isShowall()));
+        // results.put("Named", collector.getNamedResults(cmd.isShowall()));
 
         results.keySet().forEach(key -> { //iterate over the packages
 
@@ -146,6 +146,8 @@ public class ControllerHelper {
 
         // circ plot
 
+        // Other values ...
+
         List<TestResult> score = collector.getScoredResults(cmd.isShowall());
         score.removeAll(covariants);
         model.addAttribute("results_score", score);
@@ -157,6 +159,16 @@ public class ControllerHelper {
         model.addAttribute("insig_results", collector.getInsignificantResults());
 
         model.addAttribute("interfaceCommand", cmd);
+
+        // track counts overall
+
+        model.addAttribute("total_track_count", collector.getTrackCount());
+        if (cmd.isShowall())
+            model.addAttribute("visible_track_count", collector.getTrackCount() - covariants.size());
+        else
+            model.addAttribute("visible_track_count", collector.getSignificantTrackCount() - covariants.size());
+
+        // track counts overall
 
         //cmd.setMinBg(collector.getBgCount());
         cmd.setMinBg(10000);
@@ -191,6 +203,8 @@ public class ControllerHelper {
         model.addAttribute("sl_effect", collector.logoEffectSize());
 
         model.addAttribute("bgfilename", "Background");
+
+
     }
 
     /**
