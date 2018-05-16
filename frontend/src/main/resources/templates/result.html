@@ -80,19 +80,7 @@
                     <div th:include="uploadBg:: uploadbg"></div>
                 </th:block>
 
-                <div class="form-group">
-                    <label for="cellline">Select cell line:</label>
-                    <select class="form-control" id="cellline" name="cellline" th:field="*{interfaceCommand.cellline}"
-                            form="covariate_form">
-
-                        <th:block th:each="cellline: ${knownCellLines}">
-                            <option th:value="${cellline}" th:text="${cellline}"></option>
-                        </th:block>
-                    </select>
-                </div>
-
             </th:block>
-
 
         </div>
 
@@ -225,7 +213,11 @@
                                     <tr>
                                         <td data-toggle="tooltip" data-placement="right"
                                             title="">
-                                            Annotation group
+                                            Annotation group (
+                                            <span th:text="${visible_track_count}"></span>
+                                            /
+                                            <span th:text="${total_track_count}"></span>
+                                            )
                                         </td>
 
                                         <td></td>
