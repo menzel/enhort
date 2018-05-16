@@ -67,8 +67,8 @@ public final class ResultCollector implements Result {
             List<TestResult> r = results.stream()
                     .filter(testResult -> testResult.getType() == TestResult.Type.inout)
                     .filter(testResult -> testResult.getpValue() < 0.05 / results.size() || showall)
-                    .filter(testResult -> testResult.getMeasuredIn() >= (testResult.getMeasuredIn() + testResult.getMeasuredOut()) / 200
-                           && testResult.getExpectedIn() >= (testResult.getExpectedIn() + testResult.getExpectedOut()) / 200)
+                    .filter(testResult -> (testResult.getMeasuredIn() >= (testResult.getMeasuredIn() + testResult.getMeasuredOut()) / 200
+                            && testResult.getExpectedIn() >= (testResult.getExpectedIn() + testResult.getExpectedOut()) / 200) || showall)
                     .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
                     .collect(Collectors.toList());
 
@@ -356,6 +356,8 @@ public final class ResultCollector implements Result {
     public long getSignificantTrackCount() {
         return results.stream()
                 .filter(testResult -> testResult.getpValue() < 0.05 / (results.size()))
+                .filter(testResult -> testResult.getMeasuredIn() >= (testResult.getMeasuredIn() + testResult.getMeasuredOut()) / 200
+                        && testResult.getExpectedIn() >= (testResult.getExpectedIn() + testResult.getExpectedOut()) / 200)
                 .count();
     }
 
