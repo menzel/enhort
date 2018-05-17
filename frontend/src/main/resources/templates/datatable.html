@@ -12,6 +12,7 @@
     <link rel="stylesheet" media="screen" href="../static/css/datatable.css" th:href="@{/css/datatable.css}"/>
 
     <script src="/js/jquery-1.12.0.min.js" th:href="@{/js/jquery-1.12.0.min.js}"></script>
+    <script src="/js/popper.js" th:href="@{/js/popper.js}"></script>
     <script src="/js/bootstrap.min.js" th:href="@{/js/bootstrap.min.js}"></script>
     <script src="/js/jquery.dynatable.js" th:href="@{/js/jquery.dynatable.js}"></script>
 
@@ -26,13 +27,13 @@
         <div>
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button"
-                        data-toggle="dropdown"><span th:text="${'Assembly ' + assembly}"></span>
+                        data-toggle="dropdown"><span th:text="${'Assembly ' + assembly}" aria-haspopup="true"
+                                                     aria-expanded="false"></span>
                     <span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                    <li><a href="/data/hg18">hg18</a></li>
-                    <li><a href="/data/hg19">hg19</a></li>
-                    <li><a href="/data/hg38">hg38</a></li>
-                </ul>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="/data/hg19">hg19</a>
+                    <a class="dropdown-item" href="/data/GRCh38">hg38</a>
+                </div>
             </div>
         </div>
 
@@ -66,6 +67,8 @@
 
         </table>
         <script>
+            $('.dropdown-toggle').dropdown();
+
             $('#data').dynatable();
         </script>
 

@@ -13,6 +13,7 @@
     <link rel="stylesheet" media="screen" href="../static/css/wizard.css" th:href="@{/css/wizard.css}"/>
     <link rel="stylesheet" media="screen" href="../static/css/data.css" th:href="@{/css/data.css}"/>
 
+    <script src="/js/popper.js" th:href="@{/js/popper.js}"></script>
     <script src="/js/jquery-1.12.0.min.js" th:href="@{/js/jquery-1.12.0.min.js}"></script>
     <script src="/js/bootstrap.min.js" th:href="@{/js/bootstrap.min.js}"></script>
 
@@ -44,7 +45,7 @@
             <th:block th:case="'tracks'">
 
                  <div id="wizardheader">
-                   Select Annotations
+                     Select annotations to test
 
                      <span class="glyphicon glyphicon-info-sign wizinfo" data-toggle="tooltip"
                            data-placement="bottom"
@@ -87,8 +88,7 @@
                             <!-- Assembly -->
 
                             <div id="header_in1">
-                                <button class="btn btn-default" type="button"><span
-                                        th:text="${interfaceCommand.assembly}"></span></button>
+                                <span th:text="${interfaceCommand.assembly}"></span></button>
                             </div>
 
                             <div id="header_in2">
@@ -221,10 +221,14 @@
 
         if(counter > 0)
             document.getElementById("submitTracks").disabled = false;
+        if (counter === 0)
+            document.getElementById("submitTracks").disabled = true;
     }
 
     count(); //count once at loading to get tracks selected by session
-    document.getElementById("datatable").onclick = function () { count(); }
+    document.getElementById("datatable").onclick = function () {
+        count();
+    }
 </script>
 
 <script>
