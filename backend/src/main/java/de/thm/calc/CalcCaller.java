@@ -56,7 +56,7 @@ public final class CalcCaller {
 
         for (Track track : tracks) {
 
-            if (track instanceof InOutTrack) {
+            if (track instanceof InOutTrack) { // todo use switch
                 IntersectWrapper<InOutTrack> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, (InOutTrack) track, collector);
                 futures.add(exe.submit(wrapper));
             } else if (track instanceof StrandTrack) {
