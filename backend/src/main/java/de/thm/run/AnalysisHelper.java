@@ -130,7 +130,14 @@ class AnalysisHelper {
     private ResultCollector runAnalysisWithBg(Sites sites, Sites sitesBg, List<Track> tracks, boolean createLogo) throws NoTracksLeftException {
 
         CalcCaller multi = new CalcCaller();
-        return multi.execute(tracks, sites, sitesBg, createLogo);
+        ResultCollector collector = multi.execute(tracks, sites, sitesBg, createLogo);
+
+        if (collector.getResults().size() == 0) {
+            throw new NoTracksLeftException("There are no tracks left as results.");
+
+        }
+
+        return collector;
     }
 
     /**
