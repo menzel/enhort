@@ -2,8 +2,8 @@ package de.thm.backgroundModel;
 
 import de.thm.genomeData.tracks.Track;
 import de.thm.genomeData.tracks.TrackFactory;
-import org.apache.commons.math3.random.MersenneTwister;
 import de.thm.misc.Genome;
+import org.apache.commons.math3.random.MersenneTwister;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +22,15 @@ class RandomBackgroundModel {
     static BackgroundModel create(Genome.Assembly assembly, int count) {
 
         List<Character> strands = new ArrayList<>();
+        Track contigs;
 
-        Track contigs = TrackFactory.getInstance().getTrackByName("Contigs", assembly);
+        try {
+            contigs = TrackFactory.getInstance().getTrackByName("Contigs", assembly);
+        } catch (RuntimeException e) {
+            // contigs track not found
+            contigs = TrackFactory.getInstance().createEmptyTrack(assembly);
+        }
+
         List<Long> positions = new ArrayList<>(SingleTrackBackgroundModel.randPositions(count, contigs));
 
         MersenneTwister rand = new MersenneTwister();
