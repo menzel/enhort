@@ -177,6 +177,7 @@ public class BatchController {
             model.addAttribute("names", names);
             model.addAttribute("sizes", sizes);
             model.addAttribute("integration_counts", integration_counts);
+            model.addAttribute("bg_site_count", first.getBackgroundSites().getPositionCount());
 
             ControllerHelper.setHotspotBoundaries(model, batch.getResults().get(0).getAssembly());
 
