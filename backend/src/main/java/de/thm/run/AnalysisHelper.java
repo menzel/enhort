@@ -154,22 +154,18 @@ class AnalysisHelper {
         List<Track> runTracks;
         TrackFactory trackFactory = TrackFactory.getInstance();
 
-        if (cmd.getTracks().isEmpty() || !sites.getCellline().equals("Unknown")) {
+        if (cmd.getTracks().isEmpty()) { // when using /sample on frontend
             try {
-                runTracks = trackFactory.getTracksByCellline(sites.getCellline(), cmd.getAssembly());
+                runTracks = trackFactory.getTracksByCellline("Unknown", cmd.getAssembly());
+                //runTracks.addAll(trackFactory.getTracksByCellline("", cmd.getAssembly())); // TODO get some cell line specific tracks for sample run
             } catch (RuntimeException e) {
-                try {
-                    runTracks = trackFactory.getTracksByName(Arrays.asList("Known genes", "CpG Islands", "Exons", "Introns"), Genome.Assembly.hg19);
-                    logger.warn("Error getting tracks {}", e);
-                } catch (RuntimeException e1) {
-                    runTracks = trackFactory.getTracks(Genome.Assembly.hg19);
-                }
+                logger.warn("Error getting tracks {}", e);
+                runTracks = trackFactory.getTracks(Genome.Assembly.hg19);
             }
 
         } else { // if there is a list of track ids given by command
 
             runTracks = trackFactory.getTracksById(cmd.getTracks());
-
 
             if(runTracks.isEmpty()){
                 logger.warn("TrackFactory did not provide any tracks for given packages (" + Arrays.toString(cmd.getTracks().toArray()) + ") in AnalysisHelper");
@@ -179,7 +175,6 @@ class AnalysisHelper {
 
         // always add custom tracks to run
         runTracks.addAll(cmd.getCustomTracks());
-
         return runAnalysisWithBg(sites, sitesBg, runTracks, cmd.isCreateLogo());
 
     }
@@ -202,13 +197,25 @@ class AnalysisHelper {
 
         BatchResult results = new BatchResult();
 
-        // get tracks by given packages
+        // get tracks by given packages and cellline
         List<String> packages = TrackFactory.getInstance().getPackNames(command.getAssembly()).stream()
                 .filter(p -> command.getPackages().stream()
                         .anyMatch(p::contains))
                 .collect(Collectors.toList());
 
-        List<Track> tracks = new ArrayList<>(TrackFactory.getInstance().getTracksByPackage(packages, command.getAssembly()));
+        // filter track packages for packages that are not cell line specific
+        List<String> without_cellline = Arrays.asList("Genetic", "Restr", "Other");
+        List<Track> tracks = new ArrayList<>(TrackFactory.getInstance().getTracksByPackage(packages.stream()
+                .filter(pack -> without_cellline.stream()
+                        .anyMatch(pack::equals))
+                .collect(Collectors.toList()), command.getAssembly()));
+
+        try {
+            tracks.addAll(TrackFactory.getInstance().getTracksByPackageAndCellline(packages, command.getCellline(), command.getAssembly()));
+
+        } catch (NoTracksLeftException e) {
+            logger.warn(e.toString());
+        }
 
         tracks = tracks.stream().filter(distinctByKey(Track::getName)).collect(Collectors.toList());
 
