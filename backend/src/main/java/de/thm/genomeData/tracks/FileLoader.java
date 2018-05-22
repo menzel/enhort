@@ -47,9 +47,9 @@ class FileLoader implements Callable<Optional<Track>> {
 
         Path basePath;
         if (System.getenv("HOME").contains("menzel")) {
-            basePath = new File("/home/menzel/Desktop/THM/lfba/enhort/stefan/").toPath();
+            basePath = new File("/home/menzel/Desktop/THM/lfba/enhort/dat/stefan/").toPath();
         } else {
-            basePath = new File("/permData/gogol/mmnz21/enhort/").toPath();
+            basePath = new File("/permData/gogol/sgls22/enhort/").toPath();
         }
 
         this.path = basePath.resolve(new File(entry.getFilepath()).toPath());

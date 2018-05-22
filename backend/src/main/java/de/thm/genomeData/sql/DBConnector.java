@@ -81,34 +81,11 @@ public class DBConnector {
             throw new RuntimeException("No connection to the database");
 
         String sql = "SELECT * FROM enhort_view " + whereClause;
-        //TODO use view
 
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
 
-            /*
-
-            if (System.getenv("HOME").contains("menzel")) {
-                while (rs.next()) {
-                    TrackEntry entry = new TrackEntry(
-                            rs.getString("name"),
-                            rs.getString("description"),
-                            rs.getString("file"),
-                            rs.getString("type"),
-                            rs.getString("assembly"),
-                            rs.getString("cellline"),
-                            rs.getInt("filesize"),
-                            rs.getString("package"),
-                            rs.getInt("id"),
-                            "UCSC Genome Browser",
-                            "http://www.ucsc.edu");
-
-                    entries.add(entry);
-                }
-            } else {
-
-                */
 
             while (rs.next()) {
                 TrackEntry entry = new TrackEntry(rs.getString("name"),
@@ -126,8 +103,6 @@ public class DBConnector {
                 entries.add(entry);
             }
 
-            //}
-
         } catch (SQLException e) {
             logger.error("Exception {}", e.getMessage(), e);
         }
@@ -136,25 +111,6 @@ public class DBConnector {
         return entries;
     }
 
-    public List<String> getCompilationByName(String name, Genome.Assembly assembly){
-        List<String> trackNames = new ArrayList<>();
-
-        String sql = "SELECT * FROM compilationsView WHERE compilationName == '" + name + "' AND assembly == '" + assembly + "'";
-
-        try {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-
-            while(rs.next()){
-                trackNames.add(rs.getString("trackName"));
-            }
-
-        } catch (SQLException e) {
-            logger.error("Exception {}", e.getMessage(), e);
-        }
-
-        return trackNames;
-    }
 
     /**
      * Returns all cell lines from the db
@@ -169,16 +125,16 @@ public class DBConnector {
         try {
 
             // get all cellliens without children
-            String parents = "SELECT name FROM cell_lines WHERE parent = ''";
+            String parents = "SELECT cell_line FROM cell_lines WHERE parent_id = ''";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(parents);
 
             while(rs.next()){
-                celllines.put(rs.getString("name"), null);
+                celllines.put(rs.getString("cell_line"), null);
             }
 
             // get celllines with children
-            String children = "SELECT name, parent FROM cell_lines WHERE parent != '' ORDER BY parent";
+            String children = "SELECT cell_line, parent_id FROM cell_lines WHERE parent_id != '' ORDER BY parent_id";
             stmt = conn.createStatement();
             rs = stmt.executeQuery(children);
 
@@ -187,10 +143,10 @@ public class DBConnector {
 
             while(rs.next()) {
 
-                String currentParent = rs.getString("parent");
+                String currentParent = rs.getString("parent_id");
 
                 if(oldParent.equals(currentParent)){
-                    tmpNames.add(rs.getString("name"));
+                    tmpNames.add(rs.getString("cell_line"));
 
                 } else {
                     if(tmpNames.size() > 0)

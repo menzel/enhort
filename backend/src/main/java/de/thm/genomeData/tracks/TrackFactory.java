@@ -1,5 +1,6 @@
 package de.thm.genomeData.tracks;
 
+import de.thm.exception.NoTracksLeftException;
 import de.thm.genomeData.sql.DBConnector;
 import de.thm.misc.ChromosomSizes;
 import de.thm.misc.Genome;
@@ -91,21 +92,20 @@ public final class TrackFactory {
 
         if (System.getenv("HOME").contains("menzel")) {
 
-            allTracks = connector.getAllTracks("WHERE file like '%inout%'");
-
+            allTracks = connector.getAllTracks(" WHERE directory like '%genetic%' and genome_assembly = 'hg19' ORDER BY lines ASC ");
+            allTracks.addAll(connector.getAllTracks("WHERE name like 'ontigs'"));
+            allTracks.addAll(connector.getAllTracks("WHERE cell_line like 'K-562' LIMIT 200"));
+            //allTracks.addAll(connector.getAllTracks("WHERE cell_line like 'K-562'"));
             //allTracks = connector.getAllTracks(" WHERE genome_assembly = 'hg19' ORDER BY lines ASC LIMIT 3000");
-            allTracks.addAll(connector.getAllTracks("WHERE type = 'named'"));
-            allTracks.addAll(connector.getAllTracks("WHERE name like '%tf%'"));
-            allTracks.addAll(connector.getAllTracks("WHERE file like '%repeat%'"));
-            allTracks.addAll(connector.getAllTracks("WHERE file like '%broad%'"));
-            allTracks.addAll(connector.getAllTracks("WHERE file like '%rest%'"));
-            allTracks.addAll(connector.getAllTracks("WHERE file like '%dist%'"));
-            allTracks.addAll(connector.getAllTracks("WHERE name like '%contigs%'"));
-            allTracks.addAll(connector.getAllTracks("WHERE file like '%score%'"));
-            //allTracks.addAll(connector.getAllTracks("WHERE type = 'scored'"));
         } else {
-            allTracks = connector.getAllTracks(" ORDER BY lines ASC LIMIT 500");
-            //  allTracks.addAll(connector.getAllTracks("WHERE name like '%contigs%'"));
+            allTracks = connector.getAllTracks(" WHERE directory like '%genetic%' and genome_assembly = 'hg19' ORDER BY lines ASC ");
+            allTracks.addAll(connector.getAllTracks("WHERE cell_line like 'HeLa%'"));
+            allTracks.addAll(connector.getAllTracks("WHERE cell_line like 'K-562'"));
+            //allTracks.addAll(connector.getAllTracks("WHERE cell_line like '%PS%'"));
+            allTracks.addAll(connector.getAllTracks("WHERE cell_line like '%CD%'"));
+            allTracks.addAll(connector.getAllTracks("WHERE cell_line like '%GM12878%'"));
+            allTracks.addAll(connector.getAllTracks("WHERE cell_line like '%Hep-G2%'"));
+            allTracks.addAll(connector.getAllTracks("WHERE cell_line like '%A-549%'"));
         }
 
         logger.info("Trying to load " + allTracks.size() + " tracks");
@@ -166,7 +166,7 @@ public final class TrackFactory {
         exe.shutdown();
 
         try {
-            int timeout = (System.getenv("HOME").contains("menzel")) ? 60 : 60 * 10;
+            int timeout = (System.getenv("HOME").contains("menzel")) ? 60 : 60 * 5;
             completionService.poll(timeout, TimeUnit.SECONDS);
 
             logger.warn("Still loading track files. Stopping now");
@@ -226,6 +226,22 @@ public final class TrackFactory {
                 return pack.getTrackList();
         }
         throw new RuntimeException("No TrackPackage with that  (" + cellline + ") and assembly (" + assembly + ")");
+    }
+
+
+    public Collection<Track> getTracksByPackageAndCellline(List<String> packages, String cellline, Genome.Assembly assembly) throws NoTracksLeftException {
+
+        List<Track> returnTracks = new ArrayList<>();
+
+        for (Track track : tracks) {
+            if (track.getAssembly().equals(assembly) && track.getCellLine().equals(cellline) && packages.stream().anyMatch(p -> p.equals(track.getPack())))
+                returnTracks.add(track);
+        }
+
+        if (!returnTracks.isEmpty())
+            return returnTracks;
+
+        throw new NoTracksLeftException("No tracks found for : " + cellline + " in " + Arrays.toString(packages.toArray()));
     }
 
 
@@ -319,15 +335,16 @@ public final class TrackFactory {
      */
     public Track getTrackByName(String name, Genome.Assembly assembly) {
 
-        if (name.equals("Contigs"))
+        for (Track track : tracks) {
+            if (track.getAssembly().equals(assembly) && track.getName().toLowerCase().equals(name.toLowerCase()))
+                return track;
+        }
 
-            for (Track track : tracks) {
-                if (track.getAssembly().equals(assembly) && track.getName().toLowerCase().equals(name.toLowerCase()))
-                    return track;
-            }
+        String message = "Could not find track " + name + ". Some parts might not be working correct. " +
+                "Please check the track file and name";
 
-        throw new RuntimeException("Could not find track " + name + ". Some parts might not be working correct. " +
-                "Please check the track file and name");
+        logger.error(message);
+        throw new RuntimeException(message);
     }
 
 
@@ -364,14 +381,6 @@ public final class TrackFactory {
 
         throw new RuntimeException("Could not find tracks for packages" + Arrays.toString(packages.toArray()) + ". Some parts might not be working correct. " +
                 "Please check the names");
-    }
-
-
-    public List<Track> getTracksByCompilation(String name, Genome.Assembly assembly) {
-        DBConnector connector = new DBConnector();
-        connector.connect();
-
-        return getTracksByName(connector.getCompilationByName(name, assembly), assembly);
     }
 
     /**
