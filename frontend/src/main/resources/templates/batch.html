@@ -97,10 +97,10 @@
 
                             <select class="form-control" id="cellline" name="cellline">
                                 <option value="" selected></option>
-                                <option value="HeLa S3">Hela S3</option>
-                                <option value="GM12878">GM12878</option>
-                                <option value="K-562">K-562</option>
-                                <option value="Jurkat">Jurkat</option>
+
+                                <th:block th:each="name: ${cellline_names}">
+                                    <option th:value="${name}" th:text="${name}"></option>
+                                </th:block>
                             </select>
 
                             <div id="hidden" style="visibility: hidden">

@@ -47,9 +47,14 @@ public class BatchController {
         return new ImmutablePair<>(left, right);
     }
 
+    private final List<String> celllines = Arrays.asList("Jurkat", "GM12878", "HeLa S3", "K-562"); // could get celllines from backend first time
+
 
     @RequestMapping(value = {"/batch"}, method = RequestMethod.GET)
-    public String index() {
+    public String index(Model model) {
+
+        model.addAttribute("cellline_names", celllines);
+
         return "batch";
     }
 
