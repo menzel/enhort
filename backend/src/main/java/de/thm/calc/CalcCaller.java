@@ -1,6 +1,9 @@
 package de.thm.calc;
 
-import de.thm.genomeData.tracks.*;
+import de.thm.genomeData.tracks.DistanceTrack;
+import de.thm.genomeData.tracks.InOutTrack;
+import de.thm.genomeData.tracks.ScoredTrack;
+import de.thm.genomeData.tracks.Track;
 import de.thm.logo.GenomeFactory;
 import de.thm.logo.Logo;
 import de.thm.logo.LogoCreator;
@@ -56,22 +59,8 @@ public final class CalcCaller {
 
         for (Track track : tracks) {
 
-            if (track instanceof InOutTrack) { // todo use switch
-                IntersectWrapper<InOutTrack> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, (InOutTrack) track, collector);
-                futures.add(exe.submit(wrapper));
-            } else if (track instanceof StrandTrack) {
-                IntersectWrapper<StrandTrack> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, (StrandTrack) track, collector);
-                futures.add(exe.submit(wrapper));
-            } else if (track instanceof ScoredTrack) {
-                IntersectWrapper<ScoredTrack> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, (ScoredTrack) track, collector);
-                futures.add(exe.submit(wrapper));
-            } else if (track instanceof NamedTrack) {
-                IntersectWrapper<NamedTrack> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, (NamedTrack) track, collector);
-                futures.add(exe.submit(wrapper));
-            } else if (track instanceof DistanceTrack){
-                DistanceWrapper dWrapper = new DistanceWrapper(measuredPositions, randomPositions, (DistanceTrack) track, collector);
-                futures.add(exe.submit(dWrapper));
-            }
+            IntersectWrapper<? extends Track> wrapper = new IntersectWrapper<>(measuredPositions, randomPositions, track, collector);
+            futures.add(exe.submit(wrapper));
         }
 
         ////////////  Tracks intersect ////////////////
@@ -260,7 +249,7 @@ public final class CalcCaller {
             int width = 12;//TODO use user set value
             int count = 300;//TODO use user set value
 
-            Logo sequencelogo = LogoCreator.createLogo(genome.getSequence(assembly, measuredPos, width, count));
+            Logo sequencelogo = LogoCreator.createLogo(Objects.requireNonNull(genome.getSequence(assembly, measuredPos, width, count)));
             sequencelogo.setName(name);
 
             collector.addLogo(sequencelogo);
