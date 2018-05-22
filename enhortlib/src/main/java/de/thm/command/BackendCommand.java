@@ -35,6 +35,7 @@ public final class BackendCommand implements Command {
     private final List<Sites> batchSites;
     private final Task task;
     private final List<String> packages;
+    private final String cellline;
 
     /**
      * Build using the builder pattern
@@ -54,6 +55,7 @@ public final class BackendCommand implements Command {
         this.batchSites = builder.batchSites;
         this.task = builder.task;
         this.packages = builder.packages;
+        this.cellline = builder.cellline;
     }
 
     public void addCustomTrack(List<SerializeableInOutTrack> track) {
@@ -79,8 +81,9 @@ public final class BackendCommand implements Command {
         this.sitesBg = null;
         this.tracks = Collections.emptyList();
         this.task = task;
-        batchSites = null;
-        packages = null;
+        this.batchSites = null;
+        this.packages = null;
+        this.cellline = null;
     }
 
     public List<Track> getCustomTracks() {
@@ -102,6 +105,11 @@ public final class BackendCommand implements Command {
     public int getMinBg() {
         return minBg;
     }
+
+    public String getCellline() {
+        return cellline;
+    }
+
 
     public Genome.Assembly getAssembly() {
         return assembly;
@@ -151,6 +159,7 @@ public final class BackendCommand implements Command {
         private List<String> tracks = Collections.emptyList();
         private List<Sites> batchSites = Collections.emptyList();
         private List<String> packages;
+        private String cellline;
 
 
         public Builder(Task task, Genome.Assembly assembly) {
@@ -217,7 +226,10 @@ public final class BackendCommand implements Command {
             return this;
         }
 
-
+        public Builder cellline(String cellline) {
+            this.cellline = cellline;
+            return this;
+        }
 
         public Builder logoCovariate(boolean val) {
             this.logoCovariate = val;
