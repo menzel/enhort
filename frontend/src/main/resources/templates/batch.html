@@ -29,166 +29,200 @@
         <th:block th:if="not ${ran}">
 
             <div class="col-8">
-                <div id="">
+                <h4>Batch analysis </h4>
+                <span>Compare multiple .bed-files against annotations and display as heatmap</span>
+                <br>
+                <br>
+                <div id="form">
 
                     <form method="post" id="uploadForm" action="" enctype="multipart/form-data">
-                        <label for="files">Upload 2 or more .bed-files for analysis</label>
-                        <input type="file" id="files" name="file[]" multiple="multiple"/>
+                        <p>
+                            <label for="files" class="head">Select 2 or more .bed-files for analysis:</label>
+                            <br>
+                            <input type="file" id="files" name="file[]" multiple="multiple"/>
+                            <br>
+                            <br>
 
-                        <br>
-                        <label for="assem">Assembly </label>
+                        </p>
 
-                        <select id="assem" name="assembly">
-                            <option value="hg18">hg18</option>
-                            <option value="hg19" selected>hg19</option>
-                            <option value="hg38">hg38</option>
-                        </select>
+                        <p>
+                            <label for="assem" class="head">Assembly:</label>
+                            <br>
+                            <select id="assem" name="assembly" class="form-control">
+                                <option value="hg19" selected>hg19</option>
+                                <option value="GRCh38">hg38</option>
+                            </select>
+                        </p>
 
-                        <br>
-                        <br>
+                        <p>
+                            <label for="background" class="head">Control sites</label>
+                            <span style="color: red;">*</span>
+                            <br>
+                            <input type="file" id="background" name="background" multiple="multiple"/>
+                        </p>
 
-                        <label for="background">(Optional) Upload a custom .bed-file with control sites</label>
-                        <input type="file" id="background" name="background" multiple="multiple"/>
-
-                        <br>
-                        <br>
+                        <p>
 
                         <div class="form-group">
+                            <label class="head">Annotations:</label>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="package" value="Genetic"
-                                       id="gencheck" checked>
+                                       id="gencheck" checked/>
                                 <label class="form-check-label" for="gencheck">
                                     Genetic
                                 </label>
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="package" value="Histone"
-                                       id="histcheck">
-                                <label class="form-check-label" for="histcheck">
-                                    Histone modifications
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="package" value="Transc"
-                                       id="tfbscheck">
-                                <label class="form-check-label" for="tfbscheck">
-                                    Transcription factor binding sites
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="package" value="Repeats"
-                                       id="repcheck">
-                                <label class="form-check-label" for="repcheck">
-                                    Repeats
-                                </label>
-                            </div>
+
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="package" value="Restr"
-                                       id="restcheck">
+                                       id="restcheck"/>
                                 <label class="form-check-label" for="restcheck">
                                     Restriction sites
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="package" value="Other"
-                                       id="ocheck">
+                                       id="ocheck"/>
                                 <label class="form-check-label" for="ocheck">
                                     Other
                                 </label>
                             </div>
                         </div>
+                        </p>
 
-                        <button class="btn btn-primary" type="submit" id="startButton">Start</button>
+                        <p>
+                        <div class="form-group">
+                            <label for="cellline" class="head">Cell line</label>
+                            <span style="color: red;">*</span>
+
+                            <select class="form-control" id="cellline" name="cellline">
+                                <option value="" selected></option>
+                                <option value="HeLa S3">Hela S3</option>
+                                <option value="GM12878">GM12878</option>
+                                <option value="K-562">K-562</option>
+                                <option value="Jurkat">Jurkat</option>
+                            </select>
+
+                            <div id="hidden" style="visibility: hidden">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="package" value="Histone"
+                                           id="histcheck"/>
+                                    <label class="form-check-label" for="histcheck">
+                                        Histone modifications
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="package" value="Transc"
+                                           id="tfbscheck"/>
+                                    <label class="form-check-label" for="tfbscheck">
+                                        Transcription factor binding sites
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="package" value="Repeats"
+                                           id="repcheck"/>
+                                    <label class="form-check-label" for="repcheck">
+                                        Repeats
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        </p>
+
+                        <button class="btn btn-primary" type="submit" id="startButton">Start analysis</button>
+                        <span style="color: red; float: right;">* Optional</span>
                     </form>
                 </div>
-
-            </div>
-
-            <div class="col-2">
             </div>
 
         </th:block>
 
-    <th:block th:if="${ran}">
+        <th:block th:if="${ran}">
 
-        <div class="col-12">
-
-
-            <ul class="nav nav-tabs" role="tablist">
-                <li class="nav-item active"><a class="nav-link active" data-toggle="tab" href="#nav1">Heatmap</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav2">Hotspots</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav3">Info</a></li>
-            </ul>
-
-            <div class="tab-content">
-
-                <!-- Tab 1 Overview -->
-                <div id="nav1" class="tab-pane fade show active">
-
-                    <span id="legend">(?)</span>
-
-                    <div id="results">
-                        <div id="heatmapDiv" th:style="${'height:'+ #lists.size(tracks) * 50 + 'px'}"></div>
-                    </div>
-                </div>
-
-                <!-- Tab 2 Hotspots -->
-                <div id="nav2" class="tab-pane fade">
-
-                    <div id="hotspots">
-                        <th:block th:each="track, iter: ${hotspots}">
-                            <div class="hotspots_inner">
-                                <div class="hotspot_name" th:text="${names[iter.index]}"></div>
-                                <th:block th:each="pixel: ${track}">
-                                    <div class="hotspot"
-                                         th:style="'background-color:hsl(231,100%,' + ${pixel} + '%);'"></div>
-                                </th:block>
-                            </div>
-                        </th:block>
+            <div class="col-12">
 
 
-                        <div id="chrsizes">
-                            <th:block th:each="size,iter: ${chrsizes}">
-                                <div class="chrbar" th:style="'width:' +${size} + '%'">
-                                    <div th:text="${chrnames[iter.index]}"></div>
-                                </div>
-                            </th:block>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item active"><a class="nav-link active" data-toggle="tab" href="#nav1">Heatmap</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav2">Hotspots</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav3">Site counts</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav4">As text</a></li>
+                </ul>
 
+                <div class="tab-content">
+
+                    <!-- Tab 1 Overview -->
+                    <div id="nav1" class="tab-pane fade show active">
+
+                        <span id="legend">(?)</span>
+
+                        <div id="results">
+                            <div id="heatmapDiv" th:style="${'height:'+ #lists.size(tracks) * 50 + 'px'}"></div>
                         </div>
                     </div>
 
-                </div>
+                    <!-- Tab 2 Hotspots -->
+                    <div id="nav2" class="tab-pane fade">
+
+                        <div id="hotspots">
+                            <th:block th:each="track, iter: ${hotspots}">
+                                <div class="hotspots_inner">
+                                    <div class="hotspot_name" th:text="${names[iter.index]}"></div>
+                                    <th:block th:each="pixel: ${track}">
+                                        <div class="hotspot"
+                                             th:style="'background-color:hsl(231,100%,' + ${pixel} + '%);'"></div>
+                                    </th:block>
+                                </div>
+                            </th:block>
 
 
-                <!-- Tab 2 Info -->
-                <div id="nav3" class="tab-pane fade">
+                            <div id="chrsizes">
+                                <th:block th:each="size,iter: ${chrsizes}">
+                                    <div class="chrbar" th:style="'width:' +${size} + '%'">
+                                        <div th:text="${chrnames[iter.index]}"></div>
+                                    </div>
+                                </th:block>
 
-                    <table class="table table-hover table-condensed table-striped">
-                        <tr>
-                            <th>Name</th>
-                            <th>Number of sites<br></th>
-                            <th></th>
-                        </tr>
-                        <th:block th:each="name, iter: ${names}">
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <!-- Tab 2 Info -->
+                    <div id="nav3" class="tab-pane fade">
+
+                        <table class="table table-hover table-condensed table-striped">
                             <tr>
-                                <td th:text="${name}"></td>
-                                <td th:text="${sizes[iter.index]}"></td>
+                                <th>Name</th>
+                                <th>Number of sites<br></th>
+                                <th></th>
+                            </tr>
+                            <th:block th:each="name, iter: ${names}">
+                                <tr>
+                                    <td th:text="${name}"></td>
+                                    <td th:text="${sizes[iter.index]}"></td>
+                                    <td></td>
+                                </tr>
+                            </th:block>
+                            <tr>
+                                <td>Background sites</td>
+                                <td th:text="${bg_site_count}"></td>
                                 <td></td>
                             </tr>
-                        </th:block>
-                        <tr>
-                            <td>Background sites</td>
-                            <td th:text="${bg_site_count}"></td>
-                            <td></td>
-                        </tr>
-                    </table>
+                        </table>
+                    </div>
+
+                    <div id="nav4" class="tab-pane fade">
+                        <textarea th:text="${csv}"></textarea>
+                    </div>
+
                 </div>
 
             </div>
 
-        </div>
-
-    </th:block>
+        </th:block>
 
     </div>
 
@@ -196,8 +230,27 @@
 
 </body>
 
+<script>
+    let e = document.getElementById("cellline");
+    let hid = document.getElementById("hidden");
+
+    e.onchange = function () {
+        let option = e.options[e.selectedIndex].value;
+
+        if (option === "") {
+            hid.style.visibility = "hidden";
+        } else {
+            hid.style.visibility = "visible";
+        }
+    };
+
+    e.click();
+
+</script>
+
 
 <th:block th:if="${ran}">
+
     <script th:inline="javascript" async="async">
         /*<![CDATA[*/
         'use strict';
@@ -210,7 +263,6 @@
         var pValues = []; // p values
 
         var counts = [[${integration_counts}]]; //track names
-        console.log(counts);
 
         /* Split list of pairs into two lists for effect sizes and * for p values */
         for (var v in results) {

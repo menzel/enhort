@@ -59,6 +59,7 @@ public class BatchController {
                            @RequestParam("background") MultipartFile bg,
                            @RequestParam("package") List<String> packages,
                            @RequestParam("assembly") String assem,
+                           @RequestParam("cellline") String cellline,
                            HttpSession httpSession) {
 
         List<Sites> batchSites = new ArrayList<>();
@@ -85,10 +86,20 @@ public class BatchController {
 
         if (!Objects.isNull(bg) && !bg.isEmpty()) {
             background = ControllerHelper.getUserData(bg);
-            command = new BackendCommand.Builder(Command.Task.ANALYZE_BATCH, assembly).batchSites(batchSites).packages(packages).sitesBg(background).build();
+
+            command = new BackendCommand.Builder(Command.Task.ANALYZE_BATCH, assembly)
+                    .batchSites(batchSites)
+                    .packages(packages)
+                    .sitesBg(background)
+                    .cellline(cellline)
+                    .build();
 
         } else
-            command = new BackendCommand.Builder(Command.Task.ANALYZE_BATCH, assembly).packages(packages).batchSites(batchSites).build();
+            command = new BackendCommand.Builder(Command.Task.ANALYZE_BATCH, assembly)
+                    .packages(packages)
+                    .batchSites(batchSites)
+                    .cellline(cellline)
+                    .build();
 
         try {
             /////////// Run analysis ////////////
@@ -110,6 +121,8 @@ public class BatchController {
             List<List<List<Number>>> integration_counts = new ArrayList<>();
             List<List<Number>> inner = Stream.generate(ArrayList<Number>::new).limit(batch.getResults().size()).collect(Collectors.toList());
 
+            StringBuilder csv = new StringBuilder();
+
             for (int y = 0; y < first.getResults().size(); y++) {
                 integration_counts.add(new ArrayList<>(inner));
             }
@@ -120,17 +133,17 @@ public class BatchController {
                 ResultCollector current = (ResultCollector) c;
                 List<TestResult> sortedResults = new ArrayList<>(current.getResults());
                 sortedResults.sort(byTrack);
-                System.out.println(names.get(i));
+
+                final String lb = "\r";
+
+                csv.append(names.get(i)).append(lb).append(lb);
 
                 for (int trackN = 0; trackN < sortedResults.size(); trackN++) {
                     TestResult tr = sortedResults.get(trackN);
                     List<Number> tmp = new ArrayList<>();
 
-
-                    System.out.println(tr.getTrack().getName() + " fold change: " + tr.getEffectSize() + " In sites: " + tr.getMeasuredIn() + " In control: " + tr.getExpectedIn()
-                            + " Out sites: " + tr.getMeasuredOut() + " Out control: " + tr.getExpectedOut()
-                            + " fc: " + tr.getEffectSize());
-
+                    csv.append(tr.getTrack().getName()).append(" Fold change (log2): ").append(tr.getEffectSize()).append(" In sites: ").append(tr.getMeasuredIn()).append(" In control: ").append(tr.getExpectedIn()).append(" Out sites: ").append(tr.getMeasuredOut()).append(" Out control: ").append(tr.getExpectedOut()).append(" P value: ").append(tr.getpValue());
+                    csv.append(lb);
 
                     tmp.add(tr.getMeasuredIn());
                     tmp.add(tr.getMeasuredOut());
@@ -149,6 +162,8 @@ public class BatchController {
                 }
                 // end integration counts
 
+                csv.append(lb);
+
 
                 hotspots.add(current.getHotspots());
 
@@ -159,7 +174,6 @@ public class BatchController {
 
                 //((ResultCollector) c).getResults();
                 results.put(names.get(i++), tmp);
-                System.out.println();
             }
 
 
@@ -178,6 +192,8 @@ public class BatchController {
             model.addAttribute("sizes", sizes);
             model.addAttribute("integration_counts", integration_counts);
             model.addAttribute("bg_site_count", first.getBackgroundSites().getPositionCount());
+
+            model.addAttribute("csv", csv.toString());
 
             ControllerHelper.setHotspotBoundaries(model, batch.getResults().get(0).getAssembly());
 
