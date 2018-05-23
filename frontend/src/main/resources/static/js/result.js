@@ -13,12 +13,14 @@ function plotRadar(efs) {
         max.push({axis: pack, value: efs[pack][4]});
         average.push({axis: pack, value: efs[pack][2]})
     }
-    w = 350;
+
+    let w = 350;
 
     let options = {
         w: w,
         h: 350,
-        ExtraWidthX: 100
+        ExtraWidthX: 100,
+        maxValue: Math.max(...max.map(x => x.value))
     };
 
 
