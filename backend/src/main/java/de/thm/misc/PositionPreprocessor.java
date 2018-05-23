@@ -1,6 +1,5 @@
 package de.thm.misc;
 
-import de.thm.genomeData.tracks.InOutTrack;
 import de.thm.genomeData.tracks.NamedTrack;
 import de.thm.genomeData.tracks.ScoredTrack;
 import de.thm.genomeData.tracks.TrackFactory;
@@ -9,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,55 +19,6 @@ import java.util.stream.Collectors;
 public final class PositionPreprocessor {
 
     private static final Logger logger = LoggerFactory.getLogger(PositionPreprocessor.class);
-
-    /**
-     * Preprocesses data. Join tracks which cover the same positions.
-     *
-     * @param track to process
-     */
-    public static InOutTrack preprocessData(InOutTrack track) {
-        List<Long> newStart = new ArrayList<>();
-        List<Long> newEnd = new ArrayList<>();
-
-        List<Long> tracksStart = Arrays.stream(track.getStarts()).boxed().collect(Collectors.toList());
-        List<Long> tracksEnd = Arrays.stream(track.getEnds()).boxed().collect(Collectors.toList());
-
-        if (tracksStart.isEmpty()) return track;
-
-        long start = tracksStart.get(0);
-        long end = tracksEnd.get(0);
-
-        List<Long> tmp = new ArrayList<>(tracksStart);
-        Collections.sort(tmp);
-        if (!tracksStart.equals(tmp)) {
-            logger.warn("Interval was not sorted. Uses ./sort_bed script first");
-            return null;
-        }
-
-        for (int i = 0; i < tracksStart.size(); i++) {
-
-            if (i < tracksStart.size() - 1 && end >= tracksStart.get(i + 1)) { // overlap
-
-                if (end < tracksEnd.get(i + 1))
-                    end = tracksEnd.get(i + 1);
-
-            } else {  //do not overlap
-                newStart.add(start);
-                newEnd.add(end);
-
-                if (i >= tracksStart.size() - 1) break; // do not get next points if this was the last
-
-                start = tracksStart.get(i + 1);
-                end = tracksEnd.get(i + 1);
-
-            }
-        }
-
-        tracksStart.clear();
-        tracksEnd.clear();
-
-        return TrackFactory.getInstance().createInOutTrack(newStart, newEnd, track.getName(), track.getDescription(), track.getAssembly(), track.getCellLine());
-    }
 
     public static ScoredTrack preprocessData(ScoredTrack track) {
         List<Long> newStart = new ArrayList<>();
