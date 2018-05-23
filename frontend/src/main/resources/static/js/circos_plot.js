@@ -119,74 +119,86 @@ function plot_circos(hotspots, names, counts, width, div_id) {
         ]
     });
 
+    if (counts.length > 5) {
+        plot = plot.highlight('circle5', blocks, {
+            innerRadius: 0.53,
+            outerRadius: 0.6,
+            color: function (d) {
+                return colors[5] + counts[5][(d.start + chrmap[d.block_id]) / blocksize] / Math.max(...counts[5]) + ')';
+            },
+            tooltipContent: function (d) {
+                return names[5];
+            }
+        });
+    }
 
-    plot = plot.highlight('circle5', blocks, {
-        innerRadius: 0.53,
-        outerRadius: 0.6,
-        color: function (d) {
-            return colors[5] + counts[5][(d.start + chrmap[d.block_id]) / blocksize] / Math.max(...counts[5]) + ')';
-        },
-        tooltipContent: function (d) {
-            return names[5];
-        }
-    });
-
-    plot = plot.highlight('circle4', blocks, {
-        innerRadius: 0.61,
-        outerRadius: 0.68,
-        color: function (d) {
-            return colors[4] + counts[4][(d.start + chrmap[d.block_id]) / blocksize] / Math.max(...counts[4]) + ')';
-        },
-        tooltipContent: function (d) {
-            return names[4];
-        }
-    });
-
-
-    plot = plot.highlight('circle3', blocks, {
-        innerRadius: 0.69,
-        outerRadius: 0.76,
-        color: function (d) {
-            return colors[3] + counts[3][(d.start + chrmap[d.block_id]) / blocksize] / Math.max(...counts[3]) + ')';
-        },
-        tooltipContent: function (d) {
-            return names[3];
-        }
-    });
+    if (counts.length > 4) {
+        plot = plot.highlight('circle4', blocks, {
+            innerRadius: 0.61,
+            outerRadius: 0.68,
+            color: function (d) {
+                return colors[4] + counts[4][(d.start + chrmap[d.block_id]) / blocksize] / Math.max(...counts[4]) + ')';
+            },
+            tooltipContent: function (d) {
+                return names[4];
+            }
+        });
+    }
 
 
-    plot = plot.highlight('circle2', blocks, {
-        innerRadius: 0.77,
-        outerRadius: 0.84,
-        color: function (d) {
-            return colors[2] + counts[2][(d.start + chrmap[d.block_id]) / blocksize] / Math.max(...counts[2]) + ')';
-        },
-        tooltipContent: function (d) {
-            return names[2];
-        }
-    });
+    if (counts.length > 3) {
+        plot = plot.highlight('circle3', blocks, {
+            innerRadius: 0.69,
+            outerRadius: 0.76,
+            color: function (d) {
+                return colors[3] + counts[3][(d.start + chrmap[d.block_id]) / blocksize] / Math.max(...counts[3]) + ')';
+            },
+            tooltipContent: function (d) {
+                return names[3];
+            }
+        });
+    }
 
-    plot = plot.highlight('circle1', blocks, {
-        innerRadius: 0.85,
-        outerRadius: 0.92,
-        color: function (d) {
-            return colors[1] + counts[1][(d.start + chrmap[d.block_id]) / blocksize] / Math.max(...counts[1]) + ')';
-        },
-        tooltipContent: function (d) {
-            return names[1];
-        }
-    });
 
-    plot = plot.highlight('circle0', blocks, {
-        innerRadius: 0.93,
-        outerRadius: 1.0,
-        color: function (d) {
-            return colors[0] + counts[0][(d.start + chrmap[d.block_id]) / blocksize] / Math.max(...counts[0]) + ')';
-        },
-        tooltipContent: function (d) {
-            return names[0];
-        }
-    });
+    if (counts.length > 2) {
+        plot = plot.highlight('circle2', blocks, {
+            innerRadius: 0.77,
+            outerRadius: 0.84,
+            color: function (d) {
+                return colors[2] + counts[2][(d.start + chrmap[d.block_id]) / blocksize] / Math.max(...counts[2]) + ')';
+            },
+            tooltipContent: function (d) {
+                return names[2];
+            }
+        });
+    }
+
+    if (counts.length > 1) {
+        plot = plot.highlight('circle1', blocks, {
+            innerRadius: 0.85,
+            outerRadius: 0.92,
+            color: function (d) {
+                return colors[1] + counts[1][(d.start + chrmap[d.block_id]) / blocksize] / Math.max(...counts[1]) + ')';
+            },
+            tooltipContent: function (d) {
+                return names[1];
+            }
+        });
+    }
+
+    if (counts.length > 0) {
+        plot = plot.highlight('circle0', blocks, {
+            innerRadius: 0.93,
+            outerRadius: 1.0,
+            color: function (d) {
+                return colors[0] + counts[0][(d.start + chrmap[d.block_id]) / blocksize] / Math.max(...counts[0]) + ')';
+            },
+            tooltipContent: function (d) {
+                return names[0];
+            }
+        });
+    }
+
     plot.render();
 
 }
