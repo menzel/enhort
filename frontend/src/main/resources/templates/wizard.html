@@ -28,35 +28,22 @@
         <div class="col-11">
 
 
-        <th:block th:switch="${page}">
-            <th:block th:case="'upload'">
+            <div id="wizardheader">
 
-                <div id="wizardheader">
-                   Upload File
+                <th:block th:switch="${page}">
+                    <th:block th:case="'upload'">
 
-                    <span class="glyphicon glyphicon-info-sign wizinfo" data-toggle="tooltip"
-                          data-placement="bottom"
-                          title="Please upload a file in the .bed-file format containing a set of genomic positions."></span>
+                        Guided analysis || Upload a .bed-file and specify the annotations you want to test.
 
-                </div>
+                    </th:block>
+                    <th:block th:case="'tracks'">
+                        Guided analysis || Select annotations to test your sites against
+                    </th:block>
+                </th:block>
 
+            </div>
 
-            </th:block>
-            <th:block th:case="'tracks'">
-
-                 <div id="wizardheader">
-                     Select annotations to test
-
-                     <span class="glyphicon glyphicon-info-sign wizinfo" data-toggle="tooltip"
-                           data-placement="bottom"
-                           title="On this page you can select a set of genomic annotations. Your uploaded sites will be tested against each of the selected annotations.
-                            Results will be displayed on the next page."></span>
-                 </div>
-
-            </th:block>
-        </th:block>
-
-        <th:block th:if="${message != null}">
+            <th:block th:if="${message != null}">
             <div class="bg-danger" th:text="${message}"></div>
         </th:block>
 
@@ -64,13 +51,15 @@
 
             <th:block th:switch="${page}">
                 <th:block th:case="'upload'">
-                    <p>Please upload a bed-file with genomic positions:</p>
+                    <p>Please upload a .bed-file with genomic positions:</p>
                     <div class="box">
                         <form method="POST" enctype="multipart/form-data" action="/wizfile" id="uploadform">
                             <!-- Bed file -->
                             <div>
                                 <input type="file" name="file" id="file" class="btn"/>
-                                <button onclick="this.disabled=true;this.form.submit();" class="btn" id="uploadbtn">Continue</button>
+                                <button onclick="this.disabled=true;this.form.submit();" class="btn" id="uploadbtn">
+                                    Upload file
+                                </button>
                             </div>
 
                         </form>
@@ -88,11 +77,13 @@
                             <!-- Assembly -->
 
                             <div id="header_in1">
-                                <span th:text="${interfaceCommand.assembly}"></span></button>
+                                Assembly <span th:text="${interfaceCommand.assembly}"></span></button>
                             </div>
 
                             <div id="header_in2">
-                                <button id="submitTracks" onclick="this.form.submit();" class="btn btn-primary right">Continue</button>
+                                <button id="submitTracks" onclick="this.form.submit();" class="btn btn-primary right">
+                                    Run analysis
+                                </button>
                                 <button class="btn btn-default right" id="clearbtn_wiz">Clear</button>
                             </div>
                         </div>
@@ -178,7 +169,8 @@
                         </div>
 
 
-                        Sequence Logo:<input class="check" type="checkbox" title="Sequence Logo" th:field="${interfaceCommand.logo}"/>
+                        <input class="check" type="checkbox" title="Sequence Logo" th:field="${interfaceCommand.logo}"/>
+                        Sequence Logo
                     </form>
 
                 </th:block>
