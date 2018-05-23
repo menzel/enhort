@@ -7,6 +7,9 @@ import de.thm.precalc.SiteFactoryFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.nio.file.Path;
+
 
 /**
  * Startes the backend server for Enhort and loads the annotation tracks
@@ -18,11 +21,27 @@ public final class BackendServer {
 
     private static final int port = 42412;
     private static final Logger logger = LoggerFactory.getLogger(BackendServer.class);
+    public static Path basePath;
+    public static String dbfilepath;
 
 
     public static void main(String[] args) {
 
         logger.info("Starting Enhort backend server");
+
+        if (args.length != 2) {
+            logger.error("Wrong arguments. Example call: /usr/bin/java -jar -Xmx60g -XX:StringTableSize=1000003 " +
+                    "/home/mmnz21/enhort/enhort.jar " +
+                    "/permData/gogol/sgls22/enhort  " +
+                    "/home/mmnz21/enhort/stefan.db \n" +
+                    "where the first param is the path to the data directory and" +
+                    "the second path is the .db file");
+
+            System.exit(1);
+        }
+
+        basePath = new File(args[0]).toPath();
+        dbfilepath = args[1];
 
         new Thread(() -> {
             TrackFactory tf = TrackFactory.getInstance();

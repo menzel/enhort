@@ -3,15 +3,13 @@ package de.thm.genomeData.tracks;
 import de.thm.misc.ChromosomSizes;
 import de.thm.misc.Genome;
 import de.thm.misc.PositionPreprocessor;
+import de.thm.run.BackendServer;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.math3.util.Precision;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -38,19 +36,7 @@ class FileLoader implements Callable<Optional<Track>> {
 
     public FileLoader(TrackEntry entry) {
 
-        /*
-           basePath = new File("/home/menzel/Desktop/THM/lfba/enhort/dat/stefan").toPath();
-        } else {
-            basePath = new File("/permData/gogol/mmnz21/enhort/").toPath();
-        }
-         */
-
-        Path basePath;
-        if (System.getenv("HOME").contains("menzel")) {
-            basePath = new File("/home/menzel/Desktop/THM/lfba/enhort/dat/stefan/").toPath();
-        } else {
-            basePath = new File("/permData/gogol/sgls22/enhort/").toPath();
-        }
+        Path basePath = BackendServer.basePath;
 
         this.path = basePath.resolve(new File(entry.getFilepath()).toPath());
         this.assembly = Genome.Assembly.valueOf(entry.getAssembly());
@@ -78,45 +64,6 @@ class FileLoader implements Callable<Optional<Track>> {
         return readBedFile(path.toFile());
     }
 
-    /**
-     * Overwrites the bed file with new (preprocessed) positions
-     *
-     * @param track - track to write
-     * @param path  - path to file to overwrite
-     * @param type  - type of track, does not work for scored or named tracks.
-     */
-    public void saveTrack(Track track, Path path, TrackFactory.Type type) {
-        String header = "";
-        ChromosomSizes chr = ChromosomSizes.getInstance();
-
-        if (type == TrackFactory.Type.inout) {
-            long[] starts = track.getStarts();
-            long[] ends = track.getEnds();
-
-            try (BufferedReader reader = Files.newBufferedReader(path)) {
-                header = reader.readLine();
-
-            } catch (IOException e) {
-                logger.error("Exception {}", e.getMessage(), e);
-            }
-
-
-            try (BufferedWriter writer = Files.newBufferedWriter(path)) {
-                if (header.contains("track"))
-                    writer.write(header + "\n");
-
-                for (int i = 0; i < starts.length; i++) {
-                    Pair<String, Long> start = chr.mapToChr(assembly, starts[i]);
-                    Pair<String, Long> end = chr.mapToChr(assembly, ends[i]);
-
-                    writer.write(start.getKey() + "\t" + start.getValue() + "\t" + end.getValue() + "\n");
-                }
-
-            } catch (IOException e) {
-                logger.error("Exception {}", e.getMessage(), e);
-            }
-        }
-    }
 
 
     /**
@@ -179,7 +126,6 @@ class FileLoader implements Callable<Optional<Track>> {
                                 logger.warn("Start or End out of chromosome bounds (" + file.getName() + "): " + line);
 
                             }
-
                         }
 
                         start = Long.parseLong(parts[1]) + offset;
@@ -198,8 +144,8 @@ class FileLoader implements Callable<Optional<Track>> {
                     starts.add(start);
                     ends.add(end);
 
-                    if (logger.isDebugEnabled()) {
-                        if(starts.size() > 2 && start < starts.get(starts.size()-2)){
+                    if (logger.isDebugEnabled() && type != TrackFactory.Type.scored) {
+                        if (starts.size() > 2 && start < starts.get(starts.size() - 2)) {
                             logger.warn("Illegal position at " + line + " file " + file.getName());
                         }
                     }
@@ -281,7 +227,6 @@ class FileLoader implements Callable<Optional<Track>> {
                 case strand:
                     return Optional.of(new StrandTrack(starts, ends, strands, trackEntry));
                 case inout:
-                    //return PositionPreprocessor.preprocessData(new InOutTrack(starts, ends, name, description));
                     return Optional.of(new InOutTrack(starts, ends, trackEntry));
                 case scored:
                     return Optional.of(PositionPreprocessor.preprocessData(new ScoredTrack(starts, ends, names, scores, trackEntry)));
