@@ -1,0 +1,38 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Page not found</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link rel="stylesheet" media="screen" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" media="screen" href="../static/css/application.css" th:href="@{/css/application.css}"/>
+
+
+</head>
+
+<body>
+
+<div th:include="header:: bar"></div>
+
+<div class="container">
+    <div class="col-10">
+        <a href="/" class="btn btn-outline-info">back</a>
+
+        <br>
+        <br>
+
+        <h3>404</h3>
+        <h4>The page you are looking for is not here</h4>
+
+        <br>
+        <br>
+
+        <img src="img/enhort_broken.png"/>
+    </div>
+</div>
+
+
+</body>
+</html>
