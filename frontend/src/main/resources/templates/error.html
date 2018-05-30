@@ -17,18 +17,22 @@
     <div th:include="header:: bar"></div>
 
     <div class="container">
-        <div class="col-10">
+        <div class="row">
+            <div class="col-7">
 
-            <a href="/" class="btn btn-outline-info">back</a>
+                <a href="/" class="btn btn-outline-info">back</a>
 
-        <div id="error" class="bg-danger">
-            <h4>Something went wrong</h4>
-            <p th:text="${errorCode}"></p>
-            <p th:text="${errorMessage}"></p>
+                <div id="error" class="bg-danger">
+                    <h4>Something went wrong</h4>
+                    <p th:text="${errorCode}"></p>
+                    <p th:text="${errorMessage}"></p>
+                </div>
+            </div>
+
+            <div class="col-5">
+                <img src="img/enhort_broken.png" style="height: 250px;"/>
+            </div>
         </div>
-
-    </div>
-
 </div>
 
 
