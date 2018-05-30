@@ -1,6 +1,5 @@
 package de.thm.misc;
 
-import de.thm.misc.Genome;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
@@ -76,9 +75,9 @@ public class ChromosomSizesTest {
         Pair<String, Long> oldPos= new ImmutablePair<>("chrX", 11014L);
         ChromosomSizes chrSizes = ChromosomSizes.getInstance();
 
-        Long mappedPos = chrSizes.offset(Genome.Assembly.hg38, oldPos.getLeft()) + oldPos.getRight();
+        Long mappedPos = chrSizes.offset(Genome.Assembly.GRCh38, oldPos.getLeft()) + oldPos.getRight();
 
-        Pair<String, Long> newPos = chrSizes.mapToChr(Genome.Assembly.hg38, mappedPos);
+        Pair<String, Long> newPos = chrSizes.mapToChr(Genome.Assembly.GRCh38, mappedPos);
 
         assertEquals(oldPos.getLeft(), newPos.getLeft());
         assertEquals(oldPos.getRight(), newPos.getRight());

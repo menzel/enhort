@@ -39,7 +39,7 @@ public class SiteFactoryTest {
 
         DBConnector connector = new DBConnector();
         connector.connect();
-        connector.getAllTracks("WHERE name like 'known genes' AND assembly = 'hg19'").forEach(TrackFactory.getInstance()::loadTrack);
+        connector.getAllTracks("WHERE name like 'known genes' AND genome_assembly = 'hg19'").forEach(TrackFactory.getInstance()::loadTrack);
 
         //mock contigs track
         Track contigs = mock(InOutTrack.class);

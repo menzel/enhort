@@ -1,10 +1,12 @@
 package de.thm.genomeData.sql;
 
+import de.thm.misc.ChromosomSizes;
 import de.thm.misc.Genome;
+import de.thm.run.BackendServer;
 import org.junit.Test;
 
+import java.io.File;
 import java.util.List;
-import java.util.Map;
 import java.util.SortedMap;
 
 import static org.junit.Assert.assertEquals;
@@ -14,22 +16,16 @@ public class DBConnectorTest {
     @Test
     public void getAllCellLines() throws Exception {
 
+        BackendServer.dbfilepath = "/home/menzel/Desktop/THM/lfba/enhort/stefan.db";
+        BackendServer.basePath = new File("/home/menzel/Desktop/THM/lfba/enhort/dat/stefan/").toPath();
+
         DBConnector connector = new DBConnector();
         connector.connect();
         SortedMap<String, List<String>> allCellLines = connector.getAllCellLines();
 
         assertNull(allCellLines.get("ACHN"));
         assertNull(allCellLines.get("HeLa-S3"));
-        assertEquals(36, allCellLines.get("GM").size());
-    }
-
-    @Test
-    public void getAllTracks() throws Exception {
-        DBConnector connector = new DBConnector();
-        connector.connect();
-
-        assertEquals(481, connector.getAllTracks().size());
-        assertEquals(481, connector.getAllTracks().size());
+        assertNull(allCellLines.get("GM12878"));
     }
 
     @Test
@@ -37,10 +33,9 @@ public class DBConnectorTest {
         DBConnector connector = new DBConnector();
         connector.connect();
 
-        Map<Genome.Assembly, Map<String, Integer>> chrSizes = connector.getChrSizes();
+        assertEquals((long) ChromosomSizes.getInstance().getChrSize(Genome.Assembly.hg19, "chr5"), 180915260);
 
-        assertEquals(chrSizes.get(Genome.Assembly.hg19).get("chr5"), (Integer)180915260);
-        assertEquals(chrSizes.get(Genome.Assembly.hg38).get("chr12"), (Integer)133275309);
+        assertEquals((long) ChromosomSizes.getInstance().getChrSize(Genome.Assembly.GRCh38, "chr12"), 133275309);
 
     }
 

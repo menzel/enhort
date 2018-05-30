@@ -1,9 +1,12 @@
 package de.thm.misc;
 
+import de.thm.genomeData.sql.DBConnector;
 import de.thm.genomeData.tracks.Track;
-import de.thm.genomeData.tracks.TrackEntry;
 import de.thm.genomeData.tracks.TrackFactory;
+import de.thm.run.BackendServer;
 import org.junit.Test;
+
+import java.io.File;
 
 public class OffsetTest {
 
@@ -12,14 +15,18 @@ public class OffsetTest {
 
         TrackFactory tf = TrackFactory.getInstance();
 
-        TrackEntry entry = new TrackEntry("foo", "desc", "hg19/inout/contigs", "inout", "hg19", "", 20, "", 42);
-        tf.loadTrack(entry);
+        BackendServer.dbfilepath = "/home/menzel/Desktop/THM/lfba/enhort/stefan.db";
+        BackendServer.basePath = new File("/home/menzel/Desktop/THM/lfba/enhort/dat/stefan/").toPath();
 
-        Track track = tf.getTrackByName("foo", Genome.Assembly.hg19);
+        DBConnector connector = new DBConnector();
+        connector.connect();
+        connector.getAllTracks("WHERE name = 'Contigs' AND genome_assembly = 'hg19'")
+                .forEach(tf::loadTrack);
 
+        Track track = tf.getTrackByName("contigs", Genome.Assembly.hg19);
 
         for(int i = 0; i < track.getStarts().length; i++){
-            System.out.println(track.getStarts()[i] + "\t" + track.getEnds()[i]);
+            //TODO System.out.println(track.getStarts()[i] + "\t" + track.getEnds()[i]);
         }
     }
 }

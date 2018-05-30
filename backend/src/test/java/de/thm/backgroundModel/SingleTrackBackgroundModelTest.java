@@ -33,7 +33,7 @@ public class SingleTrackBackgroundModelTest {
 
     public void generateInGenes() throws Exception {
 
-        TrackEntry te = new TrackEntry("Known genes", "desc", "hg19/inout/knownGenes.bed", "inout", "hg19", "", 20, "", 42);
+        TrackEntry te = new TrackEntry("Known genes", "desc", "hg19/inout/knownGenes.bed", "inout", "hg19", "", 20, "", 42, "", "");
         TrackFactory.getInstance().loadTrack(te);
 
         Track t = TrackFactory.getInstance().getTrackByName("Known genes", Genome.Assembly.hg19);

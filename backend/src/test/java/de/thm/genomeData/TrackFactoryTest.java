@@ -1,20 +1,18 @@
 package de.thm.genomeData;
 
 import de.thm.genomeData.sql.DBConnector;
-import de.thm.genomeData.tracks.InOutTrack;
 import de.thm.genomeData.tracks.Track;
 import de.thm.genomeData.tracks.TrackFactory;
 import de.thm.misc.Genome;
+import de.thm.run.BackendServer;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.lang.reflect.Field;
+import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 
 /**
  * Created by menzel on 7/3/17.
@@ -27,26 +25,18 @@ public class TrackFactoryTest {
     @BeforeClass
     public static void getTracks() throws Exception {
 
-        //reset track factory
-        Class<?> inner = tf.getClass();
-        Field instance = inner.getDeclaredField("instance");
-        instance.setAccessible(true);
-        instance.set(tf,null);
+        BackendServer.dbfilepath = "/home/menzel/Desktop/THM/lfba/enhort/stefan.db";
+        BackendServer.basePath = new File("/home/menzel/Desktop/THM/lfba/enhort/dat/stefan/").toPath();
+
 
         DBConnector connector = new DBConnector();
         connector.connect();
-        connector.getAllTracks("WHERE (name like 'House%' OR name like 'known%' OR name like 'exons' OR name like 'contigs') AND assembly = 'hg19'").forEach(tf::loadTrack);
+        connector.getAllTracks("WHERE (name like 'House%' OR name like 'known%' OR name like 'contigs') AND genome_assembly = 'hg19'")
+                .forEach(tf::loadTrack);
+        trackCounter = tf.getTracks(Genome.Assembly.hg19).size();
 
-        List<Track> tmp  = tf.getTracks(Genome.Assembly.hg19);
-        trackCounter = tmp.size();
-        assertTrue(tmp.size() > 0);
-
-        //set track package
-        //TrackPackage pack = new TrackPackage(tmp, TrackPackage.PackageName.Basic, "basic tracks", Genome.Assembly.hg19, null);
-
-        Field packs = inner.getDeclaredField("trackPackages");
-        packs.setAccessible(true);
-        //packs.set(tf, Collections.singletonList(pack));
+        if (trackCounter < 1)
+            throw new Exception("No tracks loaded for TrackFactoryTest");
     }
 
     @Test
@@ -71,8 +61,9 @@ public class TrackFactoryTest {
 
     @Test
     public void getTracksById() throws Exception {
-        List<String> ids = tf.getTracks(Genome.Assembly.hg19).stream().map(t -> Integer.toString(t.getUid())).collect(Collectors.toList());
-
+        List<String> ids = tf.getTracks(Genome.Assembly.hg19).stream()
+                .map(t -> Integer.toString(t.getUid()))
+                .collect(Collectors.toList());
 
         List<Track> tracks = tf.getTracksById(ids);
 
@@ -89,18 +80,5 @@ public class TrackFactoryTest {
     @Test(expected = RuntimeException.class)
     public void getTrackByNameException() throws Exception {
         tf.getTrackByName("notaname", Genome.Assembly.hg19);
-    }
-
-    @Test
-    public void addAndCountTest() throws Exception {
-
-        assertEquals(trackCounter,tf.getTracks(Genome.Assembly.hg19).size());
-        assertEquals(trackCounter, tf.getTrackCount());
-
-        Track track = mock(InOutTrack.class);
-
-        int before = tf.getTrackCount();
-        tf.addTrack(track);
-        assertEquals(before+1, tf.getTrackCount());
     }
 }

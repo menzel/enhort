@@ -5,6 +5,7 @@ import de.thm.genomeData.tracks.TrackFactory;
 import de.thm.genomeData.tracks.Tracks;
 import org.junit.Test;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,9 +91,9 @@ public class TrackBuilderTest {
         start3.add(4L);
         end3.add(42L);
 
-        Track interval1 = mockTrack(start1, end1);
-        Track interval2 = mockTrack(start2, end2);
-        Track interval3 = mockTrack(start3, end3);
+        Track interval1 = mockTrack(start1, end1, 41);
+        Track interval2 = mockTrack(start2, end2, 42);
+        Track interval3 = mockTrack(start3, end3, 43);
 
 
         tracks = new ArrayList<>();
@@ -104,9 +105,20 @@ public class TrackBuilderTest {
         return tracks;
     }
 
-    private Track mockTrack(List<Long> start, List<Long> end) {
+    private Track mockTrack(List<Long> start, List<Long> end, int uid) {
 
         Track track = TrackFactory.getInstance().createInOutTrack(start, end,"name", "desc", Genome.Assembly.hg19);
+
+        Class<?> inner = track.getClass();
+        try {
+            Field id = inner.getSuperclass().getDeclaredField("id");
+            id.setAccessible(true);
+
+            id.setInt(track, uid);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         TrackFactory.getInstance().addTrack(track);
 

@@ -6,6 +6,7 @@ import de.thm.misc.Genome;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -452,7 +453,7 @@ public class TracksTest {
 
         double[] exp = new double[]{-0.25, -0.1, -0.1, -0.1, 0.22, 0.22, 0.22, 0.22, 0.431, 0.431, 0.431, 0.431, 0.89, 0.89, 0.89, 0.89, 4.0, 4.0, 4.0, 4.0};
 
-        ScoredTrack track = Tracks.bin(TrackFactory.getInstance().createScoredTrack(null,null,null,vals,null,null), 5);
+             ScoredTrack track = Tracks.bin(TrackFactory.getInstance().createScoredTrack(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), vals, "noname", ""), 5);
 
              assertArrayEquals(exp, track.getIntervalScore(), 0.05);
     }

@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -34,7 +35,7 @@ public class IndependenceTestTest {
 
         IndependenceTest tester = new IndependenceTest();
 
-        ScoredTrack track = mockTrack(null,null, null,null);
+        ScoredTrack track = mockTrack(Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
 
         // get expected value
         KolmogorovSmirnovTest kolmo = new KolmogorovSmirnovTest();
