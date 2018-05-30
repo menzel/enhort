@@ -4,11 +4,14 @@ import de.thm.command.ExpressionCommand;
 import de.thm.command.InterfaceCommand;
 import de.thm.spring.backend.Sessions;
 import de.thm.spring.backend.StatisticsCollector;
+import org.springframework.boot.autoconfigure.web.ErrorController;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -18,7 +21,7 @@ import javax.servlet.http.HttpSession;
  * Created by Michael Menzel on 22/2/16.
  */
 @Controller
-public class ApplicationController {
+public class ApplicationController implements ErrorController {
 
     /**
      * Index/ Welcome page with four links
@@ -56,10 +59,23 @@ public class ApplicationController {
         sessionsControl.clear(session.getId());
     }
 
+    @Override
+    public String getErrorPath() {
+        return "/error";
+    }
+
 
     // Error page
-    @RequestMapping("/error.html")
+    @RequestMapping("/error")
     public String error(HttpServletRequest request, Model model) {
+        Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+
+        if (status != null) {
+            if (Integer.valueOf(status.toString()) == HttpStatus.NOT_FOUND.value()) {
+                return "error-404";
+            }
+        }
+
         model.addAttribute("errorCode", request.getAttribute("javax.servlet.error.status_code"));
         Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
         String errorMessage = "";
@@ -70,7 +86,7 @@ public class ApplicationController {
             errorMessage = throwable.getMessage();
         }
 
-        if (errorMessage.equals("null") || errorMessage.length() == 0) {
+        if (errorMessage.equals("null") || errorMessage.length() == 0 && throwable != null) {
             errorMessage = throwable.getClass().getCanonicalName();
         }
 
