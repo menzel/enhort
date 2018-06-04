@@ -152,7 +152,6 @@ public final class BackendConnector {
 
                 collector = (ResultCollector) answer;
                 logger.info("[" + id + "]: got result: " + collector.getResults().size());
-                //TODO check collector for correct answers:
 
                 checkCollector(collector);
 
@@ -200,6 +199,11 @@ public final class BackendConnector {
         return null;
     }
 
+    /**
+     * Checks the given result collector for valid content. Currently the hotspots and results count is checked
+     *
+     * @param collector to be checked
+     */
     private void checkCollector(ResultCollector collector) {
         if(collector == null)
             logger.error("Result is null");
@@ -216,6 +220,12 @@ public final class BackendConnector {
 
     }
 
+    /**
+     * Creates a custom track based on a expression
+     *
+     * @param expressionCommand - expression to build track from
+     * @return new track
+     */
     public Optional<SerializeableInOutTrack> createCustomTrack(ExpressionCommand expressionCommand) {
 
         connect();
