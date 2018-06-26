@@ -4,16 +4,13 @@ import de.thm.genomeData.tracks.Track;
 import de.thm.genomeData.tracks.TrackPackage;
 import de.thm.result.DataViewResult;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DataTableCache {
 
     private static DataTableCache instance;
-    private Map<String, List<String>> newCellLinesMap; //contains a list of celllines, with either null or another list as child. The containing cell lines are the intersect between the known cellines from the celllines-file and the celllines given by loaded tracks
+    private SortedMap<String, List<String>> newCellLinesMap; //contains a list of celllines, with either null or another list as child. The containing cell lines are the intersect between the known cellines from the celllines-file and the celllines given by loaded tracks
     private static Integer lastCollectorHash;
     private List<String> trackNames;
 
@@ -21,7 +18,7 @@ public class DataTableCache {
 
         // Cell lines list
 
-        this.newCellLinesMap = new HashMap<>();
+        this.newCellLinesMap = new TreeMap<>();
         List<String> knownCelllines = collector.getPackages().stream().map(TrackPackage::getCellLine).collect(Collectors.toList());
         Map<String, List<String>> cellLines = collector.getCellLines();
 
