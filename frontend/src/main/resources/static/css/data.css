@@ -44,9 +44,24 @@
 * Data Table
  */
 
-#datatable{
+.wrapper1, .wrapper2 {
+    width: 100%;
     overflow-x: scroll;
+    overflow-y: hidden;
 }
+
+.wrapper1 {
+    height: 20px;
+}
+
+.div1 {
+    height: 20px;
+}
+
+.div2 {
+    overflow: none;
+}
+
 #datatable table {
     table-layout: fixed;
     width: 1px;
@@ -98,6 +113,20 @@
 
 }
 
+.table-responsive {
+    overflow-x: visible !important;
+}
+
+.rowheader {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background-color: whitesmoke;
+    border: none;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
 .table tbody tr .rowheader{
     font-size: 13px;
     padding: 0;
@@ -144,4 +173,6 @@
     white-space:nowrap;
     font-size: 12px;
     font-weight:normal;
+    height: 0;
+    border-top: 1px white !important;
 }

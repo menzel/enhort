@@ -33,11 +33,12 @@
                 <th:block th:switch="${page}">
                     <th:block th:case="'upload'">
 
-                        Guided analysis || Upload a .bed-file and specify the annotations you want to test.
+                        Guided analysis &nbsp; &nbsp; &nbsp; Upload a .bed-file and specify the annotations you want to
+                        test.
 
                     </th:block>
                     <th:block th:case="'tracks'">
-                        Guided analysis || Select annotations to test your sites against
+                        Guided analysis &nbsp; &nbsp; &nbsp; Select annotations to test your sites against
                     </th:block>
                 </th:block>
 
@@ -91,83 +92,97 @@
                         <hr />
                         <div id="counter">0 tracks selected</div>
 
-                        <div id="datatable" class="table-responsive">
-                        <table class="table table-hover">
+                        <div class="wrapper1">
+                            <div class="div1"></div>
+                        </div>
+                        <div class="wrapper2">
+                            <div class="div2">
 
-                            <col width="150"/>
-                            <th:block th:each="track: ${trackNames}">
-                                <col width="15"/>
-                            </th:block>
+                                <div id="datatable" class="table-responsive">
+                                    <table class="table table-hover">
+
+                                        <col width="200"/>
+                                        <th:block th:each="track: ${trackNames}">
+                                            <col width="15"/>
+                                        </th:block>
 
 
-                            <thead>
-                                <tr>
-                                    <th class="noborder"><!-- Cell line column--></th>
-                                    <th:block th:each="track: ${trackNames}">
-                                        <th class="colheader"><div class="trackname" th:text="${track}" th:title="${track}"></div></th>
-                                    </th:block>
-                                </tr>
-                            </thead>
-
-                            <th:block th:if="${#lists.isEmpty(celllines)}">
-
-                                <div id="error" class="bg-danger">
-                                    No annotation data from the backend server, please try again in a few minutes.
-                                </div>
-                            </th:block>
-
-                            <tbody>
-                                <th:block th:each="cl: ${celllines}">
-                                    <th:block th:if="${#lists.isEmpty(cl.value)}">
-                                        <tr class="clrow">
-                                            <td class="rowheader" th:text="${cl.key}"></td>
-
-                                                <th:block th:each="pack: ${ids}">
-                                                    <th:block th:if="${cl.key == pack.key}">
-
-                                                        <th:block th:each="value,iter: ${pack.value}">
-
-                                                            <td class="row" th:if="${value != -1}"><input class="check" type="checkbox" th:field="${interfaceCommand.tracks}" th:value="${value}" th:title="${'Track '+ trackNames[iter.index] + ' for ' + cl.key}"/></td>
-                                                            <td class="row" th:if="${value == -1}"></td>
-                                                        </th:block>
-                                                    </th:block>
-                                                </th:block>
+                                        <thead>
+                                        <tr>
+                                            <th class="noborder"><!-- Cell line column--></th>
+                                            <th:block th:each="track: ${trackNames}">
+                                                <th class="colheader"><div class="trackname" th:text="${track}" th:title="${track}"></div></th>
+                                            </th:block>
                                         </tr>
+                                        </thead>
 
-                                    </th:block>
+                                        <th:block th:if="${#lists.isEmpty(celllines)}">
 
-                                    <th:block th:if="${not #lists.isEmpty(cl.value)}">
+                                            <div id="error" class="bg-danger">
+                                                No annotation data from the backend server, please try again in a few minutes.
+                                            </div>
+                                        </th:block>
 
-                                        <tr class="clrow">
-                                            <td class="rowheader" th:text="${cl.key}"></td>
-                                        </tr>
-
-                                        <th:block th:each="inner: ${cl.value}">
-
-                                            <tr class="clrow">
-                                                <td class="subrowheader rowheader" th:text="${inner}"></td>
+                                        <tbody>
+                                        <th:block th:each="cl: ${celllines}">
+                                            <th:block th:if="${#lists.isEmpty(cl.value)}">
+                                                <tr class="clrow">
+                                                    <td class="rowheader" th:text="${cl.key}"></td>
 
                                                     <th:block th:each="pack: ${ids}">
-                                                        <th:block th:if="${inner == pack.key}">
+                                                        <th:block th:if="${cl.key == pack.key}">
 
-                                                            <th:block th:each="value: ${pack.value}">
+                                                            <th:block th:each="value,iter: ${pack.value}">
 
-                                                                <td class="row" th:if="${value != -1}"><input class="check" type="checkbox" th:field="${interfaceCommand.tracks}" th:value="${value}"/></td>
+                                                                <td class="row" th:if="${value != -1}"><input class="check" type="checkbox" th:field="${interfaceCommand.tracks}" th:value="${value}" th:title="${'Track '+ trackNames[iter.index] + ' for ' + cl.key}"/></td>
                                                                 <td class="row" th:if="${value == -1}"></td>
                                                             </th:block>
                                                         </th:block>
                                                     </th:block>
+                                                </tr>
 
-                                            </tr>
+                                            </th:block>
+
+                                            <th:block th:if="${not #lists.isEmpty(cl.value)}">
+
+                                                <tr class="clrow">
+                                                    <td class="rowheader" th:title="${cl.key}" th:text="${cl.key}"></td>
+                                                </tr>
+
+                                                <th:block th:each="inner: ${cl.value}">
+
+                                                    <tr class="clrow">
+                                                        <td class="subrowheader rowheader" th:title="${inner}"
+                                                            th:text="${inner}"></td>
+
+                                                        <th:block th:each="pack: ${ids}">
+                                                            <th:block th:if="${inner == pack.key}">
+
+                                                                <th:block th:each="value: ${pack.value}">
+
+                                                                    <td class="row" th:title="${value}"
+                                                                        th:if="${value != -1}"><input class="check"
+                                                                                                      type="checkbox"
+                                                                                                      th:field="${interfaceCommand.tracks}"
+                                                                                                      th:value="${value}"/>
+                                                                    </td>
+                                                                    <td class="row" th:if="${value == -1}"></td>
+                                                                </th:block>
+                                                            </th:block>
+                                                        </th:block>
+
+                                                    </tr>
+                                                </th:block>
+                                            </th:block>
                                         </th:block>
-                                    </th:block>
-                                </th:block>
 
-                            </tbody>
-                        </table>
+                                        </tbody>
+                                    </table>
 
+                                </div>
+
+                            </div>
                         </div>
-
 
                         <input class="check" type="checkbox" title="Sequence Logo" th:field="${interfaceCommand.logo}"/>
                         Sequence Logo
@@ -187,6 +202,21 @@
 
     </div>
 </div>
+<script>
+    $(function () {
+        $('.wrapper1').on('scroll', function (e) {
+            $('.wrapper2').scrollLeft($('.wrapper1').scrollLeft());
+        });
+        $('.wrapper2').on('scroll', function (e) {
+            $('.wrapper1').scrollLeft($('.wrapper2').scrollLeft());
+        });
+    });
+    $(window).on('load', function (e) {
+        $('.div1').width($('table').width());
+        $('.div2').width($('table').width());
+    });
+
+</script>
 
 <script>
     document.getElementById("submitTracks").disabled = true;
