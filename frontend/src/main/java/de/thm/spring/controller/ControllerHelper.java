@@ -65,8 +65,8 @@ public class ControllerHelper {
                 .max(Double::compareTo)
                 .orElse(1d);
 
-        // results.put("Scored", collector.getScoredResults(cmd.isShowall()));
-        // results.put("Named", collector.getNamedResults(cmd.isShowall()));
+        results.put("Scored", collector.getScoredResults(cmd.isShowall()));
+        results.put("Named", collector.getNamedResults(cmd.isShowall()));
 
         results.keySet().forEach(key -> { //iterate over the packages
 
