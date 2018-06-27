@@ -99,7 +99,7 @@
                             <div class="div2">
 
                                 <div id="datatable" class="table-responsive">
-                                    <table class="table table-hover">
+                                    <table id="maintable" class="table table-hover">
 
                                         <col width="200"/>
                                         <th:block th:each="track: ${trackNames}">
@@ -124,56 +124,23 @@
                                         </th:block>
 
                                         <tbody>
-                                        <th:block th:each="cl: ${celllines}">
-                                            <th:block th:if="${#lists.isEmpty(cl.value)}">
+                                        <th:block th:each="cl, iter: ${celllines}">
                                                 <tr class="clrow">
-                                                    <td class="rowheader" th:text="${cl.key}"></td>
+                                                    <td class="rowheader" th:text="${cl}"></td>
 
-                                                    <th:block th:each="pack: ${ids}">
-                                                        <th:block th:if="${cl.key == pack.key}">
 
-                                                            <th:block th:each="value,iter: ${pack.value}">
+                                                    <th:block th:each="value, trackiter: ${ids[iter.index]}">
 
-                                                                <td class="row" th:if="${value != -1}"><input class="check" type="checkbox" th:field="${interfaceCommand.tracks}" th:value="${value}" th:title="${'Track '+ trackNames[iter.index] + ' for ' + cl.key}"/></td>
-                                                                <td class="row" th:if="${value == -1}"></td>
-                                                            </th:block>
-                                                        </th:block>
+                                                        <td class="row" th:if="${value != -1}"><input class="check"
+                                                                                                      type="checkbox"
+                                                                                                      th:field="${interfaceCommand.tracks}"
+                                                                                                      th:value="${value}"
+                                                                                                      th:title="${'Track '+ trackNames[trackiter.index] + ' for ' + cl}"/>
+                                                        </td>
+                                                        <td class="row" th:if="${value == -1}"></td>
                                                     </th:block>
                                                 </tr>
 
-                                            </th:block>
-
-                                            <th:block th:if="${not #lists.isEmpty(cl.value)}">
-
-                                                <tr class="clrow">
-                                                    <td class="rowheader" th:title="${cl.key}" th:text="${cl.key}"></td>
-                                                </tr>
-
-                                                <th:block th:each="inner: ${cl.value}">
-
-                                                    <tr class="clrow">
-                                                        <td class="subrowheader rowheader" th:title="${inner}"
-                                                            th:text="${inner}"></td>
-
-                                                        <th:block th:each="pack: ${ids}">
-                                                            <th:block th:if="${inner == pack.key}">
-
-                                                                <th:block th:each="value: ${pack.value}">
-
-                                                                    <td class="row" th:title="${value}"
-                                                                        th:if="${value != -1}"><input class="check"
-                                                                                                      type="checkbox"
-                                                                                                      th:field="${interfaceCommand.tracks}"
-                                                                                                      th:value="${value}"/>
-                                                                    </td>
-                                                                    <td class="row" th:if="${value == -1}"></td>
-                                                                </th:block>
-                                                            </th:block>
-                                                        </th:block>
-
-                                                    </tr>
-                                                </th:block>
-                                            </th:block>
                                         </th:block>
 
                                         </tbody>
@@ -253,20 +220,6 @@
     }
 </script>
 
-<script>
-    $(".acidjs-css3-treeview").delegate("label input:checkbox", "change", function () {
-        var
-            checkbox = $(this),
-            nestedList = checkbox.parent().next().next(),
-            selectNestedListCheckbox = nestedList.find("label:not([for]) input:checkbox");
-
-        if (checkbox.is(":checked")) {
-            return selectNestedListCheckbox.prop("checked", true);
-        }
-        selectNestedListCheckbox.prop("checked", false);
-    });
-</script>
-
 <script src="/js/celltable.js" th:href="@{/js/celltable.js}" ></script>
 
 <script>
@@ -298,6 +251,9 @@
 
 </script>
 
+<script>
+    document.getElementById("maintable").setAttribute("style", "display: table")
+</script>
 
 </body>
 </html>

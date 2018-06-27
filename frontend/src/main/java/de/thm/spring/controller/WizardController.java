@@ -29,9 +29,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import static de.thm.spring.controller.ControllerHelper.setModel;
@@ -210,9 +210,15 @@ public class WizardController {
             if(collector != null) {
 
                 List<String> trackNames = DataTableCache.getInstance(collector).getTrackNames();
-                Map<String, List<Integer>> ids = new TreeMap<>();
+                Collections.sort(trackNames);
 
-                for(TrackPackage pack: collector.getPackages()){
+                // Map<String, List<Integer>> ids = new TreeMap<>();
+                List<List<Integer>> ids = new ArrayList<>();
+
+                List<TrackPackage> packages = collector.getPackages();
+                packages.sort(Comparator.comparing(TrackPackage::getCellLine));
+
+                for (TrackPackage pack : packages) {
 
                     List<Integer> linkIds = new ArrayList<>();
                     List<String> packNames = pack.getTrackList().stream().map(Track::getName).map(String::toLowerCase).collect(Collectors.toList());
@@ -226,7 +232,7 @@ public class WizardController {
                             linkIds.add(-1);
                     }
 
-                    ids.put(pack.getCellLine(), linkIds);
+                    ids.add(linkIds);
                 }
 
                 model.addAttribute("ids", ids);
@@ -234,7 +240,14 @@ public class WizardController {
                 model.addAttribute("trackNames", trackNames);
                 model.addAttribute("packages", collector.getPackages());
                 model.addAttribute("assembly", collector.getAssembly());
-                model.addAttribute("celllines", DataTableCache.getInstance(collector).getCellLines());
+
+                model.addAttribute("celllines", new ArrayList<>(collector.getCellLines().keySet()).parallelStream()
+                        .filter(cl -> collector.getPackages()
+                                .stream()
+                                .map(TrackPackage::getCellLine)
+                                .anyMatch(cl::equals))
+                        .sorted()
+                        .collect(Collectors.toList()));
 
             } else {
                 logger.warn("ApplicationController: Collector for data is null");
