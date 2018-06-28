@@ -14,7 +14,6 @@ import de.thm.result.ResultCollector;
 import de.thm.spring.backend.Session;
 import de.thm.spring.backend.Sessions;
 import de.thm.spring.backend.StatisticsCollector;
-import de.thm.spring.cache.DataTableCache;
 import de.thm.stat.TestResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +28,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -209,10 +207,12 @@ public class WizardController {
 
             if(collector != null) {
 
-                List<String> trackNames = DataTableCache.getInstance(collector).getTrackNames();
-                Collections.sort(trackNames);
+                List<String> trackNames = collector.getPackages().stream()
+                        .flatMap(trackPackage -> trackPackage.getTrackList().stream())
+                        .map(Track::getName)
+                        .sorted()
+                        .collect(Collectors.toList());
 
-                // Map<String, List<Integer>> ids = new TreeMap<>();
                 List<List<Integer>> ids = new ArrayList<>();
 
                 List<TrackPackage> packages = collector.getPackages();
