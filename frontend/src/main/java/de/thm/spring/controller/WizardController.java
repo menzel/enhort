@@ -6,7 +6,6 @@ import de.thm.command.InterfaceCommand;
 import de.thm.exception.CovariatesException;
 import de.thm.exception.NoTracksLeftException;
 import de.thm.genomeData.tracks.Track;
-import de.thm.genomeData.tracks.TrackPackage;
 import de.thm.misc.Genome;
 import de.thm.positionData.UserData;
 import de.thm.result.DataViewResult;
@@ -14,6 +13,7 @@ import de.thm.result.ResultCollector;
 import de.thm.spring.backend.Session;
 import de.thm.spring.backend.Sessions;
 import de.thm.spring.backend.StatisticsCollector;
+import de.thm.spring.cache.TrackMatrixCache;
 import de.thm.stat.TestResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,8 +27,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.net.SocketTimeoutException;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -207,47 +205,15 @@ public class WizardController {
 
             if(collector != null) {
 
-                List<String> trackNames = collector.getPackages().stream()
-                        .flatMap(trackPackage -> trackPackage.getTrackList().stream())
-                        .map(Track::getName)
-                        .sorted()
-                        .collect(Collectors.toList());
+                TrackMatrixCache dataCache = TrackMatrixCache.getInstance(collector);
 
-                List<List<Integer>> ids = new ArrayList<>();
+                model.addAttribute("ids", dataCache.getIds());
 
-                List<TrackPackage> packages = collector.getPackages();
-                packages.sort(Comparator.comparing(TrackPackage::getCellLine));
-
-                for (TrackPackage pack : packages) {
-
-                    List<Integer> linkIds = new ArrayList<>();
-                    List<String> packNames = pack.getTrackList().stream().map(Track::getName).map(String::toLowerCase).collect(Collectors.toList());
-
-                    for(String name: trackNames){
-                        name = name.toLowerCase();
-
-                        if(packNames.contains(name))
-                            linkIds.add(pack.getTrackList().get(packNames.indexOf(name)).getUid());
-                        else
-                            linkIds.add(-1);
-                    }
-
-                    ids.add(linkIds);
-                }
-
-                model.addAttribute("ids", ids);
-
-                model.addAttribute("trackNames", trackNames);
+                model.addAttribute("trackNames", dataCache.getTrackNames());
                 model.addAttribute("packages", collector.getPackages());
                 model.addAttribute("assembly", collector.getAssembly());
 
-                model.addAttribute("celllines", new ArrayList<>(collector.getCellLines().keySet()).parallelStream()
-                        .filter(cl -> collector.getPackages()
-                                .stream()
-                                .map(TrackPackage::getCellLine)
-                                .anyMatch(cl::equals))
-                        .sorted()
-                        .collect(Collectors.toList()));
+                model.addAttribute("celllines", dataCache.getCelllines());
 
             } else {
                 logger.warn("ApplicationController: Collector for data is null");
