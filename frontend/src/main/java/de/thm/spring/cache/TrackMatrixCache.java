@@ -47,7 +47,10 @@ public class TrackMatrixCache {
                     linkIds.add(-1);
             }
 
-            ids.add(linkIds);
+            if (pack.getCellLine().equals("Unknown"))
+                ids.add(0, linkIds);
+            else
+                ids.add(linkIds);
         }
 
         // Cell lines
@@ -59,6 +62,9 @@ public class TrackMatrixCache {
                         .anyMatch(cl::equals))
                 .sorted()
                 .collect(Collectors.toList());
+
+        celllines.remove("Unknown");
+        celllines.add(0, "Unknown");
 
         hash = hash();
     }
