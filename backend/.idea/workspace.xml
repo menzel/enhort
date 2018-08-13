@@ -1,36 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/main/java/de/thm/run/ClientController.java" line="131" />
+    <bookmark url="file://$PROJECT_DIR$/src/main/java/de/thm/run/ClientController.java" line="147" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="496c273f-8d47-406b-afce-d640d1e66605" name="Default" comment="generifiicon-remove">
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/587636b7-3f89-4014-93e4-7be9e7f15363.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/61e34aef-106e-46b9-bb0e-ce8a1b0b1cc4.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/9e3e37a4-47e0-4279-9831-f5168f8ba7b3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thm/calc/CalcCaller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thm/calc/CalcCaller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thm/calc/TestTrackResult.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thm/genomeData/sql/DBConnector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thm/genomeData/sql/DBConnector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thm/genomeData/tracks/FileLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thm/genomeData/tracks/FileLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thm/genomeData/tracks/TrackFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thm/genomeData/tracks/TrackFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../enhortlib/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../enhortlib/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../enhortlib/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../enhortlib/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../enhortlib/src/main/java/de/thm/misc/Genome.java" beforeDir="false" afterPath="$PROJECT_DIR$/../enhortlib/src/main/java/de/thm/misc/Genome.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/.idea/libraries/Maven__de_thm_enhort_lib_Enhortlib_1_01.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.idea/libraries/Maven__de_thm_enhort_lib_Enhortlib_1_01.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/main/java/de/thm/spring/backend/BackendConnector.java" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/main/java/de/thm/spring/backend/BackendConnector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/main/java/de/thm/spring/cache/DataTableCache.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/main/java/de/thm/spring/controller/StatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/main/java/de/thm/spring/controller/StatController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/main/java/de/thm/spring/run/Webinterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/main/java/de/thm/spring/run/Webinterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/main/resources/static/title_logo_wizard.png" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/main/resources/static/title_logo_wizard.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../update.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../update.sh" afterDir="false" />
-    </list>
+    <list default="true" id="496c273f-8d47-406b-afce-d640d1e66605" name="Default" comment="generifiicon-remove" />
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -105,8 +79,9 @@
         <counts>
           <entry key="project.open.time.17" value="1" />
           <entry key="project.open.time.20" value="1" />
+          <entry key="project.open.time.28" value="1" />
           <entry key="project.open.time.4" value="1" />
-          <entry key="project.opened" value="3" />
+          <entry key="project.opened" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
@@ -135,7 +110,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/tracks/TrackFactory.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1548">
-              <caret line="95" column="121" selection-start-line="95" selection-start-column="121" selection-end-line="95" selection-end-column="121" />
+              <caret line="111" column="121" selection-start-line="111" selection-start-column="121" selection-end-line="111" selection-end-column="121" />
             </state>
           </provider>
         </entry>
@@ -144,7 +119,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/run/ClientController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1836">
-              <caret line="120" column="8" selection-start-line="120" selection-start-column="8" selection-end-line="120" selection-end-column="8" />
+              <caret line="136" column="8" selection-start-line="136" selection-start-column="8" selection-end-line="136" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -153,7 +128,10 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/run/BackendServer.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="234">
-              <caret line="21" column="38" selection-start-line="21" selection-start-column="38" selection-end-line="21" selection-end-column="38" />
+              <caret line="37" column="38" selection-start-line="37" selection-start-column="38" selection-end-line="37" selection-end-column="38" />
+              <folding>
+                <element signature="e#0#3090#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -162,7 +140,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/tracks/FileLoader.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="792">
-              <caret line="61" column="4" selection-start-line="61" selection-start-column="4" selection-end-line="61" selection-end-column="4" />
+              <caret line="77" column="4" selection-start-line="77" selection-start-column="4" selection-end-line="77" selection-end-column="4" />
             </state>
           </provider>
         </entry>
@@ -171,7 +149,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/calc/TestTrack.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="162">
-              <caret line="10" column="17" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
+              <caret line="26" column="17" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -180,7 +158,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/calc/Intersect.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="108">
-              <caret line="15" column="1" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
+              <caret line="31" column="1" selection-start-line="31" selection-start-column="1" selection-end-line="31" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -189,13 +167,13 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/sql/DBConnector.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1566">
-              <caret line="99" column="4" selection-start-line="99" selection-start-column="4" selection-end-line="99" selection-end-column="4" />
+              <caret line="115" column="4" selection-start-line="115" selection-start-column="4" selection-end-line="115" selection-end-column="4" />
               <folding>
-                <marker date="1528373997288" expanded="true" signature="1062:1082" ph="SELECT * FRO... tracks" />
-                <marker date="1528373997288" expanded="true" signature="1368:1426" ph="SELECT * FRO... chrSizes" />
-                <marker date="1528373997288" expanded="true" signature="2092:2106" ph="SELECT * FRO... tracks" />
-                <marker date="1528373997288" expanded="true" signature="2092:2118" ph="SELECT * FRO... enhort_view" />
-                <marker date="1528373997288" expanded="true" signature="3495:3527" ph="SELECT cell_... cell_lines" />
+                <marker date="1534161944009" expanded="true" signature="1801:1821" ph="SELECT * FRO... tracks" />
+                <marker date="1534161944009" expanded="true" signature="2107:2165" ph="SELECT * FRO... chrSizes" />
+                <marker date="1534161944009" expanded="true" signature="2831:2845" ph="SELECT * FRO... tracks" />
+                <marker date="1534161944009" expanded="true" signature="2831:2857" ph="SELECT * FRO... enhort_view" />
+                <marker date="1534161944009" expanded="true" signature="4234:4266" ph="SELECT cell_... cell_lines" />
               </folding>
             </state>
           </provider>
@@ -205,7 +183,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/run/AnalysisHelper.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="3816">
-              <caret line="240" column="71" selection-start-line="240" selection-start-column="71" selection-end-line="240" selection-end-column="71" />
+              <caret line="256" column="71" selection-start-line="256" selection-start-column="71" selection-end-line="256" selection-end-column="71" />
             </state>
           </provider>
         </entry>
@@ -214,7 +192,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/tracks/CellLine.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="648">
-              <caret line="43" column="94" selection-start-line="43" selection-start-column="94" selection-end-line="43" selection-end-column="94" />
+              <caret line="59" column="94" selection-start-line="59" selection-start-column="94" selection-end-line="59" selection-end-column="94" />
               <folding>
                 <element signature="e#1909#1910#0" expanded="true" />
                 <element signature="e#1952#1953#0" expanded="true" />
@@ -381,6 +359,7 @@
     <option name="skipTests" value="true" />
   </component>
   <component name="ProjectFrameBounds">
+    <option name="x" value="1920" />
     <option name="width" value="1920" />
     <option name="height" value="1181" />
   </component>
@@ -407,6 +386,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -693,9 +675,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="AndroidView" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -937,6 +916,7 @@
       <workItem from="1532684302830" duration="1507000" />
       <workItem from="1532942941832" duration="1262000" />
       <workItem from="1532945272873" duration="599000" />
+      <workItem from="1534161852025" duration="626000" />
     </task>
     <task id="LOCAL-00033" summary="Init track over TrackEntry">
       <created>1510655054216</created>
@@ -1317,7 +1297,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="604640000" />
+    <option name="totallyTimeSpent" value="605266000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1329,9 +1309,9 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="3840" y="0" width="1920" height="1061" extended-state="0" />
+    <frame x="1920" y="0" width="1920" height="1181" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49492386" visible="true" weight="0.21604279" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49492386" visible="true" weight="0.2657754" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -1443,20 +1423,20 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/de/thm/stat/EffectSizeTest.java</url>
-          <line>20</line>
+          <line>36</line>
           <properties />
           <option name="timeStamp" value="186" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/de/thm/calc/ExecutorPool.java</url>
-          <line>64</line>
+          <line>80</line>
           <properties />
           <option name="timeStamp" value="241" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <condition expression="lll != 50" language="JAVA" />
           <url>file://$PROJECT_DIR$/src/main/java/de/thm/logo/GenomeSequence.java</url>
-          <line>105</line>
+          <line>121</line>
           <properties />
           <option name="timeStamp" value="277" />
         </line-breakpoint>
@@ -1859,48 +1839,48 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/tracks/TrackFactory.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1548">
-          <caret line="95" column="121" selection-start-line="95" selection-start-column="121" selection-end-line="95" selection-end-column="121" />
+          <caret line="111" column="121" selection-start-line="111" selection-start-column="121" selection-end-line="111" selection-end-column="121" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/run/ClientController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1836">
-          <caret line="120" column="8" selection-start-line="120" selection-start-column="8" selection-end-line="120" selection-end-column="8" />
+          <caret line="136" column="8" selection-start-line="136" selection-start-column="8" selection-end-line="136" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/tracks/FileLoader.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="792">
-          <caret line="61" column="4" selection-start-line="61" selection-start-column="4" selection-end-line="61" selection-end-column="4" />
+          <caret line="77" column="4" selection-start-line="77" selection-start-column="4" selection-end-line="77" selection-end-column="4" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/calc/TestTrack.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
-          <caret line="10" column="17" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
+          <caret line="26" column="17" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/calc/Intersect.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
-          <caret line="15" column="1" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
+          <caret line="31" column="1" selection-start-line="31" selection-start-column="1" selection-end-line="31" selection-end-column="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/sql/DBConnector.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1566">
-          <caret line="99" column="4" selection-start-line="99" selection-start-column="4" selection-end-line="99" selection-end-column="4" />
+          <caret line="115" column="4" selection-start-line="115" selection-start-column="4" selection-end-line="115" selection-end-column="4" />
           <folding>
-            <marker date="1528373997288" expanded="true" signature="1062:1082" ph="SELECT * FRO... tracks" />
-            <marker date="1528373997288" expanded="true" signature="1368:1426" ph="SELECT * FRO... chrSizes" />
-            <marker date="1528373997288" expanded="true" signature="2092:2106" ph="SELECT * FRO... tracks" />
-            <marker date="1528373997288" expanded="true" signature="2092:2118" ph="SELECT * FRO... enhort_view" />
-            <marker date="1528373997288" expanded="true" signature="3495:3527" ph="SELECT cell_... cell_lines" />
+            <marker date="1534161944009" expanded="true" signature="1801:1821" ph="SELECT * FRO... tracks" />
+            <marker date="1534161944009" expanded="true" signature="2107:2165" ph="SELECT * FRO... chrSizes" />
+            <marker date="1534161944009" expanded="true" signature="2831:2845" ph="SELECT * FRO... tracks" />
+            <marker date="1534161944009" expanded="true" signature="2831:2857" ph="SELECT * FRO... enhort_view" />
+            <marker date="1534161944009" expanded="true" signature="4234:4266" ph="SELECT cell_... cell_lines" />
           </folding>
         </state>
       </provider>
@@ -1908,14 +1888,14 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/run/AnalysisHelper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3816">
-          <caret line="240" column="71" selection-start-line="240" selection-start-column="71" selection-end-line="240" selection-end-column="71" />
+          <caret line="256" column="71" selection-start-line="256" selection-start-column="71" selection-end-line="256" selection-end-column="71" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/tracks/CellLine.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="648">
-          <caret line="43" column="94" selection-start-line="43" selection-start-column="94" selection-end-line="43" selection-end-column="94" />
+          <caret line="59" column="94" selection-start-line="59" selection-start-column="94" selection-end-line="59" selection-end-column="94" />
           <folding>
             <element signature="e#1909#1910#0" expanded="true" />
             <element signature="e#1952#1953#0" expanded="true" />
@@ -1933,7 +1913,10 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/run/BackendServer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="234">
-          <caret line="21" column="38" selection-start-line="21" selection-start-column="38" selection-end-line="21" selection-end-column="38" />
+          <caret line="37" column="38" selection-start-line="37" selection-start-column="38" selection-end-line="37" selection-end-column="38" />
+          <folding>
+            <element signature="e#0#3090#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

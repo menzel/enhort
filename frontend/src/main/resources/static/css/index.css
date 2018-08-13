@@ -89,3 +89,12 @@
 .inputfile:focus + label, .inputfile + label:hover {
     background-color: rgba(76, 167, 255, 0.21);
 }
+
+#gpl{
+    color: gray;
+    font-size: 8pt;
+    position: absolute;
+    bottom: 0;
+    text-align: right;
+    width: 99%;
+}
