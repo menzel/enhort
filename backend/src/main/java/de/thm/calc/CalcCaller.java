@@ -10,6 +10,7 @@ import de.thm.logo.LogoCreator;
 import de.thm.misc.ChromosomSizes;
 import de.thm.misc.Genome;
 import de.thm.positionData.Sites;
+import de.thm.positionData.UserData;
 import de.thm.result.ResultCollector;
 import de.thm.stat.IndependenceTest;
 import de.thm.stat.TestResult;
@@ -68,12 +69,12 @@ public final class CalcCaller {
         //////////// Sequencelogo ////////////////
 
         if(createLogo && measuredPositions.getAssembly().equals(Genome.Assembly.hg19)){
-            String first = "Measured sites";//TODO FIX measuredPositions.getFilename();
+            String first = ((UserData) measuredPositions).getFilename();
             LogoWrapper logoWrapper = new LogoWrapper(measuredPositions,collector, tracks.get(0).getAssembly(), first);
             futures.add(exe.submit(logoWrapper));
 
             //String second = randomPositions.getFilename();
-            String second = "Random sites";//TODO FIX measuredPositions.getFilename();
+            String second = "Background";
             LogoWrapper logoWrapper2 = new LogoWrapper(randomPositions, collector, tracks.get(0).getAssembly(), second);
             futures.add(exe.submit(logoWrapper2));
         }

@@ -152,7 +152,7 @@ class FileLoader implements Callable<Optional<Track>> {
                     if (type == TrackFactory.Type.inout)
                         continue;
 
-                    if (type == TrackFactory.Type.named)
+                    if (type == TrackFactory.Type.Named)
                         names.add(parts[3].intern());
 
                     if (type == TrackFactory.Type.scored) {
@@ -189,13 +189,13 @@ class FileLoader implements Callable<Optional<Track>> {
                 if (ends.stream().anyMatch(Objects::isNull))
                     logger.warn("List of ends is missing something for " + file.getName());
 
-                if ((type == TrackFactory.Type.named || type == TrackFactory.Type.scored) && names.stream().anyMatch(Objects::isNull))
+                if ((type == TrackFactory.Type.Named || type == TrackFactory.Type.scored) && names.stream().anyMatch(Objects::isNull))
                     logger.warn("List of names is missing something for " + file.getName());
 
                 if (type == TrackFactory.Type.scored && scores.stream().anyMatch(Objects::isNull))
                     logger.warn("List of scores is missing something for " + file.getName());
 
-                if(type != TrackFactory.Type.scored && type != TrackFactory.Type.named) {
+                if(type != TrackFactory.Type.scored && type != TrackFactory.Type.Named) {
 
                     for (int i = 0; i < starts.size() - 1; i++)
                         if (starts.get(i) > starts.get(i + 1)) {
@@ -230,7 +230,7 @@ class FileLoader implements Callable<Optional<Track>> {
                     return Optional.of(new InOutTrack(starts, ends, trackEntry));
                 case scored:
                     return Optional.of(PositionPreprocessor.preprocessData(new ScoredTrack(starts, ends, names, scores, trackEntry)));
-                case named:
+                case Named:
                     return Optional.of(PositionPreprocessor.preprocessData(new NamedTrack(starts, ends, names, trackEntry)));
                 case distance:
                     return Optional.of(new DistanceTrack(starts, trackEntry));
@@ -261,7 +261,7 @@ class FileLoader implements Callable<Optional<Track>> {
                 return Optional.of(new InOutTrack(starts, ends, trackEntry));
             case scored:
                 return Optional.of(PositionPreprocessor.preprocessData(new ScoredTrack(starts, ends, names, scores, trackEntry)));
-            case named:
+            case Named:
                 return Optional.of(PositionPreprocessor.preprocessData(new NamedTrack(starts, ends, names, trackEntry)));
             case distance:
                 return Optional.of(new DistanceTrack(starts, trackEntry));

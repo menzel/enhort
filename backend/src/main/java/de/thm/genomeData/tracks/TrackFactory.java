@@ -93,11 +93,14 @@ public final class TrackFactory {
         if (System.getenv("HOME").contains("menzel")) {
 
             allTracks = connector.getAllTracks(" WHERE directory like '%genetic%' and genome_assembly = 'hg19' ORDER BY lines ASC ");
-            allTracks.addAll(connector.getAllTracks("WHERE name like 'ontigs'"));
-            allTracks.addAll(connector.getAllTracks("WHERE cell_line like 'K-562' LIMIT 200"));
-            //allTracks.addAll(connector.getAllTracks("WHERE cell_line like 'K-562'"));
+            allTracks.addAll(connector.getAllTracks("WHERE genome_assembly = 'hg19' and directory like '%encode%HeLa%'"));
+            //allTracks = connector.getAllTracks("WHERE bed_filename = 'SRX062365.05.bed'");
+            allTracks.addAll(connector.getAllTracks("WHERE name like '%ontigs'"));
             //allTracks = connector.getAllTracks(" WHERE genome_assembly = 'hg19' ORDER BY lines ASC LIMIT 3000");
         } else {
+
+            allTracks = connector.getAllTracks("WHERE (cell_line NOT like '%GM%' or cell_line like '%GM12878')");
+            /*
             allTracks = connector.getAllTracks(" WHERE directory like '%genetic%' and genome_assembly = 'hg19' ORDER BY lines ASC ");
             allTracks.addAll(connector.getAllTracks("WHERE cell_line like 'HeLa%'"));
             allTracks.addAll(connector.getAllTracks("WHERE cell_line like 'K-562'"));
@@ -106,6 +109,7 @@ public final class TrackFactory {
             allTracks.addAll(connector.getAllTracks("WHERE cell_line like '%GM12878%'"));
             allTracks.addAll(connector.getAllTracks("WHERE cell_line like '%Hep-G2%'"));
             allTracks.addAll(connector.getAllTracks("WHERE cell_line like '%A-549%'"));
+            */
         }
 
         logger.info("Trying to load " + allTracks.size() + " tracks");
@@ -166,7 +170,7 @@ public final class TrackFactory {
         exe.shutdown();
 
         try {
-            int timeout = (System.getenv("HOME").contains("menzel")) ? 60 : 60 * 5;
+            int timeout = (System.getenv("HOME").contains("menzel")) ? 10 : 60 * 2;
             completionService.poll(timeout, TimeUnit.SECONDS);
 
             logger.warn("Still loading track files. Stopping now");
@@ -477,6 +481,6 @@ public final class TrackFactory {
 
 
 
-    enum Type {inout, named, distance, strand, scored}
+    enum Type {inout, Named, distance, strand, scored}
 
 }

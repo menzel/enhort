@@ -8,6 +8,7 @@
     </JAVADOC>
     <SOURCES>
       <root url="jar://$MAVEN_REPOSITORY$/de/thm/enhort/lib/Enhortlib/1.01/Enhortlib-1.01-sources.jar!/" />
+      <root url="file://$PROJECT_DIR$/../enhortlib/src/main/java" />
     </SOURCES>
   </library>
 </component>

@@ -40,7 +40,7 @@ public class DBConnector {
 
             while (rs.next()) {
 
-                String assembly = rs.getString("assembly");
+                String assembly = rs.getString("genome_assembly");
                 Map<String, Integer> map = new HashMap<>();
 
                 Statement innerstmt = conn.createStatement();
@@ -80,7 +80,7 @@ public class DBConnector {
                 TrackEntry entry = new TrackEntry(rs.getString("name"),
                         rs.getString("description"),
                         rs.getString("directory") + "/" + rs.getString("bed_filename"),
-                        (rs.getString("bed_format").contains("SCORE") ? "scored" : "inout"),
+                        (rs.getString("category").contains("Scored") ? "scored" : "inout"),
                         rs.getString("genome_assembly"),
                         rs.getString("cell_line"),
                         rs.getInt("lines"),

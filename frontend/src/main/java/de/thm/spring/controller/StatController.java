@@ -20,7 +20,7 @@ public class StatController {
 
         StatisticsCollector stats = StatisticsCollector.getInstance();
 
-        model.addAttribute("version", "0.1.04");
+        model.addAttribute("version", "0.1.09");
 
         model.addAttribute("fileCount", stats.getFileCount());
         model.addAttribute("analyseCount", stats.getAnalyseCount());

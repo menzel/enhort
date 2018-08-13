@@ -54,9 +54,10 @@ public final class BackendConnector {
         this.port = 42412;
 
         if (System.getenv("HOME").contains("menzel"))
-            this.ip = "127.0.0.1";
+            this.ip = "bioinf-hydra.mni.thm.de";
+            //this.ip = "127.0.0.1";
         else
-            this.ip = "bioinf-ladon.mni.thm.de";
+            this.ip = "bioinf-hydra.mni.thm.de";
 
         id = clientID.getAndIncrement();
 
@@ -64,8 +65,12 @@ public final class BackendConnector {
         try {
             secret = Files.readAllLines(new File("/home/mmnz21/enhort/key.dat").toPath()).get(0);
         } catch (IOException e) {
-            logger.info("using unsafe hard-coded key");
-            secret = "abcddferti5iwiei";
+            try {
+                secret = Files.readAllLines(new File("/home/menzel/key.dat").toPath()).get(0);
+            } catch (IOException e1) {
+                logger.info("using unsafe hard-coded key");
+                secret = "abcddferti5iwiei";
+            }
         }
 
     }
@@ -92,7 +97,7 @@ public final class BackendConnector {
 
                     outputStream = new ObjectOutputStream(socket.getOutputStream());
                     inputStream = new ObjectInputStream(socket.getInputStream());
-                    socket.setSoTimeout(120 * 1000);
+                    socket.setSoTimeout(30 * 1000);
 
                 } catch (IOException e) {
                     logger.warn("[" + id + "]: Cannot connect to backend: " + ip + " reason: " + e.getMessage());

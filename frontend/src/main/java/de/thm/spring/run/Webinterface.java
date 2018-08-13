@@ -15,7 +15,6 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @SpringBootApplication
 @ComponentScan(basePackages = "de.thm.spring")
-@EnableAutoConfiguration
 public class Webinterface {
 
     private static final Logger logger = LoggerFactory.getLogger(Webinterface.class);
