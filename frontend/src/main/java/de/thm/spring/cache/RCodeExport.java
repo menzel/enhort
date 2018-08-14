@@ -22,6 +22,7 @@ import de.thm.stat.TestResult;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -113,7 +114,16 @@ public class RCodeExport {
 
         String var = "dat = data.frame(";
 
-        String header = "row.names(dat) <- c(" + results.stream().map(TestResult::getName).map(s -> '"' + s + '"').collect(Collectors.joining(", ")) + ")";
+        StringJoiner joiner = new StringJoiner(", ");
+
+        for (TestResult s : results) {
+            if (!s.getTrack().getCellLine().equals("Unknown"))
+                joiner.add('"' + s.getName() + '(' + s.getTrack().getCellLine() + ')' + '"'); //add cell line to rowname if it is not unknown
+            else
+                joiner.add('"' + s.getName() + '"');
+        }
+
+        String header = "row.names(dat) <- c(" + joiner.toString() + ")";
 
         return String.join("\n", var, pval, es, meaIn, exIn, meaInP, exInP, ")\n", header);
     }
