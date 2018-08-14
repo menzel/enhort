@@ -173,6 +173,7 @@ class AnalysisHelper {
         if (cmd.getTracks().isEmpty()) { // when using /sample on frontend
             try {
                 runTracks = trackFactory.getTracksByCellline("Unknown", cmd.getAssembly());
+                runTracks = runTracks.stream().filter(t -> !t.getName().contains("Repeat")).collect(Collectors.toList());
                 //runTracks.addAll(trackFactory.getTracksByCellline("", cmd.getAssembly())); // TODO get some cell line specific tracks for sample run
             } catch (RuntimeException e) {
                 logger.warn("Error getting tracks {}", e);
