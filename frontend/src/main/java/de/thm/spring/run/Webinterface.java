@@ -16,11 +16,11 @@
 // along with Enhort.  If not, see <https://www.gnu.org/licenses/>.  
 package de.thm.spring.run;
 
+import de.thm.spring.backend.Sessions;
 import de.thm.spring.backend.StatisticsCollector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
@@ -40,6 +40,9 @@ public class Webinterface {
 
         try {
             SpringApplication.run(Webinterface.class, args);
+
+            Sessions.getInstance().addSession("monitorsession");
+
             attachShutDownHook();
 
         } catch (Exception e) {
