@@ -18,10 +18,12 @@ package de.thm.spring.controller;
 
 import de.thm.command.ExpressionCommand;
 import de.thm.command.InterfaceCommand;
+import de.thm.monitoring.Monitor;
 import de.thm.spring.backend.Sessions;
 import de.thm.spring.backend.StatisticsCollector;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -120,5 +122,16 @@ public class ApplicationController implements ErrorController {
 
         return "contact";
     }
+
+    @RequestMapping("/status")
+    public ResponseEntity monitor() {
+
+        if (Monitor.isConnectionAlive())
+            return new ResponseEntity(HttpStatus.valueOf(200));
+        return new ResponseEntity(HttpStatus.valueOf(500));
+
+    }
+
+
 
 }
