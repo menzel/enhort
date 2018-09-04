@@ -276,6 +276,11 @@ label{
     font-size: 8px !important;
 }
 
+#circos_chart_large {
+    margin-bottom: 90px;
+}
+
+
 #italic {
     font-style: italic;
     font-size: 8pt;
