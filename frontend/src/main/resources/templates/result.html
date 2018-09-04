@@ -958,8 +958,28 @@
     var names = [[${circ_result_names}]];
     var counts = [[${circ_results}]];
 
-    plot_circos(hotspots, names, counts, 420, 'circos_chart');
-    plot_circos(hotspots, names, counts, 700, 'circos_chart_large');
+    plot_circos(hotspots, names, counts, 420, "circos_chart");
+
+    var circos_plot = document.getElementById("circos_chart").firstChild.cloneNode(true);
+
+    document.getElementById("circos_chart_large").appendChild(circos_plot);
+
+    var scaling_factor = 1.6666667;
+
+    var scaling_string = "transform: scale(" + scaling_factor + ")";
+
+    circos_plot.setAttribute("style", scaling_string);
+
+    var height = circos_plot.getAttribute("height");
+    var plot_size = height * scaling_factor;
+
+    circos_plot.setAttribute("height", plot_size);
+    circos_plot.setAttribute("width", plot_size);
+
+    var translate_size = (height / 2) * scaling_factor;
+    var translate_string = "translate(" + translate_size + "," + translate_size + ")";
+
+    circos_plot.firstChild.setAttribute("transform", translate_string);
 
     document.getElementById("circos_names").innerText = "Each circle shows where integration sites hit an annotated region," +
         " the regions are most significant for the given sites: " + names.slice(0, 6) + " from outer to inner. " +
