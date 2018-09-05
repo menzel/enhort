@@ -210,15 +210,27 @@ function plot_scores(results) {
     }
 }
 
-
 function setSequenceLogo(logo, div) {
+
+    let data = JSON.parse(logo);
+
     let basewidth = document.body.offsetWidth / 3;
 
     let margin = {top: 10, right: 20, bottom: 30, left: 50},
         width = basewidth - margin.left - margin.right,
         height = 150 - margin.top - margin.bottom;
 
+    var start_value = -(data.length / 2) + 1;
+    var end_value = start_value + data.length;
+
+    var x_values = [];
+
+    for (var i = start_value; i < end_value; ++i) {
+        x_values.push(i);
+    }
+
     let x = d3.scale.ordinal()
+        .domain(x_values)
         .rangeRoundBands([0, width], .1);
 
     let y = d3.scale.linear()
@@ -226,6 +238,7 @@ function setSequenceLogo(logo, div) {
 
     let xAxis = d3.svg.axis()
         .scale(x)
+        .tickValues(x.domain())
         .orient("bottom");
 
     let yAxis = d3.svg.axis()
@@ -240,8 +253,6 @@ function setSequenceLogo(logo, div) {
 
     sequencelogoFont();
 
-    let data = JSON.parse(logo);
-
     data.forEach(function (d) {
         let y0 = 0;
         d.bits = d.map(function (entry) {
@@ -251,9 +262,6 @@ function setSequenceLogo(logo, div) {
         d.bitTotal = d.bits[d.bits.length - 1].y1;
     });
 
-    x.domain(data.map(function (d, i) {
-        return i;
-    }));
 
     let maxBits = d3.max(data, function (d) {
         return d.bitTotal
@@ -281,7 +289,7 @@ function setSequenceLogo(logo, div) {
         .enter()
         .append("g")
         .attr("transform", function (d, i) {
-            return "translate(" + (x(i) + (x.rangeBand() / 2)) + ",0)";
+            return "translate(" + (x(i + start_value) + (x.rangeBand() / 2)) + ",0)";
         })
         .attr("class", "sequence-column");
 
