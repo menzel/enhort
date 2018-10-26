@@ -242,7 +242,7 @@
                                                          th:title="${'The effect sizes for the annotation group ' + package.key + ' range from ' + perc.get(package.key).get(0) + ' to ' + perc.get(package.key).get(4) + ' with an average of ' + perc.get(package.key).get(2)}"
                                                          th:style="'width:' + ${(perc.get(package.key).get(3)-min)*f} + 'px'">
                                                         <div class="boxplotmean"
-                                                             th:style="'margin-left:' + ${(perc.get(package.key).get(2)-min)*f} + 'px'"></div>
+                                                             th:style="'margin-left:' + ${-2 + (perc.get(package.key).get(2)-min)*f} + 'px'"></div>
                                                     </div>
 
                                                     <div class="sd"
@@ -367,7 +367,7 @@
                                                          th:title="${'The effect sizes for the Scored values range from ' + perc.get('Scored').get(0) + ' to ' + perc.get('Scored').get(4) + ' with an average of ' + perc.get('Scored').get(2)}"
                                                          th:style="'width:' + ${(perc.get('Scored').get(3)-min)*f} + 'px'">
                                                         <div class="boxplotmean"
-                                                             th:style="'margin-left:' + ${(perc.get('Scored').get(2)-min)*f} + 'px'"></div>
+                                                             th:style="'margin-left:' + ${-2 + (perc.get('Scored').get(2)-min)*f} + 'px'"></div>
                                                     </div>
 
                                                     <div class="sd"
@@ -459,7 +459,7 @@
                                                          th:title="${'The effect sizes for the Scored values range from ' + perc.get('Named').get(0) + ' to ' + perc.get('Named').get(4) + ' with an average of ' + perc.get('Named').get(2)}"
                                                          th:style="'width:' + ${(perc.get('Named').get(3)-min)*f} + 'px'">
                                                         <div class="boxplotmean"
-                                                             th:style="'margin-left:' + ${(perc.get('Named').get(2)-min)*f} + 'px'"></div>
+                                                             th:style="'margin-left:' + ${-2 + (perc.get('Named').get(2)-min)*f} + 'px'"></div>
                                                     </div>
 
                                                     <div class="sd"
@@ -964,7 +964,7 @@
 
     document.getElementById("circos_chart_large").appendChild(circos_plot);
 
-    var scaling_factor = 1.6666667;
+    var scaling_factor = 1.5;
 
     var scaling_string = "transform: scale(" + scaling_factor + ")";
 
