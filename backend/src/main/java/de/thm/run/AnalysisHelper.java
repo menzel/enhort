@@ -97,7 +97,7 @@ class AnalysisHelper {
     private ResultCollector runAnalysis(Sites sites, BackendCommand cmd) throws CovariatesException, NoTracksLeftException {
         List<Track> covariants = getCovariants(cmd.getCovariants(), cmd.getAssembly());
         final Sites[] bg = new Sites[1];
-        Double smooth = 10d; //cmd.getInfluence(); //TODO use user defined value
+        Double smooth = 0d; //cmd.getInfluence(); //TODO use user defined value
         int minSites = cmd.getMinBg();
         ExecutorService pool = Executors.newFixedThreadPool(1);
 
@@ -237,6 +237,7 @@ class AnalysisHelper {
         tracks = tracks.stream().filter(distinctByKey(Track::getName)).collect(Collectors.toList());
 
         for (Sites sites : batchSites) {
+
             try {
                 results.addResult(runAnalysisWithBg(sites, bg, tracks, false));
             } catch (NoTracksLeftException e) {
