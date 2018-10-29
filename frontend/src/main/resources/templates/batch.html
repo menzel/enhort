@@ -118,6 +118,13 @@
                                     </label>
                                 </div>
                                 <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="package" value="Regulation"
+                                           id="regucheck"/>
+                                    <label class="form-check-label" for="regucheck">
+                                        Regulation
+                                    </label>
+                                </div>
+                                <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="package" value="Transc"
                                            id="tfbscheck"/>
                                     <label class="form-check-label" for="tfbscheck">
@@ -131,12 +138,16 @@
                                         Repeats
                                     </label>
                                 </div>
+
                             </div>
                         </div>
                         </p>
 
-                        <button class="btn btn-primary" type="submit" id="startButton">Start analysis</button>
+                        <button class="btn btn-primary" type="submit" id="startButton" disabled="disabled">Start
+                            analysis
+                        </button>
                         <span style="color: red; float: right;">* Optional</span>
+                        <span id="info" style="color: red;"></span>
                     </form>
                 </div>
             </div>
@@ -153,7 +164,7 @@
                     </li>
                     <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav2">Hotspots</a></li>
                     <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav3">Site counts</a></li>
-                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav4">As text</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#nav4">Table</a></li>
                 </ul>
 
                 <div class="tab-content">
@@ -235,6 +246,39 @@
 </div>
 
 </body>
+
+<script>
+    let f = document.getElementById("files");
+    let sub = document.getElementById("startButton");
+
+    f.onchange = function (e) {
+        sub.disabled = f.length === 0;
+    };
+
+
+    function has_package() {
+        let checkboxes = document.getElementsByTagName("input");
+
+        for (let i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked === false) {
+                continue;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    sub.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        if (!has_package()) {
+            document.getElementById("info").innerText = "You have to select at least one annotation package."
+        } else {
+            document.getElementById("uploadForm").submit();
+        }
+    });
+
+</script>
 
 <script>
     $('a').tooltip();
