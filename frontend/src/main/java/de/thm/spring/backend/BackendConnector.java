@@ -70,10 +70,9 @@ public final class BackendConnector {
         this.port = 42412;
 
         if (System.getenv("HOME").contains("menzel"))
-            this.ip = "bioinf-hydra.mni.thm.de";
-            //this.ip = "127.0.0.1";
+            this.ip = "127.0.0.1";
         else
-            this.ip = "bioinf-hydra.mni.thm.de";
+            this.ip = "bioinf-ladon.mni.thm.de";
 
         id = clientID.getAndIncrement();
 
