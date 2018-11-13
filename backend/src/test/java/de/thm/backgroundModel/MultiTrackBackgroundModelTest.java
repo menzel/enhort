@@ -25,6 +25,7 @@ import de.thm.genomeData.tracks.TrackFactory;
 import de.thm.misc.ChromosomSizes;
 import de.thm.misc.Genome;
 import de.thm.positionData.Sites;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -41,8 +42,8 @@ import static org.mockito.Mockito.when;
  */
 public class MultiTrackBackgroundModelTest {
 
-    @BeforeClass
-    public static void setUp(){
+    @Before
+    public void setUp(){
         long end = 1000; //should be larger than all test intervals in this class
 
         //mock contigs track

@@ -16,6 +16,8 @@
 // along with Enhort.  If not, see <https://www.gnu.org/licenses/>.  
 package de.thm.genomeData.tracks;
 
+import java.util.Random;
+
 /**
  * Object mapping helper class
  */
@@ -47,6 +49,9 @@ public class TrackEntry {
         this.pack = pack;
         this.source = "";
         this.sourceURL = "";
+        // This constructor is used only for creating tests tracks or converted tracks.
+        // A random id is sufficient:
+        this.dbID = 1000 * 1000 + new Random().nextInt(1000);
     }
 
 

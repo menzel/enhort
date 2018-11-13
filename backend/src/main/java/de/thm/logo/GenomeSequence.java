@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -191,7 +192,7 @@ final class GenomeSequence {
         ChromosomSizes chrSizes = ChromosomSizes.getInstance();
 
         try {
-            paths = Files.walk(filepath);
+            paths = Files.walk(filepath, FileVisitOption.FOLLOW_LINKS);
         } catch (IOException e) {
             logger.error("Exception {}", e.getMessage(), e);
             return null;

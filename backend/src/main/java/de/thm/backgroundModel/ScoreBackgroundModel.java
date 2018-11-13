@@ -305,6 +305,7 @@ class ScoreBackgroundModel {
         List<String> new_names = new ArrayList<>();
         Genome.Assembly assembly = tracks.get(0).getAssembly();
 
+        //TODO check if track is already covering the whole genome, then skip the following
 
         // take all start and ends, combine in lists and sort
         for(ScoredTrack track: tracks){

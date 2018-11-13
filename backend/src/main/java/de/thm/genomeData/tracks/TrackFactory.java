@@ -110,6 +110,7 @@ public final class TrackFactory {
 
             allTracks = connector.getAllTracks(" WHERE directory like '%genetic%' and genome_assembly = 'hg19' ORDER BY lines ASC ");
             allTracks.addAll(connector.getAllTracks("WHERE genome_assembly = 'hg19' and directory like '%encode%HeLa%'"));
+            allTracks.addAll(connector.getAllTracks("WHERE genome_assembly = 'hg19' and directory like '%custom%'"));
             //allTracks = connector.getAllTracks("WHERE bed_filename = 'SRX062365.05.bed'");
             allTracks.addAll(connector.getAllTracks("WHERE name like '%ontigs'"));
             //allTracks = connector.getAllTracks(" WHERE genome_assembly = 'hg19' ORDER BY lines ASC LIMIT 3000");
@@ -186,7 +187,7 @@ public final class TrackFactory {
         exe.shutdown();
 
         try {
-            int timeout = (System.getenv("HOME").contains("menzel")) ? 10 : 60 * 2;
+            int timeout = (System.getenv("HOME").contains("menzel")) ? 30 : 60 * 2;
             completionService.poll(timeout, TimeUnit.SECONDS);
 
             logger.warn("Still loading track files. Stopping now");
@@ -396,11 +397,10 @@ public final class TrackFactory {
                 returnTracks.add(track);
         }
 
-        if (!returnTracks.isEmpty())
-            return returnTracks;
+        return returnTracks;
 
-        throw new RuntimeException("Could not find tracks for packages" + Arrays.toString(packages.toArray()) + ". Some parts might not be working correct. " +
-                "Please check the names");
+        //throw new RuntimeException("Could not find tracks for packages" + Arrays.toString(packages.toArray()) + ". Some parts might not be working correct. " +
+        //        "Please check the names");
     }
 
     /**

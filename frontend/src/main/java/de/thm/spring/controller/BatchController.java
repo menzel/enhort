@@ -163,6 +163,7 @@ public class BatchController {
                     TestResult tr = sortedResults.get(trackN);
                     List<Number> tmp = new ArrayList<>();
 
+                    //TODO CSV:
                     csv.append(tr.getTrack().getName()).append(" Fold change (log2): ").append(tr.getEffectSize()).append(" In sites: ").append(tr.getMeasuredIn()).append(" In control: ").append(tr.getExpectedIn()).append(" Out sites: ").append(tr.getMeasuredOut()).append(" Out control: ").append(tr.getExpectedOut()).append(" P value: ").append(tr.getpValue());
                     csv.append(lb);
 
