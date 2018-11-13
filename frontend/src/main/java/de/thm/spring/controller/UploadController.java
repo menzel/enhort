@@ -176,6 +176,7 @@ public class UploadController {
 
                 currentSession.setCollector(collector);
 
+                model.addAttribute("showall", true);
                 setModel(model, collector, currentSession.getSites(), name);
                 model.addAttribute("covariants", new ArrayList<>());
                 model.addAttribute("covariantCount", 0);
@@ -274,6 +275,7 @@ public class UploadController {
          }
 
 
+        model.addAttribute("showall", true);
         return withNewTrack(currentSession, model);
 
     }

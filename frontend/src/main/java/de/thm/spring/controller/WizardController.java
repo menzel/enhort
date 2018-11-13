@@ -180,18 +180,18 @@ public class WizardController {
             stats.addFileC();
 
             currentSession.setCollector(collector);
+            /*
             interfaceCommand.setMinBg(10000);
             interfaceCommand.setOriginalFilename(currentSession.getOriginalFilename());
             interfaceCommand.setHotspots(collector.getHotspots());
 
-            model.addAttribute("interfaceCommand", interfaceCommand);
+            model.addAttribute("interfaceCommand", newInterfaceCommand);
+            */
             model.addAttribute("tracks", currentSession.getCollector().getInOutResults(false));
             model.addAttribute("page", "covariates");
 
             model.addAttribute("sigTrackCount", collector.getSignificantTrackCount());
             model.addAttribute("trackCount", collector.getTrackCount());
-
-            //TODO
 
             return "result";
         }

@@ -259,6 +259,9 @@ public class ControllerHelper {
         command.setPositionCount(data.getPositionCount());
         command.setAssembly(collector.getAssembly().toString());
 
+        if (model.containsAttribute("showall") && model.asMap().get("showall").equals(true))
+            command.setShowall(true);
+
         //cut off filenames longer than 18 chars:
         if(filename != null)
             filename = filename.length() > 18 ? filename.substring(0, 15) + ".." : filename;
