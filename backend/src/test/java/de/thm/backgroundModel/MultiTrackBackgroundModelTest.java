@@ -226,18 +226,19 @@ public class MultiTrackBackgroundModelTest {
         // generate custom appearance table
         AppearanceTable app = new AppearanceTable(inFirst + inSecond + out);
         Map<String, Integer> appearance_map = new HashMap<>();
-        Set<Integer> containing = new TreeSet<>();
+        Set<Integer> one = new TreeSet<>();
+        Set<Integer> two = new TreeSet<>();
+        Set<Integer> onetwo = new TreeSet<>();
 
-        containing.add(track1.getUid());
-        appearance_map.put(app.hash(containing), inFirst);
+        one.add(track1.getUid());
+        appearance_map.put(app.hash(one), inFirst);
 
-        containing.add(track2.getUid());
-        appearance_map.put(app.hash(containing), inBoth);
+        two.add(track2.getUid());
+        appearance_map.put(app.hash(two), inSecond);
 
-        containing.clear();
-
-        containing.add(track2.getUid());
-        appearance_map.put(app.hash(containing), inSecond);
+        onetwo.add(track1.getUid());
+        onetwo.add(track2.getUid());
+        appearance_map.put(app.hash(onetwo), inBoth);
 
         appearance_map.put("[]", out);
 
@@ -304,8 +305,6 @@ public class MultiTrackBackgroundModelTest {
 
         trackList.add(track1);
         trackList.add(track2);
-
-
 
          Sites sites =  new Sites() {
              @Override

@@ -89,8 +89,8 @@ public class NamedBackgroundModelTest {
         TestTrackResult resultBg = calc.searchSingleInterval(track, backgroundModel);
         TestTrackResult resultOrig = calc.searchSingleInterval(track, sites);
 
-        assertEquals(((double) resultOrig.getOut()) / sites.getPositionCount(), ((double) resultBg.getOut()) / backgroundModel.getPositionCount(), 0.3);
-        assertEquals(((double) resultOrig.getIn()) / sites.getPositionCount(), ((double) resultBg.getIn()) / backgroundModel.getPositionCount(), 0.3);
+        assertEquals(((double) resultOrig.getOut()) / sites.getPositionCount(), ((double) resultBg.getOut()) / backgroundModel.getPositionCount(), 0.5);
+        assertEquals(((double) resultOrig.getIn()) / sites.getPositionCount(), ((double) resultBg.getIn()) / backgroundModel.getPositionCount(), 0.5);
 
     }
 
