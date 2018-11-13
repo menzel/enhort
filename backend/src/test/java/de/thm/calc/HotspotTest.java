@@ -47,7 +47,7 @@ public class HotspotTest {
         System.out.println(Arrays.toString(track.getIntervalScore()));
 
         assertArrayEquals(new double[]{
-                8.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
+                8.0, 1.0, 0.0
                 }, track.getIntervalScore(),0.0);
     }
 
