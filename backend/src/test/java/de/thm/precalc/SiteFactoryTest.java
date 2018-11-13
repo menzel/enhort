@@ -29,6 +29,7 @@ import de.thm.logo.Sequencelogo;
 import de.thm.misc.ChromosomSizes;
 import de.thm.misc.Genome;
 import de.thm.positionData.Sites;
+import de.thm.run.BackendServer;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -53,6 +54,8 @@ public class SiteFactoryTest {
     @BeforeClass
     public static void init(){
 
+        BackendServer.dbfilepath = "/home/menzel/Desktop/THM/lfba/enhort/stefan.db";
+
         DBConnector connector = new DBConnector();
         connector.connect();
         connector.getAllTracks("WHERE name like 'known genes' AND genome_assembly = 'hg19'").forEach(TrackFactory.getInstance()::loadTrack);
@@ -68,7 +71,7 @@ public class SiteFactoryTest {
         trackFactory.addTrack(contigs);
         //end mock contigs track
 
-        factory = new SiteFactory(Genome.Assembly.hg19, 3000000);
+        factory = new SiteFactory(Genome.Assembly.hg19, 1000000);
     }
 
 
