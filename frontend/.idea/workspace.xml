@@ -5,21 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="086dfc90-55fd-404d-8d79-87e008364a13" name="Default" comment="add cell line names to r plot">
+      <change beforePath="$PROJECT_DIR$/../README" beforeDir="false" afterPath="$PROJECT_DIR$/../README" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/de/thm/backgroundModel/ScoreBackgroundModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/de/thm/backgroundModel/ScoreBackgroundModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/de/thm/genomeData/tracks/TrackFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/de/thm/genomeData/tracks/TrackFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/de/thm/logo/GenomeSequence.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/de/thm/logo/GenomeSequence.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/test/java/de/thm/backgroundModel/MultiTrackBackgroundModelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/test/java/de/thm/backgroundModel/MultiTrackBackgroundModelTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../enhortlib/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../enhortlib/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../enhortlib/src/main/java/de/thm/genomeData/tracks/TrackEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/../enhortlib/src/main/java/de/thm/genomeData/tracks/TrackEntry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thm/spring/cache/RCodeExport.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thm/spring/cache/RCodeExport.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thm/spring/controller/BatchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thm/spring/controller/BatchController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/batch.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/batch.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/result.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/result.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../update.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../update.sh" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -99,7 +86,7 @@
         <counts>
           <entry key="css" value="7" />
           <entry key="html" value="9" />
-          <entry key="java" value="17" />
+          <entry key="java" value="18" />
           <entry key="js" value="6" />
           <entry key="properties" value="1" />
           <entry key="rnc" value="1" />
@@ -110,7 +97,7 @@
         <counts>
           <entry key="CSS" value="7" />
           <entry key="HTML" value="9" />
-          <entry key="JAVA" value="17" />
+          <entry key="JAVA" value="18" />
           <entry key="JavaScript" value="6" />
           <entry key="Properties" value="1" />
           <entry key="RNG Compact" value="1" />
@@ -189,15 +176,6 @@
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/resources/templates/header.html">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="612">
-                  <caret line="34" selection-start-line="34" selection-end-line="34" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/cache/RCodeExport.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="797">
@@ -232,6 +210,15 @@
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="342">
                   <caret line="40" column="12" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="12" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/backend/BackendConnector.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-2484">
+                  <caret line="78" selection-start-line="78" selection-end-line="78" />
                 </state>
               </provider>
             </entry>
@@ -890,7 +877,7 @@
       <workItem from="1540905789977" duration="7457000" />
       <workItem from="1541419490484" duration="101000" />
       <workItem from="1541674310663" duration="6104000" />
-      <workItem from="1542109703362" duration="597000" />
+      <workItem from="1542109703362" duration="713000" />
     </task>
     <task id="LOCAL-00168" summary="offset change">
       <created>1525785731098</created>
@@ -1239,13 +1226,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="770304000" />
+    <option name="totallyTimeSpent" value="770420000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1181" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.08342246" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2828877" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.24973261" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -1665,13 +1652,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/backend/BackendConnector.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="78" selection-start-line="78" selection-end-line="78" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1098">
@@ -1755,13 +1735,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/run/Webinterface.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="40" column="12" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/controller/ApplicationController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1746">
@@ -1807,6 +1780,20 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="797">
           <caret line="112" column="66" selection-start-line="112" selection-start-column="66" selection-end-line="112" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/run/Webinterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="40" column="12" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/spring/backend/BackendConnector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2484">
+          <caret line="78" selection-start-line="78" selection-end-line="78" />
         </state>
       </provider>
     </entry>

@@ -2,21 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0907bece-d273-4211-baab-7d706dd25c88" name="Default" comment="source">
+      <change beforePath="$PROJECT_DIR$/../README" beforeDir="false" afterPath="$PROJECT_DIR$/../README" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/de/thm/backgroundModel/ScoreBackgroundModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/de/thm/backgroundModel/ScoreBackgroundModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/de/thm/genomeData/tracks/TrackFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/de/thm/genomeData/tracks/TrackFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/de/thm/logo/GenomeSequence.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/de/thm/logo/GenomeSequence.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/test/java/de/thm/backgroundModel/MultiTrackBackgroundModelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/test/java/de/thm/backgroundModel/MultiTrackBackgroundModelTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thm/genomeData/tracks/TrackEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thm/genomeData/tracks/TrackEntry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/main/java/de/thm/spring/cache/RCodeExport.java" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/main/java/de/thm/spring/cache/RCodeExport.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/main/java/de/thm/spring/controller/BatchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/main/java/de/thm/spring/controller/BatchController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/main/resources/templates/batch.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/main/resources/templates/batch.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/main/resources/templates/result.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/main/resources/templates/result.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../update.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../update.sh" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />

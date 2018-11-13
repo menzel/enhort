@@ -5,21 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="496c273f-8d47-406b-afce-d640d1e66605" name="Default" comment="generifiicon-remove">
+      <change beforePath="$PROJECT_DIR$/../README" beforeDir="false" afterPath="$PROJECT_DIR$/../README" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/ScoreBackgroundModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/ScoreBackgroundModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thm/genomeData/tracks/TrackFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thm/genomeData/tracks/TrackFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/de/thm/logo/GenomeSequence.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/thm/logo/GenomeSequence.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/MultiTrackBackgroundModelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/MultiTrackBackgroundModelTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../enhortlib/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../enhortlib/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../enhortlib/src/main/java/de/thm/genomeData/tracks/TrackEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/../enhortlib/src/main/java/de/thm/genomeData/tracks/TrackEntry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/main/java/de/thm/spring/cache/RCodeExport.java" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/main/java/de/thm/spring/cache/RCodeExport.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/main/java/de/thm/spring/controller/BatchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/main/java/de/thm/spring/controller/BatchController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/main/resources/templates/batch.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/main/resources/templates/batch.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/main/resources/templates/result.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/main/resources/templates/result.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../update.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../update.sh" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -234,8 +221,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/run/BackendServer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="35" column="19" selection-start-line="35" selection-start-column="19" selection-end-line="35" selection-end-column="19" />
+            <state relative-caret-position="396">
+              <caret line="45" column="53" selection-start-line="45" selection-start-column="53" selection-end-line="45" selection-end-column="53" />
             </state>
           </provider>
         </entry>
@@ -651,7 +638,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542109449986" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542112971513" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="Sqlite (Xerial)" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
     <property name="database.data.extractors.current.id" value="671c6a4f-7037-488e-81f7-2a49a5870562" />
@@ -911,7 +898,7 @@
       <workItem from="1540988771463" duration="1208000" />
       <workItem from="1541419493643" duration="96000" />
       <workItem from="1541677346502" duration="11283000" />
-      <workItem from="1542109724706" duration="1391000" />
+      <workItem from="1542109724706" duration="1665000" />
     </task>
     <task id="LOCAL-00039" summary="key from file">
       <created>1514976809578</created>
@@ -1292,7 +1279,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="648476000" />
+    <option name="totallyTimeSpent" value="648750000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1974,8 +1961,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/run/BackendServer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="35" column="19" selection-start-line="35" selection-start-column="19" selection-end-line="35" selection-end-column="19" />
+        <state relative-caret-position="396">
+          <caret line="45" column="53" selection-start-line="45" selection-start-column="53" selection-end-line="45" selection-end-column="53" />
         </state>
       </provider>
     </entry>
