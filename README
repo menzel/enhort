@@ -24,15 +24,21 @@ Enhort is publicly available online at www.enhort.mni.thm.de and published under
 
 # Build
 
-Enhort is build using Maven. Some tests do not work well using mvn and need some files to be set up to work, the build is possible by skipping the test with -DskipTests=true
+Enhort is build using Maven. Some tests do not work well using mvn and need some files to be set up to work, 
+the build is possible by skipping the test with -DskipTests=true
 
-Enhort works using a backend server and a frontend webserver. Both need to be build and deployed. Additionally Enhort needs a sqlite database for all annotations and a directory containing the .bed files. The current database is uploaded as example.db
+Enhort works using a backend server and a frontend webserver. Both need to be build and deployed. 
+Additionally Enhort needs a sqlite database for all annotations and a directory containing the .bed files. 
+The current database is uploaded as example.db
 
-A keyfile for encrypted communication needs to be created and the path changed in the BackendConnector Class of the Frontend
+A keyfile for encrypted communication needs to be created and the path changed in the BackendConnector 
+class of the Frontend
 
-The connection ip to connect the Frontend to backend needs to be changed in the BackendConnector as well as the used port.
+The connection ip to connect the Frontend to backend needs to be changed in the BackendConnector as well 
+as the used port.
 
-The backend needs the used genomes as .fa files. The directory needs to be given upon start of the backend as parameter. Example call:
+The backend needs the used genomes as .fa files. The directory needs to be given upon start of the backend 
+as parameter. Example call:
 
 ```/usr/bin/java -jar -Xmx60g -XX:StringTableSize=1000003
                     enhort.jar
