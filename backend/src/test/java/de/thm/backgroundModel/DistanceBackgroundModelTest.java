@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Testing Distance bg model with three tracks
@@ -109,11 +109,21 @@ public class DistanceBackgroundModelTest {
         for(Long d: dist.distancesToNext(track1, model)){
 
             try {
-                assertEquals(true, expected.contains(d));
+                boolean any = false;
+
+                //check results with 2 bp window
+                for (int i = -2; i <= 3; i++) {
+                    if (expected.contains(d - i)) {
+                        any = true;
+                        break;
+                    }
+                }
+                assertTrue(any);
 
             } catch (AssertionError e){ //catch and throw error again with extended error message
 
-                String message = "exp: " + expected.toString() + " got: " + d + " for " + model.getPositions().toString() + e ;
+                String message = "exp: " + expected.toString() + " got: " + d + " for " + dist.distancesToNext(track1, model).toString() + e;
+                message += ".\n Since the setting of values is a random process it is possible to fail sometimes to get the expected values.";
                 throw new AssertionError(message);
             }
         }
