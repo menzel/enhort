@@ -1,8 +1,19 @@
 # Enhort: Genomic Position Profiling
 
-The rise of high-throughput methods in genomic research greatly expanded our knowledge about the functionality of the genome. At the same time, the amount of available genomic position data increased massively, e.g., through genome-wide profiling of protein binding, virus integration or DNA methylation. However, there is no specialized software to investigate integration site profiles of virus integration or transcription factor binding sites by correlating the sites with the diversity of available genomic annotations.
+The rise of high-throughput methods in genomic research greatly expanded our 
+knowledge about the functionality of the genome. At the same time, the amount 
+of available genomic position data increased massively, e.g., through genome-wide 
+profiling of protein binding, virus integration or DNA methylation. 
+However, there is no specialized software to investigate integration site profiles 
+of virus integration or transcription factor binding sites by correlating the sites 
+with the diversity of available genomic annotations.
 
-Here we present Enhort, a user-friendly software tool for relating large sets of genomic positions to a variety of annotations. It functions as a statistics based genome browser, not focused on a single locus but analyzing many genomic positions simultaneously. Enhort provides comprehensive yet easy-to-use methods for statistical analysis, visualization, and the adjustment of background models according to experimental conditions and scientific questions.
+Here we present Enhort, a user-friendly software tool for relating large sets of 
+genomic positions to a variety of annotations. It functions as a statistics based 
+genome browser, not focused on a single locus but analyzing many genomic positions 
+simultaneously. Enhort provides comprehensive yet easy-to-use methods for statistical 
+analysis, visualization, and the adjustment of background models according to 
+experimental conditions and scientific questions.
 
 
 
@@ -13,7 +24,7 @@ Enhort is publicly available online at www.enhort.mni.thm.de and published under
 
 # Build
 
-Enhort is build using Maven. Some tests do not work well using mvn, the build is possible by skipping the test with -DskipTests=true
+Enhort is build using Maven. Some tests do not work well using mvn and need some files to be set up to work, the build is possible by skipping the test with -DskipTests=true
 
 Enhort works using a backend server and a frontend webserver. Both need to be build and deployed. Additionally Enhort needs a sqlite database for all annotations and a directory containing the .bed files. The current database is uploaded as example.db
 
@@ -23,7 +34,8 @@ The connection ip to connect the Frontend to backend needs to be changed in the 
 
 The backend needs the used genomes as .fa files. The directory needs to be given upon start of the backend as parameter. Example call:
 
-/usr/bin/java -jar -Xmx60g -XX:StringTableSize=1000003
+```/usr/bin/java -jar -Xmx60g -XX:StringTableSize=1000003
                     enhort.jar
                     data/dir
                     example.db 
+```

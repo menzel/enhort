@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="496c273f-8d47-406b-afce-d640d1e66605" name="Default" comment="generifiicon-remove">
-      <change beforePath="$PROJECT_DIR$/../README" beforeDir="false" afterPath="$PROJECT_DIR$/../README" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../enhortlib/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../enhortlib/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -103,23 +104,23 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="class" value="4" />
-          <entry key="java" value="1832" />
-          <entry key="txt" value="150" />
+          <entry key="java" value="2307" />
+          <entry key="txt" value="176" />
           <entry key="xml" value="87" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CLASS" value="4" />
-          <entry key="JAVA" value="1832" />
-          <entry key="PLAIN_TEXT" value="150" />
+          <entry key="JAVA" value="2307" />
+          <entry key="PLAIN_TEXT" value="176" />
           <entry key="XML" value="87" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="class" value="10" />
-          <entry key="java" value="68" />
+          <entry key="java" value="72" />
           <entry key="null" value="1" />
           <entry key="xml" value="4" />
         </counts>
@@ -127,7 +128,7 @@
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CLASS" value="10" />
-          <entry key="JAVA" value="68" />
+          <entry key="JAVA" value="72" />
           <entry key="PLAIN_TEXT" value="1" />
           <entry key="XML" value="4" />
         </counts>
@@ -144,53 +145,46 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/MultiTrackBackgroundModel.java">
+        <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/MultiTrackBackgroundModelTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="900">
-              <caret line="75" column="24" selection-start-line="75" selection-start-column="24" selection-end-line="75" selection-end-column="24" />
+            <state relative-caret-position="-43">
+              <caret line="40" selection-start-line="40" selection-end-line="40" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/ScoreBackgroundModel.java">
+        <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/stat/ResultCollectorTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4878">
-              <caret line="307" column="82" selection-start-line="307" selection-start-column="82" selection-end-line="307" selection-end-column="82" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="162">
+              <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/genomeData/tracks/TrackFactory.java">
+        <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/logo/LogoTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7506">
-              <caret line="443" column="32" selection-start-line="443" selection-start-column="32" selection-end-line="443" selection-end-column="32" />
-              <folding>
-                <element signature="e#13433#13434#0" expanded="true" />
-                <element signature="e#13465#13466#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="144">
+              <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/precalc/SiteFactoryTest.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="576">
-              <caret line="73" column="56" selection-start-line="73" selection-start-column="56" selection-end-line="73" selection-end-column="56" />
+              <caret line="73" column="26" selection-start-line="73" selection-start-column="26" selection-end-line="73" selection-end-column="26" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/calc/HotspotTest.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/precalc/SiteFactory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="49" column="28" selection-start-line="49" selection-start-column="28" selection-end-line="49" selection-end-column="28" />
+            <state relative-caret-position="-2689">
+              <caret line="51" column="4" selection-start-line="51" selection-start-column="4" selection-end-line="51" selection-end-column="4" />
             </state>
           </provider>
         </entry>
@@ -215,14 +209,18 @@
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/DistanceBackgroundModelTest.java">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="213">
+              <caret line="125" column="138" selection-start-line="125" selection-start-column="138" selection-end-line="125" selection-end-column="138" />
+            </state>
+          </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/run/BackendServer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="45" column="53" selection-start-line="45" selection-start-column="53" selection-end-line="45" selection-end-column="53" />
+            <state relative-caret-position="522">
+              <caret line="52" column="25" selection-start-line="52" selection-start-column="25" selection-end-line="52" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -291,7 +289,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/DistanceBackgroundModelTest.java" />
         <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/61e34aef-106e-46b9-bb0e-ce8a1b0b1cc4/console_1.sql" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/587636b7-3f89-4014-93e4-7be9e7f15363/console.sql" />
@@ -342,6 +339,7 @@
         <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/ScoreBackgroundModel.java" />
         <option value="$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/SingleTrackBackgroundModel.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/DistanceBackgroundModelTest.java" />
       </list>
     </option>
   </component>
@@ -382,6 +380,7 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds">
+    <option name="x" value="1920" />
     <option name="width" value="1920" />
     <option name="height" value="1181" />
   </component>
@@ -638,7 +637,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542112971513" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542187687303" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="Sqlite (Xerial)" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
     <property name="database.data.extractors.current.id" value="671c6a4f-7037-488e-81f7-2a49a5870562" />
@@ -689,13 +688,27 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="BackendServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="de.thm.run.BackendServer" />
+      <module name="Enhort" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/../../dat/stefan $PROJECT_DIR$/../../stefan.db" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="de.thm.run.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="BetterBackgroundModelTest.testRandPositionsScored" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="DistanceBackgroundModelTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Enhort" />
       <extension name="coverage">
         <pattern>
@@ -704,41 +717,37 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="de.thm.backgroundModel" />
-      <option name="MAIN_CLASS_NAME" value="de.thm.backgroundModel.BetterBackgroundModelTest" />
-      <option name="METHOD_NAME" value="testRandPositionsScored" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="MAIN_CLASS_NAME" value="de.thm.backgroundModel.DistanceBackgroundModelTest" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="HotspotTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="LogoTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Enhort" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="de.thm.calc.*" />
+          <option name="PATTERN" value="de.thm.logo.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="de.thm.calc" />
-      <option name="MAIN_CLASS_NAME" value="de.thm.calc.HotspotTest" />
+      <option name="PACKAGE_NAME" value="de.thm.logo" />
+      <option name="MAIN_CLASS_NAME" value="de.thm.logo.LogoTest" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MultiTrackBackgroundModelTest.testRandPositions" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ResultCollectorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Enhort" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="de.thm.backgroundModel.*" />
+          <option name="PATTERN" value="de.thm.stat.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="de.thm.backgroundModel" />
-      <option name="MAIN_CLASS_NAME" value="de.thm.backgroundModel.MultiTrackBackgroundModelTest" />
-      <option name="METHOD_NAME" value="testRandPositions" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="PACKAGE_NAME" value="de.thm.stat" />
+      <option name="MAIN_CLASS_NAME" value="de.thm.stat.ResultCollectorTest" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -765,21 +774,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="de.thm.genomeData in Enhort" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Enhort" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="de.thm.genomeData.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="de.thm.genomeData" />
-      <option name="TEST_OBJECT" value="package" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
       <properties />
@@ -789,19 +783,19 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.de.thm.genomeData in Enhort" />
-      <item itemvalue="JUnit.HotspotTest" />
-      <item itemvalue="JUnit.BetterBackgroundModelTest.testRandPositionsScored" />
+      <item itemvalue="Application.BackendServer" />
       <item itemvalue="JUnit.SiteFactoryTest" />
-      <item itemvalue="JUnit.MultiTrackBackgroundModelTest.testRandPositions" />
+      <item itemvalue="JUnit.DistanceBackgroundModelTest" />
+      <item itemvalue="JUnit.ResultCollectorTest" />
+      <item itemvalue="JUnit.LogoTest" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.SiteFactoryTest" />
-        <item itemvalue="JUnit.MultiTrackBackgroundModelTest.testRandPositions" />
-        <item itemvalue="JUnit.BetterBackgroundModelTest.testRandPositionsScored" />
-        <item itemvalue="JUnit.HotspotTest" />
-        <item itemvalue="JUnit.de.thm.genomeData in Enhort" />
+        <item itemvalue="JUnit.LogoTest" />
+        <item itemvalue="JUnit.ResultCollectorTest" />
+        <item itemvalue="JUnit.DistanceBackgroundModelTest" />
+        <item itemvalue="Application.BackendServer" />
       </list>
     </recent_temporary>
   </component>
@@ -898,14 +892,7 @@
       <workItem from="1540988771463" duration="1208000" />
       <workItem from="1541419493643" duration="96000" />
       <workItem from="1541677346502" duration="11283000" />
-      <workItem from="1542109724706" duration="1665000" />
-    </task>
-    <task id="LOCAL-00039" summary="key from file">
-      <created>1514976809578</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1514976809578</updated>
+      <workItem from="1542109724706" duration="6157000" />
     </task>
     <task id="LOCAL-00040" summary="getCellLine method for anonymous UserData classes in test dir">
       <created>1514976844176</created>
@@ -1243,43 +1230,50 @@
       <option name="project" value="LOCAL" />
       <updated>1542108938613</updated>
     </task>
-    <option name="localTasksCounter" value="88" />
+    <task id="LOCAL-00088" summary="distance test window added">
+      <created>1542187533003</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1542187533003</updated>
+    </task>
+    <option name="localTasksCounter" value="89" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="BetterBackgroundModelTest_testRandPositionsScored - 2018.11.13 at 11h 37m 52s.xml">
-      <configuration name="BetterBackgroundModelTest.testRandPositionsScored" configurationId="JUnit" />
+    <history-entry file="DistanceBackgroundModelTest - 2018.11.14 at 10h 21m 33s.xml">
+      <configuration name="DistanceBackgroundModelTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SiteFactoryTest - 2018.11.13 at 11h 52m 55s.xml">
-      <configuration name="SiteFactoryTest" configurationId="JUnit" />
+    <history-entry file="DistanceBackgroundModelTest - 2018.11.14 at 10h 22m 26s.xml">
+      <configuration name="DistanceBackgroundModelTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SiteFactoryTest - 2018.11.13 at 11h 54m 48s.xml">
-      <configuration name="SiteFactoryTest" configurationId="JUnit" />
+    <history-entry file="DistanceBackgroundModelTest - 2018.11.14 at 10h 22m 29s.xml">
+      <configuration name="DistanceBackgroundModelTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SiteFactoryTest - 2018.11.13 at 11h 54m 51s.xml">
-      <configuration name="SiteFactoryTest" configurationId="JUnit" />
+    <history-entry file="DistanceBackgroundModelTest - 2018.11.14 at 10h 22m 32s.xml">
+      <configuration name="DistanceBackgroundModelTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SiteFactoryTest - 2018.11.13 at 12h 28m 46s.xml">
-      <configuration name="SiteFactoryTest" configurationId="JUnit" />
+    <history-entry file="DistanceBackgroundModelTest - 2018.11.14 at 10h 24m 04s.xml">
+      <configuration name="DistanceBackgroundModelTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SiteFactoryTest - 2018.11.13 at 12h 29m 04s.xml">
-      <configuration name="SiteFactoryTest" configurationId="JUnit" />
+    <history-entry file="DistanceBackgroundModelTest - 2018.11.14 at 10h 24m 06s.xml">
+      <configuration name="DistanceBackgroundModelTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SiteFactoryTest - 2018.11.13 at 12h 29m 55s.xml">
-      <configuration name="SiteFactoryTest" configurationId="JUnit" />
+    <history-entry file="DistanceBackgroundModelTest - 2018.11.14 at 10h 25m 18s.xml">
+      <configuration name="DistanceBackgroundModelTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="MultiTrackBackgroundModelTest_testRandPositions - 2018.11.13 at 12h 31m 24s.xml">
-      <configuration name="MultiTrackBackgroundModelTest.testRandPositions" configurationId="JUnit" />
+    <history-entry file="DistanceBackgroundModelTest - 2018.11.14 at 10h 25m 20s.xml">
+      <configuration name="DistanceBackgroundModelTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SiteFactoryTest - 2018.11.13 at 12h 34m 37s.xml">
-      <configuration name="SiteFactoryTest" configurationId="JUnit" />
+    <history-entry file="ResultCollectorTest - 2018.11.14 at 10h 26m 31s.xml">
+      <configuration name="ResultCollectorTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SiteFactoryTest - 2018.11.13 at 12h 35m 10s.xml">
-      <configuration name="SiteFactoryTest" configurationId="JUnit" />
+    <history-entry file="LogoTest - 2018.11.14 at 10h 26m 43s.xml">
+      <configuration name="LogoTest" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="648750000" />
+    <option name="totallyTimeSpent" value="653242000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1291,10 +1285,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1920" height="1181" extended-state="0" />
+    <frame x="1920" y="0" width="1920" height="1181" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49492386" visible="true" weight="0.28181818" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49492386" visible="true" weight="0.28181818" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -1303,8 +1297,8 @@
       <window_info id="Image Layers" order="6" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.0056657223" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4850107" weight="0.23018868" />
-      <window_info anchor="bottom" x="0" y="0" width="1920" height="1181" id="Debug" order="3" type="FLOATING" weight="0.39943343" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4850107" visible="true" weight="0.4009434" />
+      <window_info anchor="bottom" x="-2" y="-18" width="1920" height="1181" id="Debug" order="3" type="FLOATING" weight="0.39943343" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49785867" weight="0.32985783" />
@@ -1325,7 +1319,7 @@
       <window_info anchor="right" id="Theme Preview" order="7" />
       <window_info anchor="right" id="Bean Validation" order="8" />
       <window_info anchor="right" id="Coverage" order="9" sideWeight="0.5144578" side_tool="true" weight="0.15347594" />
-      <window_info anchor="right" id="Maven Projects" order="10" sideWeight="0.48554218" visible="true" weight="0.030481283" />
+      <window_info anchor="right" id="Maven Projects" order="10" sideWeight="0.48554218" visible="true" weight="0.14117648" />
     </layout>
     <layout-to-restore>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49492386" visible="true" weight="0.20748663" />
@@ -1371,7 +1365,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Stefan db" />
     <MESSAGE value="fc base 2" />
     <MESSAGE value="keep url and source on preprocession" />
     <MESSAGE value="positional intersect and call" />
@@ -1396,7 +1389,8 @@
     <MESSAGE value="Fixed tests" />
     <MESSAGE value="dbfilepath fixed" />
     <MESSAGE value="expected fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="expected fix" />
+    <MESSAGE value="distance test window added" />
+    <option name="LAST_COMMIT_MESSAGE" value="distance test window added" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -1602,27 +1596,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/calc/TestTrackSimpleTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/calc/IntersectTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="77">
-          <caret line="97" selection-start-line="97" selection-end-line="97" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/calc/TestTrack.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="26" column="17" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/de/thm/enhort/lib/Enhortlib/1.01/Enhortlib-1.01.jar!/de/thm/result/DataViewResult.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
@@ -1886,13 +1859,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/MultiTrackBackgroundModelTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3726">
-          <caret line="247" selection-start-line="247" selection-end-line="247" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/backgroundModel/MultiTrackBackgroundModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="900">
@@ -1918,13 +1884,6 @@
             <element signature="e#13433#13434#0" expanded="true" />
             <element signature="e#13465#13466#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/precalc/SiteFactoryTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="73" column="56" selection-start-line="73" selection-start-column="56" selection-end-line="73" selection-end-column="56" />
         </state>
       </provider>
     </entry>
@@ -1956,13 +1915,52 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/DistanceBackgroundModelTest.java">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/run/BackendServer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="45" column="53" selection-start-line="45" selection-start-column="53" selection-end-line="45" selection-end-column="53" />
+        <state relative-caret-position="522">
+          <caret line="52" column="25" selection-start-line="52" selection-start-column="25" selection-end-line="52" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/DistanceBackgroundModelTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="213">
+          <caret line="125" column="138" selection-start-line="125" selection-start-column="138" selection-end-line="125" selection-end-column="138" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/backgroundModel/MultiTrackBackgroundModelTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-43">
+          <caret line="40" selection-start-line="40" selection-end-line="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/stat/ResultCollectorTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/logo/LogoTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/thm/precalc/SiteFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2689">
+          <caret line="51" column="4" selection-start-line="51" selection-start-column="4" selection-end-line="51" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/de/thm/precalc/SiteFactoryTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="576">
+          <caret line="73" column="26" selection-start-line="73" selection-start-column="26" selection-end-line="73" selection-end-column="26" />
         </state>
       </provider>
     </entry>
