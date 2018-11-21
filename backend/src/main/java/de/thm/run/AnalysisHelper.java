@@ -234,6 +234,19 @@ class AnalysisHelper {
             logger.warn(e.toString());
         }
 
+        /*
+        //TODO Use to call create distance tracks and call for batch result histogram
+        // TODO build to work with hg38 -> change id's
+        if(packages.contains("Genetic") && command.getAssembly().equals(Genome.Assembly.hg19)){
+
+            Track cpg_distance = Tracks.createDistFromInOut((InOutTrack) TrackFactory.getInstance().getTrackByDbId(1376));
+            Track tss = Tracks.createDistFromInOut((InOutTrack) TrackFactory.getInstance().getTrackByDbId(1386));
+
+            tracks.add(tss);
+            tracks.add(cpg_distance);
+        }
+        */
+
         tracks = tracks.stream().filter(distinctByKey(Track::getName)).collect(Collectors.toList());
 
         for (Sites sites : batchSites) {

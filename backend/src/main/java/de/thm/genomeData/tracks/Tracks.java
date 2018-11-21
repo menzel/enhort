@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
 
 /**
  * Collection of utils for track objects.
@@ -494,6 +495,17 @@ public final class Tracks {
         }
 
         return TrackFactory.getInstance().createInOutTrack(start, end, track.getName() + " as inout ", track.getDescription(), track.getAssembly());
+    }
+
+    public static DistanceTrack createDistFromInOut(InOutTrack track) {
+
+        List<Long> midpoints = IntStream.range(0, track.getStarts().length)
+                .mapToLong(p -> track.getEnds()[p] - track.getStarts()[p])
+                .boxed()
+                .collect(Collectors.toList());
+
+        return TrackFactory.getInstance().createDistanceTrack(midpoints, "Distance from " + track.getName(), "Distance from " + track.getName(), Genome.Assembly.hg19, track.getCellLine());
+
     }
 
 
