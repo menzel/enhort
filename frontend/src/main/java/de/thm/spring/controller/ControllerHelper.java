@@ -276,6 +276,7 @@ public class ControllerHelper {
         model.addAttribute("expressionCommand", exCommand);
     }
 
+
     /**
      * Reads the user data for a given uploaded multipart file.
      * Returns the generated user sites
@@ -284,7 +285,7 @@ public class ControllerHelper {
      * @return User sites with the given data
      * @throws IllegalArgumentException if the file was empty
      */
-    public static UserData getUserData(MultipartFile file) throws IllegalArgumentException {
+    public static UserData getUserData(MultipartFile file, Optional<Genome.Assembly> assembly) throws IllegalArgumentException {
 
 
         String name = file.getOriginalFilename();
@@ -299,8 +300,7 @@ public class ControllerHelper {
 
                 Path inputFilepath = basePath.resolve(filenameWithUUID);
 
-                UserData data = new UserData(AssemblyGuesser.guessAssembly(inputFilepath), inputFilepath, "Unknown");
-
+                UserData data = new UserData(assembly.orElseGet(() -> AssemblyGuesser.guessAssembly(inputFilepath)), inputFilepath, "Unknown");
                 try {
                     Files.deleteIfExists(inputFilepath);
                 } catch (IOException e) {

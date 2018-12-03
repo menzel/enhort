@@ -101,12 +101,12 @@ public class BatchController {
         Comparator<String> byIndex = Comparator.comparing(names::indexOf); // sort by index of names of user uploaded bed file names
 
         for (MultipartFile mf : files) {
-            batchSites.add(ControllerHelper.getUserData(mf));
+            batchSites.add(ControllerHelper.getUserData(mf, Optional.of(assembly)));
             names.add(mf.getOriginalFilename());
         }
 
         if (!Objects.isNull(bg) && !bg.isEmpty()) {
-            background = ControllerHelper.getUserData(bg);
+            background = ControllerHelper.getUserData(bg, Optional.of(assembly));
 
             command = new BackendCommand.Builder(Command.Task.ANALYZE_BATCH, assembly)
                     .batchSites(batchSites)

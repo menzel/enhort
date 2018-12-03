@@ -44,6 +44,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.net.SocketTimeoutException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static de.thm.spring.controller.ControllerHelper.setModel;
@@ -96,7 +97,7 @@ public class WizardController {
 
         if(currentSession.getSites() == null) {
 
-            UserData data = ControllerHelper.getUserData(file);
+            UserData data = ControllerHelper.getUserData(file, Optional.empty());
 
             currentSession.setSites(data);
             currentSession.setOriginalFilename(file.getOriginalFilename());

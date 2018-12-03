@@ -100,7 +100,7 @@ public class UploadController {
         StatisticsCollector stats = StatisticsCollector.getInstance();
 
         try {
-            UserData data = ControllerHelper.getUserData(file);
+            UserData data = ControllerHelper.getUserData(file, Optional.empty());
 
             if (data.getPositionCount() < 1) {
                 model.addAttribute("errorMessage", "There were no positions in the file '" + file.getOriginalFilename() + "' you uploaded." +
@@ -158,7 +158,7 @@ public class UploadController {
         String name = currentSession.getOriginalFilename();
 
         try {
-            UserData sitesBg = ControllerHelper.getUserData(bgFile); //new UserData(assembly, inputFilepath, "none");
+            UserData sitesBg = ControllerHelper.getUserData(bgFile, Optional.empty()); //new UserData(assembly, inputFilepath, "none");
 
             currentSession.setBgSites(sitesBg);
 
