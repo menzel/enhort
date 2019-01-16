@@ -18,6 +18,8 @@ TODO
 # Server setup
 Download the enhort.jar from ....
 
+Create a empty directory /logs in user home directory for logfiles
+
 
 ### Run the server
 The server is run with the following command:
@@ -32,14 +34,16 @@ The server is run with the following command:
 
 # Frontend setup
 Download the frontend archive containing the .jar and the contig sizes for hg19 and hg38.
+Create a empty directory /logs in user home directory for logfiles
+
 The frontend is run with the following command:
 
-    java -Xmx2g -Dmultipart.maxFileSize=20MB -Dmultipart.maxRequestSize=20MB -Dspring.profiles.active=production -jar frontend.jar 127.0.0.1 /path/to/contig/size/files /path/to/logfile/enhort.log
+    java -Xmx2g -Dmultipart.maxFileSize=20MB -Dmultipart.maxRequestSize=20MB -Dspring.profiles.active=production -jar frontend.jar 127.0.0.1 /path/to/contig/size/files /path/to/statistics/file
 
 - You can specify the maximum allowed upload file size
 - You need to specify the address of the backend server. If both are run on the same server use 127.0.0.1
 - The path to the contig sizes .bed file is needed
-- A log file is written at the given location
+- A usage statistics file is written at the given location of the statistics file
 
 
 
@@ -47,3 +51,8 @@ The frontend is run with the following command:
 
 ### Encryption
 TODO 
+
+
+### Known issues
+
+- The sample button does not work on custom systems because the .bed-file used for the sample run is not available
