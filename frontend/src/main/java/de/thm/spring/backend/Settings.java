@@ -10,7 +10,7 @@ import java.nio.file.Path;
 public class Settings {
     private static String contigsPath;
     private static String backendip;
-    private static Path logfile;
+    private static Path statpath;
 
     private static Logger logger = LoggerFactory.getLogger(StatisticsCollector.class);
 
@@ -32,12 +32,12 @@ public class Settings {
         Settings.backendip = ip;
     }
 
-    public static Path getLogfile_path() {
-        return logfile;
+    public static Path getStatfile_path() {
+        return statpath;
     }
 
-    public static void setLogfile_path(String logfile_path) {
-        Settings.logfile = new File(logfile_path).toPath().toAbsolutePath();
+    public static void setStatfile_path(String logfile_path) {
+        Settings.statpath = new File(logfile_path).toPath().toAbsolutePath();
     }
 
     public static String getContigsPath() {

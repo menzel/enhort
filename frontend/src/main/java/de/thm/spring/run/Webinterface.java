@@ -38,11 +38,19 @@ public class Webinterface {
 
     public static void main(String[] args) {
 
+
+        if (args.length != 3) {
+            System.err.println("Incorrect number of arguments. Please specify the arguments according to the SETUPINSTR.md file.");
+            System.err.println("Exiting now");
+            System.exit(1);
+        }
+
+
         /* Set up Settings */
 
         Settings.setBackendip(args[0]);
         Settings.setContigsPath(args[1]);
-        Settings.setLogfile_path(args[2]);
+        Settings.setStatfile_path(args[2]);
 
         try {
 

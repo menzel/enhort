@@ -23,7 +23,6 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -36,7 +35,7 @@ import java.util.stream.Stream;
  */
 public final class StatisticsCollector {
 
-    private static final StatisticsCollector instance = new StatisticsCollector(Settings.getLogfile_path());
+    private static StatisticsCollector instance;
     private final Path logPath;
     private final Logger logger = LoggerFactory.getLogger(StatisticsCollector.class);
 
@@ -99,7 +98,7 @@ public final class StatisticsCollector {
                 logPath.toFile().delete();
                 logger.error("Exception {}", "Corrupt log file", "The logfile was corrupt and was deleted. Please restart the server to enable logging again");
 
-            } catch (IOException | ParseException e) {
+            } catch (Exception e) {
                 logger.error("Exception {}", e.getMessage(), e);
             }
 
@@ -107,6 +106,8 @@ public final class StatisticsCollector {
     }
 
     public static StatisticsCollector getInstance() {
+        if (null == instance)
+            instance = new StatisticsCollector(Settings.getStatfile_path());
         return instance;
     }
 
