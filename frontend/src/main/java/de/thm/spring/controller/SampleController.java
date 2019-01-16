@@ -56,6 +56,11 @@ public class SampleController {
             samplefilepath = path+"/HIV-hg19.bed";
         }
 
+        if (!new File(samplefilepath).exists()) {
+            model.addAttribute("errorMessage", "The sample file is not available on your system. Please upload any .bed file using the quick start button on the main page.");
+            return "error";
+        }
+
         Sessions sessionControll = Sessions.getInstance();
         Session currentSession = sessionControll.getSession(httpSession.getId());
         StatisticsCollector stats = StatisticsCollector.getInstance();
