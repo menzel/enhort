@@ -97,7 +97,7 @@ public class BatchController {
         }
 
         Comparator<TestResult> byPackage = Comparator.comparing(t -> t.getTrack().getPack());
-        Comparator<TestResult> byTrack = byPackage.thenComparing(Comparator.comparing(t -> t.getTrack().getName()));
+        Comparator<TestResult> byTrack = byPackage.thenComparing(t -> t.getTrack().getName());
         Comparator<String> byIndex = Comparator.comparing(names::indexOf); // sort by index of names of user uploaded bed file names
 
         for (MultipartFile mf : files) {
@@ -164,6 +164,8 @@ public class BatchController {
                     List<Number> tmp = new ArrayList<>();
 
                     //TODO CSV:
+                    //TODO real fold change
+                    //csv.append(tr.getTrack().getName()).append(" Fold change (log2): ").append(tr.getEffectSize()).append(" In sites: ").append(tr.getMeasuredIn()).append(" In control: ").append(tr.getExpectedIn()).append(" Out sites: ").append(tr.getMeasuredOut()).append(" Out control: ").append(tr.getExpectedOut()).append(" P value: ").append(tr.getpValue());
                     csv.append(tr.getTrack().getName()).append(" Fold change (log2): ").append(tr.getEffectSize()).append(" In sites: ").append(tr.getMeasuredIn()).append(" In control: ").append(tr.getExpectedIn()).append(" Out sites: ").append(tr.getMeasuredOut()).append(" Out control: ").append(tr.getExpectedOut()).append(" P value: ").append(tr.getpValue());
                     csv.append(lb);
 

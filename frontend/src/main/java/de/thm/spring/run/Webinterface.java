@@ -17,6 +17,7 @@
 package de.thm.spring.run;
 
 import de.thm.spring.backend.Sessions;
+import de.thm.spring.backend.Settings;
 import de.thm.spring.backend.StatisticsCollector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,8 +38,14 @@ public class Webinterface {
 
     public static void main(String[] args) {
 
+        /* Set up Settings */
+
+        Settings.setBackendip(args[0]);
+        Settings.setContigsPath(args[1]);
+        Settings.setLogfile_path(args[2]);
 
         try {
+
             SpringApplication.run(Webinterface.class, args);
 
             Sessions.getInstance().addSession("monitorsession");

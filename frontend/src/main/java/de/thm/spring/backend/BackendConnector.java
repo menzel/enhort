@@ -65,14 +65,10 @@ public final class BackendConnector {
     private String secret;
 
 
-    BackendConnector(){
+    BackendConnector(String ip) {
 
         this.port = 42412;
-
-        if (System.getenv("HOME").contains("menzel"))
-            this.ip = "127.0.0.1";
-        else
-            this.ip = "bioinf-ladon.mni.thm.de";
+        this.ip = ip;
 
         id = clientID.getAndIncrement();
 

@@ -53,7 +53,7 @@ public final class Session {
         this.customTracks = customTracks;
 
         StatisticsCollector.getInstance().addSessionC();
-        connector = new BackendConnector();
+        connector = new BackendConnector(Settings.getBackendip());
     }
 
     Session(String key, Date date) {
@@ -61,7 +61,7 @@ public final class Session {
         this.date = date;
 
         StatisticsCollector.getInstance().addSessionC();
-        connector = new BackendConnector();
+        connector = new BackendConnector(Settings.getBackendip());
     }
 
     public String getKey() {

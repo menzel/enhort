@@ -20,7 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -37,7 +36,7 @@ import java.util.stream.Stream;
  */
 public final class StatisticsCollector {
 
-    private static final StatisticsCollector instance = new StatisticsCollector(new File("/home/mmnz21/enhort.log").toPath());
+    private static final StatisticsCollector instance = new StatisticsCollector(Settings.getLogfile_path());
     private final Path logPath;
     private final Logger logger = LoggerFactory.getLogger(StatisticsCollector.class);
 
@@ -72,7 +71,6 @@ public final class StatisticsCollector {
             downloadCount = new AtomicInteger(0);
             date = new Date();
 
-
             saveStats();
 
             try {
@@ -97,7 +95,9 @@ public final class StatisticsCollector {
                 downloadCount = new AtomicInteger(Integer.parseInt(values[4]));
                 date = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").parse(values[5]);
 
-                lines.close();
+            } catch (ArrayIndexOutOfBoundsException e) {
+                logPath.toFile().delete();
+                logger.error("Exception {}", "Corrupt log file", "The logfile was corrupt and was deleted. Please restart the server to enable logging again");
 
             } catch (IOException | ParseException e) {
                 logger.error("Exception {}", e.getMessage(), e);

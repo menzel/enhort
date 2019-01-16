@@ -17,6 +17,7 @@
 package de.thm.positionData;
 
 import de.thm.misc.Genome;
+import de.thm.spring.backend.Settings;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteStreamHandler;
@@ -71,10 +72,7 @@ public class AssemblyGuesser {
                 assemblies.add(assembly.toString());
 
         // get contigs file for each assembly
-        if (!System.getenv("HOME").contains("menzel"))
-            assemblies.forEach(a -> contigsPaths.add("/home/mmnz21/con/contigs_" + a));
-        else //on local pc:
-            assemblies.forEach(a -> contigsPaths.add( "/home/menzel/Desktop/THM/promotion/enhort/dat/" + a + "/inout/contigs"));
+        assemblies.forEach(a -> contigsPaths.add(Settings.getContigsPath() + "contigs_" + a));
 
         Pattern p = Pattern.compile("[\r\n]");
 
