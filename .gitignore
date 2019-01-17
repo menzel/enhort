@@ -1,3 +1,5 @@
+con/
+
 ### Java template
 *.class
 
@@ -24,7 +26,7 @@ lib/*
 out/*
 backend/.idea/*
 frontend/.idea/*
-.idea/*
+.idea
 
 target
 
