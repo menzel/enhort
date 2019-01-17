@@ -15,7 +15,7 @@ If you need a reference there is a read-to-use VirtualBox image with Enhort alre
 ### Use pre-build database
 Download the minimal SQlite database and the corresponding .bed-tracks from 
     https://homepages.thm.de/~mmnz21/minimal.db 
-    https://homepages.thm.de/~mmnz21/enhort_bed_files_hg19.tar.gz %add hg19 folder
+    https://homepages.thm.de/~mmnz21/enhort_bed_files_hg19.tar.gz
 
 Save the database and unpack .bed-files in a known directory.
 

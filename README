@@ -26,3 +26,9 @@ Enhort is publicly available online at www.enhort.mni.thm.de and published under
 
 A seperate SETUPINSTR.md file is available containing instructions to run Enhort on your own infrastructure.
 
+
+# VM
+
+There is a VirtualBox image with Enhort set up for reference and to test with your own data:
+    https://homepages.thm.de/~mmnz21/enhort_vm_jan_2019.tar.gz
+
