@@ -7,12 +7,15 @@ For full usage it is recommended to have server with about 32 GB Mem for the cur
 
 Enhort is build to run on two different servers, a computation back-end server and a visibile front-end server. However, it is possible to run both on the same server. Use 127.0.0.1 as ip then.
 
+If you need a reference there is a read-to-use VirtualBox image with Enhort already set up available here:
+    https://homepages.thm.de/~mmnz21/enhort_vm_jan_2019.tar.gz
+
 # Database 
 
 ### Use pre-build database
 Download the minimal SQlite database and the corresponding .bed-tracks from 
-https://homepages.thm.de/~mmnz21/minimal.db 
-https://homepages.thm.de/~mmnz21/enhort_bed_files_hg19.tar.gz %add hg19 folder
+    https://homepages.thm.de/~mmnz21/minimal.db 
+    https://homepages.thm.de/~mmnz21/enhort_bed_files_hg19.tar.gz %add hg19 folder
 
 Save the database and unpack .bed-files in a known directory.
 
@@ -20,7 +23,8 @@ Save the database and unpack .bed-files in a known directory.
 TODO 
 
 # Server setup
-Download the enhort.jar from https://homepages.thm.de/~mmnz21/enhort.jar
+Download the enhort.jar from 
+    https://homepages.thm.de/~mmnz21/enhort.jar
 
 Create a empty directory /logs in user home directory for logfiles
 
@@ -38,7 +42,7 @@ The server is run with the following command:
 
 # Frontend setup
 Download the frontend archive containing the .jar and the contig sizes for hg19 and hg38 from 
-https://homepages.thm.de/~mmnz21/frontend.tar.gz
+    https://homepages.thm.de/~mmnz21/frontend.tar.gz
 Create a empty directory /logs in user home directory for logfiles
 
 The frontend is run with the following command:
@@ -51,10 +55,16 @@ The frontend is run with the following command:
 - A usage statistics file is written at the given location of the statistics file
 
 
+# Bed test file
+
+You can get a custom build test file containing some integration sites for hg19 here:
+
+    https://homepages.thm.de/~mmnz21/test.bed
+
 
 # Misc
 
-### Encryption
+### Encryption on your own server
 TODO 
 
 
