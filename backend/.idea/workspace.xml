@@ -815,7 +815,7 @@
       <workItem from="1546434742030" duration="1358000" />
       <workItem from="1546865471105" duration="8867000" />
       <workItem from="1547555372362" duration="7099000" />
-      <workItem from="1547720298826" duration="1729000" />
+      <workItem from="1547720298826" duration="2393000" />
     </task>
     <task id="LOCAL-00041" summary="timeout lowered and not check start = end for dist tracks">
       <created>1515070158819</created>
@@ -1196,7 +1196,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="700475000" />
+    <option name="totallyTimeSpent" value="701139000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1219,8 +1219,8 @@
       <window_info id="Image Layers" order="6" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.0056657223" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4850107" visible="true" weight="0.57924527" />
-      <window_info active="true" anchor="bottom" x="0" y="0" width="1920" height="1181" id="Debug" order="3" type="FLOATING" visible="true" weight="0.39943343" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4850107" visible="true" weight="0.3745283" />
+      <window_info anchor="bottom" x="0" y="0" width="1920" height="1181" id="Debug" order="3" type="FLOATING" weight="0.39943343" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49785867" weight="0.32985783" />
@@ -1241,7 +1241,7 @@
       <window_info anchor="right" id="Theme Preview" order="7" />
       <window_info anchor="right" id="Bean Validation" order="8" />
       <window_info anchor="right" id="Coverage" order="9" sideWeight="0.5144578" side_tool="true" weight="0.15347594" />
-      <window_info anchor="right" id="Maven Projects" order="10" sideWeight="0.48554218" visible="true" weight="0.3449198" />
+      <window_info active="true" anchor="right" id="Maven Projects" order="10" sideWeight="0.48554218" visible="true" weight="0.3449198" />
     </layout>
     <layout-to-restore>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49492386" visible="true" weight="0.17860962" />

@@ -7,8 +7,6 @@ For full usage it is recommended to have server with about 32 GB Mem for the cur
 
 Enhort is build to run on two different servers, a computation back-end server and a visibile front-end server. However, it is possible to run both on the same server. Use 127.0.0.1 as ip then.
 
-If you need a reference there is a read-to-use VirtualBox image with Enhort already set up available here:
-    https://homepages.thm.de/~mmnz21/enhort_vm_jan_2019.tar.gz
 
 # Database 
 
