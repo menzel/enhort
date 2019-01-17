@@ -98,6 +98,7 @@ class FileLoader implements Callable<Optional<Track>> {
         List<String> names = new ArrayList<>(linecount);
         List<Double> scores = new ArrayList<>(linecount);
         List<Character> strands = new ArrayList<>(linecount);
+        int counter = 0;
 
         try (Stream<String> lines = Files.lines(file.toPath(), StandardCharsets.UTF_8)) {
             Iterator<String> it = lines.iterator();
@@ -124,6 +125,7 @@ class FileLoader implements Callable<Optional<Track>> {
 
                 if (line_matcher.matches()) {
                     String[] parts = line.split("\t");
+                    counter++;
 
                     long start;
                     long end;
@@ -186,9 +188,15 @@ class FileLoader implements Callable<Optional<Track>> {
                         else strands.add('o');
                     }
                 }
+
             }
 
             lines.close();
+
+
+            if (linecount != counter)
+                logger.error("File " + file.getName() + " has " + counter + " lines, but db says it has " + linecount + " lines.");
+
 
            // Check read files //
 

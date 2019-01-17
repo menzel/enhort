@@ -23,6 +23,9 @@ import de.thm.misc.Genome;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
@@ -108,12 +111,14 @@ public final class TrackFactory {
 
         if (System.getenv("HOME").contains("menzel")) {
 
+            allTracks = connector.getAllTracks("WHERE name like '%ontigs'");
+            /*
             allTracks = connector.getAllTracks(" WHERE directory like '%genetic%' and genome_assembly = 'hg19' ORDER BY lines ASC ");
             allTracks.addAll(connector.getAllTracks("WHERE genome_assembly = 'hg19' and directory like '%encode%HeLa%'"));
             allTracks.addAll(connector.getAllTracks("WHERE genome_assembly = 'hg19' and directory like '%custom%'"));
             //allTracks = connector.getAllTracks("WHERE bed_filename = 'SRX062365.05.bed'");
-            allTracks.addAll(connector.getAllTracks("WHERE name like '%ontigs'"));
             //allTracks = connector.getAllTracks(" WHERE genome_assembly = 'hg19' ORDER BY lines ASC LIMIT 3000");
+            */
         } else {
 
             allTracks = connector.getAllTracks("WHERE (cell_line NOT like '%GM%' or cell_line like '%GM12878')");
@@ -131,6 +136,27 @@ public final class TrackFactory {
 
         logger.info("Trying to load " + allTracks.size() + " tracks");
         this.tracks.addAll(loadByEntries(allTracks));
+
+        List<TrackEntry> customTracks = new ArrayList<>();
+
+        // Add custom tracks
+        if (System.getenv("HOME").contains("menzel")) {
+            try {
+
+                Files.walk(Paths.get("/home/menzel/Desktop/THM/promotion/enhort/dat/stefan/custom"))
+               .filter(Files::isRegularFile)
+               .filter(f -> f.getFileName().toString().endsWith(".bed"))
+               .forEach(f -> customTracks.add(new TrackEntry(f.getFileName().toString(),"Custom track: " + f.getFileName(),
+                        "/home/menzel/Desktop/THM/promotion/enhort/dat/stefan/custom/" + f.getFileName().toString(), "inout", Genome.Assembly.GRCh38.toString(), "Unknown", 14003120, "Genetic", 1412123+f.getFileName().hashCode(), "nosource", "nourl")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        logger.info("Trying to load " + customTracks.size() + " custom tracks");
+        customTracks.forEach(e -> trackEntries.put(e.getName(), e));
+        this.tracks.addAll(loadByEntries(customTracks));
+
 
         //TODO use DB:
         List<String> trackPackagesNames = new ArrayList<>();
@@ -153,7 +179,7 @@ public final class TrackFactory {
             }
         }
 
-        allTracks.forEach(e -> trackEntries.put(e.getName(), e));
+
     }
 
     /**
@@ -187,7 +213,7 @@ public final class TrackFactory {
         exe.shutdown();
 
         try {
-            int timeout = (System.getenv("HOME").contains("menzel")) ? 30 : 60 * 2;
+            int timeout = (System.getenv("HOME").contains("menzel")) ? 60 : 60 * 2;
             completionService.poll(timeout, TimeUnit.SECONDS);
 
             logger.warn("Still loading track files. Stopping now");

@@ -10,13 +10,17 @@ Enhort is build to run on two different servers, a computation back-end server a
 # Database 
 
 ### Use pre-build database
-Download the SQlite database and the corresponding .bed tracks from .... Save the database and the data files in a known directory.
+Download the minimal SQlite database and the corresponding .bed-tracks from 
+https://homepages.thm.de/~mmnz21/minimal.db 
+https://homepages.thm.de/~mmnz21/enhort_bed_files_hg19.tar.gz %add hg19 folder
 
-### Build own database
+Save the database and unpack .bed-files in a known directory.
+
+### Build your own database
 TODO 
 
 # Server setup
-Download the enhort.jar from ....
+Download the enhort.jar from https://homepages.thm.de/~mmnz21/enhort.jar
 
 Create a empty directory /logs in user home directory for logfiles
 
@@ -33,7 +37,8 @@ The server is run with the following command:
 
 
 # Frontend setup
-Download the frontend archive containing the .jar and the contig sizes for hg19 and hg38.
+Download the frontend archive containing the .jar and the contig sizes for hg19 and hg38 from 
+https://homepages.thm.de/~mmnz21/frontend.tar.gz
 Create a empty directory /logs in user home directory for logfiles
 
 The frontend is run with the following command:
@@ -51,6 +56,17 @@ The frontend is run with the following command:
 
 ### Encryption
 TODO 
+
+
+### Package Frontend.tar.gz
+ tar cvf frontend.tar frontend.jar ../../con/
+
+####  Content: 
+-  5 frontend.jar
+-  6 con/
+-  7 con/contigs_GRCh38
+-  8 con/contigs_hg19
+-  9 con/contigs_hg18                                                                                                
 
 
 ### Known issues

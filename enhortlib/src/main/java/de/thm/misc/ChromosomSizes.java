@@ -47,12 +47,7 @@ public final class ChromosomSizes {
      */
     private ChromosomSizes() {
 
-        //TODO use db again?
-        if(System.getenv("HOME").contains("menzel")) {
-            chromosomeSizes = getChrSizesFromFile("/home/menzel/Desktop/THM/lfba/enhort/repo/backend/chrSizes.csv");
-        } else {
-            chromosomeSizes = getChrSizesFromFile("/home/mmnz21/enhort/chrSizes.csv");
-        }
+        chromosomeSizes = getChrSizes();
 
         for(Genome.Assembly assembly: chromosomeSizes.keySet()) {
             Map<String, Integer> hg = chromosomeSizes.get(assembly);
@@ -67,6 +62,68 @@ public final class ChromosomSizes {
         }
 
         calcOffsets();
+    }
+
+    private Map<Genome.Assembly, Map<String, Integer>> getChrSizes() {
+        String input = "hg19,chr1,249250621\n" +
+                "hg19,chr2,243199373\n" +
+                "hg19,chr3,198022430\n" +
+                "hg19,chr4,191154276\n" +
+                "hg19,chr5,180915260\n" +
+                "hg19,chr6,171115067\n" +
+                "hg19,chr7,159138663\n" +
+                "hg19,chr8,146364022\n" +
+                "hg19,chr9,141213431\n" +
+                "hg19,chr10,135534747\n" +
+                "hg19,chr11,135006516\n" +
+                "hg19,chr12,133851895\n" +
+                "hg19,chr13,115169878\n" +
+                "hg19,chr14,107349540\n" +
+                "hg19,chr15,102531392\n" +
+                "hg19,chr16,90354753\n" +
+                "hg19,chr17,81195210\n" +
+                "hg19,chr18,78077248\n" +
+                "hg19,chr19,59128983\n" +
+                "hg19,chr20,63025520\n" +
+                "hg19,chr21,48129895\n" +
+                "hg19,chr22,51304566\n" +
+                "hg19,chrX,155270560\n" +
+                "hg19,chrY,59373566\n" +
+                "GRCh38,chr1,248956422\n" +
+                "GRCh38,chr2,242193529\n" +
+                "GRCh38,chr3,198295559\n" +
+                "GRCh38,chr4,190214555\n" +
+                "GRCh38,chr5,181538259\n" +
+                "GRCh38,chr6,170805979\n" +
+                "GRCh38,chr7,159345973\n" +
+                "GRCh38,chr8,145138636\n" +
+                "GRCh38,chr9,138394717\n" +
+                "GRCh38,chr10,133797422\n" +
+                "GRCh38,chr11,135086622\n" +
+                "GRCh38,chr12,133275309\n" +
+                "GRCh38,chr13,114364328\n" +
+                "GRCh38,chr14,107043718\n" +
+                "GRCh38,chr15,101991189\n" +
+                "GRCh38,chr16,90338345\n" +
+                "GRCh38,chr17,83257441\n" +
+                "GRCh38,chr18,80373285\n" +
+                "GRCh38,chr19,58617616\n" +
+                "GRCh38,chr20,64444167\n" +
+                "GRCh38,chr21,46709983\n" +
+                "GRCh38,chr22,50818468\n" +
+                "GRCh38,chrX,156040895\n" +
+                "GRCh38,chrY,57227415";
+
+        Map<Genome.Assembly, Map<String, Integer>> chrs = new HashMap<>();
+
+        for( String line: input.split("\n")) {
+            String[] parts = line.split(",");
+
+            if (!chrs.containsKey(Genome.Assembly.valueOf(parts[0])))
+                chrs.put(Genome.Assembly.valueOf(parts[0]), new HashMap<>());
+            chrs.get(Genome.Assembly.valueOf(parts[0])).put(parts[1], Integer.parseInt(parts[2]));
+        }
+        return chrs;
     }
 
     private Map<Genome.Assembly,Map<String,Integer>> getChrSizesFromFile(String filepath) {

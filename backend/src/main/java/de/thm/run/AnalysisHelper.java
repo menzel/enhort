@@ -207,8 +207,10 @@ class AnalysisHelper {
         List<Sites> batchSites = command.getBatchSites();
         Sites bg;
 
+        int bgsitecount = Math.max(command.getMinBg(),batchSites.stream().map(s -> s.getPositions().size()).max(Integer::compareTo).get());
+
         if (command.getSitesBg() == null)
-            bg = BackgroundModelFactory.createBackgroundModel(command.getAssembly(), command.getMinBg());
+            bg = BackgroundModelFactory.createBackgroundModel(command.getAssembly(),bgsitecount);
         else
             bg = command.getSitesBg();
 
