@@ -22,7 +22,8 @@ hs_err_pid*
 
 lib/*
 out/*
-.idea/*
+backend/.idea/*
+frontend/.idea/*
 
 target
 
