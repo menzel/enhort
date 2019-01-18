@@ -36,6 +36,7 @@ The server is run with the following command:
 - The -Xmx32g flag raises the available memory to 32 GB, please specify your available memory here. 
 - The StringTableSize improves start up speed for loading the data
 - Currently the port is fixed to 42412
+- The server takes about 2 minutes to start, when the message "Still loading track files. Stopping now" the server is up and running
 
 
 # Frontend setup
