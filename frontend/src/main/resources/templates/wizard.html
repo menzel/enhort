@@ -86,6 +86,7 @@
                                     Run analysis
                                 </button>
                                 <button class="btn btn-default right" id="clearbtn_wiz">Clear</button>
+                                <button class="btn btn-default right" id="allbtn_wiz">Select all</button>
                             </div>
                         </div>
 
@@ -221,6 +222,26 @@
 </script>
 
 <script src="/js/celltable.js" th:href="@{/js/celltable.js}" ></script>
+
+
+<script>
+    document.getElementById("allbtn_wiz").onclick = function (event) {
+
+        var counter = 0;
+        document.getElementById("submitTracks").disabled = false;
+
+        event.preventDefault();
+
+        $("input[type='checkbox']").each(function (id, box) {
+            box.checked = true;
+            counter++;
+        });
+
+        document.getElementById("counter").innerHTML = counter + " tracks selected";
+    }
+
+</script>
+
 
 <script>
     document.getElementById("clearbtn_wiz").onclick = function (event) {
