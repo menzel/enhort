@@ -112,8 +112,8 @@ public final class TrackFactory {
         if (System.getenv("HOME").contains("menzel")) {
 
             allTracks = connector.getAllTracks("WHERE name like '%ontigs'");
-            /*
             allTracks = connector.getAllTracks(" WHERE directory like '%genetic%' and genome_assembly = 'hg19' ORDER BY lines ASC ");
+            /*
             allTracks.addAll(connector.getAllTracks("WHERE genome_assembly = 'hg19' and directory like '%encode%HeLa%'"));
             allTracks.addAll(connector.getAllTracks("WHERE genome_assembly = 'hg19' and directory like '%custom%'"));
             //allTracks = connector.getAllTracks("WHERE bed_filename = 'SRX062365.05.bed'");
@@ -121,7 +121,8 @@ public final class TrackFactory {
             */
         } else {
 
-            allTracks = connector.getAllTracks("WHERE (cell_line NOT like '%GM%' or cell_line like '%GM12878')");
+            //allTracks = connector.getAllTracks("WHERE (cell_line NOT like '%GM%' or cell_line like '%GM12878' or name like '%POLR%')");
+            allTracks = connector.getAllTracks("WHERE (name not like '%POLR%' or name not like '%expression%')");
             /*
             allTracks = connector.getAllTracks(" WHERE directory like '%genetic%' and genome_assembly = 'hg19' ORDER BY lines ASC ");
             allTracks.addAll(connector.getAllTracks("WHERE cell_line like 'HeLa%'"));
@@ -157,6 +158,8 @@ public final class TrackFactory {
         customTracks.forEach(e -> trackEntries.put(e.getName(), e));
         this.tracks.addAll(loadByEntries(customTracks));
 
+        tracks.add(Tracks.createDistFromInOut(getTrackById(1386)));
+        tracks.add(Tracks.createDistFromInOut(getTrackById(1376)));
 
         //TODO use DB:
         List<String> trackPackagesNames = new ArrayList<>();

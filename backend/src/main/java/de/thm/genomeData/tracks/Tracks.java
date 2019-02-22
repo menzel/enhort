@@ -497,14 +497,14 @@ public final class Tracks {
         return TrackFactory.getInstance().createInOutTrack(start, end, track.getName() + " as inout ", track.getDescription(), track.getAssembly());
     }
 
-    public static DistanceTrack createDistFromInOut(InOutTrack track) {
+    public static DistanceTrack createDistFromInOut(Track track) {
 
         List<Long> midpoints = IntStream.range(0, track.getStarts().length)
                 .mapToLong(p -> track.getEnds()[p] - track.getStarts()[p])
                 .boxed()
                 .collect(Collectors.toList());
 
-        return TrackFactory.getInstance().createDistanceTrack(midpoints, "Distance from " + track.getName(), "Distance from " + track.getName(), Genome.Assembly.hg19, track.getCellLine());
+        return TrackFactory.getInstance().createDistanceTrack(midpoints, "Distance from " + track.getName(), "Distance from " + track.getName(), track.getAssembly(), track.getCellLine());
 
     }
 
