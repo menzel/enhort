@@ -21,7 +21,7 @@ import de.thm.command.InterfaceCommand;
 import de.thm.monitoring.Monitor;
 import de.thm.spring.backend.Sessions;
 import de.thm.spring.backend.StatisticsCollector;
-import org.springframework.boot.autoconfigure.web.ErrorController;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

@@ -214,6 +214,8 @@ public class ControllerHelper {
 
             model.addAttribute("sequencelogo_name", logo1.getName());
             model.addAttribute("sequencelogo2_name", logo2.getName());
+
+            cmd.setLogo(true);
         }
 
         model.addAttribute("sl_effect", collector.logoEffectSize());

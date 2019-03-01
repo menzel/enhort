@@ -14,6 +14,7 @@
     <script src="/js/plotly-latest.min.js" th:href="@{/js/plotly-latest.min.js}"></script>
     <script src="/js/jquery-1.12.0.min.js" th:href="@{/js/jquery-1.12.0.min.js}"></script>
     <script src="/js/bootstrap.min.js" th:href="@{/js/bootstrap.min.js}"></script>
+    <script src="/js/popper.js" th:href="@{/js/popper.js}"></script>
     <script src="/js/d3.min.js" th:href="@{/js/d3.min.js}"></script>
     <script src="/js/result.js" th:href="@{/js/result.js}"></script>
     <script src="/js/radar.js" th:href="@{/js/radar.js}"></script>
@@ -118,7 +119,6 @@
 
                 <!-- Tab 1 Overview -->
                 <div id="nav1" class="tab-pane fade show active">
-                    <th:block th:if="${ran}">
 
 
                         <div class="row">
@@ -168,7 +168,6 @@
                                     <tbody>
 
                                     <!-- Sequencelogo Entry -->
-                                    <th:block th:if="${ran}">
                                         <th:block th:if="${interfaceCommand.logo}">
                                             <th:block th:if="${not interfaceCommand.logoCovariate}">
                                                 <tr id="seqlogorow" data-target="#sequencelogodiv"
@@ -200,7 +199,6 @@
                                                 </tr>
                                             </th:block>
                                         </th:block>
-                                    </th:block>
                                     <!-- Sequencelogo Entry END -->
 
 
@@ -316,20 +314,20 @@
                                                                          th:id="${#strings.replace('accordion_'+result.id,'.','_')}">
                                                                         <div>
                                                                             <table class="table dattable">
-                                                                                <thead>
+                                                                                <tr>
                                                                                 <th></th>
                                                                                 <th>In</th>
                                                                                 <th>Out</th>
-                                                                                </thead>
+                                                                                </tr>
                                                                                 <tr class="datrow">
                                                                                     <td th:text="${interfaceCommand.originalFilename}"></td>
-                                                                                    <td th:text="${result.measuredIn + ' (' + result.percentInM + '%)'}"></td>
-                                                                                    <td th:text="${result.measuredOut+ ' (' + result.percentOutM+ '%)'}"></td>
+                                                                                    <td th:text="${result.measuredIn+' ('+result.percentInM+'%)'}"></td>
+                                                                                    <td th:text="${result.measuredOut+' ('+result.percentOutM+'%)'}"></td>
                                                                                 </tr>
                                                                                 <tr class="datrow">
                                                                                     <td th:text="${bgfilename}"></td>
-                                                                                    <td th:text="${result.expectedIn+ ' (' + result.percentInE + '%)'}"></td>
-                                                                                    <td th:text="${result.expectedOut+ ' (' + result.percentOutE+ '%)'}"></td>
+                                                                                    <td th:text="${result.expectedIn+' ('+result.percentInE+'%)'}"></td>
+                                                                                    <td th:text="${result.expectedOut+' ('+result.percentOutE+'%)'}"></td>
                                                                                 </tr>
                                                                             </table>
                                                                         </div>
@@ -340,6 +338,7 @@
                                                             </tr>
 
                                                         </th:block>
+
                                                     </table>
                                                 </div>
                                             </td>
@@ -535,13 +534,6 @@
 
                                     </th:block>
 
-                                    </tbody>
-                                </table>
-
-
-                                <!-- Result table end -->
-
-                                <th:block th:if="${ran}">
                                     <tr> <!-- create or upload custom track button -->
                                         <td class="add" colspan="5" data-placement="right" title="Upload custom track"
                                             data-toggle="tooltip">
@@ -551,8 +543,12 @@
                                             </button>
                                         </td>
                                     </tr>
-                                </th:block>
 
+                                    </tbody>
+                                </table>
+
+
+                                <!-- Result table end -->
 
                             </div>
                             <div class="col-4">
@@ -569,7 +565,9 @@
                                     <col width="400px"/>
                                     <col width="30px"/>
                                     <thead>
-                                    <th th:text="${'Covariates' + ' (' + covariantCount + ')'}">Covariates</th>
+                                    <tr>
+                                        <th th:text="${'Covariates' + ' (' + covariantCount + ')'}">Covariates</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
 
@@ -620,15 +618,15 @@
                                                         <div>
                                                             <table class="table">
 
-
                                                                 <thead>
-                                                                <th></th>
-                                                                <th>In</th>
-                                                                <th>Out</th>
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <th>In</th>
+                                                                    <th>Out</th>
+                                                                </tr>
                                                                 </thead>
                                                                 <tr class="">
-                                                                    <td
-                                                                            th:text="${interfaceCommand.originalFilename}"></td>
+                                                                    <td th:text="${interfaceCommand.originalFilename}"></td>
                                                                     <td th:text="${cov.measuredIn + ' (' + cov.percentInM + '%)'}"></td>
                                                                     <td th:text="${cov.measuredOut+ ' (' + cov.percentOutM+ '%)'}"></td>
                                                                 </tr>
@@ -669,7 +667,6 @@
                         </div>
 
 
-                    </th:block>
                 </div>
 
                 <!-- Tab 2 Hotspots -->

@@ -247,59 +247,62 @@
 
 </body>
 
-<script>
-    let f = document.getElementById("files");
-    let sub = document.getElementById("startButton");
+<th:block th:unless="${ran}">
+    <script>
+        let f = document.getElementById("files");
+        let sub = document.getElementById("startButton");
 
-    f.onchange = function (e) {
-        sub.disabled = f.length === 0;
-    };
+        f.onchange = function (e) {
+            sub.disabled = f.length === 0;
+        };
 
 
-    function has_package() {
-        let checkboxes = document.getElementsByTagName("input");
+        function has_package() {
+            let checkboxes = document.getElementsByTagName("input");
 
-        for (let i = 0; i < checkboxes.length; i++) {
-            if (checkboxes[i].checked === false) {
-                continue;
+            for (let i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked === false) {
+                    continue;
+                }
+                return true;
             }
-            return true;
+            return false;
         }
-        return false;
-    }
 
-    sub.addEventListener("click", function (e) {
-        e.preventDefault();
+        sub.addEventListener("click", function (e) {
+            e.preventDefault();
 
-        if (!has_package()) {
-            document.getElementById("info").innerText = "You have to select at least one annotation package."
-        } else {
-            document.getElementById("uploadForm").submit();
-        }
-    });
+            if (!has_package()) {
+                document.getElementById("info").innerText = "You have to select at least one annotation package."
+            } else {
+                document.getElementById("uploadForm").submit();
+            }
+        });
 
-</script>
+    </script>
 
-<script>
-    $('a').tooltip();
+    <script>
+        $('a').tooltip();
 
 
-    let e = document.getElementById("cellline");
-    let hid = document.getElementById("hidden");
+        let e = document.getElementById("cellline");
+        let hid = document.getElementById("hidden");
 
-    e.onchange = function () {
-        let option = e.options[e.selectedIndex].value;
+        e.onchange = function () {
+            let option = e.options[e.selectedIndex].value;
 
-        if (option === "") {
-            hid.style.visibility = "hidden";
-        } else {
-            hid.style.visibility = "visible";
-        }
-    };
+            if (option === "") {
+                hid.style.visibility = "hidden";
+            } else {
+                hid.style.visibility = "visible";
+            }
+        };
 
-    e.click();
+        e.click();
 
-</script>
+    </script>
+
+</th:block>
 
 
 <th:block th:if="${ran}">
@@ -310,6 +313,9 @@
 
         var results = [[${results}]];
         var yValues = [[${tracks}]]; //track names
+
+        console.log(results);
+        console.log(yValues);
 
         var xValues = []; // .bed filenames
         var zValues = []; // effect sizes
@@ -324,9 +330,9 @@
             var tmpZ = [];
             var tmpP = [];
 
-            for (var i = 0; i < results[v].length; i++) {
-                tmpZ.push(results[v][i].left);
-                tmpP.push(results[v][i].right);
+            for (let i = 0; i < results[v].length; i++) {
+                tmpZ.push(Object.keys(results[v][i])[0]);
+                tmpP.push(results[v][i][Object.keys(results[v][i])[0]]);
             }
 
             zValues.push(tmpZ);
@@ -363,8 +369,6 @@
 
             hovers.push(tmp);
         }
-
-        console.log(hovers);
 
         var data = [{
             x: xValues,
@@ -420,6 +424,7 @@
                 layout.annotations.push(result);
             }
         }
+        console.log(data);
 
         Plotly.newPlot('heatmapDiv', data, layout, {displayModeBar: false});
 
