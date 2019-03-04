@@ -1,0 +1,117 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Enhort - Genomic Position Profiling - Tutorial</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link rel="stylesheet" media="screen" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" media="screen" href="../static/css/faq.css" th:href="@{/css/faq.css}"/>
+
+    <script src="/js/jquery-1.12.0.min.js" th:href="@{/js/jquery-1.12.0.min.js}"></script>
+    <script src="/js/bootstrap.min.js" th:href="@{/js/bootstrap.min.js}"></script>
+
+</head>
+
+<body>
+
+<div th:include="header:: bar"></div>
+
+<div class="container">
+    <div class="main col-10">
+
+        <img src="title_logo.png" id="faqlogo"/>
+
+        <h2>Tutorial</h2>
+
+        <p>
+            In this short tutorial a set of 1141475 HIV integration sites are analysed using Enhort.
+
+        </p>
+        <h4>Upload integration sites</h4>
+        <hr/>
+
+        <p>
+            At first, integration sites have to uploaded in a .bed-file. In this example set of about 1m HIV integration
+            sites taken from the
+            <a href="https://rid.ncifcrf.gov/">Retrovirus Integration Database</a> is used. The wizard is selected on
+            the main page:
+
+        </p>
+        <img src="img/tutorial/tut1.png" class="tutorialimage"/>
+
+
+        <p>
+            And on the following page the .bed-file is selected on the local computer.
+
+        </p>
+        <h4>Select annotations</h4>
+        <hr/>
+
+
+        The sites are then uploaded and the overview for available annotations is shown:
+
+        <img src="img/tutorial/tut2.png" class="tutorialimage"/>
+
+        <p>
+            Single annotations can be selected by clicking on the blue squares. A set of annotations for a cell line or
+            all annotations in a column
+            can be selected by clicking on the row or column header. For example, all cell line independent annotations
+            are selected in the following example, as well as
+            annotations for HeLa:
+
+        </p>
+        <img src="img/tutorial/tut3.png" class="tutorialimage"/>
+
+
+        <h4>Review results and add a covariate</h4>
+        <hr/>
+
+        <p>
+            The results for the given sites and selected covariates are then displayed in a table, containing the effect
+            size and p value of each annotation, as well
+            as overview over the annotation groups. Each row can be expanded to get exact integration counts for each
+            annotation:
+
+        </p>
+        <img src="img/tutorial/tut4.png" class="tutorialimage"/>
+
+        <p>
+
+            From here the user can select covariates to alter the integation preference
+            of the background control sites. For example, HIV is known to integrate near genes which is observable in
+            the upper image. The annotation track RefSeq genes can
+            be selected as covariate to adapt the background for this known preference. To do this the marked checkbox
+            is selected and with the button 'Run again' the
+            background is changed. In the following image we see RefSeq genes was added to list of covariate on the
+            right and now has the exact same integration preference as the HIV sites:
+
+        </p>
+        <img src="img/tutorial/tut5.png" class="tutorialimage"/>
+
+        <p>
+
+            This adaptation then changes the significance and fold change of several annotations tracks in the main
+            table. In the following the complete table of selected annotations is shown
+            with 'houskeeping genes' expanded to show exact integration counts:
+        </p>
+
+        <img src="img/tutorial/tut6.png" class="tutorialimage"/>
+
+
+        <h4>Further possibilites</h4>
+        <hr/>
+
+        <p>
+            In the upper part different tabs are located containing further analysis of the given sites, as well as the
+            option to download the background sites or results.
+            Depending on the individual scientific question other covariates can be selected to build a specialized
+            background model.
+        </p>
+
+    </div>
+</div>
+</body>
+</html>

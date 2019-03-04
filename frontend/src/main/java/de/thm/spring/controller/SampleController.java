@@ -50,10 +50,10 @@ public class SampleController {
 
         if(System.getenv("HOME").contains("menzel")) {
             String path = "/home/menzel/Desktop/THM/lfba/enhort";
-            samplefilepath = path+"/HIV-hg19.bed";
+            samplefilepath = path + "/sites.hiv.all.wu_03.tab";
         } else {
             String path = "/home/mmnz21/enhort";
-            samplefilepath = path+"/HIV-hg19.bed";
+            samplefilepath = path + "/sites.hiv.all.wu_03.tab";
         }
 
         if (!new File(samplefilepath).exists()) {
@@ -72,7 +72,7 @@ public class SampleController {
         currentSession.setOriginalFilename("HIV");
 
         BackendCommand backendCommand = //new BackendCommand(userSites, Command.Task.ANALZYE_SINGLE);
-                new BackendCommand.Builder(Command.Task.ANALZYE_SINGLE, userSites.getAssembly()).sites(userSites).build();
+                new BackendCommand.Builder(Command.Task.ANALZYE_SINGLE, userSites.getAssembly()).sites(userSites).minBg(userSites.getPositionCount()).build();
 
         try {
             /////////// Run analysis ////////////

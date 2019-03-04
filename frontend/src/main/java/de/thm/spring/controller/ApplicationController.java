@@ -117,6 +117,12 @@ public class ApplicationController implements ErrorController {
 
         return "faq";
     }
+
+    @RequestMapping("/tutorial")
+    public String tutorial() {
+
+        return "tutorial";
+    }
     @RequestMapping("/contact")
     public String contact(){
 
