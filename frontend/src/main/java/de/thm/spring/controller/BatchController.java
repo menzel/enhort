@@ -159,14 +159,23 @@ public class BatchController {
 
                 csv.append(names.get(i)).append(lb).append(lb);
 
+                //header for each site file
+                csv.append("Name, log2 fold change, In sites, In control, Out sites, Out control, P value");
+                csv.append(lb);
+
                 for (int trackN = 0; trackN < sortedResults.size(); trackN++) {
                     TestResult tr = sortedResults.get(trackN);
                     List<Number> tmp = new ArrayList<>();
 
-                    //TODO CSV:
-                    //TODO real fold change
-                    //csv.append(tr.getTrack().getName()).append(" Fold change (log2): ").append(tr.getEffectSize()).append(" In sites: ").append(tr.getMeasuredIn()).append(" In control: ").append(tr.getExpectedIn()).append(" Out sites: ").append(tr.getMeasuredOut()).append(" Out control: ").append(tr.getExpectedOut()).append(" P value: ").append(tr.getpValue());
-                    csv.append(tr.getTrack().getName()).append(" Fold change (log2): ").append(tr.getEffectSize()).append(" In sites: ").append(tr.getMeasuredIn()).append(" In control: ").append(tr.getExpectedIn()).append(" Out sites: ").append(tr.getMeasuredOut()).append(" Out control: ").append(tr.getExpectedOut()).append(" P value: ").append(tr.getpValue());
+                    double effectSize = tr.getEffectSize();
+                    if (tr.getPercentInM() < tr.getPercentInE())
+                        effectSize *= -1;
+
+                    csv.append(tr.getTrack().getName()).append(", ").append(effectSize).append(", ")
+                            .append(tr.getMeasuredIn()).append(", ").append(tr.getExpectedIn()).append(", ")
+                            .append(tr.getMeasuredOut()).append(", ").append(tr.getExpectedOut()).append(", ")
+                            .append(tr.getpValue());
+
                     csv.append(lb);
 
                     tmp.add(tr.getMeasuredIn());
