@@ -158,8 +158,8 @@ public final class Session {
 
     private void addOldcollectors(ResultCollector col) {
 
-        if(oldcollectors.size() > 3)
-            oldcollectors.remove(3);
+        if(oldcollectors.size() > 2)
+            oldcollectors.remove(2);
         this.oldcollectors.add(0,col);
     }
 }

@@ -926,7 +926,7 @@
             } else return ""
         }),
         hoverinfo: 'text',
-        textposition: 'outside',
+        textposition: 'inside',
         textinfo: 'text',
         hovertemplate: 'Track %{x} | Effect size %{y} | P value %{hovertext}',
         type: 'bar',
@@ -963,7 +963,7 @@
                 } else return ""
             }),
             hoverinfo: 'text',
-            textposition: 'outside',
+            textposition: 'inside',
             textinfo: 'text',
             hovertemplate: 'Track %{x} | Effect size %{y} | P value %{hovertext}',
             type: 'bar',
@@ -976,6 +976,7 @@
 
     document.getElementById("barplotdesc").innerHTML = "The barplot shows the fold changes for each annotation for the recent runs." +
         "The height of the bar represents the difference between the sites and the background model regarding this annotation. " +
+        "A * marks statistically significant annotations." +
         "The latest run is always in blue color, the previous three runs are also visible here";
 
     Plotly.newPlot('barplot', bardat, layout);
