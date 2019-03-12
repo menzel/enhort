@@ -28,6 +28,7 @@ import de.thm.positionData.UserData;
 import de.thm.result.ResultCollector;
 import de.thm.spring.cache.RCodeExport;
 import de.thm.stat.TestResult;
+import org.apache.commons.lang3.tuple.Triple;
 import org.apache.commons.math3.stat.descriptive.rank.Percentile;
 import org.apache.commons.math3.util.Precision;
 import org.springframework.ui.Model;
@@ -137,7 +138,7 @@ public class ControllerHelper {
 
 
         // barplot page
-        org.apache.commons.math3.util.Pair<List<String>, List<Double>> data = collector.getBarplotdata();
+        List<Triple<List<String>, List<Double>, List<Double>>> data = Collections.singletonList(collector.getBarplotdata());
         model.addAttribute("bardata", data);
 
         // barplot page

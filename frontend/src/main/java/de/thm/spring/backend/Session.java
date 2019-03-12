@@ -39,6 +39,7 @@ public final class Session {
     private final String key;
     private final Date date;
     private ResultCollector collector;
+    private List<ResultCollector> oldcollectors = new ArrayList<>();
     private String originalFilename;
     private List<TestResult> covariants;
     private List<SerializeableInOutTrack> customTracks = new ArrayList<>();
@@ -100,6 +101,8 @@ public final class Session {
     }
 
     public void setCollector(ResultCollector collector) {
+        if(this.oldcollectors != null)
+            addOldcollectors(collector);
         this.collector = collector;
     }
 
@@ -147,5 +150,16 @@ public final class Session {
 
     public BackendConnector getConnector() {
         return connector;
+    }
+
+    public List<ResultCollector> getOldcollectors() {
+        return oldcollectors;
+    }
+
+    private void addOldcollectors(ResultCollector col) {
+
+        if(oldcollectors.size() > 3)
+            oldcollectors.remove(3);
+        this.oldcollectors.add(0,col);
     }
 }

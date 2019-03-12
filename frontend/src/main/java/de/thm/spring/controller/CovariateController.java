@@ -29,6 +29,7 @@ import de.thm.spring.backend.Session;
 import de.thm.spring.backend.Sessions;
 import de.thm.spring.backend.StatisticsCollector;
 import de.thm.stat.TestResult;
+import org.apache.commons.lang3.tuple.Triple;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -38,6 +39,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static de.thm.spring.controller.ControllerHelper.setModel;
 
@@ -140,6 +142,14 @@ public class CovariateController {
 
         currentSession.setCollector(collector);
         setModel(model, collector, command, covariants);
+
+        // barplot compare page
+
+        List<Triple<List<String>, List<Double>, List<Double>>> oldbarplotdat = currentSession.getOldcollectors().stream().map(ResultCollector::getBarplotdata).collect(Collectors.toList());
+        model.addAttribute("bardata", oldbarplotdat);
+
+        // barplot compare page
+
 
         ExpressionCommand exCommand = new ExpressionCommand();
         model.addAttribute("expressionCommand", exCommand);

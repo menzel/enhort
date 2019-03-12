@@ -11,10 +11,10 @@
     <link rel="stylesheet" media="screen" href="../static/css/result.css" th:href="@{/css/result.css}"/>
     <link rel="stylesheet" media="screen" href="../static/css/celllinetree.css" th:href="@{/css/celllinetree.css}"/>
 
-    <script src="/js/plotly-latest.min.js" th:href="@{/js/plotly-latest.min.js}"></script>
+    <script src="/js/popper.js" th:href="@{/js/popper.js}"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="/js/jquery-1.12.0.min.js" th:href="@{/js/jquery-1.12.0.min.js}"></script>
     <script src="/js/bootstrap.min.js" th:href="@{/js/bootstrap.min.js}"></script>
-    <script src="/js/popper.js" th:href="@{/js/popper.js}"></script>
     <script src="/js/d3.min.js" th:href="@{/js/d3.min.js}"></script>
     <script src="/js/result.js" th:href="@{/js/result.js}"></script>
     <script src="/js/radar.js" th:href="@{/js/radar.js}"></script>
@@ -895,13 +895,45 @@
 
 <script th:inline="javascript" async="async">
 
+    var layout = {
+        title: "Annotations by fold change",
+        autosize: true,
+        barmode: 'group',
+        bargap: 0.15,
+        bargroupgap: 0.1,
+        xaxis: {
+            autorange: true
+        },
+        yaxis: {
+            autorange: true
+        },
+        margin: {
+            b: 150
+        },
+    };
+
+
     var bars = [[${bardata}]];
 
 
-    var stuff = [{
-        x: bars.first,
-        y: bars.second,
+    let first = {
+        x: bars[0].left,
+        y: bars[0].middle,
+        hovertext: bars[0].right,
+        text: bars[0].right.map(function(val){
+            if(val < 0.05 /bars[0].right.length){
+                return "*"
+            } else return ""
+        }),
+        hoverinfo: 'text',
+        textposition: 'outside',
+        textinfo: 'text',
+        hovertemplate: 'Track %{x} | Effect size %{y} | P value %{hovertext}',
         type: 'bar',
+        name: "Latest Run",
+        marker: {
+            color: 'rgb(4,105,193)',
+        },
         shapes: [
             {
                 type: 'line',
@@ -915,37 +947,41 @@
                     dash: 'dot'
                 }
             }]
-    }];
-
-    var layout = {
-        title: "Significant annotations by log fold change",
-        xaxis: {
-            autorange: true
-        },
-        yaxis: {
-            autorange: true
-        },
-        margin: {
-            b: 150
-        }
     };
 
-    document.getElementById("barplotdesc").innerHTML = "The barplot shows each log fold change from one track as one bar, sorted by the log fold change from left to right.<br>" +
+    var bardat = [first];
+
+    for(let i = 1; i < bars.length; i++){
+
+        bardat.push({
+            x: bars[i].left,
+            y: bars[i].middle,
+            hovertext: bars[i].right,
+            text: bars[i].right.map(function(val){
+                if(val < 0.05 /bars[i].right.length){
+                    return "*"
+                } else return ""
+            }),
+            hoverinfo: 'text',
+            textposition: 'outside',
+            textinfo: 'text',
+            hovertemplate: 'Track %{x} | Effect size %{y} | P value %{hovertext}',
+            type: 'bar',
+            name: 'Run -' + i,
+            marker:{
+                color: 'rgba(51,122,183,'+ (0.8 - (0.2*i)) + ')'
+            },
+        });
+    }
+
+    document.getElementById("barplotdesc").innerHTML = "The barplot shows the fold changes for each annotation for the recent runs." +
         "The height of the bar represents the difference between the sites and the background model regarding this annotation. " +
-        "The log fold change of " + bars.first[0] + " has a fold change of " + bars.second[0] + "<br>" +
-        "The highest significant difference between your sites and the random background are in relation to the tracks " + bars.first[0] + ", " +
-        bars.first[1] + " and " + bars.first[2];
+        "The latest run is always in blue color, the previous three runs are also visible here";
 
-    Plotly.newPlot('barplot', stuff, layout);
+    Plotly.newPlot('barplot', bardat, layout);
 
 </script>
 
-<script th:inline="javascript" async="async">
-    /*<![CDATA[*/
-    'use strict';
-
-    plotHistogram([[${results}]]);
-</script>
 
 <script th:inline="javascript" async="async">
     /*<![CDATA[*/
