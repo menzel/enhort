@@ -22,7 +22,8 @@ import de.thm.logo.Logo;
 import de.thm.misc.Genome;
 import de.thm.positionData.Sites;
 import de.thm.stat.TestResult;
-import org.apache.commons.math3.util.Pair;
+import org.apache.commons.lang3.tuple.ImmutableTriple;
+import org.apache.commons.lang3.tuple.Triple;
 import org.apache.commons.math3.util.Precision;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -143,25 +144,22 @@ public final class ResultCollector implements Result {
         return results.stream().filter(tr -> covariants.contains(Integer.toString(tr.getId()))).collect(Collectors.toList());
     }
 
-    public Pair<List<String>, List<Double>> getBarplotdata() {
+    public Triple<List<String>, List<Double>, List<Double>> getBarplotdata() {
 
 
         List<String> names = new ArrayList<>();
         List<Double> effectsizes = new ArrayList<>();
-
-        Double pval = 0.05 / results.size();
+        List<Double> pvalues = new ArrayList<>();
 
         results.stream()
-                .filter(testResult -> testResult.getpValue() < pval)
-                .filter(testResult -> testResult.getMeasuredIn() >= (testResult.getMeasuredIn() + testResult.getMeasuredOut()) / 200
-                        && testResult.getExpectedIn() >= (testResult.getExpectedIn() + testResult.getExpectedOut()) / 200)
                 .sorted((t1, t2) -> Double.compare(t2.getEffectSize(), t1.getEffectSize()))
                 .forEach(result -> {
                     names.add(result.getName());
                     effectsizes.add(result.getEffectSize());
+                    pvalues.add(result.getpValue());
                 });
 
-        return new Pair<>(names, effectsizes);
+        return new ImmutableTriple<>(names, effectsizes, pvalues);
     }
 
 
