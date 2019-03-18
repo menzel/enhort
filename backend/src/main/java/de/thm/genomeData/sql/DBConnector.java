@@ -96,7 +96,7 @@ public class DBConnector {
                 TrackEntry entry = new TrackEntry(rs.getString("name"),
                         rs.getString("description"),
                         rs.getString("directory") + "/" + rs.getString("bed_filename"),
-                        (rs.getString("category").contains("Scored") ? "scored" : rs.getString("category").contains("distance") ? "distance" : "inout"),
+                        (rs.getString("category").contains("Scored") ? "scored" : rs.getString("category").contains("distance") ? "distance" : rs.getString("category").contains("Name") ? "Named" : "inout"),
                         rs.getString("genome_assembly"),
                         rs.getString("cell_line"),
                         rs.getInt("lines"),
