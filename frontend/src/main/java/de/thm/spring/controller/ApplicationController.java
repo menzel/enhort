@@ -121,9 +121,23 @@ public class ApplicationController implements ErrorController {
 
         @ExceptionHandler(MultipartException.class)
         String handleFileException(HttpServletRequest request, Throwable ex, Model model) {
-            model.addAttribute("errorMessage", "The file you tried to upload is too large. Please upload only files with a max. file size of 20 MB.");
-            return "error";
+
+            return "redirect:/filesizetoolarge";
         }
+    }
+
+    /**
+     * File exceptions are redirected to this method to call 'error' with in a post request with the message
+     *
+     * @param model - same as always
+     * @return the error page
+     */
+    @RequestMapping("/filesizetoolarge")
+    public String filesizetoolarge(Model model){
+
+        model.addAttribute("errorMessage", "The file you tried to upload is too large. Please upload only files with a max. file size of 20 MB.");
+
+        return "error";
     }
 
     @RequestMapping("/faq")
