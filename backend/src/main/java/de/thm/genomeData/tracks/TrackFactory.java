@@ -158,8 +158,12 @@ public final class TrackFactory {
         customTracks.forEach(e -> trackEntries.put(e.getName(), e));
         this.tracks.addAll(loadByEntries(customTracks));
 
-        tracks.add(Tracks.createDistFromInOut(getTrackById(1386)));
-        tracks.add(Tracks.createDistFromInOut(getTrackById(1376)));
+        try {
+            tracks.add(Tracks.createDistFromInOut(getTrackById(1386)));
+            tracks.add(Tracks.createDistFromInOut(getTrackById(1376)));
+        } catch (RuntimeException e) { //if running locally the track might not be found, tell and ignore
+            logger.error("TSS and CpG tracks are not available. Skipping distance track build.");
+        }
 
         //TODO use DB:
         List<String> trackPackagesNames = new ArrayList<>();
