@@ -20,6 +20,7 @@ import de.thm.exception.NoTracksLeftException;
 import de.thm.genomeData.sql.DBConnector;
 import de.thm.misc.ChromosomSizes;
 import de.thm.misc.Genome;
+import de.thm.run.BackendServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -144,11 +145,19 @@ public final class TrackFactory {
         if (System.getenv("HOME").contains("menzel")) {
             try {
 
-                Files.walk(Paths.get("/home/menzel/Desktop/THM/promotion/enhort/dat/stefan/custom"))
+                String customtrackpath;
+
+                if (System.getenv("HOME").contains("menzel")) {
+                    customtrackpath = "/home/menzel/Desktop/THM/promotion/enhort/dat/stefan/custom";
+                } else {
+                    customtrackpath = BackendServer.customtrackpath;
+                }
+
+                Files.walk(Paths.get(customtrackpath))
                .filter(Files::isRegularFile)
                .filter(f -> f.getFileName().toString().endsWith(".bed"))
                .forEach(f -> customTracks.add(new TrackEntry(f.getFileName().toString(),"Custom track: " + f.getFileName(),
-                        "/home/menzel/Desktop/THM/promotion/enhort/dat/stefan/custom/" + f.getFileName().toString(), "inout", Genome.Assembly.GRCh38.toString(), "Unknown", 14003120, "Genetic", 1412123+f.getFileName().hashCode(), "nosource", "nourl")));
+                       customtrackpath + f.getFileName().toString(), "inout", Genome.Assembly.GRCh38.toString(), "Unknown", 14003120, "Genetic", 1412123 + f.getFileName().hashCode(), "nosource", "nourl")));
             } catch (IOException e) {
                 e.printStackTrace();
             }
