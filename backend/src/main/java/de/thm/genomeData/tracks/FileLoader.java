@@ -51,8 +51,12 @@ class FileLoader implements Callable<Optional<Track>> {
     private final TrackEntry trackEntry;
 
     public FileLoader(TrackEntry entry) {
+        Path basePath;
 
-        Path basePath = BackendServer.basePath;
+        if(BackendServer.basePath != null)
+            basePath = BackendServer.basePath;
+        else
+            basePath = new File("").toPath();
 
         this.path = basePath.resolve(new File(entry.getFilepath()).toPath());
         this.assembly = Genome.Assembly.valueOf(entry.getAssembly());
@@ -194,8 +198,11 @@ class FileLoader implements Callable<Optional<Track>> {
             lines.close();
 
 
-            if (linecount != counter)
-                logger.error("File " + file.getName() + " has " + counter + " lines, but db says it has " + linecount + " lines.");
+            if (linecount != counter && BackendServer.customtrackpath == null)
+                logger.warn("File " + file.getName() + " has " + counter + " lines, but db says it has " + linecount + " lines.");
+
+            if (BackendServer.customtrackpath != null && linecount < counter)
+                logger.error("File " + file.getName() + " has " + counter + " lines, the current set limit is " + linecount + " lines.");
 
 
            // Check read files //

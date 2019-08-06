@@ -20,11 +20,17 @@ import de.thm.genomeData.tracks.TrackFactory;
 import de.thm.genomeData.tracks.Tracks;
 import de.thm.misc.Genome;
 import de.thm.precalc.SiteFactoryFactory;
+import net.sourceforge.argparse4j.ArgumentParsers;
+import net.sourceforge.argparse4j.inf.ArgumentParser;
+import net.sourceforge.argparse4j.inf.ArgumentParserException;
+import net.sourceforge.argparse4j.inf.Namespace;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.nio.file.Path;
+
+import static net.sourceforge.argparse4j.impl.Arguments.store;
 
 
 /**
@@ -35,29 +41,53 @@ import java.nio.file.Path;
  */
 public final class BackendServer {
 
-    private static final int port = 42412;
+    private static int port;
     private static final Logger logger = LoggerFactory.getLogger(BackendServer.class);
     public static Path basePath;
     public static String dbfilepath;
+    public static String customtrackpath;
 
 
     public static void main(String[] args) {
 
         logger.info("Starting Enhort backend server");
 
-        if (args.length != 2) {
-            logger.error("Wrong arguments. Example call: /usr/bin/java -jar -Xmx60g -XX:StringTableSize=1000003 " +
+        Namespace input = null;
+
+        ArgumentParser parser = ArgumentParsers.newFor("Enhort backend").build()
+                .defaultHelp(true)
+                .description("Enhort backend server");
+
+        parser.addArgument("--data-path").help("Path to data directory").action(store());
+        parser.addArgument("--db").help("Path to sqlite metadata database").action(store());
+        parser.addArgument("--custom").help("Path to custom files").action(store());
+        parser.addArgument("-p", "--port").help("Port to listen on").setDefault(42412).action(store());
+
+        try {
+            input = parser.parseArgs(args);
+        } catch (ArgumentParserException e) {
+            parser.handleError(e);
+        }
+
+        if (input == null) {
+            logger.error("Example call: /usr/bin/java -jar -Xmx60g -XX:StringTableSize=1000003 " +
                     "/home/mmnz21/enhort/enhort.jar " +
                     "/permData/gogol/sgls22/enhort  " +
-                    "/home/mmnz21/enhort/stefan.db \n" +
+                    "/home/mmnz21/enhort/sqlitedatabase.db \n" +
                     "where the first param is the path to the data directory and" +
                     "the second path is the .db file");
-
             System.exit(1);
         }
 
-        basePath = new File(args[0]).toPath();
-        dbfilepath = args[1];
+        port = input.getInt("port");
+
+        if(input.getString("data_path") != null && input.getString("db") != null) {
+            basePath = new File(input.getString("data_path")).toPath();
+            dbfilepath = input.getString("db");
+        } else {
+            if (input.getString("custom") != null)
+                customtrackpath = input.getString("custom") + "/";
+        }
 
         new Thread(() -> {
             TrackFactory tf = TrackFactory.getInstance();

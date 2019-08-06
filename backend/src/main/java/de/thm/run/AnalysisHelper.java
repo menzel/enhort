@@ -145,12 +145,15 @@ class AnalysisHelper {
 
     private ResultCollector runAnalysisWithBg(Sites sites, Sites sitesBg, List<Track> tracks, boolean createLogo) throws NoTracksLeftException {
 
+        if(tracks.size() == 0){
+            throw new NoTracksLeftException("There are no tracks loaded for analysis.");
+        }
+
         CalcCaller multi = new CalcCaller();
         ResultCollector collector = multi.execute(tracks, sites, sitesBg, createLogo);
 
         if (collector.getResults().size() == 0) {
             throw new NoTracksLeftException("There are no tracks left as results.");
-
         }
 
         return collector;
@@ -167,7 +170,7 @@ class AnalysisHelper {
      */
     private ResultCollector runAnalysisWithBg(Sites sites, Sites sitesBg, BackendCommand cmd) throws NoTracksLeftException {
 
-        List<Track> runTracks;
+        List<Track> runTracks = new ArrayList<>();
         TrackFactory trackFactory = TrackFactory.getInstance();
 
         if (cmd.getTracks().isEmpty()) { // when using /sample on frontend
@@ -176,8 +179,7 @@ class AnalysisHelper {
                 runTracks = runTracks.stream().filter(t -> !t.getName().contains("Repeat")).collect(Collectors.toList());
                 //runTracks.addAll(trackFactory.getTracksByCellline("", cmd.getAssembly())); // TODO get some cell line specific tracks for sample run
             } catch (RuntimeException e) {
-                logger.warn("Error getting tracks {}", e);
-                runTracks = trackFactory.getTracks(Genome.Assembly.hg19);
+                logger.warn("Error getting tracks from database. Ignore if you are only using custom tracks.", e);
             }
 
         } else { // if there is a list of track ids given by command
@@ -192,6 +194,7 @@ class AnalysisHelper {
 
         // always add custom tracks to run
         runTracks.addAll(cmd.getCustomTracks());
+        System.out.println("cstom trks: "  + runTracks.size());
         return runAnalysisWithBg(sites, sitesBg, runTracks, cmd.isCreateLogo());
 
     }

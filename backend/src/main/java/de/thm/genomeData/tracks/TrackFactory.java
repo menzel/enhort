@@ -107,51 +107,48 @@ public final class TrackFactory {
 
         List<TrackEntry> allTracks;
 
-        DBConnector connector  = new DBConnector();
-        connector.connect();
+        if (BackendServer.dbfilepath != null){
+            DBConnector connector = new DBConnector();
+            connector.connect();
 
-        if (System.getenv("HOME").contains("menzel")) {
+            if (System.getenv("HOME").contains("menzel")) {
 
-            allTracks = connector.getAllTracks("WHERE name like '%ontigs'");
-            allTracks = connector.getAllTracks(" WHERE directory like '%genetic%' and genome_assembly = 'hg19' ORDER BY lines ASC ");
-            /*
-            allTracks.addAll(connector.getAllTracks("WHERE genome_assembly = 'hg19' and directory like '%encode%HeLa%'"));
-            allTracks.addAll(connector.getAllTracks("WHERE genome_assembly = 'hg19' and directory like '%custom%'"));
-            //allTracks = connector.getAllTracks("WHERE bed_filename = 'SRX062365.05.bed'");
-            //allTracks = connector.getAllTracks(" WHERE genome_assembly = 'hg19' ORDER BY lines ASC LIMIT 3000");
-            */
-        } else {
+                allTracks = connector.getAllTracks("WHERE name like '%ontigs'");
+                allTracks = connector.getAllTracks(" WHERE directory like '%genetic%' and genome_assembly = 'hg19' ORDER BY lines ASC ");
+                /*
+                allTracks.addAll(connector.getAllTracks("WHERE genome_assembly = 'hg19' and directory like '%encode%HeLa%'"));
+                allTracks.addAll(connector.getAllTracks("WHERE genome_assembly = 'hg19' and directory like '%custom%'"));
+                //allTracks = connector.getAllTracks("WHERE bed_filename = 'SRX062365.05.bed'");
+                //allTracks = connector.getAllTracks(" WHERE genome_assembly = 'hg19' ORDER BY lines ASC LIMIT 3000");
+                */
+            } else {
 
-            //allTracks = connector.getAllTracks("WHERE (cell_line NOT like '%GM%' or cell_line like '%GM12878' or name like '%POLR%')");
-            allTracks = connector.getAllTracks("WHERE (name not like '%POLR%' or name not like '%expression%')");
-            /*
-            allTracks = connector.getAllTracks(" WHERE directory like '%genetic%' and genome_assembly = 'hg19' ORDER BY lines ASC ");
-            allTracks.addAll(connector.getAllTracks("WHERE cell_line like 'HeLa%'"));
-            allTracks.addAll(connector.getAllTracks("WHERE cell_line like 'K-562'"));
-            //allTracks.addAll(connector.getAllTracks("WHERE cell_line like '%PS%'"));
-            allTracks.addAll(connector.getAllTracks("WHERE cell_line like '%CD%'"));
-            allTracks.addAll(connector.getAllTracks("WHERE cell_line like '%GM12878%'"));
-            allTracks.addAll(connector.getAllTracks("WHERE cell_line like '%Hep-G2%'"));
-            allTracks.addAll(connector.getAllTracks("WHERE cell_line like '%A-549%'"));
-            */
+                //allTracks = connector.getAllTracks("WHERE (cell_line NOT like '%GM%' or cell_line like '%GM12878' or name like '%POLR%')");
+                allTracks = connector.getAllTracks("WHERE (name not like '%POLR%' or name not like '%expression%')");
+                /*
+                allTracks = connector.getAllTracks(" WHERE directory like '%genetic%' and genome_assembly = 'hg19' ORDER BY lines ASC ");
+                allTracks.addAll(connector.getAllTracks("WHERE cell_line like 'HeLa%'"));
+                allTracks.addAll(connector.getAllTracks("WHERE cell_line like 'K-562'"));
+                //allTracks.addAll(connector.getAllTracks("WHERE cell_line like '%PS%'"));
+                allTracks.addAll(connector.getAllTracks("WHERE cell_line like '%CD%'"));
+                allTracks.addAll(connector.getAllTracks("WHERE cell_line like '%GM12878%'"));
+                allTracks.addAll(connector.getAllTracks("WHERE cell_line like '%Hep-G2%'"));
+                allTracks.addAll(connector.getAllTracks("WHERE cell_line like '%A-549%'"));
+                */
+            }
+
+            logger.info("Trying to load " + allTracks.size() + " tracks");
+            this.tracks.addAll(loadByEntries(allTracks));
         }
-
-        logger.info("Trying to load " + allTracks.size() + " tracks");
-        this.tracks.addAll(loadByEntries(allTracks));
 
         List<TrackEntry> customTracks = new ArrayList<>();
 
+
         // Add custom tracks
-        if (System.getenv("HOME").contains("menzel")) {
+        if (BackendServer.customtrackpath != null) {
             try {
 
-                String customtrackpath;
-
-                if (System.getenv("HOME").contains("menzel")) {
-                    customtrackpath = "/home/menzel/Desktop/THM/promotion/enhort/dat/stefan/custom";
-                } else {
-                    customtrackpath = BackendServer.customtrackpath;
-                }
+                String customtrackpath = BackendServer.customtrackpath;
 
                 Files.walk(Paths.get(customtrackpath))
                .filter(Files::isRegularFile)

@@ -27,6 +27,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class DBConnector {
     private Connection conn;
@@ -82,8 +83,10 @@ public class DBConnector {
     public List<TrackEntry> getAllTracks(String whereClause) {
         List<TrackEntry> entries = new ArrayList<>();
 
-        if(conn == null)
-            throw new RuntimeException("No connection to the database");
+        if(conn == null) {
+            logger.warn("No connection to the database");
+            return Collections.emptyList();
+        }
 
         String sql = "SELECT * FROM enhort_view " + whereClause;
 
@@ -123,7 +126,11 @@ public class DBConnector {
      */
     public SortedMap<String, List<String>> getAllCellLines() {
 
+
         SortedMap<String, List<String>> celllines = new TreeMap<>();
+
+        if(conn == null)
+            return celllines;
 
         try {
             // get all cellliens without children
