@@ -24,18 +24,16 @@ TODO
 Download the enhort.jar from 
     https://homepages.thm.de/~mmnz21/enhort.jar
 
-Create a empty directory /logs in user home directory for logfiles
-
 
 ### Run the server
 The server is run with the following command:
 
-    java -jar -Xmx32g -XX:StringTableSize=1000003 /path/to/server/jar/enhort.jar /path/to/data/directory/  /path/to/database.db
+    java -jar -Xmx4g -XX:StringTableSize=1000003 /path/to/server/jar/enhort.jar --data-path /path/to/data/directory/  --db /path/to/database.db [-p PORTNUMBER --custom /path/to/custom/tracks/without/db]
 
 
-- The -Xmx32g flag raises the available memory to 32 GB, please specify your available memory here. 
+- The -Xmx4g flag raises the available memory to 4 GB, please specify your available memory here. 
 - The StringTableSize improves start up speed for loading the data
-- Currently the port is fixed to 42412
+- -p sets the port to listen on. Default is: 42412
 - The server takes about 2 minutes to start, when the message "Still loading track files. Stopping now" the server is up and running
 
 
@@ -46,12 +44,12 @@ Create a empty directory /logs in user home directory for logfiles
 
 The frontend is run with the following command:
 
-    java -Xmx2g -Dmultipart.maxFileSize=20MB -Dmultipart.maxRequestSize=20MB -Dspring.profiles.active=production -jar frontend.jar 127.0.0.1 /path/to/contig/size/files /path/to/statistics/file
+    java -Xmx2g -Dmultipart.maxFileSize=20MB -Dmultipart.maxRequestSize=20MB -Dspring.profiles.active=production -jar frontend.jar --ip 127.0.0.1 --contigs-path /path/to/contig/size/files
 
-- You can specify the maximum allowed upload file size
-- You need to specify the address of the backend server. If both are run on the same server use 127.0.0.1
-- The path to the contig sizes .bed file is needed
-- A usage statistics file is written at the given location of the statistics file
+- You should specify the maximum allowed upload file size
+- You need to specify the address of the backend server. If both are on the same server use 127.0.0.1
+- The path to the contig sizes file (which is included in the frontend-archive)
+- A usage statistics file is written at the given location of the statistics file or at /tmp
 
 
 # Bed test file
