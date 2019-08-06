@@ -19,11 +19,17 @@ package de.thm.spring.run;
 import de.thm.spring.backend.Sessions;
 import de.thm.spring.backend.Settings;
 import de.thm.spring.backend.StatisticsCollector;
+import net.sourceforge.argparse4j.ArgumentParsers;
+import net.sourceforge.argparse4j.inf.ArgumentParser;
+import net.sourceforge.argparse4j.inf.ArgumentParserException;
+import net.sourceforge.argparse4j.inf.Namespace;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+
+import static net.sourceforge.argparse4j.impl.Arguments.store;
 
 /**
  * Spring Server
@@ -39,18 +45,28 @@ public class Webinterface {
     public static void main(String[] args) {
 
 
-        if (args.length != 3) {
-            System.err.println("Incorrect number of arguments. Please specify the arguments according to the SETUPINSTR.md file.");
-            System.err.println("Exiting now");
+        Namespace input = null;
+
+        ArgumentParser parser = ArgumentParsers.newFor("Enhort frontend").build()
+                .defaultHelp(true)
+                .description("Enhort frontend server");
+
+        parser.addArgument("--ip").help("IP to connect to").action(store()).required(true);
+        parser.addArgument("-p", "--port").help("Port connect to").setDefault(42412).action(store());
+        parser.addArgument("--contigs-path").help("Path to contigs files.").action(store()).required(true);
+        parser.addArgument("--stat-path").help("Path to store statistics.").setDefault("tmp").action(store());
+
+        try {
+            input = parser.parseArgs(args);
+        } catch (ArgumentParserException e) {
+            parser.handleError(e);
             System.exit(1);
         }
 
-
-        /* Set up Settings */
-
-        Settings.setBackendip(args[0]);
-        Settings.setContigsPath(args[1]);
-        Settings.setStatfile_path(args[2]);
+        Settings.setBackendip(input.getString("ip"));
+        Settings.setContigsPath(input.getString("contigs_path"));
+        Settings.setStatfile_path(input.getString("stat_path"));
+        Settings.setPort(input.getInt("port"));
 
         try {
 

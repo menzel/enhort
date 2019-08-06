@@ -11,6 +11,7 @@ public class Settings {
     private static String contigsPath;
     private static String backendip;
     private static Path statpath;
+    private static int port;
 
     private static Logger logger = LoggerFactory.getLogger(StatisticsCollector.class);
 
@@ -46,9 +47,17 @@ public class Settings {
 
     public static void setContigsPath(String contigsPath) {
         if (!new File(contigsPath).exists())
-            logger.error("Exception {}", "Contigs path missing", "The contigs path " + contigsPath + " is missing");
+            logger.error("Exception {}{}", "Contigs path missing", "The contigs path " + contigsPath + " is missing");
 
         Settings.contigsPath = contigsPath;
+    }
+
+    public static int getPort() {
+        return port;
+    }
+
+    public static void setPort(Integer ip) {
+        port = ip;
     }
 }
 

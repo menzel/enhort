@@ -67,7 +67,7 @@ public final class BackendConnector {
 
     BackendConnector(String ip) {
 
-        this.port = 42412;
+        this.port = Settings.getPort();
         this.ip = ip;
 
         id = clientID.getAndIncrement();
