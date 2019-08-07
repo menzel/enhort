@@ -66,7 +66,7 @@ public class Webinterface {
         Settings.setBackendip(input.getString("ip"));
         Settings.setContigsPath(input.getString("contigs_path"));
         Settings.setStatfile_path(input.getString("stat_path"));
-        Settings.setPort(input.getInt("port"));
+        Settings.setPort(Integer.parseInt(input.getString("port")));
 
         try {
 
