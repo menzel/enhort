@@ -13,6 +13,7 @@ public class Settings {
     private static int port;
 
     private static Logger logger = LoggerFactory.getLogger(StatisticsCollector.class);
+    private static String secret;
 
     public static String getBackendip() {
         return backendip;
@@ -48,6 +49,14 @@ public class Settings {
 
     public static void setPort(Integer p) {
         port = p;
+    }
+
+    public static void setSecret(String s) {
+        secret = s;
+    }
+
+    public static String getSecret() {
+        return secret;
     }
 }
 

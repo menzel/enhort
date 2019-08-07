@@ -29,6 +29,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
+import java.io.File;
+import java.nio.file.Files;
+
 import static net.sourceforge.argparse4j.impl.Arguments.store;
 
 /**
@@ -55,6 +58,7 @@ public class Webinterface {
         parser.addArgument("-p", "--port").help("Port connect to").setDefault(42412).action(store());
         parser.addArgument("--contigs-path").help("Path to contigs files.").action(store()).required(true);
         parser.addArgument("--stat-path").help("Path to store statistics.").setDefault("tmp").action(store());
+        parser.addArgument("--secret").help("Path to key file for encryption").action(store());
 
         try {
             input = parser.parseArgs(args);
@@ -67,6 +71,14 @@ public class Webinterface {
         Settings.setContigsPath(input.getString("contigs_path"));
         Settings.setStatfile_path(input.getString("stat_path"));
         Settings.setPort(Integer.parseInt(input.getString("port")));
+
+
+        try {
+            Settings.setSecret(Files.readAllLines(new File(input.getString("secret")).toPath()).get(0));
+        } catch (Exception e) {
+            logger.warn("Using unsave hard-coded key for encryption.");
+            Settings.setSecret("abcddferti5iwiei");
+        }
 
         try {
 

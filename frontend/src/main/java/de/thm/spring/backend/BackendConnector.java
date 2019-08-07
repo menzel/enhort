@@ -33,13 +33,11 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SealedObject;
-import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
-import java.nio.file.Files;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
@@ -71,19 +69,7 @@ public final class BackendConnector {
         this.ip = ip;
 
         id = clientID.getAndIncrement();
-
-
-        try {
-            secret = Files.readAllLines(new File("/home/mmnz21/enhort/key.dat").toPath()).get(0);
-        } catch (IOException e) {
-            try {
-                secret = Files.readAllLines(new File("/home/menzel/key.dat").toPath()).get(0);
-            } catch (IOException e1) {
-                logger.info("using unsafe hard-coded key");
-                secret = "abcddferti5iwiei";
-            }
-        }
-
+        secret = Settings.getSecret();
     }
 
 
