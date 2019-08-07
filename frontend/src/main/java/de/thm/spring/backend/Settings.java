@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.net.InetAddress;
 import java.nio.file.Path;
 
 public class Settings {
@@ -20,15 +19,6 @@ public class Settings {
     }
 
     public static void setBackendip(String ip) {
-        try {
-            InetAddress address = InetAddress.getByName(ip);
-
-            if (!address.isReachable(1000))
-                throw new Exception("Backend Server " + ip + " not reachable");
-
-        } catch (Exception e) {
-            logger.error("Exception {}", e.getMessage(), e);
-        }
 
         Settings.backendip = ip;
     }
@@ -56,8 +46,8 @@ public class Settings {
         return port;
     }
 
-    public static void setPort(Integer ip) {
-        port = ip;
+    public static void setPort(Integer p) {
+        port = p;
     }
 }
 
