@@ -28,11 +28,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.crypto.SealedObject;
-import java.io.*;
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.file.Files;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -125,15 +127,7 @@ class ClientController implements Runnable{
                 logger.error("[" + clientID + "]: " + "Exception {}", e.getMessage(), e);
             }
 
-
-            try {
-                secret = Files.readAllLines(new File("/home/mmnz21/enhort/key.dat").toPath()).get(0);
-            } catch (IOException e) {
-                //e.printStackTrace();
-                logger.info("using local key");
-                secret = "abcddferti5iwiei";
-            }
-
+            secret = BackendServer.secretKey;
         }
 
         @Override

@@ -28,6 +28,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static net.sourceforge.argparse4j.impl.Arguments.store;
@@ -41,12 +43,12 @@ import static net.sourceforge.argparse4j.impl.Arguments.store;
  */
 public final class BackendServer {
 
+    public static String secretKey = "abcddferti5iwiei";
     private static int port;
     private static final Logger logger = LoggerFactory.getLogger(BackendServer.class);
     public static Path basePath;
     public static String dbfilepath;
     public static String customtrackpath;
-
 
     public static void main(String[] args) {
 
@@ -62,6 +64,7 @@ public final class BackendServer {
         parser.addArgument("--db").help("Path to sqlite metadata database").action(store());
         parser.addArgument("--custom").help("Path to custom files").action(store());
         parser.addArgument("-p", "--port").help("Port to listen on").setDefault(42412).action(store());
+        parser.addArgument("-s", "--secret").help("Keyfile for encrpytion.").setDefault("/home/mmnz21/enhort/key.dat").action(store());
 
         try {
             input = parser.parseArgs(args);
@@ -79,7 +82,7 @@ public final class BackendServer {
             System.exit(1);
         }
 
-        port = input.getInt("port");
+        port = Integer.parseInt(input.getString("port"));
 
         if(input.getString("data_path") != null && input.getString("db") != null) {
             basePath = new File(input.getString("data_path")).toPath();
@@ -101,6 +104,13 @@ public final class BackendServer {
                         .forEach(t -> logger.info("Error in track " + t.getName()));
 
         }).run();
+
+
+        try {
+            secretKey = Files.readAllLines(new File(input.getString("secret")).toPath()).get(0);
+        } catch (IOException e) {
+            logger.warn("No secret key. Using unsafe hard-coded key for encryption.");
+        }
 
         //run an inital client controller, which will listen to clients
         ClientController server = new ClientController(port);
