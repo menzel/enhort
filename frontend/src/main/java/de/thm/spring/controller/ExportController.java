@@ -50,7 +50,14 @@ public class ExportController {
     @RequestMapping(value = "/export/csv", method = RequestMethod.GET)
     @ResponseBody
     public FileSystemResource downloadCSV(HttpSession httpSession) {
-        Session currentSession = Sessions.getInstance().getSession(httpSession.getId());
+
+        Session currentSession = null;
+        try {
+            currentSession = Sessions.getInstance().getSessionOrError(httpSession.getId());
+        } catch (Exception e) {
+            logger.error("Exception {}", e.getMessage(), e);
+            //TODO show error message, there is no data to download
+        }
 
         //create file
         File output = new File("/tmp/csv_output_" + httpSession.getId());

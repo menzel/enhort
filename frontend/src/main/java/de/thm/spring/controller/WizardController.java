@@ -77,7 +77,16 @@ public class WizardController {
     public String wizard_get(Model model, HttpSession httpSession, @ModelAttribute InterfaceCommand interfaceCommand) {
 
         Sessions sessionsControll = Sessions.getInstance();
-        Session currentSession = sessionsControll.getSession(httpSession.getId());
+        Session currentSession = null;
+
+        try {
+            currentSession = sessionsControll.getSessionOrError(httpSession.getId());
+        } catch (Exception e) {
+            logger.error("Exception {}", e.getMessage(), e);
+            model.addAttribute("errorMessage", "The calculation could not be saved, please run it again");
+            return "error";
+        }
+
 
         if(currentSession.getCollector() != null)
             interfaceCommand.setTracks(currentSession.getCollector().getTracks());

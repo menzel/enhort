@@ -64,6 +64,18 @@ public final class Sessions {
         return sessions.get(key);
     }
 
+     /**
+     * Returns session by given http session key
+     *
+     * @param key - http session key
+     * @return Session from session list. If not session exists throws an exception
+     */
+    public Session getSessionOrError(String key) throws Exception {
+        if (!sessions.containsKey(key))
+            throw new Exception("No session for that key available");
+        return sessions.get(key);
+    }
+
     /**
      * Returns session by given http session key
      *

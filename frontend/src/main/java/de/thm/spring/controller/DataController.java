@@ -57,14 +57,21 @@ public class DataController {
     @RequestMapping(value = "/data/{hg}", method = RequestMethod.GET)
     public String data(@PathVariable("hg") String assem, Model model, HttpSession httpSession) {
 
-        Sessions sessionsControll = Sessions.getInstance();
-        Session currentSession = sessionsControll.getSession(httpSession.getId());
 
+        Session currentSession;
         Genome.Assembly assembly;
         try {
+
+            Sessions sessionsControll = Sessions.getInstance();
+            currentSession = sessionsControll.getSessionOrError(httpSession.getId());
+
             assembly = Genome.Assembly.valueOf(assem);
         } catch (IllegalArgumentException e) {
             model.addAttribute("errorMessage", "There are no tracks with the genome version " + assem + ". Try www.enhort.mni.thm.de/data/hg19");
+            return "error";
+        } catch (Exception e) {
+            logger.error("Exception {}", e.getMessage(), e);
+            model.addAttribute("errorMessage", "The calculation could not be saved, please run it again");
             return "error";
         }
 
