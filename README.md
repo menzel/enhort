@@ -21,6 +21,8 @@ experimental conditions and scientific questions.
 
 Enhort is publicly available online at www.enhort.mni.thm.de and published under GNU General Public License.
 
+The application was published in 2019: https://peerj.com/articles/cs-198/
+
 
 # Use pre-build
 
