@@ -63,7 +63,7 @@ public class DataController {
         try {
 
             Sessions sessionsControll = Sessions.getInstance();
-            currentSession = sessionsControll.getSessionOrError(httpSession.getId());
+            currentSession = sessionsControll.getSession(httpSession.getId());
 
             assembly = Genome.Assembly.valueOf(assem);
         } catch (IllegalArgumentException e) {
