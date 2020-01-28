@@ -90,6 +90,17 @@
     background-color: rgba(76, 167, 255, 0.21);
 }
 
+
+#cookie{
+    width: 300px;
+    color: gray;
+    font-size: 8pt;
+    position: absolute;
+    left:50px;
+    bottom: 10px;
+    border: 1px solid gray;
+}
+
 #gpl{
     color: gray;
     font-size: 8pt;
