@@ -155,6 +155,7 @@ public class UploadController {
         Session currentSession = sessionControll.getSession(httpSession.getId());
         StatisticsCollector stats = StatisticsCollector.getInstance();
 
+
         String name = currentSession.getOriginalFilename();
 
         try {
@@ -165,8 +166,11 @@ public class UploadController {
             String bgname = bgFile.getOriginalFilename();
             currentSession.setBgFilename(bgname);
 
-            BackendCommand backendCommand = // new BackendCommand(currentSession.getSites(), sitesBg, Command.Task.ANALZYE_SINGLE);
-                    new BackendCommand.Builder(Command.Task.ANALZYE_SINGLE, currentSession.getSites().getAssembly()).sites(currentSession.getSites()).sitesBg(sitesBg).build();
+            BackendCommand backendCommand =
+                    new BackendCommand.Builder(Command.Task.ANALZYE_SINGLE, currentSession.getSites().getAssembly())
+                            .tracks(currentSession.getCollector().getTracks())
+                            .sites(currentSession.getSites())
+                            .sitesBg(sitesBg).build();
 
             /////////// Run analysis ////////////
             ResultCollector collector = (ResultCollector) currentSession.getConnector().runAnalysis(backendCommand);
