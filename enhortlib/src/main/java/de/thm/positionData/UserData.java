@@ -87,7 +87,7 @@ public class UserData implements Sites {
     private void loadPositionsFromFile(Path path) {
 
         ChromosomSizes chrSizes = ChromosomSizes.getInstance();
-        Pattern entry = Pattern.compile("(chr(\\d{1,2}|X|Y))\\s(\\d+)(\\s((\\w+)\\s([+-]))?)?.*");
+        Pattern entry = Pattern.compile("(chr(\\d{1,2}|X|Y))\\s(\\d+)(\\s\\w+)*\\s([\\+\\-])?.*");
 
         try (Stream<String> lines = Files.lines(path)) {
 
@@ -100,8 +100,8 @@ public class UserData implements Sites {
 
                 if (line_matcher.matches()) {
 
-                    if(line_matcher.group(7) != null)
-                        strands.add(line_matcher.group(7).charAt(0));
+                    if (line_matcher.group(5) != null)
+                        strands.add(line_matcher.group(5).charAt(0));
 
                     positions.add(Long.parseLong(line_matcher.group(3)) + chrSizes.offset(assembly, line_matcher.group(1)));
                 }
