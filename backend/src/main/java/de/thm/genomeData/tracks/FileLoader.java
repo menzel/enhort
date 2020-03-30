@@ -234,12 +234,6 @@ class FileLoader implements Callable<Optional<Track>> {
                             logger.warn("Looks like this track is not sorted " + file.getName() + "(" + file.getAbsolutePath() + ")" + pos.getLeft() + " " + pos.getRight());
                         }
 
-                    for (int i = 0; i < starts.size() - 1; i++)
-                        if (ends.get(i) > ends.get(i + 1)) {
-                            Pair<String, Long> pos = chrSizes.mapToChr(assembly, ends.get(i));
-                            logger.warn("Looks like this track is not sorted " + file.getName() + "(" + file.getAbsolutePath() + ")" + pos.getLeft() + " " + pos.getRight());
-                        }
-
                     for (int i = 0; i < starts.size(); i++)
                         if (starts.get(i) > ends.get(i))
                             logger.warn("There is an interval with larger end than start in " + file.getName() + "(" + file.getAbsolutePath() + ")");
