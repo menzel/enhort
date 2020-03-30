@@ -111,7 +111,7 @@ class AnalysisHelper {
                  SiteFactory factory = SiteFactoryFactory.getInstance().get(sites.getAssembly());
                  bg[0] = factory.getByLogo(LogoCreator.createLogo(sites), minSites);
              } else if (covariants.isEmpty()) {
-                 bg[0] = BackgroundModelFactory.createBackgroundModel(sites.getAssembly(), sites.getPositionCount()); //check if minSites is larger
+                 bg[0] = BackgroundModelFactory.createBackgroundModel(sites.getAssembly(), Math.max(sites.getPositionCount(), cmd.getMinBg()));
              } else {
                  try {
                      bg[0] = BackgroundModelFactory.createBackgroundModel(covariants, sites, minSites, smooth);
