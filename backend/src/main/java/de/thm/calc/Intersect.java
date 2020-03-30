@@ -40,8 +40,10 @@ public final class Intersect<T extends Track> implements TestTrack<T> {
 
     @Override
     public TestTrackResult searchTrack(T track, Sites pos) throws TrackTypeNotAllowedExcpetion{
-        if (track instanceof StrandTrack)
+        if (track instanceof StrandTrack && pos.getStrands().size() == pos.getPositionCount())
             return searchSingleInterval((StrandTrack) track, pos);
+        if (track instanceof StrandTrack) // and user sites do not have positions:
+            return searchSingleInterval(((StrandTrack) track).getInOut(), pos);
         if (track instanceof InOutTrack)
             return searchSingleInterval((InOutTrack) track, pos);
         if (track instanceof ScoredTrack)
