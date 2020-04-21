@@ -24,12 +24,11 @@ import de.thm.spring.backend.StatisticsCollector;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -48,8 +47,7 @@ public class ExportController {
     private final Logger logger = LoggerFactory.getLogger(ExportController.class);
 
     @RequestMapping(value = "/export/csv", method = RequestMethod.GET)
-    @ResponseBody
-    public FileSystemResource downloadCSV(HttpSession httpSession) {
+    public void downloadCSV(HttpSession httpSession, HttpServletResponse response) {
 
         Session currentSession = null;
         try {
@@ -71,12 +69,20 @@ public class ExportController {
         }
 
         StatisticsCollector.getInstance().addDownloadC();
-        return new FileSystemResource(output);
+
+        response.setContentType("text/plain");
+        response.addHeader("Content-Disposition", "attachment; filename=results.csv");
+
+        try {
+            Files.copy(output.toPath(), response.getOutputStream());
+            response.getOutputStream().flush();
+        } catch (IOException e) {
+            logger.error("Exception {}", e.getMessage(), e);
+        }
     }
 
     @RequestMapping(value = "/export/bg", method = RequestMethod.GET)
-    @ResponseBody
-    public FileSystemResource exportBgSites(HttpSession httpSession) {
+    public void exportBgSites(HttpSession httpSession, HttpServletResponse response) {
         Session currentSession = Sessions.getInstance().getSession(httpSession.getId());
         ChromosomSizes chromosomSizes = ChromosomSizes.getInstance();
 
@@ -87,7 +93,7 @@ public class ExportController {
         //TODO check null pointer exp where there is no bg
         for (Long pos : sites.getPositions()) {
             Pair<String, Long> p = chromosomSizes.mapToChr(sites.getAssembly(), pos);
-            positions.add(p.getLeft() + " " + p.getRight() + " " + (p.getRight()+1) + "<br>");
+            positions.add(p.getLeft() + "\t" + p.getRight() + "\t" + (p.getRight()+1) + "\n");
         }
 
         //create file
@@ -104,6 +110,15 @@ public class ExportController {
         }
 
         StatisticsCollector.getInstance().addDownloadC();
-        return new FileSystemResource(output);
+
+        response.setContentType("text/plain");
+        response.addHeader("Content-Disposition", "attachment; filename=enhort_background_sites.bed");
+
+        try {
+            Files.copy(output.toPath(), response.getOutputStream());
+            response.getOutputStream().flush();
+        } catch (IOException e) {
+            logger.error("Exception {}", e.getMessage(), e);
+        }
     }
 }
