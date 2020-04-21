@@ -151,10 +151,10 @@ public final class TrackFactory {
                 String customtrackpath = BackendServer.customtrackpath;
 
                 Files.walk(Paths.get(customtrackpath))
-               .filter(Files::isRegularFile)
-               .filter(f -> f.getFileName().toString().endsWith(".bed"))
-               .forEach(f -> customTracks.add(new TrackEntry(f.getFileName().toString(),"Custom track: " + f.getFileName(),
-                       customtrackpath + f.getFileName().toString(), "inout", Genome.Assembly.GRCh38.toString(), "Unknown", 14003120, "Genetic", 1412123 + f.getFileName().hashCode(), "nosource", "nourl")));
+                        .filter(Files::isRegularFile)
+                        .filter(f -> f.getFileName().toString().endsWith(".bed"))
+                        .forEach(f -> customTracks.add(new TrackEntry(f.getFileName().toString(), "Custom track: " + f.getFileName(),
+                                customtrackpath + f.getFileName().toString(), "inout", Genome.Assembly.hg19.toString(), "Unknown", 375376, "Genetic", 1412123 + f.getFileName().hashCode(), "nosource", "nourl")));
             } catch (IOException e) {
                 e.printStackTrace();
             }
