@@ -187,8 +187,7 @@ public class ControllerHelper {
 
         // track counts overall
 
-        //cmd.setMinBg(collector.getBgCount());
-        cmd.setMinBg(10000);
+        cmd.setMinBg(collector.getBgCount());
         cmd.setAssembly(cmd.getAssembly() == null ? "hg19" : cmd.getAssembly()); //set assembly nr if there was none set in the previous run
 
         Set<String> celllines = collector.getResults().stream()
