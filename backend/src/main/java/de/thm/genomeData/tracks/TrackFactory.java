@@ -25,11 +25,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Handles the loading of all tracks. Implements factory methods for all three track types.
@@ -150,11 +153,19 @@ public final class TrackFactory {
 
                 String customtrackpath = BackendServer.customtrackpath;
 
+                HashMap<Path, Integer> fileSizes = new HashMap<>();
+
+                Files.walk(Paths.get(customtrackpath))
+                        .filter(Files::isRegularFile)
+                        .filter(f -> f.getFileName().toString().endsWith(".bed"))
+                        .forEach(f -> fileSizes.put(f, get_file_lines(f)));
+
+
                 Files.walk(Paths.get(customtrackpath))
                         .filter(Files::isRegularFile)
                         .filter(f -> f.getFileName().toString().endsWith(".bed"))
                         .forEach(f -> customTracks.add(new TrackEntry(f.getFileName().toString(), "Custom track: " + f.getFileName(),
-                                customtrackpath + f.getFileName().toString(), "inout", Genome.Assembly.hg19.toString(), "Unknown", 375376, "Genetic", 1412123 + f.getFileName().hashCode(), "nosource", "nourl")));
+                                customtrackpath + f.getFileName().toString(), "inout", Genome.Assembly.hg19.toString(), "Unknown", fileSizes.get(f), "Genetic", 1412123 + f.getFileName().hashCode(), "nosource", "nourl")));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -193,6 +204,28 @@ public final class TrackFactory {
         }
 
 
+    }
+
+    /**
+     * Returns the number of lines in a file.
+     * Used to create a fixed size list before reading a file
+     * Source:  https://stackoverflow.com/a/35523560
+     *
+     * @param f - path to file
+     * @return Number of lines in f
+     */
+    private Integer get_file_lines(Path f) {
+        long lineCount = 0;
+
+        try {
+            try (Stream<String> stream = Files.lines(f, StandardCharsets.UTF_8)) {
+                lineCount = stream.count();
+            }
+        } catch (IOException e) {
+            logger.error("Could not get line count of custom tracks. " + e.getMessage());
+        }
+
+        return Math.toIntExact(lineCount);
     }
 
     /**
