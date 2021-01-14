@@ -525,6 +525,12 @@ public final class TrackFactory {
         return new InOutTrack(starts, ends, ex, description, assembly, "");
     }
 
+    /**
+     * Creates an inout track with one interval spanning the whole genome
+     *
+     * @param assembly
+     * @return
+     */
     public InOutTrack createEmptyTrack(Genome.Assembly assembly) {
         return new InOutTrack(new long[]{0}, new long[]{ChromosomSizes.getInstance().getGenomeSize(assembly)}, "", "", assembly, "");
     }
