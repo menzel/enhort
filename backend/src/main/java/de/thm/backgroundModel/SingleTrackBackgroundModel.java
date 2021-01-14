@@ -52,9 +52,16 @@ class SingleTrackBackgroundModel {
         TestTrackResult result = calc.searchSingleInterval(track, sites);
 
         // TODO: factor is wrong, seems to be always 1
-        int factor = (sites.getPositionCount() < minSites)? minSites/ sites.getPositionCount(): 1;
+        int factor = (sites.getPositionCount() < minSites) ? minSites / sites.getPositionCount() : 1;
 
-        Track contigs = TrackFactory.getInstance().getTrackByName("Contigs", sites.getAssembly());
+        Track contigs = null;
+
+        try {
+            contigs = TrackFactory.getInstance().getTrackByName("Contigs", sites.getAssembly());
+        } catch (RuntimeException e) {
+            // if contigs track is not available (e.g. if used with custom tracks) use an empty track, which covers the whole genome
+            contigs = TrackFactory.getInstance().createEmptyTrack(sites.getAssembly());
+        }
 
         positions.addAll(randPositions(result.getIn() * factor, Tracks.intersect(track, contigs)));
         positions.addAll(randPositions(result.getOut() * factor, Tracks.intersect(Tracks.invert(track), contigs)));
