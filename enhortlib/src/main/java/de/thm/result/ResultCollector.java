@@ -177,7 +177,7 @@ public final class ResultCollector implements Result {
 
         filtered_results.sort(Comparator.comparing(TestResult::getName));
 
-        String lb = "<br>";
+        String lb = "\n";
 
         // Name
         for (TestResult result : filtered_results) {
@@ -200,11 +200,11 @@ public final class ResultCollector implements Result {
         // Effect Size
         output.append("effectsize,");
         for (TestResult result : filtered_results) {
-            if (result.getPercentInE() > result.getPercentInM()) { // weniger als erwartet drinn
-                output.append(1 / result.getEffectSize());
-            } else {
-                output.append(result.getEffectSize());
-            }
+            //if (result.getPercentInE() > result.getPercentInM()) { // weniger als erwartet drinn
+            //    output.append(1 / result.getEffectSize());
+            //} else {
+            output.append(result.getEffectSize());
+            //}
             output.append(",");
         }
         output = new StringBuilder(output.substring(0, output.length() - 1));
