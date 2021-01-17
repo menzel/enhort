@@ -179,6 +179,7 @@ public final class ResultCollector implements Result {
 
         String lb = "\n";
 
+        output.append("header,");
         // Name
         for (TestResult result : filtered_results) {
             output.append(result.getName());
