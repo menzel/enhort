@@ -450,17 +450,22 @@ public final class Tracks {
 
         Long lastStart = 0L;
         Long lastEnd = 0L;
+        StrandTrack t = null;
+
+        if (track instanceof StrandTrack) {
+            t = (StrandTrack) track;
+        }
 
         for (int i = 0; i < intervalEnd.length; i++) {
             Long start = intervalStart[i];
             Long end = intervalEnd[i];
 
-            if (start > end) {
+            if (t == null && start > end) {
                 logger.warn("Start larger than end " + track.getName() + " " + track.getCellLine() + " " + track.getDbid());
                 return false;
             }
             if (start < lastEnd) {
-                logger.warn("next start is smaller than last end " + track.getName() + " " + track.getCellLine() + " " + track.getDbid());
+                logger.warn("next start is smaller than last end " + track.getName() + " cell line: " + track.getCellLine() + "db id: " + track.getDbid());
                 return false;
             }
 
