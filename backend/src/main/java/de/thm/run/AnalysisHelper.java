@@ -194,7 +194,7 @@ class AnalysisHelper {
 
         // always add custom tracks to run
         runTracks.addAll(cmd.getCustomTracks());
-        System.out.println("cstom trks: "  + runTracks.size());
+        //System.out.println("cstom trks: "  + runTracks.size());
         return runAnalysisWithBg(sites, sitesBg, runTracks, cmd.isCreateLogo());
 
     }
@@ -253,6 +253,11 @@ class AnalysisHelper {
         */
 
         tracks = tracks.stream().filter(distinctByKey(Track::getName)).collect(Collectors.toList());
+
+        //using custom tracks if there are not tracks in the data base
+        if (tracks.size() == 0) {
+            tracks = command.getCustomTracks();
+        }
 
         for (Sites sites : batchSites) {
 
