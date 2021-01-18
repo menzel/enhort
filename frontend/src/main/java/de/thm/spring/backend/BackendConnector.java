@@ -177,7 +177,7 @@ public final class BackendConnector {
 
         } catch (SocketTimeoutException e) {
             logger.error("Exception {}", e.getMessage());
-            throw new SocketTimeoutException("The backend took to long to respond. There may be too many jobs running. If this message appears each time, you may be submitted too many sites for the current set of annotations. Try to lower the sites or selected annotations.");
+            throw new SocketTimeoutException("The backend took to long to respond. There may be too many jobs running. If this message appears each time, you may submitted too many sites for the current set of annotations. Try to lower the number of sites or selected annotations.");
 
         } catch (IOException | ClassNotFoundException | NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException e) {
             isConnected = false;
