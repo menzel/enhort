@@ -58,9 +58,9 @@ public final class BackendConnector {
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
     private Socket socket;
-    private static AtomicInteger clientID = new AtomicInteger(0);
-    private int id;
-    private String secret;
+    private static final AtomicInteger clientID = new AtomicInteger(0);
+    private final int id;
+    private final String secret;
 
 
     BackendConnector(String ip) {
@@ -177,7 +177,7 @@ public final class BackendConnector {
 
         } catch (SocketTimeoutException e) {
             logger.error("Exception {}", e.getMessage());
-            throw new SocketTimeoutException("The backend took to long to respond. Maybe there are too many sites");
+            throw new SocketTimeoutException("The backend took to long to respond. There may be too many jobs running. If this message appears each time, you may be submitted too many sites for the current set of annotations. Try to lower the sites or selected annotations.");
 
         } catch (IOException | ClassNotFoundException | NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException e) {
             isConnected = false;
